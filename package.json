@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "exec": "monpo exec",
+    "list": "monpo list",
+    "test": "monpo exec -- npm run test"
+  },
+  "devDependencies": {
+    "@monpo/cli": "latest"
+  }
+}
