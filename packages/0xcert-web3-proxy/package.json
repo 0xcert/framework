@@ -1,0 +1,19 @@
+{
+  "name": "@0xcert/web3-proxy",
+  "version": "0.0.0",
+  "description": "Proxy implementation for 0xcert protocol. ",
+  "scripts": {
+    "compile": "specron compile",
+    "sandbox": "specron sandbox",
+    "prepublishOnly": "specron compile",
+    "test": "specron compile && specron test --require ts-node/register"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@specron/cli": "latest",
+    "@specron/spec": "latest",
+    "ts-node": "^6.1.1",
+    "typescript": "^2.9.1",
+    "web3": "git+https://github.com/0xcert/web3.js.git#newAbiLib"
+  }
+}
