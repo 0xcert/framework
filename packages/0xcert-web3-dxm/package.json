@@ -12,8 +12,8 @@
   "dependencies": {
     "@specron/cli": "latest",
     "@specron/spec": "latest",
-    "ts-node": "^6.1.1",
-    "typescript": "^2.9.1",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.1",
     "web3": "git+https://github.com/0xcert/web3.js.git#newAbiLib"
   }
 }
