@@ -1,0 +1,17 @@
+{
+  "name": "@0xcert/web3-scanner",
+  "version": "0.0.0",
+  "description": ".",
+  "scripts": {
+    "transpile": "tsc",
+    "prepare": "npm run transpile",
+    "test": "hayspec test --require ts-node/register --match ./src/tests/**/*.test.ts"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "latest",
+    "@hayspec/spec": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  }
+}
