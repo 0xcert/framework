@@ -21,7 +21,6 @@ interface Data {
  */
 
 const spec = new Spec<Data>();
-const specRaw = new Spec<Data>();
 const specSigned = new Spec<Data>();
 
 export default spec;
@@ -64,34 +63,6 @@ spec.beforeEach(async (ctx) => {
 /**
  * Test definitions.
  */
-
-spec.spec('generate claim', specRaw);
-
-specRaw.test('from valid data', async (ctx) => {
-  const exchange = ctx.get('exchange');
-  const transfer = {
-    token: ctx.get('cat')._address,
-    kind: 1,
-    from: ctx.get('jane'),
-    to: ctx.get('sara'),
-    value: 1,
-  };
-  const claim = {
-    maker: ctx.get('jane'),
-    taker: ctx.get('sara'),
-    transfers: [transfer],
-    seed: new Date().getTime(), 
-    expiration: new Date().getTime() + 600,
-  };
-  const tuple = ctx.tuple(claim);
-  const hash = await exchange.methods.getSwapDataClaim(tuple).call();
-  // TODO(Tadej): generate hash locally and compare.
-  // TODO(Tadej): ctx.is(hash);
-});
-
-specRaw.test('from invalid data', async (ctx) => {
-  // TODO(Tadej): add test when we know how to generate hash locally.
-});
 
 spec.spec('validate signed claim', specSigned);
 
