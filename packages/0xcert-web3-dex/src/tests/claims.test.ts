@@ -1,4 +1,5 @@
 import { Spec } from '@specron/spec';
+import * as common from './helpers/common';
 
 /**
  * Spec context interfaces.
@@ -78,8 +79,8 @@ specSigned.beforeEach(async (ctx) => {
     maker: ctx.get('jane'),
     taker: ctx.get('sara'),
     transfers: [transfer],
-    seed: new Date().getTime(), 
-    expiration: new Date().getTime() + 600,
+    seed: common.getCurrentTime(), 
+    expiration: common.getCurrentTime() + 600,
   };
   const exchange = ctx.get('exchange');
   const tuple = ctx.tuple(claim);
