@@ -22,7 +22,6 @@ interface Data {
  */
 
 const spec = new Spec<Data>();
-const specSigned = new Spec<Data>();
 
 export default spec;
 
@@ -61,13 +60,8 @@ spec.beforeEach(async (ctx) => {
   ctx.set('exchange', exchange);
 });
 
-/**
- * Test definitions.
- */
 
-spec.spec('validate signed claim', specSigned);
-
-specSigned.beforeEach(async (ctx) => {
+spec.beforeEach(async (ctx) => {
   const transfer = {
     token: ctx.get('cat')._address,
     kind: 1,
@@ -88,7 +82,7 @@ specSigned.beforeEach(async (ctx) => {
   ctx.set('hash', hash);
 });
 
-specSigned.beforeEach(async (ctx) => {
+spec.beforeEach(async (ctx) => {
   const hash = ctx.get('hash');
   const account = ctx.get('jane');
   const signature = await ctx.web3.eth.sign(hash, account);
@@ -101,7 +95,7 @@ specSigned.beforeEach(async (ctx) => {
   ctx.set('signature', signatureData);
 });
 
-specSigned.test('with valid signature data', async (ctx) => {
+spec.test('check valid signature', async (ctx) => {
   const exchange = ctx.get('exchange');
   const account = ctx.get('jane');
   const hash = ctx.get('hash');
@@ -111,7 +105,7 @@ specSigned.test('with valid signature data', async (ctx) => {
   ctx.true(valid);
 });
 
-specSigned.test('with invalid signature data', async (ctx) => {
+spec.test('check invalid signature', async (ctx) => {
   const exchange = ctx.get('exchange');
   const signatureData = ctx.get('signature');
   signatureData.v = 30;
@@ -122,7 +116,7 @@ specSigned.test('with invalid signature data', async (ctx) => {
   ctx.false(valid);
 });
 
-specSigned.test('from a third party account', async (ctx) => {
+spec.test('check signature from a third party account', async (ctx) => {
   const exchange = ctx.get('exchange');
   const account = ctx.get('sara');
   const hash = ctx.get('hash');
