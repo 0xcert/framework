@@ -26,8 +26,12 @@ Basic use of scanner package.
 import * as Web3 from 'web3';
 import { Scanner, ScannerOptions } from '@0xcert/scanner';
 
+const endpoint = 'http://localhost:8546';
+const provider = new Web3.providers.HttpProvider(endpoint);
+const web3     = new Web3(provider);
+
 const options = new ScannerOptions({
-  web3: new Web3('http://localhost:8545'),
+  web3: web3,
   addresses: [],
   tests: []
 });
@@ -47,8 +51,12 @@ Contract creation transactions are used to check for new ERC721 contracts that e
 import * as Web3 from 'web3';
 import { Scanner } from '@0xcert/scanner';
 
+const endpoint = 'ws://localhost:8545';
+const provider = new Web3.providers.WebsocketProvider(endpoint);
+const web3     = new Web3(provider);
+
 const options = new ScannerOptions({
-  web3: new Web3('http://localhost:8545'),
+  web3: web3,
   addresses: [],
   tests: []
 });
@@ -67,10 +75,16 @@ Load and parse data of a particular block.
 
 ```ts
 import * as Web3 from 'web3';
-import { Scanner } from '@0xcert/scanner'
+import { Scanner, ScannerOptions } from '@0xcert/scanner'
+
+const endpoint = 'http://localhost:8546';
+const provider = new Web3.providers.HttpProvider(endpoint);
+const web3     = new Web3(provider);
 
 const options = new ScannerOptions({
-  web3: new Web3('http://localhost:8545')
+  web3: web3,
+  addresses: [],
+  tests: []
 });
 
 const scanner = new Scanner(options);
@@ -84,10 +98,16 @@ Load and parse particular transaction.
 
 ```ts
 import * as Web3 from 'web3';
-import { Scanner } from '@0xcert/scanner'
+import { Scanner, ScannerOptions } from '@0xcert/scanner'
+
+const endpoint = 'http://localhost:8546';
+const provider = new Web3.providers.HttpProvider(endpoint);
+const web3     = new Web3(provider);
 
 const options = new ScannerOptions({
-  web3: new Web3('http://localhost:8545')
+  web3: web3,
+  addresses: [],
+  tests: []
 });
 
 const scanner = new Scanner(options);
