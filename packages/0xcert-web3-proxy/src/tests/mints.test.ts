@@ -1,5 +1,4 @@
 import { Spec } from '@specron/spec';
-import * as web3Util from 'web3-utils';
 
 /**
  * Spec context interfaces.
@@ -73,7 +72,7 @@ spec.test('mints an Xcert', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
-  const config = [web3Util.padLeft(web3Util.numberToHex(1821195657), 64)];
+  const config = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(1821195657), 64)];
 
   await xcertProxy.methods.addAuthorizedAddress(bob).send({from: owner});
 
@@ -94,7 +93,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
-  const config = [web3Util.padLeft(web3Util.numberToHex(1821195657), 64)];
+  const config = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(1821195657), 64)];
 
   const cat = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert/build/contracts/XcertMock.json',

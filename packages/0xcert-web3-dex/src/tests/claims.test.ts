@@ -1,4 +1,5 @@
 import { Spec } from '@specron/spec';
+import * as common from './helpers/common';
 
 /**
  * Spec context interfaces.
@@ -21,8 +22,6 @@ interface Data {
  */
 
 const spec = new Spec<Data>();
-const specRaw = new Spec<Data>();
-const specSigned = new Spec<Data>();
 
 export default spec;
 
@@ -61,14 +60,8 @@ spec.beforeEach(async (ctx) => {
   ctx.set('exchange', exchange);
 });
 
-/**
- * Test definitions.
- */
 
-spec.spec('generate claim', specRaw);
-
-specRaw.test('from valid data', async (ctx) => {
-  const exchange = ctx.get('exchange');
+spec.beforeEach(async (ctx) => {
   const transfer = {
     token: ctx.get('cat')._address,
     kind: 1,
@@ -80,35 +73,8 @@ specRaw.test('from valid data', async (ctx) => {
     maker: ctx.get('jane'),
     taker: ctx.get('sara'),
     transfers: [transfer],
-    seed: new Date().getTime(), 
-    expiration: new Date().getTime() + 600,
-  };
-  const tuple = ctx.tuple(claim);
-  const hash = await exchange.methods.getSwapDataClaim(tuple).call();
-  // TODO(Tadej): generate hash locally and compare.
-  // TODO(Tadej): ctx.is(hash);
-});
-
-specRaw.test('from invalid data', async (ctx) => {
-  // TODO(Tadej): add test when we know how to generate hash locally.
-});
-
-spec.spec('validate signed claim', specSigned);
-
-specSigned.beforeEach(async (ctx) => {
-  const transfer = {
-    token: ctx.get('cat')._address,
-    kind: 1,
-    from: ctx.get('jane'),
-    to: ctx.get('sara'),
-    value: 1,
-  };
-  const claim = {
-    maker: ctx.get('jane'),
-    taker: ctx.get('sara'),
-    transfers: [transfer],
-    seed: new Date().getTime(), 
-    expiration: new Date().getTime() + 600,
+    seed: common.getCurrentTime(), 
+    expiration: common.getCurrentTime() + 600,
   };
   const exchange = ctx.get('exchange');
   const tuple = ctx.tuple(claim);
@@ -116,7 +82,7 @@ specSigned.beforeEach(async (ctx) => {
   ctx.set('hash', hash);
 });
 
-specSigned.beforeEach(async (ctx) => {
+spec.beforeEach(async (ctx) => {
   const hash = ctx.get('hash');
   const account = ctx.get('jane');
   const signature = await ctx.web3.eth.sign(hash, account);
@@ -129,7 +95,7 @@ specSigned.beforeEach(async (ctx) => {
   ctx.set('signature', signatureData);
 });
 
-specSigned.test('with valid signature data', async (ctx) => {
+spec.test('check valid signature', async (ctx) => {
   const exchange = ctx.get('exchange');
   const account = ctx.get('jane');
   const hash = ctx.get('hash');
@@ -139,7 +105,7 @@ specSigned.test('with valid signature data', async (ctx) => {
   ctx.true(valid);
 });
 
-specSigned.test('with invalid signature data', async (ctx) => {
+spec.test('check invalid signature', async (ctx) => {
   const exchange = ctx.get('exchange');
   const signatureData = ctx.get('signature');
   signatureData.v = 30;
@@ -150,7 +116,7 @@ specSigned.test('with invalid signature data', async (ctx) => {
   ctx.false(valid);
 });
 
-specSigned.test('from a third party account', async (ctx) => {
+spec.test('check signature from a third party account', async (ctx) => {
   const exchange = ctx.get('exchange');
   const account = ctx.get('sara');
   const hash = ctx.get('hash');
