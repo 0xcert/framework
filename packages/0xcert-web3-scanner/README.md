@@ -24,13 +24,13 @@ Basic use of scanner package.
 
 ```ts
 import * as Web3 from 'web3';
-import { Scanner } from '@0xcert/scanner';
+import { Scanner, ScannerOptions } from '@0xcert/scanner';
 
-const options: ScannerOptions = {
+const options = new ScannerOptions({
   web3: new Web3('http://localhost:8545'),
   addresses: [],
-  tests: [],
-};
+  tests: []
+});
 
 const scanner = new Scanner(options);
 ```
@@ -47,11 +47,11 @@ Contract creation transactions are used to check for new ERC721 contracts that e
 import * as Web3 from 'web3';
 import { Scanner } from '@0xcert/scanner';
 
-const options: ScannerOptions = {
-  web3: new Web3('ws://localhost:8546'),
-  addresses: [], // empty array processes all incoming transactions
-  tests: [], // empty runs all default tests on origin contracts
-};
+const options = new ScannerOptions({
+  web3: new Web3('http://localhost:8545'),
+  addresses: [],
+  tests: []
+});
 
 const scanner = new Scanner(options);
 
@@ -69,11 +69,9 @@ Load and parse data of a particular block.
 import * as Web3 from 'web3';
 import { Scanner } from '@0xcert/scanner'
 
-const options: ScannerOptions = {
-  web3: new Web3('http://localhost:8546'),
-  addresses: [], // empty processes all transactions
-  tests: [], // empty runs all default contract tests
-};
+const options = new ScannerOptions({
+  web3: new Web3('http://localhost:8545')
+});
 
 const scanner = new Scanner(options);
 const block = 1231;
@@ -88,11 +86,9 @@ Load and parse particular transaction.
 import * as Web3 from 'web3';
 import { Scanner } from '@0xcert/scanner'
 
-const options: ScannerOptions = {
-  web3: new Web3('http://localhost:8546'),
-  addresses: [], // empty processes all transactions
-  tests: [], // empty runs all default contract tests
-};
+const options = new ScannerOptions({
+  web3: new Web3('http://localhost:8545')
+});
 
 const scanner = new Scanner(options);
 const hash = '0x1231...';
@@ -100,6 +96,85 @@ const tx = await scanner.scanTx(hash);
 ```
 
 ## API
+
+### ScannerOptions Class
+
+**ScannerOptions**
+> Provides options to configure Scanner 
+> Defines a new model property.
+
+| Option | Type | Required | Default | Description
+|--------|------|----------|---------|------------
+| web3 | Web3 | Yes | - | Web3 connection - HTTP of WS - WS connection is needed for using Scanner events
+| addresses | String[] | No | [] | Lock Scanner to parse only transactions from specific addresses - contract or wallet. Empty processes all addresses
+| tests | String[] | No | [] | Add custom tests for testing transactions or use only subset of default tests - empty runs all default contract tests
+
+**Defining Web3 HTTP connection:** 
+```ts
+import * as Web3 from 'web3';
+import {ScannerOptions} from '@0xcert/scanner';
+
+const endpoint = 'http://localhost:8546';
+const provider = new Web3.providers.HttpProvider(endpoint);
+
+const web3    = new Web3(provider);
+const options = new ScannerOptions({ web3: web3 });
+```
+
+**Defining Web3 WS connection:** 
+> WS provider must be used on order to use the event based transaction and contract discovery
+```ts
+import * as Web3 from 'web3';
+import {ScannerOptions} from '@0xcert/scanner';
+
+const endpoint = 'ws://localhost:8545';
+const provider = new Web3.providers.WebsocketProvider(endpoint);
+
+const web3    = new Web3(provider);
+const options = new ScannerOptions({ web3: web3});
+```
+
+**Defining addresses property:** 
+> If you want to parse transaction for specific accounts or from specific contracts, you can limit the scanner to only check for these addresses. Scanner looks in TO and FROM fields in transactions and compares to provided addresses.
+```ts
+import * as Web3 from 'web3';
+import {ScannerOptions} from '@0xcert/scanner';
+
+const options = new ScannerOptions({ 
+  addresses: [
+    '0xc1912fee45d61c87cc5ea59dae31190fffff2323',
+    '0XC1912FEE45D61C87CC5EA59DAE31190FFFFF232D'
+  ]
+});
+```
+
+**Defining tests property:** 
+
+> Scanner tests contracts where transactions originate from with various tests to determine if contracts exposes all standard ERC721 interfaces. At 0xcert, we also test for additional interfaces in order to the detect contracts and transactions that are extended from 0xcert protocol. You can add custom tests that the scanner will perform on transactions. Successful tests are appended to the contract returned from the Scanner as IDs.
+
+```ts
+import * as Web3 from 'web3';
+import {ScannerOptions} from '@0xcert/scanner';
+
+const options = new ScannerOptions({ 
+  tests: [
+    // Basic ERC721 tests
+    { code: '0x80ac58cd', id: 1 }, // Test for ERC721
+    { code: '0x5b5e139f', id: 2 }, // Test for ERC721 Metadata
+    ... 
+    // Example tests for 0xcert based contracts
+    { code: '0x6be14f75', id: 3 }, // Test for 0xcert
+    { code: '0x42966c68', id: 4 }, // Test for 0xcert Burnable
+    { code: '0xc1dcb551', id: 5 }, // Test for 0xcert Chainable
+    { code: '0x59118221', id: 6 }, // Test for 0xcert Mutable
+    { code: '0xbedb86fb', id: 7 }, // Test for 0xcert Pausable
+    { code: '0x20c5429b', id: 8 }, // Test for 0xcert Revokable
+    ... 
+    // Custom tests can be appended to the tests array
+    { code: '0x00000000', id: 9 }, // Test for your custom interface
+  ]
+});
+```
 
 ### Scanner Class
 
