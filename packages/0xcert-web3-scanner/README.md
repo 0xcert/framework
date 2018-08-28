@@ -163,7 +163,7 @@ import {ScannerOptions} from '@0xcert/scanner';
 const options = new ScannerOptions({ 
   addresses: [
     '0xc1912fee45d61c87cc5ea59dae31190fffff2323',
-    '0XC1912FEE45D61C87CC5EA59DAE31190FFFFF232D'
+    '0XC1912FEE45D61C87CC5EA59DAE31190FFFFF232D',
   ],
 });
 ```
