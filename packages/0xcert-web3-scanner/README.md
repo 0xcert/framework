@@ -28,12 +28,12 @@ import { Scanner, ScannerOptions } from '@0xcert/scanner';
 
 const endpoint = 'http://localhost:8546';
 const provider = new Web3.providers.HttpProvider(endpoint);
-const web3     = new Web3(provider);
+const web3 = new Web3(provider);
 
 const options = new ScannerOptions({
   web3: web3,
   addresses: [],
-  tests: []
+  tests: [],
 });
 
 const scanner = new Scanner(options);
@@ -53,12 +53,12 @@ import { Scanner } from '@0xcert/scanner';
 
 const endpoint = 'ws://localhost:8545';
 const provider = new Web3.providers.WebsocketProvider(endpoint);
-const web3     = new Web3(provider);
+const web3 = new Web3(provider);
 
 const options = new ScannerOptions({
   web3: web3,
   addresses: [],
-  tests: []
+  tests: [],
 });
 
 const scanner = new Scanner(options);
@@ -79,12 +79,12 @@ import { Scanner, ScannerOptions } from '@0xcert/scanner'
 
 const endpoint = 'http://localhost:8546';
 const provider = new Web3.providers.HttpProvider(endpoint);
-const web3     = new Web3(provider);
+const web3 = new Web3(provider);
 
 const options = new ScannerOptions({
   web3: web3,
   addresses: [],
-  tests: []
+  tests: [],
 });
 
 const scanner = new Scanner(options);
@@ -102,12 +102,12 @@ import { Scanner, ScannerOptions } from '@0xcert/scanner'
 
 const endpoint = 'http://localhost:8546';
 const provider = new Web3.providers.HttpProvider(endpoint);
-const web3     = new Web3(provider);
+const web3 = new Web3(provider);
 
 const options = new ScannerOptions({
   web3: web3,
   addresses: [],
-  tests: []
+  tests: [],
 });
 
 const scanner = new Scanner(options);
@@ -137,7 +137,7 @@ import {ScannerOptions} from '@0xcert/scanner';
 const endpoint = 'http://localhost:8546';
 const provider = new Web3.providers.HttpProvider(endpoint);
 
-const web3    = new Web3(provider);
+const web3 = new Web3(provider);
 const options = new ScannerOptions({ web3: web3 });
 ```
 
@@ -150,7 +150,7 @@ import {ScannerOptions} from '@0xcert/scanner';
 const endpoint = 'ws://localhost:8545';
 const provider = new Web3.providers.WebsocketProvider(endpoint);
 
-const web3    = new Web3(provider);
+const web3 = new Web3(provider);
 const options = new ScannerOptions({ web3: web3});
 ```
 
@@ -164,7 +164,7 @@ const options = new ScannerOptions({
   addresses: [
     '0xc1912fee45d61c87cc5ea59dae31190fffff2323',
     '0XC1912FEE45D61C87CC5EA59DAE31190FFFFF232D'
-  ]
+  ],
 });
 ```
 
@@ -179,20 +179,20 @@ import {ScannerOptions} from '@0xcert/scanner';
 const options = new ScannerOptions({ 
   tests: [
     // Basic ERC721 tests
-    { code: '0x80ac58cd', id: 1 }, // Test for ERC721
-    { code: '0x5b5e139f', id: 2 }, // Test for ERC721 Metadata
+    '0x80ac58cd', // Test for ERC721
+    '0x5b5e139f', // Test for ERC721 Metadata
     ... 
     // Example tests for 0xcert based contracts
-    { code: '0x6be14f75', id: 3 }, // Test for 0xcert
-    { code: '0x42966c68', id: 4 }, // Test for 0xcert Burnable
-    { code: '0xc1dcb551', id: 5 }, // Test for 0xcert Chainable
-    { code: '0x59118221', id: 6 }, // Test for 0xcert Mutable
-    { code: '0xbedb86fb', id: 7 }, // Test for 0xcert Pausable
-    { code: '0x20c5429b', id: 8 }, // Test for 0xcert Revokable
+    '0x6be14f75', // Test for 0xcert
+    '0x42966c68', // Test for 0xcert Burnable
+    '0xc1dcb551', // Test for 0xcert Chainable
+    '0x59118221', // Test for 0xcert Mutable
+    '0xbedb86fb', // Test for 0xcert Pausable
+    '0x20c5429b', // Test for 0xcert Revokable
     ... 
     // Custom tests can be appended to the tests array
-    { code: '0x00000000', id: 9 }, // Test for your custom interface
-  ]
+    '0x00000000', // Test for your custom interface
+  ],
 });
 ```
 
