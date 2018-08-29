@@ -13,8 +13,6 @@ interface Data {
   zeroAddress?: string;
   id1?: string;
   id2?: string;
-  id3?: string;
-  id4?: string;
 }
 
 /**
@@ -37,8 +35,6 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
-  ctx.set('id3', '125');
-  ctx.set('id4', '126');
 });
 
 spec.beforeEach(async (ctx) => {
