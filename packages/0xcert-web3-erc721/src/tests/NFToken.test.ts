@@ -403,4 +403,3 @@ spec.test('throws when trying to burn non existant NFT', async (ctx) => {
 
   await ctx.reverts(() => nftoken.methods.burn(id1).send({ from: owner }));
 });
-
