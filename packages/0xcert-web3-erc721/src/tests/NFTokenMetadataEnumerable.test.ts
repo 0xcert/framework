@@ -656,8 +656,7 @@ spec.test('burn should correctly set ownerToIds and idToOwnerIndex and idToIndex
     ownerToIdsLenPrior = await nftoken.methods.ownerToIdsLen(bob).call();
     ctx.is(ownerToIdsLenPrior.toString(), '0');
 
-    // TODO(Tadej): Implement throw check
-    // await nftoken.methods.ownerToIdbyIndex(bob, 0).call();
+    await ctx.throws(() => nftoken.methods.ownerToIdbyIndex(bob, 0).call());
 
     idToIndexFirst = await nftoken.methods.idToIndexWrapper(id3).call();
     ctx.is(idToIndexFirst, '0');
@@ -694,8 +693,7 @@ spec.test('transfer should correctly set ownerToIds and idToOwnerIndex and idToI
     ctx.is(ownerToIdsFirst, id2);
     ctx.is(ownerToIdsSecond, id3);
 
-    // TODO(Tadej): Implement throw check
-    // await nftoken.methods.ownerToIdbyIndex(bob, 2).call();
+    await ctx.throws(() => nftoken.methods.ownerToIdbyIndex(bob, 2).call());
    
     ownerToIdsLenPrior = await nftoken.methods.ownerToIdsLen(sara).call();
     ownerToIdsFirst = await nftoken.methods.ownerToIdbyIndex(sara, 0).call();
