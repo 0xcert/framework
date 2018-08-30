@@ -1,0 +1,18 @@
+{
+  "name": "@0xcert/crypto",
+  "version": "0.0.1",
+  "description": "Isomorphic cryptographic functions.",
+  "scripts": {
+    "transpile": "tsc",
+    "prepare": "npm run transpile",
+    "test": "hayspec test --require ts-node/register --match ./src/tests/**/*.test.ts"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "latest",
+    "@hayspec/spec": "latest",
+    "@types/node": "^10.9.3",
+    "ts-node": "latest",
+    "typescript": "latest"
+  }
+}
