@@ -452,6 +452,9 @@ spec.test('corectly burns a NFT', async (ctx) => {
   const balance = await nftoken.methods.balanceOf(bob).call();
   ctx.is(balance, '0');
   await ctx.reverts(() => nftoken.methods.ownerOf(id1).call());
+
+  const uri = await nftoken.methods.checkUri(id1).call();
+  ctx.is(uri, '');
 });
 
 spec.test('throws when trying to burn non existant NFT', async (ctx) => {
