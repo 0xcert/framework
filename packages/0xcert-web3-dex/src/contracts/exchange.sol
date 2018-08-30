@@ -234,17 +234,19 @@ contract Exchange
     view
     returns (bytes32)
   {
-    bytes memory temp;
+    bytes32 temp = 0x0;
 
     for(uint256 i = 0; i < _swapData.transfers.length; i++)
     {
-      temp = abi.encodePacked(
-        temp,
-        _swapData.transfers[i].token,
-        _swapData.transfers[i].kind,
-        _swapData.transfers[i].from,
-        _swapData.transfers[i].to,
-        _swapData.transfers[i].value
+      temp = keccak256(
+        abi.encodePacked(
+          temp,
+          _swapData.transfers[i].token,
+          _swapData.transfers[i].kind,
+          _swapData.transfers[i].from,
+          _swapData.transfers[i].to,
+          _swapData.transfers[i].value
+        )
       );
     }
 

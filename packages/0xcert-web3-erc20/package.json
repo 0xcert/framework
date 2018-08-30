@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/web3-proxy",
+  "name": "@0xcert/web3-erc20",
   "version": "0.0.0",
-  "description": "Proxy implementation for 0xcert protocol. ",
+  "description": "Fungible token standard implementation for the 0xcert protocol..",
   "scripts": {
     "compile": "specron compile",
     "sandbox": "specron sandbox",
@@ -10,13 +10,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-erc20": "^1.2.1",
-    "@0xcert/ethereum-erc721": "^1.10.0",
-    "@0xcert/ethereum-xcert": "^1.8.0",
+    "@0xcert/ethereum-utils": "^1.1.0",
     "@specron/cli": "latest",
     "@specron/spec": "latest",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.0.1",
+    "ts-node": "^6.1.1",
+    "typescript": "^2.9.1",
     "web3": "git+https://github.com/0xcert/web3.js.git#newAbiLib"
   }
 }
