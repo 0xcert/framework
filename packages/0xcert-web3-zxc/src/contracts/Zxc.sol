@@ -83,9 +83,9 @@ contract Zxc is
     address _to,
     uint256 _value
   )
+    public
     onlyWhenTransferAllowed()
     validDestination(_to)
-    public
     returns (bool _success)
   {
     _success = super.transfer(_to, _value);
@@ -102,9 +102,9 @@ contract Zxc is
     address _to,
     uint256 _value
   )
+    public
     onlyWhenTransferAllowed()
     validDestination(_to)
-    public
     returns (bool _success)
   {
     _success = super.transferFrom(_from, _to, _value);
@@ -114,8 +114,8 @@ contract Zxc is
    * @dev Enables token transfers.
    */
   function enableTransfer()
-    onlyOwner()
     external
+    onlyOwner()
   {
     transferEnabled = true;
   }
@@ -129,8 +129,8 @@ contract Zxc is
   function burn(
     uint256 _value
   )
-    onlyOwner()
     external
+    onlyOwner()
   {
     require(_value <= balances[msg.sender]);
 
