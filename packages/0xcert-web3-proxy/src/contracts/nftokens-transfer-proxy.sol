@@ -1,6 +1,6 @@
 pragma solidity 0.4.24;
 
-import "@0xcert/ethereum-erc721/contracts/tokens/ERC721.sol";
+import "@0xcert/web3-erc721/src/contracts/ERC721.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /** 
