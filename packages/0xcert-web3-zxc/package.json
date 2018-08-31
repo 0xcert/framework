@@ -9,7 +9,8 @@
     "test": "rm -rf build && specron compile && specron test --require ts-node/register --match ./src/tests/**/*.test.ts"
   },
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "@0xcert/ethereum-erc20": "^1.2.1",
     "@specron/cli": "latest",
     "@specron/spec": "latest",
     "ts-node": "^7.0.1",
