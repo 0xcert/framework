@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-erc20": "^1.2.1",
+    "@0xcert/ethereum-utils": "^1.1.0",
+    "@0xcert/web3-erc20": "file:../0xcert-web3-erc20",
     "@specron/cli": "latest",
     "@specron/spec": "latest",
     "ts-node": "^7.0.1",
