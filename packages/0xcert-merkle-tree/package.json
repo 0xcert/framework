@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/crypto",
+  "name": "@0xcert/merkle-tree",
   "version": "0.0.1",
-  "description": "Isomorphic cryptographic functions.",
+  "description": "Merkle tree management tool.",
   "main": "./dist/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -11,9 +11,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/crypto": "file:../0xcert-client-crypto",
     "@hayspec/cli": "latest",
     "@hayspec/spec": "latest",
-    "@types/node": "^10.9.3",
     "ts-node": "latest",
     "typescript": "latest"
   }
