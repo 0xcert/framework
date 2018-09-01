@@ -37,7 +37,8 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
-    src: '@0xcert/ethereum-erc721/build/contracts/NFTokenMetadataEnumerableMock.json',
+    src: '@0xcert/web3-erc721/build/NFTokenMetadataEnumerableMock.json',
+    contract: 'NFTokenMetadataEnumerableMock',
     args: ['cat', 'CAT'],
   });
   await cat.methods

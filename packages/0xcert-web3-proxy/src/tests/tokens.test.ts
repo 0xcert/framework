@@ -75,7 +75,8 @@ spec.test('transfers tokens', async (ctx) => {
   await tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner});
 
   const token = await ctx.deploy({ 
-    src: './node_modules/@0xcert/ethereum-erc20/build/contracts/TokenMock.json'
+    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    contract: 'TokenMock'
   });
 
   await token.methods.approve(tokenProxy._address, 1000).send({from: owner});
@@ -92,7 +93,8 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const jane = ctx.get('jane');
 
   const token = await ctx.deploy({ 
-    src: './node_modules/@0xcert/ethereum-erc20/build/contracts/TokenMock.json'
+    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    contract: 'TokenMock'
   });
 
   await token.methods.approve(tokenProxy._address, 1000).send({from: owner});

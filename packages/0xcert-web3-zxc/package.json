@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/web3-dex",
+  "name": "@0xcert/web3-zxc",
+  "description": "0xcert protocol token implementation.",
   "version": "0.0.0",
-  "description": "Decentralized exchange implementation for 0xcert protocol",
   "scripts": {
     "compile": "specron compile",
     "sandbox": "specron sandbox",
@@ -12,12 +12,10 @@
   "devDependencies": {
     "@0xcert/ethereum-utils": "^1.1.0",
     "@0xcert/web3-erc20": "file:../0xcert-web3-erc20",
-    "@0xcert/web3-erc721": "file:../0xcert-web3-erc721",
-    "@0xcert/web3-proxy": "file:../0xcert-web3-proxy",
     "@specron/cli": "latest",
     "@specron/spec": "latest",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.1",
-    "web3": "git+https://github.com/0xcert/web3.js.git#newAbiLib"
+    "web3": "^1.0.0-beta.35"
   }
 }
