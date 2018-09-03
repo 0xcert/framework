@@ -10,7 +10,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-xcert": "1.6.0",
+    "@0xcert/ethereum-utils": "1.1.0",
+    "@0xcert/ethereum-xcert": "1.8.0",
+    "@0xcert/web3-erc20": "file:../0xcert-web3-erc20",
     "@0xcert/web3-proxy": "file:../0xcert-web3-proxy",
     "@specron/cli": "latest",
     "@specron/spec": "latest",
