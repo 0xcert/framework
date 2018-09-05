@@ -81,12 +81,14 @@ contract Minter
   /** 
    * @dev Structure of data needed for mint.
    * @param to Address to which a new Xcert will be minted.
+   * @param xcertData Data needed to mint a new xcert.
    * @param fees An array of fees to be paid.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet. 
    */
   struct MintData{
     address to;
+    XcertData xcertData;
     Fee[] fees;
     uint256 seed;
     uint256 expirationTimestamp;
@@ -170,18 +172,16 @@ contract Minter
   /**
    * @dev Performs Xcert mint directly to the taker.
    * @param _mintData Data needed for minting.
-   * @param _xcertData Data needed for minting a new Xcert.
    * @param _signatureData Data of the signed claim.
    */
   function performMint(
     MintData _mintData,
-    XcertData _xcertData,
     SignatureData _signatureData
   )
     public
   {
-    bytes32 claim = getMintDataClaim(_mintData, _xcertData);
-    address owner = _getOwner(_xcertData.xcert);
+    bytes32 claim = getMintDataClaim(_mintData);
+    address owner = _getOwner(_mintData.xcertData.xcert);
 
     require(_mintData.to == msg.sender, "You are not the mint recipient.");
     require(owner != _mintData.to, "You cannot mint to the owner.");
@@ -201,13 +201,13 @@ contract Minter
 
     mintPerformed[claim] = true;
 
-    _mintViaXcertMintProxy(_xcertData, _mintData.to);
+    _mintViaXcertMintProxy(_mintData.xcertData, _mintData.to);
 
-    _payfeeAmounts(_mintData);
+    _payfeeAmounts(_mintData.fees, _mintData.to);
 
     emit PerformMint(
       _mintData.to,
-      _xcertData.xcert,
+      _mintData.xcertData.xcert,
       claim
     );
   }
@@ -226,7 +226,7 @@ contract Minter
     address owner = _getOwner(_xcertData.xcert);
     require(msg.sender == owner, "You are not the claim maker.");
 
-    bytes32 claim = getMintDataClaim(_mintData, _xcertData);
+    bytes32 claim = getMintDataClaim(_mintData);
 
     require(!mintPerformed[claim], "Cannot cancel performed mint.");
 
@@ -242,12 +242,10 @@ contract Minter
   /**
    * @dev Calculates keccak-256 hash of mint data from parameters.
    * @param _mintData Data needed for minting trough minter.
-   * @param _xcertData Data needed for minting a new Xcert.
    * @return keccak-hash of mint data.
    */
   function getMintDataClaim(
-    MintData _mintData,
-    XcertData _xcertData
+    MintData _mintData
   )
     public
     view
@@ -257,12 +255,12 @@ contract Minter
       abi.encodePacked(
         address(this),
         _mintData.to,
-        _xcertData.xcert,
-        _xcertData.id,
-        _xcertData.proof,
-        _xcertData.uri,
-        _xcertData.config,
-        _xcertData.data,
+        _mintData.xcertData.xcert,
+        _mintData.xcertData.id,
+        _mintData.xcertData.proof,
+        _mintData.xcertData.uri,
+        _mintData.xcertData.config,
+        _mintData.xcertData.data,
         _mintData.fees,
         _mintData.seed,
         _mintData.expirationTimestamp
@@ -389,26 +387,28 @@ contract Minter
 
   /**
    * @dev Helper function that pays all the feeAmounts.
-   * @param _mintData Data needed for paying fees.
+   * @param _fees Data about fees needed to be payed.
+   * @param _from Address from which fees are getting paid.
    * @return Success of payments.
    */
   function _payfeeAmounts(
-    MintData _mintData
+    Fee[] _fees,
+    address _from
   )
     internal
   {
-    for(uint256 i; i < _mintData.fees.length; i++)
+    for(uint256 i; i < _fees.length; i++)
     {
-      if(_mintData.fees[i].to != address(0)
-        && _mintData.fees[i].token != address(0)
-        && _mintData.fees[i].amount > 0)
+      if(_fees[i].to != address(0)
+        && _fees[i].token != address(0)
+        && _fees[i].amount > 0)
       {
         require(
           _transferViaTokenTransferProxy(
-            _mintData.fees[i].token,
-            _mintData.to,
-            _mintData.fees[i].to,
-            _mintData.fees[i].amount
+            _fees[i].token,
+            _from,
+            _fees[i].to,
+            _fees[i].amount
           ), 
           "Insufficient balance or allowance."
         );
