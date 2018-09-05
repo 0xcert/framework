@@ -50,8 +50,8 @@ contract Minter
   /** 
    * @dev contract addresses
    */
-  address XCERT_MINT_PROXY_CONTRACT;
-  address TOKEN_TRANSFER_PROXY_CONTRACT;
+  address public xcertMintProxy;
+  address public tokenTransferProxy;
 
   /** 
    * @dev Mapping of all canceled mints.
@@ -162,30 +162,8 @@ contract Minter
     require(_tokenTransferProxy != address(0), INVALID_TOKEN_TRANSFER_PROXY);
     require(_xcertMintProxy != address(0), INVALID_XCERT_MINT_PROXY);
 
-    TOKEN_TRANSFER_PROXY_CONTRACT = _tokenTransferProxy;
-    XCERT_MINT_PROXY_CONTRACT = _xcertMintProxy;
-  }
-
-  /**
-   * @dev Get address of token transfer proxy used in minter.
-   */
-  function getTokenTransferProxyAddress()
-    external
-    view
-    returns (address)
-  {
-    return TOKEN_TRANSFER_PROXY_CONTRACT;
-  }
-
-  /**
-   * @dev Get address of xcert mint proxy used in minter.
-   */
-  function getXcertMintProxyAddress()
-    external
-    view
-    returns (address)
-  {
-    return XCERT_MINT_PROXY_CONTRACT;
+    tokenTransferProxy = _tokenTransferProxy;
+    xcertMintProxy = _xcertMintProxy;
   }
 
   /**
@@ -359,7 +337,7 @@ contract Minter
     private
     returns (bool)
   {
-    return TokenTransferProxy(TOKEN_TRANSFER_PROXY_CONTRACT).transferFrom(
+    return TokenTransferProxy(tokenTransferProxy).transferFrom(
       _token,
       _from,
       _to,
@@ -379,7 +357,7 @@ contract Minter
   )
     private
   {
-    XcertMintProxy(XCERT_MINT_PROXY_CONTRACT).mint(
+    XcertMintProxy(xcertMintProxy).mint(
       _xcertData.xcert,
       _to,
       _xcertData.id,
