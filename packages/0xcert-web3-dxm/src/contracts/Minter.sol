@@ -16,6 +16,26 @@ contract Minter is
 {
   using SafeMath for uint256;
 
+  /**
+   * @dev Enum of available signature kinds.
+   * @param eth_sign Signature using eth sign.
+   * @param trezor Signature from Trezor hardware wallet.
+   * It differs from web3.eth_sign in the encoding of message length
+   * (Bitcoin varint encoding vs ascii-decimal, the latter is not
+   * self-terminating which leads to ambiguities).
+   * See also:
+   * https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer
+   * https://github.com/trezor/trezor-mcu/blob/master/firmware/ethereum.c#L602
+   * https://github.com/trezor/trezor-mcu/blob/master/firmware/crypto.c#L36 
+   * @param eip721 Signature using eip721.
+   */
+  enum SignatureKind
+  {
+    eth_sign,
+    trezor,
+    eip712
+  }
+
   /** 
    * @dev contract addresses
    */
@@ -65,11 +85,16 @@ contract Minter is
 
   /**
    * @dev Structure representing the signature parts.
+   * @param r ECDSA signature parameter r.
+   * @param s ECDSA signature parameter s.
+   * @param v ECDSA signature parameter v.
+   * @param kind Type of signature. 
    */
-  struct Signature{
+  struct SignatureData{
     bytes32 r;
     bytes32 s;
     uint8 v;
+    SignatureKind kind;
   }
 
   /** 
@@ -143,7 +168,7 @@ contract Minter is
   function performMint(
     MintData _mintData,
     XcertData _xcertData,
-    Signature _signatureData
+    SignatureData _signatureData
   )
     public
   {
@@ -247,23 +272,49 @@ contract Minter is
   function isValidSignature(
     address _signer,
     bytes32 _claim,
-    Signature _signature
+    SignatureData _signature
   )
     public
     pure
     returns (bool)
   {
-    return _signer == ecrecover(
-      keccak256(
-        abi.encodePacked(
-          "\x19Ethereum Signed Message:\n32",
-          _claim
-        )
-      ),
-      _signature.v,
-      _signature.r,
-      _signature.s
-    );
+    if(_signature.kind == SignatureKind.eth_sign)
+    {
+      return _signer == ecrecover(
+        keccak256(
+          abi.encodePacked(
+            "\x19Ethereum Signed Message:\n32",
+            _claim
+          )
+        ),
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    } else if (_signature.kind == SignatureKind.trezor)
+    {
+      return _signer == ecrecover(
+        keccak256(
+          abi.encodePacked(
+            "\x19Ethereum Signed Message:\n\x20",
+            _claim
+          )
+        ),
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    } else if (_signature.kind == SignatureKind.eip712)
+    {
+      return _signer == ecrecover(
+        _claim,
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    }
+
+    revert("Invalid signature kind.");
   }
 
   /** 
@@ -340,7 +391,7 @@ contract Minter is
   {
     for(uint256 i; i < _mintData.fees.length; i++)
     {
-      if(_mintData.fees[i].feeAddress != address(0) 
+      if(_mintData.fees[i].feeAddress != address(0)
         && _mintData.fees[i].tokenAddress != address(0)
         && _mintData.fees[i].feeAmount > 0)
       {
