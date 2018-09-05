@@ -356,7 +356,7 @@ contract Minter
     address _to,
     uint _value
   )
-    internal
+    private
     returns (bool)
   {
     return TokenTransferProxy(TOKEN_TRANSFER_PROXY_CONTRACT).transferFrom(
@@ -377,7 +377,7 @@ contract Minter
     XcertData _xcertData,
     address _to
   )
-    internal
+    private
   {
     XcertMintProxy(XCERT_MINT_PROXY_CONTRACT).mint(
       _xcertData.xcert,
@@ -397,7 +397,7 @@ contract Minter
   function _getOwner(
     address _xcert
   )
-    internal
+    private
     view
     returns (address)
   {
@@ -414,7 +414,7 @@ contract Minter
     Fee[] _fees,
     address _from
   )
-    internal
+    private
   {
     for(uint256 i; i < _fees.length; i++)
     {
