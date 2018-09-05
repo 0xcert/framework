@@ -12,6 +12,22 @@ import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
 contract Minter
 {
   /**
+   * @dev Error constants.
+   */
+  string constant INVALID_TOKEN_TRANSFER_PROXY = "1001";
+  string constant INVALID_XCERT_MINT_PROXY = "1002";
+  string constant INVALID_SIGNATURE_KIND = "1003";
+
+  string constant TAKER_NOT_EQUAL_TO_SENDER = "2001";
+  string constant TAKER_EQUAL_TO_OWNER = "2002";
+  string constant CLAIM_EXPIRED = "2003";
+  string constant INVALID_SIGNATURE = "2004";
+  string constant MINT_CANCELED = "2005";
+  string constant MINT_ALREADY_PERFORMED = "2006";
+  string constant ERC20_TRANSFER_FAILED = "2007";
+  string constant OWNER_NOT_EQUAL_TO_SENDER = "2008";
+
+  /**
    * @dev Enum of available signature kinds.
    * @param eth_sign Signature using eth sign.
    * @param trezor Signature from Trezor hardware wallet.
@@ -143,6 +159,9 @@ contract Minter
   )
     public
   {
+    require(_tokenTransferProxy != address(0), INVALID_TOKEN_TRANSFER_PROXY);
+    require(_xcertMintProxy != address(0), INVALID_XCERT_MINT_PROXY);
+
     TOKEN_TRANSFER_PROXY_CONTRACT = _tokenTransferProxy;
     XCERT_MINT_PROXY_CONTRACT = _xcertMintProxy;
   }
@@ -183,9 +202,9 @@ contract Minter
     bytes32 claim = getMintDataClaim(_mintData);
     address owner = _getOwner(_mintData.xcertData.xcert);
 
-    require(_mintData.to == msg.sender, "You are not the mint recipient.");
-    require(owner != _mintData.to, "You cannot mint to the owner.");
-    require(_mintData.expirationTimestamp >= now, "Mint claim has expired.");
+    require(_mintData.to == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
+    require(owner != _mintData.to, TAKER_EQUAL_TO_OWNER);
+    require(_mintData.expirationTimestamp >= now, CLAIM_EXPIRED);
 
     require(
       isValidSignature(
@@ -193,11 +212,11 @@ contract Minter
         claim,
         _signatureData
       ),
-      "Invalid signature"
+      INVALID_SIGNATURE
     );
 
-    require(!mintPerformed[claim], "Mint already performed.");
-    require(!mintCancelled[claim], "Mint canceled.");
+    require(!mintPerformed[claim], MINT_ALREADY_PERFORMED);
+    require(!mintCancelled[claim], MINT_CANCELED);
 
     mintPerformed[claim] = true;
 
@@ -224,11 +243,11 @@ contract Minter
     public
   {
     address owner = _getOwner(_xcertData.xcert);
-    require(msg.sender == owner, "You are not the claim maker.");
+    require(msg.sender == owner, OWNER_NOT_EQUAL_TO_SENDER);
 
     bytes32 claim = getMintDataClaim(_mintData);
 
-    require(!mintPerformed[claim], "Cannot cancel performed mint.");
+    require(!mintPerformed[claim], MINT_ALREADY_PERFORMED);
 
     mintCancelled[claim] = true;
 
@@ -320,7 +339,7 @@ contract Minter
       );
     }
 
-    revert("Invalid signature kind.");
+    revert(INVALID_SIGNATURE_KIND);
   }
 
   /** 
@@ -410,7 +429,7 @@ contract Minter
             _fees[i].to,
             _fees[i].amount
           ), 
-          "Insufficient balance or allowance."
+          ERC20_TRANSFER_FAILED
         );
       }
     }
