@@ -51,27 +51,41 @@ contract Minter is
 
   /**
    * @dev Structure of Xcert data.
+   * @param xcert Contract address.
+   * @param id The NFT to be minted.
+   * @param uri An URI pointing to NFT metadata.
+   * @param proof Cryptographic asset imprint.
+   * @param config Array of protocol config values where 0 index represents token expiration
+   * timestamp, other indexes are not yet definied but are ready for future xcert upgrades.
+   * @param data Array of convention data values.
    */
   struct XcertData{
     address xcert;
     uint256 id;
-    string proof;
     string uri;
+    string proof;
     bytes32[] config;
     bytes32[] data;
   }
 
   /**
    * @dev Struture of fee data.
+   * @param token Address of ERC20 contract.
+   * @param to Fee recipient.
+   * @param amount Amount of tokens to be sent.
    */
   struct Fee{
-    address feeAddress;
-    uint256 feeAmount;
-    address tokenAddress;
+    address token;
+    address to;
+    uint256 amount;
   }
 
   /** 
    * @dev Structure of data needed for mint.
+   * @param to Address to which a new Xcert will be minted.
+   * @param fees An array of fees to be paid.
+   * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param expiration Timestamp of when the claim expires. 0 if indefinet. 
    */
   struct MintData{
     address to;
@@ -388,16 +402,16 @@ contract Minter is
   {
     for(uint256 i; i < _mintData.fees.length; i++)
     {
-      if(_mintData.fees[i].feeAddress != address(0)
-        && _mintData.fees[i].tokenAddress != address(0)
-        && _mintData.fees[i].feeAmount > 0)
+      if(_mintData.fees[i].to != address(0)
+        && _mintData.fees[i].token != address(0)
+        && _mintData.fees[i].amount > 0)
       {
         require(
           _transferViaTokenTransferProxy(
-            _mintData.fees[i].tokenAddress,
+            _mintData.fees[i].token,
             _mintData.to,
-            _mintData.fees[i].feeAddress,
-            _mintData.fees[i].feeAmount
+            _mintData.fees[i].to,
+            _mintData.fees[i].amount
           ), 
           "Insufficient balance or allowance."
         );
