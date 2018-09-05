@@ -1,7 +1,6 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
 import "@0xcert/ethereum-xcert/contracts/tokens/Xcert.sol";
 import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
 import "@0xcert/web3-proxy/src/contracts/token-transfer-proxy.sol";
@@ -10,8 +9,7 @@ import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
 /**
  @dev Contract for decetralized minting of NFTs. 
  */
-contract Minter is
-  SupportsInterface
+contract Minter
 {
   /**
    * @dev Enum of available signature kinds.
@@ -145,7 +143,6 @@ contract Minter is
   {
     TOKEN_TRANSFER_PROXY_CONTRACT = _tokenTransferProxy;
     XCERT_MINT_PROXY_CONTRACT = _xcertMintProxy;
-    //supportedInterfaces[0xe0b725c2] = true; // Minter
   }
 
   /**
