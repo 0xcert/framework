@@ -1,7 +1,6 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
 import "@0xcert/ethereum-xcert/contracts/tokens/Xcert.sol";
 import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
@@ -14,8 +13,6 @@ import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
 contract Minter is
   SupportsInterface
 {
-  using SafeMath for uint256;
-
   /**
    * @dev Enum of available signature kinds.
    * @param eth_sign Signature using eth sign.
