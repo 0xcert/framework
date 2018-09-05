@@ -341,24 +341,24 @@ contract Minter is
 
   /**
    * @dev Mints new Xcert via XcertProxy using mint function.
-   * @param _mintData Structure of all mint data.
+   * @param _xcertData Structure of all mint data.
    * @param _to Address of Xcert receiver.
    * @return Success of Xcert mint.
    */
   function _mintViaXcertMintProxy(
-    XcertData _mintData,
+    XcertData _xcertData,
     address _to
   )
     internal
   {
     XcertMintProxy(XCERT_MINT_PROXY_CONTRACT).mint(
-      _mintData.xcert,
+      _xcertData.xcert,
       _to,
-      _mintData.id,
-      _mintData.uri,
-      _mintData.proof,
-      _mintData.config,
-      _mintData.data
+      _xcertData.id,
+      _xcertData.uri,
+      _xcertData.proof,
+      _xcertData.config,
+      _xcertData.data
     );
   }
 
