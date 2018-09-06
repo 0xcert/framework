@@ -248,6 +248,20 @@ contract Minter
     view
     returns (bytes32)
   {
+    bytes32 temp = 0x0;
+
+    for(uint256 i = 0; i < _mintData.fees.length; i++)
+    {
+      temp = keccak256(
+        abi.encodePacked(
+          temp,
+          _mintData.fees[i].token,
+          _mintData.fees[i].to,
+          _mintData.fees[i].amount
+        )
+      );
+    }
+
     return keccak256(
       abi.encodePacked(
         address(this),
@@ -258,7 +272,7 @@ contract Minter
         _mintData.xcertData.uri,
         _mintData.xcertData.config,
         _mintData.xcertData.data,
-        _mintData.fees,
+        temp,
         _mintData.seed,
         _mintData.expirationTimestamp
       )
