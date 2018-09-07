@@ -212,15 +212,13 @@ contract Minter
   /**
    * @dev Cancels xcert mint.
    * @param _mintData Data needed for minting.
-   * @param _xcertData Data needed for minting a new Xcert.
    */
   function cancelMint(
-    MintData _mintData,
-    XcertData _xcertData
+    MintData _mintData
   )
     public
   {
-    address owner = _getOwner(_xcertData.xcert);
+    address owner = _getOwner(_mintData.xcertData.xcert);
     require(msg.sender == owner, OWNER_NOT_EQUAL_TO_SENDER);
 
     bytes32 claim = getMintDataClaim(_mintData);
@@ -231,7 +229,7 @@ contract Minter
 
     emit CancelMint(
       _mintData.to,
-      _xcertData.xcert,
+      _mintData.xcertData.xcert,
       claim
     );
   }
