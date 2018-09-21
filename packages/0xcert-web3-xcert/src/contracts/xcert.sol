@@ -17,7 +17,7 @@ contract Xcert is
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
-   * @notice Calculated as bytes32(keccak256(jsonSchema)).
+   * @notice Calculated as keccak256(jsonSchema).
    */
   bytes32 internal nftConventionId;
 
