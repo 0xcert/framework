@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "../Xcert.sol";
+import "../xcert.sol";
 
 /**
  * @dev This is an example implementation of the Xcert smart contract.
