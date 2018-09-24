@@ -33,7 +33,7 @@ contract Xcert is
 
   /**
    * @dev Emits when an address is authorized to some contract control or the authorization is 
-   * revoked. The _target has some contract controle like minting new NFTs.
+   * revoked. The _target has some contract controle like minting new Xcerts.
    * @param _target Address to set authorized state.
    * @param _authorized True if the _target is authorised, false to revoke authorization.
    */
@@ -53,7 +53,7 @@ contract Xcert is
   );
 
   /**
-   * @dev Guarantees that msg.sender is allowed to mint a new NFT.
+   * @dev Guarantees that msg.sender is allowed to mint a new Xcert.
    */
   modifier isAuthorized() {
     require(msg.sender == owner || addressToAuthorized[msg.sender]);
@@ -72,10 +72,10 @@ contract Xcert is
   }
 
   /**
-   * @dev Mints a new NFT.
-   * @param _to The address that will own the minted NFT.
-   * @param _id The NFT to be minted by the msg.sender.
-   * @param _uri An URI pointing to NFT metadata.
+   * @dev Mints a new Xcert.
+   * @param _to The address that will own the minted Xcert.
+   * @param _id The Xcert to be minted by the msg.sender.
+   * @param _uri An URI pointing to Xcert metadata.
    * @param _proof Cryptographic asset imprint.
    */
   function mint(
@@ -104,8 +104,8 @@ contract Xcert is
   }
 
   /**
-   * @dev Returns proof for NFT.
-   * @param _tokenId Id of the NFT.
+   * @dev Returns proof for Xcert.
+   * @param _tokenId Id of the Xcert.
    */
   function tokenProof(
     uint256 _tokenId
@@ -117,6 +117,11 @@ contract Xcert is
     return idToProof[_tokenId];
   }
 
+  /**
+   * @dev Updates Xcert proof.
+   * @param _tokenId Id of the Xcert.
+   * @param _proof New proof.
+   */
   function updateTokenProof(
     uint256 _tokenId,
     string _proof
