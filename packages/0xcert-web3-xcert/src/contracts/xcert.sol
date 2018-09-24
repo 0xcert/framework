@@ -68,7 +68,7 @@ contract Xcert is
   constructor()
     public
   {
-    //supportedInterfaces[0x6be14f75] = true; // Xcert
+    supportedInterfaces[0x6608a60a] = true; // Xcert
   }
 
   /**
