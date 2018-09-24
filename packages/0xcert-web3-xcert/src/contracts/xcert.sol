@@ -43,6 +43,16 @@ contract Xcert is
   );
 
   /**
+   * @dev Emits when proof of a token is changed.
+   * @param _tokenId Id of the Xcert.
+   * @param _proof Cryptographic asset imprint.
+   */
+  event TokenProofUpdate(
+    uint256 indexed _tokenId,
+    string _proof
+  );
+
+  /**
    * @dev Guarantees that msg.sender is allowed to mint a new NFT.
    */
   modifier isAuthorized() {
@@ -107,15 +117,17 @@ contract Xcert is
     return idToProof[_tokenId];
   }
 
-  function setTokenProof(
+  function updateTokenProof(
     uint256 _tokenId,
     string _proof
   )
     external
     isAuthorized()
   {
+    require(bytes(_proof).length > 0);
     require(idToOwner[_tokenId] != address(0));
     idToProof[_tokenId] = _proof;
+    emit TokenProofUpdate(_tokenId, _proof);
   }
 
   /**
