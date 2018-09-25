@@ -500,7 +500,7 @@ contract NFTokenMetadataEnumerable is
     address _to,
     uint256 _tokenId
   )
-    private
+    internal
   {
     // valid NFT
     require(_from != address(0));
