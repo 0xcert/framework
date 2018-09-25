@@ -4,6 +4,7 @@ import "../xcert.sol";
 import "../burnable-xcert.sol";
 import "../revokable-xcert.sol";
 import "../mutable-xcert.sol";
+import "../pausable-xcert.sol";
 
 /**
  * @dev This contracts calculates interface id of Xcert contracts as described in EIP165:
@@ -64,5 +65,17 @@ contract Selector {
   {
     MutableXcert i;
     return i.updateTokenProof.selector;
+  }
+
+  /**
+   * @dev Calculates and returns interface ID for the pausable Xcert smart contract.
+   */
+  function calculatePausableXcertSelector()
+    external
+    pure
+    returns (bytes4)
+  {
+    PausableXcert i;
+    return i.setPause.selector;
   }
 }
