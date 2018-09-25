@@ -416,7 +416,7 @@ contract NFTokenEnumerable is
     address _to,
     uint256 _tokenId
   )
-    private
+    internal
   {
     // valid NFT
     require(_from != address(0));
@@ -472,7 +472,7 @@ contract NFTokenEnumerable is
     uint256 _tokenId,
     bytes _data
   )
-    private
+    internal
   {
     if (_to.isContract()) {
       require(
