@@ -228,11 +228,13 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const nftProxy = ctx.get('nftProxy');
+  const owner = ctx.get('owner');
   const exchange = await ctx.deploy({
     src: './build/exchange.json',
     contract: 'Exchange',
-    args: [tokenProxy._address, nftProxy._address],
   });
+  await exchange.methods.setProxy(0, tokenProxy._address).send({ from: owner });
+  await exchange.methods.setProxy(1, nftProxy._address).send({ from: owner });
   ctx.set('exchange', exchange);
 });
 
