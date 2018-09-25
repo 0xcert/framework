@@ -1,5 +1,6 @@
 pragma solidity 0.4.24;
 
+import "./iproxy.sol";
 import "@0xcert/web3-erc721/src/contracts/ERC721.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
@@ -9,6 +10,7 @@ import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
  * @dev based on:https://github.com/0xProject/contracts/blob/master/contracts/TokenTransferProxy.sol
  */
 contract NFTokenTransferProxy is 
+  Proxy,
   Claimable 
 {
   /**
@@ -105,21 +107,21 @@ contract NFTokenTransferProxy is
 
   /**
    * @dev Transfers a NFT.
-   * @param _nfToken Address of NFT contract.
-   * @param _from Address from which the NFT will be sent.
-   * @param _to Address to which the NFT will be sent.
-   * @param _id Id of the NFT being sent.
+   * @param _target Address of NFT contract.
+   * @param _a Address from which the NFT will be sent.
+   * @param _b Address to which the NFT will be sent.
+   * @param _c Id of the NFT being sent.
    */
-  function transferFrom(
-    address _nfToken,
-    address _from,
-    address _to,
-    uint256 _id
+  function execute(
+    address _target,
+    address _a,
+    address _b,
+    uint256 _c
   )
     external
     targetAuthorized(msg.sender)
   {
-    ERC721(_nfToken).transferFrom(_from, _to, _id);
+    ERC721(_target).transferFrom(_a, _b, _c);
   }
 
   /**
