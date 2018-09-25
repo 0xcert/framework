@@ -1,8 +1,6 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/ethereum-xcert/contracts/tokens/Xcert.sol";
-import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
 import "@0xcert/web3-proxy/src/contracts/token-transfer-proxy.sol";
 import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
 
@@ -24,8 +22,7 @@ contract Minter
   string constant INVALID_SIGNATURE = "2004";
   string constant MINT_CANCELED = "2005";
   string constant MINT_ALREADY_PERFORMED = "2006";
-  string constant ERC20_TRANSFER_FAILED = "2007";
-  string constant OWNER_NOT_EQUAL_TO_SENDER = "2008";
+  string constant OWNER_NOT_EQUAL_TO_SENDER = "2007";
 
   /**
    * @dev Enum of available signature kinds.
@@ -347,9 +344,8 @@ contract Minter
     uint _value
   )
     private
-    returns (bool)
   {
-    return TokenTransferProxy(tokenTransferProxy).transferFrom(
+    TokenTransferProxy(tokenTransferProxy).execute(
       _token,
       _from,
       _to,
@@ -412,14 +408,11 @@ contract Minter
         && _fees[i].token != address(0)
         && _fees[i].amount > 0)
       {
-        require(
-          _transferViaTokenTransferProxy(
-            _fees[i].token,
-            _from,
-            _fees[i].to,
-            _fees[i].amount
-          ), 
-          ERC20_TRANSFER_FAILED
+        _transferViaTokenTransferProxy(
+          _fees[i].token,
+          _from,
+          _fees[i].to,
+          _fees[i].amount
         );
       }
     }
