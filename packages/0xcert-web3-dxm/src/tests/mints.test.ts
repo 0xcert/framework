@@ -27,8 +27,6 @@ interface Data {
   id1?: string;
   url1?: string;
   proof1?: string;
-  config1?: string[];
-  data1?: string[];
 }
  
 /**
@@ -53,14 +51,10 @@ spec.beforeEach(async (ctx) => {
   const id = '1';
   const uri = "http://0xcert.org/1";
   const proof = '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8';
-  const config = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(1821195657), 64)];
-  const data = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(3), 64)];
 
   ctx.set('id1', id);
   ctx.set('url1', uri);
   ctx.set('proof1', proof);
-  ctx.set('config1', config);
-  ctx.set('data1', data);
 });
 
 /**
@@ -68,7 +62,8 @@ spec.beforeEach(async (ctx) => {
  */
 spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
-    src: '@0xcert/ethereum-xcert/build/contracts/XcertMock.json',
+    src: '@0xcert/web3-xcert/build/xcert-mock.json',
+    contract: 'XcertMock',
     args: ['cat', 'CAT', '0xa65de9e6'],
   });
   ctx.set('cat', cat);
@@ -153,16 +148,12 @@ perform.test('Cat #1', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [];
   const mintData = {
@@ -204,16 +195,12 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -267,16 +254,12 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -350,16 +333,12 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -404,16 +383,12 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -459,16 +434,12 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -512,16 +483,12 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -562,16 +529,12 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [];
   const mintData = {
@@ -609,16 +572,12 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -670,16 +629,12 @@ cancel.test('succeeds', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -724,16 +679,12 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {
@@ -765,16 +716,12 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   const id = ctx.get('id1');
   const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
-  const config = ctx.get('config1');
-  const data = ctx.get('data1');
 
   const xcertData = {
     xcert: cat._address,
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {

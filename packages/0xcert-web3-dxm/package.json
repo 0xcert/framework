@@ -10,11 +10,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-xcert": "1.8.0",
+    "@0xcert/ethereum-utils": "^1.1.0",
     "@0xcert/web3-erc20": "file:../0xcert-web3-erc20",
+    "@0xcert/web3-erc721": "file:../0xcert-web3-erc721",
     "@0xcert/web3-proxy": "file:../0xcert-web3-proxy",
-    "@specron/cli": "latest",
-    "@specron/spec": "latest",
+    "@0xcert/web3-xcert": "file:../0xcert-web3-xcert",
+    "@specron/cli": "^0.0.42",
+    "@specron/spec": "^0.0.42",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.1",
     "web3": "1.0.0-beta.36"
