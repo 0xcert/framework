@@ -1,6 +1,6 @@
 pragma solidity 0.4.24;
 
-import "@0xcert/ethereum-xcert/contracts/tokens/Xcert.sol";
+import "@0xcert/web3-xcert/src/contracts/xcert.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /**
@@ -109,23 +109,18 @@ contract XcertMintProxy is
    * @param _id The NFT to be minted by the msg.sender.
    * @param _uri An URI pointing to NFT metadata.
    * @param _proof Cryptographic asset imprint.
-   * @param _config Array of protocol config values where 0 index represents token expiration
-   * timestamp, other indexes are not yet definied but are ready for future xcert upgrades.
-   * @param _data Array of convention data values.
    */
   function mint(
     address _xcert,
     address _to,
     uint256 _id,
     string _uri,
-    string _proof,
-    bytes32[] _config,
-    bytes32[] _data
+    string _proof
   )
     external
     targetAuthorized(msg.sender)
   {
-    Xcert(_xcert).mint(_to, _id, _uri, _proof, _config, _data);
+    Xcert(_xcert).mint(_to, _id, _uri, _proof);
   }
 
   /**
