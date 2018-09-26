@@ -14,7 +14,6 @@ interface Data {
   sara?: string;
   signature?: any;
   hash?: string;
-  randomAddress?: string;
 }
 
 /**
@@ -31,8 +30,6 @@ spec.beforeEach(async (ctx) => {
   ctx.set('bob', accounts[1]);
   ctx.set('jane', accounts[2]);
   ctx.set('sara', accounts[3]);
-  const randomAddress = '0x0000000000000000000000000000000000000001';
-  ctx.set('randomAddress', randomAddress);
 });
 
 spec.beforeEach(async (ctx) => {
@@ -51,12 +48,9 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const randomAddress = ctx.get('randomAddress');
-
   const exchange = await ctx.deploy({
     src: './build/exchange.json',
     contract: 'Exchange',
-    args: [randomAddress, randomAddress],
   });
   ctx.set('exchange', exchange);
 });

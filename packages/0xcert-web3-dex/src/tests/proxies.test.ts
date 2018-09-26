@@ -5,10 +5,12 @@ import { Spec } from '@specron/spec';
  */
 
 interface Data {
+  exchange?: any;
   tokenProxy?: any;
   nftProxy?: any;
+  owner?: string;
+  bob?: string;
   zeroAddress?: string;
-  randomAddress?: string;
 }
 
 const spec = new Spec<Data>();
@@ -30,56 +32,48 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const randomAddress = '0x0000000000000000000000000000000000000001';
-  ctx.set('zeroAddress', zeroAddress);
-  ctx.set('randomAddress', randomAddress);
-});
-
-spec.test('deploy exchange with correct ERC20 transfer proxy address', async (ctx) => {
-  const tokenProxy = ctx.get('tokenProxy');
-  const zeroAddress = ctx.get('zeroAddress');
-  const randomAddress = ctx.get('randomAddress');
-
-  await ctx.reverts(() => ctx.deploy({
-    src: './build/exchange.json',
-    contract: 'Exchange',
-    args: [zeroAddress, randomAddress]
-  }));
-
   const exchange = await ctx.deploy({
     src: './build/exchange.json',
     contract: 'Exchange',
-    args: [tokenProxy._address, randomAddress]
   });
-
-  const exhangeTokenProxyAddress = await exchange.methods.tokenTransferProxy().call();
-
-  ctx.is(tokenProxy._address, exhangeTokenProxyAddress);
+  ctx.set('exchange', exchange);
 });
 
-spec.test('deploy exchange with correct ERC721 transfer proxy address', async (ctx) => {
+spec.beforeEach(async (ctx) => {
+  const accounts = await ctx.web3.eth.getAccounts();
+  ctx.set('owner', accounts[0]);
+  ctx.set('bob', accounts[1]);
+  ctx.set('zeroAddress', '0x0000000000000000000000000000000000000000');
+});
 
+spec.test('correctly set proxy addresses', async (ctx) => {
+  const tokenProxy = ctx.get('tokenProxy');
   const nftProxy = ctx.get('nftProxy');
   const zeroAddress = ctx.get('zeroAddress');
-  const randomAddress = ctx.get('randomAddress');
+  const owner = ctx.get('owner');
+  const exchange = ctx.get('exchange');
 
-  await ctx.reverts(() => ctx.deploy({
-    src: './build/exchange.json',
-    contract: 'Exchange',
-    args: [randomAddress, zeroAddress]
-  }));
+  const logs = await exchange.methods.setProxy(0, tokenProxy._address).send({ from: owner });
+  ctx.not(logs.events.ProxyChange, undefined);
 
-  const exchange = await ctx.deploy({
-    src: './build/exchange.json',
-    contract: 'Exchange',
-    args: [randomAddress, nftProxy._address]
-  });
+  let proxy = await exchange.methods.idToProxy(0).call();
+  ctx.is(tokenProxy._address, proxy);
 
-  const exhangeNFTokenProxyAddress = await exchange.methods.nfTokenTransferProxy().call();
+  await exchange.methods.setProxy(1, nftProxy._address).send({ from: owner });
+  await exchange.methods.setProxy(0, zeroAddress).send({ from: owner });
 
-  ctx.is(nftProxy._address, exhangeNFTokenProxyAddress);
-  
+  proxy = await exchange.methods.idToProxy(0).call();
+  ctx.is(zeroAddress, proxy);
+  proxy = await exchange.methods.idToProxy(1).call();
+  ctx.is(nftProxy._address, proxy);
+});
+
+spec.test('throws when a third party tries to set proxy address', async (ctx) => {
+  const zeroAddress = ctx.get('zeroAddress');
+  const bob = ctx.get('bob');
+  const exchange = ctx.get('exchange');
+
+  await ctx.reverts(() => exchange.methods.setProxy(0, zeroAddress).send({ from: bob }));
 });
 
 export default spec;

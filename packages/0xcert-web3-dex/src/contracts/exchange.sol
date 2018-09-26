@@ -1,13 +1,14 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/web3-proxy/src/contracts/token-transfer-proxy.sol";
-import "@0xcert/web3-proxy/src/contracts/nftokens-transfer-proxy.sol";
+import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
+import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /**
  * @dev Decentralize exchange for fundgible and non-fundgible tokens powered by atomic swaps. 
  */
-contract Exchange 
+contract Exchange is
+  Claimable
 {
   /**
    * @dev Error constants.
@@ -15,7 +16,7 @@ contract Exchange
   string constant INVALID_TOKEN_TRANSFER_PROXY = "1001";
   string constant INVALID_NF_TOKEN_TRANSFER_PROXY = "1002";
   string constant INVALID_SIGNATURE_KIND = "1003";
-  string constant INVALID_TOKEN_KIND = "1004";
+  string constant INVALID_PROXY = "1004";
 
   string constant TAKER_NOT_EQUAL_TO_SENDER = "2001";
   string constant TAKER_EQUAL_TO_MAKER = "2002";
@@ -23,9 +24,7 @@ contract Exchange
   string constant INVALID_SIGNATURE = "2004";
   string constant SWAP_CANCELED = "2005";
   string constant SWAP_ALREADY_PERFORMED = "2006";
-  string constant ERC20_TRANSFER_FAILED = "2007";
-  string constant ERC721_TRANSFER_FAILED = "2008";
-  string constant MAKER_NOT_EQUAL_TO_SENDER = "2009";
+  string constant MAKER_NOT_EQUAL_TO_SENDER = "2007";
 
   /**
    * @dev Enum of available signature kinds.
@@ -46,22 +45,11 @@ contract Exchange
     trezor,
     eip712
   }
-  
-  /**
-   * @dev Enum of available tokens kinds.
-   * @param erc20 ERC20 standard tokens.
-   * @param erc721 ERC721 standard tokens.
-   */
-  enum TokenKind
-  {
-    erc20,
-    erc721
-  }
 
   /**
    * @dev Structure representing what to send and where.
-   * @param token Address of the token we are sending (can be ERC20 or ERC721).
-   * @param kind Type of the token we are sending
+   * @param token Address of the token we are sending.
+   * @param proxy Id representing approved proxy address.
    * @param from Address of the sender.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
@@ -69,7 +57,7 @@ contract Exchange
   struct TransferData 
   {
     address token;
-    TokenKind kind; // Check other options like ERC165 or checking methods that exists.
+    uint256 proxy;
     address from;
     address to;
     uint256 value;
@@ -109,10 +97,9 @@ contract Exchange
   }
 
   /** 
-   * @dev Proxy contract addresses.
+   * @dev Valid proxy contract addresses.
    */
-  address public tokenTransferProxy; 
-  address public nfTokenTransferProxy; 
+  mapping(uint256 => address) public idToProxy;
 
   /**
    * @dev Mapping of all cancelled transfers.
@@ -128,36 +115,43 @@ contract Exchange
    * @dev This event emmits when tokens change ownership.
    */
   event PerformSwap(
-    address indexed _maker,
-    address indexed _taker,
-    bytes32 _claim
+    address indexed maker,
+    address indexed taker,
+    bytes32 claim
   );
 
   /**
    * @dev This event emmits when transfer order is cancelled.
    */
   event CancelSwap(
-    address indexed _maker,
-    address indexed _taker,
-    bytes32 _claim
+    address indexed maker,
+    address indexed taker,
+    bytes32 claim
   );
 
   /**
-   * @dev Sets Token proxy address and NFT Proxy address.
-   * @param _tokenTransferProxy Address pointing to TokenTransferProxy contract.
-   * @param _nfTokenTransferProxy Address pointing to NFTokenTransferProxy contract.
+   * @dev This event emmits when proxy address is changed..
    */
-  constructor(
-    address _tokenTransferProxy, 
-    address _nfTokenTransferProxy
-  ) 
-    public
-  {
-    require(_tokenTransferProxy != address(0), INVALID_TOKEN_TRANSFER_PROXY);
-    require(_nfTokenTransferProxy != address(0), INVALID_NF_TOKEN_TRANSFER_PROXY);
+  event ProxyChange(
+    uint256 indexed id,
+    address proxy
+  );
 
-    tokenTransferProxy = _tokenTransferProxy;
-    nfTokenTransferProxy = _nfTokenTransferProxy;
+  /**
+   * @dev Sets a verified proxy address. 
+   * @notice Can be done through a multisig wallet in the future.
+   * @param _id Id of the proxy.
+   * @param _proxy Proxy address.
+   */
+  function setProxy(
+    uint256 _id,
+    address _proxy
+  )
+    external
+    onlyOwner
+  {
+    idToProxy[_id] = _proxy;
+    emit ProxyChange(_id, _proxy);
   }
 
   /**
@@ -201,7 +195,6 @@ contract Exchange
 
   /** 
    * @dev Cancels swap
-   *
    * @param _data Data of swap to cancel.
    */
   function cancelSwap(
@@ -242,7 +235,7 @@ contract Exchange
         abi.encodePacked(
           temp,
           _swapData.transfers[i].token,
-          _swapData.transfers[i].kind,
+          _swapData.transfers[i].proxy,
           _swapData.transfers[i].from,
           _swapData.transfers[i].to,
           _swapData.transfers[i].value
@@ -327,76 +320,17 @@ contract Exchange
   {
     for(uint256 i = 0; i < _transfers.length; i++)
     {
-      if(_transfers[i].kind == TokenKind.erc20)
-      {
-        require(
-          _transferViaTokenTransferProxy(
-            _transfers[i].token,
-            _transfers[i].from,
-            _transfers[i].to,
-            _transfers[i].value
-          ),
-          ERC20_TRANSFER_FAILED
-        );
-      }else if(_transfers[i].kind == TokenKind.erc721)
-      {
-        _transferViaNFTokenTransferProxy(
-          _transfers[i].token,
-          _transfers[i].from,
-          _transfers[i].to,
-          _transfers[i].value
-        );
-      }else 
-      {
-        revert(INVALID_TOKEN_KIND);
-      }
+      require(
+        idToProxy[_transfers[i].proxy] != address(0),
+        INVALID_PROXY
+      );
+     
+      Proxy(idToProxy[_transfers[i].proxy]).execute(
+        _transfers[i].token,
+        _transfers[i].from,
+        _transfers[i].to,
+        _transfers[i].value
+      );
     }
-  }
-
-  /** 
-   * @dev Transfers ERC20 tokens via TokenTransferProxy using transferFrom function.
-   * @param _token Address of token to transferFrom.
-   * @param _from Address transfering token.
-   * @param _to Address receiving token.
-   * @param _value Amount of token to transfer.
-   */
-  function _transferViaTokenTransferProxy(
-    address _token,
-    address _from,
-    address _to,
-    uint _value
-  )
-    private
-    returns (bool)
-  {
-    return TokenTransferProxy(tokenTransferProxy).transferFrom(
-      _token,
-      _from,
-      _to,
-      _value
-    );
-  }
-
-  /**
-   * @dev Transfers NFToken via NFTokenProxy using transferFrom function.
-   * @param _nfToken Address of NFToken to transfer.
-   * @param _from Address sending NFToken.
-   * @param _to Address receiving NFToken.
-   * @param _id Id of transfering NFToken.
-   */
-  function _transferViaNFTokenTransferProxy(
-    address _nfToken,
-    address _from,
-    address _to,
-    uint256 _id
-  )
-    private
-  {
-    NFTokenTransferProxy(nfTokenTransferProxy).transferFrom(
-      _nfToken,
-      _from,
-      _to,
-      _id
-    );
   }
 }
