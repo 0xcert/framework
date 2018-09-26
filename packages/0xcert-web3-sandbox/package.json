@@ -1,0 +1,39 @@
+{
+  "name": "@0xcert/web3-sandbox",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "transpile": "npm run clean; tsc",
+    "lint": "tslint 'src/**/*.ts?(x)'",
+    "prepare": "npm run transpile",
+    "test": "nyc hayspec test --require ts-node/register --match ./src/tests/**/*.test.ts"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "author": "Kristijan Sedlak (Xpepermint)",
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/web3-dex": "file:../0xcert-web3-dex",
+    "@0xcert/web3-dxm": "file:../0xcert-web3-dxm",
+    "@0xcert/web3-proxy": "file:../0xcert-web3-proxy",
+    "@hayspec/cli": "^0.4.21",
+    "@hayspec/spec": "^0.4.21",
+    "nyc": "^13.0.1",
+    "supertest": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  }
+}
