@@ -45,8 +45,6 @@ spec.beforeEach(async (ctx) => {
   const id = '1';
   const uri = "http://0xcert.org/1";
   const proof = '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8';
-  const config = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(1821195657), 64)];
-  const data = [ctx.web3.utils.padLeft(ctx.web3.utils.numberToHex(3), 64)];
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -58,8 +56,6 @@ spec.beforeEach(async (ctx) => {
     id,
     uri,
     proof,
-    config,
-    data,
   };
   const fees = [
     {

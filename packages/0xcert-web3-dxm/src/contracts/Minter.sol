@@ -75,8 +75,6 @@ contract Minter
     uint256 id;
     string uri;
     string proof;
-    bytes32[] config;
-    bytes32[] data;
   }
 
   /**
@@ -265,8 +263,6 @@ contract Minter
         _mintData.xcertData.id,
         _mintData.xcertData.proof,
         _mintData.xcertData.uri,
-        _mintData.xcertData.config,
-        _mintData.xcertData.data,
         temp,
         _mintData.seed,
         _mintData.expirationTimestamp
@@ -370,9 +366,7 @@ contract Minter
       _to,
       _xcertData.id,
       _xcertData.uri,
-      _xcertData.proof,
-      _xcertData.config,
-      _xcertData.data
+      _xcertData.proof
     );
   }
 
