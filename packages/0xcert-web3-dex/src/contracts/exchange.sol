@@ -24,7 +24,7 @@ contract Exchange is
   string constant INVALID_SIGNATURE = "2004";
   string constant SWAP_CANCELED = "2005";
   string constant SWAP_ALREADY_PERFORMED = "2006";
-  string constant MAKER_NOT_EQUAL_TO_SENDER = "2003";
+  string constant MAKER_NOT_EQUAL_TO_SENDER = "2007";
 
   /**
    * @dev Enum of available signature kinds.
@@ -48,8 +48,8 @@ contract Exchange is
 
   /**
    * @dev Structure representing what to send and where.
-   * @param token Address of the token we are sending (can be ERC20 or ERC721).
-   * @param kind Type of the token we are sending
+   * @param token Address of the token we are sending.
+   * @param proxy Id representing approved proxy address.
    * @param from Address of the sender.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
@@ -138,7 +138,8 @@ contract Exchange is
   );
 
   /**
-   * @dev Sets a verified proxy address. Can be done trough a multisig wallet in the future.
+   * @dev Sets a verified proxy address. 
+   * @notice Can be done through a multisig wallet in the future.
    * @param _id Id of the proxy.
    * @param _proxy Proxy address.
    */
@@ -194,7 +195,6 @@ contract Exchange is
 
   /** 
    * @dev Cancels swap
-   *
    * @param _data Data of swap to cancel.
    */
   function cancelSwap(
