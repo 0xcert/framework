@@ -52,16 +52,16 @@ contract XcertMintProxy is
    * @dev This emmits when a new address gets authorized.
    */
   event LogAuthorizedAddressAdded(
-    address indexed target,
-    address indexed caller
+    address indexed _target,
+    address indexed _caller
   );
 
   /**
    * @dev This emmits when an address gets its authorization revoked.
    */
   event LogAuthorizedAddressRemoved(
-    address indexed target,
-    address indexed caller
+    address indexed _target,
+    address indexed _caller
   );
 
   /**
