@@ -115,26 +115,26 @@ contract Exchange is
    * @dev This event emmits when tokens change ownership.
    */
   event PerformSwap(
-    address indexed maker,
-    address indexed taker,
-    bytes32 claim
+    address indexed _maker,
+    address indexed _taker,
+    bytes32 _claim
   );
 
   /**
    * @dev This event emmits when transfer order is cancelled.
    */
   event CancelSwap(
-    address indexed maker,
-    address indexed taker,
-    bytes32 claim
+    address indexed _maker,
+    address indexed _taker,
+    bytes32 _claim
   );
 
   /**
    * @dev This event emmits when proxy address is changed..
    */
   event ProxyChange(
-    uint256 indexed id,
-    address proxy
+    uint256 indexed _id,
+    address _proxy
   );
 
   /**
