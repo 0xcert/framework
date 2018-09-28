@@ -8,6 +8,11 @@ import "./xcert.sol";
 contract BurnableXcert is Xcert {
 
   /**
+   * @dev Error constants.
+   */
+  string constant NOT_OWNER_OR_OPERATOR = "008001";
+
+  /**
    * @dev Contract constructor.
    * @notice When implementing this contract don't forget to set nftConventionId, nftName and
    * nftSymbol.
@@ -28,8 +33,11 @@ contract BurnableXcert is Xcert {
     external
   {
     address tokenOwner = idToOwner[_tokenId];
-    require(tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender]);
     super._burn(_tokenId);
+    require(
+      tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
+      NOT_OWNER_OR_OPERATOR
+    );
     delete idToProof[_tokenId];
   }
 }
