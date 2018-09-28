@@ -213,7 +213,10 @@ contract NFToken is
   {
     // can operate
     address tokenOwner = idToOwner[_tokenId];
-    require(tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender], NOT_OWNER_OR_OPERATOR);
+    require(
+      tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
+      NOT_OWNER_OR_OPERATOR
+    );
 
     idToApproval[_tokenId] = _approved;
     emit Approval(tokenOwner, _approved, _tokenId);
