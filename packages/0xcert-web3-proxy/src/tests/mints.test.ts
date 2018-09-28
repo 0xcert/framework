@@ -82,7 +82,7 @@ spec.test('mints an Xcert', async (ctx) => {
   });
 
   await cat.methods.setAuthorizedAddress(xcertProxy._address, true).send({ from: owner });
-  await xcertProxy.methods.mint(cat._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob, gas: 4000000 });
+  await xcertProxy.methods.mint(cat._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob });
 
   const newOwner = await cat.methods.ownerOf(1).call();
   ctx.is(newOwner, jane);
@@ -101,7 +101,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   });
 
   await cat.methods.setAuthorizedAddress(xcertProxy._address, true).send({ from: owner });
-  await ctx.reverts(() => xcertProxy.methods.mint(cat._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob, gas: 4000000 }), '014002');
+  await ctx.reverts(() => xcertProxy.methods.mint(cat._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob }), '014002');
 });
 
 export default spec;

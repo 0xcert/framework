@@ -91,7 +91,7 @@ spec.test('transfers an NFT', async (ctx) => {
     });
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await nftProxy.methods.execute(cat._address, jane, sara, 1).send({ from: bob, gas: 4000000 });
+  await nftProxy.methods.execute(cat._address, jane, sara, 1).send({ from: bob });
 
   const newOwner = await cat.methods.ownerOf(1).call();
   ctx.is(newOwner, sara);
@@ -118,7 +118,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
     });
 
   await cat.methods.approve(nftProxy._address, 1).send({from: jane});
-  await ctx.reverts(() => nftProxy.methods.execute(cat._address, jane, sara, 1).send({ from: bob, gas: 4000000 }), '013002');
+  await ctx.reverts(() => nftProxy.methods.execute(cat._address, jane, sara, 1).send({ from: bob }), '013002');
 });
 
 export default spec;

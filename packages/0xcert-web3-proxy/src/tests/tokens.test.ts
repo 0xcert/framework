@@ -80,7 +80,7 @@ spec.test('transfers tokens', async (ctx) => {
   });
 
   await token.methods.approve(tokenProxy._address, 1000).send({ from: owner });
-  await tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob,  gas: 4000000 });
+  await tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob });
 
   const balance = await token.methods.balanceOf(jane).call();
   ctx.is(balance, "1000");
@@ -98,7 +98,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   });
 
   await token.methods.approve(tokenProxy._address, 1000).send({ from: owner });
-  await ctx.reverts(() => tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob,  gas: 4000000 }), '012002');
+  await ctx.reverts(() => tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob }), '012002');
 });
 
 export default spec;
