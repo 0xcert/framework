@@ -76,7 +76,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const zxc = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
@@ -90,7 +90,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const bnb = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
