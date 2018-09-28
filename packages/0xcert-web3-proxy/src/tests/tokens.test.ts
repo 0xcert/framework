@@ -32,7 +32,7 @@ spec.test('adds authorized address', async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner});
+  const logs = await tokenProxy.methods.addAuthorizedAddress(bob).send({ from: owner });
   ctx.not(logs.events.LogAuthorizedAddressAdded, undefined);
 
   const authorizedAddresses = await tokenProxy.methods.getAuthorizedAddresses().call();
@@ -44,7 +44,7 @@ spec.test('fails when trying to add an already authorized address', async (ctx) 
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner});
-  await ctx.reverts(() => tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner}));
+  await ctx.reverts(() => tokenProxy.methods.addAuthorizedAddress(bob).send({ from: owner }), '012001');
 });
 
 spec.test('removes authorized address', async (ctx) => {
@@ -52,7 +52,7 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner});
-  const logs = await tokenProxy.methods.removeAuthorizedAddress(bob).send({from: owner});
+  const logs = await tokenProxy.methods.removeAuthorizedAddress(bob).send({ from: owner });
   ctx.not(logs.events.LogAuthorizedAddressRemoved, undefined);
 
   const authorizedAddresses = await tokenProxy.methods.getAuthorizedAddresses().call();
@@ -63,7 +63,7 @@ spec.test('fails when trying to remove an already unauthorized address', async (
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await ctx.reverts(() => tokenProxy.methods.removeAuthorizedAddress(bob).send({from: owner}));
+  await ctx.reverts(() => tokenProxy.methods.removeAuthorizedAddress(bob).send({ from: owner }), '012002');
 });
 
 spec.test('transfers tokens', async (ctx) => {
@@ -72,15 +72,15 @@ spec.test('transfers tokens', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await tokenProxy.methods.addAuthorizedAddress(bob).send({from: owner});
+  await tokenProxy.methods.addAuthorizedAddress(bob).send({ from: owner });
 
   const token = await ctx.deploy({ 
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock'
   });
 
-  await token.methods.approve(tokenProxy._address, 1000).send({from: owner});
-  await tokenProxy.methods.execute(token._address, owner, jane, 1000).send({from: bob,  gas: 4000000});
+  await token.methods.approve(tokenProxy._address, 1000).send({ from: owner });
+  await tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob });
 
   const balance = await token.methods.balanceOf(jane).call();
   ctx.is(balance, "1000");
@@ -93,12 +93,12 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const jane = ctx.get('jane');
 
   const token = await ctx.deploy({ 
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock'
   });
 
-  await token.methods.approve(tokenProxy._address, 1000).send({from: owner});
-  await ctx.reverts(() => tokenProxy.methods.execute(token._address, owner, jane, 1000).send({from: bob,  gas: 4000000}));
+  await token.methods.approve(tokenProxy._address, 1000).send({ from: owner });
+  await ctx.reverts(() => tokenProxy.methods.execute(token._address, owner, jane, 1000).send({ from: bob }), '012002');
 });
 
 export default spec;

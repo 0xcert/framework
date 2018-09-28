@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity 0.4.25;
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc721/src/contracts/ERC721.sol";
@@ -16,8 +16,8 @@ contract NFTokenTransferProxy is
   /**
    * @dev Error constants.
    */
-  string constant TARGET_AUTHORIZED = "11001";
-  string constant TARGET_NOT_AUTHORIZED = "11002";
+  string constant TARGET_AUTHORIZED = "013001";
+  string constant TARGET_NOT_AUTHORIZED = "013002";
 
   /**
    * @dev Only if target is authorized you can invoke functions with this modifier.

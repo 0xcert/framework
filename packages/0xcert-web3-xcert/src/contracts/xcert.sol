@@ -1,9 +1,9 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
-import "@0xcert/web3-erc721/src/contracts/NFTokenMetadataEnumerable.sol";
+import "@0xcert/web3-erc721/src/contracts/nf-token-metadata-enumerable.sol";
 
 /**
  * @dev Xcert implementation.
@@ -14,6 +14,12 @@ contract Xcert is
 {
   using SafeMath for uint256;
   using AddressUtils for address;
+
+  /**
+   * @dev Error constants.
+   */
+  string constant NOT_AUTHORIZED = "007001";
+  string constant EMPTY_PROOF = "007002";
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -46,7 +52,7 @@ contract Xcert is
    * @dev Guarantees that msg.sender is allowed to mint a new Xcert.
    */
   modifier isAuthorized() {
-    require(msg.sender == owner || addressToAuthorized[msg.sender]);
+    require(msg.sender == owner || addressToAuthorized[msg.sender], NOT_AUTHORIZED);
     _;
   }
 
@@ -77,7 +83,7 @@ contract Xcert is
     external
     isAuthorized()
   {
-    require(bytes(_proof).length > 0);
+    require(bytes(_proof).length > 0, EMPTY_PROOF);
     super._mint(_to, _id, _uri);
     idToProof[_id] = _proof;
   }
@@ -110,7 +116,7 @@ contract Xcert is
   /**
    * @dev Sets authorised address for minting.
    * @param _target Address to set authorized state.
-   * @param _authorized True if the _target is authorised, false to revoke authorization.
+   * @param _authorized True if the _target is authorized, false to revoke authorization.
    */
   function setAuthorizedAddress(
     address _target,
@@ -119,7 +125,6 @@ contract Xcert is
     external
     onlyOwner
   {
-    require(_target != address(0));
     addressToAuthorized[_target] = _authorized;
     emit AuthorizedAddress(_target, _authorized);
   }
@@ -136,7 +141,6 @@ contract Xcert is
     view
     returns (bool)
   {
-    require(_target != address(0));
     return addressToAuthorized[_target];
   }
 }

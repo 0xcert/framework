@@ -1,13 +1,13 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
-import "../NFToken.sol";
+import "../../contracts/nf-token-enumerable.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /**
- * @dev This is an example contract implementation of NFToken.
+ * @dev This is an example contract implementation of NFToken with enumerable extension.
  */
-contract NFTokenMock is
-  NFToken,
+contract NFTokenEnumerableMock is
+  NFTokenEnumerable,
   Claimable
 {
   /**

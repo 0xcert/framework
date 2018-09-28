@@ -121,7 +121,7 @@ spec.test('throws when trying to transfer an Xcert when contract is paused', asy
 
   await xcert.methods.setPause(true).send({ from: owner });
   await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.transferFrom(bob, sara, id1).send({ from: bob }));
+  await ctx.reverts(() => xcert.methods.transferFrom(bob, sara, id1).send({ from: bob }), '009001');
 });
 
 spec.test('throws when trying to safe transfer an Xcert when contract is paused', async (ctx) => {
@@ -135,5 +135,5 @@ spec.test('throws when trying to safe transfer an Xcert when contract is paused'
 
   await xcert.methods.setPause(true).send({ from: owner });
   await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }));
+  await ctx.reverts(() => xcert.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '009001');
 });

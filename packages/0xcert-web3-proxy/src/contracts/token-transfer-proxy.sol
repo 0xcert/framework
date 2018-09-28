@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity 0.4.25;
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
@@ -16,9 +16,9 @@ contract TokenTransferProxy is
   /**
    * @dev Error constants.
    */
-  string constant TARGET_AUTHORIZED = "11001";
-  string constant TARGET_NOT_AUTHORIZED = "11002";
-  string constant TRANSFER_FAILED = "11003";
+  string constant TARGET_AUTHORIZED = "012001";
+  string constant TARGET_NOT_AUTHORIZED = "012002";
+  string constant TRANSFER_FAILED = "012003";
 
   /**
    * @dev Only if target is autorized you can invoke functions with this modifier.

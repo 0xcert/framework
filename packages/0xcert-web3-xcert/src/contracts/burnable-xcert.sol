@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "./xcert.sol";
 
@@ -6,6 +6,11 @@ import "./xcert.sol";
  * @dev Xcert implementation where tokens can be destroyed by the owner or operator.
  */
 contract BurnableXcert is Xcert {
+
+  /**
+   * @dev Error constants.
+   */
+  string constant NOT_OWNER_OR_OPERATOR = "008001";
 
   /**
    * @dev Contract constructor.
@@ -28,8 +33,11 @@ contract BurnableXcert is Xcert {
     external
   {
     address tokenOwner = idToOwner[_tokenId];
-    require(tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender]);
     super._burn(_tokenId);
+    require(
+      tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
+      NOT_OWNER_OR_OPERATOR
+    );
     delete idToProof[_tokenId];
   }
 }

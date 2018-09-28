@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity 0.4.25;
 
 import "@0xcert/web3-xcert/src/contracts/xcert.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
@@ -13,8 +13,8 @@ contract XcertMintProxy is
   /**
    * @dev Error constants.
    */
-  string constant TARGET_AUTHORIZED = "11001";
-  string constant TARGET_NOT_AUTHORIZED = "11002";
+  string constant TARGET_AUTHORIZED = "014001";
+  string constant TARGET_NOT_AUTHORIZED = "014002";
 
   /**
    * @dev Only if target is autorized you can invoke functions with this modifier.

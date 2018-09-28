@@ -1,6 +1,6 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
-import "../../contracts/mocks/NFTokenMetadataEnumerableMock.sol";
+import "../../contracts/mocks/nf-token-metadata-enumerable-mock.sol";
 
 contract NFTokenMetadataEnumerableTestMock is
   NFTokenMetadataEnumerableMock

@@ -1,7 +1,7 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
-import "./ERC20.sol";
+import "./erc20.sol";
 
 /**
  * @title ERC20 standard token implementation.
@@ -11,6 +11,13 @@ contract Token is
   ERC20
 {
   using SafeMath for uint256;
+
+  /**
+   * @dev Error constants.
+   */
+  string constant NOT_ENOUGH_BALANCE = "001001";
+  string constant ALLOWANCE_ALREADY_SET = "001002";
+  string constant NOT_ENOUGH_ALLOWANCE = "001003";
 
   /**
    * Token name.
@@ -131,7 +138,7 @@ contract Token is
     public
     returns (bool _success)
   {
-    require(_value <= balances[msg.sender]);
+    require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
     balances[msg.sender] = balances[msg.sender].sub(_value);
     balances[_to] = balances[_to].add(_value);
@@ -153,7 +160,7 @@ contract Token is
     public
     returns (bool _success)
   {
-    require((_value == 0) || (allowed[msg.sender][_spender] == 0));
+    require((_value == 0) || (allowed[msg.sender][_spender] == 0), ALLOWANCE_ALREADY_SET);
 
     allowed[msg.sender][_spender] = _value;
 
@@ -192,8 +199,8 @@ contract Token is
     public
     returns (bool _success)
   {
-    require(_value <= balances[_from]);
-    require(_value <= allowed[_from][msg.sender]);
+    require(_value <= balances[_from], NOT_ENOUGH_BALANCE);
+    require(_value <= allowed[_from][msg.sender], NOT_ENOUGH_ALLOWANCE);
 
     balances[_from] = balances[_from].sub(_value);
     balances[_to] = balances[_to].add(_value);

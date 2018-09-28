@@ -1,6 +1,6 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
-import "../../contracts/mocks/NFTokenEnumerableMock.sol";
+import "../../contracts/mocks/nf-token-enumerable-mock.sol";
 
 contract NFTokenEnumerableTestMock is
   NFTokenEnumerableMock

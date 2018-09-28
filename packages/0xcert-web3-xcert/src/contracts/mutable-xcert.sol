@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "./xcert.sol";
 
@@ -6,6 +6,12 @@ import "./xcert.sol";
  * @dev Xcert implementation where token proof can be updated.
  */
 contract MutableXcert is Xcert {
+
+  /**
+   * @dev Error constants.
+   */
+  string constant EMPTY_PROOF = "010001";
+  string constant NOT_VALID_XCERT = "010002";
 
   /**
    * @dev Emits when proof of a token is changed.
@@ -40,8 +46,8 @@ contract MutableXcert is Xcert {
     external
     isAuthorized()
   {
-    require(bytes(_proof).length > 0);
-    require(idToOwner[_tokenId] != address(0));
+    require(bytes(_proof).length > 0, EMPTY_PROOF);
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     idToProof[_tokenId] = _proof;
     emit TokenProofUpdate(_tokenId, _proof);
   }

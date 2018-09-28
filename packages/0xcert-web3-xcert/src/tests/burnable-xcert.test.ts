@@ -66,7 +66,7 @@ spec.test('successfuly burns an xcert', async (ctx) => {
 
   const balance = await xcert.methods.balanceOf(bob).call();
   ctx.is(balance, '1');
-  await ctx.reverts(() => xcert.methods.ownerOf(id1).call());
+  await ctx.reverts(() => xcert.methods.ownerOf(id1).call(), '006002');
    
   const tokenIndex0 = await xcert.methods.tokenByIndex(0).call();
   ctx.is(tokenIndex0, id2);
@@ -74,8 +74,8 @@ spec.test('successfuly burns an xcert', async (ctx) => {
   const tokenOwnerIndex0 = await xcert.methods.tokenOfOwnerByIndex(bob, 0).call();
   ctx.is(tokenOwnerIndex0, id2);
 
-  await ctx.reverts(() => xcert.methods.tokenByIndex(1).call());
-  await ctx.reverts(() => xcert.methods.tokenOfOwnerByIndex(bob, 1).call());
+  await ctx.reverts(() => xcert.methods.tokenByIndex(1).call(), '006007');
+  await ctx.reverts(() => xcert.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
 spec.test('successfuly burns an xcert from an operator', async (ctx) => {
@@ -104,7 +104,7 @@ spec.test('throws when trying to burn an already burned xcert', async (ctx) => {
 
   await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
   await xcert.methods.burn(id1).send({ from: bob});
-  await ctx.reverts(() => xcert.methods.burn(id1).send({ from: bob}));
+  await ctx.reverts(() => xcert.methods.burn(id1).send({ from: bob }), '006002');
 });
 
 spec.test('throws when a third party tries to burn a xcert', async (ctx) => {
@@ -117,5 +117,5 @@ spec.test('throws when a third party tries to burn a xcert', async (ctx) => {
   const proof1 = ctx.get('proof1');
 
   await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.burn(id1).send({ from: sara}));
+  await ctx.reverts(() => xcert.methods.burn(id1).send({ from: sara }, '008001'));
 });

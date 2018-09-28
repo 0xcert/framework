@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
@@ -14,17 +14,16 @@ contract Minter is
   /**
    * @dev Error constants.
    */
-  string constant INVALID_PROXY = "1001";
-  string constant INVALID_XCERT_MINT_PROXY = "1002";
-  string constant INVALID_SIGNATURE_KIND = "1003";
-
-  string constant TAKER_NOT_EQUAL_TO_SENDER = "2001";
-  string constant TAKER_EQUAL_TO_OWNER = "2002";
-  string constant CLAIM_EXPIRED = "2003";
-  string constant INVALID_SIGNATURE = "2004";
-  string constant MINT_CANCELED = "2005";
-  string constant MINT_ALREADY_PERFORMED = "2006";
-  string constant OWNER_NOT_EQUAL_TO_SENDER = "2007";
+  string constant INVALID_PROXY = "016001";
+  string constant ZERO_ADDRESS = "016002";
+  string constant INVALID_SIGNATURE_KIND = "016003";
+  string constant TAKER_NOT_EQUAL_TO_SENDER = "016004";
+  string constant TAKER_EQUAL_TO_OWNER = "016005";
+  string constant CLAIM_EXPIRED = "016006";
+  string constant INVALID_SIGNATURE = "016007";
+  string constant MINT_CANCELED = "016008";
+  string constant MINT_ALREADY_PERFORMED = "016009";
+  string constant OWNER_NOT_EQUAL_TO_SENDER = "016010";
 
   /**
    * @dev Enum of available signature kinds.
@@ -171,7 +170,7 @@ contract Minter is
   )
     public
   {
-    require(_xcertMintProxy != address(0), INVALID_XCERT_MINT_PROXY);
+    require(_xcertMintProxy != address(0), ZERO_ADDRESS);
     xcertMintProxy = _xcertMintProxy;
   }
 

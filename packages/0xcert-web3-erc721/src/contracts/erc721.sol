@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 /**
  * @dev ERC-721 non-fungible token standard. See https://goo.gl/pc9yoS.

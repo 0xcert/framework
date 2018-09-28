@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "./xcert.sol";
 
@@ -6,6 +6,11 @@ import "./xcert.sol";
  * @dev Xcert implementation where token transfers can be paused.
  */
 contract PausableXcert is Xcert {
+
+  /**
+   * @dev Error constants.
+   */
+  string constant TRANSFERS_PAUSED = "009001";
 
   /**
    * @dev This emits when ability of beeing able to transfer Xcerts changes (paused/unpaused).
@@ -55,7 +60,7 @@ contract PausableXcert is Xcert {
   )
     internal
   {
-    require(!isPaused);
+    require(!isPaused, TRANSFERS_PAUSED);
     super._transferFrom(_from, _to, _tokenId);
   }
 }

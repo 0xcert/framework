@@ -1,8 +1,8 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
-import "@0xcert/web3-erc20/src/contracts/Token.sol";
+import "@0xcert/web3-erc20/src/contracts/token.sol";
 
 /*
  * @title ZXC protocol token.
@@ -14,6 +14,15 @@ contract Zxc is
   Claimable
 {
   using SafeMath for uint256;
+
+  /**
+   * @dev Error constants.
+   */
+  string constant NULL_ADDRESS = "002001";
+  string constant CANNOT_SEND_TO_ZXC_CONTRACT = "002002";
+  string constant CANNOT_SEND_TO_CROWDSALE = "002003";
+  string constant TRANSFERS_NOT_ALLOWED = "002004";
+  string constant NOT_ENOUGH_BALANCE = "002005";
 
   /**
    * Transfer feature state.
@@ -43,9 +52,9 @@ contract Zxc is
     address _to
   )
   {
-    require(_to != address(0x0));
-    require(_to != address(this));
-    require(_to != address(crowdsaleAddress));
+    require(_to != address(0x0), NULL_ADDRESS);
+    require(_to != address(this), CANNOT_SEND_TO_ZXC_CONTRACT);
+    require(_to != address(crowdsaleAddress), CANNOT_SEND_TO_CROWDSALE);
     _;
   }
 
@@ -54,7 +63,7 @@ contract Zxc is
    */
   modifier onlyWhenTransferAllowed()
   {
-    require(transferEnabled || msg.sender == crowdsaleAddress);
+    require(transferEnabled || msg.sender == crowdsaleAddress, TRANSFERS_NOT_ALLOWED);
     _;
   }
 
@@ -132,7 +141,7 @@ contract Zxc is
     external
     onlyOwner()
   {
-    require(_value <= balances[msg.sender]);
+    require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
     balances[owner] = balances[owner].sub(_value);
     tokenTotalSupply = tokenTotalSupply.sub(_value);
