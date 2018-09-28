@@ -1,18 +1,20 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/web3-proxy/src/contracts/token-transfer-proxy.sol";
+import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
 import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
+import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /**
  @dev Contract for decetralized minting of NFTs. 
  */
-contract Minter
+contract Minter is
+  Claimable
 {
   /**
    * @dev Error constants.
    */
-  string constant INVALID_TOKEN_TRANSFER_PROXY = "1001";
+  string constant INVALID_PROXY = "1001";
   string constant INVALID_XCERT_MINT_PROXY = "1002";
   string constant INVALID_SIGNATURE_KIND = "1003";
 
@@ -48,7 +50,11 @@ contract Minter
    * @dev contract addresses
    */
   address public xcertMintProxy;
-  address public tokenTransferProxy;
+
+  /** 
+   * @dev Valid proxy contract addresses.
+   */
+  mapping(uint256 => address) public idToProxy;
 
   /** 
    * @dev Mapping of all canceled mints.
@@ -78,15 +84,20 @@ contract Minter
   }
 
   /**
-   * @dev Struture of fee data.
-   * @param token Address of ERC20 contract.
-   * @param to Fee recipient.
-   * @param amount Amount of tokens to be sent.
+   * @dev Structure representing what to send and where.
+   * @param token Address of the token we are sending.
+   * @param proxy Id representing approved proxy address.
+   * @param from Address of the sender.
+   * @param to Address of the receiver.
+   * @param value Amount of ERC20 or ID of ERC721.
    */
-  struct Fee{
+  struct TransferData 
+  {
     address token;
+    uint256 proxy;
+    address from;
     address to;
-    uint256 amount;
+    uint256 value;
   }
 
   /** 
@@ -100,7 +111,7 @@ contract Minter
   struct MintData{
     address to;
     XcertData xcertData;
-    Fee[] fees;
+    TransferData[] transfers;
     uint256 seed;
     uint256 expirationTimestamp;
   }
@@ -144,21 +155,41 @@ contract Minter
   );
 
   /**
-   * @dev Sets XCT token address, Token proxy address and xcert Proxy address.
-   * @param _tokenTransferProxy Address pointing to TokenTransferProxy contract.
+   * @dev This event emmits when proxy address is changed.
+   */
+  event ProxyChange(
+    uint256 indexed _id,
+    address _proxy
+  );
+
+  /**
+   * @dev Sets Xcert Proxy address.
    * @param _xcertMintProxy Address pointing to XcertProxy contract.
    */
   constructor(
-    address _tokenTransferProxy,
     address _xcertMintProxy
   )
     public
   {
-    require(_tokenTransferProxy != address(0), INVALID_TOKEN_TRANSFER_PROXY);
     require(_xcertMintProxy != address(0), INVALID_XCERT_MINT_PROXY);
-
-    tokenTransferProxy = _tokenTransferProxy;
     xcertMintProxy = _xcertMintProxy;
+  }
+
+  /**
+   * @dev Sets a verified proxy address. 
+   * @notice Can be done through a multisig wallet in the future.
+   * @param _id Id of the proxy.
+   * @param _proxy Proxy address.
+   */
+  function setProxy(
+    uint256 _id,
+    address _proxy
+  )
+    external
+    onlyOwner
+  {
+    idToProxy[_id] = _proxy;
+    emit ProxyChange(_id, _proxy);
   }
 
   /**
@@ -195,7 +226,7 @@ contract Minter
 
     _mintViaXcertMintProxy(_mintData.xcertData, _mintData.to);
 
-    _payfeeAmounts(_mintData.fees, _mintData.to);
+    _makeTransfers(_mintData.transfers);
 
     emit PerformMint(
       _mintData.to,
@@ -243,14 +274,16 @@ contract Minter
   {
     bytes32 temp = 0x0;
 
-    for(uint256 i = 0; i < _mintData.fees.length; i++)
+    for(uint256 i = 0; i < _mintData.transfers.length; i++)
     {
       temp = keccak256(
         abi.encodePacked(
           temp,
-          _mintData.fees[i].token,
-          _mintData.fees[i].to,
-          _mintData.fees[i].amount
+          _mintData.transfers[i].token,
+          _mintData.transfers[i].proxy,
+          _mintData.transfers[i].from,
+          _mintData.transfers[i].to,
+          _mintData.transfers[i].value
         )
       );
     }
@@ -325,30 +358,6 @@ contract Minter
     revert(INVALID_SIGNATURE_KIND);
   }
 
-  /** 
-   * @dev Transfers ERC20 tokens via TokenTransferProxy using transferFrom function.
-   * @param _token Address of token to transferFrom.
-   * @param _from Address transfering token.
-   * @param _to Address receiving token.
-   * @param _value Amount of token to transfer.
-   * @return Success of token transfer.
-   */
-  function _transferViaTokenTransferProxy(
-    address _token,
-    address _from,
-    address _to,
-    uint _value
-  )
-    private
-  {
-    TokenTransferProxy(tokenTransferProxy).execute(
-      _token,
-      _from,
-      _to,
-      _value
-    );
-  }
-
   /**
    * @dev Mints new Xcert via XcertProxy using mint function.
    * @param _xcertData Structure of all mint data.
@@ -385,30 +394,27 @@ contract Minter
   }
 
   /**
-   * @dev Helper function that pays all the feeAmounts.
-   * @param _fees Data about fees needed to be payed.
-   * @param _from Address from which fees are getting paid.
-   * @return Success of payments.
+   * @dev Helper function that makes transfes.
+   * @param _transfers Data needed for transfers.
    */
-  function _payfeeAmounts(
-    Fee[] _fees,
-    address _from
+  function _makeTransfers(
+    TransferData[] _transfers
   )
     private
   {
-    for(uint256 i; i < _fees.length; i++)
+    for(uint256 i = 0; i < _transfers.length; i++)
     {
-      if(_fees[i].to != address(0)
-        && _fees[i].token != address(0)
-        && _fees[i].amount > 0)
-      {
-        _transferViaTokenTransferProxy(
-          _fees[i].token,
-          _from,
-          _fees[i].to,
-          _fees[i].amount
-        );
-      }
+      require(
+        idToProxy[_transfers[i].proxy] != address(0),
+        INVALID_PROXY
+      );
+     
+      Proxy(idToProxy[_transfers[i].proxy]).execute(
+        _transfers[i].token,
+        _transfers[i].from,
+        _transfers[i].to,
+        _transfers[i].value
+      );
     }
   }
 }

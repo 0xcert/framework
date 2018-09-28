@@ -36,7 +36,7 @@ spec.beforeEach(async (ctx) => {
   const minter = await ctx.deploy({
     src: './build/minter.json',
     contract: 'Minter',
-    args: [randomAddress, randomAddress]
+    args: [randomAddress]
   });
   ctx.set('minter', minter);
 });
@@ -57,22 +57,26 @@ spec.beforeEach(async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: randomAddress,
+      proxy: randomAddress,
+      from: bob,
       to: jane,
-      amount: 5000,
+      value: 5000,
     },
     {
       token: randomAddress,
+      proxy: randomAddress,
+      from: bob,
       to: sara,
-      amount: 100,
+      value: 100,
     },
   ];
   const mintData = {
     to: bob,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
