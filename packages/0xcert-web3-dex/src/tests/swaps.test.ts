@@ -921,8 +921,7 @@ cancel.test('succeeds', async (ctx) => {
 
   const logs = await exchange.methods.cancelSwap(dataTuple).send({ from: jane });
   ctx.not(logs.events.CancelSwap, undefined);
-  // TODO(Tadej): check revert for code 2005
-  await ctx.reverts(() => exchange.methods.swap(dataTuple, signatureTuple).send({ from: bob }));
+  await ctx.reverts(() => exchange.methods.swap(dataTuple, signatureTuple).send({ from: bob }), '015007');
 });
 
 cancel.test('throws when trying to cancel an already performed atomic swap', async (ctx) => {
@@ -933,8 +932,7 @@ cancel.test('throws when trying to cancel an already performed atomic swap', asy
   const bob = ctx.get('bob');
 
   await exchange.methods.swap(dataTuple, signatureTuple).send({ from: bob });
-  // TODO(Tadej): check revert for code 2006
-  await ctx.reverts(() => exchange.methods.cancelSwap(dataTuple).send({ from: jane }));
+  await ctx.reverts(() => exchange.methods.cancelSwap(dataTuple).send({ from: jane }), '015008');
 });
 
 cancel.test('throws when a third party tries to cancel an atomic swap', async (ctx) => {
@@ -942,8 +940,7 @@ cancel.test('throws when a third party tries to cancel an atomic swap', async (c
   const exchange = ctx.get('exchange');
   const sara = ctx.get('sara');
 
-  // TODO(Tadej): check revert for code 2009
-  await ctx.reverts(() => exchange.methods.cancelSwap(dataTuple).send({ from: sara }));
+  await ctx.reverts(() => exchange.methods.cancelSwap(dataTuple).send({ from: sara }), '015009');
 });
 
 /**
@@ -995,7 +992,7 @@ fail.test('when proxy not allowed to transfer nft', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }), '006004');
 });
 
 fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
@@ -1045,7 +1042,7 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await omg.methods.approve(tokenProxy._address, omgAmount - 1000).send({ from: bob });
-  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }), '001003');
 });
 
 fail.test('when _to address is not the one performing the transfer', async (ctx) => {
@@ -1093,8 +1090,7 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await cat.methods.approve(nftProxy._address, 2).send({ from: bob });
-  // TODO(Tadej): check revert for code 2001
-  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: sara }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
 
 fail.test('when taker and makes addresses are the same', async (ctx) => {
@@ -1141,8 +1137,7 @@ fail.test('when taker and makes addresses are the same', async (ctx) => {
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await cat.methods.approve(nftProxy._address, 2).send({ from: bob });
-  // TODO(Tadej): check revert for code 2002
-  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: jane }), '015004');
 });
 
 fail.test('when current time is after expirationTimestamp', async (ctx) => {
@@ -1189,8 +1184,7 @@ fail.test('when current time is after expirationTimestamp', async (ctx) => {
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await cat.methods.approve(nftProxy._address, 2).send({ from: bob });
-  // TODO(Tadej): check revert for code 2003
-  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }), '015005');
 });
 
 fail.test('when signature is invalid', async (ctx) => {
@@ -1239,8 +1233,7 @@ fail.test('when signature is invalid', async (ctx) => {
 
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await cat.methods.approve(nftProxy._address, 2).send({ from: bob });
-  // TODO(Tadej): check revert for code 2004
-  await ctx.reverts(() =>exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }));
+  await ctx.reverts(() =>exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }), '015006');
 });
 
 fail.test('when trying to perform an already perfomed swap', async (ctx) => {
@@ -1288,6 +1281,5 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   await cat.methods.approve(nftProxy._address, 1).send({ from: jane });
   await cat.methods.approve(nftProxy._address, 2).send({ from: bob });
   await exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob });
-  // TODO(Tadej): check revert for code 2006
-   await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }));
+  await ctx.reverts(() => exchange.methods.swap(swapDataTuple, signatureDataTuple).send({ from: bob }), '015008');
 });

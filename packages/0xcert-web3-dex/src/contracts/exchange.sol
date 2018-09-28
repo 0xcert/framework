@@ -13,18 +13,15 @@ contract Exchange is
   /**
    * @dev Error constants.
    */
-  string constant INVALID_TOKEN_TRANSFER_PROXY = "1001";
-  string constant INVALID_NF_TOKEN_TRANSFER_PROXY = "1002";
-  string constant INVALID_SIGNATURE_KIND = "1003";
-  string constant INVALID_PROXY = "1004";
-
-  string constant TAKER_NOT_EQUAL_TO_SENDER = "2001";
-  string constant TAKER_EQUAL_TO_MAKER = "2002";
-  string constant CLAIM_EXPIRED = "2003";
-  string constant INVALID_SIGNATURE = "2004";
-  string constant SWAP_CANCELED = "2005";
-  string constant SWAP_ALREADY_PERFORMED = "2006";
-  string constant MAKER_NOT_EQUAL_TO_SENDER = "2007";
+  string constant INVALID_SIGNATURE_KIND = "015001";
+  string constant INVALID_PROXY = "015002";
+  string constant TAKER_NOT_EQUAL_TO_SENDER = "015003";
+  string constant TAKER_EQUAL_TO_MAKER = "015004";
+  string constant CLAIM_EXPIRED = "015005";
+  string constant INVALID_SIGNATURE = "015006";
+  string constant SWAP_CANCELED = "015007";
+  string constant SWAP_ALREADY_PERFORMED = "015008";
+  string constant MAKER_NOT_EQUAL_TO_SENDER = "015009";
 
   /**
    * @dev Enum of available signature kinds.
