@@ -95,5 +95,14 @@ spec.test('throws when trying to update proof to empty', async (ctx) => {
   const proof = ctx.get('proof1');
 
   await xcert.methods.mint(bob, id, url, proof).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.updateTokenProof(id, '').send({ from: owner }));
+  await ctx.reverts(() => xcert.methods.updateTokenProof(id, '').send({ from: owner }), '010001');
+});
+
+spec.test('throws when trying to update xcert that does not exist', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const id = ctx.get('id1');
+  const proof = ctx.get('proof1');
+
+  await ctx.reverts(() => xcert.methods.updateTokenProof(id, proof).send({ from: owner }), '010002');
 });
