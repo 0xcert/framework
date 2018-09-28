@@ -110,7 +110,7 @@ contract Xcert is
   /**
    * @dev Sets authorised address for minting.
    * @param _target Address to set authorized state.
-   * @param _authorized True if the _target is authorised, false to revoke authorization.
+   * @param _authorized True if the _target is authorized, false to revoke authorization.
    */
   function setAuthorizedAddress(
     address _target,
@@ -119,7 +119,6 @@ contract Xcert is
     external
     onlyOwner
   {
-    require(_target != address(0));
     addressToAuthorized[_target] = _authorized;
     emit AuthorizedAddress(_target, _authorized);
   }
@@ -136,7 +135,6 @@ contract Xcert is
     view
     returns (bool)
   {
-    require(_target != address(0));
     return addressToAuthorized[_target];
   }
 }
