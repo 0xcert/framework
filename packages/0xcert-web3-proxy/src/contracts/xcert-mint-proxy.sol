@@ -13,8 +13,8 @@ contract XcertMintProxy is
   /**
    * @dev Error constants.
    */
-  string constant TARGET_AUTHORIZED = "11001";
-  string constant TARGET_NOT_AUTHORIZED = "11002";
+  string constant TARGET_AUTHORIZED = "014001";
+  string constant TARGET_NOT_AUTHORIZED = "014002";
 
   /**
    * @dev Only if target is autorized you can invoke functions with this modifier.
