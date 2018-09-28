@@ -471,7 +471,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const proof1 = ctx.get('proof1');
 
   const tokenReceiver = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenReceiverTestMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
 
@@ -496,7 +496,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const proof1 = ctx.get('proof1');
 
   const tokenReceiver = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenReceiverTestMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
 
