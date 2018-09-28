@@ -19,6 +19,16 @@ contract NFTokenMetadata is
   using AddressUtils for address;
 
   /**
+   * @dev Error constants.
+   */
+  string constant ZERO_ADDRESS = "004001";
+  string constant NOT_VALID_NFT = "004002";
+  string constant NOT_OWNER_OR_OPERATOR = "004003";
+  string constant NOT_OWNER_APPROWED_OR_OPERATOR = "004004";
+  string constant NOT_ABLE_TO_RECEIVE_NFT = "004005";
+  string constant NFT_ALREADY_EXISTS = "004006";
+
+  /**
    * @dev A descriptive name for a collection of NFTs.
    */
   string internal nftName;
@@ -125,7 +135,7 @@ contract NFTokenMetadata is
     view
     returns (uint256)
   {
-    require(_owner != address(0));
+    require(_owner != address(0), ZERO_ADDRESS);
     return ownerToNFTokenCount[_owner];
   }
 
@@ -142,7 +152,7 @@ contract NFTokenMetadata is
     returns (address _owner)
   {
     _owner = idToOwner[_tokenId];
-    require(_owner != address(0));
+    require(_owner != address(0), NOT_VALID_NFT);
   }
 
   /**
@@ -222,7 +232,10 @@ contract NFTokenMetadata is
   {
     // can operate
     address tokenOwner = idToOwner[_tokenId];
-    require(tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender]);
+    require(
+      tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
+      NOT_OWNER_OR_OPERATOR
+    );
 
     idToApproval[_tokenId] = _approved;
     emit Approval(tokenOwner, _approved, _tokenId);
@@ -257,7 +270,7 @@ contract NFTokenMetadata is
     view
     returns (address)
   {
-    require(idToOwner[_tokenId] != address(0));
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
     return idToApproval[_tokenId];
   }
 
@@ -312,7 +325,7 @@ contract NFTokenMetadata is
     view
     returns (string)
   {
-    require(idToOwner[_tokenId] != address(0));
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
     return idToUri[_tokenId];
   }
 
@@ -330,7 +343,7 @@ contract NFTokenMetadata is
   )
     internal
   {
-    require(idToOwner[_tokenId] != address(0));
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
     idToUri[_tokenId] = _uri;
   }
 
@@ -349,8 +362,8 @@ contract NFTokenMetadata is
   )
     internal
   {
-    require(_to != address(0));
-    require(idToOwner[_tokenId] == address(0));
+    require(_to != address(0), ZERO_ADDRESS);
+    require(idToOwner[_tokenId] == address(0), NFT_ALREADY_EXISTS);
 
     // add NFT
     idToOwner[_tokenId] = _to;
@@ -374,7 +387,7 @@ contract NFTokenMetadata is
   {
     // valid NFT
     address owner = idToOwner[_tokenId];
-    require(owner != address(0));
+    require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
     if(idToApproval[_tokenId] != 0)
@@ -409,15 +422,16 @@ contract NFTokenMetadata is
     internal
   {
     // valid NFT
-    require(_from != address(0));
-    require(idToOwner[_tokenId] == _from);
-    require(_to != address(0));
+    require(_from != address(0), ZERO_ADDRESS);
+    require(idToOwner[_tokenId] == _from, NOT_VALID_NFT);
+    require(_to != address(0), ZERO_ADDRESS);
 
     // can transfer
     require(
       _from == msg.sender
       || idToApproval[_tokenId] == msg.sender
-      || ownerToOperators[_from][msg.sender]
+      || ownerToOperators[_from][msg.sender],
+      NOT_OWNER_APPROWED_OR_OPERATOR
     );
 
     // clear approval
@@ -455,7 +469,8 @@ contract NFTokenMetadata is
     if (_to.isContract()) {
       require(
         ERC721TokenReceiver(_to)
-          .onERC721Received(msg.sender, _from, _tokenId, _data) == MAGIC_ON_ERC721_RECEIVED
+          .onERC721Received(msg.sender, _from, _tokenId, _data) == MAGIC_ON_ERC721_RECEIVED,
+        NOT_ABLE_TO_RECEIVE_NFT
       );
     }
 

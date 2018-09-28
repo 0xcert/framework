@@ -99,7 +99,7 @@ spec.test('throws when trying to get count of NFTs owned by 0x0 address', async 
   const nftoken = ctx.get('nfToken');
   const zeroAddress = ctx.get('zeroAddress');
 
-  await ctx.reverts(() => nftoken.methods.balanceOf(zeroAddress).call());
+  await ctx.reverts(() => nftoken.methods.balanceOf(zeroAddress).call(), '004001');
 });
 
 spec.test('throws when trying to mint 2 NFTs with the same ids', async (ctx) => {
@@ -109,7 +109,7 @@ spec.test('throws when trying to mint 2 NFTs with the same ids', async (ctx) => 
   const id1 = ctx.get('id1');
   const url1 = ctx.get('url1');
   await nftoken.methods.mint(bob, id1, url1).send({ from: owner });
-  await ctx.reverts(() => nftoken.methods.mint(bob, id1, url1).send({ from: owner }));
+  await ctx.reverts(() => nftoken.methods.mint(bob, id1, url1).send({ from: owner }), '004006');
 });
 
 spec.test('throws when trying to mint NFT to 0x0 address', async (ctx) => {
@@ -118,7 +118,7 @@ spec.test('throws when trying to mint NFT to 0x0 address', async (ctx) => {
   const zeroAddress = ctx.get('zeroAddress');
   const id1 = ctx.get('id1');
   const url1 = ctx.get('url1');
-  await ctx.reverts(() => nftoken.methods.mint(zeroAddress, id1, url1).send({ from: owner }));
+  await ctx.reverts(() => nftoken.methods.mint(zeroAddress, id1, url1).send({ from: owner }), '004001');
 });
 
 spec.test('finds the correct owner of NFToken id', async (ctx) => {
@@ -137,7 +137,7 @@ spec.test('throws when trying to find owner od non-existing NFT id', async (ctx)
   const nftoken = ctx.get('nfToken');
   const id1 = ctx.get('id1');
 
-  await ctx.reverts(() => nftoken.methods.ownerOf(id1).call());
+  await ctx.reverts(() => nftoken.methods.ownerOf(id1).call(), '004002');
 });
 
 spec.test('correctly approves account', async (ctx) => {
@@ -177,7 +177,7 @@ spec.test('throws when trying to get approval of non-existing NFT id', async (ct
   const nftoken = ctx.get('nfToken');
   const id1 = ctx.get('id1');
   
-  await ctx.reverts(() => nftoken.methods.getApproved(id1).call());
+  await ctx.reverts(() => nftoken.methods.getApproved(id1).call(), '004002');
 });
 
 spec.test('throws when trying to approve NFT ID from a third party', async (ctx) => {
@@ -189,7 +189,7 @@ spec.test('throws when trying to approve NFT ID from a third party', async (ctx)
   const url1 = ctx.get('url1');
 
   await nftoken.methods.mint(bob, id1, url1).send({ from: owner });
-  await ctx.reverts(() => nftoken.methods.approve(sara, id1).send({ from: sara }));
+  await ctx.reverts(() => nftoken.methods.approve(sara, id1).send({ from: sara }), '004003');
 });
 
 spec.test('correctly sets an operator', async (ctx) => {
@@ -297,7 +297,7 @@ spec.test('throws when trying to transfer NFT as an address that is not owner, a
   const url1 = ctx.get('url1');
 
   await nftoken.methods.mint(bob, id1, url1).send({ from: owner });
-  await ctx.reverts(() => nftoken.methods.transferFrom(bob, jane, id1).send({ from: sara }));
+  await ctx.reverts(() => nftoken.methods.transferFrom(bob, jane, id1).send({ from: sara }), '004004');
 });
 
 spec.test('throws when trying to transfer NFT to a zero address', async (ctx) => {
@@ -309,7 +309,7 @@ spec.test('throws when trying to transfer NFT to a zero address', async (ctx) =>
   const url1 = ctx.get('url1');
 
   await nftoken.methods.mint(bob, id1, url1).send({ from: owner });
-  await ctx.reverts(() => nftoken.methods.transferFrom(bob, zeroAddress, id1).send({ from: bob }));
+  await ctx.reverts(() => nftoken.methods.transferFrom(bob, zeroAddress, id1).send({ from: bob }), '004001');
 });
 
 spec.test('throws when trying to transfer a invalid NFT', async (ctx) => {
@@ -322,7 +322,7 @@ spec.test('throws when trying to transfer a invalid NFT', async (ctx) => {
   const id2 = ctx.get('id2');
 
   await nftoken.methods.mint(bob, id1, url1).send({ from: owner });
-  await ctx.reverts(() => nftoken.methods.transferFrom(bob, sara, id2).send({ from: bob }));
+  await ctx.reverts(() => nftoken.methods.transferFrom(bob, sara, id2).send({ from: bob }), '004002');
 });
 
 spec.test('corectly safe transfers NFT from owner', async (ctx) => {
@@ -435,7 +435,7 @@ spec.test('throws when trying to get URI of invalid NFT ID', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const id1 = ctx.get('id1');
 
-  await ctx.reverts(() => nftoken.methods.tokenURI(id1).call());
+  await ctx.reverts(() => nftoken.methods.tokenURI(id1).call(), '004002');
 });
 
 spec.test('corectly burns a NFT', async (ctx) => {
@@ -451,7 +451,7 @@ spec.test('corectly burns a NFT', async (ctx) => {
 
   const balance = await nftoken.methods.balanceOf(bob).call();
   ctx.is(balance, '0');
-  await ctx.reverts(() => nftoken.methods.ownerOf(id1).call());
+  await ctx.reverts(() => nftoken.methods.ownerOf(id1).call(), '004002');
 
   const uri = await nftoken.methods.checkUri(id1).call();
   ctx.is(uri, '');
@@ -462,5 +462,5 @@ spec.test('throws when trying to burn non existant NFT', async (ctx) => {
   const owner = ctx.get('owner');
   const id1 = ctx.get('id1');
 
-  await ctx.reverts(() => nftoken.methods.burn(id1).send({ from: owner }));
+  await ctx.reverts(() => nftoken.methods.burn(id1).send({ from: owner }), '004002');
 });
