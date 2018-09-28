@@ -112,7 +112,7 @@ spec.test('throws when trying to transfer more than available balance', async (c
   const bob = ctx.get('bob');
   const tokenTotalSupply = ctx.get('totalSupply');
   const moreThanBalance = tokenTotalSupply.add(new ctx.web3.utils.BN('1'));
-  await ctx.reverts(() => token.methods.transfer(bob, moreThanBalance).send({ from: owner }));
+  await ctx.reverts(() => token.methods.transfer(bob, moreThanBalance).send({ from: owner }), '001001');
 });
 
 spec.test('returns the correct allowance amount after approval', async (ctx) => {
@@ -147,7 +147,7 @@ spec.test('reverts if owner wants to reset allowance before setting it to 0 firs
   const newTokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('50'));
 
   await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  await ctx.reverts(() => token.methods.approve(bob, newTokenAmount).send({ from: owner }));
+  await ctx.reverts(() => token.methods.approve(bob, newTokenAmount).send({ from: owner }), '001002');
 });
 
 spec.test('successfully resets allowance', async (ctx) => {
@@ -210,7 +210,7 @@ spec.test('throws when trying to transferFrom more than allowed amount', async (
   const tokenAmountAllowed = decimalsMul.mul(new ctx.web3.utils.BN('99'));
 
   await token.methods.approve(bob, tokenAmountAllowed).send({ from: owner });
-  await ctx.reverts(() => token.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob }));
+  await ctx.reverts(() => token.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob }), '001003');
 });
 
 spec.test('throws an error when trying to transferFrom more than _from has', async (ctx) => {
@@ -224,5 +224,5 @@ spec.test('throws an error when trying to transferFrom more than _from has', asy
 
   await token.methods.transfer(bob, tokenAmount).send({ from: owner });
   await token.methods.approve(sara, tokenAmount).send({ from: bob});
-  await ctx.reverts(() => token.methods.transferFrom(bob, sara, tokenAmountToSend).send({ from: sara }));
+  await ctx.reverts(() => token.methods.transferFrom(bob, sara, tokenAmountToSend).send({ from: sara }), '001001');
 });
