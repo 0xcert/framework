@@ -377,7 +377,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
 
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: sara }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: sara }), '016004');
 });
 
 perform.test('fails when trying to perform already performed mint', async (ctx) => {
@@ -430,7 +430,7 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
   await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016009');
 });
 
 perform.test('fails when approved token amount is not sufficient', async (ctx) => {
@@ -482,7 +482,7 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
 
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
   await zxc.methods.approve(tokenProxy._address, 4999).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '001003');
 });
 
 perform.test('fails when proxy does not have the mint rights', async (ctx) => {
@@ -532,7 +532,7 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '007001');
 });
 
 perform.test('fails when to and the owner addresses are the same', async (ctx) => {
@@ -572,7 +572,7 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: owner }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: owner }), '016005');
 });
 
 perform.test('fails if current time is after expirationTimestamp', async (ctx) => {
@@ -624,7 +624,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
 
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016006');
 });
 
 
@@ -685,7 +685,7 @@ cancel.test('succeeds', async (ctx) => {
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
   const logs = await minter.methods.cancelMint(mintTuple).send({ from: owner });
   ctx.not(logs.events.CancelMint, undefined);
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016008');
 });
 
 cancel.test('fails when a third party tries to cancel it', async (ctx) => {
@@ -722,7 +722,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  await ctx.reverts(() => minter.methods.cancelMint(mintTuple).send({ from: jane }));
+  await ctx.reverts(() => minter.methods.cancelMint(mintTuple).send({ from: jane }), '016010');
 });
 
 cancel.test('fails when trying to cancel an already performed mint', async (ctx) => {
@@ -775,5 +775,5 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
   await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
   await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() =>minter.methods.cancelMint(mintTuple).send({ from: owner }));
+  await ctx.reverts(() =>minter.methods.cancelMint(mintTuple).send({ from: owner }), '016009');
 });
