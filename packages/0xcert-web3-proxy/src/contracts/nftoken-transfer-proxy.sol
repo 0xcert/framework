@@ -16,8 +16,8 @@ contract NFTokenTransferProxy is
   /**
    * @dev Error constants.
    */
-  string constant TARGET_AUTHORIZED = "11001";
-  string constant TARGET_NOT_AUTHORIZED = "11002";
+  string constant TARGET_AUTHORIZED = "013001";
+  string constant TARGET_NOT_AUTHORIZED = "013002";
 
   /**
    * @dev Only if target is authorized you can invoke functions with this modifier.
