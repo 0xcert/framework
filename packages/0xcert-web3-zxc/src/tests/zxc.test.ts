@@ -32,7 +32,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const token = await ctx.deploy({ 
-    src: './build/Zxc.json',
+    src: './build/zxc.json',
     contract: 'Zxc',
   });
   ctx.set('token', token);
