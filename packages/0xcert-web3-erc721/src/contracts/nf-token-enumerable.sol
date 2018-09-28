@@ -1,20 +1,42 @@
 pragma solidity ^0.4.25;
 
-import "./ERC721.sol";
-import "./ERC721TokenReceiver.sol";
+import "./erc721.sol";
+import "./erc721-enumerable.sol";
+import "./erc721-token-receiver.sol";
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
 import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
 
 /**
- * @dev Implementation of ERC-721 non-fungible token standard.
+ * @dev Optional enumerable implementation for ERC-721 non-fungible token standard.
  */
-contract NFToken is
+contract NFTokenEnumerable is
   ERC721,
+  ERC721Enumerable,
   SupportsInterface
 {
   using SafeMath for uint256;
   using AddressUtils for address;
+
+  /**
+   * @dev Array of all NFT IDs.
+   */
+  uint256[] internal tokens;
+
+  /**
+   * @dev Mapping from token ID its index in global tokens array.
+   */
+  mapping(uint256 => uint256) internal idToIndex;
+
+  /**
+   * @dev Mapping from owner to list of owned NFT IDs.
+   */
+  mapping(address => uint256[]) internal ownerToIds;
+
+  /**
+   * @dev Mapping from NFT ID to its index in the owner tokens list.
+   */
+  mapping(uint256 => uint256) internal idToOwnerIndex;
 
   /**
    * @dev A mapping from NFT ID to the address that owns it.
@@ -26,16 +48,11 @@ contract NFToken is
    */
   mapping (uint256 => address) internal idToApproval;
 
-   /**
-   * @dev Mapping from owner address to count of his tokens.
-   */
-  mapping (address => uint256) internal ownerToNFTokenCount;
-
   /**
    * @dev Mapping from owner address to mapping of operator addresses.
    */
   mapping (address => mapping (address => bool)) internal ownerToOperators;
-
+  
   /**
    * @dev Magic value of a smart contract that can recieve NFT.
    * Equal to: bytes4(keccak256("onERC721Received(address,address,uint256,bytes)")).
@@ -92,6 +109,7 @@ contract NFToken is
     public
   {
     supportedInterfaces[0x80ac58cd] = true; // ERC721
+    supportedInterfaces[0x780e9d63] = true; // ERC721Enumerable
   }
 
   /**
@@ -107,7 +125,7 @@ contract NFToken is
     returns (uint256)
   {
     require(_owner != address(0));
-    return ownerToNFTokenCount[_owner];
+    return ownerToIds[_owner].length;
   }
 
   /**
@@ -259,6 +277,49 @@ contract NFToken is
   }
 
   /**
+   * @dev Returns the count of all existing NFTs.
+   */
+  function totalSupply()
+    external
+    view
+    returns (uint256)
+  {
+    return tokens.length;
+  }
+
+  /**
+   * @dev Returns NFT ID by its index.
+   * @param _index A counter less than `totalSupply()`.
+   */
+  function tokenByIndex(
+    uint256 _index
+  )
+    external
+    view
+    returns (uint256)
+  {
+    require(_index < tokens.length);
+    return tokens[_index];
+  }
+
+  /**
+   * @dev returns the n-th NFT ID from a list of owner's tokens.
+   * @param _owner Token owner's address.
+   * @param _index Index number representing n-th token in owner's list of tokens.
+   */
+  function tokenOfOwnerByIndex(
+    address _owner,
+    uint256 _index
+  )
+    external
+    view
+    returns (uint256)
+  {
+    require(_index < ownerToIds[_owner].length);
+    return ownerToIds[_owner][_index];
+  }
+
+    /**
    * @dev Mints a new NFT.
    * @notice This is a private function which should be called from user-implemented external
    * mint function. Its purpose is to show and properly initialize data structures when using this
@@ -277,7 +338,13 @@ contract NFToken is
 
     // add NFT
     idToOwner[_tokenId] = _to;
-    ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
+
+    uint256 length = ownerToIds[_to].push(_tokenId);
+    idToOwnerIndex[_tokenId] = length - 1;
+
+    // add to tokens array
+    length = tokens.push(_tokenId);
+    idToIndex[_tokenId] = length - 1;
 
     emit Transfer(address(0), _to, _tokenId);
   }
@@ -305,9 +372,35 @@ contract NFToken is
     }
 
     // remove NFT
-    assert(ownerToNFTokenCount[owner] > 0);
-    ownerToNFTokenCount[owner] = ownerToNFTokenCount[owner] - 1;
+    assert(ownerToIds[owner].length > 0);
+
+    uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
+    uint256 lastTokenIndex = ownerToIds[owner].length - 1;
+
+    if(lastTokenIndex != tokenToRemoveIndex)
+    {
+      uint256 lastToken = ownerToIds[owner][lastTokenIndex];
+      ownerToIds[owner][tokenToRemoveIndex] = lastToken;
+      idToOwnerIndex[lastToken] = tokenToRemoveIndex;
+    }
+
     delete idToOwner[_tokenId];
+    delete idToOwnerIndex[_tokenId];
+    ownerToIds[owner].length--;
+
+    // remove from tokens array
+    assert(tokens.length > 0);
+
+    uint256 tokenIndex = idToIndex[_tokenId];
+    lastTokenIndex = tokens.length - 1;
+    lastToken = tokens[lastTokenIndex];
+
+    tokens[tokenIndex] = lastToken;
+
+    tokens.length--;
+    // Consider adding a conditional check for the last token in order to save GAS.
+    idToIndex[lastToken] = tokenIndex;
+    idToIndex[_tokenId] = 0;
 
     emit Transfer(owner, address(0), _tokenId);
   }
@@ -344,12 +437,24 @@ contract NFToken is
     }
 
     // remove NFT
-    assert(ownerToNFTokenCount[_from] > 0);
-    ownerToNFTokenCount[_from] = ownerToNFTokenCount[_from] - 1;
+    assert(ownerToIds[_from].length > 0);
+
+    uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
+    uint256 lastTokenIndex = ownerToIds[_from].length - 1;
+
+    if(lastTokenIndex != tokenToRemoveIndex)
+    {
+      uint256 lastToken = ownerToIds[_from][lastTokenIndex];
+      ownerToIds[_from][tokenToRemoveIndex] = lastToken;
+      idToOwnerIndex[lastToken] = tokenToRemoveIndex;
+    }
+
+    ownerToIds[_from].length--;
 
     // add NFT
     idToOwner[_tokenId] = _to;
-    ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
+    uint256 length = ownerToIds[_to].push(_tokenId);
+    idToOwnerIndex[_tokenId] = length - 1;
 
     emit Transfer(_from, _to, _tokenId);
   }

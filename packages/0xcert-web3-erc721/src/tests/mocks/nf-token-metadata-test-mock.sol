@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-import "../../contracts/mocks/NFTokenMetadataMock.sol";
+import "../../contracts/mocks/nf-token-metadata-mock.sol";
 
 contract NFTokenMetadataTestMock is
   NFTokenMetadataMock

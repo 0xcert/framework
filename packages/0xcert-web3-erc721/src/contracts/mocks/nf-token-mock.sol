@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-import "../NFToken.sol";
+import "../nf-token.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 
 /**

@@ -41,7 +41,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const nfToken = await ctx.deploy({ 
-    src: './build/NFTokenEnumerableTestMock.json',
+    src: './build/nf-token-enumerable-test-mock.json',
     contract: 'NFTokenEnumerableTestMock',
   });
   ctx.set('nfToken', nfToken);
@@ -341,7 +341,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const id1 = ctx.get('id1');
 
   const tokenReceiver = await ctx.deploy({ 
-    src: './build/NFTokenReceiverTestMock.json',
+    src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
 
@@ -364,7 +364,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const id1 = ctx.get('id1');
 
   const tokenReceiver = await ctx.deploy({ 
-    src: './build/NFTokenReceiverTestMock.json',
+    src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
 

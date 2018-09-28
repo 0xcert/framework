@@ -1,22 +1,39 @@
 pragma solidity ^0.4.25;
 
-import "./ERC721.sol";
-import "./ERC721Enumerable.sol";
-import "./ERC721TokenReceiver.sol";
+import "./erc721.sol";
+import "./erc721-metadata.sol";
+import "./erc721-enumerable.sol";
+import "./erc721-token-receiver.sol";
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
 import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
 
 /**
- * @dev Optional enumerable implementation for ERC-721 non-fungible token standard.
+ * @dev Optional metadata enumerable implementation for ERC-721 non-fungible token standard.
  */
-contract NFTokenEnumerable is
+contract NFTokenMetadataEnumerable is
   ERC721,
+  ERC721Metadata,
   ERC721Enumerable,
   SupportsInterface
 {
   using SafeMath for uint256;
   using AddressUtils for address;
+
+  /**
+   * @dev A descriptive name for a collection of NFTs.
+   */
+  string internal nftName;
+
+  /**
+   * @dev An abbreviated name for NFTs.
+   */
+  string internal nftSymbol;
+
+  /**
+   * @dev Mapping from NFT ID to metadata URI.
+   */
+  mapping (uint256 => string) internal idToUri;
 
   /**
    * @dev Array of all NFT IDs.
@@ -109,6 +126,7 @@ contract NFTokenEnumerable is
     public
   {
     supportedInterfaces[0x80ac58cd] = true; // ERC721
+    supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
     supportedInterfaces[0x780e9d63] = true; // ERC721Enumerable
   }
 
@@ -319,7 +337,64 @@ contract NFTokenEnumerable is
     return ownerToIds[_owner][_index];
   }
 
-    /**
+  /**
+   * @dev Returns a descriptive name for a collection of NFTs.
+   */
+  function name()
+    external
+    view
+    returns (string _name)
+  {
+    _name = nftName;
+  }
+
+  /**
+   * @dev Returns an abbreviated name for NFTs.
+   */
+  function symbol()
+    external
+    view
+    returns (string _symbol)
+  {
+    _symbol = nftSymbol;
+  }
+
+  /**
+   * @notice A distinct Uniform Resource Identifier (URI) for a given asset.
+   * @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC 3986. The URI may point
+   * to a JSON file that conforms to the "ERC721 Metadata JSON Schema".
+   * @param _tokenId Id for which we want URI.
+   */
+  function tokenURI(
+    uint256 _tokenId
+  )
+    external
+    view
+    returns (string)
+  {
+    require(idToOwner[_tokenId] != address(0));
+    return idToUri[_tokenId];
+  }
+
+  /**
+   * @dev Set a distinct URI (RFC 3986) for a given NFT ID.
+   * @notice this is a internal function which should be called from user-implemented external
+   * function. Its purpose is to show and properly initialize data structures when using this
+   * implementation.
+   * @param _tokenId Id for which we want URI.
+   * @param _uri String representing RFC 3986 URI.
+   */
+  function _setTokenUri(
+    uint256 _tokenId,
+    string _uri
+  )
+    internal
+  {
+    require(idToOwner[_tokenId] != address(0));
+    idToUri[_tokenId] = _uri;
+  }
+
+  /**
    * @dev Mints a new NFT.
    * @notice This is a private function which should be called from user-implemented external
    * mint function. Its purpose is to show and properly initialize data structures when using this
@@ -329,7 +404,8 @@ contract NFTokenEnumerable is
    */
   function _mint(
     address _to,
-    uint256 _tokenId
+    uint256 _tokenId,
+    string _uri
   )
     internal
   {
@@ -341,6 +417,9 @@ contract NFTokenEnumerable is
 
     uint256 length = ownerToIds[_to].push(_tokenId);
     idToOwnerIndex[_tokenId] = length - 1;
+
+    // add URI
+    idToUri[_tokenId] = _uri;
 
     // add to tokens array
     length = tokens.push(_tokenId);
@@ -387,6 +466,11 @@ contract NFTokenEnumerable is
     delete idToOwner[_tokenId];
     delete idToOwnerIndex[_tokenId];
     ownerToIds[owner].length--;
+
+    // delete URI
+    if (bytes(idToUri[_tokenId]).length != 0) {
+      delete idToUri[_tokenId];
+    }
 
     // remove from tokens array
     assert(tokens.length > 0);

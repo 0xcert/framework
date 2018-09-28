@@ -1,37 +1,20 @@
 pragma solidity ^0.4.25;
 
-import "./ERC721.sol";
-import "./ERC721Metadata.sol";
-import "./ERC721TokenReceiver.sol";
+import "./erc721.sol";
+import "./erc721-token-receiver.sol";
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
 import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
 
 /**
- * @dev Optional metadata implementation for ERC-721 non-fungible token standard.
+ * @dev Implementation of ERC-721 non-fungible token standard.
  */
-contract NFTokenMetadata is
+contract NFToken is
   ERC721,
-  ERC721Metadata,
   SupportsInterface
 {
   using SafeMath for uint256;
   using AddressUtils for address;
-
-  /**
-   * @dev A descriptive name for a collection of NFTs.
-   */
-  string internal nftName;
-
-  /**
-   * @dev An abbreviated name for NFTs.
-   */
-  string internal nftSymbol;
-
-  /**
-   * @dev Mapping from NFT ID to metadata URI.
-   */
-  mapping (uint256 => string) internal idToUri;
 
   /**
    * @dev A mapping from NFT ID to the address that owns it.
@@ -104,13 +87,11 @@ contract NFTokenMetadata is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftName and nftSymbol.
    */
   constructor()
     public
   {
     supportedInterfaces[0x80ac58cd] = true; // ERC721
-    supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
   }
 
   /**
@@ -278,63 +259,6 @@ contract NFTokenMetadata is
   }
 
   /**
-   * @dev Returns a descriptive name for a collection of NFTs.
-   */
-  function name()
-    external
-    view
-    returns (string _name)
-  {
-    _name = nftName;
-  }
-
-  /**
-   * @dev Returns an abbreviated name for NFTs.
-   */
-  function symbol()
-    external
-    view
-    returns (string _symbol)
-  {
-    _symbol = nftSymbol;
-  }
-
-  /**
-   * @notice A distinct Uniform Resource Identifier (URI) for a given asset.
-   * @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC 3986. The URI may point
-   * to a JSON file that conforms to the "ERC721 Metadata JSON Schema".
-   * @param _tokenId Id for which we want URI.
-   */
-  function tokenURI(
-    uint256 _tokenId
-  )
-    external
-    view
-    returns (string)
-  {
-    require(idToOwner[_tokenId] != address(0));
-    return idToUri[_tokenId];
-  }
-
-  /**
-   * @dev Set a distinct URI (RFC 3986) for a given NFT ID.
-   * @notice this is a internal function which should be called from user-implemented external
-   * function. Its purpose is to show and properly initialize data structures when using this
-   * implementation.
-   * @param _tokenId Id for which we want URI.
-   * @param _uri String representing RFC 3986 URI.
-   */
-  function _setTokenUri(
-    uint256 _tokenId,
-    string _uri
-  )
-    internal
-  {
-    require(idToOwner[_tokenId] != address(0));
-    idToUri[_tokenId] = _uri;
-  }
-
-  /**
    * @dev Mints a new NFT.
    * @notice This is a private function which should be called from user-implemented external
    * mint function. Its purpose is to show and properly initialize data structures when using this
@@ -344,8 +268,7 @@ contract NFTokenMetadata is
    */
   function _mint(
     address _to,
-    uint256 _tokenId,
-    string _uri
+    uint256 _tokenId
   )
     internal
   {
@@ -354,7 +277,6 @@ contract NFTokenMetadata is
 
     // add NFT
     idToOwner[_tokenId] = _to;
-    idToUri[_tokenId] = _uri;
     ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
 
     emit Transfer(address(0), _to, _tokenId);
@@ -386,11 +308,6 @@ contract NFTokenMetadata is
     assert(ownerToNFTokenCount[owner] > 0);
     ownerToNFTokenCount[owner] = ownerToNFTokenCount[owner] - 1;
     delete idToOwner[_tokenId];
-
-    // delete URI
-    if (bytes(idToUri[_tokenId]).length != 0) {
-      delete idToUri[_tokenId];
-    }
 
     emit Transfer(owner, address(0), _tokenId);
   }

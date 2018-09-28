@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-import "../../contracts/ERC721TokenReceiver.sol";
+import "../../contracts/erc721-token-receiver.sol";
 
 contract NFTokenReceiverTestMock is
   ERC721TokenReceiver
