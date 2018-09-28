@@ -114,12 +114,11 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const tokenProxy = ctx.get('tokenProxy');
   const mintProxy = ctx.get('mintProxy');
   const minter = await ctx.deploy({
     src: './build/minter.json',
     contract: 'Minter',
-    args: [tokenProxy._address, mintProxy._address],
+    args: [mintProxy._address],
   });
   ctx.set('minter', minter);
 });
@@ -129,6 +128,7 @@ spec.beforeEach(async (ctx) => {
   const mintProxy = ctx.get('mintProxy');
   const minter = ctx.get('minter');
   const owner = ctx.get('owner');
+  await minter.methods.setProxy(0, tokenProxy._address).send({ from: owner });
   await tokenProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
   await mintProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
 });
@@ -155,11 +155,11 @@ perform.test('Cat #1', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [];
+  const transfer = [];
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfer,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -202,9 +202,11 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -212,7 +214,7 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -261,14 +263,18 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
     {
       token: bnb._address,
+      proxy: 0,
+      from: jane,
       to: sara,
       amount: 100,
     }
@@ -276,7 +282,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -340,9 +346,11 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -350,7 +358,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -390,9 +398,11 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -400,7 +410,7 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -441,9 +451,11 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -451,7 +463,7 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -490,9 +502,11 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -500,7 +514,7 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -536,11 +550,11 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
     uri,
     proof,
   };
-  const fees = [];
+  const transfers = [];
   const mintData = {
     to: owner,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -579,9 +593,11 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -589,7 +605,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() - 1000,
   }
@@ -636,9 +652,11 @@ cancel.test('succeeds', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -646,7 +664,7 @@ cancel.test('succeeds', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -686,9 +704,11 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -696,7 +716,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
@@ -723,9 +743,11 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
     uri,
     proof,
   };
-  const fees = [
+  const transfers = [
     {
       token: zxc._address,
+      proxy: 0,
+      from: jane,
       to: owner,
       amount: 5000,
     },
@@ -733,7 +755,7 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   const mintData = {
     to: jane,
     xcertData,
-    fees,
+    transfers,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
