@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
 import "./ERC20.sol";
