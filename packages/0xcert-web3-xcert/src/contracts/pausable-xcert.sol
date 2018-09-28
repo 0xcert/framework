@@ -8,6 +8,11 @@ import "./xcert.sol";
 contract PausableXcert is Xcert {
 
   /**
+   * @dev Error constants.
+   */
+  string constant TRANSFERS_PAUSED = "009001";
+
+  /**
    * @dev This emits when ability of beeing able to transfer Xcerts changes (paused/unpaused).
    */
   event IsPaused(bool isPaused);
@@ -55,7 +60,7 @@ contract PausableXcert is Xcert {
   )
     internal
   {
-    require(!isPaused);
+    require(!isPaused, TRANSFERS_PAUSED);
     super._transferFrom(_from, _to, _tokenId);
   }
 }
