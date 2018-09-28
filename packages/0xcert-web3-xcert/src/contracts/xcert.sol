@@ -16,6 +16,12 @@ contract Xcert is
   using AddressUtils for address;
 
   /**
+   * @dev Error constants.
+   */
+  string constant NOT_AUTHORIZED = "007001";
+  string constant EMPTY_PROOF = "007002";
+
+  /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
    * @notice Calculated as keccak256(jsonSchema).
    */
@@ -46,7 +52,7 @@ contract Xcert is
    * @dev Guarantees that msg.sender is allowed to mint a new Xcert.
    */
   modifier isAuthorized() {
-    require(msg.sender == owner || addressToAuthorized[msg.sender]);
+    require(msg.sender == owner || addressToAuthorized[msg.sender], NOT_AUTHORIZED);
     _;
   }
 
@@ -77,7 +83,7 @@ contract Xcert is
     external
     isAuthorized()
   {
-    require(bytes(_proof).length > 0);
+    require(bytes(_proof).length > 0, EMPTY_PROOF);
     super._mint(_to, _id, _uri);
     idToProof[_id] = _proof;
   }
