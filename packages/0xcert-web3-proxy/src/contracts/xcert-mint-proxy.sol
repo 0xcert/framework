@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity 0.4.25;
 
 import "@0xcert/web3-xcert/src/contracts/xcert.sol";
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";

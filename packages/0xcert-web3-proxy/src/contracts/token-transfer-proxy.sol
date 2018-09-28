@@ -1,4 +1,5 @@
-pragma solidity 0.4.24;
+pragma solidity 0.4.25;
+
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
