@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
 import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
@@ -14,6 +14,13 @@ contract Zxc is
   Claimable
 {
   using SafeMath for uint256;
+
+  /**
+   * @dev Error constants.
+   */
+  string constant NOT_ENOUGH_BALANCE = "001001";
+  string constant ALLOWANCE_ALREADY_SET = "001002";
+  string constant NOT_ENOUGH_ALLOWANCE = "001003";
 
   /**
    * Transfer feature state.
