@@ -18,9 +18,11 @@ contract Zxc is
   /**
    * @dev Error constants.
    */
-  string constant NOT_ENOUGH_BALANCE = "001001";
-  string constant ALLOWANCE_ALREADY_SET = "001002";
-  string constant NOT_ENOUGH_ALLOWANCE = "001003";
+  string constant NULL_ADDRESS = "002001";
+  string constant CANNOT_SEND_TO_ZXC_CONTRACT = "002002";
+  string constant CANNOT_SEND_TO_CROWDSALE = "002003";
+  string constant TRANSFERS_NOT_ALLOWED = "002004";
+  string constant NOT_ENOUGH_BALANCE = "002005";
 
   /**
    * Transfer feature state.
@@ -50,9 +52,9 @@ contract Zxc is
     address _to
   )
   {
-    require(_to != address(0x0));
-    require(_to != address(this));
-    require(_to != address(crowdsaleAddress));
+    require(_to != address(0x0), NULL_ADDRESS);
+    require(_to != address(this), CANNOT_SEND_TO_ZXC_CONTRACT);
+    require(_to != address(crowdsaleAddress), CANNOT_SEND_TO_CROWDSALE);
     _;
   }
 
@@ -61,7 +63,7 @@ contract Zxc is
    */
   modifier onlyWhenTransferAllowed()
   {
-    require(transferEnabled || msg.sender == crowdsaleAddress);
+    require(transferEnabled || msg.sender == crowdsaleAddress, TRANSFERS_NOT_ALLOWED);
     _;
   }
 
@@ -139,7 +141,7 @@ contract Zxc is
     external
     onlyOwner()
   {
-    require(_value <= balances[msg.sender]);
+    require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
     balances[owner] = balances[owner].sub(_value);
     tokenTotalSupply = tokenTotalSupply.sub(_value);
