@@ -65,7 +65,7 @@ spec.beforeEach(async (ctx) => {
  */
 spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenMetadataEnumerableMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['cat', 'CAT'],
   });
@@ -102,7 +102,7 @@ spec.beforeEach(async (ctx) => {
  */
 spec.beforeEach(async (ctx) => {
   const dog = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenMetadataEnumerableMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['dog', 'DOG'],
   });
@@ -121,7 +121,7 @@ spec.beforeEach(async (ctx) => {
  */
 spec.beforeEach(async (ctx) => {
   const bee = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenMetadataEnumerableMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['bee', 'BEE'],
   });
@@ -140,7 +140,7 @@ spec.beforeEach(async (ctx) => {
  */
 spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({ 
-    src: '@0xcert/web3-erc721/build/NFTokenMetadataEnumerableMock.json',
+    src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['fox', 'FOX'],
   });
@@ -160,7 +160,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const zxc = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
@@ -174,7 +174,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const bnb = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
@@ -188,7 +188,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const bob = ctx.get('bob');
   const gnt = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: bob
   });
@@ -202,7 +202,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const bob = ctx.get('bob');
   const omg = await ctx.deploy({
-    src: '@0xcert/web3-erc20/build/TokenMock.json',
+    src: '@0xcert/web3-erc20/build/token-mock.json',
     contract: 'TokenMock',
     from: bob
   });

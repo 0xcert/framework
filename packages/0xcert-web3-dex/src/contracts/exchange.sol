@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
