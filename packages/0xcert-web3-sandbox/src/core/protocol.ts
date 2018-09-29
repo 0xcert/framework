@@ -117,7 +117,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.minter.abi,
       bytecode: contracts.minter.bytecode,
-      args: [this.tokenTransferProxy._address, this.xcertMintProxy._address],
+      args: [this.xcertMintProxy._address],
       from,
     });
 

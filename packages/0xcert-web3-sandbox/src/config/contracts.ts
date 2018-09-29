@@ -1,8 +1,8 @@
-const { Exchange } = require('@0xcert/web3-dex/build/exchange');
-const { Minter } = require('@0xcert/web3-dxm/build/Minter');
 const { XcertMintProxy } = require('@0xcert/web3-proxy/build/xcert-mint-proxy');
 const { TokenTransferProxy } = require('@0xcert/web3-proxy/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/web3-proxy/build/nftoken-transfer-proxy');
+const { Exchange } = require('@0xcert/web3-dex/build/exchange');
+const { Minter } = require('@0xcert/web3-dxm/build/Minter');
 
 /**
  * Xcert mint proxy contract data.

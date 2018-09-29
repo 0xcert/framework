@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/web3-dxm",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha0",
   "description": "Decentralized minter implementation for 0xcert protocol. ",
   "scripts": {
     "compile": "specron compile",
@@ -11,15 +11,15 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-utils": "^1.1.0",
-    "@0xcert/web3-erc20": "file:../0xcert-web3-erc20",
-    "@0xcert/web3-erc721": "file:../0xcert-web3-erc721",
-    "@0xcert/web3-proxy": "file:../0xcert-web3-proxy",
-    "@0xcert/web3-xcert": "file:../0xcert-web3-xcert",
-    "@specron/cli": "latest",
-    "@specron/spec": "latest",
+    "@0xcert/web3-erc20": "0.0.0-alpha0",
+    "@0xcert/web3-erc721": "0.0.0-alpha0",
+    "@0xcert/web3-proxy": "0.0.0-alpha0",
+    "@0xcert/web3-xcert": "0.0.0-alpha0",
+    "@specron/cli": "0.0.46",
+    "@specron/spec": "0.0.46",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
-    "typescript": "^3.0.1",
-    "web3": "1.0.0-beta.36"
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
   }
 }
