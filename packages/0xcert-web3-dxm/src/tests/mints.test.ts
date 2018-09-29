@@ -17,7 +17,10 @@ interface Data {
   minter?: any;
   tokenProxy?: any;
   mintProxy?: any;
+  nftProxy? :any;
   cat?: any;
+  dog?: any;
+  fox?: any;
   owner?: string;
   bob?: string;
   jane?: string;
@@ -70,6 +73,56 @@ spec.beforeEach(async (ctx) => {
 });
 
 /**
+ * Dog
+ * Jane owns: #1, #2, #3
+ */
+spec.beforeEach(async (ctx) => {
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const dog = await ctx.deploy({ 
+    src: '@0xcert/web3-xcert/build/xcert-mock.json',
+    contract: 'XcertMock',
+    args: ['dog', 'DOG', '0xa65de9e6'],
+  });
+  await dog.methods
+    .mint(jane, 1, '0xcert.org', 'proof')
+    .send({
+      from: owner,
+    });
+  await dog.methods
+    .mint(jane, 2, '0xcert.org', 'proof')
+    .send({
+      from: owner,
+    });
+  await dog.methods
+    .mint(jane, 3, '0xcert.org', 'proof')
+    .send({
+      from: owner,
+    });
+  ctx.set('dog', dog);
+});
+
+/**
+ * Fox
+ * Jane owns: #1
+ */
+spec.beforeEach(async (ctx) => {
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const fox = await ctx.deploy({ 
+    src: '@0xcert/web3-xcert/build/xcert-mock.json',
+    contract: 'XcertMock',
+    args: ['fox', 'FOX', '0xa65de9e6'],
+  });
+  await fox.methods
+  .mint(jane, 1, '0xcert.org', 'proof')
+  .send({
+    from: owner,
+  });
+  ctx.set('fox', fox);
+});
+
+/**
  * ZXC
  * Jane owns: all
  */
@@ -106,6 +159,14 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const nftProxy = await ctx.deploy({
+    src: '@0xcert/web3-proxy/build/nftoken-transfer-proxy.json',
+    contract: 'NFTokenTransferProxy'
+  });
+  ctx.set('nftProxy', nftProxy);
+});
+
+spec.beforeEach(async (ctx) => {
   const mintProxy = await ctx.deploy({
     src: '@0xcert/web3-proxy/build/xcert-mint-proxy.json',
     contract: 'XcertMintProxy',
@@ -126,11 +187,14 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const mintProxy = ctx.get('mintProxy');
+  const nftProxy = ctx.get('nftProxy');
   const minter = ctx.get('minter');
   const owner = ctx.get('owner');
   await minter.methods.setProxy(0, tokenProxy._address).send({ from: owner });
+  await minter.methods.setProxy(1, nftProxy._address).send({ from: owner });
   await tokenProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
   await mintProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
+  await nftProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
 });
 
 /**
@@ -316,15 +380,264 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
 });
 
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
+  const minter = ctx.get('minter');
+  const mintProxy = ctx.get('mintProxy');
+  const nftProxy = ctx.get('nftProxy');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const cat = ctx.get('cat');
+  const dog = ctx.get('dog');
+  const id = ctx.get('id1');
+  const uri = ctx.get('url1');
+  const proof = ctx.get('proof1');
+
+  const xcertData = {
+    xcert: cat._address,
+    id,
+    uri,
+    proof,
+  };
+  const transfers = [
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 1,
+    },
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 2,
+    },
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 3,
+    },
+  ];
+  const mintData = {
+    to: jane,
+    xcertData,
+    transfers,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  }
+  const mintTuple = ctx.tuple(mintData);
+
+  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
+  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
+  await dog.methods.approve(nftProxy._address, 2).send({ from: jane });
+  await dog.methods.approve(nftProxy._address, 3).send({ from: jane });
+  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.PerformMint, undefined);
+
+  const cat1Owner = await cat.methods.ownerOf(1).call();
+  ctx.is(cat1Owner, jane);
+
+  const dog1Owner = await dog.methods.ownerOf(1).call();
+  ctx.is(dog1Owner, owner);
+
+  const dog2Owner = await dog.methods.ownerOf(2).call();
+  ctx.is(dog2Owner, owner);
   
+  const dog3Owner = await dog.methods.ownerOf(3).call();
+  ctx.is(dog3Owner, owner);
 });
 
 perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
+  const minter = ctx.get('minter');
+  const mintProxy = ctx.get('mintProxy');
+  const nftProxy = ctx.get('nftProxy');
+  const tokenProxy = ctx.get('tokenProxy');
+  const zxc = ctx.get('zxc');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const cat = ctx.get('cat');
+  const dog = ctx.get('dog');
+  const id = ctx.get('id1');
+  const uri = ctx.get('url1');
+  const proof = ctx.get('proof1');
+
+  const xcertData = {
+    xcert: cat._address,
+    id,
+    uri,
+    proof,
+  };
+  const transfers = [
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 1,
+    },
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 2,
+    },
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 3,
+    },
+    {
+      token: zxc._address,
+      proxy: 0,
+      from: jane,
+      to: owner,
+      amount: 10,
+    },
+  ];
+  const mintData = {
+    to: jane,
+    xcertData,
+    transfers,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  }
+  const mintTuple = ctx.tuple(mintData);
+
+  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
+  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
+  await dog.methods.approve(nftProxy._address, 2).send({ from: jane });
+  await dog.methods.approve(nftProxy._address, 3).send({ from: jane });
+  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
   
+  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.PerformMint, undefined);
+
+  const cat1Owner = await cat.methods.ownerOf(1).call();
+  ctx.is(cat1Owner, jane);
+
+  const dog1Owner = await dog.methods.ownerOf(1).call();
+  ctx.is(dog1Owner, owner);
+
+  const dog2Owner = await dog.methods.ownerOf(2).call();
+  ctx.is(dog2Owner, owner);
+  
+  const dog3Owner = await dog.methods.ownerOf(3).call();
+  ctx.is(dog3Owner, owner);
+
+  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  ctx.is(ownerZxcBalance, "10");
 });
 
-perform.test('Dog #1, Fox #7, 10 ZXC => Cat #1', async (ctx) => {
+perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
+  const minter = ctx.get('minter');
+  const mintProxy = ctx.get('mintProxy');
+  const nftProxy = ctx.get('nftProxy');
+  const tokenProxy = ctx.get('tokenProxy');
+  const zxc = ctx.get('zxc');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const cat = ctx.get('cat');
+  const dog = ctx.get('dog');
+  const fox = ctx.get('fox');
+  const id = ctx.get('id1');
+  const uri = ctx.get('url1');
+  const proof = ctx.get('proof1');
+
+  const xcertData = {
+    xcert: cat._address,
+    id,
+    uri,
+    proof,
+  };
+  const transfers = [
+    {
+      token: dog._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 1,
+    },
+    {
+      token: fox._address,
+      proxy: 1,
+      from: jane,
+      to: owner,
+      amount: 1,
+    },
+    {
+      token: zxc._address,
+      proxy: 0,
+      from: jane,
+      to: owner,
+      amount: 10,
+    },
+  ];
+  const mintData = {
+    to: jane,
+    xcertData,
+    transfers,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  }
+  const mintTuple = ctx.tuple(mintData);
+
+  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
+  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
+  await fox.methods.approve(nftProxy._address, 1).send({ from: jane });
+  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
   
+  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.PerformMint, undefined);
+
+  const cat1Owner = await cat.methods.ownerOf(1).call();
+  ctx.is(cat1Owner, jane);
+
+  const dog1Owner = await dog.methods.ownerOf(1).call();
+  ctx.is(dog1Owner, owner);
+
+  const fox1Owner = await fox.methods.ownerOf(1).call();
+  ctx.is(fox1Owner, owner);
+
+  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  ctx.is(ownerZxcBalance, "10");
 });
 
 perform.test('fails if msg.sender is not the receiver', async (ctx) => {
