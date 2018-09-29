@@ -1,8 +1,98 @@
-const { Exchange } = require('@0xcert/web3-dex/build/exchange');
-const { Minter } = require('@0xcert/web3-dxm/build/Minter');
+const { TokenMock } = require('@0xcert/web3-erc20/build/token-mock');
+const { NFTokenEnumerableMock } = require('@0xcert/web3-erc721/build/nf-token-enumerable-mock');
+const { NFTokenMetadataMock } = require('@0xcert/web3-erc721/build/nf-token-metadata-mock');
+const { NFTokenMock } = require('@0xcert/web3-erc721/build/nf-token-mock');
+const { Zxc } = require('@0xcert/web3-zxc/build/zxc');
+const { BurnableXcertMock } = require('@0xcert/web3-xcert/build/burnable-xcert-mock');
+const { MutableXcertMock } = require('@0xcert/web3-xcert/build/mutable-xcert-mock');
+const { PausableXcertMock } = require('@0xcert/web3-xcert/build/pausable-xcert-mock');
+const { RevokableXcertMock } = require('@0xcert/web3-xcert/build/revokable-xcert-mock');
+const { XcertMock } = require('@0xcert/web3-xcert/build/xcert-mock');
 const { XcertMintProxy } = require('@0xcert/web3-proxy/build/xcert-mint-proxy');
 const { TokenTransferProxy } = require('@0xcert/web3-proxy/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/web3-proxy/build/nftoken-transfer-proxy');
+const { Exchange } = require('@0xcert/web3-dex/build/exchange');
+const { Minter } = require('@0xcert/web3-dxm/build/Minter');
+
+/**
+ * ERC20 contract data.
+ */
+export const erc20 = {
+  abi: TokenMock.abi,
+  bytecode: TokenMock.evm.bytecode.object,
+};
+
+/**
+ * Enumerable ERC721 contract data.
+ */
+export const erc721Enumerable = {
+  abi: NFTokenEnumerableMock.abi,
+  bytecode: NFTokenEnumerableMock.evm.bytecode.object,
+};
+
+/**
+ * ERC721 metadata contract data.
+ */
+export const erc721Metadata = {
+  abi: NFTokenMetadataMock.abi,
+  bytecode: NFTokenMetadataMock.evm.bytecode.object,
+};
+
+/**
+ * ERC721 contract data.
+ */
+export const erc721 = {
+  abi: NFTokenMock.abi,
+  bytecode: NFTokenMock.evm.bytecode.object,
+};
+
+/**
+ * ZXC contract data.
+ */
+export const zxc = {
+  abi: Zxc.abi,
+  bytecode: Zxc.evm.bytecode.object,
+};
+
+/**
+ * Burnable Xcert contract data.
+ */
+export const xcertBurnable = {
+  abi: BurnableXcertMock.abi,
+  bytecode: BurnableXcertMock.evm.bytecode.object,
+};
+
+/**
+ * Mutable Xcert contract data.
+ */
+export const xcertMutable = {
+  abi: MutableXcertMock.abi,
+  bytecode: MutableXcertMock.evm.bytecode.object,
+};
+
+/**
+ * Pausable Xcert contract data.
+ */
+export const xcertPausable = {
+  abi: PausableXcertMock.abi,
+  bytecode: PausableXcertMock.evm.bytecode.object,
+};
+
+/**
+ * Revokable Xcert contract data.
+ */
+export const xcertRevokable = {
+  abi: RevokableXcertMock.abi,
+  bytecode: RevokableXcertMock.evm.bytecode.object,
+};
+
+/**
+ * Xcert contract data.
+ */
+export const xcert = {
+  abi: XcertMock.abi,
+  bytecode: XcertMock.evm.bytecode.object,
+};
 
 /**
  * Xcert mint proxy contract data.

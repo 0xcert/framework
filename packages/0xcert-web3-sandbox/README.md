@@ -18,7 +18,7 @@ import { Protocol } from '@0xcert/web3-sandbox';
 const spec = new Spec();
 
 spec.before(async (stage) => {
-   await Protocol.deploy(stage.web3);
+  stage.set('protocol', await Protocol.deploy(stage.web3));
 });
 
 export default spec;
@@ -38,6 +38,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   stage.set('sandbox', await Sandbox.listen());
+  stage.set('protocol', stage.get('sandbox').protocol);
 });
 
 spec.after(async (stage) => {
