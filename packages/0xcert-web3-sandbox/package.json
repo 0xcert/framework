@@ -27,7 +27,11 @@
   "devDependencies": {
     "@0xcert/web3-dex": "0.0.0-alpha0",
     "@0xcert/web3-dxm": "0.0.0-alpha0",
+    "@0xcert/web3-erc20": "0.0.0-alpha0",
+    "@0xcert/web3-erc721": "0.0.0-alpha0",
     "@0xcert/web3-proxy": "0.0.0-alpha0",
+    "@0xcert/web3-xcert": "0.0.0-alpha0",
+    "@0xcert/web3-zxc": "0.0.0-alpha0",
     "@hayspec/cli": "^0.4.21",
     "@hayspec/spec": "^0.4.21",
     "nyc": "^13.0.1",
