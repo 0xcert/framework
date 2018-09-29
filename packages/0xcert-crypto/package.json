@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/crypto",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha0",
   "description": "Isomorphic cryptographic functions.",
   "main": "./dist/index.js",
   "types": "./lib/index.d.ts",
@@ -11,10 +11,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "latest",
-    "@hayspec/spec": "latest",
-    "@types/node": "^10.9.3",
-    "ts-node": "latest",
-    "typescript": "latest"
+    "@hayspec/cli": "^0.4.21",
+    "@hayspec/spec": "^0.4.21",
+    "@types/node": "^10.11.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1"
   }
 }
