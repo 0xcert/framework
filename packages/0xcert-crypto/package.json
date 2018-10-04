@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.7.1",
-    "@hayspec/spec": "^0.7.1",
+    "@hayspec/cli": "^0.7.2",
+    "@hayspec/spec": "^0.7.2",
     "@types/node": "^10.11.4",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"

@@ -25,8 +25,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "^0.2.3",
-    "@specron/spec": "^0.2.3",
+    "@specron/cli": "^0.2.4",
+    "@specron/spec": "^0.2.4",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
