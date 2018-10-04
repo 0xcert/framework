@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+  "commands": [
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "Test packages.",
+      "description": "Executes automated tests.",
+      "enableParallelism": false
+    }
+  ],
+  "parameters": []
+}

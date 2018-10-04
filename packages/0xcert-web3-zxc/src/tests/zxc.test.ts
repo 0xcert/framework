@@ -51,8 +51,8 @@ spec.test('emits Transfer event on transfer', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  const logs = await token.methods.transfer(bob, tokenAmount).send({ from: owner });
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  const logs = await token.instance.methods.transfer(bob, tokenAmount).send({ from: owner });
   ctx.not(logs.events.Transfer, undefined);
 });
 
@@ -63,7 +63,7 @@ spec.test('throws when trying to transfer before transfer is enabled', async (ct
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await ctx.reverts(() => token.methods.transfer(bob, tokenAmount).send({ from: owner }), '002004');
+  await ctx.reverts(() => token.instance.methods.transfer(bob, tokenAmount).send({ from: owner }), '002004');
 });
 
 spec.test('throws when trying to transfer more than available balance', async (ctx) => {
@@ -75,9 +75,9 @@ spec.test('throws when trying to transfer more than available balance', async (c
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
   const moreThanBalance = tokenAmount.add(decimalsMul.mul(new ctx.web3.utils.BN('1'))).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.transfer(bob, tokenAmount.toString()).send({ from: owner })
-  await ctx.reverts(() => token.methods.transfer(sara, moreThanBalance).send({ from: bob }), '001001');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.transfer(bob, tokenAmount.toString()).send({ from: owner })
+  await ctx.reverts(() => token.instance.methods.transfer(sara, moreThanBalance).send({ from: bob }), '001001');
 });
 
 spec.test('throws when trying to transfer to zero address', async (ctx) => {
@@ -87,8 +87,8 @@ spec.test('throws when trying to transfer to zero address', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await ctx.reverts(() => token.methods.transfer(zeroAddress, tokenAmount).send({ from: owner }), '002001');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transfer(zeroAddress, tokenAmount).send({ from: owner }), '002001');
 });
 
 spec.test('throws when trying to transfer to contract address', async (ctx) => {
@@ -97,8 +97,8 @@ spec.test('throws when trying to transfer to contract address', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await ctx.reverts(() => token.methods.transfer(token._address, tokenAmount).send({ from: owner }), '002002');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transfer(token.receipt._address, tokenAmount).send({ from: owner }), '002002');
 });
 
 spec.test('throws when trying to transfer to crowdsale address', async (ctx) => {
@@ -108,9 +108,9 @@ spec.test('throws when trying to transfer to crowdsale address', async (ctx) => 
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.setCrowdsaleAddress(bob).send({ from: owner });
-  await ctx.reverts(() => token.methods.transfer(bob, tokenAmount).send({ from: bob }), '002003');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.setCrowdsaleAddress(bob).send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transfer(bob, tokenAmount).send({ from: bob }), '002003');
 });
 
 spec.test('returns the correct allowance amount after approval', async (ctx) => {
@@ -120,8 +120,8 @@ spec.test('returns the correct allowance amount after approval', async (ctx) => 
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  const allowance = await token.methods.allowance(owner, bob).call();
+  await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
+  const allowance = await token.instance.methods.allowance(owner, bob).call();
   ctx.is(allowance, tokenAmount);
 });
 
@@ -132,7 +132,7 @@ spec.test('emits Approval event after approval', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  const logs = await token.methods.approve(bob, tokenAmount).send({ from: owner });
+  const logs = await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
   ctx.not(logs.events.Approval, undefined);
 });
 
@@ -145,13 +145,13 @@ spec.test('returns correct balances after transfering from another account', asy
   const tokenTotalSupply = ctx.get('totalSupply');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
-  await token.methods.transferFrom(owner, sara, tokenAmount.toString()).send({ from: bob });
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
+  await token.instance.methods.transferFrom(owner, sara, tokenAmount.toString()).send({ from: bob });
 
-  const balance0 = await token.methods.balanceOf(owner).call();
-  const balance1 = await token.methods.balanceOf(sara).call();
-  const balance2 = await token.methods.balanceOf(bob).call();
+  const balance0 = await token.instance.methods.balanceOf(owner).call();
+  const balance1 = await token.instance.methods.balanceOf(sara).call();
+  const balance2 = await token.instance.methods.balanceOf(bob).call();
 
   ctx.is(balance0, tokenTotalSupply.sub(tokenAmount).toString());
   ctx.is(balance1, tokenAmount.toString());
@@ -166,9 +166,9 @@ spec.test('emits Transfer event on transferFrom', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  const logs = await token.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob });
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
+  const logs = await token.instance.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 });
 
@@ -181,9 +181,9 @@ spec.test('throws when trying to transferFrom more than allowed amount', async (
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
   const moreThanBalance = tokenAmount.add(decimalsMul.mul(new ctx.web3.utils.BN('1'))).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
-  await ctx.reverts(() => token.methods.transferFrom(owner, sara, moreThanBalance).send({ from: bob }), '001003');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transferFrom(owner, sara, moreThanBalance).send({ from: bob }), '001003');
 });
 
 spec.test('throws an error when trying to transferFrom more than _from has', async (ctx) => {
@@ -195,10 +195,10 @@ spec.test('throws an error when trying to transferFrom more than _from has', asy
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
   const moreThanBalance = tokenAmount.add(decimalsMul.mul(new ctx.web3.utils.BN('1'))).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.transfer(bob, tokenAmount.toString()).send({ from: owner })
-  await token.methods.approve(sara, moreThanBalance).send({ from: bob });
-  await ctx.reverts(() => token.methods.transferFrom(bob, owner, moreThanBalance).send({ from: sara }), '001001');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.transfer(bob, tokenAmount.toString()).send({ from: owner })
+  await token.instance.methods.approve(sara, moreThanBalance).send({ from: bob });
+  await ctx.reverts(() => token.instance.methods.transferFrom(bob, owner, moreThanBalance).send({ from: sara }), '001001');
 });
 
 spec.test('throws when trying to transferFrom before transfers enabled', async (ctx) => {
@@ -209,8 +209,8 @@ spec.test('throws when trying to transferFrom before transfers enabled', async (
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  await ctx.reverts(() => token.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob }), '002004');
+  await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transferFrom(owner, sara, tokenAmount).send({ from: bob }), '002004');
 });
 
 spec.test('throws when trying to transferFrom to 0x0', async (ctx) => {
@@ -221,9 +221,9 @@ spec.test('throws when trying to transferFrom to 0x0', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  await ctx.reverts(() => token.methods.transferFrom(owner, zeroAddress, tokenAmount).send({ from: bob }), '002001');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transferFrom(owner, zeroAddress, tokenAmount).send({ from: bob }), '002001');
 });
 
 spec.test('throws when trying to transferFrom to contract address', async (ctx) => {
@@ -233,9 +233,9 @@ spec.test('throws when trying to transferFrom to contract address', async (ctx) 
   const decimalsMul = ctx.get('decimalsMul');
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await token.methods.approve(bob, tokenAmount).send({ from: owner });
-  await ctx.reverts(() => token.methods.transferFrom(owner, token._address, tokenAmount).send({ from: bob }), '002002');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.approve(bob, tokenAmount).send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.transferFrom(owner, token.receipt._address, tokenAmount).send({ from: bob }), '002002');
 });
 
 spec.test('allows token burning by the owner', async (ctx) => {
@@ -244,11 +244,11 @@ spec.test('allows token burning by the owner', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokensToBurn = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
-  await token.methods.enableTransfer().send({ from: owner });
-  const totalSupplyPrior = await token.methods.totalSupply().call();
-  const logs = await token.methods.burn(tokensToBurn.toString()).send({ from: owner })
-  const totalSupplyAfter = await token.methods.totalSupply().call();
-  const balance = await token.methods.balanceOf(owner).call();
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  const totalSupplyPrior = await token.instance.methods.totalSupply().call();
+  const logs = await token.instance.methods.burn(tokensToBurn.toString()).send({ from: owner })
+  const totalSupplyAfter = await token.instance.methods.totalSupply().call();
+  const balance = await token.instance.methods.balanceOf(owner).call();
 
   ctx.is(balance, totalSupplyAfter);
   ctx.is(totalSupplyAfter, new ctx.web3.utils.BN(totalSupplyPrior).sub(tokensToBurn).toString());
@@ -262,8 +262,8 @@ spec.test('allows only owner to burn tokens', async (ctx) => {
   const decimalsMul = ctx.get('decimalsMul');
   const tokensToBurn = decimalsMul.mul(new ctx.web3.utils.BN('100')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await ctx.reverts(() => token.methods.burn(tokensToBurn).send({ from: bob }));
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.burn(tokensToBurn).send({ from: bob }));
 });
 
 spec.test('does not allow owner to burn more than available balance', async (ctx) => {
@@ -272,8 +272,8 @@ spec.test('does not allow owner to burn more than available balance', async (ctx
   const tokenTotalSupply = ctx.get('totalSupply');
   const tokensToBurn = tokenTotalSupply.add(new ctx.web3.utils.BN('1')).toString();
 
-  await token.methods.enableTransfer().send({ from: owner });
-  await ctx.reverts(() => token.methods.burn(tokensToBurn).send({ from: owner }), '002005');
+  await token.instance.methods.enableTransfer().send({ from: owner });
+  await ctx.reverts(() => token.instance.methods.burn(tokensToBurn).send({ from: owner }), '002005');
 });
 
 spec.test('should set crowdsale address', async (ctx) => {
@@ -281,8 +281,8 @@ spec.test('should set crowdsale address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
 
-  await token.methods.setCrowdsaleAddress(bob).send({ from: owner });
-  const crowdsaleAddress = await token.methods.crowdsaleAddress().call();
+  await token.instance.methods.setCrowdsaleAddress(bob).send({ from: owner });
+  const crowdsaleAddress = await token.instance.methods.crowdsaleAddress().call();
   ctx.is(crowdsaleAddress, bob);
 });
 
@@ -292,12 +292,12 @@ spec.test('should re-set crowdsale address', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
 
-  await token.methods.setCrowdsaleAddress(bob).send({ from: owner });
-  let crowdsaleAddress = await token.methods.crowdsaleAddress().call();
+  await token.instance.methods.setCrowdsaleAddress(bob).send({ from: owner });
+  let crowdsaleAddress = await token.instance.methods.crowdsaleAddress().call();
   ctx.is(crowdsaleAddress, bob);
 
-  await token.methods.setCrowdsaleAddress(sara).send({ from: owner });
-  crowdsaleAddress = await token.methods.crowdsaleAddress().call();
+  await token.instance.methods.setCrowdsaleAddress(sara).send({ from: owner });
+  crowdsaleAddress = await token.instance.methods.crowdsaleAddress().call();
   ctx.is(crowdsaleAddress, sara);
 });
 
@@ -305,7 +305,7 @@ spec.test('should set crowdsale address only if called by owner', async (ctx) =>
   const token = ctx.get('token');
   const bob = ctx.get('bob');
 
-  await ctx.reverts(() => token.methods.setCrowdsaleAddress(bob).send({ from: bob }));
+  await ctx.reverts(() => token.instance.methods.setCrowdsaleAddress(bob).send({ from: bob }));
 });
 
 spec.test('should allow transfers only for crowdsale address when transfers disabled', async (ctx) => {
@@ -319,25 +319,25 @@ spec.test('should allow transfers only for crowdsale address when transfers disa
   const tokenAmount10 = decimalsMul.mul(new ctx.web3.utils.BN('10')).toString();
   const tokenAmount5 = decimalsMul.mul(new ctx.web3.utils.BN('5')).toString();
 
-  await token.methods.setCrowdsaleAddress(bob).send({ from: owner });
-  await token.methods.approve(bob, approvedTokens).send({ from: owner });
+  await token.instance.methods.setCrowdsaleAddress(bob).send({ from: owner });
+  await token.instance.methods.approve(bob, approvedTokens).send({ from: owner });
 
   // Transfer 10 tokens from crowdsale to account2
-  await token.methods.transferFrom(owner, sara, tokenAmount10).send({ from: bob });
-  let accountBalance = await token.methods.balanceOf(sara).call();
+  await token.instance.methods.transferFrom(owner, sara, tokenAmount10).send({ from: bob });
+  let accountBalance = await token.instance.methods.balanceOf(sara).call();
   ctx.is(accountBalance, tokenAmount10.toString());
 
   // Transfer 5 tokens from account2 to account3 - should fail!
-  await ctx.reverts(() => token.methods.transfer(jane, tokenAmount5).send({ from: sara }), '002004');
+  await ctx.reverts(() => token.instance.methods.transfer(jane, tokenAmount5).send({ from: sara }), '002004');
   // Transfer 5 tokens from owner to account3 - should fail!
-  await ctx.reverts(() => token.methods.transfer(jane, tokenAmount5).send({ from: owner }), '002004');
+  await ctx.reverts(() => token.instance.methods.transfer(jane, tokenAmount5).send({ from: owner }), '002004');
 
-  await token.methods.enableTransfer().send({ from: owner });
+  await token.instance.methods.enableTransfer().send({ from: owner });
   // Transfer 5 tokens from account2 to account3 - should succeed!
-  await token.methods.transfer(jane, tokenAmount5).send({ from: sara });
+  await token.instance.methods.transfer(jane, tokenAmount5).send({ from: sara });
   // Transfer 5 tokens from account2 to account3 - should succeed!
-  await token.methods.transfer(jane, tokenAmount5).send({ from: owner });
-  accountBalance = await token.methods.balanceOf(jane).call();
+  await token.instance.methods.transfer(jane, tokenAmount5).send({ from: owner });
+  accountBalance = await token.instance.methods.balanceOf(jane).call();
   ctx.is(accountBalance, tokenAmount10.toString());
 });
 

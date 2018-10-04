@@ -1,5 +1,10 @@
 # 0xcert suite
 
+## Development
+
+Repository management: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d
+Codecov integration: https://gist.github.com/xpepermint/34c1815c2c0eae7aebed58941b16094e
+
 ## Overview
 
 Connector definira nacin komunikacije oz. platformo (npr. Ethereum, Wanchain).

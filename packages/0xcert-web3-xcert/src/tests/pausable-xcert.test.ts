@@ -44,18 +44,18 @@ spec.test('successfuly changes paused state', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
 
-  let pauseState = await xcert.methods.isPaused().call();
+  let pauseState = await xcert.instance.methods.isPaused().call();
   ctx.is(pauseState, false);
 
-  const logs = await xcert.methods.setPause(true).send({ from: owner });
+  const logs = await xcert.instance.methods.setPause(true).send({ from: owner });
   ctx.not(logs.events.IsPaused, undefined);
     
-  pauseState = await xcert.methods.isPaused().call();
+  pauseState = await xcert.instance.methods.isPaused().call();
   ctx.is(pauseState, true);
 
-  await xcert.methods.setPause(false).send({ from: owner });
+  await xcert.instance.methods.setPause(false).send({ from: owner });
     
-  pauseState = await xcert.methods.isPaused().call();
+  pauseState = await xcert.instance.methods.isPaused().call();
   ctx.is(pauseState, false);
 });
 
@@ -63,7 +63,7 @@ spec.test('reverts when a third party tries to change pause state', async (ctx) 
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
 
-  await ctx.reverts(() => xcert.methods.setPause(true).send({ from: bob }));
+  await ctx.reverts(() => xcert.instance.methods.setPause(true).send({ from: bob }));
 });
 
 spec.test('successfully transfers when Xcert is not paused', async (ctx) => {
@@ -75,13 +75,13 @@ spec.test('successfully transfers when Xcert is not paused', async (ctx) => {
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  const logs = await xcert.methods.transferFrom(bob, sara, id1).send({ from: bob });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  const logs = await xcert.instance.methods.transferFrom(bob, sara, id1).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 
-  const bobBalance = await xcert.methods.balanceOf(bob).call();
-  const saraBalance = await xcert.methods.balanceOf(sara).call();
-  const ownerOfId1 =  await xcert.methods.ownerOf(id1).call();
+  const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
+  const saraBalance = await xcert.instance.methods.balanceOf(sara).call();
+  const ownerOfId1 =  await xcert.instance.methods.ownerOf(id1).call();
 
   ctx.is(bobBalance, '0');
   ctx.is(saraBalance, '1');
@@ -97,13 +97,13 @@ spec.test('successfully safe transfers when Xcert is not paused', async (ctx) =>
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  const logs = await xcert.methods.safeTransferFrom(bob, sara, id1).send({ from: bob });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  const logs = await xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 
-  const bobBalance = await xcert.methods.balanceOf(bob).call();
-  const saraBalance = await xcert.methods.balanceOf(sara).call();
-  const ownerOfId1 =  await xcert.methods.ownerOf(id1).call();
+  const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
+  const saraBalance = await xcert.instance.methods.balanceOf(sara).call();
+  const ownerOfId1 =  await xcert.instance.methods.ownerOf(id1).call();
 
   ctx.is(bobBalance, '0');
   ctx.is(saraBalance, '1');
@@ -119,9 +119,9 @@ spec.test('throws when trying to transfer an Xcert when contract is paused', asy
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.setPause(true).send({ from: owner });
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.transferFrom(bob, sara, id1).send({ from: bob }), '009001');
+  await xcert.instance.methods.setPause(true).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, sara, id1).send({ from: bob }), '009001');
 });
 
 spec.test('throws when trying to safe transfer an Xcert when contract is paused', async (ctx) => {
@@ -133,7 +133,7 @@ spec.test('throws when trying to safe transfer an Xcert when contract is paused'
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.setPause(true).send({ from: owner });
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '009001');
+  await xcert.instance.methods.setPause(true).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '009001');
 });

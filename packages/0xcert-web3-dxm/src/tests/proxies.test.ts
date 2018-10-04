@@ -55,11 +55,11 @@ spec.test('deploy minter with correct token transfer proxy address', async (ctx)
     args: [randomAddress]
   });
 
-  const logs = await minter.methods.setProxy(0, tokenProxy._address).send({ from: owner });
+  const logs = await minter.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   ctx.not(logs.events.ProxyChange, undefined);
 
-  let proxy = await minter.methods.idToProxy(0).call();
-  ctx.is(tokenProxy._address, proxy);
+  let proxy = await minter.instance.methods.idToProxy(0).call();
+  ctx.is(tokenProxy.receipt._address, proxy);
 });
 
 spec.test('throws when a third party tries to set proxy address', async (ctx) => {
@@ -73,7 +73,7 @@ spec.test('throws when a third party tries to set proxy address', async (ctx) =>
     args: [randomAddress]
   });
 
-  await ctx.reverts(() => minter.methods.setProxy(0, zeroAddress).send({ from: bob }));
+  await ctx.reverts(() => minter.instance.methods.setProxy(0, zeroAddress).send({ from: bob }));
 });
 
 spec.test('deploy minter with correct Xcert minter proxy address', async (ctx) => {
@@ -89,9 +89,9 @@ spec.test('deploy minter with correct Xcert minter proxy address', async (ctx) =
   const minter = await ctx.deploy({
     src: './build/minter.json',
     contract: 'Minter',
-    args: [mintProxy._address]
+    args: [mintProxy.receipt._address]
   });
 
-  const minterXcertMintProxyAddress = await minter.methods.xcertMintProxy().call();
-  ctx.is(mintProxy._address, minterXcertMintProxyAddress);
+  const minterXcertMintProxyAddress = await minter.instance.methods.xcertMintProxy().call();
+  ctx.is(mintProxy.receipt._address, minterXcertMintProxyAddress);
 });

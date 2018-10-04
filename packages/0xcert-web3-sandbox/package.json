@@ -6,10 +6,18 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "transpile": "npm run clean; tsc",
-    "lint": "tslint 'src/**/*.ts?(x)'",
-    "prepare": "npm run transpile",
-    "test": "nyc hayspec test --require ts-node/register --match ./src/tests/**/*.test.ts"
+    "build": "npm run clean; tsc",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "prepare": "npm run build",
+    "test": "npx nyc npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
   },
   "nyc": {
     "extension": [
@@ -25,8 +33,9 @@
   "author": "Kristijan Sedlak (Xpepermint)",
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.4.21",
-    "@hayspec/spec": "^0.4.21",
+    "@hayspec/cli": "^0.7.1",
+    "@hayspec/spec": "^0.7.1",
+    "@types/node": "^10.11.4",
     "ganache-cli": "^6.1.8",
     "nyc": "^13.0.1",
     "supertest": "^3.3.0",

@@ -23,9 +23,9 @@ spec.beforeEach(async (ctx) => {
 
 spec.test('supports interfaces', async (ctx) => {
   const xcert = ctx.get('xcert');
-  ctx.true(await xcert.methods.supportsInterface('0x42966c68')); // burnable
-  ctx.true(await xcert.methods.supportsInterface('0x33b641ae')); // mutable
-  ctx.true(await xcert.methods.supportsInterface('0xbedb86fb')); // pausable
-  ctx.true(await xcert.methods.supportsInterface('0x20c5429b')); // revokable
-  ctx.true(await xcert.methods.supportsInterface('0x55bee7a4')); // xcert
+  ctx.true(await xcert.instance.methods.supportsInterface('0x42966c68')); // burnable
+  ctx.true(await xcert.instance.methods.supportsInterface('0x33b641ae')); // mutable
+  ctx.true(await xcert.instance.methods.supportsInterface('0xbedb86fb')); // pausable
+  ctx.true(await xcert.instance.methods.supportsInterface('0x20c5429b')); // revokable
+  ctx.true(await xcert.instance.methods.supportsInterface('0x55bee7a4')); // xcert
 });

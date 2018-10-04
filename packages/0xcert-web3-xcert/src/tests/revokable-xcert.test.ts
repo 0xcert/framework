@@ -67,23 +67,23 @@ spec.test('successfuly revokes an xcert', async (ctx) => {
   const proof1 = ctx.get('proof1');
   const proof2 = ctx.get('proof2');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.methods.mint(bob, id2, url2, proof2).send({ from: owner });
-  const logs = await xcert.methods.revoke(id1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id2, url2, proof2).send({ from: owner });
+  const logs = await xcert.instance.methods.revoke(id1).send({ from: owner });
   ctx.not(logs.events.Transfer, undefined);
 
-  const balance = await xcert.methods.balanceOf(bob).call();
+  const balance = await xcert.instance.methods.balanceOf(bob).call();
   ctx.is(balance, '1');
-  await ctx.reverts(() => xcert.methods.ownerOf(id1).call(), '006002');
+  await ctx.reverts(() => xcert.instance.methods.ownerOf(id1).call(), '006002');
    
-  const tokenIndex0 = await xcert.methods.tokenByIndex(0).call();
+  const tokenIndex0 = await xcert.instance.methods.tokenByIndex(0).call();
   ctx.is(tokenIndex0, id2);
 
-  const tokenOwnerIndex0 = await xcert.methods.tokenOfOwnerByIndex(bob, 0).call();
+  const tokenOwnerIndex0 = await xcert.instance.methods.tokenOfOwnerByIndex(bob, 0).call();
   ctx.is(tokenOwnerIndex0, id2);
 
-  await ctx.reverts(() => xcert.methods.tokenByIndex(1).call(), '006007');
-  await ctx.reverts(() => xcert.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
+  await ctx.reverts(() => xcert.instance.methods.tokenByIndex(1).call(), '006007');
+  await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
 spec.test('successfuly revokes an xcert from an authorized address', async (ctx) => {
@@ -95,10 +95,10 @@ spec.test('successfuly revokes an xcert from an authorized address', async (ctx)
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.methods.setAuthorizedAddress(sara, true).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.setAuthorizedAddress(sara, true).send({ from: owner });
   
-  const logs = await xcert.methods.revoke(id1).send({ from: sara });
+  const logs = await xcert.instance.methods.revoke(id1).send({ from: sara });
   ctx.not(logs.events.Transfer, undefined);
 });
 
@@ -110,9 +110,9 @@ spec.test('throws when trying to revoke an already revoked xcert', async (ctx) =
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.methods.revoke(id1).send({ from: owner});
-  await ctx.reverts(() => xcert.methods.revoke(id1).send({ from: owner }), '006002');
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.revoke(id1).send({ from: owner});
+  await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: owner }), '006002');
 });
 
 spec.test('throws when a third party tries to revoke a xcert', async (ctx) => {
@@ -123,6 +123,6 @@ spec.test('throws when a third party tries to revoke a xcert', async (ctx) => {
   const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.revoke(id1).send({ from: bob }));
+  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: bob }));
 });
