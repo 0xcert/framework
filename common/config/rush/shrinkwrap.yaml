@@ -15,6 +15,7 @@ dependencies:
   '@rush-temp/web3-zxc': 'file:projects/web3-zxc.tgz'
   '@specron/cli': 0.2.3
   '@specron/spec': 0.2.3
+  '@types/node': 10.11.4
   ganache-cli: 6.1.8
   nyc: 13.0.1
   solc: 0.4.25
@@ -4589,7 +4590,7 @@ packages:
     dev: false
     name: '@rush-temp/crypto'
     resolution:
-      integrity: sha512-09KMow14vQa1zgZsaGOvUh9FUhh1O0XXMi/srdUr6VoyPxWKZmLny/9clTDncvLKtWUvzXQR4ahJbaByYu+vWw==
+      integrity: sha512-EZZAlGARs5vRF7HuoZXKllo3IqUD3RQpYLLUoWAQpbVmEoOrCupDw21QruWmIl1X31tsNOfCNpSOYeo+FiiyKw==
       tarball: 'file:projects/crypto.tgz'
     version: 0.0.0
   'file:projects/merkle-tree.tgz':
@@ -4601,7 +4602,7 @@ packages:
     dev: false
     name: '@rush-temp/merkle-tree'
     resolution:
-      integrity: sha512-4tX9IYb44yMczKdEtpOjfD692wLpg9WzJEvnJ9GmaSPkj8ea4WAcs3U/XcYxhKgUfjzOlfSqgprrVYn4ZdjiCQ==
+      integrity: sha512-W1SNULnBTFeSEccLfOHYFcncsHczkrjWx2BRRw1s9Dag3KfvsUVDJMeenQCX1Qml/IuY5wwi2EgpDz1akJeOkg==
       tarball: 'file:projects/merkle-tree.tgz'
     version: 0.0.0
   'file:projects/web3-dex.tgz':
@@ -4764,6 +4765,7 @@ specifiers:
   '@rush-temp/web3-zxc': 'file:./projects/web3-zxc.tgz'
   '@specron/cli': 0.2.3
   '@specron/spec': 0.2.3
+  '@types/node': ^10.11.4
   ganache-cli: ^6.1.8
   nyc: ^13.0.1
   solc: ^0.4.25
