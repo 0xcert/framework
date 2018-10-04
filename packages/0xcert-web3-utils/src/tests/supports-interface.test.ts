@@ -26,12 +26,12 @@ spec.beforeEach(async (ctx) => {
 
 spec.test('correctly checks all the supported interfaces', async (ctx) => {
   const supportsInterface = ctx.get('supportsInterface');
-  const erc165 = await supportsInterface.methods.supportsInterface('0x01ffc9a7').call();
+  const erc165 = await supportsInterface.instance.methods.supportsInterface('0x01ffc9a7').call();
   ctx.is(erc165, true);
 });
 
 spec.test('checks if 0xffffffff is false', async (ctx) => {
   const supportsInterface = ctx.get('supportsInterface');
-  const erc165 = await supportsInterface.methods.supportsInterface('0xffffffff').call();
+  const erc165 = await supportsInterface.instance.methods.supportsInterface('0xffffffff').call();
   ctx.is(erc165, false);
 });

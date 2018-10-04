@@ -1,8 +1,8 @@
 dependencies:
   '@0xcert/ethereum-utils': 1.1.0
   '@0xcert/web3-xcert': 0.0.0-alpha0
-  '@hayspec/cli': 0.7.1
-  '@hayspec/spec': 0.7.1
+  '@hayspec/cli': 0.7.2
+  '@hayspec/spec': 0.7.2
   '@rush-temp/crypto': 'file:projects/crypto.tgz'
   '@rush-temp/merkle-tree': 'file:projects/merkle-tree.tgz'
   '@rush-temp/web3-dex': 'file:projects/web3-dex.tgz'
@@ -11,10 +11,12 @@ dependencies:
   '@rush-temp/web3-erc721': 'file:projects/web3-erc721.tgz'
   '@rush-temp/web3-proxy': 'file:projects/web3-proxy.tgz'
   '@rush-temp/web3-sandbox': 'file:projects/web3-sandbox.tgz'
+  '@rush-temp/web3-utils': 'file:projects/web3-utils.tgz'
   '@rush-temp/web3-xcert': 'file:projects/web3-xcert.tgz'
   '@rush-temp/web3-zxc': 'file:projects/web3-zxc.tgz'
-  '@specron/cli': 0.2.3
-  '@specron/spec': 0.2.3
+  '@specron/cli': 0.2.4
+  '@specron/spec': 0.2.4
+  '@types/node': 10.11.4
   ganache-cli: 6.1.8
   nyc: 13.0.1
   solc: 0.4.25
@@ -115,42 +117,42 @@ packages:
     dev: false
     resolution:
       integrity: sha1-2AK3tUO1g2x3iqaReXq/APPZfqk=
-  /@hayspec/cli/0.7.1:
+  /@hayspec/cli/0.7.2:
     dependencies:
-      '@hayspec/init': 0.7.1
-      '@hayspec/reporter': 0.7.1
-      '@hayspec/runner': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/init': 0.7.2
+      '@hayspec/reporter': 0.7.2
+      '@hayspec/runner': 0.7.2
+      '@hayspec/spec': 0.7.2
       inquirer: 6.2.0
       yargs: 11.1.0
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-fZRLGzNufI1RBI8MAXYg9C83lELbKEXIUjxKI4CJSxOrqk8GV1DtDSQWESJCQGgZ5dwVg1jCK1AWHzG2J77SNg==
-  /@hayspec/init/0.7.1:
+      integrity: sha512-qW/MHZa8jEMGjhkl1kmfV0l+w+uM0SCDUofLuYK9Z99gHbRlfF+KxcdxTTnxTTjQM4BM4hoyJSLl9v6rxbC6Qw==
+  /@hayspec/init/0.7.2:
     dependencies:
       fs-extra: 7.0.0
     dev: false
     resolution:
-      integrity: sha512-HuTj/op/sh/xqJKNJ1fTGFcGcda4jnFdCPB4fWV8FtF7uC8ytf65STbg2SKg1pBVY3sGwIKcp9FDG9YcsIplWQ==
-  /@hayspec/reporter/0.7.1:
+      integrity: sha512-fS/Xvf8TCOB7umLZWKrW4R0Vch2dOtZTxGmBf4Uhbx1BH3wI121zJGWr3NLxidTl49Gylo3pr3eYZSfIQt3oIw==
+  /@hayspec/reporter/0.7.2:
     dependencies:
-      '@hayspec/spec': 0.7.1
+      '@hayspec/spec': 0.7.2
       chalk: 2.4.1
     dev: false
     resolution:
-      integrity: sha512-4JRTcN4lxtlf1jwcKGRFFq5bOvfW437haEnqnHBhEE2asXpVtk+4fgcWgZ9Fp/fZ4Fq5p8kuE5BRjemQQWQz7w==
-  /@hayspec/runner/0.7.1:
+      integrity: sha512-MEaNkLSB38vhnW1wSxjIeJJixS6SqCQl4gAnePDW1Gqt/jjE5HAZeLwGKgdjpwHhvKqWN5unRyCp0tcpK6Kvng==
+  /@hayspec/runner/0.7.2:
     dependencies:
-      '@hayspec/spec': 0.7.1
+      '@hayspec/spec': 0.7.2
       fast-glob: 2.2.3
     dev: false
     resolution:
-      integrity: sha512-/vvI8XlsEhT9dmpMtiWek7/G5ZqJ8LkGRkyoJn/1oPQAMoI3TF48O/4HEq6RPOJQPUvZUvZIBniAApNbueygog==
-  /@hayspec/spec/0.7.1:
+      integrity: sha512-zzWZ86FtsX69TRUblye1T0vWWGfp7JiAtn/P/pAUaVU3htDWwH2/u6H3biE+bmxXQWtg8evk5gEtcPsKSOltCQ==
+  /@hayspec/spec/0.7.2:
     dev: false
     resolution:
-      integrity: sha512-N35kBymP+JbuWz58bJzo4RK8CwqeQf+X+RqlMQ4l4mQ63k4SEtk2+ZQIxzodb7q1UynQ0vDuH1CkCzhsQnY26A==
+      integrity: sha512-+XVhCPToy0jZGq/pzmTDcjPKHWBOfjw0EgcA9y+zAlAbGic7SpyVO9s2mVtLMemmO/tPPOwXofi7fOpX+XbJyA==
   /@mrmlnc/readdir-enhanced/2.2.1:
     dependencies:
       call-me-maybe: 1.0.1
@@ -166,13 +168,13 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-yprFYuno9FtNsSHVlSWd+nRlmGoAbqbeCwOryP6sC/zoCjhpArcRMYp19EvpSUSizJAlsXEwJv+wcWS9XaXdMw==
-  /@specron/cli/0.2.3:
+  /@specron/cli/0.2.4:
     dependencies:
-      '@hayspec/reporter': 0.7.1
-      '@specron/compiler': 0.2.3
-      '@specron/init': 0.2.3
-      '@specron/sandbox': 0.2.3
-      '@specron/spec': 0.2.3
+      '@hayspec/reporter': 0.7.2
+      '@specron/compiler': 0.2.4
+      '@specron/init': 0.2.4
+      '@specron/sandbox': 0.2.4
+      '@specron/spec': 0.2.4
       inquirer: 6.2.0
       yargs: 12.0.2
     dev: false
@@ -181,82 +183,82 @@ packages:
       solc: ^0.4.24
       web3: '*'
     resolution:
-      integrity: sha512-TgKPKEKcVg9u+Pj6ANaCNgznB8qPNLx6hnIdCJyRaQ7Vsibs0NKV+8BdFYvTVcVdWO5W6Yr3p5Q1/ugt4GxcmA==
-  /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36:
+      integrity: sha512-U0SLBXWN/2rMdd3ira6wy4YXUYdNqJ7Tg0pKyqo8owyqqaWmZQ1JcWBHEQv82Jug1ZkrVI4JAwfqbDWhZcaDZQ==
+  /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36:
     dependencies:
-      '@hayspec/reporter': 0.7.1
-      '@specron/compiler': /@specron/compiler/0.2.3/solc@0.4.25
-      '@specron/init': 0.2.3
-      '@specron/sandbox': 0.2.3
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@hayspec/reporter': 0.7.2
+      '@specron/compiler': /@specron/compiler/0.2.4/solc@0.4.25
+      '@specron/init': 0.2.4
+      '@specron/sandbox': 0.2.4
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       inquirer: 6.2.0
       solc: 0.4.25
       web3: 1.0.0-beta.36
       yargs: 12.0.2
     dev: false
     hasBin: true
-    id: registry.npmjs.org/@specron/cli/0.2.3
+    id: registry.npmjs.org/@specron/cli/0.2.4
     peerDependencies:
       solc: ^0.4.24
       web3: '*'
     resolution:
-      integrity: sha512-TgKPKEKcVg9u+Pj6ANaCNgznB8qPNLx6hnIdCJyRaQ7Vsibs0NKV+8BdFYvTVcVdWO5W6Yr3p5Q1/ugt4GxcmA==
-  /@specron/compiler/0.2.3:
+      integrity: sha512-U0SLBXWN/2rMdd3ira6wy4YXUYdNqJ7Tg0pKyqo8owyqqaWmZQ1JcWBHEQv82Jug1ZkrVI4JAwfqbDWhZcaDZQ==
+  /@specron/compiler/0.2.4:
     dependencies:
-      '@hayspec/reporter': 0.7.1
+      '@hayspec/reporter': 0.7.2
       fast-glob: 2.2.3
       fs-extra: 7.0.0
     dev: false
     peerDependencies:
       solc: ^0.4.24
     resolution:
-      integrity: sha512-jTGAGUqpNjzjGYbMid4iOsMFWH9Jw9FbxpiM8a/cBgxXw7mjIlOgvU+uub8ZQjciNPvs78XQOTniaz1672RHxw==
-  /@specron/compiler/0.2.3/solc@0.4.25:
+      integrity: sha512-qabhjAA909go/RKdyhBy8yDd2YDVrk4+kVfN346t0jRHRgExuXKkfHMqJ0gZqMmiIYbo6NU0NPxQUvmGFdy6lA==
+  /@specron/compiler/0.2.4/solc@0.4.25:
     dependencies:
-      '@hayspec/reporter': 0.7.1
+      '@hayspec/reporter': 0.7.2
       fast-glob: 2.2.3
       fs-extra: 7.0.0
       solc: 0.4.25
     dev: false
-    id: registry.npmjs.org/@specron/compiler/0.2.3
+    id: registry.npmjs.org/@specron/compiler/0.2.4
     peerDependencies:
       solc: ^0.4.24
     resolution:
-      integrity: sha512-jTGAGUqpNjzjGYbMid4iOsMFWH9Jw9FbxpiM8a/cBgxXw7mjIlOgvU+uub8ZQjciNPvs78XQOTniaz1672RHxw==
-  /@specron/init/0.2.3:
+      integrity: sha512-qabhjAA909go/RKdyhBy8yDd2YDVrk4+kVfN346t0jRHRgExuXKkfHMqJ0gZqMmiIYbo6NU0NPxQUvmGFdy6lA==
+  /@specron/init/0.2.4:
     dependencies:
       fs-extra: 7.0.0
     dev: false
     resolution:
-      integrity: sha512-wfPBj8+L9XqPN6Onq7jj1hWcXvkTDTAEeMjq1s69r+otnaT5XKDAvwL9aii8VtqYsv8B2fqz6aZPU4zAczUYtQ==
-  /@specron/sandbox/0.2.3:
+      integrity: sha512-v/QxAgU4DOX+PZZ87xOTiCpukSDHIaHGGeKqEIqbYR5UBkD0sWoxO/0tlWPyT3EV751Gn+m940ygaPHrI9EbwA==
+  /@specron/sandbox/0.2.4:
     dependencies:
       ganache-cli: 6.1.8
     dev: false
     resolution:
-      integrity: sha512-pOmHdh+cCckdkzHNSCJ6JEEB83jvbuF5MXbmm0AsNkb9R+X/Wb781zhYQeEFnEWkywez2RZgAeg5xtMekulifA==
-  /@specron/spec/0.2.3:
+      integrity: sha512-Y4cEi+Bkj7gR7G2IFdns6ZBBcesBTbYu92/KFzpgiimhZ6l9/cB91srBNeuQVrzVXCAOFKGivEhDjbEW/k3TjQ==
+  /@specron/spec/0.2.4:
     dependencies:
-      '@hayspec/reporter': 0.7.1
-      '@hayspec/runner': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/reporter': 0.7.2
+      '@hayspec/runner': 0.7.2
+      '@hayspec/spec': 0.7.2
     dev: false
     peerDependencies:
       web3: '*'
     resolution:
-      integrity: sha512-ZOjyTujzmNWRKVhSLkXWNoh6dwZ17UimRmPQRXb3MtlaAVOL8axH+NwBJTdOMOxYhDMdi1jwbyhQK7GV2FsJwA==
-  /@specron/spec/0.2.3/web3@1.0.0-beta.36:
+      integrity: sha512-ajOuvKFMHZCxqEPcZ9wLH2RL9R4spiBrv34eFtfI+O1mgLOjVqNP15Wul5R2RM2Zw5Hk/UIYSJAaURfYrpQfcQ==
+  /@specron/spec/0.2.4/web3@1.0.0-beta.36:
     dependencies:
-      '@hayspec/reporter': 0.7.1
-      '@hayspec/runner': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/reporter': 0.7.2
+      '@hayspec/runner': 0.7.2
+      '@hayspec/spec': 0.7.2
       web3: 1.0.0-beta.36
     dev: false
-    id: registry.npmjs.org/@specron/spec/0.2.3
+    id: registry.npmjs.org/@specron/spec/0.2.4
     peerDependencies:
       web3: '*'
     resolution:
-      integrity: sha512-ZOjyTujzmNWRKVhSLkXWNoh6dwZ17UimRmPQRXb3MtlaAVOL8axH+NwBJTdOMOxYhDMdi1jwbyhQK7GV2FsJwA==
+      integrity: sha512-ajOuvKFMHZCxqEPcZ9wLH2RL9R4spiBrv34eFtfI+O1mgLOjVqNP15Wul5R2RM2Zw5Hk/UIYSJAaURfYrpQfcQ==
   /@types/node/10.11.4:
     dev: false
     resolution:
@@ -4581,34 +4583,34 @@ packages:
       integrity: sha1-5a2ryKz0CPY4X8dklWhMiOavaJo=
   'file:projects/crypto.tgz':
     dependencies:
-      '@hayspec/cli': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/cli': 0.7.2
+      '@hayspec/spec': 0.7.2
       '@types/node': 10.11.4
       ts-node: 7.0.1
       typescript: 3.1.1
     dev: false
     name: '@rush-temp/crypto'
     resolution:
-      integrity: sha512-09KMow14vQa1zgZsaGOvUh9FUhh1O0XXMi/srdUr6VoyPxWKZmLny/9clTDncvLKtWUvzXQR4ahJbaByYu+vWw==
+      integrity: sha512-mL5w2ZLAcHizvOC+cTqx4uNM8nqTzl0VJunLQj8sBzhfpCSiRRNp2B5wqBCtlYqyYLlqYj5uPq92Htd9pzlVgw==
       tarball: 'file:projects/crypto.tgz'
     version: 0.0.0
   'file:projects/merkle-tree.tgz':
     dependencies:
-      '@hayspec/cli': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/cli': 0.7.2
+      '@hayspec/spec': 0.7.2
       ts-node: 7.0.1
       typescript: 3.1.1
     dev: false
     name: '@rush-temp/merkle-tree'
     resolution:
-      integrity: sha512-4tX9IYb44yMczKdEtpOjfD692wLpg9WzJEvnJ9GmaSPkj8ea4WAcs3U/XcYxhKgUfjzOlfSqgprrVYn4ZdjiCQ==
+      integrity: sha512-l4TordB79H1CWWX/m3+SRrTDLYchMmS7MSTmwis9N1+fKYwp2gj2vwxauMzVZQBMJcXa/x9yesNWxlwuJ6HMDw==
       tarball: 'file:projects/merkle-tree.tgz'
     version: 0.0.0
   'file:projects/web3-dex.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4616,15 +4618,15 @@ packages:
     dev: false
     name: '@rush-temp/web3-dex'
     resolution:
-      integrity: sha512-T85MTpgjwMuW4j+wRzX2zvfAdkcan5KDVgdzgaG2HADYZ232wV7J6ep/nkueD9qL3dAtcXkJO05SqSjseN6Glw==
+      integrity: sha512-PaeoWyxF6mrwlmuu6rhRQqZTRx4UCsOz9w1nR9hyRP+RV0HJ/WYLgTMScA8+PYZAkz7Xu9bfCHnAVzKgVoHIeQ==
       tarball: 'file:projects/web3-dex.tgz'
     version: 0.0.0
   'file:projects/web3-dxm.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
       '@0xcert/web3-xcert': 0.0.0-alpha0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4632,14 +4634,14 @@ packages:
     dev: false
     name: '@rush-temp/web3-dxm'
     resolution:
-      integrity: sha512-8Mjl0nNJ3WpUJWzKsKowzWdV19XHDszprWEkhuEqiFT7JZz5QKE/29dPc1ibef19mLf26MLQ3wwO7Xj6nXwDMg==
+      integrity: sha512-PALbhvagpgKnV4d3F55ekz2ixW77p02fjZ9+++v37CicwtO+TBqNFMC0MTM86cE/S3TFri1rMkJbTr6eKSkx6g==
       tarball: 'file:projects/web3-dxm.tgz'
     version: 0.0.0
   'file:projects/web3-erc20.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4647,14 +4649,14 @@ packages:
     dev: false
     name: '@rush-temp/web3-erc20'
     resolution:
-      integrity: sha512-5HqUesY8gUEz4TQjKyZkz2znqFOnashZ9xfGqFF3Shytr4Gj7NLl8NwOPw/A4hIbo+VRSsPT3qcp6T+qf9C5+w==
+      integrity: sha512-duFdpbLryxfKGdYkkE8hIDx9qncEEunu1+Q5hO/E6UVk5Da9hG1l8fP9tFNKysUh8Sxt0ciCHqmLuCnQped40g==
       tarball: 'file:projects/web3-erc20.tgz'
     version: 0.0.0
   'file:projects/web3-erc721.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4662,15 +4664,15 @@ packages:
     dev: false
     name: '@rush-temp/web3-erc721'
     resolution:
-      integrity: sha512-b5X0LF68+r0gNZLZw9dCGfVXLEDK61Jtk1SHPo5Txt1INYbMYGLLfyudLNHidFnfOWh8m6POVTfu/wW0/Ke8IA==
+      integrity: sha512-wozvLxSglmS+g/tVW1L9De3KC6SztFLbxCSOIUDrbLSkT0huTeVC1tFu2I6XbM9XWnDxYlSwR47GpfbHXqtsVw==
       tarball: 'file:projects/web3-erc721.tgz'
     version: 0.0.0
   'file:projects/web3-proxy.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
       '@0xcert/web3-xcert': 0.0.0-alpha0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4678,14 +4680,14 @@ packages:
     dev: false
     name: '@rush-temp/web3-proxy'
     resolution:
-      integrity: sha512-KTYFXu3YyLqGIxEmhFM0ANwiWl0As19wygPrdEZVZ/cCW4zO+NN507ty256cWKPmCoJLLwxHz5CwWyxNp0n8CQ==
+      integrity: sha512-DQsdwbEp5og414A+3tK9P4sKJJt0a4u3Gl9ArpUpmO/ORQGu+8a/VLwvafEsAlVerYmXLqd+C8k8JqrEH0QsBg==
       tarball: 'file:projects/web3-proxy.tgz'
     version: 0.0.0
   'file:projects/web3-sandbox.tgz':
     dependencies:
       '@0xcert/web3-xcert': 0.0.0-alpha0
-      '@hayspec/cli': 0.7.1
-      '@hayspec/spec': 0.7.1
+      '@hayspec/cli': 0.7.2
+      '@hayspec/spec': 0.7.2
       '@types/node': 10.11.4
       ganache-cli: 6.1.8
       nyc: 13.0.1
@@ -4697,14 +4699,28 @@ packages:
     dev: false
     name: '@rush-temp/web3-sandbox'
     resolution:
-      integrity: sha512-64UWlhtFq6MN2I6shZNTQDypFzKqD/9s58i/lXJ/he4XgFSQkwp7X5c9M6Fw7ClPfcz0BmVKGWmZTnK99Ao3eQ==
+      integrity: sha512-UfYhJHphG8UIjf8cb6gRHD/Y1RNy9ed/2Rykr/pbvVBplV09v7yKadjMP0YFZHihErnhe7OGrkhkvVIYZc+Iew==
       tarball: 'file:projects/web3-sandbox.tgz'
+    version: 0.0.0
+  'file:projects/web3-utils.tgz':
+    dependencies:
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
+      solc: 0.4.25
+      ts-node: 7.0.1
+      typescript: 3.1.1
+      web3: 1.0.0-beta.36
+    dev: false
+    name: '@rush-temp/web3-utils'
+    resolution:
+      integrity: sha512-Ztxh0LuNAcCRP52srpmYqmxYDNTJPmvF++IDBTb6pPsHZNvyt5tXhgMCCA2Q2pX1mCMGIKSR8rul5QoSydRJxg==
+      tarball: 'file:projects/web3-utils.tgz'
     version: 0.0.0
   'file:projects/web3-xcert.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4712,14 +4728,14 @@ packages:
     dev: false
     name: '@rush-temp/web3-xcert'
     resolution:
-      integrity: sha512-VabJeDee7jG1Sxa6uyU9Zl7vp/dnobdUz2RtvF2UGQRgDu0rbzCHvdj8gGyTyfMSGd4WwpUVP0R3Ql80h5PWyQ==
+      integrity: sha512-R2pd+YD7rI5Oqm+zAPrOsr9fMwl39rBFcooZ37GeKmLtTWq5NnHSMibNSC0YRmWQ0uxtKmjYJH7bgqnZ3zQpfw==
       tarball: 'file:projects/web3-xcert.tgz'
     version: 0.0.0
   'file:projects/web3-zxc.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
-      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
-      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      '@specron/cli': /@specron/cli/0.2.4/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.4/web3@1.0.0-beta.36
       solc: 0.4.25
       ts-node: 7.0.1
       typescript: 3.1.1
@@ -4727,7 +4743,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-zxc'
     resolution:
-      integrity: sha512-G/XX8ru7+gx0NH/27tCm+xLs5nFx1RhYY/QHv+L7bnqX3YbF6H3OcdHVrJMj0onT+2xWsSEaUbUZ8n5LtOAP4A==
+      integrity: sha512-rGcRLxSyXeBtg28ylCqSisAXaRMRUvaohD+nmWZnmj+QzGs9Tt5eoO/Cj/iF57gGWWgOVGyeetygeR6HT+tyaw==
       tarball: 'file:projects/web3-zxc.tgz'
     version: 0.0.0
   github.com/frozeman/WebSocket-Node/6c72925e3f8aaaea8dc8450f97627e85263999f2:
@@ -4750,8 +4766,8 @@ shrinkwrapVersion: 3
 specifiers:
   '@0xcert/ethereum-utils': ^1.1.0
   '@0xcert/web3-xcert': 0.0.0-alpha0
-  '@hayspec/cli': ^0.7.1
-  '@hayspec/spec': ^0.7.1
+  '@hayspec/cli': ^0.7.2
+  '@hayspec/spec': ^0.7.2
   '@rush-temp/crypto': 'file:./projects/crypto.tgz'
   '@rush-temp/merkle-tree': 'file:./projects/merkle-tree.tgz'
   '@rush-temp/web3-dex': 'file:./projects/web3-dex.tgz'
@@ -4760,10 +4776,12 @@ specifiers:
   '@rush-temp/web3-erc721': 'file:./projects/web3-erc721.tgz'
   '@rush-temp/web3-proxy': 'file:./projects/web3-proxy.tgz'
   '@rush-temp/web3-sandbox': 'file:./projects/web3-sandbox.tgz'
+  '@rush-temp/web3-utils': 'file:./projects/web3-utils.tgz'
   '@rush-temp/web3-xcert': 'file:./projects/web3-xcert.tgz'
   '@rush-temp/web3-zxc': 'file:./projects/web3-zxc.tgz'
-  '@specron/cli': 0.2.3
-  '@specron/spec': 0.2.3
+  '@specron/cli': ^0.2.4
+  '@specron/spec': ^0.2.4
+  '@types/node': ^10.11.4
   ganache-cli: ^6.1.8
   nyc: ^13.0.1
   solc: ^0.4.25
