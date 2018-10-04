@@ -4617,7 +4617,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-dex'
     resolution:
-      integrity: sha512-T85MTpgjwMuW4j+wRzX2zvfAdkcan5KDVgdzgaG2HADYZ232wV7J6ep/nkueD9qL3dAtcXkJO05SqSjseN6Glw==
+      integrity: sha512-64V1GbzVtZhf88em82jXcPp9bAiUqYQdv4M3ov2PeMpCgqKH0S/eKSSYUXxjowNprEl4JsBQCNYlKfhVnsoh3g==
       tarball: 'file:projects/web3-dex.tgz'
     version: 0.0.0
   'file:projects/web3-dxm.tgz':
@@ -4633,7 +4633,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-dxm'
     resolution:
-      integrity: sha512-8Mjl0nNJ3WpUJWzKsKowzWdV19XHDszprWEkhuEqiFT7JZz5QKE/29dPc1ibef19mLf26MLQ3wwO7Xj6nXwDMg==
+      integrity: sha512-ODhByPHnOA9wf0lHjcvyAEO6EsU4CNxbIuvT852TzbKxk8+DpF8TauLjqPn0FNw+UyRvDEuQsqI4wp8zQqu06Q==
       tarball: 'file:projects/web3-dxm.tgz'
     version: 0.0.0
   'file:projects/web3-erc20.tgz':
@@ -4648,7 +4648,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-erc20'
     resolution:
-      integrity: sha512-5HqUesY8gUEz4TQjKyZkz2znqFOnashZ9xfGqFF3Shytr4Gj7NLl8NwOPw/A4hIbo+VRSsPT3qcp6T+qf9C5+w==
+      integrity: sha512-a8DAmylXFcP87ji6GbmCoJ2Cm3T91JnpR92h/JyHujCmR4xvCfvCNcHIyTCP4gi0smvPiyAiEfNCcQoMnvHQzA==
       tarball: 'file:projects/web3-erc20.tgz'
     version: 0.0.0
   'file:projects/web3-erc721.tgz':
@@ -4663,7 +4663,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-erc721'
     resolution:
-      integrity: sha512-b5X0LF68+r0gNZLZw9dCGfVXLEDK61Jtk1SHPo5Txt1INYbMYGLLfyudLNHidFnfOWh8m6POVTfu/wW0/Ke8IA==
+      integrity: sha512-EPTRioxSoVE9LaacEvS0EObEsErDtl6q2z97UCEBNig1MPdKT/4kLfABCZzo7bkxeoWywkmsD+P3rM4yPvbNoQ==
       tarball: 'file:projects/web3-erc721.tgz'
     version: 0.0.0
   'file:projects/web3-proxy.tgz':
@@ -4679,7 +4679,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-proxy'
     resolution:
-      integrity: sha512-KTYFXu3YyLqGIxEmhFM0ANwiWl0As19wygPrdEZVZ/cCW4zO+NN507ty256cWKPmCoJLLwxHz5CwWyxNp0n8CQ==
+      integrity: sha512-rxkr3WRabmQqoO0QMGlohl5EMbWjhgRDgN5vWYUEJQ2Fgqkyrvizw4yLjMwPfSQdmS8UL5yL0HUspPrgBZQHDQ==
       tarball: 'file:projects/web3-proxy.tgz'
     version: 0.0.0
   'file:projects/web3-sandbox.tgz':
@@ -4713,7 +4713,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-xcert'
     resolution:
-      integrity: sha512-VabJeDee7jG1Sxa6uyU9Zl7vp/dnobdUz2RtvF2UGQRgDu0rbzCHvdj8gGyTyfMSGd4WwpUVP0R3Ql80h5PWyQ==
+      integrity: sha512-5N/7MKqFRez0m1TlMym3gP8Cdo7BcltoF9Zz2/hBksSh1bu/tQpsfMFShmwT1ZON2H6FqGzdnTd0RKiIg+QbDQ==
       tarball: 'file:projects/web3-xcert.tgz'
     version: 0.0.0
   'file:projects/web3-zxc.tgz':
@@ -4728,7 +4728,7 @@ packages:
     dev: false
     name: '@rush-temp/web3-zxc'
     resolution:
-      integrity: sha512-G/XX8ru7+gx0NH/27tCm+xLs5nFx1RhYY/QHv+L7bnqX3YbF6H3OcdHVrJMj0onT+2xWsSEaUbUZ8n5LtOAP4A==
+      integrity: sha512-JmdE8+E2OhoKSGlT4Bnd16xquUwAzoBpOzDUblHoTA9B9EGqr3YZmsxoX3we6Xbe3nN7pGk0K8G1poeFQRxM9A==
       tarball: 'file:projects/web3-zxc.tgz'
     version: 0.0.0
   github.com/frozeman/WebSocket-Node/6c72925e3f8aaaea8dc8450f97627e85263999f2:
@@ -4763,8 +4763,8 @@ specifiers:
   '@rush-temp/web3-sandbox': 'file:./projects/web3-sandbox.tgz'
   '@rush-temp/web3-xcert': 'file:./projects/web3-xcert.tgz'
   '@rush-temp/web3-zxc': 'file:./projects/web3-zxc.tgz'
-  '@specron/cli': 0.2.3
-  '@specron/spec': 0.2.3
+  '@specron/cli': ^0.2.3
+  '@specron/spec': ^0.2.3
   '@types/node': ^10.11.4
   ganache-cli: ^6.1.8
   nyc: ^13.0.1
