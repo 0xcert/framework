@@ -34,8 +34,8 @@ spec.test('checks Xcert selector', async (ctx) => {
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
-  const bytes = await selector.methods.calculateXcertSelector().call();
-  const supports = await xcert.methods.supportsInterface(bytes).call();
+  const bytes = await selector.instance.methods.calculateXcertSelector().call();
+  const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });
 
@@ -47,8 +47,8 @@ spec.test('checks mutable Xcert selector', async (ctx) => {
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
-  const bytes = await selector.methods.calculateMutableXcertSelector().call();
-  const supports = await xcert.methods.supportsInterface(bytes).call();
+  const bytes = await selector.instance.methods.calculateMutableXcertSelector().call();
+  const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });
 
@@ -61,8 +61,8 @@ spec.test('checks burnable Xcert selector', async (ctx) => {
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
-  const bytes = await selector.methods.calculateBurnableXcertSelector().call();
-  const supports = await xcert.methods.supportsInterface(bytes).call();
+  const bytes = await selector.instance.methods.calculateBurnableXcertSelector().call();
+  const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });
 
@@ -74,8 +74,8 @@ spec.test('checks revokable Xcert selector', async (ctx) => {
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
-  const bytes = await selector.methods.calculateRevokableXcertSelector().call();
-  const supports = await xcert.methods.supportsInterface(bytes).call();
+  const bytes = await selector.instance.methods.calculateRevokableXcertSelector().call();
+  const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });
 
@@ -87,8 +87,8 @@ spec.test('checks pausable Xcert selector', async (ctx) => {
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
-  const bytes = await selector.methods.calculatePausableXcertSelector().call();
-  const supports = await xcert.methods.supportsInterface(bytes).call();
+  const bytes = await selector.instance.methods.calculatePausableXcertSelector().call();
+  const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });
 

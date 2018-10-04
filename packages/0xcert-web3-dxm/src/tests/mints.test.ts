@@ -84,17 +84,17 @@ spec.beforeEach(async (ctx) => {
     contract: 'XcertMock',
     args: ['dog', 'DOG', '0xa65de9e6'],
   });
-  await dog.methods
+  await dog.instance.methods
     .mint(jane, 1, '0xcert.org', 'proof')
     .send({
       from: owner,
     });
-  await dog.methods
+  await dog.instance.methods
     .mint(jane, 2, '0xcert.org', 'proof')
     .send({
       from: owner,
     });
-  await dog.methods
+  await dog.instance.methods
     .mint(jane, 3, '0xcert.org', 'proof')
     .send({
       from: owner,
@@ -114,7 +114,7 @@ spec.beforeEach(async (ctx) => {
     contract: 'XcertMock',
     args: ['fox', 'FOX', '0xa65de9e6'],
   });
-  await fox.methods
+  await fox.instance.methods
   .mint(jane, 1, '0xcert.org', 'proof')
   .send({
     from: owner,
@@ -179,7 +179,7 @@ spec.beforeEach(async (ctx) => {
   const minter = await ctx.deploy({
     src: './build/minter.json',
     contract: 'Minter',
-    args: [mintProxy._address],
+    args: [mintProxy.receipt._address],
   });
   ctx.set('minter', minter);
 });
@@ -190,11 +190,11 @@ spec.beforeEach(async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const minter = ctx.get('minter');
   const owner = ctx.get('owner');
-  await minter.methods.setProxy(0, tokenProxy._address).send({ from: owner });
-  await minter.methods.setProxy(1, nftProxy._address).send({ from: owner });
-  await tokenProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
-  await mintProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
-  await nftProxy.methods.addAuthorizedAddress(minter._address).send({ from: owner });
+  await minter.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
+  await minter.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
+  await tokenProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
+  await mintProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
+  await nftProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
 });
 
 /**
@@ -214,7 +214,7 @@ perform.test('Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
@@ -229,7 +229,7 @@ perform.test('Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -240,11 +240,11 @@ perform.test('Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 });
 
@@ -261,14 +261,14 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -284,7 +284,7 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -295,15 +295,15 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 
-  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
   ctx.is(ownerZxcBalance, "5000");
 });
 
@@ -322,21 +322,21 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
       amount: 5000,
     },
     {
-      token: bnb._address,
+      token: bnb.receipt._address,
       proxy: 0,
       from: jane,
       to: sara,
@@ -352,7 +352,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -363,19 +363,19 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await bnb.methods.approve(tokenProxy._address, 100).send({ from: jane });
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await bnb.instance.methods.approve(tokenProxy.receipt._address, 100).send({ from: jane });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 
-  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
   ctx.is(ownerZxcBalance, "5000");
 
-  const saraBnbBalance = await bnb.methods.balanceOf(sara).call();
+  const saraBnbBalance = await bnb.instance.methods.balanceOf(sara).call();
   ctx.is(saraBnbBalance, "100");
 });
 
@@ -392,28 +392,28 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 1,
     },
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 2,
     },
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
@@ -429,7 +429,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -440,23 +440,23 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await dog.methods.approve(nftProxy._address, 2).send({ from: jane });
-  await dog.methods.approve(nftProxy._address, 3).send({ from: jane });
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 
-  const dog1Owner = await dog.methods.ownerOf(1).call();
+  const dog1Owner = await dog.instance.methods.ownerOf(1).call();
   ctx.is(dog1Owner, owner);
 
-  const dog2Owner = await dog.methods.ownerOf(2).call();
+  const dog2Owner = await dog.instance.methods.ownerOf(2).call();
   ctx.is(dog2Owner, owner);
   
-  const dog3Owner = await dog.methods.ownerOf(3).call();
+  const dog3Owner = await dog.instance.methods.ownerOf(3).call();
   ctx.is(dog3Owner, owner);
 });
 
@@ -475,35 +475,35 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 1,
     },
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 2,
     },
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 3,
     },
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -519,7 +519,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -530,28 +530,28 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await dog.methods.approve(nftProxy._address, 2).send({ from: jane });
-  await dog.methods.approve(nftProxy._address, 3).send({ from: jane });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 
-  const dog1Owner = await dog.methods.ownerOf(1).call();
+  const dog1Owner = await dog.instance.methods.ownerOf(1).call();
   ctx.is(dog1Owner, owner);
 
-  const dog2Owner = await dog.methods.ownerOf(2).call();
+  const dog2Owner = await dog.instance.methods.ownerOf(2).call();
   ctx.is(dog2Owner, owner);
   
-  const dog3Owner = await dog.methods.ownerOf(3).call();
+  const dog3Owner = await dog.instance.methods.ownerOf(3).call();
   ctx.is(dog3Owner, owner);
 
-  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
   ctx.is(ownerZxcBalance, "10");
 });
 
@@ -571,28 +571,28 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: dog._address,
+      token: dog.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 1,
     },
     {
-      token: fox._address,
+      token: fox.receipt._address,
       proxy: 1,
       from: jane,
       to: owner,
       amount: 1,
     },
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -608,7 +608,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -619,24 +619,24 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await dog.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await fox.methods.approve(nftProxy._address, 1).send({ from: jane });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
-  const logs = await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.PerformMint, undefined);
 
-  const cat1Owner = await cat.methods.ownerOf(1).call();
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(cat1Owner, jane);
 
-  const dog1Owner = await dog.methods.ownerOf(1).call();
+  const dog1Owner = await dog.instance.methods.ownerOf(1).call();
   ctx.is(dog1Owner, owner);
 
-  const fox1Owner = await fox.methods.ownerOf(1).call();
+  const fox1Owner = await fox.instance.methods.ownerOf(1).call();
   ctx.is(fox1Owner, owner);
 
-  const ownerZxcBalance = await zxc.methods.balanceOf(owner).call();
+  const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
   ctx.is(ownerZxcBalance, "10");
 });
 
@@ -654,14 +654,14 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -677,7 +677,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -688,9 +688,9 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: sara }), '016004');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: sara }), '016004');
 });
 
 perform.test('fails when trying to perform already performed mint', async (ctx) => {
@@ -706,14 +706,14 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -729,7 +729,7 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -740,10 +740,10 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016009');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016009');
 });
 
 perform.test('fails when approved token amount is not sufficient', async (ctx) => {
@@ -759,14 +759,14 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -782,7 +782,7 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -793,9 +793,9 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 4999).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '001003');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '001003');
 });
 
 perform.test('fails when proxy does not have the mint rights', async (ctx) => {
@@ -810,14 +810,14 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -833,7 +833,7 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -844,8 +844,8 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '007001');
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '007001');
 });
 
 perform.test('fails when to and the owner addresses are the same', async (ctx) => {
@@ -858,7 +858,7 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
@@ -873,7 +873,7 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -884,8 +884,8 @@ perform.test('fails when to and the owner addresses are the same', async (ctx) =
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: owner }), '016005');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: owner }), '016005');
 });
 
 perform.test('fails if current time is after expirationTimestamp', async (ctx) => {
@@ -901,14 +901,14 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -924,7 +924,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -935,9 +935,9 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016006');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016006');
 });
 
 
@@ -960,14 +960,14 @@ cancel.test('succeeds', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -983,7 +983,7 @@ cancel.test('succeeds', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -994,11 +994,11 @@ cancel.test('succeeds', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  const logs = await minter.methods.cancelMint(mintTuple).send({ from: owner });
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  const logs = await minter.instance.methods.cancelMint(mintTuple).send({ from: owner });
   ctx.not(logs.events.CancelMint, undefined);
-  await ctx.reverts(() => minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016008');
+  await ctx.reverts(() => minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane }), '016008');
 });
 
 cancel.test('fails when a third party tries to cancel it', async (ctx) => {
@@ -1012,14 +1012,14 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -1035,7 +1035,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  await ctx.reverts(() => minter.methods.cancelMint(mintTuple).send({ from: jane }), '016010');
+  await ctx.reverts(() => minter.instance.methods.cancelMint(mintTuple).send({ from: jane }), '016010');
 });
 
 cancel.test('fails when trying to cancel an already performed mint', async (ctx) => {
@@ -1051,14 +1051,14 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   const proof = ctx.get('proof1');
 
   const xcertData = {
-    xcert: cat._address,
+    xcert: cat.receipt._address,
     id,
     uri,
     proof,
   };
   const transfers = [
     {
-      token: zxc._address,
+      token: zxc.receipt._address,
       proxy: 0,
       from: jane,
       to: owner,
@@ -1074,7 +1074,7 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const claim = await minter.methods.getMintDataClaim(mintTuple).call();
+  const claim = await minter.instance.methods.getMintDataClaim(mintTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -1085,8 +1085,8 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.methods.setAuthorizedAddress(mintProxy._address, true).send({ from: owner });
-  await zxc.methods.approve(tokenProxy._address, 5000).send({ from: jane });
-  await minter.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() =>minter.methods.cancelMint(mintTuple).send({ from: owner }), '016009');
+  await cat.instance.methods.setAuthorizedAddress(mintProxy.receipt._address, true).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
+  await minter.instance.methods.performMint(mintTuple, signatureDataTuple).send({ from: jane });
+  await ctx.reverts(() =>minter.instance.methods.cancelMint(mintTuple).send({ from: owner }), '016009');
 });

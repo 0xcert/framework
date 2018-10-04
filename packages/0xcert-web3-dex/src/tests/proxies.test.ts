@@ -53,19 +53,19 @@ spec.test('correctly set proxy addresses', async (ctx) => {
   const owner = ctx.get('owner');
   const exchange = ctx.get('exchange');
 
-  const logs = await exchange.methods.setProxy(0, tokenProxy._address).send({ from: owner });
+  const logs = await exchange.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   ctx.not(logs.events.ProxyChange, undefined);
 
-  let proxy = await exchange.methods.idToProxy(0).call();
-  ctx.is(tokenProxy._address, proxy);
+  let proxy = await exchange.instance.methods.idToProxy(0).call();
+  ctx.is(tokenProxy.receipt._address, proxy);
 
-  await exchange.methods.setProxy(1, nftProxy._address).send({ from: owner });
-  await exchange.methods.setProxy(0, zeroAddress).send({ from: owner });
+  await exchange.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
+  await exchange.instance.methods.setProxy(0, zeroAddress).send({ from: owner });
 
-  proxy = await exchange.methods.idToProxy(0).call();
+  proxy = await exchange.instance.methods.idToProxy(0).call();
   ctx.is(zeroAddress, proxy);
-  proxy = await exchange.methods.idToProxy(1).call();
-  ctx.is(nftProxy._address, proxy);
+  proxy = await exchange.instance.methods.idToProxy(1).call();
+  ctx.is(nftProxy.receipt._address, proxy);
 });
 
 spec.test('throws when a third party tries to set proxy address', async (ctx) => {
@@ -73,7 +73,7 @@ spec.test('throws when a third party tries to set proxy address', async (ctx) =>
   const bob = ctx.get('bob');
   const exchange = ctx.get('exchange');
 
-  await ctx.reverts(() => exchange.methods.setProxy(0, zeroAddress).send({ from: bob }));
+  await ctx.reverts(() => exchange.instance.methods.setProxy(0, zeroAddress).send({ from: bob }));
 });
 
 export default spec;

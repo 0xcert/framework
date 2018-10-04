@@ -3,10 +3,26 @@
   "version": "0.0.0-alpha0",
   "description": "Decentralized exchange implementation for 0xcert protocol",
   "scripts": {
-    "compile": "specron compile",
-    "sandbox": "specron sandbox",
-    "prepublishOnly": "specron compile",
-    "test": "rm -rf build && specron compile && specron test --require ts-node/register --match ./src/tests/**/*.test.ts"
+    "build": "npx specron compile",
+    "sandbox": "npx specron sandbox",
+    "prepare": "npm run build",
+    "test": "rm -rf build && npx specron compile && npx specron test"
+  },
+  "specron": {
+    "compiler": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ]
+    },
+    "test": {
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ]
+    },
+    "require": [
+      "ts-node/register"
+    ]
   },
   "license": "MIT",
   "devDependencies": {
@@ -14,8 +30,8 @@
     "@0xcert/web3-erc20": "0.0.0-alpha0",
     "@0xcert/web3-erc721": "0.0.0-alpha0",
     "@0xcert/web3-proxy": "0.0.0-alpha0",
-    "@specron/cli": "0.0.46",
-    "@specron/spec": "0.0.46",
+    "@specron/cli": "0.2.3",
+    "@specron/spec": "0.2.3",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",

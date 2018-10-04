@@ -65,10 +65,10 @@ spec.test('sucesfully updates proof', async (ctx) => {
   const proof = ctx.get('proof1');
   const newProof = ctx.get('proof2');
 
-  await xcert.methods.mint(bob, id, url, proof).send({ from: owner });
-  const logs = await xcert.methods.updateTokenProof(id, newProof).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
+  const logs = await xcert.instance.methods.updateTokenProof(id, newProof).send({ from: owner });
   ctx.not(logs.events.TokenProofUpdate, undefined);
-  const xcertId1Proof = await xcert.methods.tokenProof(id).call();
+  const xcertId1Proof = await xcert.instance.methods.tokenProof(id).call();
   ctx.is(xcertId1Proof, newProof);
 });
 
@@ -82,8 +82,8 @@ spec.test('throws when a third party tries to update proof', async (ctx) => {
   const proof = ctx.get('proof1');
   const newProof = ctx.get('proof2');
 
-  await xcert.methods.mint(bob, id, url, proof).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.updateTokenProof(id, newProof).send({ from: sara }));
+  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.updateTokenProof(id, newProof).send({ from: sara }));
 });
 
 spec.test('throws when trying to update proof to empty', async (ctx) => {
@@ -94,8 +94,8 @@ spec.test('throws when trying to update proof to empty', async (ctx) => {
   const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.methods.mint(bob, id, url, proof).send({ from: owner });
-  await ctx.reverts(() => xcert.methods.updateTokenProof(id, '').send({ from: owner }), '010001');
+  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.updateTokenProof(id, '').send({ from: owner }), '010001');
 });
 
 spec.test('throws when trying to update xcert that does not exist', async (ctx) => {
@@ -104,5 +104,5 @@ spec.test('throws when trying to update xcert that does not exist', async (ctx) 
   const id = ctx.get('id1');
   const proof = ctx.get('proof1');
 
-  await ctx.reverts(() => xcert.methods.updateTokenProof(id, proof).send({ from: owner }), '010002');
+  await ctx.reverts(() => xcert.instance.methods.updateTokenProof(id, proof).send({ from: owner }), '010002');
 });

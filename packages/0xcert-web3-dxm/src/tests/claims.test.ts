@@ -82,7 +82,7 @@ spec.beforeEach(async (ctx) => {
   }
   const mintTuple = ctx.tuple(mintData);
 
-  const hash = await minter.methods.getMintDataClaim(mintTuple).call();
+  const hash = await minter.instance.methods.getMintDataClaim(mintTuple).call();
   ctx.set('hash', hash);
 });
 
@@ -105,7 +105,7 @@ spec.test('check valid signature', async (ctx) => {
   const hash = ctx.get('hash');
   const signature = ctx.get('signature');
   const tuple = ctx.tuple(signature);
-  const valid = await minter.methods.isValidSignature(account, hash, tuple).call();
+  const valid = await minter.instance.methods.isValidSignature(account, hash, tuple).call();
   ctx.true(valid);
 });
 
@@ -116,7 +116,7 @@ spec.test('check with invalid signature', async (ctx) => {
   const account = ctx.get('jane');
   const hash = ctx.get('hash');
   const tuple = ctx.tuple(signatureData);
-  const valid = await minter.methods.isValidSignature(account, hash, tuple).call();
+  const valid = await minter.instance.methods.isValidSignature(account, hash, tuple).call();
   ctx.false(valid);
 });
 
@@ -126,6 +126,6 @@ spec.test('check signature from a third party account', async (ctx) => {
   const hash = ctx.get('hash');
   const signature = ctx.get('signature');
   const tuple = ctx.tuple(signature);
-  const valid = await minter.methods.isValidSignature(account, hash, tuple).call();
+  const valid = await minter.instance.methods.isValidSignature(account, hash, tuple).call();
   ctx.false(valid);
 });

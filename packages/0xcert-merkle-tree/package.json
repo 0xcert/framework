@@ -5,15 +5,22 @@
   "main": "./dist/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "transpile": "tsc",
-    "prepare": "npm run transpile",
-    "test": "hayspec test --require ts-node/register --match ./src/tests/**/*.test.ts"
+    "build": "npx tsc",
+    "test": "npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
   },
   "license": "MIT",
   "devDependencies": {
     "@0xcert/crypto": "0.0.0-alpha0",
-    "@hayspec/cli": "^0.4.21",
-    "@hayspec/spec": "^0.4.21",
+    "@hayspec/cli": "^0.7.1",
+    "@hayspec/spec": "^0.7.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   }
