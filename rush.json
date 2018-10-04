@@ -54,6 +54,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@0xcert/web3-utils",
+      "projectFolder": "packages/0xcert-web3-utils",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/web3-xcert",
       "projectFolder": "packages/0xcert-web3-xcert",
       "shouldPublish": true

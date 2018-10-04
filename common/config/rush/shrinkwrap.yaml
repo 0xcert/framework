@@ -11,6 +11,7 @@ dependencies:
   '@rush-temp/web3-erc721': 'file:projects/web3-erc721.tgz'
   '@rush-temp/web3-proxy': 'file:projects/web3-proxy.tgz'
   '@rush-temp/web3-sandbox': 'file:projects/web3-sandbox.tgz'
+  '@rush-temp/web3-utils': 'file:projects/web3-utils.tgz'
   '@rush-temp/web3-xcert': 'file:projects/web3-xcert.tgz'
   '@rush-temp/web3-zxc': 'file:projects/web3-zxc.tgz'
   '@specron/cli': 0.2.3
@@ -4701,6 +4702,20 @@ packages:
       integrity: sha512-64UWlhtFq6MN2I6shZNTQDypFzKqD/9s58i/lXJ/he4XgFSQkwp7X5c9M6Fw7ClPfcz0BmVKGWmZTnK99Ao3eQ==
       tarball: 'file:projects/web3-sandbox.tgz'
     version: 0.0.0
+  'file:projects/web3-utils.tgz':
+    dependencies:
+      '@specron/cli': /@specron/cli/0.2.3/solc@0.4.25+web3@1.0.0-beta.36
+      '@specron/spec': /@specron/spec/0.2.3/web3@1.0.0-beta.36
+      solc: 0.4.25
+      ts-node: 7.0.1
+      typescript: 3.1.1
+      web3: 1.0.0-beta.36
+    dev: false
+    name: '@rush-temp/web3-utils'
+    resolution:
+      integrity: sha512-EQTXsXEln5QyrQPkMg+HzTwjdxNYwTKjRzBtrAgga6EHGpEa9/Erq0uDUBS9SO6GEP3lxu95rrJqjNrfWeN0Ug==
+      tarball: 'file:projects/web3-utils.tgz'
+    version: 0.0.0
   'file:projects/web3-xcert.tgz':
     dependencies:
       '@0xcert/ethereum-utils': 1.1.0
@@ -4761,6 +4776,7 @@ specifiers:
   '@rush-temp/web3-erc721': 'file:./projects/web3-erc721.tgz'
   '@rush-temp/web3-proxy': 'file:./projects/web3-proxy.tgz'
   '@rush-temp/web3-sandbox': 'file:./projects/web3-sandbox.tgz'
+  '@rush-temp/web3-utils': 'file:./projects/web3-utils.tgz'
   '@rush-temp/web3-xcert': 'file:./projects/web3-xcert.tgz'
   '@rush-temp/web3-zxc': 'file:./projects/web3-zxc.tgz'
   '@specron/cli': ^0.2.3
