@@ -256,10 +256,10 @@ export class Protocol {
       from,
     });
 
-    await exchange.methods.setProxy(0, this.tokenTransferProxy._address).send({ from });
-    await exchange.methods.setProxy(1, this.nftokenTransferProxy._address).send({ from });
-    await this.tokenTransferProxy.methods.addAuthorizedAddress(exchange._address).send({ from });
-    await this.nftokenTransferProxy.methods.addAuthorizedAddress(exchange._address).send({ from });
+    await exchange.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
+    await exchange.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
+    await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from });
+    await this.nftokenTransferProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from });
 
     return exchange;
   }
@@ -273,15 +273,15 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.minter.abi,
       bytecode: contracts.minter.bytecode,
-      args: [this.xcertMintProxy._address],
+      args: [this.xcertMintProxy.receipt._address],
       from,
     });
 
-    await minter.methods.setProxy(0, this.tokenTransferProxy._address).send({ from });
-    await minter.methods.setProxy(1, this.nftokenTransferProxy._address).send({ from });
-    await this.tokenTransferProxy.methods.addAuthorizedAddress(minter._address).send({ from });
-    await this.nftokenTransferProxy.methods.addAuthorizedAddress(minter._address).send({ from });
-    await this.xcertMintProxy.methods.addAuthorizedAddress(minter._address).send({ from });
+    await minter.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
+    await minter.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
+    await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
+    await this.nftokenTransferProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
+    await this.xcertMintProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
 
     return minter;
   }

@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/web3-xcert",
   "description": "Xcert token implementation for the 0xcert protocol.",
-  "version": "0.0.0-alpha1",
+  "version": "0.0.0-alpha0",
   "scripts": {
     "build": "npx specron compile",
     "sandbox": "npx specron sandbox",
@@ -28,8 +28,8 @@
   "devDependencies": {
     "@0xcert/ethereum-utils": "^1.1.0",
     "@0xcert/web3-erc721": "0.0.0-alpha0",
-    "@specron/cli": "^0.2.4",
-    "@specron/spec": "^0.2.4",
+    "@specron/cli": "^0.2.5",
+    "@specron/spec": "^0.2.5",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",

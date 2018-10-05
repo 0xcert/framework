@@ -18,14 +18,15 @@ export function deploy(config: {
     from: config.from,
     gas: config.gas || 6000000,
     gasPrice: config.gas || 1,
-  }).then((deploy) => {
-    return new config.web3.eth.Contract(
+  }).then((receipt) => {
+    const instance = new config.web3.eth.Contract(
       config.abi,
-      deploy.options.address,
+      receipt.options.address,
       {
         gas: config.gas || 6000000,
         from: config.from,
       },
     );
+    return { instance, receipt };
   });
 }
