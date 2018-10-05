@@ -202,6 +202,20 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/web3-connector": {
+      "version": "file:projects/web3-connector.tgz",
+      "integrity": "sha512-5drazVu7f9uqMvLjFDo6Ivqb7pn3ggW4zYPek8DPRTtZGPhBAO16hOdtlyjeHMAfXMe0QZ6CYJsxu5xZyyCHoA==",
+      "requires": {
+        "@specron/cli": "^0.2.5",
+        "@specron/spec": "^0.2.5",
+        "@types/fs-extra": "^5.0.4",
+        "fs-extra": "^7.0.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/web3-dex": {
       "version": "file:projects/web3-dex.tgz",
       "integrity": "sha512-m+bQ8V7EZxJH987AdtkFHlSMlSovG4apVvvQfF2WhgW/nIoeiWRPHvjWoOYgmYseyJXtDNpPd8RjPGx9P4R1gQ==",
@@ -369,6 +383,14 @@
         "@hayspec/reporter": "^0.7.4",
         "@hayspec/runner": "^0.7.4",
         "@hayspec/spec": "^0.7.4"
+      }
+    },
+    "@types/fs-extra": {
+      "version": "5.0.4",
+      "resolved": "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-5.0.4.tgz",
+      "integrity": "sha512-DsknoBvD8s+RFfSGjmERJ7ZOP1HI0UZRA3FSI+Zakhrc/Gy26YQsLI+m5V5DHxroHRJqCDLKJp7Hixn8zyaF7g==",
+      "requires": {
+        "@types/node": "*"
       }
     },
     "@types/node": {

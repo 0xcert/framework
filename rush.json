@@ -23,6 +23,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@0xcert/web3-connector",
+      "projectFolder": "packages/0xcert-web3-connector",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/web3-dex",
       "projectFolder": "packages/0xcert-web3-dex",
       "shouldPublish": true
