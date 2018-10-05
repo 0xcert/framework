@@ -1,0 +1,38 @@
+{
+  "name": "@0xcert/web3-connector",
+  "version": "0.0.0-alpha0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npx specron test",
+    "updateXcertAbi": "npx ts-node ./src/scripts/update-xcert-abi"
+  },
+  "specron": {
+    "test": {
+      "port": 8509,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ]
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/web3-sandbox": "0.0.0-alpha0",
+    "@0xcert/web3-xcert": "0.0.0-alpha0",
+    "@specron/cli": "^0.2.5",
+    "@specron/spec": "^0.2.5",
+    "@types/fs-extra": "^5.0.4",
+    "fs-extra": "^7.0.0",
+    "solc": "^0.4.25",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1"
+  },
+  "dependencies": {
+    "web3": "^1.0.0-beta.36"
+  }
+}
