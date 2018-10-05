@@ -4632,7 +4632,6 @@ packages:
     name: websocket
     requiresBuild: true
     resolution:
-      registry: 'https://registry.npmjs.org/'
       tarball: 'https://codeload.github.com/frozeman/WebSocket-Node/tar.gz/6c72925e3f8aaaea8dc8450f97627e85263999f2'
     version: 1.0.26
 registry: 'https://registry.npmjs.org/'
