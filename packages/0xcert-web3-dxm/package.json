@@ -16,6 +16,7 @@
       ]
     },
     "test": {
+      "port": 8502,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
