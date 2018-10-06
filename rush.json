@@ -13,6 +13,16 @@
   },
   "projects": [
     {
+      "packageName": "@0xcert/chain",
+      "projectFolder": "packages/0xcert-chain",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/core",
+      "projectFolder": "packages/0xcert-core",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "shouldPublish": true
@@ -23,8 +33,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-connector",
-      "projectFolder": "packages/0xcert-web3-connector",
+      "packageName": "@0xcert/web3-chain",
+      "projectFolder": "packages/0xcert-web3-chain",
       "shouldPublish": true
     },
     {

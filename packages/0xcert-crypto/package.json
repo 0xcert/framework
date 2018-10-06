@@ -3,7 +3,7 @@
   "version": "0.0.0-alpha0",
   "description": "Isomorphic cryptographic functions.",
   "main": "./dist/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npx tsc",
     "test": "npx hayspec test"

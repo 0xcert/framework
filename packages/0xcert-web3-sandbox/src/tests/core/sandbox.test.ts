@@ -6,7 +6,7 @@ const spec = new Spec();
 const sandbox = new Sandbox();
 
 spec.before(async () => {
-  await sandbox.listen(8911);
+  await sandbox.listen(8010);
 });
 
 spec.after(async () => {
@@ -14,7 +14,7 @@ spec.after(async () => {
 });
 
 spec.test('listens for requests', async (ctx) => {
-  const res = await request('http://localhost:8911').get('/').catch((e) => e.response);
+  const res = await request('http://localhost:8010').get('/').catch((e) => e.response);
   ctx.is(res.status, 400);
 });
 
