@@ -4,7 +4,8 @@ import * as connector from '..';
 const spec = new Spec();
 
 spec.test('exposed content', (ctx) => {
-  // ctx.true(!!connector.Web3Provider);
+  ctx.true(!!connector.Chain);
+  ctx.true(!!connector.ChainAction);
 });
 
 export default spec;

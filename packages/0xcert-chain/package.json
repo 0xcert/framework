@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/merkle-tree",
+  "name": "@0xcert/chain",
   "version": "0.0.0-alpha0",
-  "description": "Merkle tree management tool.",
+  "description": "0xcert protocol chain connector scaffold.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/crypto": "^0.0.0-alpha0",
     "@hayspec/cli": "^0.7.4",
     "@hayspec/spec": "^0.7.4",
     "ts-node": "^7.0.1",

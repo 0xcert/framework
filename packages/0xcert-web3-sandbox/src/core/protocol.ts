@@ -6,7 +6,7 @@ import { deploy } from '../lib/deploy';
  * Protocol contracts deployer.
  */
 export class Protocol {
-  readonly web3: Web3;
+  public web3: Web3;
   public erc20;
   public erc721Enumerable;
   public erc721Metadata;
