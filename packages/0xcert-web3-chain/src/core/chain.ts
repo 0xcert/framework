@@ -3,6 +3,7 @@ import { IChain, IChainRequest, IChainResponse, ChainAction } from '@0xcert/chai
 import folderReadMetadata from '../resolvers/folder-read-metadata';
 import folderReadSupply from '../resolvers/folder-read-supply';
 import folderReadCapabilities from '../resolvers/folder-read-capabilities';
+import folderCheckIsPaused from '../resolvers/folder-check-is-paused';
 
 /**
  * Web3 chain connector.
@@ -24,12 +25,14 @@ export class Chain implements IChain {
    */
   public perform(req: IChainRequest): IChainResponse {
     switch (req.action) {
-      case ChainAction.FOLDER_READ_METADATA: 
+      case ChainAction.FOLDER_READ_METADATA:
         return folderReadMetadata.call(this, this, req);
-      case ChainAction.FOLDER_READ_SUPPLY: 
+      case ChainAction.FOLDER_READ_SUPPLY:
         return folderReadSupply.call(this, this, req);
-      case ChainAction.FOLDER_READ_CAPABILITIES: 
+      case ChainAction.FOLDER_READ_CAPABILITIES:
         return folderReadCapabilities.call(this, this, req);
+      case ChainAction.FOLDER_CHECK_IS_PAUSED:
+        return folderCheckIsPaused.call(this, this, req);
       default:
         throw 'Unknown action'; 
     }

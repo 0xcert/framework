@@ -12,6 +12,7 @@ export enum ChainAction {
   FOLDER_READ_METADATA = 'chainActionFolderReadMetadata',
   FOLDER_READ_SUPPLY = 'chainActionFolderReadSupply',
   FOLDER_READ_CAPABILITIES = 'chainActionFolderReadCapabilities',
+  FOLDER_CHECK_IS_PAUSED = 'chainActionFolderCheckIsPaused',
 }
 
 /**
@@ -19,14 +20,16 @@ export enum ChainAction {
  */
 export type IChainRequest = IFolderReadMetadataChainRequest
   | IFolderReadSupplyChainRequest
-  | IFolderReadCapabilitiesChainRequest;
+  | IFolderReadCapabilitiesChainRequest
+  | IFolderCheckIsPausedChainRequest;
 
 /**
  * 
  */
 export type IChainResponse = IFolderReadMetadataChainResponse
   | IFolderReadSupplyChainResponse
-  | IFolderReadCapabilitiesChainResponse;
+  | IFolderReadCapabilitiesChainResponse
+  | IFolderCheckIsPausedChainResponse;
 
 /**
  * 
@@ -75,4 +78,19 @@ export interface IFolderReadCapabilitiesChainResponse {
   isMutable: boolean;
   isPausable: boolean;
   isRevokable: boolean;
+}
+
+/**
+ * 
+ */
+export interface IFolderCheckIsPausedChainRequest {
+  action: ChainAction.FOLDER_CHECK_IS_PAUSED;
+  folderId: string;
+}
+
+/**
+ * 
+ */
+export interface IFolderCheckIsPausedChainResponse {
+  isPaused: boolean;
 }
