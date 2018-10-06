@@ -19,7 +19,7 @@ spec.before(async (stage) => {
   stage.set('protocol', await protocol.deploy());
 });
 
-spec.test('returns folder metadata', async (ctx) => {
+spec.test('reads folder metadata', async (ctx) => {
   const res = await ctx.get('connector').perform({
     action: ChainAction.FOLDER_READ_METADATA,
     folderId: ctx.get('protocol').xcert.instance.options.address,
@@ -30,7 +30,7 @@ spec.test('returns folder metadata', async (ctx) => {
   });
 });
 
-spec.test('returns folder total supply', async (ctx) => {
+spec.test('reads folder total supply', async (ctx) => {
   const res = await ctx.get('connector').perform({
     action: ChainAction.FOLDER_READ_SUPPLY,
     folderId: ctx.get('protocol').xcert.instance.options.address,
@@ -40,7 +40,7 @@ spec.test('returns folder total supply', async (ctx) => {
   });
 });
 
-spec.test('returns folder capabilities', async (ctx) => {
+spec.test('reads folder capabilities', async (ctx) => {
   const res = await Promise.all([
     ctx.get('connector').perform({
       action: ChainAction.FOLDER_READ_CAPABILITIES,
@@ -65,6 +65,16 @@ spec.test('returns folder capabilities', async (ctx) => {
     { isBurnable: false, isMutable: false, isPausable: true, isRevokable: false },
     { isBurnable: false, isMutable: false, isPausable: false, isRevokable: true },
   ]);
+});
+
+spec.test('checks if folder transfers are paused', async (ctx) => {
+  const res = await ctx.get('connector').perform({
+    action: ChainAction.FOLDER_CHECK_IS_PAUSED,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+  });
+  ctx.deepEqual(res, {
+    isPaused: false,
+  });
 });
 
 export default spec;
