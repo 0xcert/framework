@@ -9,7 +9,7 @@ export interface IChain {
  * 
  */
 export enum ChainAction {
-  FOLDER_READ_METADATA = 'chainActionfolderReadMetadata',
+  FOLDER_READ_METADATA = 'chainActionFolderReadMetadata',
   FOLDER_READ_SUPPLY = 'chainActionFolderReadSupply',
   FOLDER_READ_CAPABILITIES = 'chainActionFolderReadCapabilities',
 }

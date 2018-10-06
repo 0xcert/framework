@@ -4,7 +4,7 @@ import { Chain } from '../core/chain';
 import * as env from '../config/env';
 
 /**
- * Protocol request resolver for Action.FOLDER_READ_CAPABILITIES.
+ * Chain request resolver for ChainAction.FOLDER_READ_CAPABILITIES.
  * @param con Connector class instance.
  * @param req Protocol request object.
  */

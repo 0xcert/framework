@@ -193,7 +193,7 @@
     },
     "@rush-temp/core": {
       "version": "file:projects/core.tgz",
-      "integrity": "sha512-6oKi8Z3NuRHEl8zY06p1GFNSZ9mN/D+OB3qPV+7QYGbIdcmguyMjEMEvDTIJrDhRMCDmnEIkJqfWD7uLpOlM2Q==",
+      "integrity": "sha512-g4j4LL4p+Fo8IFi8yWmKgnTA1lkOLBlxaMcx496eq6/EBLWq0RQmQ5Ep3GEgZwWHOA4ES+6nsQKKFmFLmxjWvg==",
       "requires": {
         "@hayspec/cli": "^0.7.4",
         "@hayspec/spec": "^0.7.4",
@@ -213,9 +213,29 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/ipfs-store": {
+      "version": "file:projects/ipfs-store.tgz",
+      "integrity": "sha512-vlSaCgwSFpE6151JHyDH3PnJWHGuKdw4x/61b1343b0Ms29EUqiGJT9BOyuNKojPDkS44sZaMBUecNJm1IGAVg==",
+      "requires": {
+        "@hayspec/cli": "^0.7.4",
+        "@hayspec/spec": "^0.7.4",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/merkle-tree": {
       "version": "file:projects/merkle-tree.tgz",
       "integrity": "sha512-4ZhM51Ovq9WgReWwOY1NQ0M0A00913qA3eAe94LzrBDbXI8gksN+P+RqOQH6cgWvDR+IO3DaKdtA1x5hfvMDzQ==",
+      "requires": {
+        "@hayspec/cli": "^0.7.4",
+        "@hayspec/spec": "^0.7.4",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
+    "@rush-temp/store": {
+      "version": "file:projects/store.tgz",
+      "integrity": "sha512-ADNM4Sns7k+5yv2ruToLLItlPljUwfuwUshXSUK7A5/fzistEbNu7JHSk7DTb4PeLvy2lXF2wKCQWkdsOogVdg==",
       "requires": {
         "@hayspec/cli": "^0.7.4",
         "@hayspec/spec": "^0.7.4",

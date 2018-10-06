@@ -1,8 +1,8 @@
 import * as Web3 from 'web3';
 import { IChain, IChainRequest, IChainResponse, ChainAction } from '@0xcert/chain';
-import readFolderMetadata from '../resolvers/read-folder-metadata';
-import readFolderSupply from '../resolvers/read-folder-supply';
-import readFolderCapabilities from '../resolvers/read-folder-capabilities';
+import folderReadMetadata from '../resolvers/folder-read-metadata';
+import folderReadSupply from '../resolvers/folder-read-supply';
+import folderReadCapabilities from '../resolvers/folder-read-capabilities';
 
 /**
  * Web3 chain connector.
@@ -19,17 +19,17 @@ export class Chain implements IChain {
   }
 
   /**
-   * Performs protocol action based on the received request object.
+   * Performs chain action based on the received request object.
    * @param res Protocol request object.
    */
   public perform(req: IChainRequest): IChainResponse {
     switch (req.action) {
       case ChainAction.FOLDER_READ_METADATA: 
-        return readFolderMetadata.call(this, this, req);
+        return folderReadMetadata.call(this, this, req);
       case ChainAction.FOLDER_READ_SUPPLY: 
-        return readFolderSupply.call(this, this, req);
+        return folderReadSupply.call(this, this, req);
       case ChainAction.FOLDER_READ_CAPABILITIES: 
-        return readFolderCapabilities.call(this, this, req);
+        return folderReadCapabilities.call(this, this, req);
       default:
         throw 'Unknown action'; 
     }

@@ -5,12 +5,13 @@
 First initialize the protocol instance.
 
 ```ts
+import { Chain } from '@0xcert/web3-chain';
+import { Store } from '@0xcert/ipfs-store';
 import { Protocol, AbilityId, Action, EventId } from '@0xcert/core';
 
 const protocol = new Protocol({
-  chain: new ChainConnector(),
-  storage: new StorageConnector(),
-  stream: new StreamConnector(),
+  chain: new Chain({ ... }),
+  store: new Store({ ... }),
 });
 ```
 
@@ -54,8 +55,6 @@ const { isBurnable, isMutatable, isPausable, isRevokable } = await protocol.perf
   folderId: '0x...',
 });
 ```
-
-
 
 
 
