@@ -1,2 +1,2 @@
-export { ActionId } from '@0xcert/chain';
-export * from './core/connector';
+export * from '@0xcert/chain';
+export * from './core/chain';

@@ -1,2 +1,2 @@
-export { ActionId as ChainActionId } from '@0xcert/chain';
+export * from './core/types';
 export * from './core/protocol';

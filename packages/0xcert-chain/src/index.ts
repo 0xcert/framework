@@ -1,1 +1,1 @@
-export * from './core/connector';
+export * from './core/chain';

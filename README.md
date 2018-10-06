@@ -193,7 +193,7 @@ folder.authorizeMint(minter);
 Novi Asseti se zmintajo preko Minter contractov v atomicni operaciji.
 
 ```ts
-const asset = new Assat({
+const asset = new Asset({
   folder,
   id: 100,
   url: 'http://neki.com',
@@ -364,7 +364,7 @@ folder.authorizeMint();
 Novi Asseti se zmintajo preko Minter contractov v atomicni operaciji.
 
 ```ts
-const asset = new Assat({
+const asset = new Asset({
   folder,
   id: 100,
   url: 'http://neki.com',
@@ -490,7 +490,7 @@ const conn = new Protocol({
 });
 
 const { name, symbol } = conn.perform({
-  action: Context.READ_FOLDER_METADATA,
+  action: Context.FOLDER_READ_METADATA,
   id: '0x000000000101010101001010101'
 });
 

@@ -1,16 +1,16 @@
-import { IReadFolderMetadataRequest as IRequest } from '@0xcert/chain';
-import { IReadFolderMetadataResponse as IResponse } from '@0xcert/chain';
-import { Connector } from '../core/connector';
+import { IFolderReadMetadataChainRequest as IChainRequest,
+  IFolderReadMetadataChainResponse as IChainResponse } from '@0xcert/chain';
+import { Chain } from '../core/chain';
 import * as env from '../config/env';
 
 /**
- * Protocol request resolver for ActionId.READ_FOLDER_METADATA.
+ * Protocol request resolver for Action.FOLDER_READ_METADATA.
  * @param con Connector class instance.
  * @param req Protocol request object.
  */
-export default async function(con: Connector, req: IRequest): Promise<IResponse> {
+export default async function(chain: Chain, req: IChainRequest): Promise<IChainResponse> {
 
-  const instance = new con.web3.eth.Contract(env.xcertAbi, req.folderId);
+  const instance = new chain.web3.eth.Contract(env.xcertAbi, req.folderId);
 
   return {
     name: await instance.methods.name().call(),
