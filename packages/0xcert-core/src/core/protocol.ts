@@ -35,6 +35,7 @@ export class Protocol extends EventEmitter {
       case ChainAction.FOLDER_READ_METADATA:
       case ChainAction.FOLDER_READ_SUPPLY:
       case ChainAction.FOLDER_READ_CAPABILITIES:
+      case ChainAction.FOLDER_CHECK_IS_PAUSED:
         return this.chain.perform(req);
       case StoreAction.FILE_CREATE:
       case StoreAction.FILE_UPDATE:
