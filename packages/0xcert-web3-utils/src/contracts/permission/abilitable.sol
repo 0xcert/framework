@@ -20,7 +20,7 @@ contract Abilitable {
    * There can be minimum of 1 address with 0 id ability.
    * Other ability id are determined by implementing contract.
    */
-  mapping(address => mapping(uint8 => bool)) internal addressToAbility;
+  mapping(address => mapping(uint8 => bool)) private addressToAbility;
 
   /**
    * @dev Count of zero ability addresses.
@@ -79,7 +79,7 @@ contract Abilitable {
     address _target,
     uint8[] _abilities
   )
-    external
+    public
     hasAbility(0)
   {
     for(uint8 i; i<_abilities.length; i++)
@@ -103,7 +103,7 @@ contract Abilitable {
     address _target,
     uint8[] _abilities
   )
-    external
+    public
     hasAbility(0)
   {
     for(uint8 i; i<_abilities.length; i++)
@@ -128,7 +128,7 @@ contract Abilitable {
     address _target,
     uint8 _ability
   )
-    external
+    public
     view
     returns (bool)
   {
