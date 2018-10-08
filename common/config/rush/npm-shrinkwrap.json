@@ -297,9 +297,8 @@
     },
     "@rush-temp/web3-erc721": {
       "version": "file:projects/web3-erc721.tgz",
-      "integrity": "sha512-v6D+NlbEGhmGQNdEGosJDlKMca9jTEemN1rcWw8q2CQ8sSqjPYa01DX0AIDOA381bkVekJoO3ML7whMwNEJ2fw==",
+      "integrity": "sha512-bNGv+59tONT4QyLnrpaJ97/T83ODJcfB2ejw2CLLr2yOYcybIgZ+SpUmM0w5rF16fsR2SDcbQLA/sp29yk6r7Q==",
       "requires": {
-        "@0xcert/ethereum-utils": "^1.1.0",
         "@specron/cli": "^0.2.5",
         "@specron/spec": "^0.2.5",
         "solc": "^0.4.25",

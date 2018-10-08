@@ -3,9 +3,9 @@ pragma solidity ^0.4.25;
 import "./erc721.sol";
 import "./erc721-metadata.sol";
 import "./erc721-token-receiver.sol";
-import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
-import "@0xcert/ethereum-utils/contracts/utils/SupportsInterface.sol";
-import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
+import "@0xcert/web3-utils/src/contracts/math/safe-math.sol";
+import "@0xcert/web3-utils/src/contracts/utils/supports-interface.sol";
+import "@0xcert/web3-utils/src/contracts/utils/address-utils.sol";
 
 /**
  * @dev Optional metadata implementation for ERC-721 non-fungible token standard.
