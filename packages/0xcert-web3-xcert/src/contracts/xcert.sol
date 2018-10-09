@@ -18,6 +18,7 @@ contract Xcert is
    * 2 - Ability to revoke xcerts.
    * 3 - Ability to pause xcert transfers.
    * 4 - Ability to change xcert proof.
+   * 5 - Ability to sign claims (valid signatures for minter).
    */
 
   using SafeMath for uint256;
