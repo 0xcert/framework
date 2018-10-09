@@ -19,7 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/chain": "0.0.0-alpha0",
-    "@0xcert/store": "0.0.0-alpha0",
     "@0xcert/web3-chain": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@hayspec/cli": "^0.7.4",

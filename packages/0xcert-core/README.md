@@ -65,25 +65,6 @@ const { isPaused } = await protocol.perform({
 
 
 
-// FEATURES:
-//
-// - List pending transactions ==> ???
-// > Generate hash
-// > Save to API
-// > Send to geth 
-// + protocol.getPendingTransactions()
-// + protocol.getCompletedTransactions()
-// + protocol.on('pendingTransactionsLoaded') ko se browser reloada
-// + protocol.on('newPendingTransaction')
-// + protocol.on('transactionCompleted')
-//
-// - Save ERC721 JSON files ==> ???
-// - List history events (token minted) ==> API
-// - Search history ==> API
-
-// 1. localstorage za shranjevanje pending stransactions + IPFS JSON file
-
-
 
 
 
@@ -297,3 +278,28 @@ const { isValid } = await protocol.perform({
   proofHash,
 });
 ```
+
+
+
+
+
+
+
+// FEATURES:
+//
+// - List pending transactions ==> ???
+// > Generate hash
+// > Save to API
+// > Send to geth 
+// + protocol.getPendingTransactions()
+// + protocol.getCompletedTransactions()
+// + protocol.on('pendingTransactionsLoaded') ko se browser reloada
+// + protocol.on('newPendingTransaction')
+// + protocol.on('transactionCompleted')
+//
+// - Save ERC721 JSON files ==> ???
+// - List history events (token minted) ==> API
+// - Search history ==> API
+
+// 1. localstorage za shranjevanje pending stransactions + IPFS JSON file
+

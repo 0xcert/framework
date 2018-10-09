@@ -256,6 +256,7 @@ export class Protocol {
       from,
     });
 
+    await exchange.instance.methods.assignAbilities(from, [1]).send({ from });
     await exchange.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
     await exchange.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
     await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from });
@@ -277,6 +278,7 @@ export class Protocol {
       from,
     });
 
+    await minter.instance.methods.assignAbilities(from, [1]).send({ from });
     await minter.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
     await minter.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
     await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
