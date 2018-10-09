@@ -1,4 +1,4 @@
-import { IChain, IStore, IRequest, IResponse, ChainAction, StoreAction } from './types';
+import { IChain, IRequest, IResponse, ChainAction } from './types';
 import { EventEmitter } from '../utils/emitter';
 
 /**
@@ -6,7 +6,6 @@ import { EventEmitter } from '../utils/emitter';
  */
 export interface IProtocolConfig {
   chain?: IChain;
-  store?: IStore;
 }
 
 /**
@@ -14,7 +13,6 @@ export interface IProtocolConfig {
  */
 export class Protocol extends EventEmitter {
   readonly chain: IChain;
-  readonly store: IStore;
 
   /**
    * Class constructor.
@@ -23,7 +21,6 @@ export class Protocol extends EventEmitter {
   public constructor(config: IProtocolConfig) {
     super();
     this.chain = config.chain;
-    this.store = config.store;
   }
 
   /**
@@ -37,10 +34,6 @@ export class Protocol extends EventEmitter {
       case ChainAction.FOLDER_READ_CAPABILITIES:
       case ChainAction.FOLDER_CHECK_IS_PAUSED:
         return this.chain.perform(req);
-      case StoreAction.FILE_CREATE:
-      case StoreAction.FILE_UPDATE:
-      case StoreAction.FILE_DELETE:
-        return this.store.perform(req);
       default:
         throw 'Unknown action';
     }
