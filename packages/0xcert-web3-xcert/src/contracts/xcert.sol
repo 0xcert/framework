@@ -1,8 +1,8 @@
 pragma solidity ^0.4.25;
 
-import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
-import "@0xcert/ethereum-utils/contracts/utils/AddressUtils.sol";
+import "@0xcert/web3-utils/src/contracts/math/safe-math.sol";
+import "@0xcert/web3-utils/src/contracts/permission/abilitable.sol";
+import "@0xcert/web3-utils/src/contracts/utils/address-utils.sol";
 import "@0xcert/web3-erc721/src/contracts/nf-token-metadata-enumerable.sol";
 
 /**
@@ -10,16 +10,24 @@ import "@0xcert/web3-erc721/src/contracts/nf-token-metadata-enumerable.sol";
  */
 contract Xcert is 
   NFTokenMetadataEnumerable,
-  Claimable
+  Abilitable
 {
+  /**
+   * @dev List of abilities gathered from all extensions:
+   * 1 - Ability to mint new xcerts.
+   * 2 - Ability to revoke xcerts.
+   * 3 - Ability to pause xcert transfers.
+   * 4 - Ability to change xcert proof.
+   * 5 - Ability to sign claims (valid signatures for minter).
+   */
+
   using SafeMath for uint256;
   using AddressUtils for address;
 
   /**
    * @dev Error constants.
    */
-  string constant NOT_AUTHORIZED = "007001";
-  string constant EMPTY_PROOF = "007002";
+  string constant EMPTY_PROOF = "007001";
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -38,25 +46,6 @@ contract Xcert is
   mapping (address => bool) internal addressToAuthorized;
 
   /**
-   * @dev Emits when an address is authorized to some contract control or the authorization is 
-   * revoked. The _target has some contract controle like minting new Xcerts.
-   * @param _target Address to set authorized state.
-   * @param _authorized True if the _target is authorised, false to revoke authorization.
-   */
-  event AuthorizedAddress(
-    address indexed _target,
-    bool _authorized
-  );
-
-  /**
-   * @dev Guarantees that msg.sender is allowed to mint a new Xcert.
-   */
-  modifier isAuthorized() {
-    require(msg.sender == owner || addressToAuthorized[msg.sender], NOT_AUTHORIZED);
-    _;
-  }
-
-  /**
    * @dev Contract constructor.
    * @notice When implementing this contract don't forget to set nftConventionId, nftName and
    * nftSymbol.
@@ -64,7 +53,7 @@ contract Xcert is
   constructor()
     public
   {
-    supportedInterfaces[0x55bee7a4] = true; // Xcert
+    supportedInterfaces[0x885975a0] = true; // Xcert
   }
 
   /**
@@ -81,7 +70,7 @@ contract Xcert is
     string _proof
   )
     external
-    isAuthorized()
+    hasAbility(1)
   {
     require(bytes(_proof).length > 0, EMPTY_PROOF);
     super._mint(_to, _id, _uri);
@@ -111,36 +100,5 @@ contract Xcert is
     returns(string)
   {
     return idToProof[_tokenId];
-  }
-
-  /**
-   * @dev Sets authorised address for minting.
-   * @param _target Address to set authorized state.
-   * @param _authorized True if the _target is authorized, false to revoke authorization.
-   */
-  function setAuthorizedAddress(
-    address _target,
-    bool _authorized
-  )
-    external
-    onlyOwner
-  {
-    addressToAuthorized[_target] = _authorized;
-    emit AuthorizedAddress(_target, _authorized);
-  }
-
-  /**
-   * @dev Sets mint authorised address.
-   * @param _target Address for which we want to check if it is authorized.
-   * @return Is authorized or not.
-   */
-  function isAuthorizedAddress(
-    address _target
-  )
-    external
-    view
-    returns (bool)
-  {
-    return addressToAuthorized[_target];
   }
 }

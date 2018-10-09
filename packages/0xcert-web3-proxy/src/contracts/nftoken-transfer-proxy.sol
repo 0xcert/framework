@@ -2,7 +2,7 @@ pragma solidity 0.4.25;
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc721/src/contracts/ERC721.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
 
 /** 
  * @title NFTokenTransferProxy - Transfers none-fundgible tokens on behalf of contracts that have 

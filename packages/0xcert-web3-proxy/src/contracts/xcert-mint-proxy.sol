@@ -1,7 +1,7 @@
 pragma solidity 0.4.25;
 
 import "@0xcert/web3-xcert/src/contracts/xcert.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
 
 /**
  * @title XcertMintProxy - Mints a token on behalf of contracts that have been approved via

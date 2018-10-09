@@ -2,7 +2,7 @@ pragma solidity 0.4.25;
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc20/src/contracts/ERC20.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
 
 /**
  * @title TokenTransferProxy - Transfers tokens on behalf of contracts that have been approved via

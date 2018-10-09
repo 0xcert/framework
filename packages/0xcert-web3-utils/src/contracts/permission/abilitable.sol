@@ -79,7 +79,7 @@ contract Abilitable {
     address _target,
     uint8[] _abilities
   )
-    external
+    public
     hasAbility(0)
   {
     for(uint8 i; i<_abilities.length; i++)
@@ -103,7 +103,7 @@ contract Abilitable {
     address _target,
     uint8[] _abilities
   )
-    external
+    public
     hasAbility(0)
   {
     for(uint8 i; i<_abilities.length; i++)
@@ -128,7 +128,7 @@ contract Abilitable {
     address _target,
     uint8 _ability
   )
-    external
+    public
     view
     returns (bool)
   {

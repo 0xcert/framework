@@ -233,6 +233,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/exchange.json',
     contract: 'Exchange',
   });
+  await exchange.instance.methods.assignAbilities(owner, [1]).send();
   await exchange.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   await exchange.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
   ctx.set('exchange', exchange);

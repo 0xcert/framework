@@ -3,14 +3,19 @@ pragma experimental ABIEncoderV2;
 
 import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
 import "@0xcert/web3-proxy/src/contracts/xcert-mint-proxy.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/abilitable.sol";
 
 /**
  @dev Contract for decetralized minting of NFTs. 
  */
 contract Minter is
-  Claimable
+  Abilitable
 {
+  /**
+   * @dev List of abilities:
+   * 1 - Ability to set proxies.
+   */
+
   /**
    * @dev Error constants.
    */
@@ -18,12 +23,12 @@ contract Minter is
   string constant ZERO_ADDRESS = "016002";
   string constant INVALID_SIGNATURE_KIND = "016003";
   string constant TAKER_NOT_EQUAL_TO_SENDER = "016004";
-  string constant TAKER_EQUAL_TO_OWNER = "016005";
+  string constant SIGNER_NOT_AUTHORIZED = "016005";
   string constant CLAIM_EXPIRED = "016006";
   string constant INVALID_SIGNATURE = "016007";
   string constant MINT_CANCELED = "016008";
   string constant MINT_ALREADY_PERFORMED = "016009";
-  string constant OWNER_NOT_EQUAL_TO_SENDER = "016010";
+  string constant SIGNER_NOT_EQUAL_TO_SENDER = "016010";
 
   /**
    * @dev Enum of available signature kinds.
@@ -108,6 +113,7 @@ contract Minter is
    * @param expiration Timestamp of when the claim expires. 0 if indefinet. 
    */
   struct MintData{
+    address signer;
     address to;
     XcertData xcertData;
     TransferData[] transfers;
@@ -131,11 +137,14 @@ contract Minter is
 
   /** 
    * @dev This event emmits when xcert gets mint directly to the taker.
+   * @param _signer Address that signed the transaction. Has to have ability to sign claims of that
+   * xcert.
    * @param _to Address of the xcert recipient.
    * @param _xcert Address of the xcert contract.
    * @param _xcertMintClaim Claim of the mint.
    */
   event PerformMint(
+    address _signer,
     address _to,
     address indexed _xcert,
     bytes32 _xcertMintClaim
@@ -143,11 +152,14 @@ contract Minter is
 
   /** 
    * @dev This event emmits when xcert mint order is canceled.
+   * @param _signer Address that signed the transaction. Has to have ability to sign claims of that
+   * xcert.
    * @param _to Address of the xcert recipient.
    * @param _xcert Address of the xcert contract.
    * @param _xcertMintClaim Claim of the mint.
    */
   event CancelMint(
+    address _signer,
     address _to,
     address indexed _xcert,
     bytes32 _xcertMintClaim
@@ -185,7 +197,7 @@ contract Minter is
     address _proxy
   )
     external
-    onlyOwner
+    hasAbility(1)
   {
     idToProxy[_id] = _proxy;
     emit ProxyChange(_id, _proxy);
@@ -203,15 +215,16 @@ contract Minter is
     public
   {
     bytes32 claim = getMintDataClaim(_mintData);
-    address owner = _getOwner(_mintData.xcertData.xcert);
 
     require(_mintData.to == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
-    require(owner != _mintData.to, TAKER_EQUAL_TO_OWNER);
     require(_mintData.expirationTimestamp >= now, CLAIM_EXPIRED);
-
+    require(
+      Xcert(_mintData.xcertData.xcert).isAble(_mintData.signer, 5),
+      SIGNER_NOT_AUTHORIZED
+    );
     require(
       isValidSignature(
-        owner,
+        _mintData.signer,
         claim,
         _signatureData
       ),
@@ -228,6 +241,7 @@ contract Minter is
     _makeTransfers(_mintData.transfers);
 
     emit PerformMint(
+      _mintData.signer,
       _mintData.to,
       _mintData.xcertData.xcert,
       claim
@@ -243,8 +257,7 @@ contract Minter is
   )
     public
   {
-    address owner = _getOwner(_mintData.xcertData.xcert);
-    require(msg.sender == owner, OWNER_NOT_EQUAL_TO_SENDER);
+    require(msg.sender == _mintData.signer, SIGNER_NOT_EQUAL_TO_SENDER);
 
     bytes32 claim = getMintDataClaim(_mintData);
 
@@ -253,6 +266,7 @@ contract Minter is
     mintCancelled[claim] = true;
 
     emit CancelMint(
+      _mintData.signer,
       _mintData.to,
       _mintData.xcertData.xcert,
       claim
@@ -290,6 +304,7 @@ contract Minter is
     return keccak256(
       abi.encodePacked(
         address(this),
+        _mintData.signer,
         _mintData.to,
         _mintData.xcertData.xcert,
         _mintData.xcertData.id,
@@ -304,7 +319,8 @@ contract Minter is
 
   /**
    * @dev Verifies if claim signature is valid.
-   * @param _signer address of signer.
+   * @param _signer Address that signed the transaction. Has to have ability to sign claims of that
+   * xcert.
    * @param _claim Signed Keccak-256 hash.
    * @param _signature Signature data.
    * @return Validity of signature.
@@ -376,20 +392,6 @@ contract Minter is
       _xcertData.uri,
       _xcertData.proof
     );
-  }
-
-  /** 
-   * @dev Gets xcert contract owner.
-   * @param _xcert Contract address.
-   */
-  function _getOwner(
-    address _xcert
-  )
-    private
-    view
-    returns (address)
-  {
-    return Xcert(_xcert).owner();
   }
 
   /**

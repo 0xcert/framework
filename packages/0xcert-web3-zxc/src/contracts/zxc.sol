@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
-import "@0xcert/ethereum-utils/contracts/math/SafeMath.sol";
+import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
+import "@0xcert/web3-utils/src/contracts/math/safe-math.sol";
 import "@0xcert/web3-erc20/src/contracts/token.sol";
 
 /*

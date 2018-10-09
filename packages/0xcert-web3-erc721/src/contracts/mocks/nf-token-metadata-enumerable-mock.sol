@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
 import "../nf-token-metadata-enumerable.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
 
 /**
  * @dev This is an example contract implementation of NFToken with enumerable and metadata

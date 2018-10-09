@@ -48,11 +48,14 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const owner = ctx.get('owner');
   const xcert = await ctx.deploy({ 
     src: './build/revokable-xcert-mock.json',
     contract: 'RevokableXcertMock',
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
+
+  await xcert.instance.methods.assignAbilities(owner, [1,2]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 
@@ -84,22 +87,6 @@ spec.test('successfuly revokes an xcert', async (ctx) => {
 
   await ctx.reverts(() => xcert.instance.methods.tokenByIndex(1).call(), '006007');
   await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
-});
-
-spec.test('successfuly revokes an xcert from an authorized address', async (ctx) => {
-  const xcert = ctx.get('xcert');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  const sara = ctx.get('sara');
-  const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
-  const proof1 = ctx.get('proof1');
-
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.instance.methods.setAuthorizedAddress(sara, true).send({ from: owner });
-  
-  const logs = await xcert.instance.methods.revoke(id1).send({ from: sara });
-  ctx.not(logs.events.Transfer, undefined);
 });
 
 spec.test('throws when trying to revoke an already revoked xcert', async (ctx) => {

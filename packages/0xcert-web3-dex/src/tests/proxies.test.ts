@@ -16,6 +16,13 @@ interface Data {
 const spec = new Spec<Data>();
 
 spec.beforeEach(async (ctx) => {
+  const accounts = await ctx.web3.eth.getAccounts();
+  ctx.set('owner', accounts[0]);
+  ctx.set('bob', accounts[1]);
+  ctx.set('zeroAddress', '0x0000000000000000000000000000000000000000');
+});
+
+spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: '@0xcert/web3-proxy/build/token-transfer-proxy.json',
     contract: 'TokenTransferProxy'
@@ -32,18 +39,13 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const owner = ctx.get('owner');
   const exchange = await ctx.deploy({
     src: './build/exchange.json',
     contract: 'Exchange',
   });
+  await exchange.instance.methods.assignAbilities(owner, [1]).send();
   ctx.set('exchange', exchange);
-});
-
-spec.beforeEach(async (ctx) => {
-  const accounts = await ctx.web3.eth.getAccounts();
-  ctx.set('owner', accounts[0]);
-  ctx.set('bob', accounts[1]);
-  ctx.set('zeroAddress', '0x0000000000000000000000000000000000000000');
 });
 
 spec.test('correctly set proxy addresses', async (ctx) => {

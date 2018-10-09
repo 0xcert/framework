@@ -7,6 +7,7 @@ import * as common from './helpers/common';
 
 interface Data {
   minter?: any;
+  owner?: string;
   bob?: string;
   jane?: string;
   sara?: string;
@@ -25,6 +26,7 @@ export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
+  ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
   ctx.set('jane', accounts[2]);
   ctx.set('sara', accounts[3]);
@@ -33,11 +35,13 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const randomAddress = ctx.get('randomAddress');
+  const owner = ctx.get('owner');
   const minter = await ctx.deploy({
     src: './build/minter.json',
     contract: 'Minter',
     args: [randomAddress]
   });
+  await minter.instance.methods.assignAbilities(owner, [1]).send();
   ctx.set('minter', minter);
 });
 
@@ -45,6 +49,7 @@ spec.beforeEach(async (ctx) => {
   const id = '1';
   const uri = "http://0xcert.org/1";
   const proof = '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8';
+  const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -74,6 +79,7 @@ spec.beforeEach(async (ctx) => {
     },
   ];
   const mintData = {
+    from: owner,
     to: bob,
     xcertData,
     transfers,
