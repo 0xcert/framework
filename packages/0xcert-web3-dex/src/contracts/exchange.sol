@@ -2,14 +2,19 @@ pragma solidity ^0.4.25;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/web3-proxy/src/contracts/iproxy.sol";
-import "@0xcert/ethereum-utils/contracts/ownership/Claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/Abilitable.sol";
 
 /**
  * @dev Decentralize exchange for fundgible and non-fundgible tokens powered by atomic swaps. 
  */
 contract Exchange is
-  Claimable
+  Abilitable
 {
+  /**
+   * @dev List of abilities:
+   * 1 - Ability to set proxies.
+   */
+
   /**
    * @dev Error constants.
    */
@@ -145,7 +150,7 @@ contract Exchange is
     address _proxy
   )
     external
-    onlyOwner
+    hasAbility(1)
   {
     idToProxy[_id] = _proxy;
     emit ProxyChange(_id, _proxy);

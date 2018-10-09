@@ -259,9 +259,8 @@
     },
     "@rush-temp/web3-dex": {
       "version": "file:projects/web3-dex.tgz",
-      "integrity": "sha512-m+bQ8V7EZxJH987AdtkFHlSMlSovG4apVvvQfF2WhgW/nIoeiWRPHvjWoOYgmYseyJXtDNpPd8RjPGx9P4R1gQ==",
+      "integrity": "sha512-v5HGFC1HogojBOvaNeXoW2z6HaKgH7ivKktetuuyC81ZyF4+EzFnyXG0EMIqqyGZd3WQ0nKe32beWsxaRfe3nQ==",
       "requires": {
-        "@0xcert/ethereum-utils": "^1.1.0",
         "@specron/cli": "^0.2.5",
         "@specron/spec": "^0.2.5",
         "solc": "^0.4.25",

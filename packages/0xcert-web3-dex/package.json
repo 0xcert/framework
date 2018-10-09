@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils": "^1.1.0",
+    "@0xcert/web3-utils": "0.0.0-alpha0",
     "@0xcert/web3-erc20": "0.0.0-alpha0",
     "@0xcert/web3-erc721": "0.0.0-alpha0",
     "@0xcert/web3-proxy": "0.0.0-alpha0",
