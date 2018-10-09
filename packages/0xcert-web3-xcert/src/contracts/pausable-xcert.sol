@@ -41,7 +41,7 @@ contract PausableXcert is Xcert {
     bool _isPaused
   )
     external
-    onlyOwner
+    hasAbility(3)
   {
     isPaused = _isPaused;
     emit IsPaused(_isPaused);

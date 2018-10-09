@@ -44,7 +44,7 @@ contract MutableXcert is Xcert {
     string _proof
   )
     external
-    isAuthorized()
+    hasAbility(4)
   {
     require(bytes(_proof).length > 0, EMPTY_PROOF);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);

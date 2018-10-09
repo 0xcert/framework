@@ -350,9 +350,8 @@
     },
     "@rush-temp/web3-xcert": {
       "version": "file:projects/web3-xcert.tgz",
-      "integrity": "sha512-i7MztpiYXesXYAw4ADkenbJKo0TMnIOcLeugBiY8MEC1xjB+QwtdzTcV8ywWqSOUvIL3Hx7zOqu1cZO5VSdDLA==",
+      "integrity": "sha512-RMyNz7tbyaJwmkivMRLI1n1FOrcNHtdGc4jEvv5sqJ/lcENQ/tX0rLQIV79ZugOm0KrBEweDc1n1taZrVMsS5Q==",
       "requires": {
-        "@0xcert/ethereum-utils": "^1.1.0",
         "@specron/cli": "^0.2.5",
         "@specron/spec": "^0.2.5",
         "solc": "^0.4.25",

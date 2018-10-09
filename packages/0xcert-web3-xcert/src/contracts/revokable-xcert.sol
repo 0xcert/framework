@@ -27,7 +27,7 @@ contract RevokableXcert is Xcert {
     uint256 _tokenId
   )
     external
-    isAuthorized()
+    hasAbility(2)
   {
     super._burn(_tokenId);
     delete idToProof[_tokenId];

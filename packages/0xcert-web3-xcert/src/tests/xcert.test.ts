@@ -48,11 +48,14 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const owner = ctx.get('owner');
   const xcert = await ctx.deploy({ 
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
+
+  await xcert.instance.methods.assignAbilities(owner, [1]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 
@@ -112,8 +115,7 @@ spec.test('throws when trying to mint an xcert with empty proof', async (ctx) =>
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
   const url = ctx.get('url1');
-
-  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, '').send({ from: owner }), '007002');
+  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, '').send({ from: owner }), '007001');
 });
 
 spec.test('throws when a third party tries to mint an xcert', async (ctx) => {
@@ -124,7 +126,7 @@ spec.test('throws when a third party tries to mint an xcert', async (ctx) => {
   const proof = ctx.get('proof1');
   const sara = ctx.get('sara');
 
-  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, proof).send({ from: sara }), '007001');
+  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, proof).send({ from: sara }), '017001');
 });
 
 spec.test('throws when trying to mint an xcert to zero address', async (ctx) => {
@@ -138,27 +140,27 @@ spec.test('throws when trying to mint an xcert to zero address', async (ctx) => 
   await ctx.reverts(() => xcert.instance.methods.mint(zeroAddress, id, url, proof).send({ from: owner }), '006001');
 });
 
-spec.test('corectly authorizes an address', async (ctx) => {
+spec.test('corectly assigns mint ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+ 
+  const logs =  await xcert.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  ctx.not(logs.events.AssignAbility, undefined);
 
-  const logs = await xcert.instance.methods.setAuthorizedAddress(bob, true).send({ from: owner });
-  ctx.not(logs.events.AuthorizedAddress, undefined);
-
-  const bobAuthorized = await xcert.instance.methods.isAuthorizedAddress(bob).call();
-  ctx.is(bobAuthorized, true);
+  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbility1, true);
 });
 
-spec.test('throws when a third party tries to authorize an address', async (ctx) => {
+spec.test('throws when a third party tries to assign mint ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
 
-  await ctx.reverts(() => xcert.instance.methods.setAuthorizedAddress(bob, true).send({ from: sara }));
+  await ctx.reverts(() => xcert.instance.methods.assignAbilities(bob, [1]).send({ from: sara }));
 });
 
-spec.test('correctly mints an xcert from an authorized address', async (ctx) => {
+spec.test('correctly mints an xcert from an address with mint ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -167,7 +169,7 @@ spec.test('correctly mints an xcert from an authorized address', async (ctx) => 
   const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.instance.methods.setAuthorizedAddress(bob, true).send({ from: owner });
+  await xcert.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
   await xcert.instance.methods.mint(sara, id, url, proof).send({ from: bob });
   const saraXcertCount = await xcert.instance.methods.balanceOf(sara).call();
   ctx.is(saraXcertCount, '1');
@@ -182,9 +184,9 @@ spec.test('throws trying to mint from address which authorization got revoked', 
   const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.instance.methods.setAuthorizedAddress(bob, true).send({ from: owner });
-  await xcert.instance.methods.setAuthorizedAddress(bob, false).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.mint(sara, id, url, proof).send({ from: bob }), '007001');
+  await xcert.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  await xcert.instance.methods.revokeAbilities(bob, [1]).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.mint(sara, id, url, proof).send({ from: bob }), '017001');
 });
 
 spec.test('throws when trying to find owner of a non-existing xcert', async (ctx) => {

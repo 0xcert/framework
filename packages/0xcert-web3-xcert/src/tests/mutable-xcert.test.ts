@@ -48,11 +48,14 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const owner = ctx.get('owner');
   const xcert = await ctx.deploy({ 
     src: './build/mutable-xcert-mock.json',
     contract: 'MutableXcertMock',
     args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
+
+  await xcert.instance.methods.assignAbilities(owner, [1,4]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 
