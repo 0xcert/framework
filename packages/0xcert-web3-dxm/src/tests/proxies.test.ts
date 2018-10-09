@@ -55,6 +55,7 @@ spec.test('deploy minter with correct token transfer proxy address', async (ctx)
     args: [randomAddress]
   });
 
+  await minter.instance.methods.assignAbilities(owner, [1]).send();
   const logs = await minter.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   ctx.not(logs.events.ProxyChange, undefined);
 
@@ -72,7 +73,6 @@ spec.test('throws when a third party tries to set proxy address', async (ctx) =>
     contract: 'Minter',
     args: [randomAddress]
   });
-
   await ctx.reverts(() => minter.instance.methods.setProxy(0, zeroAddress).send({ from: bob }));
 });
 

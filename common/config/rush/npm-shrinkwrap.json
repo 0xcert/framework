@@ -4,11 +4,6 @@
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
-    "@0xcert/ethereum-utils": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/@0xcert/ethereum-utils/-/ethereum-utils-1.1.0.tgz",
-      "integrity": "sha512-x7bl+QIhmlrZ83PdPGkn2G+DqR4JurzY26HpgK+dLoEKbh0boIraPS/bnLDOj1wbM+u40WKl3eIyUlpQ7qK9rg=="
-    },
     "@babel/code-frame": {
       "version": "7.0.0-beta.51",
       "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.0.0-beta.51.tgz",
@@ -271,9 +266,8 @@
     },
     "@rush-temp/web3-dxm": {
       "version": "file:projects/web3-dxm.tgz",
-      "integrity": "sha512-Bs/633eRoYlIGLvdQvIRW5aGh/3Ex0jLXIIXGrREgWg8En1kZk5S8pchy/DS1c6/pCQi30yxslEN2P9V7bRxkA==",
+      "integrity": "sha512-HGekRW3FhIjvoddTYcKuuvcY1b5xXPZ/+Eo2iYwLHZsuIX31bjSrOpRZ87ohKEWQ7WF6tRLiIIdMDtfYbD2CwQ==",
       "requires": {
-        "@0xcert/ethereum-utils": "^1.1.0",
         "@specron/cli": "^0.2.5",
         "@specron/spec": "^0.2.5",
         "solc": "^0.4.25",
