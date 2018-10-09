@@ -9,10 +9,8 @@ import { Chain } from '@0xcert/web3-chain';
 import { Store } from '@0xcert/ipfs-store';
 import { Protocol, AbilityId, Action, EventId } from '@0xcert/core';
 
-const protocol = new Protocol({
-  chain: new Chain({ ... }),
-  store: new Store({ ... }),
-});
+const connector = new Web3Chain();
+const protocol = new Protocol({ connector });
 ```
 
 Listen to protocol events.
@@ -64,6 +62,34 @@ const { isPaused } = await protocol.perform({
   folderId: '0x...',
 });
 ```
+
+
+
+// FEATURES:
+//
+// - List pending transactions ==> ???
+// > Generate hash
+// > Save to API
+// > Send to geth 
+// + protocol.getPendingTransactions()
+// + protocol.getCompletedTransactions()
+// + protocol.on('pendingTransactionsLoaded') ko se browser reloada
+// + protocol.on('newPendingTransaction')
+// + protocol.on('transactionCompleted')
+//
+// - Save ERC721 JSON files ==> ???
+// - List history events (token minted) ==> API
+// - Search history ==> API
+
+// 1. localstorage za shranjevanje pending stransactions + IPFS JSON file
+
+
+
+
+
+
+
+
 
 Check if an account is authorized to perform a certain action.
 

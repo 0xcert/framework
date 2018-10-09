@@ -28,18 +28,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/ipfs-store",
-      "projectFolder": "packages/0xcert-ipfs-store",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/merkle-tree",
       "projectFolder": "packages/0xcert-merkle-tree",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@0xcert/store",
-      "projectFolder": "packages/0xcert-store",
       "shouldPublish": true
     },
     {
