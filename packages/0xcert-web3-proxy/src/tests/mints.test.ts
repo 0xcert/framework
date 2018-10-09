@@ -81,7 +81,7 @@ spec.test('mints an Xcert', async (ctx) => {
     args: ['cat', 'CAT','0xa65de9e6'],
   });
 
-  await cat.instance.methods.setAuthorizedAddress(xcertProxy.receipt._address, true).send({ from: owner });
+  await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
   await xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob });
 
   const newOwner = await cat.instance.methods.ownerOf(1).call();
@@ -100,7 +100,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
     args: ['cat', 'CAT','0xa65de9e6'],
   });
 
-  await cat.instance.methods.setAuthorizedAddress(xcertProxy.receipt._address, true).send({ from: owner });
+  await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
   await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob }), '014002');
 });
 

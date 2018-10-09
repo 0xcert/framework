@@ -309,9 +309,8 @@
     },
     "@rush-temp/web3-proxy": {
       "version": "file:projects/web3-proxy.tgz",
-      "integrity": "sha512-7p/hzwpMP1u433/YYMCkbkKJMpY9j486n7M9steT8c5XF8quQIYOORIHpWszitUdKB+PyqQxIdJfYUmBDWyhKg==",
+      "integrity": "sha512-WaIhqOyDArewK4k7xFm9+gBykba8d8WI9SubmgDUWsJ0nyeMG5BYAAtgWT0uWmmq3oXNR38m8ebeq06DLpQiPw==",
       "requires": {
-        "@0xcert/ethereum-utils": "^1.1.0",
         "@specron/cli": "^0.2.5",
         "@specron/spec": "^0.2.5",
         "solc": "^0.4.25",
