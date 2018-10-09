@@ -1,4 +1,0 @@
-{
-  "ignore": ["dist/*"],
-  "ext": "js,ts"
-}
