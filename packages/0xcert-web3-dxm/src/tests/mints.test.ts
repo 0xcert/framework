@@ -197,9 +197,9 @@ spec.beforeEach(async (ctx) => {
   await minter.instance.methods.assignAbilities(owner, [1]).send();
   await minter.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   await minter.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
-  await tokenProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
-  await mintProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
-  await nftProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from: owner });
+  await tokenProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from: owner });
+  await mintProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from: owner });
+  await nftProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from: owner });
 });
 
 /**
