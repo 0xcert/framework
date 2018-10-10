@@ -34,38 +34,23 @@ spec.test('adds authorized address', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await nftProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  ctx.not(logs.events.LogAuthorizedAddressAdded, undefined);
+  const logs = await nftProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  ctx.not(logs.events.AssignAbility, undefined);
 
-  const authorizedAddresses = await nftProxy.instance.methods.getAuthorizedAddresses().call();
-  ctx.is(authorizedAddresses[0], bob);
-});
-
-spec.test('fails when trying to add an already authorized address', async (ctx) => {
-  const nftProxy = ctx.get('nftProxy');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  await nftProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  await ctx.reverts(() => nftProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner }), '013001');
+  const bobHasAbility1 = await nftProxy.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbility1, true);
 });
 
 spec.test('removes authorized address', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await nftProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  const logs = await nftProxy.instance.methods.removeAuthorizedAddress(bob).send({ from: owner });
-  ctx.not(logs.events.LogAuthorizedAddressRemoved, undefined);
+  await nftProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  const logs = await nftProxy.instance.methods.revokeAbilities(bob, [1]).send({ from: owner });
+  ctx.not(logs.events.RevokeAbility, undefined);
 
-  const authorizedAddresses = await nftProxy.instance.methods.getAuthorizedAddresses().call();
-  ctx.is(authorizedAddresses.length, 0);
-});
-
-spec.test('fails when trying to remove an already unauthorized address', async (ctx) => {
-  const nftProxy = ctx.get('nftProxy');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  await ctx.reverts(() => nftProxy.instance.methods.removeAuthorizedAddress(bob).send({ from: owner }), '013002');
+  const bobHasAbility1 = await nftProxy.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbility1, false);
 });
 
 spec.test('transfers an NFT', async (ctx) => {
@@ -75,7 +60,7 @@ spec.test('transfers an NFT', async (ctx) => {
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
 
-  await nftProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
+  await nftProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
 
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
@@ -118,7 +103,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
     });
 
   await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({from: jane});
-  await ctx.reverts(() => nftProxy.instance.methods.execute(cat.receipt._address, jane, sara, 1).send({ from: bob }), '013002');
+  await ctx.reverts(() => nftProxy.instance.methods.execute(cat.receipt._address, jane, sara, 1).send({ from: bob }), '017001');
 });
 
 export default spec;

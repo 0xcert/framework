@@ -33,38 +33,23 @@ spec.test('adds authorized address', async (ctx) => {
   const xcertProxy = ctx.get('xcertProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await xcertProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  ctx.not(logs.events.LogAuthorizedAddressAdded, undefined);
+  const logs = await xcertProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  ctx.not(logs.events.AssignAbility, undefined);
 
-  const authorizedAddresses = await xcertProxy.instance.methods.getAuthorizedAddresses().call();
-  ctx.is(authorizedAddresses[0], bob);
-});
-
-spec.test('fails when trying to add an already authorized address', async (ctx) => {
-  const xcertProxy = ctx.get('xcertProxy');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  await xcertProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  await ctx.reverts(() => xcertProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner }), '014001');
+  const bobHasAbility1 = await xcertProxy.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbility1, true);
 });
 
 spec.test('removes authorized address', async (ctx) => {
   const xcertProxy = ctx.get('xcertProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await xcertProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
-  const logs = await xcertProxy.instance.methods.removeAuthorizedAddress(bob).send({ from: owner });
-  ctx.not(logs.events.LogAuthorizedAddressRemoved, undefined);
+  await xcertProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
+  const logs = await xcertProxy.instance.methods.revokeAbilities(bob, [1]).send({ from: owner });
+  ctx.not(logs.events.RevokeAbility, undefined);
 
-  const authorizedAddresses = await xcertProxy.instance.methods.getAuthorizedAddresses().call();
-  ctx.is(authorizedAddresses.length, 0);
-});
-
-spec.test('fails when trying to remove an already unauthorized address', async (ctx) => {
-  const xcertProxy = ctx.get('xcertProxy');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  await ctx.reverts(() => xcertProxy.instance.methods.removeAuthorizedAddress(bob).send({ from: owner }), '014002');
+  const bobHasAbility1 = await xcertProxy.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbility1, false);
 });
 
 spec.test('mints an Xcert', async (ctx) => {
@@ -73,7 +58,7 @@ spec.test('mints an Xcert', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await xcertProxy.instance.methods.addAuthorizedAddress(bob).send({ from: owner });
+  await xcertProxy.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
 
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
@@ -101,7 +86,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
-  await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob }), '014002');
+  await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob }), '017001');
 });
 
 export default spec;
