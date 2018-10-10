@@ -1,5 +1,5 @@
-import { IFolderCheckIsPausedConnectorRequest as IActionRequest,
-  IFolderCheckIsPausedConnectorResponse as IActionResponse } from '@0xcert/connector';
+import { IFolderCheckIsPausedActionRequest as IActionRequest,
+  IFolderCheckIsPausedActionResponse as IActionResponse } from '@0xcert/connector';
 import { Connector } from '../core/connector';
 import * as env from '../config/env';
 

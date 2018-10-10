@@ -4,6 +4,7 @@ import folderReadMetadata from '../resolvers/folder-read-metadata';
 import folderReadSupply from '../resolvers/folder-read-supply';
 import folderReadCapabilities from '../resolvers/folder-read-capabilities';
 import folderCheckIsPaused from '../resolvers/folder-check-is-paused';
+import folderCheckIsAble from '../resolvers/folder-check-is-able';
 
 /**
  * Web3 connector.
@@ -33,6 +34,8 @@ export class Connector implements IConnector {
         return folderReadCapabilities.call(this, this, req);
       case ActionId.FOLDER_CHECK_IS_PAUSED:
         return folderCheckIsPaused.call(this, this, req);
+      case ActionId.FOLDER_CHECK_IS_ABLE:
+        return folderCheckIsAble.call(this, this, req);
       default:
         throw 'Unknown action'; 
     }

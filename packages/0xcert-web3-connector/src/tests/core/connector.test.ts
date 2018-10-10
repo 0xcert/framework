@@ -1,10 +1,11 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector, ActionId } from '../..';
+import { Connector, ActionId, FolderAbilityId } from '../..';
 
 interface Data {
   connector: Connector;
   protocol: Protocol;
+  owner: string;
 }
 
 const spec = new Spec<Data>();
@@ -17,6 +18,11 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
   stage.set('protocol', await protocol.deploy());
+});
+
+spec.before(async (stage) => {
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('owner', accounts[0]);
 });
 
 spec.test('reads folder metadata', async (ctx) => {
@@ -74,6 +80,18 @@ spec.test('checks if folder transfers are paused', async (ctx) => {
   });
   ctx.deepEqual(res, {
     isPaused: false,
+  });
+});
+
+spec.test('checks if account has ability on folder', async (ctx) => {
+  const res = await ctx.get('connector').perform({
+    actionId: ActionId.FOLDER_CHECK_IS_ABLE,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+    abilityId: FolderAbilityId.MANAGE_ABILITIES,
+    accountId: ctx.get('owner'),
+  });
+  ctx.deepEqual(res, {
+    isAble: true,
   });
 });
 

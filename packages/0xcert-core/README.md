@@ -63,25 +63,21 @@ const { isPaused } = await protocol.perform({
 });
 ```
 
-
-
-
-
-
-
-
-
-
-Check if an account is authorized to perform a certain action.
+[implemented] Check if an account is authorized to perform a certain action.
 
 ```ts
 const { isAuthorized } = await protocol.perform({
-  actionId: ActionId.FOLDER_CHECK_ACCOUNT_ABILITY,
+  actionId: ActionId.FOLDER_CHECK_IS_ABLE,
   folderId: '0x...',
-  acountId: '0x...',
-  ability: AbilityId.MINTER_MINT,
+  abilityId: FolderAbilityId.MANAGE_ABILITIES,
+  accountId: '0x...',
 });
 ```
+
+
+
+
+
 
 Check if an account can operate on behalf of.
 

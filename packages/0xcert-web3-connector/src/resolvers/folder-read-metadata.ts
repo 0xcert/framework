@@ -1,5 +1,5 @@
-import { IFolderReadMetadataConnectorRequest as IActionRequest,
-  IFolderReadMetadataConnectorResponse as IActionResponse } from '@0xcert/connector';
+import { IFolderReadMetadataActionRequest as IActionRequest,
+  IFolderReadMetadataActionResponse as IActionResponse } from '@0xcert/connector';
 import { Connector } from '../core/connector';
 import * as env from '../config/env';
 
