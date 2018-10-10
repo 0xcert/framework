@@ -2,23 +2,23 @@
  * 
  */
 export interface IConnector {
-  perform(req: IConnectorRequest): (IConnectorResponse | Promise<IConnectorResponse>);
+  perform(req: IActionRequest): (IActionResponse | Promise<IActionResponse>);
 }
 
 /**
  * 
  */
-export enum ConnectorAction {
-  FOLDER_READ_METADATA = 'connectorActionFolderReadMetadata',
-  FOLDER_READ_SUPPLY = 'connectorActionFolderReadSupply',
-  FOLDER_READ_CAPABILITIES = 'connectorActionFolderReadCapabilities',
-  FOLDER_CHECK_IS_PAUSED = 'connectorActionFolderCheckIsPaused',
+export enum ActionId {
+  FOLDER_READ_METADATA = 4000,
+  FOLDER_READ_SUPPLY = 4001,
+  FOLDER_READ_CAPABILITIES = 4002,
+  FOLDER_CHECK_IS_PAUSED = 4003,
 }
 
 /**
  * 
  */
-export type IConnectorRequest = IFolderReadMetadataConnectorRequest
+export type IActionRequest = IFolderReadMetadataConnectorRequest
   | IFolderReadSupplyConnectorRequest
   | IFolderReadCapabilitiesConnectorRequest
   | IFolderCheckIsPausedConnectorRequest;
@@ -26,7 +26,7 @@ export type IConnectorRequest = IFolderReadMetadataConnectorRequest
 /**
  * 
  */
-export type IConnectorResponse = IFolderReadMetadataConnectorResponse
+export type IActionResponse = IFolderReadMetadataConnectorResponse
   | IFolderReadSupplyConnectorResponse
   | IFolderReadCapabilitiesConnectorResponse
   | IFolderCheckIsPausedConnectorResponse;
@@ -35,7 +35,7 @@ export type IConnectorResponse = IFolderReadMetadataConnectorResponse
  * 
  */
 export interface IFolderReadMetadataConnectorRequest {
-  action: ConnectorAction.FOLDER_READ_METADATA;
+  actionId: ActionId.FOLDER_READ_METADATA;
   folderId: string;
 }
 
@@ -51,7 +51,7 @@ export interface IFolderReadMetadataConnectorResponse {
  * 
  */
 export interface IFolderReadSupplyConnectorRequest {
-  action: ConnectorAction.FOLDER_READ_SUPPLY;
+  actionId: ActionId.FOLDER_READ_SUPPLY;
   folderId: string;
 }
 
@@ -66,7 +66,7 @@ export interface IFolderReadSupplyConnectorResponse {
  * 
  */
 export interface IFolderReadCapabilitiesConnectorRequest {
-  action: ConnectorAction.FOLDER_READ_CAPABILITIES;
+  actionId: ActionId.FOLDER_READ_CAPABILITIES;
   folderId: string;
 }
 
@@ -84,7 +84,7 @@ export interface IFolderReadCapabilitiesConnectorResponse {
  * 
  */
 export interface IFolderCheckIsPausedConnectorRequest {
-  action: ConnectorAction.FOLDER_CHECK_IS_PAUSED;
+  actionId: ActionId.FOLDER_CHECK_IS_PAUSED;
   folderId: string;
 }
 

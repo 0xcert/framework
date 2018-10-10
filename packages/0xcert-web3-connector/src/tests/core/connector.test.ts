@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector, ConnectorAction } from '../..';
+import { Connector, ActionId } from '../..';
 
 interface Data {
   connector: Connector;
@@ -21,7 +21,7 @@ spec.before(async (stage) => {
 
 spec.test('reads folder metadata', async (ctx) => {
   const res = await ctx.get('connector').perform({
-    action: ConnectorAction.FOLDER_READ_METADATA,
+    actionId: ActionId.FOLDER_READ_METADATA,
     folderId: ctx.get('protocol').xcert.instance.options.address,
   });
   ctx.deepEqual(res, {
@@ -32,7 +32,7 @@ spec.test('reads folder metadata', async (ctx) => {
 
 spec.test('reads folder total supply', async (ctx) => {
   const res = await ctx.get('connector').perform({
-    action: ConnectorAction.FOLDER_READ_SUPPLY,
+    actionId: ActionId.FOLDER_READ_SUPPLY,
     folderId: ctx.get('protocol').xcert.instance.options.address,
   });
   ctx.deepEqual(res, {
@@ -43,19 +43,19 @@ spec.test('reads folder total supply', async (ctx) => {
 spec.test('reads folder capabilities', async (ctx) => {
   const res = await Promise.all([
     ctx.get('connector').perform({
-      action: ConnectorAction.FOLDER_READ_CAPABILITIES,
+      actionId: ActionId.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertBurnable.instance.options.address,
     }),
     ctx.get('connector').perform({
-      action: ConnectorAction.FOLDER_READ_CAPABILITIES,
+      actionId: ActionId.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertMutable.instance.options.address,
     }),
     ctx.get('connector').perform({
-      action: ConnectorAction.FOLDER_READ_CAPABILITIES,
+      actionId: ActionId.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertPausable.instance.options.address,
     }),
     ctx.get('connector').perform({
-      action: ConnectorAction.FOLDER_READ_CAPABILITIES,
+      actionId: ActionId.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertRevokable.instance.options.address,
     })
   ]);
@@ -69,7 +69,7 @@ spec.test('reads folder capabilities', async (ctx) => {
 
 spec.test('checks if folder transfers are paused', async (ctx) => {
   const res = await ctx.get('connector').perform({
-    action: ConnectorAction.FOLDER_CHECK_IS_PAUSED,
+    actionId: ActionId.FOLDER_CHECK_IS_PAUSED,
     folderId: ctx.get('protocol').xcert.instance.options.address,
   });
   ctx.deepEqual(res, {

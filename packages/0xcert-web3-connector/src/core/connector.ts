@@ -1,5 +1,5 @@
 import * as Web3 from 'web3';
-import { IConnector, IConnectorRequest, IConnectorResponse, ConnectorAction } from '@0xcert/connector';
+import { IConnector, IActionRequest, IActionResponse, ActionId } from '@0xcert/connector';
 import folderReadMetadata from '../resolvers/folder-read-metadata';
 import folderReadSupply from '../resolvers/folder-read-supply';
 import folderReadCapabilities from '../resolvers/folder-read-capabilities';
@@ -23,15 +23,15 @@ export class Connector implements IConnector {
    * Performs action based on the received request object.
    * @param res Protocol request object.
    */
-  public perform(req: IConnectorRequest): IConnectorResponse {
-    switch (req.action) {
-      case ConnectorAction.FOLDER_READ_METADATA:
+  public perform(req: IActionRequest): IActionResponse {
+    switch (req.actionId) {
+      case ActionId.FOLDER_READ_METADATA:
         return folderReadMetadata.call(this, this, req);
-      case ConnectorAction.FOLDER_READ_SUPPLY:
+      case ActionId.FOLDER_READ_SUPPLY:
         return folderReadSupply.call(this, this, req);
-      case ConnectorAction.FOLDER_READ_CAPABILITIES:
+      case ActionId.FOLDER_READ_CAPABILITIES:
         return folderReadCapabilities.call(this, this, req);
-      case ConnectorAction.FOLDER_CHECK_IS_PAUSED:
+      case ActionId.FOLDER_CHECK_IS_PAUSED:
         return folderCheckIsPaused.call(this, this, req);
       default:
         throw 'Unknown action'; 

@@ -1,4 +1,4 @@
-import { IConnectorRequest, IConnectorResponse } from '@0xcert/connector';
+import { IActionRequest, IActionResponse } from '@0xcert/connector';
 
 /**
  * 
@@ -8,9 +8,9 @@ export * from '@0xcert/connector';
 /**
  * 
  */
-export type IRequest = IConnectorRequest;
+export type IRequest = IActionRequest;
 
 /**
  * 
  */
-export type IResponse = IConnectorResponse;
+export type IResponse = IActionResponse;

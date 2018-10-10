@@ -1,4 +1,4 @@
-import { IConnector, IRequest, IResponse, ConnectorAction } from './types';
+import { IConnector, IRequest, IResponse, ActionId } from './types';
 import { EventEmitter } from '../utils/emitter';
 
 /**
@@ -28,11 +28,11 @@ export class Protocol extends EventEmitter {
    * @param res Protocol request object.
    */
   public async perform(req: IRequest): Promise<IResponse> {
-    switch (req.action) {
-      case ConnectorAction.FOLDER_READ_METADATA:
-      case ConnectorAction.FOLDER_READ_SUPPLY:
-      case ConnectorAction.FOLDER_READ_CAPABILITIES:
-      case ConnectorAction.FOLDER_CHECK_IS_PAUSED:
+    switch (req.actionId) {
+      case ActionId.FOLDER_READ_METADATA:
+      case ActionId.FOLDER_READ_SUPPLY:
+      case ActionId.FOLDER_READ_CAPABILITIES:
+      case ActionId.FOLDER_CHECK_IS_PAUSED:
         return this.connector.perform(req);
       default:
         throw 'Unknown action';

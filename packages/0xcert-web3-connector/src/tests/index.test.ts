@@ -5,7 +5,7 @@ const spec = new Spec();
 
 spec.test('exposed content', (ctx) => {
   ctx.true(!!connector.Connector);
-  ctx.true(!!connector.ConnectorAction);
+  ctx.true(!!connector.ActionId);
 });
 
 export default spec;
