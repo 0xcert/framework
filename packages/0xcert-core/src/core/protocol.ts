@@ -1,18 +1,18 @@
-import { IChain, IRequest, IResponse, ChainAction } from './types';
+import { IConnector, IRequest, IResponse, ConnectorAction } from './types';
 import { EventEmitter } from '../utils/emitter';
 
 /**
  * Protocol client configuration object.
  */
 export interface IProtocolConfig {
-  chain?: IChain;
+  connector?: IConnector;
 }
 
 /**
  * Protocol client.
  */
 export class Protocol extends EventEmitter {
-  readonly chain: IChain;
+  readonly connector: IConnector;
 
   /**
    * Class constructor.
@@ -20,7 +20,7 @@ export class Protocol extends EventEmitter {
    */
   public constructor(config: IProtocolConfig) {
     super();
-    this.chain = config.chain;
+    this.connector = config.connector;
   }
 
   /**
@@ -29,11 +29,11 @@ export class Protocol extends EventEmitter {
    */
   public async perform(req: IRequest): Promise<IResponse> {
     switch (req.action) {
-      case ChainAction.FOLDER_READ_METADATA:
-      case ChainAction.FOLDER_READ_SUPPLY:
-      case ChainAction.FOLDER_READ_CAPABILITIES:
-      case ChainAction.FOLDER_CHECK_IS_PAUSED:
-        return this.chain.perform(req);
+      case ConnectorAction.FOLDER_READ_METADATA:
+      case ConnectorAction.FOLDER_READ_SUPPLY:
+      case ConnectorAction.FOLDER_READ_CAPABILITIES:
+      case ConnectorAction.FOLDER_CHECK_IS_PAUSED:
+        return this.connector.perform(req);
       default:
         throw 'Unknown action';
     }

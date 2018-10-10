@@ -1,14 +1,14 @@
 import * as Web3 from 'web3';
-import { IChain, IChainRequest, IChainResponse, ChainAction } from '@0xcert/chain';
+import { IConnector, IConnectorRequest, IConnectorResponse, ConnectorAction } from '@0xcert/connector';
 import folderReadMetadata from '../resolvers/folder-read-metadata';
 import folderReadSupply from '../resolvers/folder-read-supply';
 import folderReadCapabilities from '../resolvers/folder-read-capabilities';
 import folderCheckIsPaused from '../resolvers/folder-check-is-paused';
 
 /**
- * Web3 chain connector.
+ * Web3 connector.
  */
-export class Chain implements IChain {
+export class Connector implements IConnector {
   readonly web3: Web3;
 
   /**
@@ -20,18 +20,18 @@ export class Chain implements IChain {
   }
 
   /**
-   * Performs chain action based on the received request object.
+   * Performs action based on the received request object.
    * @param res Protocol request object.
    */
-  public perform(req: IChainRequest): IChainResponse {
+  public perform(req: IConnectorRequest): IConnectorResponse {
     switch (req.action) {
-      case ChainAction.FOLDER_READ_METADATA:
+      case ConnectorAction.FOLDER_READ_METADATA:
         return folderReadMetadata.call(this, this, req);
-      case ChainAction.FOLDER_READ_SUPPLY:
+      case ConnectorAction.FOLDER_READ_SUPPLY:
         return folderReadSupply.call(this, this, req);
-      case ChainAction.FOLDER_READ_CAPABILITIES:
+      case ConnectorAction.FOLDER_READ_CAPABILITIES:
         return folderReadCapabilities.call(this, this, req);
-      case ChainAction.FOLDER_CHECK_IS_PAUSED:
+      case ConnectorAction.FOLDER_CHECK_IS_PAUSED:
         return folderCheckIsPaused.call(this, this, req);
       default:
         throw 'Unknown action'; 

@@ -185,7 +185,7 @@ const options = new ScannerOptions({
     // Example tests for 0xcert based contracts
     '0x6be14f75', // Test for 0xcert
     '0x42966c68', // Test for 0xcert Burnable
-    '0xc1dcb551', // Test for 0xcert Chainable
+    '0xc1dcb551', // Test for 0xcert Connectorable
     '0x59118221', // Test for 0xcert Mutable
     '0xbedb86fb', // Test for 0xcert Pausable
     '0x20c5429b', // Test for 0xcert Revokable
