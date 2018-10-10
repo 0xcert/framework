@@ -244,8 +244,8 @@ spec.beforeEach(async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const exchange = ctx.get('exchange');
   const owner = ctx.get('owner');
-  await tokenProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from: owner });
-  await nftProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from: owner });
+  await tokenProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from: owner });
+  await nftProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from: owner });
 });
 
 /**

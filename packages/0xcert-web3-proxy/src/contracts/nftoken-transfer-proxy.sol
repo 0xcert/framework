@@ -2,7 +2,7 @@ pragma solidity 0.4.25;
 
 import "./iproxy.sol";
 import "@0xcert/web3-erc721/src/contracts/ERC721.sol";
-import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
+import "@0xcert/web3-utils/src/contracts/permission/abilitable.sol";
 
 /** 
  * @title NFTokenTransferProxy - Transfers none-fundgible tokens on behalf of contracts that have 
@@ -11,99 +11,12 @@ import "@0xcert/web3-utils/src/contracts/permission/claimable.sol";
  */
 contract NFTokenTransferProxy is 
   Proxy,
-  Claimable 
+  Abilitable 
 {
   /**
-   * @dev Error constants.
+   * @dev List of abilities:
+   * 1 - Ability to execute transfer. 
    */
-  string constant TARGET_AUTHORIZED = "013001";
-  string constant TARGET_NOT_AUTHORIZED = "013002";
-
-  /**
-   * @dev Only if target is authorized you can invoke functions with this modifier.
-   */
-  modifier targetAuthorized(
-    address target
-  )
-  {
-    require(authorized[target], TARGET_NOT_AUTHORIZED);
-    _;
-  }
-
-  /**
-   * @dev Only if target is not autorized you can invoke functions with this modifier.
-   */
-  modifier targetNotAuthorized(
-    address target
-  )
-  {
-    require(!authorized[target], TARGET_AUTHORIZED);
-    _;
-  }
-
-  /**
-   * @dev mapping of address to boolean state if authorized.
-   */
-  mapping (address => bool) public authorized;
-
-  /**
-   * @dev list of authorized addresses.
-   */
-  address[] public authorities;
-
-  /**
-   * @dev This emmits when a new address gets authorized.
-   */
-  event LogAuthorizedAddressAdded(
-    address indexed _target,
-    address indexed _caller
-  );
-
-  /**
-   * @dev This emmits when an address gets its authorization revoked.
-   */
-  event LogAuthorizedAddressRemoved(
-    address indexed _target,
-    address indexed _caller
-  );
-
-  /**
-   * @dev Authorizes an address.
-   * @param _target Address to authorize.
-   */
-  function addAuthorizedAddress(
-    address _target
-  )
-    external
-    onlyOwner
-    targetNotAuthorized(_target)
-  {
-    authorized[_target] = true;
-    authorities.push(_target);
-    emit LogAuthorizedAddressAdded(_target, msg.sender);
-  }
-
-  /**
-   * @dev Removes authorizion of an address.
-   * @param _target Address to remove authorization from.
-   */
-  function removeAuthorizedAddress(
-    address _target
-  )
-    external
-    onlyOwner
-    targetAuthorized(_target)
-  {
-    delete authorized[_target];
-    for (uint i = 0; i < authorities.length; i++) {
-      if (authorities[i] == _target) {
-        authorities[i] = authorities[authorities.length - 1];
-        authorities.length -= 1;
-        break;
-      }
-    }
-    emit LogAuthorizedAddressRemoved(_target, msg.sender);
-  }
 
   /**
    * @dev Transfers a NFT.
@@ -119,20 +32,8 @@ contract NFTokenTransferProxy is
     uint256 _c
   )
     external
-    targetAuthorized(msg.sender)
+    hasAbility(1)
   {
     ERC721(_target).transferFrom(_a, _b, _c);
-  }
-
-  /**
-   * @dev Gets all authorized addresses.
-   * @return Array of authorized addresses.
-   */
-  function getAuthorizedAddresses()
-    external
-    view
-    returns (address[])
-  {
-    return authorities;
   }
 }

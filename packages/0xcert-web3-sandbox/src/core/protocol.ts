@@ -259,8 +259,8 @@ export class Protocol {
     await exchange.instance.methods.assignAbilities(from, [1]).send({ from });
     await exchange.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
     await exchange.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from });
-    await this.nftokenTransferProxy.instance.methods.addAuthorizedAddress(exchange.receipt._address).send({ from });
+    await this.tokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
+    await this.nftokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
 
     return exchange;
   }
@@ -281,9 +281,9 @@ export class Protocol {
     await minter.instance.methods.assignAbilities(from, [1]).send({ from });
     await minter.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
     await minter.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
-    await this.nftokenTransferProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
-    await this.xcertMintProxy.instance.methods.addAuthorizedAddress(minter.receipt._address).send({ from });
+    await this.tokenTransferProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
+    await this.nftokenTransferProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
+    await this.xcertMintProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
 
     return minter;
   }
