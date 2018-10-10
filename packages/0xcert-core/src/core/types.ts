@@ -1,16 +1,16 @@
-import { IChainRequest, IChainResponse } from '@0xcert/chain';
+import { IActionRequest, IActionResponse } from '@0xcert/connector';
 
 /**
  * 
  */
-export * from '@0xcert/chain';
+export * from '@0xcert/connector';
 
 /**
  * 
  */
-export type IRequest = IChainRequest;
+export type IRequest = IActionRequest;
 
 /**
  * 
  */
-export type IResponse = IChainResponse;
+export type IResponse = IActionResponse;

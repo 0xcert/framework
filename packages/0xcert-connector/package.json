@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/chain",
+  "name": "@0xcert/connector",
   "version": "0.0.0-alpha0",
-  "description": "0xcert protocol chain connector scaffold.",
+  "description": "0xcert protocol connector scaffold.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

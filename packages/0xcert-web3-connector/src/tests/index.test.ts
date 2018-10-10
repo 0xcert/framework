@@ -4,8 +4,8 @@ import * as connector from '..';
 const spec = new Spec();
 
 spec.test('exposed content', (ctx) => {
-  ctx.true(!!connector.Chain);
-  ctx.true(!!connector.ChainAction);
+  ctx.true(!!connector.Connector);
+  ctx.true(!!connector.ActionId);
 });
 
 export default spec;

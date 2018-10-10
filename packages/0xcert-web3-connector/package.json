@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/web3-chain",
+  "name": "@0xcert/web3-connector",
   "version": "0.0.0-alpha0",
-  "description": "Ethereum chain connector for 0xcert protocol.",
+  "description": "Ethereum connector for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/chain": "0.0.0-alpha0",
+    "@0xcert/connector": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-xcert": "0.0.0-alpha0",
     "@specron/cli": "^0.2.5",

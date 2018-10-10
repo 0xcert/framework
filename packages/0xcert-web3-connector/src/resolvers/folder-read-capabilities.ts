@@ -1,16 +1,16 @@
-import { IFolderReadCapabilitiesChainRequest as IChainRequest,
-  IFolderReadCapabilitiesChainResponse as IChainResponse } from '@0xcert/chain';
-import { Chain } from '../core/chain';
+import { IFolderReadCapabilitiesConnectorRequest as IActionRequest,
+  IFolderReadCapabilitiesConnectorResponse as IActionResponse } from '@0xcert/connector';
+import { Connector } from '../core/connector';
 import * as env from '../config/env';
 
 /**
- * Chain request resolver for ChainAction.FOLDER_READ_CAPABILITIES.
+ * Connector request resolver for ActionId.FOLDER_READ_CAPABILITIES.
  * @param con Connector class instance.
  * @param req Protocol request object.
  */
-export default async function(chain: Chain, req: IChainRequest): Promise<IChainResponse> {
+export default async function(connector: Connector, req: IActionRequest): Promise<IActionResponse> {
 
-  const instance = new chain.web3.eth.Contract(env.xcertAbi, req.folderId);
+  const instance = new connector.web3.eth.Contract(env.xcertAbi, req.folderId);
 
   return {
     isBurnable: await instance.methods.supportsInterface('0x42966c68').call(),
