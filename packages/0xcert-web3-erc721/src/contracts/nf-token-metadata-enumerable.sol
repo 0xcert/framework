@@ -42,9 +42,9 @@ contract NFTokenMetadataEnumerable is
   string internal nftSymbol;
 
   /**
-   * @dev Mapping from NFT ID to metadata URI.
+   * @dev URI base for NFT metadata. NFT URI is made from base + NFT id.
    */
-  mapping (uint256 => string) internal idToUri;
+  string public uriBase;
 
   /**
    * @dev Array of all NFT IDs.
@@ -132,6 +132,7 @@ contract NFTokenMetadataEnumerable is
 
   /**
    * @dev Contract constructor.
+   * @notice When implementing this contract don't forget to set nftName, nftSymbol and uriBase.
    */
   constructor()
     public
@@ -372,7 +373,7 @@ contract NFTokenMetadataEnumerable is
   {
     _symbol = nftSymbol;
   }
-
+  
   /**
    * @notice A distinct Uniform Resource Identifier (URI) for a given asset.
    * @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC 3986. The URI may point
@@ -387,25 +388,26 @@ contract NFTokenMetadataEnumerable is
     returns (string)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
-    return idToUri[_tokenId];
+    if(bytes(uriBase).length > 0)
+    {
+      return string(abi.encodePacked(uriBase, _uint2str(_tokenId)));
+    }
+    return "";
   }
 
   /**
-   * @dev Set a distinct URI (RFC 3986) for a given NFT ID.
+   * @dev Set a distinct URI (RFC 3986) base for all nfts.
    * @notice this is a internal function which should be called from user-implemented external
    * function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
-   * @param _tokenId Id for which we want URI.
-   * @param _uri String representing RFC 3986 URI.
+   * @param _uriBase String representing RFC 3986 URI base.
    */
-  function _setTokenUri(
-    uint256 _tokenId,
-    string _uri
+  function _setUriBase(
+    string _uriBase
   )
     internal
   {
-    require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
-    idToUri[_tokenId] = _uri;
+    uriBase = _uriBase;
   }
 
   /**
@@ -418,8 +420,7 @@ contract NFTokenMetadataEnumerable is
    */
   function _mint(
     address _to,
-    uint256 _tokenId,
-    string _uri
+    uint256 _tokenId
   )
     internal
   {
@@ -431,9 +432,6 @@ contract NFTokenMetadataEnumerable is
 
     uint256 length = ownerToIds[_to].push(_tokenId);
     idToOwnerIndex[_tokenId] = length - 1;
-
-    // add URI
-    idToUri[_tokenId] = _uri;
 
     // add to tokens array
     length = tokens.push(_tokenId);
@@ -480,11 +478,6 @@ contract NFTokenMetadataEnumerable is
     delete idToOwner[_tokenId];
     delete idToOwnerIndex[_tokenId];
     ownerToIds[owner].length--;
-
-    // delete URI
-    if (bytes(idToUri[_tokenId]).length != 0) {
-      delete idToUri[_tokenId];
-    }
 
     // remove from tokens array
     assert(tokens.length > 0);
@@ -582,5 +575,32 @@ contract NFTokenMetadataEnumerable is
     }
 
     _transferFrom(_from, _to, _tokenId);
+  }
+
+  /**
+   * @dev Helper function that changes uint to string representation.
+   */
+  function _uint2str(
+    uint256 _i
+  ) 
+    internal
+    pure
+    returns (string)
+  {
+    if (_i == 0) return "0";
+    uint256 j = _i;
+    uint256 length;
+    while (j != 0){
+      length++;
+      j /= 10;
+    }
+    bytes memory bstr = new bytes(length);
+    uint256 k = length - 1;
+    j = _i;
+    while (j != 0){
+      bstr[k--] = byte(48 + j % 10);
+      j /= 10;
+    }
+    return string(bstr);
   }
 }

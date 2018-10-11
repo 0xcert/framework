@@ -47,7 +47,6 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const id = '1';
-  const uri = "http://0xcert.org/1";
   const proof = '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8';
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -59,7 +58,6 @@ spec.beforeEach(async (ctx) => {
   const xcertData = {
     xcert: randomAddress,
     id,
-    uri,
     proof,
   };
   const transfers = [

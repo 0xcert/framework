@@ -7,21 +7,12 @@ contract NFTokenMetadataEnumerableTestMock is
 {
   constructor(
     string _name,
-    string _symbol
+    string _symbol,
+    string _uriBase
   )
-    NFTokenMetadataEnumerableMock(_name, _symbol)
+    NFTokenMetadataEnumerableMock(_name, _symbol, _uriBase)
     public
   {}
-
-  function checkUri(
-    uint256 _tokenId
-  )
-    external
-    view
-    returns (string)
-  {
-    return idToUri[_tokenId];
-  }
 
   function ownerToIdsLen(
     address _owner

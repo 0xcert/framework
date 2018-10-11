@@ -16,7 +16,7 @@ spec.beforeEach(async (ctx) => {
   const xcert = await ctx.deploy({ 
     src: './build/full-xcert-mock.json',
     contract: 'FullXcertMock',
-    args: ['Foo', 'F', '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
+    args: ['Foo', 'F', 'http://0xcert.org', '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
   ctx.set('xcert', xcert);
 });
