@@ -14,9 +14,7 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  url1?: string;
-  url2?: string;
-  url3?: string;
+  uriBase?: string;
   proof1?: string;
   proof2?: string;
   proof3?: string;
@@ -39,9 +37,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
   ctx.set('id3', '125');
-  ctx.set('url1', 'http://0xcert.org/1');
-  ctx.set('url2', 'http://0xcert.org/2');
-  ctx.set('url3', 'http://0xcert.org/3');
+  ctx.set('uriBase', 'http://0xcert.org/');
   ctx.set('proof1', '973124FFC4A03E66D6A4458E587D5D6146F71FC57F359C8D516E0B12A50AB0D9');
   ctx.set('proof2', '6F25B3F4BC7EADAFB8F57D69F8A59DB3B23F198151DBF3C66AC3082381518329');
   ctx.set('proof3', 'C77A290BE17F8A4EF301C4CA46497C5BEB4A0556EC2D5A04DCE4CE6EBD439AD1');
@@ -49,10 +45,11 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
+  const uriBase = ctx.get('uriBase');
   const xcert = await ctx.deploy({ 
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
+    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
   });
 
   await xcert.instance.methods.assignAbilities(owner, [1]).send({ from: owner });
@@ -82,10 +79,9 @@ spec.test('returns correct balance after mint', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id, proof).send({ from: owner });
 
   const xcertId1Owner = await xcert.instance.methods.ownerOf(id).call();
   ctx.is(xcertId1Owner, bob);
@@ -102,11 +98,10 @@ spec.test('throws when trying to mint two xcerts with the same id', async (ctx) 
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner }), '006006');
+  await xcert.instance.methods.mint(bob, id, proof).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, proof).send({ from: owner }), '006006');
 });
 
 spec.test('throws when trying to mint an xcert with empty proof', async (ctx) => {
@@ -114,19 +109,18 @@ spec.test('throws when trying to mint an xcert with empty proof', async (ctx) =>
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
-  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, '').send({ from: owner }), '007001');
+  
+  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, '').send({ from: owner }), '007001');
 });
 
 spec.test('throws when a third party tries to mint an xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
   const sara = ctx.get('sara');
 
-  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, url, proof).send({ from: sara }), '017001');
+  await ctx.reverts(() => xcert.instance.methods.mint(bob, id, proof).send({ from: sara }), '017001');
 });
 
 spec.test('throws when trying to mint an xcert to zero address', async (ctx) => {
@@ -134,10 +128,9 @@ spec.test('throws when trying to mint an xcert to zero address', async (ctx) => 
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await ctx.reverts(() => xcert.instance.methods.mint(zeroAddress, id, url, proof).send({ from: owner }), '006001');
+  await ctx.reverts(() => xcert.instance.methods.mint(zeroAddress, id, proof).send({ from: owner }), '006001');
 });
 
 spec.test('corectly assigns mint ability', async (ctx) => {
@@ -166,11 +159,10 @@ spec.test('correctly mints an xcert from an address with mint ability', async (c
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   await xcert.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
-  await xcert.instance.methods.mint(sara, id, url, proof).send({ from: bob });
+  await xcert.instance.methods.mint(sara, id, proof).send({ from: bob });
   const saraXcertCount = await xcert.instance.methods.balanceOf(sara).call();
   ctx.is(saraXcertCount, '1');
 });
@@ -181,12 +173,11 @@ spec.test('throws trying to mint from address which authorization got revoked', 
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   await xcert.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
   await xcert.instance.methods.revokeAbilities(bob, [1]).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.mint(sara, id, url, proof).send({ from: bob }), '017001');
+  await ctx.reverts(() => xcert.instance.methods.mint(sara, id, proof).send({ from: bob }), '017001');
 });
 
 spec.test('throws when trying to find owner of a non-existing xcert', async (ctx) => {
@@ -201,14 +192,13 @@ spec.test('finds the correct amount of xcerts owned by account', async (ctx) => 
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
+  
   const proof = ctx.get('proof1');
   const id2 = ctx.get('id2');
-  const url2 = ctx.get('url2');
   const proof2 = ctx.get('proof2');
 
-  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
-  await xcert.instance.methods.mint(bob, id2, url2, proof2).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id, proof).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id2, proof2).send({ from: owner });
 
   const count = await xcert.instance.methods.balanceOf(bob).call();
   ctx.is(count, '2');
@@ -232,10 +222,9 @@ spec.test('correctly approves account', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   const logs = await xcert.instance.methods.approve(sara, id1).send({ from: bob });
   ctx.not(logs.events.Approval, undefined);
   
@@ -249,11 +238,10 @@ spec.test('correctly cancels approval', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
   const zeroAddress = ctx.get('zeroAddress');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.approve(sara, id1).send({ from: bob });
   await xcert.instance.methods.approve(zeroAddress, id1).send({ from: bob });
   
@@ -274,10 +262,9 @@ spec.test('throws when trying to approve a xcert from a third party', async (ctx
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.approve(sara, id1).send({ from: sara }), '006003');
 });
 
@@ -287,10 +274,9 @@ spec.test('correctly sets an operator', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   const logs = await xcert.instance.methods.setApprovalForAll(sara, true).send({ from: bob });
   ctx.not(logs.events.ApprovalForAll, undefined);
   const isApprovedForAll = await xcert.instance.methods.isApprovedForAll(bob, sara).call();
@@ -303,10 +289,9 @@ spec.test('correctly sets then cancels an operator', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.setApprovalForAll(sara, true).send({ from: bob });
   await xcert.instance.methods.setApprovalForAll(sara, false).send({ from: bob });
   const isApprovedForAll = await xcert.instance.methods.isApprovedForAll(bob, sara).call();
@@ -319,10 +304,9 @@ spec.test('corectly transfers xcert from owner', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   const logs = await xcert.instance.methods.transferFrom(bob, sara, id1).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 
@@ -342,10 +326,9 @@ spec.test('corectly transfers xcert from approved address', async (ctx) => {
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.approve(sara, id1).send({ from: bob });
   await xcert.instance.methods.transferFrom(bob, jane, id1).send({ from: sara });
 
@@ -365,10 +348,9 @@ spec.test('corectly transfers xcert as operator', async (ctx) => {
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.setApprovalForAll(sara, true).send({ from: bob });
   await xcert.instance.methods.transferFrom(bob, jane, id1).send({ from: sara });
 
@@ -388,10 +370,9 @@ spec.test('throws when trying to transfer xcert as an address that is not owner,
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, jane, id1).send({ from: sara }), '006004');
 });
 
@@ -401,10 +382,9 @@ spec.test('throws when trying to transfer xcert to a zero address', async (ctx) 
   const bob = ctx.get('bob');
   const zeroAddress = ctx.get('zeroAddress');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, zeroAddress, id1).send({ from: bob }), '006001');
 });
 
@@ -414,11 +394,10 @@ spec.test('throws when trying to transfer a invalid xcert', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
   const id2 = ctx.get('id2');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, sara, id2).send({ from: bob }), '006002');
 });
 
@@ -428,10 +407,9 @@ spec.test('corectly safe transfers xcert from owner', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   const logs = await xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 
@@ -449,10 +427,9 @@ spec.test('throws when trying to safe transfers xcert from owner to a smart cont
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.safeTransferFrom(bob, xcert.receipt._address, id1).send({ from: bob }));
 });
 
@@ -461,7 +438,6 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
   const tokenReceiver = await ctx.deploy({ 
@@ -469,7 +445,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
     contract: 'NFTokenReceiverTestMock',
   });
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.safeTransferFrom(bob, tokenReceiver.receipt._address, id1).send({ from: bob });
 
   const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
@@ -486,7 +462,6 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
   const tokenReceiver = await ctx.deploy({ 
@@ -494,7 +469,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
     contract: 'NFTokenReceiverTestMock',
   });
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await xcert.instance.methods.safeTransferFrom(bob, tokenReceiver.receipt._address, id1, '0x01').send({ from: bob });
 
   const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
@@ -519,18 +494,67 @@ spec.test('returns the correct issuer symbol', async (ctx) => {
 
   ctx.is(symbol, "F");
 });
-
 spec.test('return the correct URI', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
+  const id2 = ctx.get('id2');
   const proof1 = ctx.get('proof1');
+  const proof2 = ctx.get('proof2');
+  const proof3 = ctx.get('proof3');
+  const uriBase = ctx.get('uriBase');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  const uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, url1);
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriBase+id1);
+
+  await xcert.instance.methods.mint(bob, id2, proof2).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id2).call();
+  ctx.is(uri, uriBase+id2);
+
+  const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
+  await xcert.instance.methods.mint(bob, bigId, proof3).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(bigId).call();
+  ctx.is(uri, uriBase+bigId);
+});
+
+spec.test('succesfully changes URI base', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const proof1 = ctx.get('proof1');
+  const uriBase = ctx.get('uriBase');
+  const newUriBase = 'http://test.com/';
+
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriBase+id1);
+
+  await xcert.instance.methods.assignAbilities(owner, [6]).send({ from: owner });
+  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, newUriBase+id1);
+});
+
+spec.test('return empty thing if URI base is empty', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const proof1 = ctx.get('proof1');
+  const uriBase = ctx.get('uriBase');
+  const newUriBase = '';
+
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriBase+id1);
+
+  await xcert.instance.methods.assignAbilities(owner, [6]).send({ from: owner });
+  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, '');
 });
 
 spec.test('throws when trying to get URI of invalid NFT ID', async (ctx) => {
@@ -548,16 +572,13 @@ spec.test('returns the correct token by index', async (ctx) => {
   const id1 = ctx.get('id1');
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
-  const url1 = ctx.get('url1');
-  const url2 = ctx.get('url2');
-  const url3 = ctx.get('url3');
   const proof1 = ctx.get('proof1');
   const proof2 = ctx.get('proof2');
   const proof3 = ctx.get('proof3');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.instance.methods.mint(bob, id2, url2, proof2).send({ from: owner });
-  await xcert.instance.methods.mint(sara, id3, url3, proof3).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id2, proof2).send({ from: owner });
+  await xcert.instance.methods.mint(sara, id3, proof3).send({ from: owner });
 
   const tokenIndex0 = await xcert.instance.methods.tokenByIndex(0).call();
   const tokenIndex1 = await xcert.instance.methods.tokenByIndex(1).call();
@@ -573,10 +594,9 @@ spec.test('throws when trying to get xcert by non-existing index', async (ctx) =
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.tokenByIndex(1).call(), '006007');
 });
 
@@ -588,16 +608,13 @@ spec.test('returns the correct token of owner by index', async (ctx) => {
   const id1 = ctx.get('id1');
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
-  const url1 = ctx.get('url1');
-  const url2 = ctx.get('url2');
-  const url3 = ctx.get('url3');
   const proof1 = ctx.get('proof1');
   const proof2 = ctx.get('proof2');
   const proof3 = ctx.get('proof3');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
-  await xcert.instance.methods.mint(bob, id2, url2, proof2).send({ from: owner });
-  await xcert.instance.methods.mint(sara, id3, url3, proof3).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id2, proof2).send({ from: owner });
+  await xcert.instance.methods.mint(sara, id3, proof3).send({ from: owner });
 
   const tokenOwnerIndex1 = await xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call();
   ctx.is(tokenOwnerIndex1, id2);
@@ -608,10 +625,9 @@ spec.test('throws when trying to get xcert of owner by non-existing index', asyn
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const url1 = ctx.get('url1');
   const proof1 = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id1, url1, proof1).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id1, proof1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
@@ -620,10 +636,9 @@ spec.test('returns the correct proof', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  const url = ctx.get('url1');
   const proof = ctx.get('proof1');
 
-  await xcert.instance.methods.mint(bob, id, url, proof).send({ from: owner });
+  await xcert.instance.methods.mint(bob, id, proof).send({ from: owner });
   const xcertId1Proof = await xcert.instance.methods.tokenProof(id).call();
   ctx.is(xcertId1Proof, proof);
 });

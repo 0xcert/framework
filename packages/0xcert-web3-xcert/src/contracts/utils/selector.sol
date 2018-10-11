@@ -26,6 +26,7 @@ contract Selector {
       i.mint.selector
       ^ i.conventionId.selector
       ^ i.tokenProof.selector
+      ^ i.setUriBase.selector
       ^ i.assignAbilities.selector
       ^ i.revokeAbilities.selector
       ^ i.isAble.selector

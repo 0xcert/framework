@@ -19,6 +19,7 @@ contract Xcert is
    * 3 - Ability to pause xcert transfers.
    * 4 - Ability to change xcert proof.
    * 5 - Ability to sign claims (valid signatures for minter).
+   * 6 - Ability to change URI base.
    */
 
   using SafeMath for uint256;
@@ -47,33 +48,31 @@ contract Xcert is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftConventionId, nftName and
-   * nftSymbol.
+   * @notice When implementing this contract don't forget to set nftConventionId, nftName, nftSymbol
+   * and uriBase.
    */
   constructor()
     public
   {
-    supportedInterfaces[0x885975a0] = true; // Xcert
+    supportedInterfaces[0x53e8e3f4] = true; // Xcert
   }
 
   /**
    * @dev Mints a new Xcert.
    * @param _to The address that will own the minted Xcert.
    * @param _id The Xcert to be minted by the msg.sender.
-   * @param _uri An URI pointing to Xcert metadata.
    * @param _proof Cryptographic asset imprint.
    */
   function mint(
     address _to,
     uint256 _id,
-    string _uri,
     string _proof
   )
     external
     hasAbility(1)
   {
     require(bytes(_proof).length > 0, EMPTY_PROOF);
-    super._mint(_to, _id, _uri);
+    super._mint(_to, _id);
     idToProof[_id] = _proof;
   }
 
@@ -100,5 +99,18 @@ contract Xcert is
     returns(string)
   {
     return idToProof[_tokenId];
+  }
+
+  /**
+   * @dev Change URI base.
+   * @param _uriBase New uriBase.
+   */
+  function setUriBase(
+    string _uriBase
+  )
+    external
+    hasAbility(6)
+  {
+    super._setUriBase(_uriBase);
   }
 }
