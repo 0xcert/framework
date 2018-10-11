@@ -36,10 +36,10 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT'],
+    args: ['cat', 'CAT','http://0xcert.org/'],
   });
   await cat.instance.methods
-    .mint(ctx.get('jane'), 1, '0xcert.org')
+    .mint(ctx.get('jane'), 1)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
