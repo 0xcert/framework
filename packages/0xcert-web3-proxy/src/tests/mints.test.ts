@@ -63,11 +63,11 @@ spec.test('mints an Xcert', async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','0xa65de9e6'],
+    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6'],
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
-  await xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob });
+  await xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'proof').send({ from: bob });
 
   const newOwner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(newOwner, jane);
@@ -82,11 +82,11 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','0xa65de9e6'],
+    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6'],
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
-  await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'http://0xcert.org', 'proof').send({ from: bob }), '017001');
+  await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, 'proof').send({ from: bob }), '017001');
 });
 
 export default spec;

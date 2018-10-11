@@ -65,11 +65,11 @@ spec.test('transfers an NFT', async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT'],
+    args: ['cat', 'CAT', 'http://0xcert.org/'],
   });
 
   await cat.instance.methods
-    .mint(jane, 1, 'http://0xcert.org')
+    .mint(jane, 1)
     .send({
        from: owner ,
       gas: 4000000,
@@ -92,11 +92,11 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-erc721/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT'],
+    args: ['cat', 'CAT','http://0xcert.org/'],
   });
 
   await cat.instance.methods
-    .mint(jane, 1, 'http://0xcert.org')
+    .mint(jane, 1)
     .send({
        from: owner ,
       gas: 4000000,

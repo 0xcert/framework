@@ -20,19 +20,17 @@ contract XcertMintProxy is
    * @param _xcert Address of the Xcert contract on which the mint will be perfomed.
    * @param _to The address that will own the minted NFT.
    * @param _id The NFT to be minted by the msg.sender.
-   * @param _uri An URI pointing to NFT metadata.
    * @param _proof Cryptographic asset imprint.
    */
   function mint(
     address _xcert,
     address _to,
     uint256 _id,
-    string _uri,
     string _proof
   )
     external
     hasAbility(1)
   {
-    Xcert(_xcert).mint(_to, _id, _uri, _proof);
+    Xcert(_xcert).mint(_to, _id, _proof);
   }
 }
