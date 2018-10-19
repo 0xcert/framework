@@ -1,55 +1,79 @@
 import * as Web3 from 'web3';
-import { IConnector, IActionRequest, IActionResponse, ActionId } from '@0xcert/connector';
-import folderReadMetadata from '../resolvers/folder-read-metadata';
-import folderReadSupply from '../resolvers/folder-read-supply';
-import folderReadCapabilities from '../resolvers/folder-read-capabilities';
-import folderCheckIsPaused from '../resolvers/folder-check-is-paused';
-import folderCheckIsAble from '../resolvers/folder-check-is-able';
+import { ConnectorBase, QueryRecipe, QueryBase, QueryKind, MutationBase, MutationRecipe, MutationKind } from '@0xcert/connector';
+import { FolderCheckAbilityQuery } from '../queries/folder-check-ability';
+import { FolderReadMetadataQuery } from '../queries/folder-read-metadata';
+import { FolderReadSupplyQuery } from '../queries/folder-read-supply';
+import { FolderReadCapabilitiesQuery } from '../queries/folder-read-capabilities';
+import { FolderCheckTransferStateQuery } from '../queries/folder-check-transfer-state';
+import { FolderSetTransferStateMutation } from '../mutations/folder-set-transfer-state';
+
+/**
+ * Web3 connector configuration.
+ */
+export interface ConnectorConfig {
+  web3?: any;
+  requiredConfirmationsCount?: number;
+}
 
 /**
  * Web3 connector.
  */
-export class Connector implements IConnector {
+export class Connector implements ConnectorBase {
   readonly web3: Web3;
+  public requiredConfirmationsCount?: number;
 
   /**
    * Class constructor.
    * @param web3 Web3 object instance or web3 provider object.
    */
-  public constructor(web3?: any) {
-    this.web3 = new Web3(this.getProvider(web3));
+  public constructor(config?: ConnectorConfig) {
+    this.web3 = this.buildWeb3(config.web3);
+    this.requiredConfirmationsCount = config.requiredConfirmationsCount || 15;
   }
 
   /**
-   * Performs action based on the received request object.
-   * @param res Protocol request object.
+   * Returns a new Query object.
+   * @param recipe Query recipe definition.
    */
-  public perform(req: IActionRequest): IActionResponse {
-    switch (req.actionId) {
-      case ActionId.FOLDER_READ_METADATA:
-        return folderReadMetadata.call(this, this, req);
-      case ActionId.FOLDER_READ_SUPPLY:
-        return folderReadSupply.call(this, this, req);
-      case ActionId.FOLDER_READ_CAPABILITIES:
-        return folderReadCapabilities.call(this, this, req);
-      case ActionId.FOLDER_CHECK_IS_PAUSED:
-        return folderCheckIsPaused.call(this, this, req);
-      case ActionId.FOLDER_CHECK_IS_ABLE:
-        return folderCheckIsAble.call(this, this, req);
+  public createQuery(recipe: QueryRecipe): QueryBase {
+    switch (recipe.queryKind) {
+      case QueryKind.FOLDER_CHECK_ABILITY:
+        return new FolderCheckAbilityQuery(this, recipe);
+      case QueryKind.FOLDER_CHECK_TRANSFER_STATE:
+        return new FolderCheckTransferStateQuery(this, recipe);
+      case QueryKind.FOLDER_READ_CAPABILITIES:
+        return new FolderReadCapabilitiesQuery(this, recipe);
+      case QueryKind.FOLDER_READ_METADATA:
+        return new FolderReadMetadataQuery(this, recipe);
+      case QueryKind.FOLDER_READ_SUPPLY:
+        return new FolderReadSupplyQuery(this, recipe);
       default:
-        throw 'Unknown action'; 
+        return null;
     }
   }
 
   /**
-   * Returns best web3 provider.
+   * Returns a new Query object.
+   * @param recipe Query recipe definition.
+   */
+  public createMutation(recipe: MutationRecipe): MutationBase {
+    switch (recipe.mutationKind) {
+      case MutationKind.FOLDER_SET_TRANSFER_STATE:
+        return new FolderSetTransferStateMutation(this, recipe);
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Returns a new Web3 instance.
    * @param web3 Web3 object instance or web3 provider object.
    */
-  protected getProvider(web3?: any) {
+  protected buildWeb3(web3?: any) {
     if (web3 && web3.currentProvider) {
-      return web3.currentProvider;
-    } else if (!web3.currentProvider) {
-      return 'http://localhost:8545';
+      return new Web3(web3.currentProvider);
+    } else {
+      return new Web3(web3 || 'ws://localhost:8545');
     }
   }
 

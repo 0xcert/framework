@@ -1,6 +1,7 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector, ActionId, FolderAbilityId } from '../..';
+import { Connector } from '../..';
+import { QueryKind, FolderAbilityKind, MutationKind } from '@0xcert/connector';
 
 interface Data {
   connector: Connector;
@@ -11,7 +12,7 @@ interface Data {
 const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
-  const connector = new Connector(stage.web3);
+  const connector = new Connector({ web3: stage.web3 });
   stage.set('connector', connector);
 });
 
@@ -25,47 +26,54 @@ spec.before(async (stage) => {
   stage.set('owner', accounts[0]);
 });
 
-spec.test('reads folder metadata', async (ctx) => {
-  const res = await ctx.get('connector').perform({
-    actionId: ActionId.FOLDER_READ_METADATA,
+spec.test('checks if account has ability on folder', async (ctx) => {
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_CHECK_ABILITY,
     folderId: ctx.get('protocol').xcert.instance.options.address,
-  });
-  ctx.deepEqual(res, {
-    name: 'Xcert',
-    symbol: 'Xcert',
+    abilityKind: FolderAbilityKind.MANAGE_ABILITIES,
+    accountId: ctx.get('owner'),
+  })
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    isAble: true,
   });
 });
 
-spec.test('reads folder total supply', async (ctx) => {
-  const res = await ctx.get('connector').perform({
-    actionId: ActionId.FOLDER_READ_SUPPLY,
-    folderId: ctx.get('protocol').xcert.instance.options.address,
-  });
-  ctx.deepEqual(res, {
-    totalCount: 0,
+spec.test('checks if folder transfers are enabled', async (ctx) => {
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE,
+    folderId: ctx.get('protocol').xcertPausable.instance.options.address,
+  })
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    isEnabled: false,
   });
 });
 
 spec.test('reads folder capabilities', async (ctx) => {
-  const res = await Promise.all([
-    ctx.get('connector').perform({
-      actionId: ActionId.FOLDER_READ_CAPABILITIES,
+  const queries = [
+    ctx.get('connector').createQuery({
+      queryKind: QueryKind.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertBurnable.instance.options.address,
     }),
-    ctx.get('connector').perform({
-      actionId: ActionId.FOLDER_READ_CAPABILITIES,
+    ctx.get('connector').createQuery({
+      queryKind: QueryKind.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertMutable.instance.options.address,
     }),
-    ctx.get('connector').perform({
-      actionId: ActionId.FOLDER_READ_CAPABILITIES,
+    ctx.get('connector').createQuery({
+      queryKind: QueryKind.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertPausable.instance.options.address,
     }),
-    ctx.get('connector').perform({
-      actionId: ActionId.FOLDER_READ_CAPABILITIES,
+    ctx.get('connector').createQuery({
+      queryKind: QueryKind.FOLDER_READ_CAPABILITIES,
       folderId: ctx.get('protocol').xcertRevokable.instance.options.address,
     })
-  ]);
-  ctx.deepEqual(res, [
+  ];
+  await Promise.all(
+    queries.map((q) => q.resolve())
+  );
+  const results = queries.map((q) => q.serialize());
+  ctx.deepEqual(results, [
     { isBurnable: true, isMutable: false, isPausable: false, isRevokable: false },
     { isBurnable: false, isMutable: true, isPausable: false, isRevokable: false },
     { isBurnable: false, isMutable: false, isPausable: true, isRevokable: false },
@@ -73,26 +81,46 @@ spec.test('reads folder capabilities', async (ctx) => {
   ]);
 });
 
-spec.test('checks if folder transfers are paused', async (ctx) => {
-  const res = await ctx.get('connector').perform({
-    actionId: ActionId.FOLDER_CHECK_IS_PAUSED,
+spec.test('reads folder metadata', async (ctx) => {
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_READ_METADATA,
     folderId: ctx.get('protocol').xcert.instance.options.address,
-  });
-  ctx.deepEqual(res, {
-    isPaused: false,
+  })
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    name: 'Xcert',
+    symbol: 'Xcert',
   });
 });
 
-spec.test('checks if account has ability on folder', async (ctx) => {
-  const res = await ctx.get('connector').perform({
-    actionId: ActionId.FOLDER_CHECK_IS_ABLE,
+spec.test('reads folder total supply', async (ctx) => {
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_READ_SUPPLY,
     folderId: ctx.get('protocol').xcert.instance.options.address,
-    abilityId: FolderAbilityId.MANAGE_ABILITIES,
-    accountId: ctx.get('owner'),
+  })
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    totalCount: 0,
   });
-  ctx.deepEqual(res, {
-    isAble: true,
   });
+
+spec.test('sets folder transfer state', async (ctx) => {
+
+  await ctx.get('protocol').xcertPausable.instance.methods.assignAbilities(ctx.get('owner'), [3]).send({
+    form: ctx.get('owner'),
+  });
+
+  const mutation = await ctx.get('connector').createMutation({
+    mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
+    folderId: ctx.get('protocol').xcertPausable.instance.options.address,
+    isEnabled: true,
+    makerId: ctx.get('owner'),
+  });
+  mutation.resolve();
+  mutation.resolve();
+  await mutation.resolve();
+  mutation.resolve();
+  ctx.pass();
 });
 
 export default spec;

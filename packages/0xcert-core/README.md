@@ -9,8 +9,155 @@ import { Connector } from '@0xcert/web3-connector';
 import { Store } from '@0xcert/ipfs-store';
 import { Protocol, AbilityId, Action, EventId } from '@0xcert/core';
 
-const connector = new Web3Connector();
+// connector initialization
+const connector = new Web3Connector({
+  retryGasMultiplier: 1.2,
+  requiredConfirmationsCount: 15,
+});
+
+// protocol instance initialization
 const protocol = new Protocol({ connector });
+
+// app hydration (after browser refresh)
+protocol.resolve([
+  { intentId: 'hash', request: { ... }, resolve: null },
+  { intentId: 'hash', request: { ... }, resolve: { ... } },
+  { intentId: null, request: { ... }, resolve: null },
+]);
+
+// events
+protocol.on('intent', (intent) => { ... });
+protocol.on('resolve', (intent) => { ... });
+protocol.on('revert', (error, intent) => { ... });
+
+// query
+const intent = protocol.prepare({
+  queryId: QueryId.FOLDER_CHECK_TRANSFER_STATE,
+  folderId: '0x...',
+});
+const { intentId, request, response } = intent; // Intent
+const { intentId, request, response } = await intent.perform(); // IIntentResponse
+const { isEnabled } = await intent.resolve(); // IProtocolResponse
+
+// intent access
+const intent = protocol.getIntent(intentId);
+const { isEnabled } = intent ? await intent.perform() : {};
+
+// Intent related objects
+
+type IntentResolver = (intent: ActionIntent): Promise<void>;
+
+interface IntentConfig {
+  intentId?: string;
+  request?: ActionRequest;
+  response?: ActionResponse;
+  resolver?: IntentResolver;
+}
+
+class ActionIntent extends EventEmitter {
+  public intentId: string;
+  public request: ActionRequest;
+  public response: ActionResponse;
+  public resolver: IntentResolver;
+
+  public constructor(config: IntentConfig) {
+    this.intentId = config.intentId;
+    this.request = config.request;
+    this.response = config.response;
+    this.resolver = config.resolver;
+    this.error = null;
+  }
+
+  public async perform(): ActionIntent {
+    try {
+      this.intentId = await this.resolver(this);
+    } catch (error) {
+      this.error = error;
+    }
+    return this;
+  }
+
+  public async resolve(): ActionResponse {
+    if (this.response) {
+      return this.response;
+    } else {
+      const fn = () => this.off(resolve, fn);
+      return new Promise((complete) => this.on('resolve', fn));
+    }
+  }
+
+  public serialize(): IntentConfig {
+    // todo
+  }
+}
+
+export class Web3Intent extends ActionIntent {
+  protected subscription;
+
+  public resolve() {
+    if (!this.subscription) {
+      this.subscription = web3.eth
+        .subscribe('pendingTransactions', (error, result) => {
+          if (error) throw error;
+        })
+        .on("data", (hash) => {
+          web3.eth.getTransaction(hash).then(console.log);
+        });
+    }
+
+    super.resolve()
+      .on('transactionHash', (hash) => this.emit('intent', hash))
+      .then(() => this.result);
+  }
+
+}
+
+// connector resolvers
+export function(connector: Connector, request: ActionRequest): void {
+  const folder = connector.web3.eth.Contract();
+  const from = request.makerId;
+
+  const resolver = (intent: Web3Intent) => {
+    return folder.methods.setSomething().send({ from });
+  };
+
+  return new Web3Intent({ request, resolver });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// mutations
+const mutation = protocol.perform({
+  mutationId: MutateId.FOLDER_SET_TRANSFER_STATE,
+  folderId: '0x...',
+  enabledId: true,
+});
+const { intentId, request } = query; // Intent
+const { intentId } = mutation.exec(); // IIntentResponse
+const { isEnabled } = await mutation.resolve(); // IProtocolResponse
+
+
+// retry
+const { amount } = await protocol.perform({
+  mutationId: QueryId.RETRY_TRANSACTION_COST,
+  txId: '0x...',
+});
+const { txId } = await protocol.perform({
+  mutationId: QueryId.RETRY_TRANSACTION,
+  txId: '0x...',
+});
 ```
 
 Listen to protocol events.
@@ -18,7 +165,7 @@ Listen to protocol events.
 ```ts
 protocol.on({
   event: EventId.EVENT_NAME,
-  actionId: async () => {},
+  queryId: async () => {},
 });
 protocol.off({
   eventId: EventId.EVENT_NAME,
@@ -31,7 +178,7 @@ protocol.off({
 
 ```ts
 const { name, symbol } = await protocol.perform({
-  actionId: ActionId.FOLDER_READ_METADATA,
+  queryId: QueryId.FOLDER_READ_METADATA,
   folderId: '0x...',
 });
 ```
@@ -40,7 +187,7 @@ const { name, symbol } = await protocol.perform({
 
 ```ts
 const { name, symbol, uriRoot } = await protocol.perform({
-  actionId: ActionId.FOLDER_READ_SUPPLY,
+  queryId: QueryId.FOLDER_READ_SUPPLY,
   folderId: '0x...',
 });
 ```
@@ -49,7 +196,7 @@ const { name, symbol, uriRoot } = await protocol.perform({
 
 ```ts
 const { isBurnable, isMutatable, isPausable, isRevokable } = await protocol.perform({
-  actionId: ActionId.FOLDER_READ_CAPABILITIES,
+  queryId: QueryId.FOLDER_READ_CAPABILITIES,
   folderId: '0x...',
 });
 ```
@@ -58,7 +205,7 @@ const { isBurnable, isMutatable, isPausable, isRevokable } = await protocol.perf
 
 ```ts
 const { isPaused } = await protocol.perform({
-  actionId: ActionId.FOLDER_CHECK_IS_PAUSED,
+  queryId: QueryId.FOLDER_CHECK_TRANSFER_STATE,
   folderId: '0x...',
 });
 ```
@@ -67,12 +214,23 @@ const { isPaused } = await protocol.perform({
 
 ```ts
 const { isAuthorized } = await protocol.perform({
-  actionId: ActionId.FOLDER_CHECK_IS_ABLE,
+  queryId: QueryId.FOLDER_CHECK_ABILITY,
   folderId: '0x...',
   abilityId: FolderAbilityId.MANAGE_ABILITIES,
   accountId: '0x...',
 });
 ```
+
+[implemented] Start or stop asset transfers.
+
+```ts
+const { isPaused } = await protocol.perform({
+  queryId: QueryId.FOLDER_SET_TRANSFER_STATE,
+  folderId: '0x...',
+  isEnabled: true,
+});
+```
+
 
 
 
@@ -83,22 +241,10 @@ Check if an account can operate on behalf of.
 
 ```ts
 const { isApproved } = await protocol.perform({
-  actionId: ActionId.CHECK_FOLDER_TOKEN_APPROVAL,
+  queryId: QueryId.CHECK_FOLDER_TOKEN_APPROVAL,
   folderId: '0x...',
   acountId: '0x...',
   tokenId: '100',
-});
-```
-
-Start or stop asset transfers.
-
-```ts
-const { isPaused } = await protocol.perform({
-  actionId: ActionId.UPDATE_FOLDER_TRANSFER_STATE,
-  folderId: '0x...',
-  data: {
-    isEnabled: true,
-  },
 });
 ```
 
@@ -106,7 +252,7 @@ Update folder metadata.
 
 ```ts
 const { name, symbol, uriRoot } = await protocol.perform({
-  actionId: ActionId.UPDATE_FOLDER_METADATA,
+  queryId: QueryId.UPDATE_FOLDER_METADATA,
   folderId: '0x...',
   data: {
     name: 'Foo',
@@ -120,7 +266,7 @@ Deploy new folder.
 
 ```ts
 const { folderId, txId } = await protocol.perform({
-  actionId: ActionId.DEPLOY_NEW_FOLDER,
+  queryId: QueryId.DEPLOY_NEW_FOLDER,
   conventionId: 'dgnjjnsmaa...',
   data: {
     name: 'Foo',
@@ -136,7 +282,7 @@ Generate new mint claim with optional transfers.
 
 ```ts
 const { mintClaim } = await protocol.perform({
-  actionId: ActionId.GENERATE_MINT_CLAIM,
+  queryId: QueryId.GENERATE_MINT_CLAIM,
   makerId: '0x...',
   takerId: '0x...',
   data: {
@@ -166,7 +312,7 @@ Execute mint claim on the network.
 
 ```ts
 const { txId } = await protocol.perform({
-  actionId: ActionId.EXECUTE_MINT_CLAIM,
+  queryId: QueryId.EXECUTE_MINT_CLAIM,
   data: {
     mintClaim: 'afj1j2skdjksnnvmblk...',
   },
@@ -177,7 +323,7 @@ Cancel mint claim.
 
 ```ts
 const { txId } = await protocol.perform({
-  actionId: ActionId.CANCEL_MINT_CLAIM,
+  queryId: QueryId.CANCEL_MINT_CLAIM,
   data: {
     mintClaim: 'afj1j2skdjksnnvmblk...',
   },
@@ -190,7 +336,7 @@ Generate new exchange order claim.
 
 ```ts
 const { exchangeClaim } = await protocol.perform({
-  actionId: ActionId.GENERATE_EXCHANGE_CLAIM,
+  queryId: QueryId.GENERATE_EXCHANGE_CLAIM,
   makerId: '0x...',
   takerId: '0x...',
   transfers: [
@@ -216,7 +362,7 @@ Execute exchange claim on the network.
 
 ```ts
 const { txId } = await protocol.perform({
-  actionId: ActionId.EXECUTE_EXCHANGE_CLAIM,
+  queryId: QueryId.EXECUTE_EXCHANGE_CLAIM,
   data: {
     exchangeClaim: 'afj1j2skdjksnnvmblk...',
   },
@@ -227,7 +373,7 @@ Cancel exchange claim.
 
 ```ts
 const { txId } = await protocol.perform({
-  actionId: ActionId.CANCEL_EXCHANGE_CLAIM,
+  queryId: QueryId.CANCEL_EXCHANGE_CLAIM,
   data: {
     exchangeClaim: 'afj1j2skdjksnnvmblk...',
   },
@@ -240,7 +386,7 @@ Read asset on the network.
 
 ```ts
 const { publicData, publicProof } = await protocol.perform({
-  actionId: ActionId.READ_ASSET_DATA,
+  queryId: QueryId.READ_ASSET_DATA,
   folderId: '0x...',
   assetId: '0x...',
 });
@@ -250,7 +396,7 @@ Create new asset data with optional exposed field (user can verify the exposed c
 
 ```ts
 const { privateData, publicData, proofData, proofHash } = await protocol.perform({
-  actionId: ActionId.GENERATE_ASSET_DATA,
+  queryId: QueryId.GENERATE_ASSET_DATA,
   conventionId: '187asd...',
   data: {
     firstName: 'John',
@@ -269,7 +415,7 @@ Verify asset data.
 
 ```ts
 const { isValid } = await protocol.perform({
-  actionId: ActionId.VERIFY_ASSET_DATA,
+  queryId: QueryId.VERIFY_ASSET_DATA,
   proofData,
   proofHash,
 });
@@ -299,3 +445,112 @@ const { isValid } = await protocol.perform({
 
 // 1. localstorage za shranjevanje pending stransactions + IPFS JSON file
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```ts
+// connector initialization
+const connector = new Web3Connector({
+  retryGasMultiplier: 1.2,
+  requiredConfirmationsCount: 15,
+});
+
+// protocol instance initialization
+const protocol = new Protocol({ connector });
+
+// working with assets
+const asset = protocol.createAsset({
+  assetKind: AssetKind.USER_IDENTITY,
+});
+asset.serialize()
+asset.validate();
+
+// hydrating pending mutations
+store.pendingMutations().forEach(() => {
+  const mutation = protocol.createMutation({ mutationId: '0x...', ... });
+  await mutation.resolve(() => { ... });
+});
+
+// creating and resolving queries and mutations (B)
+const mutation = protocol.createMutation({ // new Mutation();
+  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
+  mutationId: '0x...', // only when hydrating
+  folderId: '0x...',
+  isEnabled: true,
+});
+try {
+  await mutation.resolve();
+  mutation.unsubscribe();
+} catch (e) {
+  console.log(e);
+}
+const query = protocol.createQuery({ // new Query();
+  queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE,
+  folderId: '0x...',
+});
+try {
+  query.subscribe(async (eventKind, mutation) => {});
+  await query.resolve();
+  query.unsubscribe();
+} catch (e) {
+  console.log(e);
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```ts
+const protocol = new Protocol({ connector });
+
+const folder = protocol.createFolder(id);
+folder.on('transfer', async () => ...);
+folder.subscribe();
+
+const query = protocol.createQuery();
+query.on('request', async () => ...)
+query.on('response', async () => ...)
+await query.resolve();
+
+const mutation = protocol.createMutation();
+mutation.on('request', async () => ...);
+mutation.on('response', async () => ...);
+mutation.on('confirmation', async () => ...);
+mutation.on('approval', async () => ...);
+mutation.on('revert', async () => ...);
+await mutation.resolve();
+```
