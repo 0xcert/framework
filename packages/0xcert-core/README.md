@@ -535,6 +535,11 @@ try {
 
 
 ```ts
+const connector = new Web3Connector({
+  retryGasMultiplier: 1.2,
+  requiredConfirmationsCount: 15,
+});
+
 const protocol = new Protocol({ connector });
 
 const folder = protocol.createFolder(id);

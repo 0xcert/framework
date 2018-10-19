@@ -17,11 +17,6 @@ export enum MutationEvent {
 /**
  * 
  */
-export type MutationWatcher = (event: MutationEvent, mutation: MutationBase) => (any | Promise<any>);
-
-/**
- * 
- */
 export type MutationRecipe = FolderSetTransferStateRecipe;
 
 /**

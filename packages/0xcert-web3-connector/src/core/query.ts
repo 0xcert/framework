@@ -1,7 +1,7 @@
 import { QueryBase, QueryRecipe, QueryResult } from '@0xcert/connector';
 import { Connector } from './connector';
 import * as env from '../config/env';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 
 /**
  * Abstract Web3 query class.

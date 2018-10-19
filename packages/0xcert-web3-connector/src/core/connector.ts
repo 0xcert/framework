@@ -11,8 +11,8 @@ import { FolderSetTransferStateMutation } from '../mutations/folder-set-transfer
  * Web3 connector configuration.
  */
 export interface ConnectorConfig {
-  web3?: any;
-  requiredConfirmationsCount?: number;
+  web3?: Web3;
+  approvalConfirmationsCount?: number;
 }
 
 /**
@@ -20,7 +20,7 @@ export interface ConnectorConfig {
  */
 export class Connector implements ConnectorBase {
   readonly web3: Web3;
-  public requiredConfirmationsCount?: number;
+  public approvalConfirmationsCount?: number;
 
   /**
    * Class constructor.
@@ -28,7 +28,7 @@ export class Connector implements ConnectorBase {
    */
   public constructor(config?: ConnectorConfig) {
     this.web3 = this.buildWeb3(config.web3);
-    this.requiredConfirmationsCount = config.requiredConfirmationsCount || 15;
+    this.approvalConfirmationsCount = config.approvalConfirmationsCount || 15;
   }
 
   /**
