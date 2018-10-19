@@ -104,7 +104,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.erc721Metadata.abi,
       bytecode: contracts.erc721Metadata.bytecode,
-      args: ['ERC721 Metadata', 'ERC721Metadata'],
+      args: ['ERC721 Metadata', 'ERC721Metadata', 'http://0xcert.org/'],
       from,
     });
   }
@@ -144,7 +144,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertBurnable.abi,
       bytecode: contracts.xcertBurnable.bytecode,
-      args: ['Burnable Xcert', 'BurnableXcert', '0x1'],
+      args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1'],
       from,
     });
   }
@@ -158,7 +158,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertMutable.abi,
       bytecode: contracts.xcertMutable.bytecode,
-      args: ['Mutable Xcert', 'MutableXcert', '0x2'],
+      args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2'],
       from,
     });
   }
@@ -172,7 +172,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertPausable.abi,
       bytecode: contracts.xcertPausable.bytecode,
-      args: ['Pausable Xcert', 'PausableXcert', '0x3'],
+      args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3'],
       from,
     });
   }
@@ -186,7 +186,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertRevokable.abi,
       bytecode: contracts.xcertRevokable.bytecode,
-      args: ['Revokable Xcert', 'RevokableXcert', '0x4'],
+      args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4'],
       from,
     });
   }
@@ -200,7 +200,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Xcert', 'Xcert', '0x5'],
+      args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5'],
       from,
     });
   }

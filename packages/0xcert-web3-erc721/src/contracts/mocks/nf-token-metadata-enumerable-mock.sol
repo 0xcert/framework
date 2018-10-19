@@ -15,32 +15,33 @@ contract NFTokenMetadataEnumerableMock is
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFTokens.
+   * @param _uriBase Base of uri for token metadata uris. 
    */
   constructor(
     string _name,
-    string _symbol
+    string _symbol,
+    string _uriBase
   )
     public
   {
     nftName = _name;
     nftSymbol = _symbol;
+    uriBase = _uriBase;
   }
 
   /**
    * @dev Mints a new NFT.
    * @param _to The address that will own the minted NFT.
    * @param _tokenId of the NFT to be minted by the msg.sender.
-   * @param _uri String representing RFC 3986 URI.
    */
   function mint(
     address _to,
-    uint256 _tokenId,
-    string _uri
+    uint256 _tokenId
   )
     external
     onlyOwner
   {
-    super._mint(_to, _tokenId, _uri);
+    super._mint(_to, _tokenId);
   }
 
   /**
@@ -54,5 +55,18 @@ contract NFTokenMetadataEnumerableMock is
     onlyOwner
   {
     super._burn(_tokenId);
+  }
+
+  /**
+   * @dev Change URI base.
+   * @param _uriBase New uriBase.
+   */
+  function setUriBase(
+    string _uriBase
+  )
+    external
+    onlyOwner
+  {
+    super._setUriBase(_uriBase);
   }
 }

@@ -74,7 +74,6 @@ contract Minter is
    * @dev Structure of Xcert data.
    * @param xcert Contract address.
    * @param id The NFT to be minted.
-   * @param uri An URI pointing to NFT metadata.
    * @param proof Cryptographic asset imprint.
    * @param config Array of protocol config values where 0 index represents token expiration
    * timestamp, other indexes are not yet definied but are ready for future xcert upgrades.
@@ -83,7 +82,6 @@ contract Minter is
   struct XcertData{
     address xcert;
     uint256 id;
-    string uri;
     string proof;
   }
 
@@ -309,7 +307,6 @@ contract Minter is
         _mintData.xcertData.xcert,
         _mintData.xcertData.id,
         _mintData.xcertData.proof,
-        _mintData.xcertData.uri,
         temp,
         _mintData.seed,
         _mintData.expirationTimestamp
@@ -389,7 +386,6 @@ contract Minter is
       _xcertData.xcert,
       _to,
       _xcertData.id,
-      _xcertData.uri,
       _xcertData.proof
     );
   }

@@ -28,7 +28,6 @@ interface Data {
   zxc?: any;
   bnb?: any;
   id1?: string;
-  url1?: string;
   proof1?: string;
 }
  
@@ -52,11 +51,9 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const id = '1';
-  const uri = "http://0xcert.org/1";
   const proof = '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8';
 
   ctx.set('id1', id);
-  ctx.set('url1', uri);
   ctx.set('proof1', proof);
 });
 
@@ -68,7 +65,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', '0xa65de9e6'],
+    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6'],
   });
   await cat.instance.methods.assignAbilities(owner, [5]).send();
   ctx.set('cat', cat);
@@ -84,21 +81,21 @@ spec.beforeEach(async (ctx) => {
   const dog = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['dog', 'DOG', '0xa65de9e6'],
+    args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6'],
   });
   await dog.instance.methods.assignAbilities(owner, [1]).send();
   await dog.instance.methods
-    .mint(jane, 1, '0xcert.org', 'proof')
+    .mint(jane, 1, 'proof')
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .mint(jane, 2, '0xcert.org', 'proof')
+    .mint(jane, 2, 'proof')
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .mint(jane, 3, '0xcert.org', 'proof')
+    .mint(jane, 3, 'proof')
     .send({
       from: owner,
     });
@@ -115,11 +112,11 @@ spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({ 
     src: '@0xcert/web3-xcert/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['fox', 'FOX', '0xa65de9e6'],
+    args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6'],
   });
   await fox.instance.methods.assignAbilities(owner, [1]).send();
   await fox.instance.methods
-  .mint(jane, 1, '0xcert.org', 'proof')
+  .mint(jane, 1, 'proof')
   .send({
     from: owner,
   });
@@ -215,13 +212,11 @@ perform.test('Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfer = [];
@@ -263,13 +258,11 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -325,13 +318,11 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -396,13 +387,11 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const cat = ctx.get('cat');
   const dog = ctx.get('dog');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -480,13 +469,11 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const cat = ctx.get('cat');
   const dog = ctx.get('dog');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -577,13 +564,11 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const dog = ctx.get('dog');
   const fox = ctx.get('fox');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -661,13 +646,11 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -714,13 +697,11 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -768,13 +749,11 @@ perform.test('fails when approved token amount is not sufficient', async (ctx) =
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -820,13 +799,11 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -872,13 +849,11 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -932,13 +907,11 @@ cancel.test('succeeds', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -985,13 +958,11 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
@@ -1025,13 +996,11 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const uri = ctx.get('url1');
   const proof = ctx.get('proof1');
 
   const xcertData = {
     xcert: cat.receipt._address,
     id,
-    uri,
     proof,
   };
   const transfers = [
