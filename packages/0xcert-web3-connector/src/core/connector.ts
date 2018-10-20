@@ -1,5 +1,5 @@
 import * as Web3 from 'web3';
-import { ConnectorBase, QueryRecipe, QueryBase, QueryKind, MutationBase, MutationRecipe, MutationKind } from '@0xcert/connector';
+import { ConnectorBase, QueryRecipe, QueryBase, QueryKind, MutationIntent, MutationRecipe, MutationKind } from '@0xcert/connector';
 import { FolderCheckAbilityQuery } from '../queries/folder-check-ability';
 import { FolderReadMetadataQuery } from '../queries/folder-read-metadata';
 import { FolderReadSupplyQuery } from '../queries/folder-read-supply';
@@ -56,7 +56,7 @@ export class Connector implements ConnectorBase {
    * Returns a new Query object.
    * @param recipe Query recipe definition.
    */
-  public createMutation(recipe: MutationRecipe): MutationBase {
+  public createMutation(recipe: MutationRecipe): MutationIntent {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
         return new FolderSetTransferStateMutation(this, recipe);
@@ -78,3 +78,16 @@ export class Connector implements ConnectorBase {
   }
 
 }
+
+
+
+
+const a = new Connector();
+const b = a.createMutation({
+  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
+  folderId: '',
+  makerId: '',
+  data: {
+    isEnabled: true
+  },
+});

@@ -6,9 +6,9 @@ import * as Web3 from 'web3';
  */
 export interface Web3TransactionConfig {
   web3: Web3;
-  confirmationsCount?: number;
+  approvalConfirmationsCount?: number;
   transactionHash?: string;
-  resolver?: () => any;
+  resolver: () => any;
 }
 
 /**
@@ -29,17 +29,24 @@ export class Web3Transaction extends EventEmitter {
     super();
 
     this.config = {
-      confirmationsCount: 15,
+      approvalConfirmationsCount: 15,
       transactionHash: null,
       ...config,
     };
   }
  
   /**
-   * Returns transactionHash.
+   * Returns transaction hash.
    */
-  public getTransactionHash() {
+  public get transactionHash() {
     return this.config.transactionHash;
+  }
+
+  /**
+   * Returns approval confirmations count.
+   */
+  public get approvalConfirmationsCount() {
+    return this.config.approvalConfirmationsCount;
   }
 
   /**
@@ -132,7 +139,7 @@ export class Web3Transaction extends EventEmitter {
           return;
         }
         const blockDiff = block.number - transaction.blockNumber;
-        if (blockDiff >= this.config.confirmationsCount) {
+        if (blockDiff >= this.config.approvalConfirmationsCount) {
           this.markResolved();
           this.approved = true;
           this.emit('approval', blockDiff);

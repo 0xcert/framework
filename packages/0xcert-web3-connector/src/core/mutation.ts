@@ -1,32 +1,46 @@
-import { MutationBase, MutationRecipe, MutationResult } from '@0xcert/connector';
-import { Connector } from './connector';
-import { Web3Intent } from './intent';
-import { Web3Transaction } from './transaction';
+import { MutationEmitter, MutationEvent } from '@0xcert/connector';
+import { Connector } from '../core/connector';
+import { Web3Transaction } from '../core/transaction';
 
 /**
- * Abstract Web3 mutation class.
+ * Abstract mutation class for running transactions on Ethereum network.
  */
-export abstract class Web3Mutation extends Web3Intent {
+export abstract class Web3Mutation extends MutationEmitter {
   protected connector: Connector;
-  protected recipe: MutationRecipe;
   protected transaction: Web3Transaction;
 
   /**
    * Class constructor.
    * @param connector Connector class instance.
-   * @param recipe Mutation recipe.
    */
-  public constructor(connector: Connector, recipe: MutationRecipe) {
-    super(connector);
+  public constructor(connector: Connector) {
+    super();
+    this.connector = connector;
+  }
 
-    this.recipe = { ...recipe };
+  /**
+   * Creates a transaction if the transaction is not initialized, then performs
+   * and resolves the transaction on the Ethereum network.
+   * @param mutationId Optional transaction hash.
+   * @param resolver Mutation resolve function.
+   */
+  protected async exec(mutationId: string, resolver: () => any) {
 
-    this.transaction = new Web3Transaction({
-      web3: connector.web3,
-      transactionHash: recipe.mutationHash,
-      resolver: this['resolve'] ? this['resolve'].bind(this) : null,
-      confirmationsCount: connector.approvalConfirmationsCount,
-    });
+    if (!this.transaction) {
+      this.transaction = new Web3Transaction({
+        web3: this.connector.web3,
+        transactionHash: mutationId,
+        approvalConfirmationsCount: this.connector.approvalConfirmationsCount,
+        resolver,
+      });
+      this.transaction.on('request', () => this.emit(MutationEvent.REQUEST, this));
+      this.transaction.on('response', () => this.emit(MutationEvent.RESPONSE, this));
+      this.transaction.on('confirmation', (count) => this.emit(MutationEvent.CONFIRMATION, count, this));
+      this.transaction.on('approval', (count) => this.emit(MutationEvent.APPROVAL, count, this));
+      this.transaction.on('error', (error) => this.emit(MutationEvent.ERROR, error, this));
+    }
+
+    return this.transaction.perform().resolve().then(() => this);
   }
 
 }

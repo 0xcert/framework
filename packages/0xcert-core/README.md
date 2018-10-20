@@ -140,9 +140,12 @@ export function(connector: Connector, request: ActionRequest): void {
 
 // mutations
 const mutation = protocol.perform({
-  mutationId: MutateId.FOLDER_SET_TRANSFER_STATE,
+  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE
+  mutationId: '0x...',
   folderId: '0x...',
-  enabledId: true,
+  data: {
+    isEnabled: true,
+  },
 });
 const { intentId, request } = query; // Intent
 const { intentId } = mutation.exec(); // IIntentResponse
@@ -546,12 +549,16 @@ const folder = protocol.createFolder(id);
 folder.on('transfer', async () => ...);
 folder.subscribe();
 
-const query = protocol.createQuery();
+const query = protocol.createQuery({
+  kind: ...
+});
 query.on('request', async () => ...)
 query.on('response', async () => ...)
 await query.resolve();
 
-const mutation = protocol.createMutation();
+const mutation = protocol.createMutation({
+  kind: ...
+});
 mutation.on('request', async () => ...);
 mutation.on('response', async () => ...);
 mutation.on('confirmation', async () => ...);

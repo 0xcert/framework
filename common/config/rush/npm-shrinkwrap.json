@@ -176,10 +176,12 @@
     },
     "@rush-temp/connector": {
       "version": "file:projects/connector.tgz",
-      "integrity": "sha512-uTcByDHsixwCJzsVCDxP5OQaUogHzPU2e4oc28geOh6Ly7PxN0NEcqIvORuJZ+Rj9XaNlQTnymI8b1vyeVK+2w==",
+      "integrity": "sha512-GhjUdGoPFYZxvPoiND6n10wp6Nn/gOB2/N13meUciti7/qhxm3kCMpfoSqZKSQqN6Z6PK7Ei8Uk7S81NavK+ag==",
       "requires": {
         "@hayspec/cli": "^0.7.4",
         "@hayspec/spec": "^0.7.4",
+        "@types/node": "^10.12.0",
+        "eventemitter3": "^3.1.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
