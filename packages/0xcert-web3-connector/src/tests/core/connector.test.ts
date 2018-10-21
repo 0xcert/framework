@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Connector } from '../..';
-import { QueryKind, FolderAbilityKind, MutationKind, MutationEvent } from '@0xcert/connector';
+import { QueryKind, FolderAbilityKind, MutationKind } from '@0xcert/connector';
 
 interface Data {
   connector: Connector;

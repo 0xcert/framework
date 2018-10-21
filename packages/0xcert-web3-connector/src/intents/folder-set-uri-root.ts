@@ -38,9 +38,10 @@ export class FolderSetUriRootIntent extends Web3Mutation implements FolderSetUri
   public async resolve() {
     const folder = getFolder(this.connector.web3, this.recipe.folderId);
     const from = await getAccount(this.connector.web3, this.recipe.makerId);
+    const uriRoot = this.recipe.data.uriRoot;
 
     const resolver = () => {
-      return folder.methods.setUriBase(this.recipe.data.uriRoot).send({ from });
+      return folder.methods.setUriBase(uriRoot).send({ from });
     };
 
     return this.exec(this.recipe.mutationId, resolver);
