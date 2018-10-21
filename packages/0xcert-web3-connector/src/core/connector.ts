@@ -1,52 +1,89 @@
 import * as Web3 from 'web3';
-import { IConnector, IActionRequest, IActionResponse, ActionId } from '@0xcert/connector';
-import folderReadMetadata from '../resolvers/folder-read-metadata';
-import folderReadSupply from '../resolvers/folder-read-supply';
-import folderReadCapabilities from '../resolvers/folder-read-capabilities';
-import folderCheckIsPaused from '../resolvers/folder-check-is-paused';
+import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
+  FolderReadSupplyRecipe, FolderReadMetadataRecipe, FolderReadCapabilitiesRecipe,
+  FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
+  FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
+  FolderSetTransferStateRecipe, FolderSetTransferStateMutation } from '@0xcert/connector';
+import { FolderCheckAbilityIntent } from '../intents/folder-check-ability';
+import { FolderReadMetadataIntent } from '../intents/folder-read-metadata';
+import { FolderReadSupplyIntent } from '../intents/folder-read-supply';
+import { FolderCheckTransferStateIntent } from '../intents/folder-check-transfer-state';
+import { FolderSetTransferStateIntent } from '../intents/folder-set-transfer-state';
+import { FolderReadCapabilitiesIntent } from '../intents/folder-read-capabilities';
+
+/**
+ * Web3 connector configuration.
+ */
+export interface ConnectorConfig {
+  web3?: Web3;
+  approvalConfirmationsCount?: number;
+}
 
 /**
  * Web3 connector.
  */
-export class Connector implements IConnector {
+export class Connector implements ConnectorBase {
   readonly web3: Web3;
+  public approvalConfirmationsCount?: number;
 
   /**
    * Class constructor.
    * @param web3 Web3 object instance or web3 provider object.
    */
-  public constructor(web3?: any) {
-    this.web3 = new Web3(this.getProvider(web3));
+  public constructor(config?: ConnectorConfig) {
+    this.web3 = this.buildWeb3(config.web3);
+    this.approvalConfirmationsCount = config.approvalConfirmationsCount || 15;
   }
 
   /**
-   * Performs action based on the received request object.
-   * @param res Protocol request object.
+   * Returns a new Query object.
+   * @param recipe Query recipe definition.
    */
-  public perform(req: IActionRequest): IActionResponse {
-    switch (req.actionId) {
-      case ActionId.FOLDER_READ_METADATA:
-        return folderReadMetadata.call(this, this, req);
-      case ActionId.FOLDER_READ_SUPPLY:
-        return folderReadSupply.call(this, this, req);
-      case ActionId.FOLDER_READ_CAPABILITIES:
-        return folderReadCapabilities.call(this, this, req);
-      case ActionId.FOLDER_CHECK_IS_PAUSED:
-        return folderCheckIsPaused.call(this, this, req);
+  public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  createQuery(recipe) {
+    switch (recipe.queryKind) {
+      case QueryKind.FOLDER_CHECK_ABILITY:
+        return new FolderCheckAbilityIntent(this, recipe) as FolderCheckAbilityQuery;
+      case QueryKind.FOLDER_CHECK_TRANSFER_STATE:
+        return new FolderCheckTransferStateIntent(this, recipe) as FolderCheckTransferStateQuery;
+      case QueryKind.FOLDER_READ_CAPABILITIES:
+        return new FolderReadCapabilitiesIntent(this, recipe) as FolderReadCapabilitiesQuery;
+      case QueryKind.FOLDER_READ_METADATA:
+        return new FolderReadMetadataIntent(this, recipe) as FolderReadMetadataQuery;
+      case QueryKind.FOLDER_READ_SUPPLY:
+        return new FolderReadSupplyIntent(this, recipe) as FolderReadSupplyQuery;
       default:
-        throw 'Unknown action'; 
+        return null;
     }
   }
 
   /**
-   * Returns best web3 provider.
+   * Returns a new Query object.
+   * @param recipe Query recipe definition.
+   */
+  public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
+  createMutation(recipe: FolderSetTransferStateRecipe) {
+    switch (recipe.mutationKind) {
+      case MutationKind.FOLDER_SET_TRANSFER_STATE:
+        return new FolderSetTransferStateIntent(this, recipe);
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Returns a new Web3 instance.
    * @param web3 Web3 object instance or web3 provider object.
    */
-  protected getProvider(web3?: any) {
+  protected buildWeb3(web3?: any) {
     if (web3 && web3.currentProvider) {
-      return web3.currentProvider;
-    } else if (!web3.currentProvider) {
-      return 'http://localhost:8545';
+      return new Web3(web3.currentProvider);
+    } else {
+      return new Web3(web3 || 'ws://localhost:8545');
     }
   }
 

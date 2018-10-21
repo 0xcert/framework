@@ -1,12 +1,12 @@
 import { Spec } from '@hayspec/spec';
-import { Sandbox } from '../../core/server';
+import { Sandbox } from '../../core/sandbox';
 import * as request from 'supertest';
 
 const spec = new Spec();
 const sandbox = new Sandbox();
 
 spec.before(async () => {
-  await sandbox.listen(8010);
+  await sandbox.listen({ port: 8010, blockTime: 1 });
 });
 
 spec.after(async () => {
@@ -34,6 +34,16 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.nftokenTransferProxy);
   ctx.true(!!sandbox.protocol.exchange);
   ctx.true(!!sandbox.protocol.minter);
+});
+
+spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {
+  let count = 0;
+  await new Promise((resolve) => {
+    const subscription = sandbox.web3.eth.subscribe('newBlockHeaders');
+    subscription.on('data', () => count++);
+    setTimeout(() => resolve(), 4800);
+  });
+  ctx.is(count, 4);
 });
 
 export default spec;

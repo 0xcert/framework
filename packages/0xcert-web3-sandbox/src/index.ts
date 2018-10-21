@@ -1,2 +1,2 @@
-export * from './core/server';
+export * from './core/sandbox';
 export * from './core/protocol';

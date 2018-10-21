@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm run updateXcertAbi; npx tsc",
     "test": "npx specron test",
     "updateXcertAbi": "npx ts-node ./src/scripts/update-xcert-abi"
   },
@@ -14,7 +14,8 @@
       "port": 8509,
       "match": [
         "./src/tests/**/*.test.ts"
-      ]
+      ],
+      "blockTime": 0.1
     },
     "require": [
       "ts-node/register"
@@ -25,8 +26,8 @@
     "@0xcert/connector": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-xcert": "0.0.0-alpha0",
-    "@specron/cli": "^0.2.5",
-    "@specron/spec": "^0.2.5",
+    "@specron/cli": "^0.2.6",
+    "@specron/spec": "^0.2.6",
     "@types/fs-extra": "^5.0.4",
     "fs-extra": "^7.0.0",
     "solc": "^0.4.25",
@@ -34,6 +35,7 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
+    "eventemitter3": "^3.1.0",
     "web3": "^1.0.0-beta.36"
   }
 }
