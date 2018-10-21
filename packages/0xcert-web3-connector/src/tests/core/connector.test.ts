@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Connector } from '../..';
-import { QueryKind, FolderAbilityKind, MutationKind } from '@0xcert/connector';
+import { QueryKind, FolderAbilityKind, MutationKind, MutationEvent } from '@0xcert/connector';
 
 interface Data {
   connector: Connector;
@@ -123,6 +123,21 @@ spec.test('sets folder transfer state', async (ctx) => {
   await mutation.resolve();
   mutation.resolve();
   ctx.pass();
+});
+
+spec.test('sets folder root uri', async (ctx) => {
+  await ctx.get('protocol').xcertPausable.instance.methods.assignAbilities(ctx.get('owner'), [6]).send({
+    form: ctx.get('owner'),
+  });
+
+  const uriRoot = 'http://newLink.org/';
+  const mutation = await ctx.get('connector').createMutation({
+    mutationKind: MutationKind.FOLDER_SET_URI_ROOT,
+    folderId: ctx.get('protocol').xcertPausable.instance.options.address,
+    makerId: ctx.get('owner'),
+    data: { uriRoot },
+  });
+  await ctx.notThrows(() => mutation.resolve());  
 });
 
 export default spec;

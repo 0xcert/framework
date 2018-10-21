@@ -5,6 +5,7 @@ import { ConnectorError } from './errors';
  */
 export enum MutationKind {
   FOLDER_SET_TRANSFER_STATE = 5001,
+  FOLDER_SET_URI_ROOT = 5002,
 }
 
 /**
@@ -45,6 +46,14 @@ export interface FolderSetTransferStateMutation extends MutationEmitter {
 /**
  * 
  */
+export interface FolderSetUriRootMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderSetUriRootResult;
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateRecipe {
   mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE;
   mutationId?: string;
@@ -58,9 +67,32 @@ export interface FolderSetTransferStateRecipe {
 /**
  * 
  */
+export interface FolderSetUriRootRecipe {
+  mutationKind: MutationKind.FOLDER_SET_URI_ROOT;
+  mutationId?: string;
+  folderId: string;
+  makerId: string;
+  data: {
+    uriRoot: string;
+  };
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateResult {
   mutationId: string;
   data: {
     isEnabled: boolean;
+  };
+}
+
+/**
+ * 
+ */
+export interface FolderSetUriRootResult {
+  mutationId: string;
+  data: {
+    uriRoot: string;
   };
 }
