@@ -1,68 +1,51 @@
-// import { IConnector, IActionRequest, ActionId, IIntent, IActionResponse, IIntentResponse } from '@0xcert/connector';
-// import { EventEmitter } from '../utils/emitter';
+import { ConnectorBase, FolderCheckAbilityRecipe, FolderCheckTransferStateRecipe,
+  FolderReadCapabilitiesRecipe, FolderReadMetadataRecipe, FolderReadSupplyRecipe,
+  FolderReadSupplyQuery, FolderReadMetadataQuery, FolderReadCapabilitiesQuery,
+  FolderCheckTransferStateQuery, FolderCheckAbilityQuery, FolderSetTransferStateRecipe,
+  FolderSetTransferStateMutation, 
+  QueryKind} from '@0xcert/connector';
 
-// /**
-//  * Protocol client configuration object.
-//  */
-// export interface IProtocolConfig {
-//   connector?: IConnector;
-// }
+/**
+ * Protocol client configuration object.
+ */
+export interface ProtocolConfig {
+  connector?: ConnectorBase;
+}
 
-// /**
-//  * Protocol client.
-//  */
-// export class Protocol extends EventEmitter {
-//   readonly connector: IConnector;
-//   readonly intents: IIntent[] = [];
+/**
+ * Protocol client.
+ */
+export class Protocol implements ConnectorBase {
+  readonly connector: ConnectorBase;
 
-//   /**
-//    * Class constructor.
-//    * @param config 
-//    */
-//   public constructor(config: IProtocolConfig) {
-//     super();
-//     this.connector = config.connector;
-//   }
+  /**
+   * Class constructor.
+   * @param config 
+   */
+  public constructor(config: ProtocolConfig) {
+    this.connector = config.connector;
+  }
 
-//   /**
-//    * Performs protocol read operation.
-//    * @param recipe Query configuration object.
-//    */
-//   public async createQuery(recipe: QueryRecipe): Promise<QueryResult> {
-//   }
+  /**
+   * Performs protocol read operation.
+   * @param recipe Query configuration object.
+   */
+  public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  createQuery(recipe) {
+    return this.connector.createQuery(recipe) as any;
+  }
 
-//   /**
-//    * Performs protocol mutate operation.
-//    * @param recipe Mutation configuration object.
-//    */
-//   public async createMutation(recipe: MutationRecipe): Promise<MutationResult> {
-//   }
+  /**
+   * Performs protocol mutate operation.
+   * @param recipe Mutation configuration object.
+   */
+  public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
+  createMutation(recipe) {
+    return this.connector.createMutation(recipe) as any;
+  }
 
-//   // /**
-//   //  * Performs protocol action based on the received request object.
-//   //  * @param res Protocol request object.
-//   //  */
-//   // public async createMutation(request: IActionRequest): Promise<IIntent> {
-//   //   switch (request.actionId) {
-//   //     case ActionId.FOLDER_READ_METADATA:
-//   //     case ActionId.FOLDER_READ_SUPPLY:
-//   //     case ActionId.FOLDER_READ_CAPABILITIES:
-//   //     case ActionId.FOLDER_CHECK_TRANSFER_STATE:
-//   //       const intent = await this.connector.prepare(request);
-//   //       this.intents.push(intent);
-//   //       return intent;
-//   //     default:
-//   //       throw 'Unknown action';
-//   //   }
-//   // }
-
-//   /**
-//    * 
-//    */
-//   public async resolve(intents: IIntent[]): Promise<IIntentResponse[]> {
-//     return Promise.all(
-//       intents.map((intent) => this.connector.hydrate(intent))
-//     );
-//   }
-
-// }
+}
