@@ -1,11 +1,15 @@
 import * as Web3 from 'web3';
-import { ConnectorBase, QueryRecipe, QueryBase, QueryKind, MutationIntent, MutationRecipe, MutationKind } from '@0xcert/connector';
-import { FolderCheckAbilityQuery } from '../queries/folder-check-ability';
-import { FolderReadMetadataQuery } from '../queries/folder-read-metadata';
-import { FolderReadSupplyQuery } from '../queries/folder-read-supply';
-import { FolderReadCapabilitiesQuery } from '../queries/folder-read-capabilities';
-import { FolderCheckTransferStateQuery } from '../queries/folder-check-transfer-state';
-import { FolderSetTransferStateMutation } from '../mutations/folder-set-transfer-state';
+import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
+  FolderReadSupplyRecipe, FolderReadMetadataRecipe, FolderReadCapabilitiesRecipe,
+  FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
+  FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
+  FolderSetTransferStateRecipe, FolderSetTransferStateMutation } from '@0xcert/connector';
+import { FolderCheckAbilityIntent } from '../intents/folder-check-ability';
+import { FolderReadMetadataIntent } from '../intents/folder-read-metadata';
+import { FolderReadSupplyIntent } from '../intents/folder-read-supply';
+import { FolderCheckTransferStateIntent } from '../intents/folder-check-transfer-state';
+import { FolderSetTransferStateIntent } from '../intents/folder-set-transfer-state';
+import { FolderReadCapabilitiesIntent } from '../intents/folder-read-capabilities';
 
 /**
  * Web3 connector configuration.
@@ -35,18 +39,23 @@ export class Connector implements ConnectorBase {
    * Returns a new Query object.
    * @param recipe Query recipe definition.
    */
-  public createQuery(recipe: QueryRecipe): QueryBase {
+  public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  createQuery(recipe) {
     switch (recipe.queryKind) {
       case QueryKind.FOLDER_CHECK_ABILITY:
-        return new FolderCheckAbilityQuery(this, recipe);
+        return new FolderCheckAbilityIntent(this, recipe) as FolderCheckAbilityQuery;
       case QueryKind.FOLDER_CHECK_TRANSFER_STATE:
-        return new FolderCheckTransferStateQuery(this, recipe);
+        return new FolderCheckTransferStateIntent(this, recipe) as FolderCheckTransferStateQuery;
       case QueryKind.FOLDER_READ_CAPABILITIES:
-        return new FolderReadCapabilitiesQuery(this, recipe);
+        return new FolderReadCapabilitiesIntent(this, recipe) as FolderReadCapabilitiesQuery;
       case QueryKind.FOLDER_READ_METADATA:
-        return new FolderReadMetadataQuery(this, recipe);
+        return new FolderReadMetadataIntent(this, recipe) as FolderReadMetadataQuery;
       case QueryKind.FOLDER_READ_SUPPLY:
-        return new FolderReadSupplyQuery(this, recipe);
+        return new FolderReadSupplyIntent(this, recipe) as FolderReadSupplyQuery;
       default:
         return null;
     }
@@ -56,10 +65,11 @@ export class Connector implements ConnectorBase {
    * Returns a new Query object.
    * @param recipe Query recipe definition.
    */
-  public createMutation(recipe: MutationRecipe): MutationIntent {
+  public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
+  createMutation(recipe: FolderSetTransferStateRecipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
-        return new FolderSetTransferStateMutation(this, recipe);
+        return new FolderSetTransferStateIntent(this, recipe);
       default:
         return null;
     }
@@ -78,16 +88,3 @@ export class Connector implements ConnectorBase {
   }
 
 }
-
-
-
-
-const a = new Connector();
-const b = a.createMutation({
-  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
-  folderId: '',
-  makerId: '',
-  data: {
-    isEnabled: true
-  },
-});

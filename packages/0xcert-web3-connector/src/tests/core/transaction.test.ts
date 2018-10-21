@@ -33,7 +33,7 @@ spec.test('performs and resolves transaction on the network', async (ctx) => {
   const transaction = new Web3Transaction({
     web3: ctx.web3,
     resolver: ctx.get('resolver'),
-    confirmationsCount: 5,
+    approvalConfirmationsCount: 5,
   });
   transaction.perform();
   await transaction.resolve();
@@ -57,7 +57,7 @@ spec.test('emits transaction events', async (ctx) => {
   const transaction = new Web3Transaction({
     web3: ctx.web3,
     resolver: ctx.get('resolver'),
-    confirmationsCount: 5,
+    approvalConfirmationsCount: 5,
   });
   transaction.on('request', () => stats.request++);
   transaction.on('response', () => stats.response++);
@@ -84,7 +84,7 @@ spec.test('detaches transaction tracking', async (ctx) => {
   const transaction = new Web3Transaction({
     web3: ctx.web3,
     resolver: ctx.get('resolver'),
-    confirmationsCount: 20,
+    approvalConfirmationsCount: 20,
   });
   transaction.on('detach', () => stats.detach++);
   transaction.perform();
@@ -104,7 +104,7 @@ spec.test('reattachs transaction tracking', async (ctx) => {
   const transaction0 = new Web3Transaction({
     web3: ctx.web3,
     resolver: ctx.get('resolver'),
-    confirmationsCount: 20,
+    approvalConfirmationsCount: 20,
   });
   transaction0.on('request', () => stats.request++);
   transaction0.on('response', () => stats.response++);
@@ -115,8 +115,8 @@ spec.test('reattachs transaction tracking', async (ctx) => {
   await transaction0.resolve();
   const transaction1 = new Web3Transaction({
     web3: ctx.web3,
-    transactionHash: transaction0.getTransactionHash(),
-    confirmationsCount: 5,
+    transactionHash: transaction0.transactionHash,
+    approvalConfirmationsCount: 5,
   });
   transaction1.on('request', () => stats.request++);
   transaction1.on('response', () => stats.response++);

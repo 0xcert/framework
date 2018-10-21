@@ -8,7 +8,7 @@ export interface Web3TransactionConfig {
   web3: Web3;
   approvalConfirmationsCount?: number;
   transactionHash?: string;
-  resolver: () => any;
+  resolver?: () => any;
 }
 
 /**

@@ -1,11 +1,13 @@
-import { MutationEmitter, MutationEvent } from '@0xcert/connector';
+import { MutationEvent } from '@0xcert/connector';
 import { Connector } from '../core/connector';
 import { Web3Transaction } from '../core/transaction';
+import { parseError } from './errors';
+import { EventEmitter } from 'eventemitter3';
 
 /**
  * Abstract mutation class for running transactions on Ethereum network.
  */
-export abstract class Web3Mutation extends MutationEmitter {
+export abstract class Web3Mutation extends EventEmitter {
   protected connector: Connector;
   protected transaction: Web3Transaction;
 
@@ -37,7 +39,7 @@ export abstract class Web3Mutation extends MutationEmitter {
       this.transaction.on('response', () => this.emit(MutationEvent.RESPONSE, this));
       this.transaction.on('confirmation', (count) => this.emit(MutationEvent.CONFIRMATION, count, this));
       this.transaction.on('approval', (count) => this.emit(MutationEvent.APPROVAL, count, this));
-      this.transaction.on('error', (error) => this.emit(MutationEvent.ERROR, error, this));
+      this.transaction.on('error', (error) => this.emit(MutationEvent.ERROR, parseError(error), this));
     }
 
     return this.transaction.perform().resolve().then(() => this);

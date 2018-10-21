@@ -1,47 +1,33 @@
-import { QueryBase, QueryRecipe, QueryResult } from '@0xcert/connector';
+import { QueryEmitter, QueryEvent, ConnectorError } from '@0xcert/connector';
 import { Connector } from './connector';
-import * as env from '../config/env';
 import { EventEmitter } from 'eventemitter3';
+import { parseError } from './errors';
 
 /**
  * Abstract Web3 query class.
  */
-export abstract class Web3Query extends EventEmitter implements QueryBase {
+export abstract class Web3Query extends EventEmitter {
   protected connector: Connector;
-  protected recipe: QueryRecipe;
-  protected result: QueryResult;
 
   /**
    * Class constructor.
    * @param connector Connector class instance.
-   * @param recipe Query recipe.
    */
-  public constructor(connector: Connector, recipe: QueryRecipe) {
+  public constructor(connector: Connector) {
     super();
     this.connector = connector;
-    this.recipe = recipe;
   }
 
   /**
-   * Returns serialized query data.
+   * Performs the resolver and stores the result to result class variable.
+   * @param resolver Mutation resolve function.
    */
-  public serialize(): QueryResult {
-    return this.result;
-  }
-
-  /**
-   * Performs query resolver.
-   * NOTE: This method should be overriden!
-   */
-  public async resolve(): Promise<this> {
-    throw 'Not implemented!';
-  }
-
-  /**
-   * Returns Xcert smart contract instance.
-   */
-  protected getFolder(folderId: string) {
-    return new this.connector.web3.eth.Contract(env.xcertAbi, folderId);
+  protected async exec(resolver: () => any) {
+    try {
+      return resolver();
+    } catch (error) {
+      throw parseError(error);
+    }
   }
 
 }

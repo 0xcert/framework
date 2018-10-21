@@ -1,4 +1,4 @@
-import { FolderSetTransferStateRecipe, FolderSetTransferStateResult, FolderSetTransferStateIntent } from '@0xcert/connector';
+import { FolderSetTransferStateRecipe, FolderSetTransferStateResult, FolderSetTransferStateMutation } from '@0xcert/connector';
 import { Connector } from '../core/connector';
 import { Web3Transaction } from '../core/transaction';
 import { getFolder, getAccount } from '../utils/contracts';
@@ -7,7 +7,7 @@ import { Web3Mutation } from '../core/mutation';
 /**
  * Mutation class for.
  */
-export class FolderSetTransferStateMutation extends Web3Mutation implements FolderSetTransferStateIntent {
+export class FolderSetTransferStateIntent extends Web3Mutation implements FolderSetTransferStateMutation {
   protected recipe: FolderSetTransferStateRecipe;
   protected transaction: Web3Transaction;
 
@@ -24,7 +24,7 @@ export class FolderSetTransferStateMutation extends Web3Mutation implements Fold
   /**
    * Returns serialized mutation object.
    */
-  public serialize(): FolderSetTransferStateResult {
+  public serialize() {
     return {
       mutationId: this.transaction.transactionHash,
       data: {
@@ -36,17 +36,15 @@ export class FolderSetTransferStateMutation extends Web3Mutation implements Fold
   /**
    * Performs the resolve operation.
    */
-  public async resolve(): Promise<this> {
+  public async resolve() {
+    const folder = getFolder(this.connector.web3, this.recipe.folderId);
+    const from = await getAccount(this.connector.web3, this.recipe.makerId);
 
-    const resolve = () => {
-      async () => {
-        const folder = getFolder(this.connector.web3, this.recipe.folderId);
-        const from = await getAccount(this.connector.web3, this.recipe.makerId);
-        return folder.methods.setPause(true).send({ from });
-      }
+    const resolver = () => {
+      return folder.methods.setPause(true).send({ from });
     };
 
-    return this.exec(this.recipe.mutationId, resolve);
+    return this.exec(this.recipe.mutationId, resolver);
   }
 
 }

@@ -1,10 +1,17 @@
-import { QueryRecipe, QueryBase } from './query';
-import { MutationRecipe, MutationIntent } from './mutation';
+import { FolderCheckAbilityRecipe, FolderCheckTransferStateRecipe, FolderReadCapabilitiesRecipe,
+  FolderReadMetadataRecipe, FolderReadSupplyRecipe, FolderCheckAbilityQuery,
+  FolderCheckTransferStateQuery, FolderReadCapabilitiesQuery, FolderReadMetadataQuery,
+  FolderReadSupplyQuery } from './query';
+import { FolderSetTransferStateRecipe, FolderSetTransferStateMutation } from './mutation';
 
 /**
  * 
  */
 export interface ConnectorBase {
-  createQuery(recipe: QueryRecipe): QueryBase;
-  createMutation(recipe: MutationRecipe): MutationIntent;
+  createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
 }
