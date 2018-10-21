@@ -138,4 +138,15 @@ spec.test('sets folder transfer state', async (ctx) => {
   ctx.pass();
 });
 
+spec.test('sets folder uri base', async (ctx) => {
+  const uriBase = 'http://newLink.org/';
+  const mutation = await ctx.get('connector').createMutation({
+    mutationKind: MutationKind.FOLDER_SET_URI_BASE,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+    makerId: ctx.get('owner'),
+    data: { uriBase },
+  });
+  await ctx.notThrows(() => mutation.resolve());  
+});
+
 export default spec;

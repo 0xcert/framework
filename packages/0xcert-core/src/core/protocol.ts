@@ -2,8 +2,8 @@ import { ConnectorBase, FolderCheckAbilityRecipe, FolderCheckTransferStateRecipe
   FolderReadCapabilitiesRecipe, FolderReadMetadataRecipe, FolderReadSupplyRecipe,
   FolderReadSupplyQuery, FolderReadMetadataQuery, FolderReadCapabilitiesQuery,
   FolderCheckTransferStateQuery, FolderCheckAbilityQuery, FolderSetTransferStateRecipe,
-  FolderSetTransferStateMutation, 
-  QueryKind} from '@0xcert/connector';
+  FolderSetTransferStateMutation, FolderCheckApprovalQuery, FolderCheckApprovalRecipe,
+  FolderSetUriBaseRecipe, FolderSetUriBaseMutation} from '@0xcert/connector';
 
 /**
  * Protocol client configuration object.
@@ -31,6 +31,7 @@ export class Protocol implements ConnectorBase {
    * @param recipe Query configuration object.
    */
   public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  public createQuery(recipe: FolderCheckApprovalRecipe): FolderCheckApprovalQuery;
   public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
   public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
   public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
@@ -44,6 +45,7 @@ export class Protocol implements ConnectorBase {
    * @param recipe Mutation configuration object.
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
+  public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
   createMutation(recipe) {
     return this.connector.createMutation(recipe) as any;
   }
