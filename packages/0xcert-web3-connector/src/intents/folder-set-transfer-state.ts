@@ -23,13 +23,12 @@ export class FolderSetTransferStateIntent extends Web3Mutation implements Folder
 
   /**
    * Returns serialized mutation object.
+   * If mutationId is null then the mutation has not yet been resolved.
    */
   public serialize() {
     return {
       mutationId: this.transaction.transactionHash,
-      data: {
-        isEnabled: true,
-      },
+      data: this.recipe.data,
     };
   }
 
@@ -39,12 +38,12 @@ export class FolderSetTransferStateIntent extends Web3Mutation implements Folder
   public async resolve() {
     const folder = getFolder(this.connector.web3, this.recipe.folderId);
     const from = await getAccount(this.connector.web3, this.recipe.makerId);
+    const state = this.recipe.data.isEnabled;
 
     const resolver = () => {
-      return folder.methods.setPause(true).send({ from });
+      return folder.methods.setPause(state).send({ from });
     };
 
     return this.exec(this.recipe.mutationId, resolver);
   }
-
 }
