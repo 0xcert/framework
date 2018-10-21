@@ -3,15 +3,15 @@ import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
   FolderReadSupplyRecipe, FolderReadMetadataRecipe, FolderReadCapabilitiesRecipe,
   FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
   FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
-  FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriRootRecipe,
-  FolderSetUriRootMutation } from '@0xcert/connector';
+  FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
+  FolderSetUriBaseMutation } from '@0xcert/connector';
 import { FolderCheckAbilityIntent } from '../intents/folder-check-ability';
 import { FolderReadMetadataIntent } from '../intents/folder-read-metadata';
 import { FolderReadSupplyIntent } from '../intents/folder-read-supply';
 import { FolderCheckTransferStateIntent } from '../intents/folder-check-transfer-state';
 import { FolderSetTransferStateIntent } from '../intents/folder-set-transfer-state';
 import { FolderReadCapabilitiesIntent } from '../intents/folder-read-capabilities';
-import { FolderSetUriRootIntent } from '../intents/folder-set-uri-root';
+import { FolderSetUriBaseIntent } from '../intents/folder-set-uri-base';
 
 /**
  * Web3 connector configuration.
@@ -68,13 +68,13 @@ export class Connector implements ConnectorBase {
    * @param recipe Query recipe definition.
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
-  public createMutation(recipe: FolderSetUriRootRecipe): FolderSetUriRootMutation;
+  public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
   createMutation(recipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
         return new FolderSetTransferStateIntent(this, recipe) as FolderSetTransferStateMutation;
-      case MutationKind.FOLDER_SET_URI_ROOT:
-        return new FolderSetUriRootIntent(this, recipe) as FolderSetUriRootMutation;
+      case MutationKind.FOLDER_SET_URI_BASE:
+        return new FolderSetUriBaseIntent(this, recipe) as FolderSetUriBaseMutation;
       default:
         return null;
     }
