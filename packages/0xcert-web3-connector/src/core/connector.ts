@@ -44,13 +44,13 @@ export class Connector implements ConnectorBase {
    * Returns a new Query object.
    * @param recipe Query recipe definition.
    */
-  createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
-  createQuery(recipe: FolderCheckApprovalRecipe): FolderCheckApprovalQuery;
-  createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
-  createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
-  createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
-  createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
-  createQuery(recipe) {
+  public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  public createQuery(recipe: FolderCheckApprovalRecipe): FolderCheckApprovalQuery;
+  public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  public createQuery(recipe) {
     switch (recipe.queryKind) {
       case QueryKind.FOLDER_CHECK_ABILITY:
         return new FolderCheckAbilityIntent(this, recipe) as FolderCheckAbilityQuery;
@@ -75,7 +75,7 @@ export class Connector implements ConnectorBase {
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
   public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
-  createMutation(recipe) {
+  public createMutation(recipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
         return new FolderSetTransferStateIntent(this, recipe) as FolderSetTransferStateMutation;

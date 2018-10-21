@@ -36,7 +36,7 @@ export class Protocol implements ConnectorBase {
   public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
   public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
   public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
-  createQuery(recipe) {
+  public createQuery(recipe) {
     return this.connector.createQuery(recipe) as any;
   }
 
@@ -46,7 +46,7 @@ export class Protocol implements ConnectorBase {
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
   public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
-  createMutation(recipe) {
+  public createMutation(recipe) {
     return this.connector.createMutation(recipe) as any;
   }
 

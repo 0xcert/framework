@@ -28,6 +28,12 @@ spec.before(async (stage) => {
   stage.set('bob', accounts[1]);
 });
 
+spec.before(async (stage) => {
+  await stage.get('protocol').xcert.instance.methods
+    .mint(stage.get('bob'), '100', 'foo')
+    .send({ form: stage.get('owner') });
+});
+
 spec.test('checks if account has ability on folder', async (ctx) => {
   const query = ctx.get('connector').createQuery({
     queryKind: QueryKind.FOLDER_CHECK_ABILITY,
@@ -42,9 +48,6 @@ spec.test('checks if account has ability on folder', async (ctx) => {
 });
 
 spec.test('checks if account has approval on token', async (ctx) => {
-  await ctx.get('protocol').xcert.instance.methods
-    .mint(ctx.get('bob'), '100', 'foo')
-    .send({ form: ctx.get('owner') });
   const query = ctx.get('connector').createQuery({
     queryKind: QueryKind.FOLDER_CHECK_APPROVAL,
     folderId: ctx.get('protocol').xcert.instance.options.address,
@@ -117,7 +120,7 @@ spec.test('reads folder total supply', async (ctx) => {
   })
   await query.resolve();
   ctx.deepEqual(query.serialize(), {
-    data: { totalCount: 0 },
+    data: { totalCount: 1 },
   });
 });
 
