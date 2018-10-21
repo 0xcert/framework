@@ -7,6 +7,7 @@ interface Data {
   connector: Connector;
   protocol: Protocol;
   owner: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -24,6 +25,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
   stage.set('owner', accounts[0]);
+  stage.set('bob', accounts[1]);
 });
 
 spec.test('checks if account has ability on folder', async (ctx) => {
@@ -32,10 +34,26 @@ spec.test('checks if account has ability on folder', async (ctx) => {
     folderId: ctx.get('protocol').xcert.instance.options.address,
     abilityKind: FolderAbilityKind.MANAGE_ABILITIES,
     accountId: ctx.get('owner'),
-  })
+  });
   await query.resolve();
   ctx.deepEqual(query.serialize(), {
     data: { isAble: true },
+  });
+});
+
+spec.test('checks if account has approval on token', async (ctx) => {
+  await ctx.get('protocol').xcert.instance.methods
+    .mint(ctx.get('bob'), '100', 'foo')
+    .send({ form: ctx.get('owner') });
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_CHECK_APPROVAL,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+    accountId: ctx.get('owner'),
+    assetId: '100',
+  });
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    data: { isApproved: false },
   });
 });
 
@@ -104,11 +122,6 @@ spec.test('reads folder total supply', async (ctx) => {
 });
 
 spec.test('sets folder transfer state', async (ctx) => {
-
-  await ctx.get('protocol').xcertPausable.instance.methods.assignAbilities(ctx.get('owner'), [3]).send({
-    form: ctx.get('owner'),
-  });
-
   const mutation = await ctx.get('connector').createMutation({
     mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
     folderId: ctx.get('protocol').xcertPausable.instance.options.address,

@@ -45,99 +45,6 @@ const { isEnabled } = intent ? await intent.perform() : {};
 
 // Intent related objects
 
-type IntentResolver = (intent: ActionIntent): Promise<void>;
-
-interface IntentConfig {
-  intentId?: string;
-  request?: ActionRequest;
-  response?: ActionResponse;
-  resolver?: IntentResolver;
-}
-
-class ActionIntent extends EventEmitter {
-  public intentId: string;
-  public request: ActionRequest;
-  public response: ActionResponse;
-  public resolver: IntentResolver;
-
-  public constructor(config: IntentConfig) {
-    this.intentId = config.intentId;
-    this.request = config.request;
-    this.response = config.response;
-    this.resolver = config.resolver;
-    this.error = null;
-  }
-
-  public async perform(): ActionIntent {
-    try {
-      this.intentId = await this.resolver(this);
-    } catch (error) {
-      this.error = error;
-    }
-    return this;
-  }
-
-  public async resolve(): ActionResponse {
-    if (this.response) {
-      return this.response;
-    } else {
-      const fn = () => this.off(resolve, fn);
-      return new Promise((complete) => this.on('resolve', fn));
-    }
-  }
-
-  public serialize(): IntentConfig {
-    // todo
-  }
-}
-
-export class Web3Intent extends ActionIntent {
-  protected subscription;
-
-  public resolve() {
-    if (!this.subscription) {
-      this.subscription = web3.eth
-        .subscribe('pendingTransactions', (error, result) => {
-          if (error) throw error;
-        })
-        .on("data", (hash) => {
-          web3.eth.getTransaction(hash).then(console.log);
-        });
-    }
-
-    super.resolve()
-      .on('transactionHash', (hash) => this.emit('intent', hash))
-      .then(() => this.result);
-  }
-
-}
-
-// connector resolvers
-export function(connector: Connector, request: ActionRequest): void {
-  const folder = connector.web3.eth.Contract();
-  const from = request.makerId;
-
-  const resolver = (intent: Web3Intent) => {
-    return folder.methods.setSomething().send({ from });
-  };
-
-  return new Web3Intent({ request, resolver });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // mutations
 const mutation = protocol.perform({
   mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE
@@ -236,6 +143,37 @@ const { isPaused } = await protocol.perform({
 
 
 
+
+
+
+```ts
+* 1 - Ability to mint new xcerts.
+* 2 - Ability to revoke xcerts.
+* 3 - Ability to pause xcert transfers.
+* 4 - Ability to change xcert proof.
+* 5 - Ability to sign claims (valid signatures for minter).
+* 6 - Ability to change URI base.
+
+QueryKind.FOLDER_CHECK_ABILITY : bool
+QueryKind.FOLDER_CHECK_APPROVAL : bool
+
+
+
+
+const { isAbile } = await protocol.perform({
+  queryKind: QueryId.FOLDER_CHECK_ABILITY,
+  abilityKind: AbilityKind.MINT,
+  folderId: '0x...',
+  acountId: '0x...',
+});
+
+const { isApproved } = await protocol.perform({
+  queryKind: QueryKind.,
+  folderId: '0x...',
+  acountId: '0x...',
+  assetId: '0x...',
+});
+```
 
 
 

@@ -5,12 +5,12 @@ import { ConnectorError } from './errors';
  * 
  */
 export enum QueryKind {
-  FOLDER_READ_METADATA = 4000,
-  FOLDER_READ_SUPPLY = 4001,
-  FOLDER_READ_CAPABILITIES = 4002,
+  FOLDER_CHECK_ABILITY = 4001,
+  FOLDER_CHECK_APPROVAL = 4002,
   FOLDER_CHECK_TRANSFER_STATE = 4003,
-  FOLDER_CHECK_ABILITY = 4004,
-  FOLDER_SET_TRANSFER_STATE = 4005,
+  FOLDER_READ_CAPABILITIES = 4004,
+  FOLDER_READ_METADATA = 4005,
+  FOLDER_READ_SUPPLY = 4006,
 }
 
 export enum QueryEvent {
@@ -34,6 +34,38 @@ export interface QueryEmitter {
 /**
  * 
  */
+export interface FolderCheckAbilityQuery extends QueryEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderCheckAbilityResult;
+}
+
+/**
+ * 
+ */
+export interface FolderCheckApprovalQuery extends QueryEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderCheckApprovalResult;
+}
+
+/**
+ * 
+ */
+export interface FolderCheckTransferStateQuery extends QueryEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderCheckTransferStateResult;
+}
+
+/**
+ * 
+ */
+export interface FolderReadCapabilitiesQuery extends QueryEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderReadCapabilitiesResult;
+}
+
+/**
+ * 
+ */
 export interface FolderReadMetadataQuery extends QueryEmitter {
   resolve(): Promise<this>;
   serialize(): FolderReadMetadataResult;
@@ -50,25 +82,37 @@ export interface FolderReadSupplyQuery extends QueryEmitter {
 /**
  * 
  */
-export interface FolderReadCapabilitiesQuery extends QueryEmitter {
-  resolve(): Promise<this>;
-  serialize(): FolderReadCapabilitiesResult;
+export interface FolderCheckAbilityRecipe {
+  queryKind: QueryKind.FOLDER_CHECK_ABILITY;
+  abilityKind: FolderAbilityKind;
+  folderId: string;
+  accountId: string;
 }
 
 /**
  * 
  */
-export interface FolderCheckTransferStateQuery extends QueryEmitter {
-  resolve(): Promise<this>;
-  serialize(): FolderCheckTransferStateResult;
+export interface FolderCheckApprovalRecipe {
+  queryKind: QueryKind.FOLDER_CHECK_APPROVAL;
+  folderId: string;
+  accountId: string;
+  assetId: string;
 }
 
 /**
  * 
  */
-export interface FolderCheckAbilityQuery extends QueryEmitter {
-  resolve(): Promise<this>;
-  serialize(): FolderCheckAbilityResult;
+export interface FolderCheckTransferStateRecipe {
+  queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE;
+  folderId: string;
+}
+
+/**
+ * 
+ */
+export interface FolderReadCapabilitiesRecipe {
+  queryKind: QueryKind.FOLDER_READ_CAPABILITIES;
+  folderId: string;
 }
 
 /**
@@ -82,16 +126,6 @@ export interface FolderReadMetadataRecipe {
 /**
  * 
  */
-export interface FolderReadMetadataResult {
-  data: {
-    name: string;
-    symbol: string;
-  };
-}
-
-/**
- * 
- */
 export interface FolderReadSupplyRecipe {
   queryKind: QueryKind.FOLDER_READ_SUPPLY;
   folderId: string;
@@ -100,18 +134,28 @@ export interface FolderReadSupplyRecipe {
 /**
  * 
  */
-export interface FolderReadSupplyResult {
+export interface FolderCheckAbilityResult {
   data: {
-    totalCount: number;
+    isAble: boolean;
   };
 }
 
 /**
  * 
  */
-export interface FolderReadCapabilitiesRecipe {
-  queryKind: QueryKind.FOLDER_READ_CAPABILITIES;
-  folderId: string;
+export interface FolderCheckApprovalResult {
+  data: {
+    isApproved: boolean;
+  };
+}
+
+/**
+ * 
+ */
+export interface FolderCheckTransferStateResult {
+  data: {
+    isEnabled: boolean;
+  };
 }
 
 /**
@@ -129,35 +173,18 @@ export interface FolderReadCapabilitiesResult {
 /**
  * 
  */
-export interface FolderCheckTransferStateRecipe {
-  queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE;
-  folderId: string;
-}
-
-/**
- * 
- */
-export interface FolderCheckTransferStateResult {
+export interface FolderReadMetadataResult {
   data: {
-    isEnabled: boolean;
+    name: string;
+    symbol: string;
   };
 }
 
 /**
  * 
  */
-export interface FolderCheckAbilityRecipe {
-  queryKind: QueryKind.FOLDER_CHECK_ABILITY;
-  abilityKind: FolderAbilityKind;
-  folderId: string;
-  accountId: string;
-}
-
-/**
- * 
- */
-export interface FolderCheckAbilityResult {
+export interface FolderReadSupplyResult {
   data: {
-    isAble: boolean;
+    totalCount: number;
   };
 }

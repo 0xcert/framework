@@ -3,8 +3,10 @@ import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
   FolderReadSupplyRecipe, FolderReadMetadataRecipe, FolderReadCapabilitiesRecipe,
   FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
   FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
-  FolderSetTransferStateRecipe, FolderSetTransferStateMutation } from '@0xcert/connector';
+  FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderCheckApprovalRecipe,
+  FolderCheckApprovalQuery } from '@0xcert/connector';
 import { FolderCheckAbilityIntent } from '../intents/folder-check-ability';
+import { FolderCheckApprovalIntent } from '../intents/folder-check-approval';
 import { FolderReadMetadataIntent } from '../intents/folder-read-metadata';
 import { FolderReadSupplyIntent } from '../intents/folder-read-supply';
 import { FolderCheckTransferStateIntent } from '../intents/folder-check-transfer-state';
@@ -39,15 +41,18 @@ export class Connector implements ConnectorBase {
    * Returns a new Query object.
    * @param recipe Query recipe definition.
    */
-  public createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
-  public createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
-  public createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
-  public createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
-  public createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
+  createQuery(recipe: FolderCheckAbilityRecipe): FolderCheckAbilityQuery;
+  createQuery(recipe: FolderCheckApprovalRecipe): FolderCheckApprovalQuery;
+  createQuery(recipe: FolderCheckTransferStateRecipe): FolderCheckTransferStateQuery;
+  createQuery(recipe: FolderReadCapabilitiesRecipe): FolderReadCapabilitiesQuery;
+  createQuery(recipe: FolderReadMetadataRecipe): FolderReadMetadataQuery;
+  createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
   createQuery(recipe) {
     switch (recipe.queryKind) {
       case QueryKind.FOLDER_CHECK_ABILITY:
         return new FolderCheckAbilityIntent(this, recipe) as FolderCheckAbilityQuery;
+      case QueryKind.FOLDER_CHECK_APPROVAL:
+        return new FolderCheckApprovalIntent(this, recipe) as FolderCheckApprovalQuery;
       case QueryKind.FOLDER_CHECK_TRANSFER_STATE:
         return new FolderCheckTransferStateIntent(this, recipe) as FolderCheckTransferStateQuery;
       case QueryKind.FOLDER_READ_CAPABILITIES:
