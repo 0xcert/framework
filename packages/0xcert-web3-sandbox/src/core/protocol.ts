@@ -140,13 +140,15 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcertBurnable(from: string) {
-    return await deploy({
+    const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcertBurnable.abi,
       bytecode: contracts.xcertBurnable.bytecode,
       args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1'],
       from,
     });
+    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+    return xcert;
   }
 
   /**
@@ -154,13 +156,15 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcertMutable(from: string) {
-    return await deploy({
+    const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcertMutable.abi,
       bytecode: contracts.xcertMutable.bytecode,
       args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2'],
       from,
     });
+    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+    return xcert;
   }
 
   /**
@@ -168,13 +172,15 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcertPausable(from: string) {
-    return await deploy({
+    const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcertPausable.abi,
       bytecode: contracts.xcertPausable.bytecode,
       args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3'],
       from,
     });
+    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+    return xcert;
   }
 
   /**
@@ -182,13 +188,15 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcertRevokable(from: string) {
-    return await deploy({
+    const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcertRevokable.abi,
       bytecode: contracts.xcertRevokable.bytecode,
       args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4'],
       from,
     });
+    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+    return xcert;
   }
 
   /**
@@ -196,13 +204,15 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcert(from: string) {
-    return await deploy({
+    const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
       args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5'],
       from,
     });
+    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+    return xcert;
   }
 
   /**

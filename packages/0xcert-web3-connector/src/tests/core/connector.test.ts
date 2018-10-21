@@ -104,11 +104,6 @@ spec.test('reads folder total supply', async (ctx) => {
 });
 
 spec.test('sets folder transfer state', async (ctx) => {
-
-  await ctx.get('protocol').xcertPausable.instance.methods.assignAbilities(ctx.get('owner'), [3]).send({
-    form: ctx.get('owner'),
-  });
-
   const mutation = await ctx.get('connector').createMutation({
     mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
     folderId: ctx.get('protocol').xcertPausable.instance.options.address,
@@ -123,6 +118,17 @@ spec.test('sets folder transfer state', async (ctx) => {
   await mutation.resolve();
   mutation.resolve();
   ctx.pass();
+});
+
+spec.test('sets folder uri base', async (ctx) => {
+  const uriBase = 'http://newLink.org/';
+  const mutation = await ctx.get('connector').createMutation({
+    mutationKind: MutationKind.FOLDER_SET_URI_BASE,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+    makerId: ctx.get('owner'),
+    data: { uriBase },
+  });
+  await ctx.notThrows(() => mutation.resolve());  
 });
 
 export default spec;

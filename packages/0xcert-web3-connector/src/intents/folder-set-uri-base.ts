@@ -1,4 +1,4 @@
-import { FolderSetTransferStateRecipe, FolderSetTransferStateResult, FolderSetTransferStateMutation } from '@0xcert/connector';
+import { FolderSetUriBaseRecipe, FolderSetUriBaseMutation } from '@0xcert/connector';
 import { Connector } from '../core/connector';
 import { Web3Transaction } from '../core/transaction';
 import { getFolder, getAccount } from '../utils/contracts';
@@ -7,8 +7,8 @@ import { Web3Mutation } from '../core/mutation';
 /**
  * Mutation class for.
  */
-export class FolderSetTransferStateIntent extends Web3Mutation implements FolderSetTransferStateMutation {
-  protected recipe: FolderSetTransferStateRecipe;
+export class FolderSetUriBaseIntent extends Web3Mutation implements FolderSetUriBaseMutation {
+  protected recipe: FolderSetUriBaseRecipe;
   protected transaction: Web3Transaction;
 
   /**
@@ -16,7 +16,7 @@ export class FolderSetTransferStateIntent extends Web3Mutation implements Folder
    * @param connector Connector class instance.
    * @param recipe Mutation recipe.
    */
-  public constructor(connector: Connector, recipe: FolderSetTransferStateRecipe) {
+  public constructor(connector: Connector, recipe: FolderSetUriBaseRecipe) {
     super(connector);
     this.recipe = recipe;
   }
@@ -38,10 +38,10 @@ export class FolderSetTransferStateIntent extends Web3Mutation implements Folder
   public async resolve() {
     const folder = getFolder(this.connector.web3, this.recipe.folderId);
     const from = await getAccount(this.connector.web3, this.recipe.makerId);
-    const state = this.recipe.data.isEnabled;
+    const uriBase = this.recipe.data.uriBase;
 
     const resolver = () => {
-      return folder.methods.setPause(state).send({ from });
+      return folder.methods.setUriBase(uriBase).send({ from });
     };
 
     return this.exec(this.recipe.mutationId, resolver);
