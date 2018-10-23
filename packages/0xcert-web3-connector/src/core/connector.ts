@@ -4,7 +4,8 @@ import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
   FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
   FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
   FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
-  FolderSetUriBaseMutation } from '@0xcert/connector';
+  FolderSetUriBaseMutation, FolderAssignAbilitiesRecipe, FolderAssignAbilitiesMutation,
+  FolderRevokeAbilitiesMutation, FolderRevokeAbilitiesRecipe} from '@0xcert/connector';
 import { FolderCheckAbilityIntent } from '../intents/folder-check-ability';
 import { FolderReadMetadataIntent } from '../intents/folder-read-metadata';
 import { FolderReadSupplyIntent } from '../intents/folder-read-supply';
@@ -12,6 +13,8 @@ import { FolderCheckTransferStateIntent } from '../intents/folder-check-transfer
 import { FolderSetTransferStateIntent } from '../intents/folder-set-transfer-state';
 import { FolderReadCapabilitiesIntent } from '../intents/folder-read-capabilities';
 import { FolderSetUriBaseIntent } from '../intents/folder-set-uri-base';
+import { FolderAssignAbilitiesIntent } from '../intents/folder-assign-abilities';
+import { FolderRevokeAbilitiesIntent } from '../intents/folder-revoke-abilities';
 
 /**
  * Web3 connector configuration.
@@ -69,12 +72,18 @@ export class Connector implements ConnectorBase {
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
   public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
+  public createMutation(recipe: FolderAssignAbilitiesRecipe): FolderAssignAbilitiesMutation;
+  public createMutation(recipe: FolderRevokeAbilitiesRecipe): FolderRevokeAbilitiesMutation;
   createMutation(recipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
         return new FolderSetTransferStateIntent(this, recipe) as FolderSetTransferStateMutation;
       case MutationKind.FOLDER_SET_URI_BASE:
         return new FolderSetUriBaseIntent(this, recipe) as FolderSetUriBaseMutation;
+      case MutationKind.FOLDER_ASSIGN_ABILITIES:
+        return new FolderAssignAbilitiesIntent(this, recipe) as FolderAssignAbilitiesMutation;
+      case MutationKind.FOLDER_REVOKE_ABILITIES:
+        return new FolderRevokeAbilitiesIntent(this, recipe) as FolderRevokeAbilitiesMutation;
       default:
         return null;
     }
