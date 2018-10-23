@@ -5,9 +5,11 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run updateXcertAbi; npx tsc",
+    "build": "npm run updateXcertAbi; npm run updateMinterAbi; npm run updateExchangeAbi; npx tsc",
     "test": "npx specron test",
-    "updateXcertAbi": "npx ts-node ./src/scripts/update-xcert-abi"
+    "updateXcertAbi": "npx ts-node ./src/scripts/update-xcert-abi",
+    "updateMinterAbi": "npx ts-node ./src/scripts/update-minter-abi",
+    "updateExchangeAbi": "npx ts-node ./src/scripts/update-exchange-abi"
   },
   "specron": {
     "test": {
@@ -26,6 +28,8 @@
     "@0xcert/connector": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-xcert": "0.0.0-alpha0",
+    "@0xcert/web3-dex": "0.0.0-alpha0",
+    "@0xcert/web3-dxm": "0.0.0-alpha0",
     "@specron/cli": "^0.2.6",
     "@specron/spec": "^0.2.6",
     "@types/fs-extra": "^5.0.4",

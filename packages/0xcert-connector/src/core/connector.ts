@@ -4,7 +4,7 @@ import { FolderCheckAbilityRecipe, FolderCheckTransferStateRecipe, FolderReadCap
   FolderReadSupplyQuery, FolderCheckApprovalRecipe, FolderCheckApprovalQuery} from './query';
 import { FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
   FolderSetUriBaseMutation } from './mutation';
-import { MinterCreateAssetRecipe, MinterCreateAssetClaim, ExchangeSwapRecipe,
+import { MinterCreateAssetRecipe, ExchangeSwapRecipe, MinterCreateAssetClaim,
   ExchangeSwapClaim } from './claim';
 
 /**
