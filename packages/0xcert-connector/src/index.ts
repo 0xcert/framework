@@ -1,3 +1,4 @@
+export * from './core/claim';
 export * from './core/connector';
 export * from './core/errors';
 export * from './core/folder';

@@ -4,6 +4,8 @@ import { FolderCheckAbilityRecipe, FolderCheckTransferStateRecipe, FolderReadCap
   FolderReadSupplyQuery, FolderCheckApprovalRecipe, FolderCheckApprovalQuery} from './query';
 import { FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
   FolderSetUriBaseMutation } from './mutation';
+import { MinterCreateAssetRecipe, MinterCreateAssetClaim, ExchangeSwapRecipe,
+  ExchangeSwapClaim } from './claim';
 
 /**
  * 
@@ -17,4 +19,6 @@ export interface ConnectorBase {
   createQuery(recipe: FolderReadSupplyRecipe): FolderReadSupplyQuery;
   createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
   createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
+  createClaim(recipe: MinterCreateAssetRecipe): MinterCreateAssetClaim;
+  createClaim(recipe: ExchangeSwapRecipe): ExchangeSwapClaim;
 }

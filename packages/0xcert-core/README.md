@@ -1,5 +1,33 @@
 # Interface proposal
 
+```ts
+// connector initialization
+const connector = new Web3Connector({
+  retryGasMultiplier: 1.2,
+  requiredConfirmationsCount: 15,
+});
+
+// protocol instance initialization
+const protocol = new Protocol({ connector });
+
+// folders
+const folder = new Folder({ connector });
+folder.on('', () => {});
+folder.off('', () => {});
+folder.subscribe();
+```
+
+
+
+
+
+
+
+
+
+
+
+
 ## Protocol
 
 First initialize the protocol instance.
@@ -47,7 +75,7 @@ const { isEnabled } = intent ? await intent.perform() : {};
 
 // mutations
 const mutation = protocol.perform({
-  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE
+  kind: kind.FOLDER_SET_TRANSFER_STATE
   mutationId: '0x...',
   folderId: '0x...',
   data: {
@@ -141,44 +169,7 @@ const { isPaused } = await protocol.perform({
 });
 ```
 
-
-
-
-
-
-```ts
-* 1 - Ability to mint new xcerts.
-* 2 - Ability to revoke xcerts.
-* 3 - Ability to pause xcert transfers.
-* 4 - Ability to change xcert proof.
-* 5 - Ability to sign claims (valid signatures for minter).
-* 6 - Ability to change URI base.
-
-QueryKind.FOLDER_CHECK_ABILITY : bool
-QueryKind.FOLDER_CHECK_APPROVAL : bool
-
-
-
-
-const { isAbile } = await protocol.perform({
-  queryKind: QueryId.FOLDER_CHECK_ABILITY,
-  abilityKind: AbilityKind.MINT,
-  folderId: '0x...',
-  acountId: '0x...',
-});
-
-const { isApproved } = await protocol.perform({
-  queryKind: QueryKind.,
-  folderId: '0x...',
-  acountId: '0x...',
-  assetId: '0x...',
-});
-```
-
-
-
-
-Check if an account can operate on behalf of.
+[implemented] Check if an account can operate on behalf of.
 
 ```ts
 const { isApproved } = await protocol.perform({
@@ -189,19 +180,60 @@ const { isApproved } = await protocol.perform({
 });
 ```
 
-Update folder metadata.
+[implemented] Update folder URI base.
 
 ```ts
 const { name, symbol, uriRoot } = await protocol.perform({
-  queryId: QueryId.UPDATE_FOLDER_METADATA,
+  queryId: kind.SET_URI_BASE,
   folderId: '0x...',
   data: {
-    name: 'Foo',
-    symbol: 'Bar',
-    uriRoot: 'http://foobar.com',
+    uriBase: 'http://foobar.com',
   },
 });
 ```
+
+
+
+
+```ts
+protocol.createQuery(FOLDER_CHECK_ABILITY, { ... });
+protocol.createQuery(FOLDER_CHECK_APPROVAL, { ... });
+protocol.createQuery(FOLDER_CHECK_TRANSFER_STATE, { ... });
+protocol.createQuery(FOLDER_READ_CAPABILITIES, { ... });
+protocol.createQuery(FOLDER_READ_METADATA, { ... });
+protocol.createQuery(FOLDER_READ_SUPPLY, { ... });
+
+protocol.createMutation(FOLDER_SET_TRANSFER_STATE, { ... });
+protocol.createMutation(FOLDER_SET_URI_BASE, { ... });
+protocol.createMutation(FOLDER_CREATE_ASSET, { ... }); //
+
+protocol.createMutation(MINTER_PERFORM_CREATE_ASSET_CLAIM, { ... });
+protocol.createMutation(MINTER_CANCEL_CREATE_ASSET_CLAIM, { ... });
+
+protocol.createMutation(EXCHANGE_PERFORM_SWAP_CLAIM, { ... });
+protocol.createMutation(EXCHANGE_CANCEL_SWAP_CLAIM, { ... });
+
+protocol.generateClaim(MINTER_CREATE_ASSET, { ... });
+protocol.generateClaim(EXCHANGE_SWAP, { ... });
+
+protocol.createAsset(USER_IDENTITY, { ... });
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Deploy new folder.
 
@@ -437,7 +469,7 @@ store.pendingMutations().forEach(() => {
 
 // creating and resolving queries and mutations (B)
 const mutation = protocol.createMutation({ // new Mutation();
-  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
+  kind: kind.FOLDER_SET_TRANSFER_STATE,
   mutationId: '0x...', // only when hydrating
   folderId: '0x...',
   isEnabled: true,
@@ -449,7 +481,7 @@ try {
   console.log(e);
 }
 const query = protocol.createQuery({ // new Query();
-  queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE,
+  kind: kind.FOLDER_CHECK_TRANSFER_STATE,
   folderId: '0x...',
 });
 try {
@@ -460,6 +492,15 @@ try {
   console.log(e);
 }
 
+// creating claims
+const claim = protocol.createClaim(ClaimKind.MINTER_CREATE_ASSET, {
+  makerId: '0x...',
+  takerId: '0x...',
+  transfers: [...],
+  expiration: Date.now() + 60000,
+});
+claim.sign();
+claim.serialze();
 ```
 
 
