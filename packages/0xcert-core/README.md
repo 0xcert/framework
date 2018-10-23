@@ -1,5 +1,33 @@
 # Interface proposal
 
+```ts
+// connector initialization
+const connector = new Web3Connector({
+  retryGasMultiplier: 1.2,
+  requiredConfirmationsCount: 15,
+});
+
+// protocol instance initialization
+const protocol = new Protocol({ connector });
+
+// folders
+const folder = new Folder({ connector });
+folder.on('', () => {});
+folder.off('', () => {});
+folder.subscribe();
+```
+
+
+
+
+
+
+
+
+
+
+
+
 ## Protocol
 
 First initialize the protocol instance.
@@ -45,102 +73,9 @@ const { isEnabled } = intent ? await intent.perform() : {};
 
 // Intent related objects
 
-type IntentResolver = (intent: ActionIntent): Promise<void>;
-
-interface IntentConfig {
-  intentId?: string;
-  request?: ActionRequest;
-  response?: ActionResponse;
-  resolver?: IntentResolver;
-}
-
-class ActionIntent extends EventEmitter {
-  public intentId: string;
-  public request: ActionRequest;
-  public response: ActionResponse;
-  public resolver: IntentResolver;
-
-  public constructor(config: IntentConfig) {
-    this.intentId = config.intentId;
-    this.request = config.request;
-    this.response = config.response;
-    this.resolver = config.resolver;
-    this.error = null;
-  }
-
-  public async perform(): ActionIntent {
-    try {
-      this.intentId = await this.resolver(this);
-    } catch (error) {
-      this.error = error;
-    }
-    return this;
-  }
-
-  public async resolve(): ActionResponse {
-    if (this.response) {
-      return this.response;
-    } else {
-      const fn = () => this.off(resolve, fn);
-      return new Promise((complete) => this.on('resolve', fn));
-    }
-  }
-
-  public serialize(): IntentConfig {
-    // todo
-  }
-}
-
-export class Web3Intent extends ActionIntent {
-  protected subscription;
-
-  public resolve() {
-    if (!this.subscription) {
-      this.subscription = web3.eth
-        .subscribe('pendingTransactions', (error, result) => {
-          if (error) throw error;
-        })
-        .on("data", (hash) => {
-          web3.eth.getTransaction(hash).then(console.log);
-        });
-    }
-
-    super.resolve()
-      .on('transactionHash', (hash) => this.emit('intent', hash))
-      .then(() => this.result);
-  }
-
-}
-
-// connector resolvers
-export function(connector: Connector, request: ActionRequest): void {
-  const folder = connector.web3.eth.Contract();
-  const from = request.makerId;
-
-  const resolver = (intent: Web3Intent) => {
-    return folder.methods.setSomething().send({ from });
-  };
-
-  return new Web3Intent({ request, resolver });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // mutations
 const mutation = protocol.perform({
-  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE
+  kind: kind.FOLDER_SET_TRANSFER_STATE
   mutationId: '0x...',
   folderId: '0x...',
   data: {
@@ -234,13 +169,7 @@ const { isPaused } = await protocol.perform({
 });
 ```
 
-
-
-
-
-
-
-Check if an account can operate on behalf of.
+[implemented] Check if an account can operate on behalf of.
 
 ```ts
 const { isApproved } = await protocol.perform({
@@ -251,19 +180,60 @@ const { isApproved } = await protocol.perform({
 });
 ```
 
-Update folder metadata.
+[implemented] Update folder URI base.
 
 ```ts
 const { name, symbol, uriRoot } = await protocol.perform({
-  queryId: QueryId.UPDATE_FOLDER_METADATA,
+  queryId: kind.SET_URI_BASE,
   folderId: '0x...',
   data: {
-    name: 'Foo',
-    symbol: 'Bar',
-    uriRoot: 'http://foobar.com',
+    uriBase: 'http://foobar.com',
   },
 });
 ```
+
+
+
+
+```ts
+protocol.createQuery(FOLDER_CHECK_ABILITY, { ... });
+protocol.createQuery(FOLDER_CHECK_APPROVAL, { ... });
+protocol.createQuery(FOLDER_CHECK_TRANSFER_STATE, { ... });
+protocol.createQuery(FOLDER_READ_CAPABILITIES, { ... });
+protocol.createQuery(FOLDER_READ_METADATA, { ... });
+protocol.createQuery(FOLDER_READ_SUPPLY, { ... });
+
+protocol.createMutation(FOLDER_SET_TRANSFER_STATE, { ... });
+protocol.createMutation(FOLDER_SET_URI_BASE, { ... });
+protocol.createMutation(FOLDER_CREATE_ASSET, { ... }); //
+
+protocol.createMutation(MINTER_PERFORM_CREATE_ASSET_CLAIM, { ... });
+protocol.createMutation(MINTER_CANCEL_CREATE_ASSET_CLAIM, { ... });
+
+protocol.createMutation(EXCHANGE_PERFORM_SWAP_CLAIM, { ... });
+protocol.createMutation(EXCHANGE_CANCEL_SWAP_CLAIM, { ... });
+
+protocol.generateClaim(MINTER_CREATE_ASSET, { ... });
+protocol.generateClaim(EXCHANGE_SWAP, { ... });
+
+protocol.createAsset(USER_IDENTITY, { ... });
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Deploy new folder.
 
@@ -499,7 +469,7 @@ store.pendingMutations().forEach(() => {
 
 // creating and resolving queries and mutations (B)
 const mutation = protocol.createMutation({ // new Mutation();
-  mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE,
+  kind: kind.FOLDER_SET_TRANSFER_STATE,
   mutationId: '0x...', // only when hydrating
   folderId: '0x...',
   isEnabled: true,
@@ -511,7 +481,7 @@ try {
   console.log(e);
 }
 const query = protocol.createQuery({ // new Query();
-  queryKind: QueryKind.FOLDER_CHECK_TRANSFER_STATE,
+  kind: kind.FOLDER_CHECK_TRANSFER_STATE,
   folderId: '0x...',
 });
 try {
@@ -522,6 +492,15 @@ try {
   console.log(e);
 }
 
+// creating claims
+const claim = protocol.createClaim(ClaimKind.MINTER_CREATE_ASSET, {
+  makerId: '0x...',
+  takerId: '0x...',
+  transfers: [...],
+  expiration: Date.now() + 60000,
+});
+claim.sign();
+claim.serialze();
 ```
 
 

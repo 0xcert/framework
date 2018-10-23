@@ -25,7 +25,7 @@ export class ConnectorError extends Error {
     this.name = this.constructor['name'];
     this.kind = kind;
     this.original = original;
-    this.message = 'Connection error';
+    this.message = 'Connector error';
     this.status = 500;
 
     if (Error.captureStackTrace) {

@@ -24,7 +24,7 @@ export abstract class Web3Query extends EventEmitter {
    */
   protected async exec(resolver: () => any) {
     try {
-      return resolver();
+      return await resolver();
     } catch (error) {
       throw parseError(error);
     }

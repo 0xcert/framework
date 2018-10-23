@@ -1,12 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Connector } from '../..';
-import { QueryKind, FolderAbilityKind, MutationKind } from '@0xcert/connector';
+import { QueryKind, FolderAbilityKind, MutationKind, ClaimKind } from '@0xcert/connector';
 
 interface Data {
   connector: Connector;
   protocol: Protocol;
   owner: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -24,6 +25,13 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
   stage.set('owner', accounts[0]);
+  stage.set('bob', accounts[1]);
+});
+
+spec.before(async (stage) => {
+  await stage.get('protocol').xcert.instance.methods
+    .mint(stage.get('bob'), '100', 'foo')
+    .send({ form: stage.get('owner') });
 });
 
 spec.test('checks if account has ability on folder', async (ctx) => {
@@ -32,10 +40,23 @@ spec.test('checks if account has ability on folder', async (ctx) => {
     folderId: ctx.get('protocol').xcert.instance.options.address,
     abilityKind: FolderAbilityKind.MANAGE_ABILITIES,
     accountId: ctx.get('owner'),
-  })
+  });
   await query.resolve();
   ctx.deepEqual(query.serialize(), {
     data: { isAble: true },
+  });
+});
+
+spec.test('checks if account has approval on token', async (ctx) => {
+  const query = ctx.get('connector').createQuery({
+    queryKind: QueryKind.FOLDER_CHECK_APPROVAL,
+    folderId: ctx.get('protocol').xcert.instance.options.address,
+    accountId: ctx.get('owner'),
+    assetId: '100',
+  });
+  await query.resolve();
+  ctx.deepEqual(query.serialize(), {
+    data: { isApproved: false },
   });
 });
 
@@ -99,7 +120,7 @@ spec.test('reads folder total supply', async (ctx) => {
   })
   await query.resolve();
   ctx.deepEqual(query.serialize(), {
-    data: { totalCount: 0 },
+    data: { totalCount: 1 },
   });
 });
 
@@ -129,6 +150,33 @@ spec.test('sets folder uri base', async (ctx) => {
     data: { uriBase },
   });
   await ctx.notThrows(() => mutation.resolve());  
+});
+
+spec.test('generates claim for minting an asset', async (ctx) => {
+  // const mutation = await ctx.get('connector').createClaim({
+  //   claimKind: ClaimKind.MINTER_CREATE_ASSET,
+  //   makerId: ctx.get('owner'),
+  //   takerId: ctx.get('bob'),
+  //   asset: {
+  //     folderId: ctx.get('protocol').xcert.instance.options.address,
+  //     assetId: '100',
+  //     publicProof: 'foo',
+  //   },
+  //   transfers: [],
+  //   expiration: Date.now() + 120000,
+  // });
+  await ctx.pass();  
+});
+
+spec.test('generates claim for swaping stuff', async (ctx) => {
+  // const mutation = await ctx.get('connector').createClaim({
+  //   claimKind: ClaimKind.EXCHANGE_SWAP, // EXCHANGE_SWAP_STUFF
+  //   makerId: ctx.get('owner'),
+  //   takerId: ctx.get('bob'),
+  //   transfers: [],
+  //   expiration: Date.now() + 120000,
+  // });
+  await ctx.pass();  
 });
 
 export default spec;

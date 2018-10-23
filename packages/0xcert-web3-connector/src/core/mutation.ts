@@ -32,7 +32,7 @@ export abstract class Web3Mutation extends EventEmitter {
       this.transaction = new Web3Transaction({
         web3: this.connector.web3,
         transactionHash: mutationId,
-        approvalConfirmationsCount: this.connector.approvalConfirmationsCount,
+        approvalConfirmationsCount: this.connector.config.approvalConfirmationsCount,
         resolver,
       });
       this.transaction.on('request', () => this.emit(MutationEvent.REQUEST, this));
