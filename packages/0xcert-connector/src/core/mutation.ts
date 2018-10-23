@@ -1,4 +1,5 @@
 import { ConnectorError } from './errors';
+import { FolderAbilityKind } from '..';
 
 /**
  * 
@@ -6,6 +7,8 @@ import { ConnectorError } from './errors';
 export enum MutationKind {
   FOLDER_SET_TRANSFER_STATE = 5001,
   FOLDER_SET_URI_BASE = 5002,
+  FOLDER_ASSIGN_ABILITIES = 5003,
+  FOLDER_REVOKE_ABILITIES = 5004,
 }
 
 /**
@@ -54,6 +57,22 @@ export interface FolderSetUriBaseMutation extends MutationEmitter {
 /**
  * 
  */
+export interface FolderAssignAbilitiesMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderAssignAbilitiesResult;
+}
+
+/**
+ * 
+ */
+export interface FolderRevokeAbilitiesMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): FolderRevokeAbilitiesResult;
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateRecipe {
   mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE;
   mutationId?: string;
@@ -80,6 +99,34 @@ export interface FolderSetUriBaseRecipe {
 /**
  * 
  */
+export interface FolderAssignAbilitiesRecipe {
+  mutationKind: MutationKind.FOLDER_ASSIGN_ABILITIES;
+  mutationId?: string;
+  folderId: string;
+  makerId: string;
+  data: {
+    target: string;
+    abilities: FolderAbilityKind[];
+  };
+}
+
+/**
+ * 
+ */
+export interface FolderRevokeAbilitiesRecipe {
+  mutationKind: MutationKind.FOLDER_REVOKE_ABILITIES;
+  mutationId?: string;
+  folderId: string;
+  makerId: string;
+  data: {
+    target: string;
+    abilities: FolderAbilityKind[];
+  };
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateResult {
   mutationId: string;
   data: {
@@ -96,3 +143,26 @@ export interface FolderSetUriBaseResult {
     uriBase: string;
   };
 }
+
+/**
+ * 
+ */
+export interface FolderAssignAbilitiesResult {
+  mutationId: string;
+  data: {
+    target: string;
+    abilities: FolderAbilityKind[];
+  };
+}
+
+/**
+ * 
+ */
+export interface FolderRevokeAbilitiesResult {
+  mutationId: string;
+  data: {
+    target: string;
+    abilities: FolderAbilityKind[];
+  };
+}
+

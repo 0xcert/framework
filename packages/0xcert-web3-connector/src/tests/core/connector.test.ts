@@ -1,7 +1,8 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Connector } from '../..';
-import { QueryKind, FolderAbilityKind, MutationKind, ClaimKind } from '@0xcert/connector';
+import { QueryKind, FolderAbilityKind, MutationKind, MutationEvent, ClaimKind } from '@0xcert/connector';
+import { S_IFSOCK } from 'constants';
 
 interface Data {
   connector: Connector;
@@ -149,7 +150,7 @@ spec.test('sets folder uri base', async (ctx) => {
     makerId: ctx.get('owner'),
     data: { uriBase },
   });
-  await ctx.notThrows(() => mutation.resolve());  
+  await ctx.notThrows(() => mutation.resolve());
 });
 
 spec.test('generates claim for minting an asset', async (ctx) => {

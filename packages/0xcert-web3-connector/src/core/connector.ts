@@ -1,19 +1,22 @@
 import * as Web3 from 'web3';
-import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
+import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe, 
   FolderReadSupplyRecipe, FolderReadMetadataRecipe, FolderReadCapabilitiesRecipe,
   FolderCheckTransferStateRecipe, FolderReadCapabilitiesQuery, FolderCheckAbilityQuery,
   FolderCheckTransferStateQuery, FolderReadMetadataQuery, FolderReadSupplyQuery,
-  FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderCheckApprovalRecipe,
-  FolderCheckApprovalQuery, FolderSetUriBaseRecipe, FolderSetUriBaseMutation,
-  ExchangeSwapRecipe, ExchangeSwapClaim } from '@0xcert/connector';
+  FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
+  FolderSetUriBaseMutation, FolderAssignAbilitiesRecipe, FolderAssignAbilitiesMutation,
+  FolderRevokeAbilitiesMutation, FolderRevokeAbilitiesRecipe, ExchangeSwapRecipe,
+  ExchangeSwapClaim, FolderCheckApprovalRecipe, FolderCheckApprovalQuery } from '@0xcert/connector';
 import { FolderCheckAbilityIntent } from '../queries/folder-check-ability';
 import { FolderCheckApprovalIntent } from '../queries/folder-check-approval';
 import { FolderReadMetadataIntent } from '../queries/folder-read-metadata';
 import { FolderReadSupplyIntent } from '../queries/folder-read-supply';
 import { FolderCheckTransferStateIntent } from '../queries/folder-check-transfer-state';
-import { FolderReadCapabilitiesIntent } from '../queries/folder-read-capabilities';
 import { FolderSetTransferStateIntent } from '../mutations/folder-set-transfer-state';
+import { FolderReadCapabilitiesIntent } from '../queries/folder-read-capabilities';
 import { FolderSetUriBaseIntent } from '../mutations/folder-set-uri-base';
+import { FolderAssignAbilitiesIntent } from '../mutations/folder-assign-abilities';
+import { FolderRevokeAbilitiesIntent } from '../mutations/folder-revoke-abilities';
 import { MinterCreateAssetRecipe, MinterCreateAssetClaim, ClaimKind } from '@0xcert/connector/dist/core/claim';
 import { MinterCreateAssetGenerator } from '../claims/minter-create-asset';
 import { ExchangeSwapGenerator } from '../claims/exchange-swap';
@@ -94,12 +97,18 @@ export class Connector implements ConnectorBase {
    */
   public createMutation(recipe: FolderSetTransferStateRecipe): FolderSetTransferStateMutation;
   public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
-  public createMutation(recipe) {
+  public createMutation(recipe: FolderAssignAbilitiesRecipe): FolderAssignAbilitiesMutation;
+  public createMutation(recipe: FolderRevokeAbilitiesRecipe): FolderRevokeAbilitiesMutation;
+  createMutation(recipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
         return new FolderSetTransferStateIntent(this, recipe) as FolderSetTransferStateMutation;
       case MutationKind.FOLDER_SET_URI_BASE:
         return new FolderSetUriBaseIntent(this, recipe) as FolderSetUriBaseMutation;
+      case MutationKind.FOLDER_ASSIGN_ABILITIES:
+        return new FolderAssignAbilitiesIntent(this, recipe) as FolderAssignAbilitiesMutation;
+      case MutationKind.FOLDER_REVOKE_ABILITIES:
+        return new FolderRevokeAbilitiesIntent(this, recipe) as FolderRevokeAbilitiesMutation;
       default:
         return null;
     }
