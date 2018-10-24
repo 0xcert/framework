@@ -35,14 +35,14 @@ export class ExchangeSwapGenerator extends Web3Claim implements ExchangeSwapClai
         transfer['assetId'] || transfer['amount'],
       );
     }
-  
+
     const data = this.connector.web3.utils.soliditySha3(
-      this.connector.config.minterAddress,
+      this.connector.config.exchangeAddress,
       this.recipe.makerId,
       this.recipe.takerId,
       temp,
       this.recipe.seed || Date.now(), // seed
-      Math.floor(this.recipe.expiration / 1000) // expires
+      this.recipe.expiration // expires
     );
 
     this.data = data;
@@ -63,5 +63,4 @@ export class ExchangeSwapGenerator extends Web3Claim implements ExchangeSwapClai
   public serialize() {
     return { data: this.data, signature: this.signature };
   }
-
 }

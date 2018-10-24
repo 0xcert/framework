@@ -45,6 +45,7 @@ export class MinterCreateAssetGenerator extends Web3Claim implements MinterCreat
       this.recipe.takerId,
       this.recipe.asset.folderId,
       this.recipe.asset.assetId,
+      this.recipe.asset.publicProof,
       temp,
       this.recipe.seed || Date.now(), // seed
       this.recipe.expiration // expires

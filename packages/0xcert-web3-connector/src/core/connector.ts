@@ -21,7 +21,7 @@ import { FolderReadCapabilitiesIntent } from '../queries/folder-read-capabilitie
 import { FolderSetUriBaseIntent } from '../mutations/folder-set-uri-base';
 import { FolderAssignAbilitiesIntent } from '../mutations/folder-assign-abilities';
 import { FolderRevokeAbilitiesIntent } from '../mutations/folder-revoke-abilities';
-import { MinterCreateAssetRecipe, ClaimKind, MinterCreateAssetResult, ExchangeSwapResult, MinterCreateAssetClaim, ExchangeSwapClaim } from '@0xcert/connector/dist/core/claim';
+import { MinterCreateAssetRecipe, ClaimKind, MinterCreateAssetClaim, ExchangeSwapClaim } from '@0xcert/connector/dist/core/claim';
 import { MinterCreateAssetGenerator } from '../claims/minter-create-asset';
 import { ExchangeSwapGenerator } from '../claims/exchange-swap';
 import { MinterPerformCreateAssetClaimIntent } from '../mutations/minter-perform-create-asset-claim';
@@ -55,6 +55,7 @@ export interface ConnectorConfig {
   approvalConfirmationsCount?: number;
   signatureKind?: SignatureKind;
   minterAddress?: string;
+  exchangeAddress?: string;
 }
 
 /**
