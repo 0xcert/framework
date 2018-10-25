@@ -196,27 +196,26 @@ const { name, symbol, uriRoot } = await protocol.perform({
 
 
 ```ts
+// done
 protocol.createQuery(FOLDER_CHECK_ABILITY, { ... });
 protocol.createQuery(FOLDER_CHECK_APPROVAL, { ... });
 protocol.createQuery(FOLDER_CHECK_TRANSFER_STATE, { ... });
 protocol.createQuery(FOLDER_READ_CAPABILITIES, { ... });
 protocol.createQuery(FOLDER_READ_METADATA, { ... });
 protocol.createQuery(FOLDER_READ_SUPPLY, { ... });
-
 protocol.createMutation(FOLDER_SET_TRANSFER_STATE, { ... });
 protocol.createMutation(FOLDER_SET_URI_BASE, { ... });
 protocol.createMutation(FOLDER_CREATE_ASSET, { ... }); //
-
-protocol.createMutation(MINTER_PERFORM_CREATE_ASSET_CLAIM, { ... });
-protocol.createMutation(MINTER_CANCEL_CREATE_ASSET_CLAIM, { ... });
-
-protocol.createMutation(EXCHANGE_PERFORM_SWAP_CLAIM, { ... });
-protocol.createMutation(EXCHANGE_CANCEL_SWAP_CLAIM, { ... });
-
 protocol.generateClaim(MINTER_CREATE_ASSET, { ... });
 protocol.generateClaim(EXCHANGE_SWAP, { ... });
 
-protocol.createAsset(USER_IDENTITY, { ... });
+// todo
+protocol.createMutation(MINTER_PERFORM_CREATE_ASSET_CLAIM, { ... });
+protocol.createMutation(MINTER_CANCEL_CREATE_ASSET_CLAIM, { ... });
+protocol.createMutation(EXCHANGE_PERFORM_SWAP_CLAIM, { ... });
+protocol.createMutation(EXCHANGE_CANCEL_SWAP_CLAIM, { ... });
+protocol.createMutation(FOLDER_DEPLOY, { ... });
+protocol.createAsset({ ... });
 ```
 
 
@@ -544,4 +543,117 @@ mutation.on('confirmation', async () => ...);
 mutation.on('approval', async () => ...);
 mutation.on('revert', async () => ...);
 await mutation.resolve();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+Example 2: ---------------------------------------------------------------------
+
+> Managing assets:
+
+```ts
+import { Asset } from '@0xcert/core-assets';
+
+class UserIdentity extends Asset {
+  @prop() id: string;
+  @prop() firstName: string;
+  @prop() lastName: string;
+}
+
+const asset = new UserIdentity({ firstName, lastName });
+asset.populate({ firstName, lastName });
+asset.validate();
+asset.serialize();
+asset.serialize('public');
+asset.serialize('private');
+asset.proof();
+```
+
+> Managing proofs:
+
+```ts
+import { Proof } from '@0xcert/core-proofs';
+
+const proof = new Proof({ asset });
+proof.generate();
+proof.verify(proof);
+proof.disclose([{ path }]);
+```
+
+> Controller actions.
+
+
+```ts
+import { Context, Order, Exchange, Minter } from '@0xcert/web3-controller';
+
+const context = new Context({ approvalConfirmationsCount });
+
+const folder = new Folder({ context, conventionId });
+folder.batch([
+  folder.mint({ assetId, proof }),
+  folder.revoke({ assetId }),
+]);
+folder.on('', () => {}); //Transfer(_from, _to, _tokenId );
+folder.on('', () => {}); //Approval(_owner, _approved, _tokenId );
+folder.on('', () => {}); //ApprovalForAll(_owner, _operator, _approved );
+folder.on('', () => {}); //IsPaused(bool isPaused);
+folder.on('', () => {}); //TokenProofUpdate(_tokenId, _proof);
+folder.on('', () => {}); //AssignAbility(_target, _ability);
+folder.on('', () => {}); //RevokeAbility(_target, _ability);
+folder.off('', () => {});
+folder.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
+folder.enable(); // setPause()
+folder.disable() // .perform().resolve();
+folder.burn({ assetId });
+folder.revoke({ assetId }); 
+folder.mint({ assetId, proof });
+folder.updateAssetProof({ assetProof }); // 
+folder.updateUriBase({ uriBase }); // setUriBase
+folder.getSupply();
+folder.getMetadata();
+folder.getCapabilities();
+folder.isEnabled();
+folder.isApproved({ accountId, assetId });
+folder.isApprovedForAll(accountId);
+folder.isAble({ abilityKind, accountId });
+folder.verify({ assetId, data: [{ index, value }] }); // from proof.disclose()
+folder.approveForOne(accountId, assetId);
+folder.approveForAll(); // setApprovalForAll -> setOperator
+folder.assignAbilities(accountId, [1,2,3]);
+folder.revokeAbilities(accountId, [1,2,3]);
+folder.revokeAsset(); // revokable
+folder.balanceOf(accountId);
+folder.ownerOf(assetId);
+folder.createAsset(assetId, proof, accountId);
+folder.subscribe();
+folder.unsubscribe();
+
+const exchange = new Exchange({ context });
+exchange.claim();
+exchange.mint();
+
+const minter = new Minter({ context });
+minter.claim();
+minter.mint();
+
+// query/mutation usage example
+const mutation = await folder.burn(assetId)
+  .on('request')
+  .on('response')
+  .on('confirmation')
+  .on('resolve')
+  .then(() => {});
+const query = await folder.getMetadata()
+  .on('request')
+  .on('response')
+  .then(() => {});
 ```

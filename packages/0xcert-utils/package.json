@@ -1,0 +1,43 @@
+{
+  "name": "@0xcert/utils",
+  "version": "0.0.0-alpha0",
+  "description": "Shared helpers.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean; tsc",
+    "lint": "tslint 'src/**/*.ts?(x)'",
+    "prepare": "npm run transpile",
+    "test": "npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "author": "Kristijan Sedlak (Xpepermint)",
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "^0.7.4",
+    "@hayspec/spec": "^0.7.4",
+    "nyc": "^13.0.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  }
+}
