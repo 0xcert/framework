@@ -132,7 +132,7 @@ spec.test('reads folder total supply', async (ctx) => {
   })
   await query.resolve();
   ctx.deepEqual(query.serialize(), {
-    data: { totalCount: 1 },
+    data: { totalCount: 2 },
   });
 });
 
@@ -233,7 +233,7 @@ spec.test('generates claim for swaping stuff', async (ctx) => {
   });
 
   claim.generate();
-  const data = claim.serialize().data;
+  const data = claim.serialize().claim;
 
   await ctx.is(data, '0xa3e4b672ab50ad0573dd51f179bae90c877e674424ae143ef6d6e3a849b2800b');  
 });
@@ -243,7 +243,7 @@ spec.test('mints an assest via minter', async (ctx) => {
   const owner = await ctx.get('owner');
   const bob = await ctx.get('bob');
   const xcert = ctx.get('protocol').xcert;
-  const jane = await ctx.get('jane');
+  const sara = await ctx.get('sara');
 
   const connector = await ctx.get('connector');
 
@@ -260,7 +260,7 @@ spec.test('mints an assest via minter', async (ctx) => {
       {
         folderId: xcert.instance._address,
         senderId: bob,
-        receiverId: jane,
+        receiverId: sara,
         assetId: '100',
       }
     ],
@@ -285,12 +285,102 @@ spec.test('mints an assest via minter', async (ctx) => {
   ctx.is(xcert5owner, bob);
 
   const xcert100owner = await xcert.instance.methods.ownerOf('100').call();
-  ctx.is(xcert100owner, jane);
+  ctx.is(xcert100owner, sara);
 });
 
-spec.only('Swaps assets via exchange', async (ctx) => {
+spec.test('cancel mint claim', async (ctx) => {
 
   const owner = await ctx.get('owner');
+  const bob = await ctx.get('bob');
+  const xcert = ctx.get('protocol').xcert;
+  const sara = await ctx.get('sara');
+
+  const connector = await ctx.get('connector');
+
+  const claim = connector.createClaim({
+    claimKind: ClaimKind.MINTER_CREATE_ASSET,
+    makerId: owner,
+    takerId: bob,
+    asset: {
+      folderId: xcert.instance._address,
+      assetId: '5',
+      publicProof: '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8',
+    },
+    transfers: [
+      {
+        folderId: xcert.instance._address,
+        senderId: bob,
+        receiverId: sara,
+        assetId: '100',
+      }
+    ],
+    seed: 1535113221,
+    expiration: 1607731200,
+  });
+  claim.generate();
+  await claim.sign();
+  const data = claim.serialize();
+
+  const cancelMutation = connector.createMutation({
+    mutationKind: MutationKind.MINTER_CANCEL_CREATE_ASSET_CLAIM,
+    data
+  });
+  await cancelMutation.resolve();
+  ctx.pass();
+});
+
+spec.test('Swaps assets via exchange', async (ctx) => {
+
+  const sara = await ctx.get('sara');
+  const xcert = ctx.get('protocol').xcert;
+  const jane = await ctx.get('jane');
+
+  const connector = await ctx.get('connector');
+
+  const claim = connector.createClaim({
+    claimKind: ClaimKind.EXCHANGE_SWAP,
+    makerId: sara,
+    takerId: jane,
+    transfers: [
+      {
+        folderId: xcert.instance._address,
+        senderId: sara,
+        receiverId: jane,
+        assetId: '100',
+      },
+      {
+        folderId: xcert.instance._address,
+        senderId: jane,
+        receiverId: sara,
+        assetId: '101',
+      }
+    ],
+    seed: 1535113220,
+    expiration: 1607731200,
+  });
+  claim.generate();
+  await claim.sign();
+  const data = claim.serialize();
+
+  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '100').send({ from: sara });  
+  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '101').send({ from: jane });  
+
+  const mutation = connector.createMutation({
+    mutationKind: MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM,
+    data
+  });
+
+  await mutation.resolve();
+
+  const xcert100owner = await xcert.instance.methods.ownerOf('100').call();
+  ctx.is(xcert100owner, jane);
+
+  const xcert101owner = await xcert.instance.methods.ownerOf('101').call();
+  ctx.is(xcert101owner, sara);
+});
+
+spec.test('cancel swap claim', async (ctx) => {
+
   const bob = await ctx.get('bob');
   const xcert = ctx.get('protocol').xcert;
   const jane = await ctx.get('jane');
@@ -306,37 +396,30 @@ spec.only('Swaps assets via exchange', async (ctx) => {
         folderId: xcert.instance._address,
         senderId: bob,
         receiverId: jane,
-        assetId: '100',
+        assetId: '101',
       },
       {
         folderId: xcert.instance._address,
         senderId: jane,
         receiverId: bob,
-        assetId: '101',
+        assetId: '100',
       }
     ],
-    seed: 1535113220,
+    seed: 1535113221,
     expiration: 1607731200,
   });
   claim.generate();
   await claim.sign();
   const data = claim.serialize();
 
-  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '100').send({ from: bob });  
-  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '101').send({ from: jane });  
-
-  const mutation = connector.createMutation({
-    mutationKind: MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM,
+  const cancelMutation = connector.createMutation({
+    mutationKind: MutationKind.EXCHANGE_CANCEL_SWAP_CLAIM,
     data
   });
 
-  await mutation.resolve();
+  await cancelMutation.resolve();
 
-  const xcert100owner = await xcert.instance.methods.ownerOf('100').call();
-  ctx.is(xcert100owner, jane);
-
-  const xcert101owner = await xcert.instance.methods.ownerOf('101').call();
-  ctx.is(xcert101owner, bob);
+  ctx.pass();
 });
 
 export default spec;
