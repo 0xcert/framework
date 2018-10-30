@@ -178,7 +178,7 @@ export interface MinterPerformCreateAssetClaimRecipe {
 export interface MinterCancelCreateAssetClaimRecipe {
   mutationKind: MutationKind.MINTER_CANCEL_CREATE_ASSET_CLAIM;
   mutationId?: string;
-  data: MinterCreateAssetRecipe;
+  data: MinterCreateAssetResult;
 }
 
 /**
@@ -196,7 +196,7 @@ export interface ExchangePerformSwapClaimRecipe {
 export interface ExchangeCancelSwapClaimRecipe {
   mutationKind: MutationKind.EXCHANGE_CANCEL_SWAP_CLAIM;
   mutationId?: string;
-  data: ExchangeSwapRecipe;
+  data: ExchangeSwapResult;
 }
 
 /**
