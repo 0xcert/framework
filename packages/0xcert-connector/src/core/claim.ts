@@ -11,7 +11,7 @@ export enum ClaimKind {
  */
 export interface MinterCreateAssetClaim {
   generate(): this;
-  sign(): this;
+  sign(): any;
   serialize(): MinterCreateAssetResult;
 }
 
@@ -20,7 +20,7 @@ export interface MinterCreateAssetClaim {
  */
 export interface ExchangeSwapClaim {
   generate(): this;
-  sign(): this;
+  sign(): any;
   serialize(): ExchangeSwapResult;
 }
 
@@ -77,7 +77,8 @@ export interface ExchangeSwapRecipe {
  * 
  */
 export interface MinterCreateAssetResult {
-  data: string;
+  claim: string;
+  data: MinterCreateAssetRecipe;
   signature: string;
 }
 
@@ -85,6 +86,7 @@ export interface MinterCreateAssetResult {
  * 
  */
 export interface ExchangeSwapResult {
-  data: string;
+  claim: string;
+  data: ExchangeSwapRecipe;
   signature: string;
 }

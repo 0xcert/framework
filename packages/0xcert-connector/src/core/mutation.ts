@@ -1,6 +1,8 @@
 import { ConnectorError } from './errors';
 import { FolderAbilityKind, MinterCreateAssetClaim, MinterCreateAssetRecipe, ExchangeSwapClaim,
-  ExchangeSwapRecipe } from '..';
+  ExchangeSwapRecipe, 
+  MinterCreateAssetResult} from '..';
+import { ExchangeSwapResult } from './claim';
 
 /**
  * 
@@ -167,7 +169,7 @@ export interface FolderRevokeAbilitiesRecipe {
 export interface MinterPerformCreateAssetClaimRecipe {
   mutationKind: MutationKind.MINTER_PERFORM_CREATE_ASSET_CLAIM;
   mutationId?: string;
-  data: MinterCreateAssetClaim;
+  data: MinterCreateAssetResult;
 }
 
 /**
@@ -185,9 +187,7 @@ export interface MinterCancelCreateAssetClaimRecipe {
 export interface ExchangePerformSwapClaimRecipe {
   mutationKind: MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM;
   mutationId?: string;
-  folderId: string;
-  makerId: string;
-  data: ExchangeSwapClaim;
+  data: ExchangeSwapResult;
 }
 
 /**
@@ -196,8 +196,6 @@ export interface ExchangePerformSwapClaimRecipe {
 export interface ExchangeCancelSwapClaimRecipe {
   mutationKind: MutationKind.EXCHANGE_CANCEL_SWAP_CLAIM;
   mutationId?: string;
-  folderId: string;
-  makerId: string;
   data: ExchangeSwapRecipe;
 }
 
