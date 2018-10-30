@@ -573,7 +573,7 @@ const asset = new UserIdentity({ firstName, lastName });
 asset.populate({ firstName, lastName });
 asset.validate();
 asset.serialize();
-asset.serialize('public');
+asset.serialize('public'); 
 asset.serialize('private');
 asset.proof();
 ```
@@ -591,6 +591,13 @@ proof.disclose([{ path }]);
 
 > Controller actions.
 
+Connector = connection
+Folder = ERC721 contract
+Vault = ERC20 contract
+Asset = Item of folder
+Coin = Item of vault
+Minter = Custom deal for minting
+Exchange = Custom deal for swap
 
 ```ts
 import { Context, Order, Exchange, Minter } from '@0xcert/web3-controller';
@@ -639,21 +646,28 @@ folder.unsubscribe();
 
 const exchange = new Exchange({ context });
 exchange.claim();
-exchange.mint();
+exchange.mint({
+  ...
+});
 
 const minter = new Minter({ context });
 minter.claim();
-minter.mint();
+minter.mint({
+  ...
+});
 
 // query/mutation usage example
-const mutation = await folder.burn(assetId)
-  .on('request')
-  .on('response')
-  .on('confirmation')
-  .on('resolve')
-  .then(() => {});
-const query = await folder.getMetadata()
-  .on('request')
-  .on('response')
-  .then(() => {});
+const folder = new Folder({ context, conventionId });
+await folder.getMetadata(); // => { name, symbol }
+await folder.burn(assetId); // => { transactionId }
+
+// managing mutation state
+const transaction = new Transaction({ context, transactionId });
+tx.on('request', (mutationId) => {});
+tx.on('response', (mutationId) => {});
+tx.on('confirmation', (mutationId) => {});
+tx.on('approval', (mutationId) => {});
+tx.isResolving();
+tx.isApproved();
+await tx.resolve();
 ```
