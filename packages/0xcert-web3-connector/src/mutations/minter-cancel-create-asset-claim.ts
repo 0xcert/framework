@@ -27,10 +27,11 @@ export class MinterCancelCreateAssetClaimIntent extends Web3Mutation implements 
    * If mutationId is null then the mutation has not yet been resolved.
    */
   public serialize() {
-    return {
+    /*return {
       mutationId: this.transaction.transactionHash,
       data: this.recipe.data,
-    };
+    };*/
+    return null;
   }
 
   /**
@@ -38,17 +39,16 @@ export class MinterCancelCreateAssetClaimIntent extends Web3Mutation implements 
    */
   public async resolve() {
     const minter = getMinter(this.connector.web3, this.connector.config.minterAddress);
-    const from = await getAccount(this.connector.web3, this.recipe.data.makerId);
+    const from = await getAccount(this.connector.web3, this.recipe.data.data.makerId);
 
     const xcertData = {
-      xcert: this.recipe.data.asset.folderId,
-      id: this.recipe.data.asset.assetId,
-      proof: this.recipe.data.asset.publicProof,
+      xcert: this.recipe.data.data.asset.folderId,
+      id: this.recipe.data.data.asset.assetId,
+      proof: this.recipe.data.data.asset.publicProof,
     };
     const transfers = [];
 
-    for(let transfer in this.recipe.data.transfers)
-    {
+    this.recipe.data.data.transfers.forEach((transfer) => {
       transfers.push({
         token: transfer['folderId'] || transfer['vaultId'],
         proxy: transfer['assetId'] ? ProxyKind.NF_TOKEN_TRANSFER_PROXY : ProxyKind.TOKEN_TRANSFER_PROXY,
@@ -56,15 +56,15 @@ export class MinterCancelCreateAssetClaimIntent extends Web3Mutation implements 
         to: transfer['receiverId'],
         value: transfer['assetId'] || transfer['amount'],
       });
-    }
+    });
 
     const mintData = {
-      from: this.recipe.data.makerId,
-      to: this.recipe.data.takerId,
+      from: this.recipe.data.data.makerId,
+      to: this.recipe.data.data.takerId,
       xcertData,
       transfers,
-      seed: this.recipe.data.seed,
-      expirationTimestamp: this.recipe.data.expiration,
+      seed: this.recipe.data.data.seed,
+      expirationTimestamp: this.recipe.data.data.expiration,
     }
     const mintTuple = tuple(mintData);
 

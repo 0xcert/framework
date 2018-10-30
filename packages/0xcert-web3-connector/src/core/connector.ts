@@ -27,7 +27,7 @@ import { ExchangeSwapGenerator } from '../claims/exchange-swap';
 import { MinterPerformCreateAssetClaimIntent } from '../mutations/minter-perform-create-asset-claim';
 import { MinterCancelCreateAssetClaimIntent } from '../mutations/minter-cancel-create-asset-claim';
 import { ExchangePerformSwapClaimIntent } from '../mutations/exchange-perform-swap-claim';
-import { ExchangeCancelSwapClaimIntent } from '../mutations/exchange-claim-swap-claim';
+import { ExchangeCancelSwapClaimIntent } from '../mutations/exchange-cancel-swap-claim';
 
 /**
  * Signature kinds
