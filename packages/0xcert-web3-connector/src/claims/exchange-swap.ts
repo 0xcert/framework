@@ -25,6 +25,7 @@ export class ExchangeSwapGenerator extends Web3Claim implements ExchangeSwapClai
    */
   public generate() {
     let temp = '0x0';
+
     for(const transfer of this.recipe.transfers) {
       temp = this.connector.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
@@ -52,8 +53,8 @@ export class ExchangeSwapGenerator extends Web3Claim implements ExchangeSwapClai
   /**
    * 
    */
-  public sign() {
-    this.signature = this.createSignature(this.data, this.connector.config.signatureKind, this.recipe.makerId);
+  public async sign() {
+    this.signature = await this.createSignature(this.data, this.connector.config.signatureKind, this.recipe.makerId);
     return this;
   }
 
@@ -61,6 +62,6 @@ export class ExchangeSwapGenerator extends Web3Claim implements ExchangeSwapClai
    * 
    */
   public serialize() {
-    return { data: this.data, signature: this.signature };
+     return { claim: this.data, signature: this.signature, data: this.recipe };
   }
 }

@@ -28,6 +28,7 @@ export class MinterCreateAssetGenerator extends Web3Claim implements MinterCreat
    */
   public generate() {
     let temp = '0x0';
+
     for(const transfer of this.recipe.transfers) {
       temp = this.connector.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
@@ -37,8 +38,8 @@ export class MinterCreateAssetGenerator extends Web3Claim implements MinterCreat
         transfer.receiverId,
         transfer['assetId'] || transfer['amount'],
       );
-    }
-  
+    } 
+
     const data = this.connector.web3.utils.soliditySha3(
       this.connector.config.minterAddress,
       this.recipe.makerId,
@@ -58,8 +59,8 @@ export class MinterCreateAssetGenerator extends Web3Claim implements MinterCreat
   /**
    * 
    */
-  public sign() {
-    this.signature = this.createSignature(this.data, this.connector.config.signatureKind, this.recipe.makerId);
+  public async sign() {
+    this.signature = await this.createSignature(this.data, this.connector.config.signatureKind, this.recipe.makerId);
     return this;
   }
 
@@ -67,6 +68,6 @@ export class MinterCreateAssetGenerator extends Web3Claim implements MinterCreat
    * 
    */
   public serialize() {
-    return { data: this.data, signature: this.signature };
+    return { claim: this.data, signature: this.signature, data: this.recipe };
   }
 }
