@@ -4,20 +4,18 @@ import { Connector } from '../..';
 import { QueryKind, FolderAbilityKind, MutationKind, MutationEvent, ClaimKind } from '@0xcert/connector';
 import { S_IFSOCK } from 'constants';
 import { ProxyKind } from '../../core/connector';
+import tuple from '../../utils/tuple';
 
 interface Data {
   connector: Connector;
   protocol: Protocol;
   owner: string;
   bob: string;
+  jane: string;
+  sara: string;
 }
 
 const spec = new Spec<Data>();
-
-spec.before(async (stage) => {
-  const connector = new Connector({ web3: stage.web3 });
-  stage.set('connector', connector);
-});
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
@@ -25,14 +23,26 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
+  const protocol = stage.get('protocol');
+  const connector = new Connector({ web3: stage.web3, minterAddress: protocol.minter.instance._address, exchangeAddress: protocol.exchange.instance._address });
+  stage.set('connector', connector);
+});
+
+spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
   stage.set('owner', accounts[0]);
   stage.set('bob', accounts[1]);
+  stage.set('jane', accounts[2]);
+  stage.set('sara', accounts[3]);
 });
 
 spec.before(async (stage) => {
   await stage.get('protocol').xcert.instance.methods
     .mint(stage.get('bob'), '100', 'foo')
+    .send({ form: stage.get('owner') });
+
+  await stage.get('protocol').xcert.instance.methods
+    .mint(stage.get('jane'), '101', 'foo')
     .send({ form: stage.get('owner') });
 });
 
@@ -188,7 +198,7 @@ spec.test('generates claim for minting an asset', async (ctx) => {
     expiration: 1535113820,
   });
   claim.generate();
-  const data = claim.serialize().data;
+  const data = claim.serialize().claim;
 
   await ctx.is(data, '0x43695986f951d66d34a52513e4992b1f410371d724ee31c6629eac756fc29993');  
 });
@@ -226,6 +236,107 @@ spec.test('generates claim for swaping stuff', async (ctx) => {
   const data = claim.serialize().data;
 
   await ctx.is(data, '0xa3e4b672ab50ad0573dd51f179bae90c877e674424ae143ef6d6e3a849b2800b');  
+});
+
+spec.test('mints an assest via minter', async (ctx) => {
+
+  const owner = await ctx.get('owner');
+  const bob = await ctx.get('bob');
+  const xcert = ctx.get('protocol').xcert;
+  const jane = await ctx.get('jane');
+
+  const connector = await ctx.get('connector');
+
+  const claim = connector.createClaim({
+    claimKind: ClaimKind.MINTER_CREATE_ASSET,
+    makerId: owner,
+    takerId: bob,
+    asset: {
+      folderId: xcert.instance._address,
+      assetId: '5',
+      publicProof: '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8',
+    },
+    transfers: [
+      {
+        folderId: xcert.instance._address,
+        senderId: bob,
+        receiverId: jane,
+        assetId: '100',
+      }
+    ],
+    seed: 1535113220,
+    expiration: 1607731200,
+  });
+  claim.generate();
+  await claim.sign();
+  const data = claim.serialize();
+
+  await xcert.instance.methods.assignAbilities(ctx.get('protocol').xcertMintProxy.instance._address, [1]).send({ from: owner });
+  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '100').send({ from: bob });  
+
+  const mutation = connector.createMutation({
+    mutationKind: MutationKind.MINTER_PERFORM_CREATE_ASSET_CLAIM,
+    data
+  });
+
+  await mutation.resolve();
+
+  const xcert5owner = await xcert.instance.methods.ownerOf('5').call();
+  ctx.is(xcert5owner, bob);
+
+  const xcert100owner = await xcert.instance.methods.ownerOf('100').call();
+  ctx.is(xcert100owner, jane);
+});
+
+spec.only('Swaps assets via exchange', async (ctx) => {
+
+  const owner = await ctx.get('owner');
+  const bob = await ctx.get('bob');
+  const xcert = ctx.get('protocol').xcert;
+  const jane = await ctx.get('jane');
+
+  const connector = await ctx.get('connector');
+
+  const claim = connector.createClaim({
+    claimKind: ClaimKind.EXCHANGE_SWAP,
+    makerId: bob,
+    takerId: jane,
+    transfers: [
+      {
+        folderId: xcert.instance._address,
+        senderId: bob,
+        receiverId: jane,
+        assetId: '100',
+      },
+      {
+        folderId: xcert.instance._address,
+        senderId: jane,
+        receiverId: bob,
+        assetId: '101',
+      }
+    ],
+    seed: 1535113220,
+    expiration: 1607731200,
+  });
+  claim.generate();
+  await claim.sign();
+  const data = claim.serialize();
+
+  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '100').send({ from: bob });  
+  await xcert.instance.methods.approve(ctx.get('protocol').nftokenTransferProxy.instance._address, '101').send({ from: jane });  
+
+  const mutation = connector.createMutation({
+    mutationKind: MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM,
+    data
+  });
+
+  await mutation.resolve();
+
+  const xcert100owner = await xcert.instance.methods.ownerOf('100').call();
+  ctx.is(xcert100owner, jane);
+
+  const xcert101owner = await xcert.instance.methods.ownerOf('101').call();
+  ctx.is(xcert101owner, bob);
 });
 
 export default spec;
