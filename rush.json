@@ -18,11 +18,6 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/core",
-      "projectFolder": "packages/0xcert-core",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "shouldPublish": true
