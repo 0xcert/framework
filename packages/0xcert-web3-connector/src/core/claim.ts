@@ -15,10 +15,10 @@ export abstract class Web3Claim {
     this.connector = connector;
   }
 
-  protected createSignature(data, signatureKind, makerId) {
+  protected async createSignature(data, signatureKind, makerId) {
     try{
       if (signatureKind === SignatureKind.ETH_SIGN) {
-        return `${signatureKind}:${this.connector.web3.eth.sign(data, makerId)}`;
+        return `${signatureKind}:${await this.connector.web3.eth.sign(data, makerId)}`;
       } else if (signatureKind === SignatureKind.TREZOR) {
         return null;
       } else if (signatureKind === SignatureKind.EIP712) {
