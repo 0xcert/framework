@@ -1,4 +1,4 @@
-import { MinterPerformCreateAssetClaimRecipe, MinterPerformCreateAssetClaimMutation } from '@0xcert/connector';
+import { MinterPerformCreateAssetClaimRecipe, MinterPerformCreateAssetClaimMutation, MinterCreateAssetRecipe, MinterCreateAssetResult } from '@0xcert/connector';
 import { Connector, ProxyKind } from '../core/connector';
 import { Web3Transaction } from '../core/transaction';
 import { getMinter, getAccount } from '../utils/contracts';
@@ -27,10 +27,12 @@ export class MinterPerformCreateAssetClaimIntent extends Web3Mutation implements
    * If mutationId is null then the mutation has not yet been resolved.
    */
   public serialize() {
-    return {
+    /*return {
       mutationId: this.transaction.transactionHash,
-      data: this.recipe.data,
-    };
+      data: this.recipe.data.data,
+    };*/
+    return null;
+
   }
 
   /**
@@ -47,8 +49,7 @@ export class MinterPerformCreateAssetClaimIntent extends Web3Mutation implements
     };
     const transfers = [];
 
-    for(let transfer in this.recipe.data.data.transfers)
-    {
+    this.recipe.data.data.transfers.forEach((transfer) => {
       transfers.push({
         token: transfer['folderId'] || transfer['vaultId'],
         proxy: transfer['assetId'] ? ProxyKind.NF_TOKEN_TRANSFER_PROXY : ProxyKind.TOKEN_TRANSFER_PROXY,
@@ -56,7 +57,7 @@ export class MinterPerformCreateAssetClaimIntent extends Web3Mutation implements
         to: transfer['receiverId'],
         value: transfer['assetId'] || transfer['amount'],
       });
-    }
+    });
 
     const mintData = {
       from: this.recipe.data.data.makerId,
@@ -66,6 +67,7 @@ export class MinterPerformCreateAssetClaimIntent extends Web3Mutation implements
       seed: this.recipe.data.data.seed,
       expirationTimestamp: this.recipe.data.data.expiration,
     }
+
     const mintTuple = tuple(mintData);
   
     const [kind, signature] = this.recipe.data.signature.split(':');
@@ -73,8 +75,9 @@ export class MinterPerformCreateAssetClaimIntent extends Web3Mutation implements
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
       v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-      kind,
+      kind
     };
+
     const signatureDataTuple = tuple(signatureData);
 
     const resolver = () => {
