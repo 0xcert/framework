@@ -7,7 +7,25 @@ import * as env from '../config/env';
  * @param folderId Xcert address.
  */
 export function getFolder(web3: Web3, folderId?: string) {
-  return new web3.eth.Contract(env.xcertAbi, folderId);
+  return new web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
+}
+
+/**
+ * Returns Minter smart contract instance.
+ * @param web3 Web3 instance.
+ * @param minterId Minter address.
+ */
+export function getMinter(web3: Web3, minterId?: string) {
+  return new web3.eth.Contract(env.minterAbi, minterId, { gas: 6000000 });
+}
+
+/**
+ * Returns Exchange smart contract instance.
+ * @param web3 Web3 instance.
+ * @param exchangeId Exchange address.
+ */
+export function getExchange(web3: Web3, exchangeId?: string) {
+  return new web3.eth.Contract(env.exchangeAbi, exchangeId, { gas: 6000000 });
 }
 
 /**
