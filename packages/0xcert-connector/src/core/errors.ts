@@ -4,6 +4,7 @@
 export enum ErrorKind {
   MANAGE_ABILITIES = 0,
   NETWORK_UNREACHED = 1,
+  SIGNATURE = 2
 }
 
 /**

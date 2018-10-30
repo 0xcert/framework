@@ -228,7 +228,7 @@
     },
     "@rush-temp/web3-connector": {
       "version": "file:projects/web3-connector.tgz",
-      "integrity": "sha512-ET3JRzBbZq0rhUDKtaxl8W6vwiiFuQtIfwns+m/EfIlCQjXbhdoF6zovVPsOi5lD3nYRSyJWYQUQQLhIMkRPTg==",
+      "integrity": "sha512-pgDzYdZdbWslgGs8aBLaaS90L99bPaSpDNe63rHsIqWyTANUAw640rEnn8DQToTPwRIKpdDP4Mbqf/BlXw6cyg==",
       "requires": {
         "@specron/cli": "^0.2.6",
         "@specron/spec": "^0.2.6",

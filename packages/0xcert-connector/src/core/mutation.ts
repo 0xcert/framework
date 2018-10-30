@@ -1,5 +1,8 @@
 import { ConnectorError } from './errors';
-import { FolderAbilityKind } from '..';
+import { FolderAbilityKind, MinterCreateAssetClaim, MinterCreateAssetRecipe, ExchangeSwapClaim,
+  ExchangeSwapRecipe, 
+  MinterCreateAssetResult} from '..';
+import { ExchangeSwapResult } from './claim';
 
 /**
  * 
@@ -9,6 +12,10 @@ export enum MutationKind {
   FOLDER_SET_URI_BASE = 5002,
   FOLDER_ASSIGN_ABILITIES = 5003,
   FOLDER_REVOKE_ABILITIES = 5004,
+  MINTER_PERFORM_CREATE_ASSET_CLAIM = 5005,
+  MINTER_CANCEL_CREATE_ASSET_CLAIM = 5006,
+  EXCHANGE_PERFORM_SWAP_CLAIM = 5007,
+  EXCHANGE_CANCEL_SWAP_CLAIM = 5008,
 }
 
 /**
@@ -73,6 +80,38 @@ export interface FolderRevokeAbilitiesMutation extends MutationEmitter {
 /**
  * 
  */
+export interface MinterPerformCreateAssetClaimMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): MinterPerformCreateAssetClaimResult;
+}
+
+/**
+ * 
+ */
+export interface MinterCancelCreateAssetClaimMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): MinterCancelCreateAssetClaimResult;
+}
+
+/**
+ * 
+ */
+export interface ExchangePerformSwapClaimMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): ExchangePerformSwapClaimResult;
+}
+
+/**
+ * 
+ */
+export interface ExchangeCancelSwapClaimMutation extends MutationEmitter {
+  resolve(): Promise<this>;
+  serialize(): ExchangeCancelSwapClaimResult;
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateRecipe {
   mutationKind: MutationKind.FOLDER_SET_TRANSFER_STATE;
   mutationId?: string;
@@ -127,6 +166,42 @@ export interface FolderRevokeAbilitiesRecipe {
 /**
  * 
  */
+export interface MinterPerformCreateAssetClaimRecipe {
+  mutationKind: MutationKind.MINTER_PERFORM_CREATE_ASSET_CLAIM;
+  mutationId?: string;
+  data: MinterCreateAssetResult;
+}
+
+/**
+ * 
+ */
+export interface MinterCancelCreateAssetClaimRecipe {
+  mutationKind: MutationKind.MINTER_CANCEL_CREATE_ASSET_CLAIM;
+  mutationId?: string;
+  data: MinterCreateAssetResult;
+}
+
+/**
+ * 
+ */
+export interface ExchangePerformSwapClaimRecipe {
+  mutationKind: MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM;
+  mutationId?: string;
+  data: ExchangeSwapResult;
+}
+
+/**
+ * 
+ */
+export interface ExchangeCancelSwapClaimRecipe {
+  mutationKind: MutationKind.EXCHANGE_CANCEL_SWAP_CLAIM;
+  mutationId?: string;
+  data: ExchangeSwapResult;
+}
+
+/**
+ * 
+ */
 export interface FolderSetTransferStateResult {
   mutationId: string;
   data: {
@@ -166,3 +241,34 @@ export interface FolderRevokeAbilitiesResult {
   };
 }
 
+/**
+ * 
+ */
+export interface MinterPerformCreateAssetClaimResult {
+  mutationId: string;
+  data: MinterCreateAssetClaim;
+}
+
+/**
+ * 
+ */
+export interface MinterCancelCreateAssetClaimResult {
+  mutationId: string;
+  data: MinterCreateAssetRecipe;
+}
+
+/**
+ * 
+ */
+export interface ExchangePerformSwapClaimResult {
+  mutationId: string;
+  data: ExchangeSwapClaim;
+}
+
+/**
+ * 
+ */
+export interface ExchangeCancelSwapClaimResult {
+  mutationId: string;
+  data: ExchangeSwapRecipe;
+}

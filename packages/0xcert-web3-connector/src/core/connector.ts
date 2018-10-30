@@ -6,7 +6,11 @@ import { ConnectorBase, QueryKind, MutationKind, FolderCheckAbilityRecipe,
   FolderSetTransferStateRecipe, FolderSetTransferStateMutation, FolderSetUriBaseRecipe,
   FolderSetUriBaseMutation, FolderAssignAbilitiesRecipe, FolderAssignAbilitiesMutation,
   FolderRevokeAbilitiesMutation, FolderRevokeAbilitiesRecipe, ExchangeSwapRecipe,
-  ExchangeSwapClaim, FolderCheckApprovalRecipe, FolderCheckApprovalQuery } from '@0xcert/connector';
+  FolderCheckApprovalRecipe, FolderCheckApprovalQuery,
+  MinterPerformCreateAssetClaimMutation, MinterPerformCreateAssetClaimRecipe,
+  MinterCancelCreateAssetClaimRecipe, MinterCancelCreateAssetClaimMutation,
+  ExchangePerformSwapClaimRecipe, ExchangePerformSwapClaimMutation, ExchangeCancelSwapClaimRecipe,
+  ExchangeCancelSwapClaimMutation } from '@0xcert/connector';
 import { FolderCheckAbilityIntent } from '../queries/folder-check-ability';
 import { FolderCheckApprovalIntent } from '../queries/folder-check-approval';
 import { FolderReadMetadataIntent } from '../queries/folder-read-metadata';
@@ -17,18 +21,31 @@ import { FolderReadCapabilitiesIntent } from '../queries/folder-read-capabilitie
 import { FolderSetUriBaseIntent } from '../mutations/folder-set-uri-base';
 import { FolderAssignAbilitiesIntent } from '../mutations/folder-assign-abilities';
 import { FolderRevokeAbilitiesIntent } from '../mutations/folder-revoke-abilities';
-import { MinterCreateAssetRecipe, MinterCreateAssetClaim, ClaimKind } from '@0xcert/connector/dist/core/claim';
+import { MinterCreateAssetRecipe, ClaimKind, MinterCreateAssetClaim, ExchangeSwapClaim } from '@0xcert/connector/dist/core/claim';
 import { MinterCreateAssetGenerator } from '../claims/minter-create-asset';
 import { ExchangeSwapGenerator } from '../claims/exchange-swap';
+import { MinterPerformCreateAssetClaimIntent } from '../mutations/minter-perform-create-asset-claim';
+import { MinterCancelCreateAssetClaimIntent } from '../mutations/minter-cancel-create-asset-claim';
+import { ExchangePerformSwapClaimIntent } from '../mutations/exchange-perform-swap-claim';
+import { ExchangeCancelSwapClaimIntent } from '../mutations/exchange-cancel-swap-claim';
 
 /**
  * Signature kinds
  */
 export enum SignatureKind {
-  ETH_SIGN = 1,
-  TREZOR = 2,
-  EIP712 = 3,
+  ETH_SIGN = 0,
+  TREZOR = 1,
+  EIP712 = 2,
 }
+
+/**
+ * Signature kinds
+ */
+export enum ProxyKind {
+  TOKEN_TRANSFER_PROXY = 0,
+  NF_TOKEN_TRANSFER_PROXY = 1,
+}
+
 
 /**
  * Web3 connector configuration.
@@ -38,8 +55,7 @@ export interface ConnectorConfig {
   approvalConfirmationsCount?: number;
   signatureKind?: SignatureKind;
   minterAddress?: string;
-  tokenTransferProxyAddress?: string;
-  nftTransferProxyAddress?: string;
+  exchangeAddress?: string;
 }
 
 /**
@@ -99,6 +115,10 @@ export class Connector implements ConnectorBase {
   public createMutation(recipe: FolderSetUriBaseRecipe): FolderSetUriBaseMutation;
   public createMutation(recipe: FolderAssignAbilitiesRecipe): FolderAssignAbilitiesMutation;
   public createMutation(recipe: FolderRevokeAbilitiesRecipe): FolderRevokeAbilitiesMutation;
+  public createMutation(recipe: MinterPerformCreateAssetClaimRecipe): MinterPerformCreateAssetClaimMutation;
+  public createMutation(recipe: MinterCancelCreateAssetClaimRecipe): MinterCancelCreateAssetClaimMutation;
+  public createMutation(recipe: ExchangePerformSwapClaimRecipe): ExchangePerformSwapClaimMutation;
+  public createMutation(recipe: ExchangeCancelSwapClaimRecipe): ExchangeCancelSwapClaimMutation;
   createMutation(recipe) {
     switch (recipe.mutationKind) {
       case MutationKind.FOLDER_SET_TRANSFER_STATE:
@@ -109,6 +129,14 @@ export class Connector implements ConnectorBase {
         return new FolderAssignAbilitiesIntent(this, recipe) as FolderAssignAbilitiesMutation;
       case MutationKind.FOLDER_REVOKE_ABILITIES:
         return new FolderRevokeAbilitiesIntent(this, recipe) as FolderRevokeAbilitiesMutation;
+      case MutationKind.MINTER_PERFORM_CREATE_ASSET_CLAIM:
+        return new MinterPerformCreateAssetClaimIntent(this, recipe) as MinterPerformCreateAssetClaimMutation;
+      case MutationKind.MINTER_CANCEL_CREATE_ASSET_CLAIM:
+        return new MinterCancelCreateAssetClaimIntent(this, recipe) as MinterCancelCreateAssetClaimMutation;
+      case MutationKind.EXCHANGE_PERFORM_SWAP_CLAIM:
+        return new ExchangePerformSwapClaimIntent(this, recipe) as ExchangePerformSwapClaimMutation;
+      case MutationKind.EXCHANGE_CANCEL_SWAP_CLAIM:
+        return new ExchangeCancelSwapClaimIntent(this, recipe) as ExchangeCancelSwapClaimMutation;
       default:
         return null;
     }
@@ -123,9 +151,9 @@ export class Connector implements ConnectorBase {
   public createClaim(recipe) {
     switch (recipe.claimKind) {
       case ClaimKind.MINTER_CREATE_ASSET:
-        return new MinterCreateAssetGenerator(this, recipe).generate();
+        return new MinterCreateAssetGenerator(this, recipe) as MinterCreateAssetClaim;
       case ClaimKind.EXCHANGE_SWAP:
-        return new ExchangeSwapGenerator(this, recipe).generate();
+        return new ExchangeSwapGenerator(this, recipe) as ExchangeSwapClaim;
       default:
         return null;
     }
@@ -142,5 +170,4 @@ export class Connector implements ConnectorBase {
       return new Web3(web3 || 'ws://localhost:8545');
     }
   }
-
 }
