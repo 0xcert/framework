@@ -602,7 +602,7 @@ Exchange = Custom deal for swap
 ```ts
 import { Context, Order, Exchange, Minter } from '@0xcert/web3-controller';
 
-const context = new Context({ approvalConfirmationsCount });
+const context = new Context({ approvalConfirmations });
 
 const folder = new Folder({ context, conventionId });
 folder.batch([
@@ -657,17 +657,17 @@ minter.mint({
 });
 
 // query/mutation usage example
-const folder = new Folder({ context, conventionId });
-await folder.getMetadata(); // => { name, symbol }
-await folder.burn(assetId); // => { transactionId }
+const folder = new Folder({ conventionId }, context);
+const query = await folder.getMetadata(); // => Query{ data, cost }
+const mutation = await folder.burn(assetId); // => Mutation{ transaction, cost }
 
-// managing mutation state
-const transaction = new Transaction({ context, transactionId });
-tx.on('request', (mutationId) => {});
-tx.on('response', (mutationId) => {});
-tx.on('confirmation', (mutationId) => {});
-tx.on('approval', (mutationId) => {});
-tx.isResolving();
-tx.isApproved();
-await tx.resolve();
+const transaction = new Transaction({ hash }, context);
+transaction.on('request', () => {});
+transaction.on('response', () => {});
+transaction.on('confirmation', () => {});
+transaction.on('approval', () => {});
+transaction.isPending();
+transaction.isApproved();
+await transaction.perform(); // => this
+await transaction.resolve(); // => this 
 ```
