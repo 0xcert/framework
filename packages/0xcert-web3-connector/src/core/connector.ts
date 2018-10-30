@@ -33,9 +33,9 @@ import { ExchangeCancelSwapClaimIntent } from '../mutations/exchange-claim-swap-
  * Signature kinds
  */
 export enum SignatureKind {
-  ETH_SIGN = 1,
-  TREZOR = 2,
-  EIP712 = 3,
+  ETH_SIGN = 0,
+  TREZOR = 1,
+  EIP712 = 2,
 }
 
 /**
