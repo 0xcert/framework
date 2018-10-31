@@ -1,30 +1,19 @@
-import { QueryEmitter, QueryEvent, ConnectorError } from '@0xcert/connector';
-import { Connector } from './connector';
-import { EventEmitter } from 'eventemitter3';
-import { parseError } from './errors';
+import { parseError } from "./errors";
+import { QueryBase } from "@0xcert/connector";
 
 /**
- * Abstract Web3 query class.
+ * 
  */
-export abstract class Web3Query extends EventEmitter {
-  protected connector: Connector;
+export class Query<T> implements QueryBase<T> {
+  public result: T;
 
   /**
-   * Class constructor.
-   * @param connector Connector class instance.
+   * 
    */
-  public constructor(connector: Connector) {
-    super();
-    this.connector = connector;
-  }
-
-  /**
-   * Performs the resolver and stores the result to result class variable.
-   * @param resolver Mutation resolve function.
-   */
-  protected async exec(resolver: () => any) {
+  public async resolve(resolver: () => Promise<T>) {
     try {
-      return await resolver();
+      this.result = await resolver();
+      return this;
     } catch (error) {
       throw parseError(error);
     }

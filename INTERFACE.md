@@ -589,18 +589,10 @@ proof.verify(proof);
 proof.disclose([{ path }]);
 ```
 
-> Controller actions.
-
-Connector = connection
-Folder = ERC721 contract
-Vault = ERC20 contract
-Asset = Item of folder
-Coin = Item of vault
-Minter = Custom deal for minting
-Exchange = Custom deal for swap
+> Connector actions.
 
 ```ts
-import { Context, Order, Exchange, Minter } from '@0xcert/web3-controller';
+import { Context, Order, Exchange, Minter } from '@0xcert/web3-connector';
 
 const context = new Context({ approvalConfirmations });
 
@@ -656,18 +648,22 @@ minter.mint({
   ...
 });
 
-// query/mutation usage example
-const folder = new Folder({ conventionId }, context);
-const query = await folder.getMetadata(); // => Query{ data, cost }
-const mutation = await folder.burn(assetId); // => Mutation{ transaction, cost }
+const query = await folder.getMetadata(); // => Query{ data }
+const mutation = await folder.burn(assetId); // => Mutation{ transaction }
 
 const transaction = new Transaction({ hash }, context);
-transaction.on('request', () => {});
-transaction.on('response', () => {});
 transaction.on('confirmation', () => {});
 transaction.on('approval', () => {});
-transaction.isPending();
-transaction.isApproved();
-await transaction.perform(); // => this
-await transaction.resolve(); // => this 
+transaction.getState();
+await transaction.resolve(); // => this
+transaction.interrupt(); // => this
+```
+
+```ts
+const resolver = () => context.web3.sendTransaction({
+  from: makerId,
+});
+const mutation = new Mutation(resolver, context);
+await mutation.resolve();
+
 ```

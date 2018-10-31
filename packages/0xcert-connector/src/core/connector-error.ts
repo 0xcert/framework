@@ -1,33 +1,24 @@
-/**
- * Error codes.
- */
-export enum ErrorKind {
-  MANAGE_ABILITIES = 0,
-  NETWORK_UNREACHED = 1,
-  SIGNATURE = 2
-}
+import { ErrorCode } from "./error-code";
 
 /**
  * Handled system error.
  */
 export class ConnectorError extends Error {
-  readonly kind: ErrorKind;
+  readonly code: ErrorCode;
   readonly original: any;
-  readonly status: number;
 
   /**
    * Class constructor.
-   * @param kind Connector error kind.
+   * @param code Connector error kind.
    * @param details Original error object.
    */
-  constructor(kind: ErrorKind, original?: any) {
+  constructor(code: ErrorCode, original?: any) {
     super();
 
     this.name = this.constructor['name'];
-    this.kind = kind;
+    this.code = code;
     this.original = original;
-    this.message = 'Connector error';
-    this.status = 500;
+    this.message = `Connector error [${code}]`;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);

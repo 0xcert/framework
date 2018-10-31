@@ -176,22 +176,12 @@
     },
     "@rush-temp/connector": {
       "version": "file:projects/connector.tgz",
-      "integrity": "sha512-L5pPi66OSPjbQzH7KkHcBC4xXDVMRlQx9Ev/IKZg1RsHomCxOQ/8x1E2FFTAfCNt9LS+VeFE59HSEPNMXWu10Q==",
+      "integrity": "sha512-POFFGvdFTIwDUcT81yQG8saNOsPngD7jRVpHyXBqiOjUNJRinTSKt8u5HTHcVSUNW2ALAHwqj/PMlb8cF024bg==",
       "requires": {
         "@hayspec/cli": "^0.7.4",
         "@hayspec/spec": "^0.7.4",
         "@types/node": "^10.12.0",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
-    "@rush-temp/core": {
-      "version": "file:projects/core.tgz",
-      "integrity": "sha512-QmrQkfhpv9lBluEjQ6MJeOiUSuJcH9yzN0WxriL5FXjqVZ/+Xc5xHNIkqpqDrLNXu93G2z4bnXYYBwpqa9cqtQ==",
-      "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
-        "@types/node": "^10.11.4",
+        "eventemitter3": "^3.1.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
@@ -231,7 +221,7 @@
     },
     "@rush-temp/web3-connector": {
       "version": "file:projects/web3-connector.tgz",
-      "integrity": "sha512-pgDzYdZdbWslgGs8aBLaaS90L99bPaSpDNe63rHsIqWyTANUAw640rEnn8DQToTPwRIKpdDP4Mbqf/BlXw6cyg==",
+      "integrity": "sha512-jPhzOkZgr6bukcJTCSll0thygbVkEN5Gt5eW6thPWsaCuuvII68B5GCybspItJOvRPJpLQBxpBMBrTj2o157NA==",
       "requires": {
         "@specron/cli": "^0.2.6",
         "@specron/spec": "^0.2.6",

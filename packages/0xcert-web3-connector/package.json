@@ -30,6 +30,7 @@
     "@0xcert/web3-xcert": "0.0.0-alpha0",
     "@0xcert/web3-dex": "0.0.0-alpha0",
     "@0xcert/web3-dxm": "0.0.0-alpha0",
+    "@0xcert/utils": "0.0.0-alpha0",
     "@specron/cli": "^0.2.6",
     "@specron/spec": "^0.2.6",
     "@types/fs-extra": "^5.0.4",

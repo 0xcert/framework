@@ -1,135 +1,83 @@
 import { Spec } from '@specron/spec';
-import { Web3Transaction } from '../../core/transaction';
+import { Transaction } from '../../core/transaction';
+import { Context } from '../../core/context';
+import { TransactionState, TransactionEvent } from '@0xcert/connector';
 
 interface Data {
-  me: string;
-  bob: string;
-  value: number;
-  resolver: () => any;
+  context: Context
+  accounts: string[];
+  resolver: (value: number) => Promise<string>;
 }
 
 const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
-  const accounts = await stage.web3.eth.getAccounts();
-  stage.set('me', accounts[0]);
-  stage.set('bob', accounts[1]);
-  stage.set('value', 10000);
-});
-
-spec.before(async (stage) => {
-  stage.set('resolver', () => stage.web3.eth.sendTransaction({
-    from: stage.get('me'),
-    to: stage.get('bob'),
-    value: stage.get('value'),
+  stage.set('context', new Context({
+    web3: stage.web3,
+    confirmations: 10,
   }));
 });
 
-spec.test('performs and resolves transaction on the network', async (ctx) => {
-  const initialBalance = {
-    me: await ctx.web3.eth.getBalance(ctx.get('me')).then((v) => parseInt(v)),
-    bob: await ctx.web3.eth.getBalance(ctx.get('bob')).then((v) => parseInt(v)),
-  }
-  const transaction = new Web3Transaction({
-    web3: ctx.web3,
-    resolver: ctx.get('resolver'),
-    approvalConfirmationsCount: 5,
-  });
-  transaction.perform();
-  await transaction.resolve();
-  const currentBalance = {
-    me: await ctx.web3.eth.getBalance(ctx.get('me')).then((v) => parseInt(v)),
-    bob: await ctx.web3.eth.getBalance(ctx.get('bob')).then((v) => parseInt(v)),
-  }
-  ctx.true(currentBalance.me, initialBalance.me - ctx.get('value'));
-  ctx.true(currentBalance.bob, initialBalance.bob + ctx.get('value'));
-  ctx.true(transaction.isApproved());
-  ctx.true(transaction.isResolved());
+spec.before(async (stage) => {
+  stage.set('accounts', await stage.web3.eth.getAccounts());
+});
+
+spec.before(async (stage) => {
+  stage.set('resolver', (value) => new Promise((resolve) => {
+    stage.web3.eth.sendTransaction({
+      from: stage.get('accounts')[0],
+      to: stage.get('accounts')[1],
+      value,
+    }).once('transactionHash', resolve);
+  }))
+});
+
+spec.test('resolves transaction which has been submited to the network', async (ctx) => {
+  const hash = await ctx.get('resolver')(1000);
+  const initBalance = [
+    await ctx.web3.eth.getBalance(ctx.get('accounts')[0]).then((v) => parseInt(v)),
+    await ctx.web3.eth.getBalance(ctx.get('accounts')[1]).then((v) => parseInt(v)),
+  ];
+  const transaction = new Transaction(hash, ctx.get('context'));
+  transaction.resolve(); // should resolve only once
+  await transaction.resolve(); // should resolve only once
+  transaction.resolve(); // should resolve only once
+  const newBalance = [
+    await ctx.web3.eth.getBalance(ctx.get('accounts')[0]).then((v) => parseInt(v)),
+    await ctx.web3.eth.getBalance(ctx.get('accounts')[1]).then((v) => parseInt(v)),
+  ];
+  ctx.true(initBalance[0] > newBalance[0]);
+  ctx.is(newBalance[1], initBalance[1] + 1000);
+  ctx.is(transaction.getState(), TransactionState.APPROVED);
 });
 
 spec.test('emits transaction events', async (ctx) => {
-  const stats = {
-    request: 0,
-    response: 0,
-    confirmation: 0,
-    approval: 0,
-  };
-  const transaction = new Web3Transaction({
-    web3: ctx.web3,
-    resolver: ctx.get('resolver'),
-    approvalConfirmationsCount: 5,
-  });
-  transaction.on('request', () => stats.request++);
-  transaction.on('response', () => stats.response++);
-  transaction.on('confirmation', () => stats.confirmation++);
-  transaction.on('approval', () => stats.approval++);
-  transaction.perform().perform().perform().perform().perform().perform();
-  transaction.resolve();
+  const stats = { confirmation: 0, approval: 0 };
+  const hash = await ctx.get('resolver')(1000);
+  const transaction = new Transaction(hash, ctx.get('context'));
+  transaction.on(TransactionEvent.CONFIRMATION, () => stats.confirmation++);
+  transaction.on(TransactionEvent.APPROVAL, () => stats.approval++);
   await transaction.resolve();
-  transaction.resolve();
-  transaction.perform().perform();
-  ctx.deepEqual(stats, {
-    request: 1,
-    response: 1,
-    confirmation: 5,
-    approval: 1,
-  });
+  ctx.is(stats.confirmation, 10);
+  ctx.is(stats.approval, 1);
 });
 
-spec.test('detaches transaction tracking', async (ctx) => {
-  const stats = {
-    detach: 0,
-    time: Date.now(),
-  };
-  const transaction = new Web3Transaction({
-    web3: ctx.web3,
-    resolver: ctx.get('resolver'),
-    approvalConfirmationsCount: 20,
-  });
-  transaction.on('detach', () => stats.detach++);
-  transaction.perform();
-  setTimeout(() => transaction.detach(), 10);
+spec.test('maintains transaction state', async (ctx) => {
+  const hash = await ctx.get('resolver')(1000);
+  const transaction = new Transaction(hash, ctx.get('context'));
+  ctx.is(transaction.getState(), TransactionState.INITIALIZED);
+  transaction.resolve();
+  ctx.is(transaction.getState(), TransactionState.PENDING)
   await transaction.resolve();
-  ctx.is(stats.detach, 1);
-  ctx.true(Date.now() < stats.time + 20);
+  ctx.is(transaction.getState(), TransactionState.APPROVED);
 });
 
-spec.test('reattachs transaction tracking', async (ctx) => {
-  const stats = {
-    request: 0,
-    response: 0,
-    confirmation: 0,
-    approval: 0,
-  };
-  const transaction0 = new Web3Transaction({
-    web3: ctx.web3,
-    resolver: ctx.get('resolver'),
-    approvalConfirmationsCount: 20,
-  });
-  transaction0.on('request', () => stats.request++);
-  transaction0.on('response', () => stats.response++);
-  transaction0.on('response', () => transaction0.detach());
-  transaction0.on('confirmation', () => stats.confirmation++);
-  transaction0.on('approval', () => stats.approval++);
-  transaction0.perform();
-  await transaction0.resolve();
-  const transaction1 = new Web3Transaction({
-    web3: ctx.web3,
-    transactionHash: transaction0.transactionHash,
-    approvalConfirmationsCount: 5,
-  });
-  transaction1.on('request', () => stats.request++);
-  transaction1.on('response', () => stats.response++);
-  transaction1.on('confirmation', () => stats.confirmation++);
-  transaction1.on('approval', () => stats.approval++);
-  transaction1.perform();
-  await transaction1.resolve();
-  ctx.deepEqual(stats, {
-    request: 1,
-    response: 1,
-    confirmation: 5,
-    approval: 1,
-  });
+spec.test('interrupts transaction resolving', async (ctx) => {
+  const hash = await ctx.get('resolver')(1000);
+  const transaction = new Transaction(hash, ctx.get('context'));
+  transaction.on(TransactionEvent.CONFIRMATION, () => transaction.interrupt());
+  await ctx.throws(() => transaction.resolve());
+  ctx.is(transaction.getState(), TransactionState.ERROR);
 });
 
 export default spec;

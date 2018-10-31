@@ -1,175 +1,102 @@
-import { EventEmitter } from 'eventemitter3';
-import * as Web3 from 'web3';
+import { TransactionBase, TransactionState, TransactionEvent, TransactionEmitter,
+  ConnectorError, ErrorCode } from '@0xcert/connector';
+import { parseError } from './errors';
+import { Context } from './context';
 
 /**
- * Web3 transaction executor configuration.
+ * 
  */
-export interface Web3TransactionConfig {
-  web3: Web3;
-  approvalConfirmationsCount?: number;
-  transactionHash?: string;
-  resolver?: () => any;
-}
-
-/**
- * Web3 transaction executor for safe transaction execution on the Ethereum
- * network with hydration support.
- */
-export class Web3Transaction extends EventEmitter {
-  protected config: Web3TransactionConfig;
+export class Transaction extends TransactionEmitter implements TransactionBase {
+  readonly id: string;
+  readonly context: Context;
+  protected state: TransactionState = TransactionState.INITIALIZED;
   protected subscription: any;
-  protected resolved: boolean;
-  protected approved: boolean;
 
   /**
-   * Class constructor.
-   * @param config Web3 performer configuration.
+   * 
    */
-  public constructor(config: Web3TransactionConfig) {
+  public constructor(id: string, context: Context) {
     super();
-
-    this.config = {
-      approvalConfirmationsCount: 15,
-      transactionHash: null,
-      ...config,
-    };
+    this.id = id;
+    this.context = context;
   }
- 
+
   /**
-   * Returns transaction hash.
+   * 
    */
-  public get transactionHash() {
-    return this.config.transactionHash;
+  public getState() {
+    return this.state;
   }
 
   /**
-   * Returns approval confirmations count.
-   */
-  public get approvalConfirmationsCount() {
-    return this.config.approvalConfirmationsCount;
-  }
-
-  /**
-   * Tells if the transaction has been approved.
-   */
-  public isApproved() {
-    return this.approved;
-  }
-
-  /**
-   * Tells if the transaction has been resolved.
-   */
-  public isResolved() {
-    return this.resolved;
-  }
-
-  /**
-   * Tells if the transaction is mining.
-   */
-  public isResolving() {
-    return !!this.subscription;
-  }
-
-  /**
-   * Start resolver operation. It's safe to call this method multiple times.
-   */
-  public perform() {
-    if (!this.resolved && !this.subscription) {
-      this.startSubscription();
-
-      if (!this.config.transactionHash) {
-        this.startTransaction();
-      }
-    }
-    return this;
-  }
-
-  /**
-   * Aborts activity by throwing an error. It's safe to call this method
-   * multiple times.
-   */
-  public detach() {
-    if (!this.resolved && this.subscription) {
-      this.markResolved();
-      this.emit('detach');
-    }
-    return this;
-  }
-
-  /**
-   * Waits until the resolver operation is approved. It's safe to call this 
-   * method multiple times.
+   * 
    */
   public async resolve() {
-    if (this.resolved || !this.subscription) {
+    if (this.state === TransactionState.APPROVED) {
       return this;
     }
+    else if (!this.subscription) {
+      this.state = TransactionState.PENDING;
+      this.subscribe();
+    }
     return new Promise((resolve, reject) => {
-      this.once('detach', resolve);
-      this.once('approval', resolve);
-      this.once('error', reject);
+      this.once(TransactionEvent.APPROVAL, resolve);
+      this.once(TransactionEvent.ERROR, (error) => reject(parseError(error)));
     }).then(() => this);
   }
 
-    /**
-   * Stops subscriptions and marks this class as resolved.
+  /**
+   * 
    */
-  protected markResolved() {
-    if (this.subscription) {
-      this.resolved = true;
-      this.subscription.unsubscribe();
+  public interrupt() {
+    if (this.state === TransactionState.PENDING) {
+      this.state = TransactionState.ERROR;
+      this.complete();
+      this.emit(TransactionEvent.ERROR, new ConnectorError(ErrorCode.TRANSACTION_INTERUPTED));
     }
     return this;
   }
 
   /**
-   * Starts watching resolvert transaction state.
+   *
    */
-  protected startSubscription() {
-    this.subscription = this.config.web3.eth.subscribe('newBlockHeaders');
+  protected subscribe() {
+    this.subscription = this.context.web3.eth.subscribe('newBlockHeaders');
 
     this.subscription.on('data', async (block) => {
-      if (!this.config.transactionHash) {
-        return;
-      }
-      this.config.web3.eth.getTransaction(this.config.transactionHash, (error, transaction) => {
+      this.context.web3.eth.getTransaction(this.id, (error, transaction) => {
         if (error || !transaction) {
-          this.markResolved();
-          this.emit('error', !transaction ? 'removed' : error);
+          this.state = TransactionState.ERROR;
+          this.complete();
+          this.emit(TransactionEvent.ERROR, !transaction ? new ConnectorError(ErrorCode.TRANSACTION_FAILED) : parseError(error));
           return;
         }
-        const blockDiff = block.number - transaction.blockNumber;
-        if (blockDiff >= this.config.approvalConfirmationsCount) {
-          this.markResolved();
-          this.approved = true;
-          this.emit('approval', blockDiff);
+        const confirmations = block.number - transaction.blockNumber;
+        if (confirmations >= this.context.confirmations) {
+          this.state = TransactionState.APPROVED;
+          this.complete();
+          this.emit(TransactionEvent.APPROVAL, confirmations);
         } else {
-          this.emit('confirmation', blockDiff);
+          this.emit(TransactionEvent.CONFIRMATION, confirmations);
         }
       });
     });
+
     this.subscription.once('error', (error) => {
-      this.markResolved();
-      this.emit('error', error);
+      this.state = TransactionState.ERROR;
+      this.complete();
+      this.emit(TransactionEvent.ERROR, parseError(error));
     });
   }
 
   /**
-   * Executes the resolver and starts the transaction.
+   * 
    */
-  protected startTransaction() {
-    const transaction = this.config.resolver();
-
-    this.emit('request');
-
-    transaction.once('transactionHash', (hash) => {
-      this.config.transactionHash = hash;
-      this.emit('response');
-    });
-    transaction.once('error', (error) => {
-      this.markResolved();
-      this.emit('error', error);
-    });
-}
+  protected complete() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
+  }
 
 }
