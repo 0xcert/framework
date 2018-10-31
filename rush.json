@@ -13,13 +13,13 @@
   },
   "projects": [
     {
-      "packageName": "@0xcert/connector",
-      "projectFolder": "packages/0xcert-connector",
+      "packageName": "@0xcert/crypto",
+      "projectFolder": "packages/0xcert-crypto",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/crypto",
-      "projectFolder": "packages/0xcert-crypto",
+      "packageName": "@0xcert/folder",
+      "projectFolder": "packages/0xcert-folder",
       "shouldPublish": true
     },
     {
@@ -28,13 +28,13 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/utils",
-      "projectFolder": "packages/0xcert-utils",
+      "packageName": "@0xcert/intents",
+      "projectFolder": "packages/0xcert-intents",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-connector",
-      "projectFolder": "packages/0xcert-web3-connector",
+      "packageName": "@0xcert/utils",
+      "projectFolder": "packages/0xcert-utils",
       "shouldPublish": true
     },
     {
@@ -55,6 +55,16 @@
     {
       "packageName": "@0xcert/web3-erc721",
       "projectFolder": "packages/0xcert-web3-erc721",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-folder",
+      "projectFolder": "packages/0xcert-web3-folder",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-intents",
+      "projectFolder": "packages/0xcert-web3-intents",
       "shouldPublish": true
     },
     {

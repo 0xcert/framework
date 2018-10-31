@@ -651,19 +651,10 @@ minter.mint({
 const query = await folder.getMetadata(); // => Query{ data }
 const mutation = await folder.burn(assetId); // => Mutation{ transaction }
 
-const transaction = new Transaction({ hash }, context);
+const transaction = new Transaction({ id, web3, confirmations });
 transaction.on('confirmation', () => {});
 transaction.on('approval', () => {});
 transaction.getState();
 await transaction.resolve(); // => this
 transaction.interrupt(); // => this
-```
-
-```ts
-const resolver = () => context.web3.sendTransaction({
-  from: makerId,
-});
-const mutation = new Mutation(resolver, context);
-await mutation.resolve();
-
 ```

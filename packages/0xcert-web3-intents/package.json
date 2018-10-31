@@ -1,0 +1,38 @@
+{
+  "name": "@0xcert/web3-intents",
+  "version": "0.0.0-alpha0",
+  "description": "Ethereum web3 intents for 0xcert protocol.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npx specron test"
+  },
+  "specron": {
+    "test": {
+      "port": 8509,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ],
+      "blockTime": 0.1
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/intents": "0.0.0-alpha0",
+    "@0xcert/web3-sandbox": "0.0.0-alpha0",
+    "@0xcert/utils": "0.0.0-alpha0",
+    "@specron/cli": "^0.2.6",
+    "@specron/spec": "^0.2.6",
+    "solc": "^0.4.25",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  },
+  "dependencies": {
+    "eventemitter3": "^3.1.0"
+  }
+}
