@@ -9,9 +9,27 @@ export enum FolderTransferState {
 /**
  * 
  */
+export enum FolderAbility {
+  MANAGE_ABILITIES = 0,
+  MINT_ASSET = 1,
+  REVOKE_ASSET = 2,
+  PAUSE_TRANSFER = 3,
+  UPDATE_PROOF = 4,
+  SIGN_MINT_CLAIM = 5,
+}
+
+/**
+ * 
+ */
 export interface FolderBase {
-  getSupply(): Promise<FolderQuery<FolderGetSupplyResult>>;
-  getTransferState(): Promise<FolderQuery<GetTransferStateResult>>;
+  getAbilities(accountId: string): Promise<FolderQuery<FolderAbility[]>>;
+  getCapabilities(): Promise<FolderQuery<FolderGetCapabilitiesResult>>;
+  getInfo(): Promise<FolderQuery<FolderGetInfoResult>>;
+  getSupply(): Promise<FolderQuery<number>>;
+  getTransferState(): Promise<FolderQuery<FolderTransferState>>;
+  assignAbilities(accountId: string, abilities: FolderAbility[]);
+  revokeAbilities(accountId: string, abilities: FolderAbility[]);
+  setTransferState(state: FolderTransferState): Promise<FolderMutation>;
 }
 
 /**
@@ -31,15 +49,9 @@ export interface FolderMutation {
 /**
  * 
  */
-export interface FolderGetSupplyResult {
-  total: number;
-}
-
-/**
- * 
- */
-export interface GetTransferStateResult {
-  state: FolderTransferState;
+export interface FolderGetInfoResult {
+  name: string;
+  symbol: string;
 }
 
 /**
