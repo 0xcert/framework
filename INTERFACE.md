@@ -681,6 +681,6 @@ const connector = new Connector({
 });
 // folder
 const folder = connector.getFolder('0x...');
-const minter = connector.getMinter();
-const exchange = connector.getExchange();
+const minter = connector.createSwap();
+const exchange = connector.createMint();
 ```
