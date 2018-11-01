@@ -1,13 +1,10 @@
-// import { Spec } from '@specron/spec';
-// import * as connector from '..';
+import { Spec } from '@specron/spec';
+import * as folder from '..';
 
-// const spec = new Spec();
+const spec = new Spec();
 
-// spec.test('exposed content', (ctx) => {
-//   // ctx.true(!!connector.Connector);
-//   // ctx.true(!!connector.MutationEvent);
-//   // ctx.true(!!connector.MutationKind);
-//   // ctx.true(!!connector.QueryKind);
-// });
+spec.test('exposed content', (ctx) => {
+  ctx.true(!!folder.Folder);
+});
 
-// export default spec;
+export default spec;

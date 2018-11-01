@@ -1,6 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Transaction } from '../../core/transaction';
-import { Mutation } from '../../core/mutation';
+import { performMutate } from '../../core/intents';
 
 interface Data {
   accounts: string[];
@@ -22,11 +21,8 @@ spec.before(async (stage) => {
 });
 
 spec.test('submits transaction to the network', async (ctx) => {
-  const mutation = new Mutation({
-    web3: ctx.web3,
-  });
-  await mutation.resolve(ctx.get('resolver'));
-  ctx.true(mutation.transaction instanceof Transaction);
+  const mutation = await performMutate(ctx.get('resolver'));
+  ctx.true(!!mutation.transactionId);
 });
 
 export default spec;

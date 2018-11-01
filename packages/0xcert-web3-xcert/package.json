@@ -29,8 +29,8 @@
   "devDependencies": {
     "@0xcert/web3-utils": "0.0.0-alpha0",
     "@0xcert/web3-erc721": "0.0.0-alpha0",
-    "@specron/cli": "^0.2.6",
-    "@specron/spec": "^0.2.6",
+    "@specron/cli": "^0.2.7",
+    "@specron/spec": "^0.2.7",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",

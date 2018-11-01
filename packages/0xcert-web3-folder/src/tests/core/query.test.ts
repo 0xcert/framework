@@ -1,6 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Transaction } from '../../core/transaction';
-import { Query } from '../../core/query';
+import { performQuery } from '../../core/intents';
 
 interface Balance {
   value: number;
@@ -24,8 +23,7 @@ spec.before(async (stage) => {
 });
 
 spec.test('reads data from network', async (ctx) => {
-  const query = new Query<Balance>();
-  await query.resolve(ctx.get('resolver'));
+  const query = await performQuery<Balance>(ctx.get('resolver'));
   ctx.true(!!query.result);
   ctx.true(query.result.value > 0);
 });

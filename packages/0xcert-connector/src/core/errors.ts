@@ -1,10 +1,15 @@
-import { TransactionIssue } from "./issues";
+/**
+ * Error codes.
+ */
+export enum ConnectorIssue {
+  UNHANDLED = 0,
+}
 
 /**
  * Handled system error.
  */
-export class TransactionError extends Error {
-  readonly issue: TransactionIssue;
+export class ConnectorError extends Error {
+  readonly issue: ConnectorIssue;
   readonly original: any;
 
   /**
@@ -12,13 +17,13 @@ export class TransactionError extends Error {
    * @param issue Issue identification.
    * @param details Original error object.
    */
-  constructor(issue: TransactionIssue, original?: any) {
+  constructor(issue: ConnectorIssue, original?: any) {
     super();
 
     this.name = this.constructor['name'];
     this.issue = issue;
     this.original = original;
-    this.message = `Transaction error [issue: ${issue}]`;
+    this.message = `Connector error [issue: ${issue}]`;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);

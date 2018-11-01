@@ -13,23 +13,18 @@
   },
   "projects": [
     {
+      "packageName": "@0xcert/connector",
+      "projectFolder": "packages/0xcert-connector",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/folder",
-      "projectFolder": "packages/0xcert-folder",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/merkle-tree",
       "projectFolder": "packages/0xcert-merkle-tree",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@0xcert/intents",
-      "projectFolder": "packages/0xcert-intents",
       "shouldPublish": true
     },
     {
@@ -58,13 +53,13 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-folder",
-      "projectFolder": "packages/0xcert-web3-folder",
+      "packageName": "@0xcert/web3-errors",
+      "projectFolder": "packages/0xcert-web3-errors",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-intents",
-      "projectFolder": "packages/0xcert-web3-intents",
+      "packageName": "@0xcert/web3-folder",
+      "projectFolder": "packages/0xcert-web3-folder",
       "shouldPublish": true
     },
     {

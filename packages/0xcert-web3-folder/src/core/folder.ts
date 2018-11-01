@@ -1,16 +1,18 @@
-import { FolderBase, FolderTransferState, MutationOptions, GetTransferStateResult,
-  GetSupplyResult } from "@0xcert/folder";
-import { Query, Mutation } from '@0xcert/web3-intents';
-import * as env from '../config/env';
+import { FolderBase, FolderTransferState } from "@0xcert/connector";
+import getCapabilities from '../queries/get-capabilities';
+import getInfo from '../queries/get-info';
+import getSupply from '../queries/get-supply';
+import getTransferState from '../queries/get-transfer-state';
+import setTransferState from '../mutations/set-transfer-state';
 
 /**
  * 
  */
 export interface FolderConfig {
   web3: any;
-  confirmations?: number;
-  makerId?: string;
-  folderId?: string;
+  conventionId: string;
+  folderId: string;
+  makerId: string;
 }
 
 /**
@@ -18,64 +20,47 @@ export interface FolderConfig {
  */
 export class Folder implements FolderBase {
   protected config: FolderConfig;
-  protected contract: any;
 
   /**
    * 
    */
   public constructor(config: FolderConfig) {
     this.config = config;
-    this.contract = new config.web3.eth.Contract(env.xcertAbi, config.folderId, { gas: 6000000 });
+  }
+
+  /**
+   * 
+   */
+  public async getCapabilities() {
+    return getCapabilities(this.config);
+  }
+
+  /**
+   * 
+   */
+  public async getInfo() {
+    return getInfo(this.config);
   }
 
   /**
    * 
    */
   public async getSupply() {
-    return new Query<GetSupplyResult>().resolve(
-      async () => {
-        const total = parseInt(await this.contract.methods.totalSupply().call());
-        return { total };
-      }
-    );
+    return getSupply(this.config);
   }
 
   /**
    * 
    */
   public async getTransferState() {
-    return new Query<GetTransferStateResult>().resolve(
-      async () => {
-        const paused = await this.contract.methods.isPaused().call();
-        const state = paused ? FolderTransferState.DISABLED : FolderTransferState.ENABLED;
-        return { state };
-      }
-    );
+    return getTransferState(this.config);
   }
 
   /**
    * 
    */
-  public async setTransferState(state: FolderTransferState, options: MutationOptions = {}) {
-    const paused = state !== FolderTransferState.ENABLED;
-    const from = await this.findMakerId(options);
-
-    return new Mutation(this.config).resolve(
-      () => {
-        return this.contract.methods.setPause(paused).send({ from });
-      },
-    );
-  }
-
-  /**
-   * 
-   */
-  protected async findMakerId(options?: MutationOptions) {
-    const config = { ...this.config, ...options };
-    return (
-      config.makerId
-      || await this.config.web3.eth.getAccounts().then((a) => a[0])
-    );
+  public async setTransferState(state: FolderTransferState) {
+    return setTransferState(this.config, state);
   }
 
 }

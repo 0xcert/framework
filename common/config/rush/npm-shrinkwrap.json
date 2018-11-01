@@ -117,48 +117,48 @@
       }
     },
     "@hayspec/cli": {
-      "version": "0.7.4",
-      "resolved": "https://registry.npmjs.org/@hayspec/cli/-/cli-0.7.4.tgz",
-      "integrity": "sha512-bM8MGA1K1KEleHBC21otMGHjOx3jv7FKjpc6nZpQ0TTFT7OQXIev3x8kOTnyg5BFb4Hy9lLlNV4x4FJmgsqWEA==",
+      "version": "0.7.6",
+      "resolved": "https://registry.npmjs.org/@hayspec/cli/-/cli-0.7.6.tgz",
+      "integrity": "sha512-6htFx3+Ps1FjKCyZdbxSsApH3NBK8bzRdqmWQlmUinI9mhTe90H9nxdFT0WaH0seBd2NbEaFa5+CQDHGdhXxHg==",
       "requires": {
-        "@hayspec/init": "^0.7.4",
-        "@hayspec/reporter": "^0.7.4",
-        "@hayspec/runner": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/init": "^0.7.6",
+        "@hayspec/reporter": "^0.7.6",
+        "@hayspec/runner": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
         "inquirer": "^6.2.0",
         "yargs": "^12.0.2"
       }
     },
     "@hayspec/init": {
-      "version": "0.7.4",
-      "resolved": "https://registry.npmjs.org/@hayspec/init/-/init-0.7.4.tgz",
-      "integrity": "sha512-tJ72US+lNANvvK/eSrbrtPZLbZgwasmvQsWgmMcdcDJl70UFazj3lP+A33hm1rKLUiIxfjeLr9TyUT3Xvxhlnw==",
+      "version": "0.7.6",
+      "resolved": "https://registry.npmjs.org/@hayspec/init/-/init-0.7.6.tgz",
+      "integrity": "sha512-2XgT/vzgDsQ4vvQ7qZSEDjWT8eB1C+mX2+CwDq2z6DNPMqbo3wp2d8Ns6aRtmlpzx8J69tXMN5iTTlG2++Tiww==",
       "requires": {
         "fs-extra": "^7.0.0"
       }
     },
     "@hayspec/reporter": {
-      "version": "0.7.4",
-      "resolved": "https://registry.npmjs.org/@hayspec/reporter/-/reporter-0.7.4.tgz",
-      "integrity": "sha512-ZsdmmqXOYXdgEIgxYiC1CX5lvHOLTV3Lav0GXmQRt8inPfiwlVwSgv6z3Q2cE6PzxStam0Zrt5jud6bjw3wlkQ==",
+      "version": "0.7.6",
+      "resolved": "https://registry.npmjs.org/@hayspec/reporter/-/reporter-0.7.6.tgz",
+      "integrity": "sha512-TVCQLDd0QiJDiltvTPBhG3w0P6oyAtUPXxSR5UVa4doncg4LwiY6P77lJWjFhtj0r5nkxXuZ2zX01xyM5rbdog==",
       "requires": {
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/spec": "^0.7.6",
         "chalk": "^2.4.1"
       }
     },
     "@hayspec/runner": {
-      "version": "0.7.4",
-      "resolved": "https://registry.npmjs.org/@hayspec/runner/-/runner-0.7.4.tgz",
-      "integrity": "sha512-GLSjAh4Hp9V6fxLdUrHB/SFn/JD/3dDCrEzJr9XUbgnHY0eDKfSAyFyXmMkI3Q+wG9sdQIsw+BjYb1ddbEYVTA==",
+      "version": "0.7.6",
+      "resolved": "https://registry.npmjs.org/@hayspec/runner/-/runner-0.7.6.tgz",
+      "integrity": "sha512-Qm8voJE0CE6xsYh+jHtZFrIGg6Lmj1ex7YVavUbjWUtqlru45NtdximTGJZcLNv+3R9GCbw4Ho+IVdiJZDHQvg==",
       "requires": {
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/spec": "^0.7.6",
         "fast-glob": "^2.2.3"
       }
     },
     "@hayspec/spec": {
-      "version": "0.7.4",
-      "resolved": "https://registry.npmjs.org/@hayspec/spec/-/spec-0.7.4.tgz",
-      "integrity": "sha512-/2KQsqpCIAf15ZOqNNCCZYpZ7F2KOm6LehiIfHcM8SxCQxCuqZ19t5spX485ZMB14egxAQ6qeJUbi2m/AQLmbA=="
+      "version": "0.7.6",
+      "resolved": "https://registry.npmjs.org/@hayspec/spec/-/spec-0.7.6.tgz",
+      "integrity": "sha512-UH1NjD6xEzuhj635ANVySD53314ilPr/+zeBBTsoy3yZ0OP+hp/DNcPuDte4z2GZ6aK1rkmEbQTXMd85OCLnzQ=="
     },
     "@mrmlnc/readdir-enhanced": {
       "version": "2.2.1",
@@ -174,55 +174,44 @@
       "resolved": "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz",
       "integrity": "sha512-yprFYuno9FtNsSHVlSWd+nRlmGoAbqbeCwOryP6sC/zoCjhpArcRMYp19EvpSUSizJAlsXEwJv+wcWS9XaXdMw=="
     },
+    "@rush-temp/connector": {
+      "version": "file:projects/connector.tgz",
+      "integrity": "sha512-t1dPai+0hWonhL44E561v9gCOqCgOCx6HHWCT6uXUvELa2aY2rwjBUHAezPM3an8Ur4m4sQEY/amLyD55wJT0A==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "@types/node": "^10.12.0",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/crypto": {
       "version": "file:projects/crypto.tgz",
-      "integrity": "sha512-/VvHW5keR2ygSv1+vh4ErmvV58XQp+bSZL7Vm14kPy12/sQE7yZERavHRx4Y9SWo5Af/b30iDpT7nYLNqrTftw==",
+      "integrity": "sha512-Hj5SZzRSFmImL2dMZkmN8/YUB5aV+hQEFYBFxdWqKzx96xdeIepvr55yE/REFkeJFnl7y7Vza+8qBlKzu2JCCw==",
       "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
         "@types/node": "^10.11.4",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
-    "@rush-temp/folder": {
-      "version": "file:projects/folder.tgz",
-      "integrity": "sha512-iFleMGYRNLAESIyAB79jnAc30/sM6lbdKFv5Ydpc/ebFANFQT/Bdhv/Q2f/SNm632E23eQoB0VFCGf29v1gPvg==",
-      "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
-        "@types/node": "^10.12.0",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
-    "@rush-temp/intents": {
-      "version": "file:projects/intents.tgz",
-      "integrity": "sha512-pBLqYASDceI4TsnuM50NNLesSmBsEyvIIZHVrFjirwDPKRTDS8fnbubdFytzARvv2PVWR3v1bNeGqwqxU8Vs1A==",
-      "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
-        "@types/node": "^10.12.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
     },
     "@rush-temp/merkle-tree": {
       "version": "file:projects/merkle-tree.tgz",
-      "integrity": "sha512-4ZhM51Ovq9WgReWwOY1NQ0M0A00913qA3eAe94LzrBDbXI8gksN+P+RqOQH6cgWvDR+IO3DaKdtA1x5hfvMDzQ==",
+      "integrity": "sha512-He8OHRuK0S4SfLtgTLTZ0PQwcEMWDpH9ddNjaT5iRYVY3M3VYuym7ihDOR4ZQ4WuaLrFi3KoSvFGAvh70NT7ag==",
       "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
     },
     "@rush-temp/utils": {
       "version": "file:projects/utils.tgz",
-      "integrity": "sha512-H1v+b7+0IFt+b7T4UIywcWriq3tFg8U2NpAbA1Y9ny/sHFrU2HuPFo0OVqgJ2XcRlUhKugafSlpiWXiNyhXrhg==",
+      "integrity": "sha512-OsOb4bOSYqWNZKgMDCqU94kZ6Oc75jPp3DRB/btX/5+av2BhVgGn9wQZAzdEcveS5nDYT3IEJEcgwyduUjQknw==",
       "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
         "nyc": "^13.0.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.11.0",
@@ -231,10 +220,10 @@
     },
     "@rush-temp/web3-dex": {
       "version": "file:projects/web3-dex.tgz",
-      "integrity": "sha512-6E+1Q2c0K8KR6Km5hqdFZrqhLkuf6MnEgRevi56iJSvzGq35N70z2OgC9RSrBZKoB/xnioR8QQ8/Zk7g7FXM9g==",
+      "integrity": "sha512-Ue2fiNq3RHbMywKwboYW4k4cGB+CcuSpOADdG0kIKztD++HTqpd9um2uvUbx71sikhlqw8uI5FB3JkDBe+BmVg==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -243,10 +232,10 @@
     },
     "@rush-temp/web3-dxm": {
       "version": "file:projects/web3-dxm.tgz",
-      "integrity": "sha512-zWbZM3jRjaypU98cuTlsSiJrgb8w0bE+nnkrtkktfQzZG5eGI/zJ2z0BWI1zE+LhenXVhwdenRzjmZkXxQ3kuQ==",
+      "integrity": "sha512-eBeAKMlprIkyF0xVST9NVVXuUiAheNH6lkGVrBjSGB/F79HXVjgptmops9OHndcPQYzFBLE7f/tcOSL5WD5dCA==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -255,10 +244,10 @@
     },
     "@rush-temp/web3-erc20": {
       "version": "file:projects/web3-erc20.tgz",
-      "integrity": "sha512-2htOOryIlmcSWS9XbUC1ZgBtqLDZNZe/PWWE91YvPIHMS56ISWhyW7NvDjOPs1XIBPEM5pmDfaAIuM2zCbOn8w==",
+      "integrity": "sha512-VhMhHE9l5p0HWuyuYJsGagx3Zo3DxFzVo50vbK1L7Cp7RHPhox+L2XI4OxOBIqYG6XSaj5HM306WZgC4qD5LtQ==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -267,10 +256,22 @@
     },
     "@rush-temp/web3-erc721": {
       "version": "file:projects/web3-erc721.tgz",
-      "integrity": "sha512-HgLAZ3Qa87B6zwA9WLCJDIQk+6DrnKrQ1JedjBu9kKg8XjqYspvXpHyIy9BVbgBILgwW/OK3PZksyoBB5nyXaQ==",
+      "integrity": "sha512-0JYBnQVqOy0rrir0llUy3Zo3u5P/k0KPc+jDqHgaX2Aks8pDilxzqhw+8Hpx8pfmsjjC/bP+7SoTcEmPjXWIsg==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
+    "@rush-temp/web3-errors": {
+      "version": "file:projects/web3-errors.tgz",
+      "integrity": "sha512-SKaLfr/bzcxG+JA68Pw4Y1mhq+iVHghtIdxKZ6o81NTYCFmpwhaZGCIKgjgQcObRjtL75PyjuWUwEjMH+aD6Wg==",
+      "requires": {
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -279,10 +280,10 @@
     },
     "@rush-temp/web3-folder": {
       "version": "file:projects/web3-folder.tgz",
-      "integrity": "sha512-DERRlYPa6VVIY+5HlPIIDcdDgZOj09iEMg+3Vxvz4/vIxCbc+ta3tpHof7a48r9SgPzmNryoV68YXALmXkrpog==",
+      "integrity": "sha512-XyhWRZP9OGUOec1wyWrpMMP4Gb3aV2TH/cbPGCrR7VeIEA9ssCKxZmvR3IYVmhiHhR7/MhNBW+RkZu5lnS9yNQ==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "@types/fs-extra": "^5.0.4",
         "fs-extra": "^7.0.0",
         "solc": "^0.4.25",
@@ -291,25 +292,12 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-intents": {
-      "version": "file:projects/web3-intents.tgz",
-      "integrity": "sha512-UUnIGyKT13RoKCHLj9+GjL/giGZu5e/KXAAt92F9VhlV0gAOKPa2MQBa6mw2I6iBULKA0iiJthhZtGnBFao7WQ==",
-      "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
-        "eventemitter3": "^3.1.0",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
     "@rush-temp/web3-proxy": {
       "version": "file:projects/web3-proxy.tgz",
-      "integrity": "sha512-cJVvGnW2qlHVXAZXOUeNP8Pi6eZ8WvuTkfY9tGXeHbu3a9EvngbM12rQyXQmEGzXXUjbRiEKRzSCB9QuleTdJg==",
+      "integrity": "sha512-yKFnFSwDYDguYBmNd0JECiZOMp5+nAjXOpiqilOBNJppAyDFK1SJ+ZRWl2QBYbya26H/RF+0YdUZeSktJEFfMw==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -318,10 +306,10 @@
     },
     "@rush-temp/web3-sandbox": {
       "version": "file:projects/web3-sandbox.tgz",
-      "integrity": "sha512-KC+kyvAwGR9onEyRzNougNvgDDmDeKUkU3PJql/Qo9gPbEwL/MuaT7KU/oY+9PFNKIL9VdzPIgCzjYcP8as48w==",
+      "integrity": "sha512-aJouegLOECjbimqBwUdafuZOVuhagS08Q+SLz4KGrBVhrdGxihOpeKU7Tbs9F4w3YNSiPBE2MsQs6O9n+NikqQ==",
       "requires": {
-        "@hayspec/cli": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
         "@types/node": "^10.11.4",
         "ganache-cli": "^6.1.8",
         "nyc": "^13.0.1",
@@ -334,10 +322,10 @@
     },
     "@rush-temp/web3-utils": {
       "version": "file:projects/web3-utils.tgz",
-      "integrity": "sha512-q8G4jvLD98z4oL9JwxT7h6O5RrwJ5fpryOyL5ADhq4vIrr7CqMIv5oJXvLKNsLizfFJShzbw6xTAVdMPDZ0GHQ==",
+      "integrity": "sha512-AoGIOLDY/z4bT0K73qHZXGUKy6UhIWR8HkI49K5YekAgu/naRGy3SrZUx/IwLvL+Auoy1K2hMNj2R8+1GmNpaw==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -346,10 +334,10 @@
     },
     "@rush-temp/web3-xcert": {
       "version": "file:projects/web3-xcert.tgz",
-      "integrity": "sha512-EQXX0ui57KKBiSGe9VJd9utddDiYoBwMFn6wcptaIIELEm3+87PqJ0x2dBpuqQw4DU7fXq0HhM3lbYVkIbEV9w==",
+      "integrity": "sha512-a0MKkJvEs0l7dKX/wItQPZEBvOA/N4SQqYZGPE4Pa+r0nETQpzPLJfZpbeU+UwqOMA/4FkhoI7dB0Yn7uovRmg==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -358,10 +346,10 @@
     },
     "@rush-temp/web3-zxc": {
       "version": "file:projects/web3-zxc.tgz",
-      "integrity": "sha512-MjuUWzfh7uOgnqzb9alB6bu1nTZPF2fLT0GJ1BB3jrBh+/Q4vNMXjXi0vsMXxXZ/zxzBEbdaqEmW7EA4/F5iQA==",
+      "integrity": "sha512-jkj9+AVkmBsSIF0jnnt+A0AC5rPwgQTrn25RUzX3SwiB4/vSCyKsNjQinvdIpIPv/4XgNKUD1ufLDJDH2RT8BQ==",
       "requires": {
-        "@specron/cli": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -369,54 +357,54 @@
       }
     },
     "@specron/cli": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.2.6.tgz",
-      "integrity": "sha512-s9dHrHEygqdrA0X2ojskBqxzHtZ34tMRVfwbfV9hbO8aFzJX0TX26iGU/rSs4qw6nGFJIDwaX+elIaKu5dWGFQ==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.2.7.tgz",
+      "integrity": "sha512-Cvo5t3iXkvps6budnhifRUDELtQhPYeasV/ub+JWcx62UQ5/mtHjqcaIWqtVpV8TmkEk7TN8Jg1N43ke6qy8OA==",
       "requires": {
-        "@hayspec/reporter": "^0.7.4",
-        "@specron/compiler": "^0.2.6",
-        "@specron/init": "^0.2.6",
-        "@specron/sandbox": "^0.2.6",
-        "@specron/spec": "^0.2.6",
+        "@hayspec/reporter": "^0.7.6",
+        "@specron/compiler": "^0.2.7",
+        "@specron/init": "^0.2.7",
+        "@specron/sandbox": "^0.2.7",
+        "@specron/spec": "^0.2.7",
         "inquirer": "^6.2.0",
         "yargs": "^12.0.2"
       }
     },
     "@specron/compiler": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.2.6.tgz",
-      "integrity": "sha512-VR/jaKfDLYncETTBOY4iUXVMh6r2kDMb5JVMic4NnBQvOSPswcJyUJIhaRlWSXb+fr8+uokc+mbn+DhVOKszhA==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.2.7.tgz",
+      "integrity": "sha512-YN3B2oaBtAd1jnE7bOhFsI+cD86Fp++8SuWjyf1FmJwjRQG0Rmp5LnX+Ec7u6eHEYGjh2Q1ImsieOQu74gvKAw==",
       "requires": {
-        "@hayspec/reporter": "^0.7.4",
+        "@hayspec/reporter": "^0.7.6",
         "fast-glob": "^2.2.3",
         "fs-extra": "^7.0.0"
       }
     },
     "@specron/init": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.2.6.tgz",
-      "integrity": "sha512-MyufkWYXYx33EbxnJrm229BZSA9tmSxv7cIj7Hd7bnzpFyaHFyZqEzY0YgLy+0ty1X8nw0TebUjeu1JuGn9n6Q==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.2.7.tgz",
+      "integrity": "sha512-CDbxjj8b5FaYKTzaxhXLNmh2wI+W0wmn+aczf7mrG4vaU2BeEUUSOTRplEpEhG4SXutj943xxSvlHhnOUsF2qQ==",
       "requires": {
         "fs-extra": "^7.0.0"
       }
     },
     "@specron/sandbox": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.2.6.tgz",
-      "integrity": "sha512-VAarhUTQO8IJfFHl0M0PefKkhEo4lcfSa/NF7rXddtSpqDT3F/KUEcEk16n4mAJrTKNS1B4YiTFLtuJbNSlxfg==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.2.7.tgz",
+      "integrity": "sha512-iypvO679HhhXVaXFi7Ja4p6KGuy3JLC3s5gtlYJWsS8+MaRpGv7wols/YzbhcobGYdX3tnZ9jxHawWhyCS4raA==",
       "requires": {
         "ganache-cli": "^6.1.8"
       }
     },
     "@specron/spec": {
-      "version": "0.2.6",
-      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.2.6.tgz",
-      "integrity": "sha512-jNrBkwLRgzpkCKJkWl4ABKoI+vOfkTfLMojLFn5uXKV5DUvNK/9yNzl/FK/tnQ+2pgi+WvjqUPJVDT5q1u6X+A==",
+      "version": "0.2.7",
+      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.2.7.tgz",
+      "integrity": "sha512-hoo6bOc1U6zvX6ZP+9399rVTez05YrMk9azDp32c9UfQeagFitAMsIyEND2uKu+oc1os2VnTJuDvEZJs+DiTmQ==",
       "requires": {
-        "@hayspec/reporter": "^0.7.4",
-        "@hayspec/runner": "^0.7.4",
-        "@hayspec/spec": "^0.7.4",
-        "@specron/sandbox": "^0.2.6"
+        "@hayspec/reporter": "^0.7.6",
+        "@hayspec/runner": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "@specron/sandbox": "^0.2.7"
       }
     },
     "@types/fs-extra": {
@@ -1580,9 +1568,9 @@
       }
     },
     "eventemitter3": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-3.1.0.tgz",
-      "integrity": "sha512-ivIvhpq/Y0uSjcHDcOIccjmYjGLcP09MFGE7ysAwkAvkXfpZlC985pH2/ui64DKazbTW/4kN3yqozUxlXzI6cA=="
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-1.1.1.tgz",
+      "integrity": "sha1-R3hr2qCHyvext15zq8XH1UAVjNA="
     },
     "evp_bytestokey": {
       "version": "1.0.3",
@@ -5862,13 +5850,6 @@
       "requires": {
         "any-promise": "1.3.0",
         "eventemitter3": "1.1.1"
-      },
-      "dependencies": {
-        "eventemitter3": {
-          "version": "1.1.1",
-          "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-1.1.1.tgz",
-          "integrity": "sha1-R3hr2qCHyvext15zq8XH1UAVjNA="
-        }
       }
     },
     "web3-core-requestmanager": {
@@ -5891,13 +5872,6 @@
         "eventemitter3": "1.1.1",
         "underscore": "1.8.3",
         "web3-core-helpers": "1.0.0-beta.36"
-      },
-      "dependencies": {
-        "eventemitter3": {
-          "version": "1.1.1",
-          "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-1.1.1.tgz",
-          "integrity": "sha1-R3hr2qCHyvext15zq8XH1UAVjNA="
-        }
       }
     },
     "web3-eth": {

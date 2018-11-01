@@ -1,4 +1,4 @@
-import { QueryBase, MutationBase } from '@0xcert/intents';
+import { QueryBase, MutationBase } from '@0xcert/connector';
 import { FolderTransferState } from "./types";
 
 /**

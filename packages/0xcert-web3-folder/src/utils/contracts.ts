@@ -1,4 +1,3 @@
-import * as Web3 from 'web3';
 import * as env from '../config/env';
 
 /**
@@ -6,26 +5,8 @@ import * as env from '../config/env';
  * @param web3 Web3 instance.
  * @param folderId Xcert address.
  */
-export function getFolder(web3: Web3, folderId?: string) {
+export function getFolder(web3, folderId?: string) {
   return new web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
-}
-
-/**
- * Returns Minter smart contract instance.
- * @param web3 Web3 instance.
- * @param minterId Minter address.
- */
-export function getMinter(web3: Web3, minterId?: string) {
-  return new web3.eth.Contract(env.minterAbi, minterId, { gas: 6000000 });
-}
-
-/**
- * Returns Exchange smart contract instance.
- * @param web3 Web3 instance.
- * @param exchangeId Exchange address.
- */
-export function getExchange(web3: Web3, exchangeId?: string) {
-  return new web3.eth.Contract(env.exchangeAbi, exchangeId, { gas: 6000000 });
 }
 
 /**
@@ -33,6 +14,6 @@ export function getExchange(web3: Web3, exchangeId?: string) {
  * @param web3 Web3 instance.
  * @param accointId Ethereum address.
  */
-export async function getAccount(web3: Web3, accountId?: string) {
+export async function getAccount(web3, accountId?: string) {
   return accountId ? accountId : await web3.eth.getCoinbase();
 }
