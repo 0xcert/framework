@@ -12,7 +12,8 @@ export default async function(config: FolderConfig) {
   return performQuery<FolderGetInfoResult>(async () => {
     const name = await folder.methods.name().call();
     const symbol = await folder.methods.symbol().call();
+    const conventionId = await folder.methods.symbol().call();
 
-    return { name, symbol };
+    return { name, symbol, conventionId };
   });
 }

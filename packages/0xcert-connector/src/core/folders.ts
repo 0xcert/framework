@@ -52,6 +52,7 @@ export interface FolderMutation {
 export interface FolderGetInfoResult {
   name: string;
   symbol: string;
+  conventionId: string
 }
 
 /**

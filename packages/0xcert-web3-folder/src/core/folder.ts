@@ -13,7 +13,6 @@ import setTransferState from '../mutations/set-transfer-state';
  */
 export interface FolderConfig {
   web3: any;
-  conventionId: string;
   folderId: string;
   makerId: string;
 }

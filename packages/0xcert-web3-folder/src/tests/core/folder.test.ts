@@ -23,7 +23,6 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   stage.set('folder', (folderId) => new Folder({
     web3: stage.web3,
-    conventionId: 'foo',
     makerId: stage.get('accounts')[0],
     folderId,
   }));
@@ -75,6 +74,7 @@ spec.test('method `getInfo` returns folder info', async (ctx) => {
   ctx.deepEqual(await folder.getInfo().then((q) => q.result), {
     name: 'Xcert',
     symbol: 'Xcert',
+    conventionId: 'Xcert',
   });
 });
 

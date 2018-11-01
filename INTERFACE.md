@@ -650,15 +650,24 @@ minter.mint({
 ```
 
 ```ts
-const query = await folder.getMetadata(); // => Query{ data }
-const mutation = await folder.burn(assetId); // => Mutation{ transaction }
+import { Connector } from '@0xcert/web3-connector';
+import { Asset } from '@0xcert/assets';
 
-const transaction = new Transaction({ id, web3, confirmations });
-transaction.on('confirmation', () => {});
-transaction.on('approval', () => {});
-transaction.getState();
-await transaction.resolve(); // => this
-transaction.interrupt(); // => this
+// connector
+const connector = new Connector({
+  retryGasMultiplier: 1.2,
+  makerId: '0x...',
+});
+// folder
+const folder = connector.getFolder('0x...');
+// folder:query
+const { data } = folder.getSupply();
+// folder:mutation
+const { hash } = folder.burn();
+// minter
+const minter = connector.getMinter();
+// minter
+const exchange = connector.getExchange();
 ```
 
 ```ts
@@ -668,16 +677,10 @@ import { Asset } from '@0xcert/assets';
 // connector
 const connector = new Connector({
   retryGasMultiplier: 1.2,
-  requiredConfirmations: 25,
   makerId: '0x...',
 });
 // folder
-const folder = connector.buildFolder({
-  id: '0x...',
-  conventionId: '0x...',
-});
-// query
-const { data } = folder.getSupply();
-// mutation
-const { hash } = folder.burn();
+const folder = connector.getFolder('0x...');
+const minter = connector.getMinter();
+const exchange = connector.getExchange();
 ```

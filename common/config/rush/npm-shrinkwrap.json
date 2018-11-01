@@ -218,6 +218,18 @@
         "typescript": "^3.0.3"
       }
     },
+    "@rush-temp/web3-connector": {
+      "version": "file:projects/web3-connector.tgz",
+      "integrity": "sha512-fM1562SuTfA0rDOClAA7n0R+ZwlXUHwa55j2PqVJong57SZfaNNWvX4R5V35BVbTDFkRWaegZziP2nnh1MUFrg==",
+      "requires": {
+        "@specron/cli": "^0.2.7",
+        "@specron/spec": "^0.2.7",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/web3-dex": {
       "version": "file:projects/web3-dex.tgz",
       "integrity": "sha512-Ue2fiNq3RHbMywKwboYW4k4cGB+CcuSpOADdG0kIKztD++HTqpd9um2uvUbx71sikhlqw8uI5FB3JkDBe+BmVg==",
