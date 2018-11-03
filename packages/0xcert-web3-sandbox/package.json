@@ -33,8 +33,8 @@
   "author": "Kristijan Sedlak (Xpepermint)",
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.7.4",
-    "@hayspec/spec": "^0.7.4",
+    "@hayspec/cli": "^0.7.6",
+    "@hayspec/spec": "^0.7.6",
     "@types/node": "^10.11.4",
     "ganache-cli": "^6.1.8",
     "nyc": "^13.0.1",
@@ -45,12 +45,12 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/web3-dex": "0.0.0-alpha0",
-    "@0xcert/web3-dxm": "0.0.0-alpha0",
-    "@0xcert/web3-erc20": "0.0.0-alpha0",
-    "@0xcert/web3-erc721": "0.0.0-alpha0",
-    "@0xcert/web3-proxy": "0.0.0-alpha0",
-    "@0xcert/web3-xcert": "0.0.0-alpha0",
-    "@0xcert/web3-zxc": "0.0.0-alpha0"
+    "@0xcert/web3-exchange-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-minter-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-erc20-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-erc721-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-proxy-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-zxc-contracts": "0.0.0-alpha0"
   }
 }

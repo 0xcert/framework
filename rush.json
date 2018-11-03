@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   "rushVersion": "5.3.0",
   "npmVersion": "6.4.1",
-  "nodeSupportedVersionRange": ">=10.0.0",
+  "nodeSupportedVersionRange": ">=11.0.0",
   "gitPolicy": {},
   "repository": {},
   "eventHooks": {
@@ -13,23 +13,23 @@
   },
   "projects": [
     {
-      "packageName": "@0xcert/connector",
-      "projectFolder": "packages/0xcert-connector",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@0xcert/core",
-      "projectFolder": "packages/0xcert-core",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/merkle-tree",
-      "projectFolder": "packages/0xcert-merkle-tree",
+      "packageName": "@0xcert/merkle",
+      "projectFolder": "packages/0xcert-merkle",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/scaffold",
+      "projectFolder": "packages/0xcert-scaffold",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/utils",
+      "projectFolder": "packages/0xcert-utils",
       "shouldPublish": true
     },
     {
@@ -38,28 +38,48 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-dex",
-      "projectFolder": "packages/0xcert-web3-dex",
+      "packageName": "@0xcert/web3-erc20-contracts",
+      "projectFolder": "packages/0xcert-web3-erc20-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-dxm",
-      "projectFolder": "packages/0xcert-web3-dxm",
+      "packageName": "@0xcert/web3-erc721-contracts",
+      "projectFolder": "packages/0xcert-web3-erc721-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-erc20",
-      "projectFolder": "packages/0xcert-web3-erc20",
+      "packageName": "@0xcert/web3-errors",
+      "projectFolder": "packages/0xcert-web3-errors",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-erc721",
-      "projectFolder": "packages/0xcert-web3-erc721",
+      "packageName": "@0xcert/web3-exchange",
+      "projectFolder": "packages/0xcert-web3-exchange",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-proxy",
-      "projectFolder": "packages/0xcert-web3-proxy",
+      "packageName": "@0xcert/web3-exchange-contracts",
+      "projectFolder": "packages/0xcert-web3-exchange-contracts",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-folder",
+      "projectFolder": "packages/0xcert-web3-folder",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-minter",
+      "projectFolder": "packages/0xcert-web3-minter",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-minter-contracts",
+      "projectFolder": "packages/0xcert-web3-minter-contracts",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-proxy-contracts",
+      "projectFolder": "packages/0xcert-web3-proxy-contracts",
       "shouldPublish": true
     },
     {
@@ -73,13 +93,18 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-xcert",
-      "projectFolder": "packages/0xcert-web3-xcert",
+      "packageName": "@0xcert/web3-utils-contracts",
+      "projectFolder": "packages/0xcert-web3-utils-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-zxc",
-      "projectFolder": "packages/0xcert-web3-zxc",
+      "packageName": "@0xcert/web3-xcert-contracts",
+      "projectFolder": "packages/0xcert-web3-xcert-contracts",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-zxc-contracts",
+      "projectFolder": "packages/0xcert-web3-zxc-contracts",
       "shouldPublish": true
     }
   ]
