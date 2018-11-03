@@ -779,3 +779,94 @@ await exchange.cancel(deal);
 0xcert-web3-xcert-contracts         // xcert blockchain contracts for web3
 0xcert-web3-zxc-contracts           // zxc blockchain contracts for web3
 ```
+
+
+
+
+
+```ts
+import { Connector } from '@0xcert/web3-connector';
+
+const conn = new Connector({
+  web3: '...',
+  makerId: '',
+});
+conn.web3;
+await conn.attach();
+await conn.detack();
+await conn.sign(data, method);
+await conn.query(async () => {});
+await conn.mutation(async () => {});
+```
+```ts
+import { Folder } from '@0xcert/web3-folder';
+
+const folder = await Folder.deploy({ name, symbol, uriRoot, conventionId }, conn);
+const folder = new Folder(conn);
+await folder.getAbilities(accountId);
+await folder.getCapabilities();
+await folder.getInfo();
+await folder.getSupply();
+await folder.getTransferState();
+await folder.assignAbilities(accountId, abilities);
+await folder.revokeAbilities(accountId, abilities);
+await folder.setTransferState(state);
+```
+```ts
+import { Vault } from '@0xcert/web3-vault';
+
+const vault = await Vault.deploy({ name, symbol }, conn);
+const vault = await new Vault(folderId, conn);
+await vault.getAbilities(accountId);
+await vault.getCapabilities();
+await vault.getInfo();
+await vault.getSupply();
+await vault.getTransferState();
+await vault.assignAbilities(accountId, abilities);
+await vault.revokeAbilities(accountId, abilities);
+await vault.setTransferState(state);
+```
+```ts
+import { Minter, MinterOrder } from '@0xcert/web3-minter';
+import { Exchange, ExchangeOrder } from '@0xcert/web3-exchange';
+
+const order = new MinterOrder({ recipe?, claim?, signature? }, conn);
+const order = new ExchangeOrder({ recipe?, claim?, signature? }, conn);
+order.populate({ claim?, signature?, recipe? });
+order.serialize();
+await order.build({ makerId?, takerId, transfers, seed?, expiration? });
+await order.sign();
+
+const minter = new Minter({ minterId }, conn);
+const exchange = new Exchange({ exchangeId }, conn);
+exchange.on('swap', () => {});
+exchange.off('swap', () => {});
+exchange.subscribe();
+exchange.unsubscribe();
+await exchange.perform(order);
+await exchange.cancel(order);
+```
+```ts
+0xcert/scaffold
+0xcert/crypto
+0xcert/merkle
+0xcert/utils
+
+0xcert/web3-context // main
+0xcert/web3-exchange // main
+0xcert/web3-minter // main
+0xcert/web3-folder // main
+0xcert/web3-vault // main
+0xcert/web3-sandbox
+0xcert/web3-errors
+0xcert/web3-utils
+
+0xcert/web3-exchange-contracts
+0xcert/web3-minter-contracts
+0xcert/web3-erc20-contracts
+0xcert/web3-erc721-contracts
+0xcert/web3-proxy-contracts
+0xcert/web3-utils-contracts
+0xcert/web3-xcert-contracts
+0xcert/web3-zxc-contracts
+```

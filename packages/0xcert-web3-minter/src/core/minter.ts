@@ -1,13 +1,11 @@
-import { OrderBase, OrderRecipe } from "@0xcert/connector";
-import { SignatureMethod, Signature } from "@0xcert/web3-utils";
+import { SignatureMethod, createSignature } from "@0xcert/web3-utils";
 import { getMinter } from '../utils/contracts';
-import { performMutate } from './intents';
 import tuple from '../utils/tuple';
 
 /**
  * 
  */
-export interface OrderConfig {
+export interface MinterOrderConfig {
   web3: any;
   makerId: string;
   minterId: string;
@@ -68,11 +66,11 @@ export class Order implements OrderBase {
    * 
    */
   public async sign() {
-    this.signature = await new Signature({
+    this.signature = await createSignature(this.claim, {
       web3: this.config.web3,
-      data: this.recipe,
+      method: this.config.signatureMethod,
       makerId: this.config.makerId,
-    }).sign(this.config.signatureMethod);
+    });
 
     return this;
   }

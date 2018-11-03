@@ -1,51 +1,145 @@
-import { ConnectorBase } from "@0xcert/connector";
-import { SignatureMethod } from "@0xcert/web3-utils";
-import { Folder } from "@0xcert/web3-folder";
+import { ConnectorBase, ConnectorError, ConnectorIssue } from "@0xcert/scaffold";
+import { parseError } from '@0xcert/web3-errors';
+import * as Web3 from 'web3';
+import { SignMethod } from "./types";
 
 /**
  * 
  */
-export interface ConnectorConfig {
-  web3: any;
-  signatureMethod?: SignatureMethod;
-  makerId?: string;
-  minterId?: string;
-}
-
-/**
- * 
- */
-export class Connector implements ConnectorBase {
-  protected config: ConnectorConfig;
+export class Connector implements ConnectorBase
+{
+  public makerId: string;
+  public minterId?: string;
+  public signMethod: SignMethod;
+  public web3: any;
 
   /**
    * 
    */
-  public constructor(config: ConnectorConfig) {
-    this.config = {
-      signatureMethod: SignatureMethod.ETH_SIGN,
-      makerId: null, //
-      minterId: '',
-      web3: config.web3,
-    };
+  public async attach(
+    options?:
+    {
+      makerId?: string;
+      minterId?: string;
+      signMethod?: SignMethod;
+      web3?: any;
+    }
+  ) {
+    options = options || {};
+
+    this.web3 = this.getWeb3(options.web3);
+    this.makerId = await this.getMakerId(options.makerId);
+    this.minterId = options.minterId || '0x';
+    this.signMethod = await this.getSignMethod(options.signMethod);
+
+    return this;
   }
 
   /**
    * 
    */
-  public async getFolder(folderId: string) {
-    return new Folder({
-      web3: this.config.web3,
-      makerId: await this.getMakerId(),
-      folderId,
-    });
+  public async detach()
+  {
+    this.web3 = null;
+    this.makerId = null;
+    this.signMethod = null;
+    this.minterId = null;
+
+    return this;
   }
 
   /**
    * 
    */
-  protected async getMakerId() {
-    return this.config.makerId || await this.config.web3.eth.getCoinbase();
+  public async sign(data: string)
+  {
+    return `${this.signMethod}:${await this.signData(data)}`;
+  }
+
+  /**
+   * 
+   */
+  public getWeb3(web3?: any)
+  {
+    return web3 ? web3 : new Web3('ws://localhost:8545');
+  }
+
+  /**
+   * 
+   */
+  public async getAccounts()
+  {
+    try
+    {
+      return await this.web3.eth.getAccounts();
+    }
+    catch (error)
+    {
+      throw parseError(error);
+    }
+  }
+
+  /**
+   * 
+   */
+  public async getMakerId(makerId?: string)
+  {
+    const accounts = await this.getAccounts();
+
+    if (makerId === undefined)
+    {
+      makerId = accounts[0];
+    }
+
+    if (accounts.indexOf(makerId) === -1)
+    {
+      throw new ConnectorError(ConnectorIssue.INVALID_MAKER_ID)
+    }
+
+    return makerId;
+  }
+
+  /**
+   * 
+   */
+  public getSignMethod(signMethod?: SignMethod)
+  {
+    if (signMethod === undefined)
+    {
+      signMethod = SignMethod.ETH_SIGN;
+    }
+
+    if ([0, 1, 2].indexOf(signMethod) === -1)
+    {
+      throw new ConnectorError(ConnectorIssue.SIGNATURE_UNKNOWN, `Unknown signature method ${signMethod}`);
+    }
+
+    return signMethod;
+  }
+
+  /**
+   * 
+   */
+  public async signData(data: string)
+  {
+    try 
+    {
+      switch (this.signMethod)
+      {
+        case SignMethod.ETH_SIGN:
+          return await this.web3.eth.sign(data, this.makerId);
+        case SignMethod.TREZOR:
+          return '';
+        case SignMethod.EIP712:
+          return '';
+        default:
+          return null;
+      }
+    }
+    catch (error)
+    {
+      throw new ConnectorError(ConnectorIssue.SIGNATURE_FAILED, error);
+    }
   }
 
 }

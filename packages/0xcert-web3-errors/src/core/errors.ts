@@ -1,4 +1,4 @@
-import { ConnectorError, ConnectorIssue } from '@0xcert/connector';
+import { ConnectorError, ConnectorIssue } from '@0xcert/scaffold';
 
 /**
  * Converts web3 error into uified ConnectorError.

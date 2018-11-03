@@ -1,4 +1,4 @@
-import { FolderTransferState, FolderAbility, FolderCapability } from '@0xcert/connector';
+import { FolderTransferState, FolderAbility, FolderCapability } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Folder } from '../../core/folder';

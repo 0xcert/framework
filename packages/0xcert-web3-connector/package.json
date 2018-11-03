@@ -22,7 +22,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/connector": "0.0.0-alpha0",
+    "@0xcert/scaffold": "0.0.0-alpha0",
+    "@0xcert/web3-errors": "0.0.0-alpha0",
     "@0xcert/web3-folder": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-utils": "0.0.0-alpha0",

@@ -3,7 +3,9 @@
  */
 export enum ConnectorIssue {
   UNHANDLED = 0,
-  SIGNATURE_FAILED = 9000,
+  SIGNATURE_UNKNOWN = 9000,
+  SIGNATURE_FAILED = 9001,
+  INVALID_MAKER_ID = 8000,
 }
 
 /**

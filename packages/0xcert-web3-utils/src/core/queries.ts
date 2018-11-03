@@ -1,4 +1,4 @@
-import { Query } from '@0xcert/connector';
+import { Query } from '@0xcert/scaffold';
 import { parseError } from '@0xcert/web3-errors';
 
 /**

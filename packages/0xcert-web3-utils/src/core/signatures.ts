@@ -1,4 +1,4 @@
-import { ConnectorError, ConnectorIssue } from '@0xcert/connector';
+import { ConnectorError, ConnectorIssue } from '@0xcert/scaffold';
 import { parseError } from '@0xcert/web3-errors';
 
 /**
@@ -15,71 +15,26 @@ export enum SignatureMethod {
  */
 export interface SignatureConfig {
   web3: any;
-  data: any;
+  method: SignatureMethod
   makerId: string;
 }
 
 /**
  * 
  */
-export class Signature {
-  protected config: SignatureConfig;
-
-  /**
-   * 
-   */
-  public constructor(config: SignatureConfig) {
-    this.config = config;
-  }
-
-  /**
-   * 
-   */
-  public async sign(method: SignatureMethod) {
-    try {
-      switch (method) {
-        case SignatureMethod.ETH_SIGN:
-          return this.signWithEthSign();
-        case SignatureMethod.TREZOR:
-          return this.signWithTrezor();
-        case SignatureMethod.EIP712:
-          return this.signWithEIP712();
-        default:
-          throw new ConnectorError(ConnectorIssue.SIGNATURE_FAILED, method);
-      }
-    } catch(error) {
-      throw parseError(error);
+export async function createSignature(data: string, config: Connector) {
+  try {
+    switch (config.method) {
+      case SignatureMethod.ETH_SIGN:
+        return await this.config.web3.eth.sign(data, config.makerId);
+      case SignatureMethod.TREZOR:
+        return null;
+      case SignatureMethod.EIP712:
+        return null;
+      default:
+        throw new ConnectorError(ConnectorIssue.SIGNATURE_FAILED, `Unknown signature ${config.method}`);
     }
+  } catch(error) {
+    throw parseError(error);
   }
-
-  /**
-   * 
-   */
-  protected async signWithEthSign() {
-    const method = SignatureMethod.ETH_SIGN;
-    const signature = await this.config.web3.eth.sign(this.config.data, this.config.makerId);
-
-    return `${method}:${signature}`;
-  }
-
-  /**
-   * 
-   */
-  protected async signWithTrezor() {
-    const method = SignatureMethod.TREZOR;
-    const signature = '';
-    
-    return `${method}:${signature}`;
-  }
-
-  /**
-   * 
-   */
-  protected async signWithEIP712() {
-    const method = SignatureMethod.EIP712;
-    const signature = '';
-    
-    return `${method}:${signature}`;
-  }
-
 }

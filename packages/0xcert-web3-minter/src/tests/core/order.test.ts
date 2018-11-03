@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { OrderRecipe } from '@0xcert/connector';
+import { OrderRecipe } from '@0xcert/scaffold';
 import { Order } from '../../core/minter';
 
 interface Data {

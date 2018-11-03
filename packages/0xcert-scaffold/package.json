@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/connector",
+  "name": "@0xcert/scaffold",
   "version": "0.0.0-alpha0",
-  "description": "0xcert protocol connector scaffold.",
+  "description": "0xcert protocol scaffold.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

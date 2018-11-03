@@ -1,28 +1,56 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Folder } from '@0xcert/web3-folder';
 import { Connector } from '../../core/connector';
+import { SignMethod } from '../../core/types';
 
-interface Data {
-  accounts: string[];
+interface Data
+{
   protocol: Protocol;
+  coinbase: string;
 }
 
 const spec = new Spec<Data>();
 
-spec.before(async (stage) => {
+spec.before(async (stage) =>
+{
   const protocol = new Protocol(stage.web3);
   stage.set('protocol', await protocol.deploy());
 });
 
-spec.before(async (stage) => {
-  stage.set('accounts', await stage.web3.eth.getAccounts());
+spec.before(async (stage) =>
+{
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('coinbase', accounts[0]);
 });
 
-spec.test('method `getFolder` returns a new Folder instance', async (ctx) => {
-  const connector = new Connector(ctx);
-  const folder = await connector.getFolder(ctx.get('protocol').xcert.instance.options.address);
-  ctx.true(folder instanceof Folder);
+spec.test('method `attach` initializes connector', async (ctx) =>
+{
+  const connector = new Connector();
+  await connector.attach(ctx);
+  ctx.true(!!connector.minterId);
+  ctx.true(!!connector.web3);
+  ctx.is(connector.makerId, ctx.get('coinbase'));
+  ctx.is(connector.signMethod, SignMethod.ETH_SIGN);
+});
+
+spec.test('method `detach` wipes connector', async (ctx) =>
+{
+  const connector = new Connector();
+  await connector.attach(ctx);
+  await connector.detach();
+  ctx.is(connector.makerId, null);
+  ctx.is(connector.minterId, null);
+  ctx.is(connector.signMethod, null);
+  ctx.is(connector.web3, null);
+});
+
+spec.test('method `sign` signs data and returns signature', async (ctx) =>
+{
+  const connector = new Connector();
+  await connector.attach(ctx);
+  const [method, signature] = await connector.sign('foo').then((s) => s.split(':'));
+  ctx.is(parseInt(method), SignMethod.ETH_SIGN);
+  ctx.true(!!signature);
 });
 
 export default spec;

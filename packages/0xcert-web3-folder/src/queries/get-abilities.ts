@@ -1,4 +1,4 @@
-import { FolderAbility } from "@0xcert/connector";
+import { FolderAbility } from "@0xcert/scaffold";
 import { performQuery } from "@0xcert/web3-utils";
 import { FolderConfig } from "../core/folder";
 import { getFolder } from "../utils/contracts";
