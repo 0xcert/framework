@@ -762,7 +762,6 @@ await exchange.cancel(deal);
 0xcert-connector                    // connector typescript types
 0xcert-crypto                       // isomorphic implementation of crypto functions
 0xcert-merkle                       // merkle tree proof implementation
-0xcert-utils                        // general helper functions
 0xcert-web3-connector               // [main] web3 connector
 0xcert-web3-sandbox                 // web3 sandbox blockchain for running tests
 0xcert-web3-errors                  // web3 errors parser 
@@ -850,7 +849,6 @@ await exchange.cancel(order);
 0xcert/scaffold
 0xcert/crypto
 0xcert/merkle
-0xcert/utils
 
 0xcert/web3-context // main
 0xcert/web3-exchange // main

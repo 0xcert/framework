@@ -28,11 +28,6 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/utils",
-      "projectFolder": "packages/0xcert-utils",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/web3-connector",
       "projectFolder": "packages/0xcert-web3-connector",
       "shouldPublish": true
