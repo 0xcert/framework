@@ -1,3 +1,22 @@
+import { Query } from "./connector";
+
+/**
+ * 
+ */
+export interface VaultBase {
+  getInfo(): Promise<Query<VaultGetInfoResult>>;
+  getSupply(): Promise<Query<number>>;
+}
+
+/**
+ * 
+ */
+export interface VaultGetInfoResult {
+  name: string;
+  symbol: string;
+  decimals: number;
+}
+
 /**
  * 
  */
