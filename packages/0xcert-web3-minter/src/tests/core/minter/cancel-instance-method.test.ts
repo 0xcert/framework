@@ -88,18 +88,22 @@ spec.before(async (stage) => {
   stage.set('order', order);
 });
 
-spec.test('submits mint order to the network which mints a new asset', async (ctx) => {
-  const connector = ctx.get('takerConnector');
+spec.test('marks mint order as canceled on the network which prevents an new asset to be minted', async (ctx) => {
+  const makerConnector = ctx.get('makerConnector');
+  const takerConnector = ctx.get('takerConnector');
   const order = ctx.get('order');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const xcert = ctx.get('protocol').xcert;
 
-  const minter = new Minter(connector);
-  await minter.perform(order).then(() => ctx.sleep(200));
+  const makerMinter = new Minter(makerConnector);
+  await makerMinter.cancel(order).then(() => ctx.sleep(200));
 
-  ctx.is(await xcert.instance.methods.ownerOf('5').call(), bob);
-  ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);
+  const takerMinter = new Minter(takerConnector);
+  await takerMinter.perform(order).then(() => ctx.sleep(200));
+
+  ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
+  await ctx.throws(() => xcert.instance.methods.ownerOf('5').call()); // not minted
 });
 
 export default spec;

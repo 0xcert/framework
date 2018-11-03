@@ -7,6 +7,7 @@ import { VaultTransfer } from "./vault";
  */
 export interface MinterBase {
   perform(order): Promise<Mutation>;
+  cancel(order): Promise<Mutation>;
 }
 
 /**

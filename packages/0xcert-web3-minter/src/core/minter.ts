@@ -23,7 +23,32 @@ export class Minter implements MinterBase {
    * 
    */
   public async perform(order: MinterOrder) {
-    const xcertData = {
+    const recipeTuple = this.createRecipeTuple(order);
+    const signatureTuple = this.createSignatureTuple(order);
+    const from = this.connector.makerId;
+
+    return this.connector.mutate(() => {
+      return this.contract.methods.performMint(recipeTuple, signatureTuple).send({ from });
+    });
+  }
+
+  /**
+   * 
+   */
+  public async cancel(order: MinterOrder) {
+    const recipeTuple = this.createRecipeTuple(order);
+    const from = this.connector.makerId;
+
+    return this.connector.mutate(() => {
+      return this.contract.methods.cancelMint(recipeTuple).send({ from });
+    });
+  }
+
+  /**
+   * 
+   */
+  protected createRecipeTuple(order: MinterOrder) {
+    const assetData = {
       xcert: order.recipe.asset.folderId,
       id: order.recipe.asset.assetId,
       proof: order.recipe.asset.proof,
@@ -39,28 +64,32 @@ export class Minter implements MinterBase {
       };
     });
     
-    const mintData = {
+    const recipeData = {
       from: order.recipe.makerId,
       to: order.recipe.takerId,
-      xcertData,
+      assetData,
       transfers,
       seed: order.recipe.seed,
       expirationTimestamp: order.recipe.expiration,
     };
-    const mintTuple = tuple(mintData);
-  
+    
+    return tuple(recipeData);
+  }
+
+  /**
+   * 
+   */
+  protected createSignatureTuple(order: MinterOrder) {
     const [kind, signature] = (order.signature || '').split(':');
-    const signatureTuple = tuple({
+    
+    const signatureData = {
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
       v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
       kind
-    });
+    };
 
-    const from = this.connector.makerId;
-    return this.connector.mutate(() => {
-      return this.contract.methods.performMint(mintTuple, signatureTuple).send({ from });
-    });
+    return tuple(signatureData);
   }
 
 }
