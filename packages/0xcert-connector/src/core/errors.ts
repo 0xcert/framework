@@ -3,6 +3,7 @@
  */
 export enum ConnectorIssue {
   UNHANDLED = 0,
+  SIGNATURE_FAILED = 9000,
 }
 
 /**
@@ -20,7 +21,7 @@ export class ConnectorError extends Error {
   constructor(issue: ConnectorIssue, original?: any) {
     super();
 
-    this.name = this.constructor['name'];
+    this.name = 'ConnectorError';
     this.issue = issue;
     this.original = original;
     this.message = `Connector error [issue: ${issue}]`;

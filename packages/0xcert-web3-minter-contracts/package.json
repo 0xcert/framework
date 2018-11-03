@@ -1,0 +1,42 @@
+{
+  "name": "@0xcert/web3-minter-contracts",
+  "version": "0.0.0-alpha0",
+  "description": "Decentralized minter implementation for 0xcert protocol. ",
+  "scripts": {
+    "build": "npx specron compile",
+    "sandbox": "npx specron sandbox",
+    "prepare": "npm run build",
+    "test": "rm -rf build && npx specron compile && npx specron test"
+  },
+  "specron": {
+    "compiler": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ]
+    },
+    "test": {
+      "port": 8502,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ]
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/web3-utils-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-erc20-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-erc721-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-proxy-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
+    "@specron/cli": "^0.2.8",
+    "@specron/spec": "^0.2.8",
+    "solc": "^0.4.25",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  }
+}

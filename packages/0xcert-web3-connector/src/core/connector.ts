@@ -1,4 +1,5 @@
 import { ConnectorBase } from "@0xcert/connector";
+import { SignatureMethod } from "@0xcert/web3-utils";
 import { Folder } from "@0xcert/web3-folder";
 
 /**
@@ -6,7 +7,9 @@ import { Folder } from "@0xcert/web3-folder";
  */
 export interface ConnectorConfig {
   web3: any;
+  signatureMethod?: SignatureMethod;
   makerId?: string;
+  minterId?: string;
 }
 
 /**
@@ -19,7 +22,12 @@ export class Connector implements ConnectorBase {
    * 
    */
   public constructor(config: ConnectorConfig) {
-    this.config = config;
+    this.config = {
+      signatureMethod: SignatureMethod.ETH_SIGN,
+      makerId: null, //
+      minterId: '',
+      web3: config.web3,
+    };
   }
 
   /**
@@ -36,7 +44,7 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public async getMakerId() {
+  protected async getMakerId() {
     return this.config.makerId || await this.config.web3.eth.getCoinbase();
   }
 

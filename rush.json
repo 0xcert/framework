@@ -23,8 +23,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/merkle-tree",
-      "projectFolder": "packages/0xcert-merkle-tree",
+      "packageName": "@0xcert/merkle",
+      "projectFolder": "packages/0xcert-merkle",
       "shouldPublish": true
     },
     {
@@ -38,23 +38,28 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-dex",
-      "projectFolder": "packages/0xcert-web3-dex",
+      "packageName": "@0xcert/web3-exchange-contracts",
+      "projectFolder": "packages/0xcert-web3-exchange-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-dxm",
-      "projectFolder": "packages/0xcert-web3-dxm",
+      "packageName": "@0xcert/web3-minter",
+      "projectFolder": "packages/0xcert-web3-minter",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-erc20",
-      "projectFolder": "packages/0xcert-web3-erc20",
+      "packageName": "@0xcert/web3-minter-contracts",
+      "projectFolder": "packages/0xcert-web3-minter-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-erc721",
-      "projectFolder": "packages/0xcert-web3-erc721",
+      "packageName": "@0xcert/web3-erc20-contracts",
+      "projectFolder": "packages/0xcert-web3-erc20-contracts",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-erc721-contracts",
+      "projectFolder": "packages/0xcert-web3-erc721-contracts",
       "shouldPublish": true
     },
     {
@@ -68,8 +73,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-proxy",
-      "projectFolder": "packages/0xcert-web3-proxy",
+      "packageName": "@0xcert/web3-proxy-contracts",
+      "projectFolder": "packages/0xcert-web3-proxy-contracts",
       "shouldPublish": true
     },
     {
@@ -83,13 +88,18 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-xcert",
-      "projectFolder": "packages/0xcert-web3-xcert",
+      "packageName": "@0xcert/web3-utils-contracts",
+      "projectFolder": "packages/0xcert-web3-utils-contracts",
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-zxc",
-      "projectFolder": "packages/0xcert-web3-zxc",
+      "packageName": "@0xcert/web3-xcert-contracts",
+      "projectFolder": "packages/0xcert-web3-xcert-contracts",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-zxc-contracts",
+      "projectFolder": "packages/0xcert-web3-zxc-contracts",
       "shouldPublish": true
     }
   ]

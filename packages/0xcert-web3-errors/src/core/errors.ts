@@ -5,5 +5,9 @@ import { ConnectorError, ConnectorIssue } from '@0xcert/connector';
  * @param error Error object.
  */
 export function parseError(error: any) {
-  return new ConnectorError(ConnectorIssue.UNHANDLED, error);
+  if (error instanceof ConnectorError) {
+    return error;
+  } else {
+    return new ConnectorError(ConnectorIssue.UNHANDLED, error);
+  }
 }

@@ -1,4 +1,4 @@
-import { FolderTransferState, FolderAbility } from '@0xcert/connector';
+import { FolderTransferState, FolderAbility, FolderCapability } from '@0xcert/connector';
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Folder } from '../../core/folder';
@@ -49,23 +49,23 @@ spec.test('method `getCapabilities` returns folder capabilities', async (ctx) =>
   ];
   ctx.deepEqual(
     await folders[0].getCapabilities().then((q) => q.result),
-    { isBurnable: false, isMutable: false, isPausable: false, isRevokable: false }
+    [],
   );
   ctx.deepEqual(
     await folders[1].getCapabilities().then((q) => q.result),
-    { isBurnable: true, isMutable: false, isPausable: false, isRevokable: false }
+    [FolderCapability.BURNABLE],
   );
   ctx.deepEqual(
     await folders[2].getCapabilities().then((q) => q.result),
-    { isBurnable: false, isMutable: true, isPausable: false, isRevokable: false }
+    [FolderCapability.MUTABLE],
   );
   ctx.deepEqual(
     await folders[3].getCapabilities().then((q) => q.result),
-    { isBurnable: false, isMutable: false, isPausable: true, isRevokable: false }
+    [FolderCapability.PAUSABLE],
   );
   ctx.deepEqual(
     await folders[4].getCapabilities().then((q) => q.result),
-    { isBurnable: false, isMutable: false, isPausable: false, isRevokable: true }
+    [FolderCapability.REVOKABLE],
   );
 });
 
@@ -74,6 +74,7 @@ spec.test('method `getInfo` returns folder info', async (ctx) => {
   ctx.deepEqual(await folder.getInfo().then((q) => q.result), {
     name: 'Xcert',
     symbol: 'Xcert',
+    uriBase: 'http://0xcert.org/',
     conventionId: 'Xcert',
   });
 });

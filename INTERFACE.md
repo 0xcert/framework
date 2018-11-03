@@ -596,7 +596,7 @@ import { Context, Order, Exchange, Minter } from '@0xcert/web3-connector';
 
 const context = new Context({ approvalConfirmations });
 
-const folder = new Folder({ context, conventionId });
+const folder = new Folder({ ...context });
 folder.batch([
   folder.mint({ assetId, proof }),
   folder.revoke({ assetId }),
@@ -636,17 +636,19 @@ folder.createAsset(assetId, proof, accountId);
 folder.subscribe();
 folder.unsubscribe();
 
-const exchange = new Exchange({ context });
-exchange.claim();
-exchange.mint({
-  ...
-});
+const folder = new Folder({ ...context });
 
-const minter = new Minter({ context });
-minter.claim();
-minter.mint({
-  ...
-});
+// const exchange = new Exchange({ context });
+// exchange.claim();
+// exchange.mint({
+//   ...
+// });
+
+// const minter = new Minter({ context });
+// minter.claim();
+// minter.mint({
+//   ...
+// });
 ```
 
 ```ts
@@ -681,6 +683,99 @@ const connector = new Connector({
 });
 // folder
 const folder = connector.getFolder('0x...');
-const minter = connector.createSwap();
-const exchange = connector.createMint();
+// order
+const order = connector.createOrder({
+  takerId: '',
+  asset: { ... },
+  transfers: [ ... ],
+  seed: '',
+  expiration: '',
+  signature: '',
+});
+await order.sign();
+await order.perform();
+order.serialize();
+
+// swap
+const exchange = connector.createSwap();
+```
+
+
+
+
+```ts
+const connector = new Connector({
+  web3Provider: '...',
+  retryGasMultiplier: 1.2,
+  makerId: '',
+});
+connector.version;
+await connector.getFolder(folderId);
+await connector.getVault(vaultId);
+await connector.getMinter({ minterId });
+await connector.getExchange({ exchangeId });
+await connector.deployFolder({ name, symbol, uriRoot, conventionId }); // erc721
+await connector.deployVault({ name, symbol }); // erc20
+await connector.createMinterDeal({ recipe?, claim?, signature? });
+await connector.createExchangeDeal({ recipe?, claim?, signature? });
+
+const folder = await connector.deployFolder({ name, symbol, uriRoot, conventionId });
+const folder = await connector.getFolder(folderId);
+await folder.getAbilities(accountId);
+await folder.getCapabilities();
+await folder.getInfo();
+await folder.getSupply();
+await folder.getTransferState();
+await folder.assignAbilities(accountId, abilities);
+await folder.revokeAbilities(accountId, abilities);
+await folder.setTransferState(state);
+
+const vault = await connector.deployVault({ name, symbol });
+const vault = await connector.getVault(folderId);
+await vault.getAbilities(accountId);
+await vault.getCapabilities();
+await vault.getInfo();
+await vault.getSupply();
+await vault.getTransferState();
+await vault.assignAbilities(accountId, abilities);
+await vault.revokeAbilities(accountId, abilities);
+await vault.setTransferState(state);
+
+const deal = await connector.createMinterDeal({ recipe?, claim?, signature? });
+const deal = await connector.createExchangeDeal({ recipe?, claim?, signature? });
+deal.populate({ claim?, signature?, recipe? });
+deal.serialize();
+await deal.build({ makerId?, takerId, transfers, seed?, expiration? });
+await deal.sign();
+
+const minter = await connector.getMinter({ minterId });
+const exchange = await connector.getExchange({ exchangeId });
+exchange.on('swap', () => {});
+exchange.off('swap', () => {});
+exchange.subscribe();
+exchange.unsubscribe();
+await exchange.perform(deal);
+await exchange.cancel(deal);
+```
+
+```ts
+0xcert-connector                    // connector typescript types
+0xcert-crypto                       // isomorphic implementation of crypto functions
+0xcert-merkle                       // merkle tree proof implementation
+0xcert-utils                        // general helper functions
+0xcert-web3-connector               // [main] web3 connector
+0xcert-web3-sandbox                 // web3 sandbox blockchain for running tests
+0xcert-web3-errors                  // web3 errors parser 
+0xcert-web3-exchange                // atomic swap order API
+0xcert-web3-folder                  // assets smart contract API
+0xcert-web3-intents                 // web3 query and mutation requests
+0xcert-web3-minter                  // atomic mint order API
+0xcert-web3-exchange-contracts      // exchange blockchain contracts for web3
+0xcert-web3-minter-contracts        // minter blockchain contracts for web3
+0xcert-web3-erc20-contracts         // monolithic erc20 blockchain contracts for web3
+0xcert-web3-erc721-contracts        // monolithicerc721 blockchain contracts for web3
+0xcert-web3-proxy-contracts         // proxy blockchain contracts for web3
+0xcert-web3-utils-contracts         // helper blockchain contracts for web3
+0xcert-web3-xcert-contracts         // xcert blockchain contracts for web3
+0xcert-web3-zxc-contracts           // zxc blockchain contracts for web3
 ```

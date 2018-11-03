@@ -1,4 +1,4 @@
-import { FolderBase, FolderTransferState, FolderAbility } from "@0xcert/connector";
+import { FolderBase, FolderTransferState, FolderAbility, FolderCapability } from "@0xcert/connector";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';

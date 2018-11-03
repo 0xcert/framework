@@ -1,0 +1,40 @@
+{
+  "name": "@0xcert/web3-minter",
+  "version": "0.0.0-alpha0",
+  "description": "Ethereum order for 0xcert protocol.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run updateMinterAbi; npx tsc",
+    "test": "npx specron test",
+    "updateMinterAbi": "npx ts-node ./src/scripts/update-minter-abi"
+  },
+  "specron": {
+    "test": {
+      "port": 8509,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ],
+      "blockTime": 0.1
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/connector": "0.0.0-alpha0",
+    "@0xcert/web3-minter-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-errors": "0.0.0-alpha0",
+    "@0xcert/web3-sandbox": "0.0.0-alpha0",
+    "@0xcert/utils": "0.0.0-alpha0",
+    "@specron/cli": "^0.2.8",
+    "@specron/spec": "^0.2.8",
+    "@types/fs-extra": "^5.0.4",
+    "fs-extra": "^7.0.0",
+    "solc": "^0.4.25",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  }
+}

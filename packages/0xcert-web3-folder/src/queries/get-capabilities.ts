@@ -1,6 +1,6 @@
-import { FolderGetCapabilitiesResult } from "@0xcert/connector";
 import { FolderConfig } from "../core/folder";
-import { performQuery } from "../core/intents";
+import { FolderCapability } from "@0xcert/connector";
+import { performQuery } from "@0xcert/web3-utils";
 import { getFolder } from "../utils/contracts";
 
 /**
@@ -9,12 +9,22 @@ import { getFolder } from "../utils/contracts";
 export default async function(config: FolderConfig) {
   const folder = getFolder(config.web3, config.folderId);
 
-  return performQuery<FolderGetCapabilitiesResult>(async () => {
-    const isBurnable = await folder.methods.supportsInterface('0x42966c68').call();
-    const isMutable = await folder.methods.supportsInterface('0x33b641ae').call();
-    const isPausable = await folder.methods.supportsInterface('0xbedb86fb').call();
-    const isRevokable = await folder.methods.supportsInterface('0x20c5429b').call();
-
-    return { isBurnable, isMutable, isPausable, isRevokable };
+  return performQuery<FolderCapability[]>(async () => {
+    return await Promise.all(
+      [ [FolderCapability.BURNABLE, '0x42966c68'],
+        [FolderCapability.MUTABLE, '0x33b641ae'],
+        [FolderCapability.PAUSABLE, '0xbedb86fb'],
+        [FolderCapability.REVOKABLE, '0x20c5429b'],
+      ].map(async (capability) => {
+        if (await folder.methods.supportsInterface(capability[1]).call()) {
+          return capability[0];
+        } else {
+          return null;
+        }
+      })
+    ).then((abilities) => {
+      return abilities.filter((a) => a !== null).sort() as FolderCapability[];
+    });
   });
+
 }

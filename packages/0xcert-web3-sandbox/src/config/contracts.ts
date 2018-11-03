@@ -1,18 +1,18 @@
-const { TokenMock } = require('@0xcert/web3-erc20/build/token-mock');
-const { NFTokenEnumerableMock } = require('@0xcert/web3-erc721/build/nf-token-enumerable-mock');
-const { NFTokenMetadataMock } = require('@0xcert/web3-erc721/build/nf-token-metadata-mock');
-const { NFTokenMock } = require('@0xcert/web3-erc721/build/nf-token-mock');
-const { Zxc } = require('@0xcert/web3-zxc/build/zxc');
-const { BurnableXcertMock } = require('@0xcert/web3-xcert/build/burnable-xcert-mock');
-const { MutableXcertMock } = require('@0xcert/web3-xcert/build/mutable-xcert-mock');
-const { PausableXcertMock } = require('@0xcert/web3-xcert/build/pausable-xcert-mock');
-const { RevokableXcertMock } = require('@0xcert/web3-xcert/build/revokable-xcert-mock');
-const { XcertMock } = require('@0xcert/web3-xcert/build/xcert-mock');
-const { XcertMintProxy } = require('@0xcert/web3-proxy/build/xcert-mint-proxy');
-const { TokenTransferProxy } = require('@0xcert/web3-proxy/build/token-transfer-proxy');
-const { NFTokenTransferProxy } = require('@0xcert/web3-proxy/build/nftoken-transfer-proxy');
-const { Exchange } = require('@0xcert/web3-dex/build/exchange');
-const { Minter } = require('@0xcert/web3-dxm/build/Minter');
+const { TokenMock } = require('@0xcert/web3-erc20-contracts/build/token-mock');
+const { NFTokenEnumerableMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-enumerable-mock');
+const { NFTokenMetadataMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-metadata-mock');
+const { NFTokenMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-mock');
+const { Zxc } = require('@0xcert/web3-zxc-contracts/build/zxc');
+const { BurnableXcertMock } = require('@0xcert/web3-xcert-contracts/build/burnable-xcert-mock');
+const { MutableXcertMock } = require('@0xcert/web3-xcert-contracts/build/mutable-xcert-mock');
+const { PausableXcertMock } = require('@0xcert/web3-xcert-contracts/build/pausable-xcert-mock');
+const { RevokableXcertMock } = require('@0xcert/web3-xcert-contracts/build/revokable-xcert-mock');
+const { XcertMock } = require('@0xcert/web3-xcert-contracts/build/xcert-mock');
+const { XcertMintProxy } = require('@0xcert/web3-proxy-contracts/build/xcert-mint-proxy');
+const { TokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/token-transfer-proxy');
+const { NFTokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/nftoken-transfer-proxy');
+const { Exchange } = require('@0xcert/web3-exchange-contracts/build/exchange');
+const { Minter } = require('@0xcert/web3-minter-contracts/build/Minter');
 
 /**
  * ERC20 contract data.

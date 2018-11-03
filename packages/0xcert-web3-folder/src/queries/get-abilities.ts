@@ -1,6 +1,6 @@
 import { FolderAbility } from "@0xcert/connector";
+import { performQuery } from "@0xcert/web3-utils";
 import { FolderConfig } from "../core/folder";
-import { performQuery } from "../core/intents";
 import { getFolder } from "../utils/contracts";
 
 /**

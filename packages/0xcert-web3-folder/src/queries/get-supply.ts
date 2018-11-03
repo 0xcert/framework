@@ -1,5 +1,5 @@
 import { FolderConfig } from "../core/folder";
-import { performQuery } from "../core/intents";
+import { performQuery } from "@0xcert/web3-utils";
 import { getFolder } from "../utils/contracts";
 
 /**

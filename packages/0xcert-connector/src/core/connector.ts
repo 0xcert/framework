@@ -1,4 +1,4 @@
-import { FolderBase } from "./folders";
+import { FolderBase } from "./folder";
 
 /**
  * 

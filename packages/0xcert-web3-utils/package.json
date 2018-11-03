@@ -1,24 +1,20 @@
 {
   "name": "@0xcert/web3-utils",
-  "description": "Common utilities.",
   "version": "0.0.0-alpha0",
+  "description": "Ethereum utils for 0xcert protocol.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npx specron compile",
-    "sandbox": "npx specron sandbox",
-    "test": "rm -rf build && npx specron compile && npx specron test"
+    "build": "npx tsc",
+    "test": "npx specron test"
   },
   "specron": {
-    "compiler": {
-      "build": "./build",
-      "match": [
-        "./src/**/*.sol"
-      ]
-    },
     "test": {
-      "port": 8505,
+      "port": 8509,
       "match": [
         "./src/tests/**/*.test.ts"
-      ]
+      ],
+      "blockTime": 0.1
     },
     "require": [
       "ts-node/register"
@@ -26,6 +22,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/connector": "0.0.0-alpha0",
+    "@0xcert/web3-errors": "0.0.0-alpha0",
+    "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@specron/cli": "^0.2.8",
     "@specron/spec": "^0.2.8",
     "solc": "^0.4.25",
