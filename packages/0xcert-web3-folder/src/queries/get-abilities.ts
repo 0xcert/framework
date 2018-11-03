@@ -14,14 +14,11 @@ export default async function(folder: Folder, accountId: string) {
         FolderAbility.SIGN_MINT_CLAIM,
         FolderAbility.UPDATE_PROOF,
       ].map(async (ability) => {
-        if (await folder.contract.methods.isAble(accountId, ability).call()) {
-          return ability;
-        } else {
-          return null;
-        }
+        const able = await folder.contract.methods.isAble(accountId, ability).call();
+        return able ? ability : -1;
       })
     ).then((abilities) => {
-      return abilities.filter((a) => a !== null).sort();
+      return abilities.filter((a) => a !== -1).sort();
     });
   });
 }

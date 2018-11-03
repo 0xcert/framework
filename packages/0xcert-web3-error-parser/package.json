@@ -1,5 +1,5 @@
 {
-  "name": "@0xcert/web3-errors",
+  "name": "@0xcert/web3-error-parser",
   "version": "0.0.0-alpha0",
   "description": "Ethereum web3 errors 0xcert protocol.",
   "main": "./dist/index.js",
@@ -24,7 +24,6 @@
   "devDependencies": {
     "@0xcert/scaffold": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
-    "@0xcert/utils": "0.0.0-alpha0",
     "@specron/cli": "^0.2.8",
     "@specron/spec": "^0.2.8",
     "solc": "^0.4.25",

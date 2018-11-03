@@ -1,5 +1,5 @@
 import { ConnectorBase, ConnectorError, ConnectorIssue, Query, Mutation } from "@0xcert/scaffold";
-import { parseError } from '@0xcert/web3-errors';
+import { parseError } from '@0xcert/web3-error-parser';
 import * as Web3 from 'web3';
 import { SignMethod } from "./types";
 

@@ -25,11 +25,10 @@
   "devDependencies": {
     "@0xcert/scaffold": "0.0.0-alpha0",
     "@0xcert/web3-connector": "0.0.0-alpha0",
-    "@0xcert/web3-errors": "0.0.0-alpha0",
+    "@0xcert/web3-error-parser": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
     "@0xcert/web3-utils": "0.0.0-alpha0",
-    "@0xcert/utils": "0.0.0-alpha0",
     "@specron/cli": "^0.2.8",
     "@specron/spec": "^0.2.8",
     "@types/fs-extra": "^5.0.4",
