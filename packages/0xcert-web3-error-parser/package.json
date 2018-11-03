@@ -1,5 +1,5 @@
 {
-  "name": "@0xcert/web3-errors",
+  "name": "@0xcert/web3-error-parser",
   "version": "0.0.0-alpha0",
   "description": "Ethereum web3 errors 0xcert protocol.",
   "main": "./dist/index.js",

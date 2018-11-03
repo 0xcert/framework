@@ -72,7 +72,8 @@ export class Merkle {
             index: index / 2,
             hash: await this.config.algo(`${left.hash}${right.hash}`),
           });
-        } else if (left && !right) {
+        }
+        else if (left && !right) {
           nodes.push({
             level: level - 1,
             index: index / 2,
@@ -165,7 +166,8 @@ export class Merkle {
             index: index / 2,
             hash: await this.config.algo(`${left.hash}${right.hash}`),
           });
-        } else if (left && !right) {
+        }
+        else if (left && !right) {
           requiredNodes.push({
             level: level - 1,
             index: index / 2,
@@ -174,8 +176,6 @@ export class Merkle {
         }
       }
     }
-
-    // console.log(requiredNodes);
 
     return requiredNodes.find((a) => a.level === 0 && a.index === 0);
   }
@@ -188,92 +188,11 @@ export class Merkle {
     return nodes.concat([]).sort((a, b) => {
       if (a.level == b.level) {
         return (a.index < b.index) ? -1 : (a.index > b.index) ? 1 : 0;
-      } else {
+      }
+      else {
         return (a.level < b.level) ? -1 : 1;
       }
     });
   }
-
-
-  // /**
-  //  * 
-  //  * @param values A complete list of merkle tree values.
-  //  * @param indexes A list of value indexes to expose.
-  //  */
-  // public async zip(
-  //   values: MerkleValue[],
-  //   indexes: number[]
-  // ) {
-  //   const levelsCount = Math.ceil(values.length / 2);
-  //   const recipes = [];
-
-  //   for (const index of indexes) {
-  //     recipes.push({
-  //       index,
-  //       value: values.find((a) => a.index === index),
-  //     });
-
-  //     const siblingIndex = index % 2 === 0 ? index + 1 : index - 1;
-  //     const sublingIsValue = indexes.indexOf(siblingIndex) !== -1;
-
-  //     if (sublingIsValue) {
-  //       recipes.push({
-  //         index: siblingIndex,
-  //         value: values[siblingIndex],
-  //       });
-  //     }
-  //     else {
-  //       recipes.push({
-  //         level: levelsCount,
-  //         index: siblingIndex,
-  //         hash: await this.config.algo(
-  //           values.find((a) => a.index === siblingIndex).value
-  //         ),
-  //       });
-  //     }
-  //   }
-    
-  //   console.log(JSON.stringify(recipes, null, 2));
-  // }
-
-  // /**
-  //  * Returns the root node of the tree.
-  //  * @param recipes Recipes from which the root node can be calculated.
-  //  */
-  // protected async buildRootRecipe(recipes: MerkleRecipe[]) {
-  //   const level = recipes.sort((a, b) => b.level - a.level)[0].level;
-  //   const nodes = recipes.filter((a) => a.level === level);
-  //   const size = nodes.sort((a, b) => b.index - a.index)[0].index + 1;
-  
-  //   recipes = recipes.filter((a) => a.level < level);
-  
-  //   if (level === 0) {
-  //     return nodes[0] || null;
-  //   }
-  
-  //   for (let i = 0; i < size; i += 2) {
-  
-  //     const left = nodes.find((a) => a.index === i);
-  //     const right = nodes.find((a) => a.index === i+1);
-  //     const isLastPair = i === size - 1;
-      
-  //     if (left && right) {
-  //       recipes.push({
-  //         level: level - 1,
-  //         index: i / 2,
-  //         hash: await this.config.algo(`${left.hash}${right.hash}`),
-  //       });
-  //     }
-  //     else if (left && !right && isLastPair) {
-  //       recipes.push({
-  //         level: level - 1,
-  //         index: i / 2,
-  //         hash: left.hash,
-  //       });
-  //     }
-  //   }
-    
-  //   return this.buildRootRecipe(recipes);
-  // }
 
 }

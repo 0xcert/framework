@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-import "../../../contracts/permission/abilitable.sol";
+import "../../contracts/permission/abilitable.sol";
 
 contract AbilitableTestMock is
   Abilitable

@@ -147,7 +147,9 @@ export class Protocol {
       args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1'],
       from,
     });
-    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+
+    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
+
     return xcert;
   }
 
@@ -163,7 +165,9 @@ export class Protocol {
       args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2'],
       from,
     });
-    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+
+    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
+
     return xcert;
   }
 
@@ -179,7 +183,9 @@ export class Protocol {
       args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3'],
       from,
     });
-    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+
+    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
+
     return xcert;
   }
 
@@ -195,7 +201,9 @@ export class Protocol {
       args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4'],
       from,
     });
-    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+
+    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
+
     return xcert;
   }
 
@@ -211,7 +219,9 @@ export class Protocol {
       args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5'],
       from,
     });
-    await xcert.instance.methods.assignAbilities(from, [1,2,3,4,5,6]).send({ from });
+
+    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
+
     return xcert;
   }
 

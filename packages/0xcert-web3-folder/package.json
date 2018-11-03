@@ -25,7 +25,7 @@
   "devDependencies": {
     "@0xcert/scaffold": "0.0.0-alpha0",
     "@0xcert/web3-connector": "0.0.0-alpha0",
-    "@0xcert/web3-errors": "0.0.0-alpha0",
+    "@0xcert/web3-error-parser": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
     "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
     "@0xcert/web3-utils": "0.0.0-alpha0",

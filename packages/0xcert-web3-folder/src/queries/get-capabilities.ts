@@ -12,14 +12,11 @@ export default async function(folder: Folder) {
         [FolderCapability.PAUSABLE, '0xbedb86fb'],
         [FolderCapability.REVOKABLE, '0x20c5429b'],
       ].map(async (capability) => {
-        if (await folder.contract.methods.supportsInterface(capability[1]).call()) {
-          return capability[0];
-        } else {
-          return null;
-        }
+        const supported = await folder.contract.methods.supportsInterface(capability[1]).call();
+        return supported ? capability[0] : -1;
       })
     ).then((abilities) => {
-      return abilities.filter((a) => a !== null).sort() as FolderCapability[];
+      return abilities.filter((a) => a !== -1).sort() as FolderCapability[];
     });
   })
 }

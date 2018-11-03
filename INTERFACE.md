@@ -764,7 +764,7 @@ await exchange.cancel(deal);
 0xcert-merkle                       // merkle tree proof implementation
 0xcert-web3-connector               // [main] web3 connector
 0xcert-web3-sandbox                 // web3 sandbox blockchain for running tests
-0xcert-web3-errors                  // web3 errors parser 
+0xcert-web3-error-parser                  // web3 errors parser 
 0xcert-web3-exchange                // atomic swap order API
 0xcert-web3-folder                  // assets smart contract API
 0xcert-web3-intents                 // web3 query and mutation requests
@@ -856,7 +856,7 @@ await exchange.cancel(order);
 0xcert/web3-folder // main
 0xcert/web3-vault // main
 0xcert/web3-sandbox
-0xcert/web3-errors
+0xcert/web3-error-parser
 0xcert/web3-utils
 
 0xcert/web3-exchange-contracts

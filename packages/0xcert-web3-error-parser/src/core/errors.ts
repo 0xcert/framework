@@ -7,7 +7,8 @@ import { ConnectorError, ConnectorIssue } from '@0xcert/scaffold';
 export function parseError(error: any) {
   if (error instanceof ConnectorError) {
     return error;
-  } else {
+  }
+  else {
     return new ConnectorError(ConnectorIssue.UNHANDLED, error);
   }
 }
