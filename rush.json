@@ -93,6 +93,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@0xcert/web3-vault",
+      "projectFolder": "packages/0xcert-web3-vault",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/web3-xcert-contracts",
       "projectFolder": "packages/0xcert-web3-xcert-contracts",
       "shouldPublish": true

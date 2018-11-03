@@ -372,6 +372,20 @@
         "web3": "^1.0.0-beta.36"
       }
     },
+    "@rush-temp/web3-vault": {
+      "version": "file:projects/web3-vault.tgz",
+      "integrity": "sha512-EsIJLOy35bMsL7I7Ka6Sl5aDxzsMXynb5Bod7RidEz/m1EJj+YgSznCfwbMTkjAd0xPivXkBxZ/rHbGHhHmQng==",
+      "requires": {
+        "@specron/cli": "^0.2.8",
+        "@specron/spec": "^0.2.8",
+        "@types/fs-extra": "^5.0.4",
+        "fs-extra": "^7.0.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/web3-xcert-contracts": {
       "version": "file:projects/web3-xcert-contracts.tgz",
       "integrity": "sha512-13s64uArkFgiK3xk5IfOgt49Uxhb5lhRURKsfKV1QLkHw3xQ++85EekULNjHeGkBX13oME4fhl6OhbX9ovmOpQ==",

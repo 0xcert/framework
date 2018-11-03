@@ -1,5 +1,13 @@
 # 0xcert suite
 
+## TODO
+- vault,
+- asset,
+- conventions
+- error parsing
+- folder/vault event subscription
+- webpack for bundling bundles '.min.js' (where you can select which components you need)
+
 ## Development
 
 Repository management: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d
