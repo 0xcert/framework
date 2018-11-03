@@ -1,4 +1,4 @@
-import { Query, Mutation } from "./intents";
+import { Query, Mutation } from "./connector";
 
 /**
  * 

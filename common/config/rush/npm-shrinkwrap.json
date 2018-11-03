@@ -280,7 +280,7 @@
     },
     "@rush-temp/web3-folder": {
       "version": "file:projects/web3-folder.tgz",
-      "integrity": "sha512-7tjlx6dgeFBUlkcFw1BQdLuQO9L9zx+Ak+BbBrVCifGVdhc1UOwWwzSK50UMqXZb9ovyjX1e6w/Aqq0ZiFBHLg==",
+      "integrity": "sha512-hxsHP8KOGC+eKcQb1sav2deAlzc4o+L+zccweT3MKb8vmWWgBtpBV8B5Wm6nrqhJlF7JZCz2Vn0AjXYq7fkZCA==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

@@ -1,15 +1,11 @@
 import { FolderAbility } from "@0xcert/scaffold";
-import { performQuery } from "@0xcert/web3-utils";
-import { FolderConfig } from "../core/folder";
-import { getFolder } from "../utils/contracts";
+import { Folder } from "../core/folder";
 
 /**
  * 
  */
-export default async function(config: FolderConfig, accountId: string) {
-  const folder = getFolder(config.web3, config.folderId);
-
-  return performQuery<FolderAbility[]>(async () => {
+export default async function(folder: Folder, accountId: string) {
+  return folder.connector.query<FolderAbility[]>(async () => {
     return await Promise.all(
       [ FolderAbility.MANAGE_ABILITIES,
         FolderAbility.MINT_ASSET,
@@ -18,7 +14,7 @@ export default async function(config: FolderConfig, accountId: string) {
         FolderAbility.SIGN_MINT_CLAIM,
         FolderAbility.UPDATE_PROOF,
       ].map(async (ability) => {
-        if (await folder.methods.isAble(accountId, ability).call()) {
+        if (await folder.contract.methods.isAble(accountId, ability).call()) {
           return ability;
         } else {
           return null;

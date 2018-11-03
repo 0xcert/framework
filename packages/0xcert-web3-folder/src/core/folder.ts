@@ -1,3 +1,4 @@
+import { Connector } from '@0xcert/web3-connector';
 import { FolderBase, FolderTransferState, FolderAbility, FolderCapability } from "@0xcert/scaffold";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
@@ -7,83 +8,84 @@ import getTransferState from '../queries/get-transfer-state';
 import assignAbilities from '../mutations/assign-abilities';
 import revokeAbilities from '../mutations/revoke-abilities';
 import setTransferState from '../mutations/set-transfer-state';
-
-/**
- * 
- */
-export interface FolderConfig {
-  web3: any;
-  folderId: string;
-  makerId: string;
-}
+import * as env from '../config/env';
 
 /**
  * 
  */
 export class Folder implements FolderBase {
-  protected config: FolderConfig;
+  readonly connector: Connector;
+  readonly contract: any;
 
   /**
    * 
    */
-  public constructor(config: FolderConfig) {
-    this.config = config;
+  public constructor(folderId: string, connector: Connector) {
+    this.connector = connector;
+    this.contract = this.getFolder(folderId);
   }
 
   /**
    * 
    */
   public async getAbilities(accountId: string) {
-    return getAbilities(this.config, accountId);
+    return getAbilities(this, accountId);
   }
 
   /**
    * 
    */
   public async getCapabilities() {
-    return getCapabilities(this.config);
+    return getCapabilities(this);
   }
 
   /**
    * 
    */
   public async getInfo() {
-    return getInfo(this.config);
+    return getInfo(this);
   }
 
   /**
    * 
    */
   public async getSupply() {
-    return getSupply(this.config);
+    return getSupply(this);
   }
 
   /**
    * 
    */
   public async getTransferState() {
-    return getTransferState(this.config);
+    return getTransferState(this);
   }
 
   /**
    * 
    */
   public async assignAbilities(accountId: string, abilities: FolderAbility[]) {
-    return assignAbilities(this.config, accountId, abilities);
+    return assignAbilities(this, accountId, abilities);
   }
 
   /**
    * 
    */
   public async revokeAbilities(accountId: string, abilities: FolderAbility[]) {
-    return revokeAbilities(this.config, accountId, abilities);
+    return revokeAbilities(this, accountId, abilities);
   }
 
   /**
    * 
    */
   public async setTransferState(state: FolderTransferState) {
-    return setTransferState(this.config, state);
+    return setTransferState(this, state);
+  }
+
+  /**
+   * 
+   */
+  protected getFolder(folderId: string) {
+    return new this.connector.web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
   }
 
 }
