@@ -176,11 +176,11 @@
     },
     "@rush-temp/crypto": {
       "version": "file:projects/crypto.tgz",
-      "integrity": "sha512-Hj5SZzRSFmImL2dMZkmN8/YUB5aV+hQEFYBFxdWqKzx96xdeIepvr55yE/REFkeJFnl7y7Vza+8qBlKzu2JCCw==",
+      "integrity": "sha512-tSZe0bQVS4WmgMK3IAHFj1/mMabjms356w1h/EQ89rxMg4I8t6IEAmpUHpYLYvJ5j2zH3h2VkETAYxHs5xJdZw==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
-        "@types/node": "^10.11.4",
+        "@types/node": "^10.12.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
@@ -334,11 +334,11 @@
     },
     "@rush-temp/web3-sandbox": {
       "version": "file:projects/web3-sandbox.tgz",
-      "integrity": "sha512-ZUaIPrQlg7t1hO9FbPvsyFUkypRKhEnZeuPhBOuvGtExS9jULDGiWjXQHdp7JKl46u9yENNOqYXCkorGuVnAlg==",
+      "integrity": "sha512-RWO7zqdG2/UoCg+HkzfW2xtjW76jHsNNz0Lvo/xTjnNSsSVhuPdy2jKem73NRUt91LcBlqeGjJIuaETokwobGw==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
-        "@types/node": "^10.11.4",
+        "@types/node": "^10.12.0",
         "ganache-cli": "^6.1.8",
         "nyc": "^13.0.1",
         "supertest": "^3.3.0",
@@ -374,7 +374,7 @@
     },
     "@rush-temp/web3-vault": {
       "version": "file:projects/web3-vault.tgz",
-      "integrity": "sha512-EsIJLOy35bMsL7I7Ka6Sl5aDxzsMXynb5Bod7RidEz/m1EJj+YgSznCfwbMTkjAd0xPivXkBxZ/rHbGHhHmQng==",
+      "integrity": "sha512-fF8OcRB0asWQipE4ibsVk9520Jckc4S64ilfw04B3/D/8HWj4rdneIZuSj75J07Ug7TJaZxhzUimUhtn0RSpkQ==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

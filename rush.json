@@ -15,97 +15,97 @@
     {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/merkle",
       "projectFolder": "packages/0xcert-merkle",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/scaffold",
       "projectFolder": "packages/0xcert-scaffold",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-connector",
       "projectFolder": "packages/0xcert-web3-connector",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-erc20-contracts",
       "projectFolder": "packages/0xcert-web3-erc20-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-erc721-contracts",
       "projectFolder": "packages/0xcert-web3-erc721-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-error-parser",
       "projectFolder": "packages/0xcert-web3-error-parser",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-exchange",
       "projectFolder": "packages/0xcert-web3-exchange",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-exchange-contracts",
       "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-folder",
       "projectFolder": "packages/0xcert-web3-folder",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-minter",
       "projectFolder": "packages/0xcert-web3-minter",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-minter-contracts",
       "projectFolder": "packages/0xcert-web3-minter-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-proxy-contracts",
       "projectFolder": "packages/0xcert-web3-proxy-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-sandbox",
       "projectFolder": "packages/0xcert-web3-sandbox",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-utils",
       "projectFolder": "packages/0xcert-web3-utils",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-utils-contracts",
       "projectFolder": "packages/0xcert-web3-utils-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-vault",
       "projectFolder": "packages/0xcert-web3-vault",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-xcert-contracts",
       "projectFolder": "packages/0xcert-web3-xcert-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/web3-zxc-contracts",
       "projectFolder": "packages/0xcert-web3-zxc-contracts",
-      "shouldPublish": true
+      "versionPolicyName": "patchAll"
     }
   ]
 }
