@@ -90,14 +90,14 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public getWeb3(web3?: any) {
+  protected getWeb3(web3?: any) {
     return web3 ? web3 : new Web3('ws://localhost:8545');
   }
 
   /**
    * 
    */
-  public async getAccounts() {
+  protected async getAccounts() {
     try {
       return await this.web3.eth.getAccounts();
     }
@@ -109,7 +109,7 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public async getMakerId(makerId?: string) {
+  protected async getMakerId(makerId?: string) {
     const accounts = await this.getAccounts();
 
     if (makerId === undefined) {
@@ -126,7 +126,7 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public getSignMethod(signMethod?: SignMethod) {
+  protected getSignMethod(signMethod?: SignMethod) {
     if (signMethod === undefined) {
       signMethod = SignMethod.ETH_SIGN;
     }
@@ -141,7 +141,7 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public async signData(data: string) {
+  protected async signData(data: string) {
     try {
       switch (this.signMethod) {
         case SignMethod.ETH_SIGN:
