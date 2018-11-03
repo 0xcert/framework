@@ -38,21 +38,6 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@0xcert/web3-exchange-contracts",
-      "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@0xcert/web3-minter",
-      "projectFolder": "packages/0xcert-web3-minter",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@0xcert/web3-minter-contracts",
-      "projectFolder": "packages/0xcert-web3-minter-contracts",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@0xcert/web3-erc20-contracts",
       "projectFolder": "packages/0xcert-web3-erc20-contracts",
       "shouldPublish": true
@@ -68,8 +53,28 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@0xcert/web3-exchange",
+      "projectFolder": "packages/0xcert-web3-exchange",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-exchange-contracts",
+      "projectFolder": "packages/0xcert-web3-exchange-contracts",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@0xcert/web3-folder",
       "projectFolder": "packages/0xcert-web3-folder",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-minter",
+      "projectFolder": "packages/0xcert-web3-minter",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@0xcert/web3-minter-contracts",
+      "projectFolder": "packages/0xcert-web3-minter-contracts",
       "shouldPublish": true
     },
     {

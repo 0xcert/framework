@@ -161,7 +161,7 @@ contract Exchange is
    * @param _data Data required to make the swap.
    * @param _signature Data from the signature. 
    */
-  function swap(
+  function performSwap(
     SwapData _data,
     SignatureData _signature
   )

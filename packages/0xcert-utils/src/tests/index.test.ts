@@ -3,7 +3,7 @@ import * as rawmodel from '..';
 
 const spec = new Spec();
 
-spec.test('exposed content', (t) => {
+spec.test('exposes objects', (t) => {
   t.true(!!rawmodel.isArray);
   t.true(!!rawmodel.isBoolean);
   t.true(!!rawmodel.isClassOf);

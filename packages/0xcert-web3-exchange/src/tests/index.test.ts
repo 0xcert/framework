@@ -4,8 +4,8 @@ import * as folder from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!folder.Minter);
-  ctx.true(!!folder.MinterOrder);
+  ctx.true(!!folder.Exchange);
+  ctx.true(!!folder.ExchangeOrder);
 });
 
 export default spec;

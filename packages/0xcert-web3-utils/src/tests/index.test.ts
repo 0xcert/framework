@@ -3,11 +3,7 @@ import * as utils from '..';
 
 const spec = new Spec();
 
-spec.test('exposed content', (ctx) => {
-  ctx.true(!!utils.performMutate);
-  ctx.true(!!utils.performQuery);
-  ctx.true(!!utils.createSignature);
-  ctx.true(!!utils.SignatureMethod);
+spec.test('exposes objects', (ctx) => {
   ctx.true(!!utils.tuple);
 });
 

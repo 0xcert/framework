@@ -7,7 +7,6 @@ import { VaultTransfer } from "./vault";
  */
 export interface ExchangeBase {
   perform(order): Promise<Mutation>;
-  cancel(order): Promise<Mutation>;
 }
 
 /**
@@ -16,8 +15,8 @@ export interface ExchangeBase {
 export interface ExchangeOrderBase extends ExchangeOrderData {
   populate(data: ExchangeOrderDataInput): this;
   serialize(): ExchangeOrderData;
-  build(recipe: ExchangeOrderRecipeInput): this;
-  sign(): this;
+  build(recipe: ExchangeOrderRecipeInput): Promise<this>;
+  sign(): Promise<this>;
 }
 
 /**

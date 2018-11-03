@@ -3,7 +3,7 @@ import * as errors from '..';
 
 const spec = new Spec();
 
-spec.test('exposed content', (ctx) => {
+spec.test('exposes objects', (ctx) => {
   ctx.true(!!errors.ConnectorError);
   ctx.true(!!errors.ConnectorIssue);
   ctx.true(!!errors.parseError);

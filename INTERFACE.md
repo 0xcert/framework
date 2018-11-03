@@ -364,7 +364,7 @@ const { publicData, publicProof } = await protocol.perform({
 });
 ```
 
-Create new asset data with optional exposed field (user can verify the exposed content from `proofData` and `proofHash`).
+Create new asset data with optional exposed field (user can verify the exposes objects from `proofData` and `proofHash`).
 
 ```ts
 const { privateData, publicData, proofData, proofHash } = await protocol.perform({

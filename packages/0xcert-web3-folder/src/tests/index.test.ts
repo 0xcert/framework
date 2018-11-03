@@ -3,7 +3,7 @@ import * as folder from '..';
 
 const spec = new Spec();
 
-spec.test('exposed content', (ctx) => {
+spec.test('exposes objects', (ctx) => {
   ctx.true(!!folder.Folder);
   ctx.true(!!folder.FolderTransferState);
   ctx.true(!!folder.FolderAbility);

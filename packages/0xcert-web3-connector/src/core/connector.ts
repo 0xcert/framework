@@ -9,6 +9,7 @@ import { SignMethod } from "./types";
 export interface ConnectorAttachOptions {
   makerId?: string;
   minterId?: string;
+  exchangeId?: string;
   signMethod?: SignMethod;
   web3?: any;
 }
@@ -19,6 +20,7 @@ export interface ConnectorAttachOptions {
 export class Connector implements ConnectorBase {
   public makerId: string;
   public minterId?: string;
+  public exchangeId?: string;
   public signMethod: SignMethod;
   public web3: any;
 
@@ -31,6 +33,7 @@ export class Connector implements ConnectorBase {
     this.web3 = this.getWeb3(options.web3);
     this.makerId = await this.getMakerId(options.makerId);
     this.minterId = options.minterId || '0x';
+    this.exchangeId = options.exchangeId || '0x';
     this.signMethod = await this.getSignMethod(options.signMethod);
 
     return this;
@@ -44,6 +47,7 @@ export class Connector implements ConnectorBase {
     this.makerId = null;
     this.signMethod = null;
     this.minterId = null;
+    this.exchangeId = null;
 
     return this;
   }
