@@ -1,3 +1,4 @@
+import { Mutation } from "./connector";
 import { FolderTransfer } from "./folder";
 import { VaultTransfer } from "./vault";
 
@@ -5,42 +6,42 @@ import { VaultTransfer } from "./vault";
  * 
  */
 export interface ExchangeBase {
-  perform(deal);
-  cancel(deal);
+  perform(order): Promise<Mutation>;
+  cancel(order): Promise<Mutation>;
 }
 
 /**
  * 
  */
-export interface ExchangeDealBase extends ExchangeDealData {
-  populate(data: ExchangeDealDataInput): this;
-  serialize(): ExchangeDealData;
-  build(recipe: ExchangeDealRecipeInput): this;
+export interface ExchangeOrderBase extends ExchangeOrderData {
+  populate(data: ExchangeOrderDataInput): this;
+  serialize(): ExchangeOrderData;
+  build(recipe: ExchangeOrderRecipeInput): this;
   sign(): this;
 }
 
 /**
  * 
  */
-export interface ExchangeDealData {
+export interface ExchangeOrderData {
   claim: string;
   signature: string;
-  recipe: ExchangeDealRecipe;
+  recipe: ExchangeOrderRecipe;
 }
 
 /**
  * 
  */
-export interface ExchangeDealDataInput {
+export interface ExchangeOrderDataInput {
   claim?: string;
   signature?: string;
-  recipe?: ExchangeDealRecipeInput;
+  recipe?: ExchangeOrderRecipeInput;
 }
 
 /**
  * 
  */
-export interface ExchangeDealRecipe {
+export interface ExchangeOrderRecipe {
   makerId: string;
   takerId: string;
   transfers: (FolderTransfer | VaultTransfer)[];
@@ -51,7 +52,7 @@ export interface ExchangeDealRecipe {
 /**
  * 
  */
-export interface ExchangeDealRecipeInput {
+export interface ExchangeOrderRecipeInput {
   makerId?: string;
   takerId: string;
   transfers?: (FolderTransfer | VaultTransfer)[];

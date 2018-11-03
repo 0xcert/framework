@@ -1,3 +1,4 @@
+import { Mutation } from "./connector";
 import { FolderTransfer } from "./folder";
 import { VaultTransfer } from "./vault";
 
@@ -5,42 +6,41 @@ import { VaultTransfer } from "./vault";
  * 
  */
 export interface MinterBase {
-  perform(deal);
-  cancel(deal);
+  perform(order): Promise<Mutation>;
 }
 
 /**
  * 
  */
-export interface MinterDealBase extends MinterDealData {
-  populate(data: MinterDealDataInput): this;
-  serialize(): MinterDealData;
-  build(recipe: MinterDealRecipeInput): this;
-  sign(): this;
+export interface MinterOrderBase extends MinterOrderData {
+  populate(data: MinterOrderDataInput): this;
+  serialize(): MinterOrderData;
+  build(recipe: MinterOrderRecipeInput): Promise<this>;
+  sign(): Promise<this>;
 }
 
 /**
  * 
  */
-export interface MinterDealData {
+export interface MinterOrderData {
   claim: string;
   signature: string;
-  recipe: MinterDealRecipe;
+  recipe: MinterOrderRecipe;
 }
 
 /**
  * 
  */
-export interface MinterDealDataInput {
+export interface MinterOrderDataInput {
   claim?: string;
   signature?: string;
-  recipe?: MinterDealRecipeInput;
+  recipe?: MinterOrderRecipeInput;
 }
 
 /**
  * 
  */
-export interface MinterDealRecipe {
+export interface MinterOrderRecipe {
   makerId: string;
   takerId: string;
   asset: {
@@ -56,7 +56,7 @@ export interface MinterDealRecipe {
 /**
  * 
  */
-export interface MinterDealRecipeInput {
+export interface MinterOrderRecipeInput {
   makerId?: string;
   takerId: string;
   asset: {

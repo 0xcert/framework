@@ -294,7 +294,7 @@
     },
     "@rush-temp/web3-minter": {
       "version": "file:projects/web3-minter.tgz",
-      "integrity": "sha512-1EbFvm7x7YCgGyp9eiIGbnXOxUsUKSQ2XUpHVG93o/AVThzBeOVif93Xw0ItU+CV38vavNnNTElXLfh8fe2z/A==",
+      "integrity": "sha512-nA89kEevs9Kwhs+lzJ7skCDRb5mYfGSVWDMufrySpx588OtoQPvRB2rdI7oQxZJBRDmY3E3XSkcx0wfPWp0ezg==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

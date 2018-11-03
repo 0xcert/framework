@@ -1,94 +1,35 @@
-import { SignatureMethod, createSignature } from "@0xcert/web3-utils";
-import { getMinter } from '../utils/contracts';
-import tuple from '../utils/tuple';
+import { MinterBase } from '@0xcert/scaffold';
+import { Connector } from '@0xcert/web3-connector';
+import { tuple } from '@0xcert/web3-utils';
+import * as env from '../config/env';
+import { MinterOrder } from './order';
 
 /**
  * 
  */
-export interface MinterOrderConfig {
-  web3: any;
-  makerId: string;
-  minterId: string;
-  signatureMethod: SignatureMethod;
-}
-
-/**
- * 
- */
-export class Order implements OrderBase {
-  public recipe: OrderRecipe;
-  public claim: string;
-  public signature: string;
-  protected config: OrderConfig;
+export class Minter implements MinterBase {
+  readonly connector: Connector;
+  readonly contract: any;
 
   /**
    * 
    */
-  public constructor(config: OrderConfig) {
-    this.config = config;
+  public constructor(connector: Connector) {
+    this.connector = connector;
+    this.contract = new connector.web3.eth.Contract(env.minterAbi, connector.minterId, { gas: 6000000 });
   }
 
   /**
    * 
    */
-  public async compile(recipe: OrderRecipe) {
-    this.recipe = recipe;
-
-    let temp = '0x0';
-    for(const transfer of this.recipe.transfers) {
-      temp = this.config.web3.utils.soliditySha3(
-        { t: 'bytes32', v: temp },
-        transfer['folderId'] || transfer['vaultId'],
-        transfer['assetId'] ? 1 : 0,
-        transfer.senderId,
-        transfer.receiverId,
-        transfer['assetId'] || transfer['amount'],
-      );
-    } 
-
-    this.claim = this.config.web3.utils.soliditySha3(
-      this.config.minterId,
-      this.config.makerId,
-      this.recipe.takerId,
-      this.recipe.asset.folderId,
-      this.recipe.asset.assetId,
-      this.recipe.asset.proof,
-      temp,
-      this.recipe.seed || Date.now(), // seed
-      this.recipe.expiration // expires
-    );
-    this.signature = null;
-
-    return this;
-  }
-
-  /**
-   * 
-   */
-  public async sign() {
-    this.signature = await createSignature(this.claim, {
-      web3: this.config.web3,
-      method: this.config.signatureMethod,
-      makerId: this.config.makerId,
-    });
-
-    return this;
-  }
-
-  /**
-   * 
-   */
-  public async perform(signatureA: string) {
-    const minter = getMinter(this.config.web3, this.config.minterId);
-    const from = await this.recipe.takerId;
-
+  public async perform(order: MinterOrder) {
     const xcertData = {
-      xcert: this.recipe.asset.folderId,
-      id: this.recipe.asset.assetId,
-      proof: this.recipe.asset.proof,
+      xcert: order.recipe.asset.folderId,
+      id: order.recipe.asset.assetId,
+      proof: order.recipe.asset.proof,
     };
 
-    const transfers = this.recipe.transfers.map((transfer) => {
+    const transfers = order.recipe.transfers.map((transfer) => {
       return {
         token: transfer['folderId'] || transfer['vaultId'],
         proxy: transfer['assetId'] ? 1 : 0,
@@ -97,19 +38,18 @@ export class Order implements OrderBase {
         value: transfer['assetId'] || transfer['amount'],
       };
     });
-
+    
     const mintData = {
-      from: this.config.makerId,
-      to: this.recipe.takerId,
+      from: order.recipe.makerId,
+      to: order.recipe.takerId,
       xcertData,
       transfers,
-      seed: this.recipe.seed,
-      expirationTimestamp: this.recipe.expiration,
+      seed: order.recipe.seed,
+      expirationTimestamp: order.recipe.expiration,
     };
-
     const mintTuple = tuple(mintData);
   
-    const [kind, signature] = signatureA.split(':');
+    const [kind, signature] = (order.signature || '').split(':');
     const signatureTuple = tuple({
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
@@ -117,20 +57,10 @@ export class Order implements OrderBase {
       kind
     });
 
-    return performMutate(() => {
-      return minter.methods.performMint(mintTuple, signatureTuple).send({ from });
+    const from = this.connector.makerId;
+    return this.connector.mutate(() => {
+      return this.contract.methods.performMint(mintTuple, signatureTuple).send({ from });
     });
-  }
-
-  /**
-   * 
-   */
-  public serialize() {
-    return {
-      recipe: this.recipe,
-      claim: this.claim,
-      signature: this.signature,
-    };
   }
 
 }
