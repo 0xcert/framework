@@ -70,7 +70,7 @@ export class MinterOrder implements MinterOrderBase {
     for(const transfer of this.recipe.transfers) {
       temp = this.context.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
-        transfer['folderId'] || transfer['vaultId'],
+        transfer['ledgerId'] || transfer['vaultId'],
         transfer['assetId'] ? 1 : 0,
         transfer.senderId,
         transfer.receiverId,
@@ -82,7 +82,7 @@ export class MinterOrder implements MinterOrderBase {
       this.context.minterId,
       this.recipe.makerId,
       this.recipe.takerId,
-      this.recipe.asset.folderId,
+      this.recipe.asset.ledgerId,
       this.recipe.asset.assetId,
       this.recipe.asset.proof,
       temp,

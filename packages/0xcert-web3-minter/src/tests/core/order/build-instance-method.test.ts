@@ -26,7 +26,7 @@ spec.test('generates and sets order claim', async (ctx) => {
     makerId: '0x342da4DaE236037E9586499DA06494DDE2a0b52b',
     takerId: '0x1231858C3aeFe5B5E8A5C81d2b5341fbc41E2B13',
     asset: {
-      folderId: '0x146E35b007B76A4455890cF6d1b82F6A8ef12e0E',
+      ledgerId: '0x146E35b007B76A4455890cF6d1b82F6A8ef12e0E',
       assetId: '1',
       proof: '1e205550c271490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8',
     },

@@ -58,8 +58,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-folder",
-      "projectFolder": "packages/0xcert-web3-folder",
+      "packageName": "@0xcert/web3-asset-ledger",
+      "projectFolder": "packages/0xcert-web3-asset-ledger",
       "versionPolicyName": "patchAll"
     },
     {

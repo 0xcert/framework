@@ -75,13 +75,13 @@ spec.before(async (stage) => {
     takerId: bob,
     transfers: [
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: sara,
         receiverId: jane,
         assetId: '100',
       },
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: jane,
         receiverId: sara,
         assetId: '101',

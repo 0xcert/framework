@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
-import * as folder from '..';
+import * as ledger from '..';
 
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!folder.Vault);
+  ctx.true(!!ledger.Vault);
 });
 
 export default spec;

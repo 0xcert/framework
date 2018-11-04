@@ -1,5 +1,5 @@
 import { Mutation } from "./context";
-import { FolderTransfer } from "./folder";
+import { AssetLedgerTransfer } from "./asset-ledger";
 import { VaultTransfer } from "./vault";
 
 /**
@@ -46,11 +46,11 @@ export interface MinterOrderRecipe {
   makerId: string;
   takerId: string;
   asset: {
-    folderId: string;
+    ledgerId: string;
     assetId: string;
     proof: string;
   },
-  transfers: (FolderTransfer | VaultTransfer)[];
+  transfers: (AssetLedgerTransfer | VaultTransfer)[];
   seed: number;
   expiration: number;
 }
@@ -62,11 +62,11 @@ export interface MinterOrderRecipeInput {
   makerId?: string;
   takerId: string;
   asset: {
-    folderId: string;
+    ledgerId: string;
     assetId: string;
     proof?: string;
   },
-  transfers?: (FolderTransfer | VaultTransfer)[];
+  transfers?: (AssetLedgerTransfer | VaultTransfer)[];
   seed?: number;
   expiration?: number;
 }

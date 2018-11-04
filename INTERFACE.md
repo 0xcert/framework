@@ -7,7 +7,7 @@ Read asset on the network.
 ```ts
 const { publicData, publicProof } = await protocol.perform({
   queryId: QueryId.READ_ASSET_DATA,
-  folderId: '0x...',
+  ledgerId: '0x...',
   assetId: '0x...',
 });
 ```
@@ -75,37 +75,37 @@ proof.disclose([{ path }]);
 Connector actions.
 
 ```ts
-const folder = new Folder({ ...context });
-folder.on('', () => {}); //Transfer(_from, _to, _tokenId );
-folder.on('', () => {}); //Approval(_owner, _approved, _tokenId );
-folder.on('', () => {}); //ApprovalForAll(_owner, _operator, _approved );
-folder.on('', () => {}); //IsPaused(bool isPaused);
-folder.on('', () => {}); //TokenProofUpdate(_tokenId, _proof);
-folder.on('', () => {}); //AssignAbility(_target, _ability);
-folder.on('', () => {}); //RevokeAbility(_target, _ability);
-folder.off('', () => {});
-folder.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
-folder.burn({ assetId });
-folder.revoke({ assetId }); 
-folder.mint({ assetId, proof });
-folder.updateAssetProof({ assetProof }); // 
-folder.updateUriBase({ uriBase }); // setUriBase
-folder.getSupply();
-folder.getMetadata();
-folder.getCapabilities();
-folder.isEnabled();
-folder.isApproved({ accountId, assetId });
-folder.isApprovedForAll(accountId);
-folder.isAble({ abilityKind, accountId });
-folder.verify({ assetId, data: [{ index, value }] }); // from proof.disclose()
-folder.approveForOne(accountId, assetId);
-folder.approveForAll(); // setApprovalForAll -> setOperator
-folder.revokeAsset(); // revokable
-folder.balanceOf(accountId);
-folder.ownerOf(assetId);
-folder.createAsset(assetId, proof, accountId);
-folder.subscribe();
-folder.unsubscribe();
+const ledger = new AssetLedger({ ...context });
+ledger.on('', () => {}); //Transfer(_from, _to, _tokenId );
+ledger.on('', () => {}); //Approval(_owner, _approved, _tokenId );
+ledger.on('', () => {}); //ApprovalForAll(_owner, _operator, _approved );
+ledger.on('', () => {}); //IsPaused(bool isPaused);
+ledger.on('', () => {}); //TokenProofUpdate(_tokenId, _proof);
+ledger.on('', () => {}); //AssignAbility(_target, _ability);
+ledger.on('', () => {}); //RevokeAbility(_target, _ability);
+ledger.off('', () => {});
+ledger.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
+ledger.burn({ assetId });
+ledger.revoke({ assetId }); 
+ledger.mint({ assetId, proof });
+ledger.updateAssetProof({ assetProof }); // 
+ledger.updateUriBase({ uriBase }); // setUriBase
+ledger.getSupply();
+ledger.getMetadata();
+ledger.getCapabilities();
+ledger.isEnabled();
+ledger.isApproved({ accountId, assetId });
+ledger.isApprovedForAll(accountId);
+ledger.isAble({ abilityKind, accountId });
+ledger.verify({ assetId, data: [{ index, value }] }); // from proof.disclose()
+ledger.approveForOne(accountId, assetId);
+ledger.approveForAll(); // setApprovalForAll -> setOperator
+ledger.revokeAsset(); // revokable
+ledger.balanceOf(accountId);
+ledger.ownerOf(assetId);
+ledger.createAsset(assetId, proof, accountId);
+ledger.subscribe();
+ledger.unsubscribe();
 ```
 
 # Confirmed API
@@ -120,11 +120,10 @@ await context.detach();
 await context.sign(data);
 ```
 ```ts
-import { Asset } from '@0xcert/asset';
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
-const ledger = new AssetLedger(connector, folderId?);
-// const registry = AssetLedger.getInstance(connector, folderId?);
+const ledger = new AssetLedger(connector, ledgerId?);
+// const registry = AssetLedger.getInstance(connector, ledgerId?);
 ledger.platform; // web3
 ledger.id;
 await ledger.deploy(hash);
@@ -174,12 +173,12 @@ order.serialize();
 await order.build({
   takerId: bob,
   asset: {
-    folderId: xcertId,
+    ledgerId: xcertId,
     assetId: '5',
     proof: 'foo',
   },
   transfers: [
-    { folderId: xcertId, senderId: bob, receiverId: sara, assetId: '100' },
+    { ledgerId: xcertId, senderId: bob, receiverId: sara, assetId: '100' },
   ],
   seed: 1535113220,
   expiration: 1607731200,
@@ -231,7 +230,7 @@ await exchange.cancel(order);
 
 # Renaming considerations
 
-`Folder` = AssetContract, Asset
+`AssetLedger` = AssetContract, Asset
 `Vault` = CoinContract, Coin
 `Minter` = AssetMinter, AssetOrder
 `Exchange` = Exchange, ExchangeOrder
@@ -243,17 +242,17 @@ await exchange.cancel(order);
 ```ts
 const storage = new Storage();
 const connector = new Connector();
-const folder = new Folder(connector, folderId);
+const ledger = new AssetLedger(connector, ledgerId);
 const asset = new Asset(schema);
 asset.platform;
-asset.folderId;
+asset.ledgerId;
 asset.id;
 asset.populate(data);
 asset.serialize();
 try {
   await asset.validate();
   await storage.upload(asset);
-  await folder.mint(asset);
+  await ledger.mint(asset);
 }
 catch (error) {
   alsert(error);

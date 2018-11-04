@@ -1,12 +1,12 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Folder } from '../../../core/folder';
-import { FolderAbility } from '@0xcert/scaffold';
+import { AssetLedger } from '../../../core/ledger';
+import { AssetLedgerAbility } from '@0xcert/scaffold';
 
 interface Data {
   context: Context
-  folder: Folder;
+  ledger: AssetLedger;
   protocol: Protocol;
   bob: string;
 }
@@ -28,9 +28,9 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const context = stage.get('context');
-  const folderId = stage.get('protocol').xcert.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('folder', new Folder(context, folderId));
+  stage.set('ledger', new AssetLedger(context, ledgerId));
 });
 
 spec.before(async (stage) => {
@@ -39,15 +39,15 @@ spec.before(async (stage) => {
   stage.set('bob', accounts[1]);
 });
 
-spec.test('revokes folder abilities for an account', async (ctx) => {
-  const folder = ctx.get('folder');
+spec.test('revokes ledger abilities for an account', async (ctx) => {
+  const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
   
-  await folder.assignAbilities(bob, [FolderAbility.MINT_ASSET, FolderAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
-  await folder.revokeAbilities(bob, [FolderAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
+  await ledger.assignAbilities(bob, [AssetLedgerAbility.MINT_ASSET, AssetLedgerAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
+  await ledger.revokeAbilities(bob, [AssetLedgerAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
 
-  const abilities = await folder.getAbilities(bob).then((q) => q.result);
-  ctx.deepEqual(abilities, [FolderAbility.MINT_ASSET]);
+  const abilities = await ledger.getAbilities(bob).then((q) => q.result);
+  ctx.deepEqual(abilities, [AssetLedgerAbility.MINT_ASSET]);
 });
 
 export default spec;

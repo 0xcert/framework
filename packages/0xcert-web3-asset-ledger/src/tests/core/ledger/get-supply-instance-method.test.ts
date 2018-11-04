@@ -1,11 +1,11 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Folder } from '../../../core/folder';
+import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   context: Context
-  folder: Folder;
+  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -26,15 +26,15 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const context = stage.get('context');
-  const folderId = stage.get('protocol').xcert.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('folder', new Folder(context, folderId));
+  stage.set('ledger', new AssetLedger(context, ledgerId));
 });
 
-spec.test('returns folder total supply', async (ctx) => {
-  const folder = ctx.get('folder');
+spec.test('returns ledger total supply', async (ctx) => {
+  const ledger = ctx.get('ledger');
   
-  const supply = await folder.getSupply().then((q) => q.result);
+  const supply = await ledger.getSupply().then((q) => q.result);
 
   ctx.is(supply, 0);
 });

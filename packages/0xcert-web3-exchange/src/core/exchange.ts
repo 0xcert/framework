@@ -51,7 +51,7 @@ export class Exchange implements ExchangeBase {
   protected createRecipeTuple(order: ExchangeOrder) {
     const transfers = order.recipe.transfers.map((transfer) => {
       return {
-        token: transfer['folderId'] || transfer['vaultId'],
+        token: transfer['ledgerId'] || transfer['vaultId'],
         proxy: transfer['assetId'] ? 1 : 0,
         from: transfer['senderId'],
         to: transfer['receiverId'],

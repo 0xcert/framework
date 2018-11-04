@@ -68,13 +68,13 @@ spec.before(async (stage) => {
   await order.build({
     takerId: bob,
     asset: {
-      folderId: xcertId,
+      ledgerId: xcertId,
       assetId: '5',
       proof: 'foo',
     },
     transfers: [
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: bob,
         receiverId: sara,
         assetId: '100',

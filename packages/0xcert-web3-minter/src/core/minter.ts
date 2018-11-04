@@ -50,14 +50,14 @@ export class Minter implements MinterBase {
    */
   protected createRecipeTuple(order: MinterOrder) {
     const assetData = {
-      xcert: order.recipe.asset.folderId,
+      xcert: order.recipe.asset.ledgerId,
       id: order.recipe.asset.assetId,
       proof: order.recipe.asset.proof,
     };
 
     const transfers = order.recipe.transfers.map((transfer) => {
       return {
-        token: transfer['folderId'] || transfer['vaultId'],
+        token: transfer['ledgerId'] || transfer['vaultId'],
         proxy: transfer['assetId'] ? 1 : 0,
         from: transfer['senderId'],
         to: transfer['receiverId'],

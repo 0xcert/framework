@@ -5,7 +5,7 @@
 - asset,
 - conventions
 - error parsing
-- folder/vault event subscription
+- ledger/vault event subscription
 - webpack for bundling bundles '.min.js' (where you can select which components you need)
 - dependencies in package.json refactoring (all are now devDependencies)
 

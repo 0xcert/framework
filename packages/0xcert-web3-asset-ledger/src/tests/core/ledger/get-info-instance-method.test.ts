@@ -1,12 +1,11 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Folder } from '../../../core/folder';
-import { FolderTransferState } from '@0xcert/scaffold';
+import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   context: Context
-  folder: Folder;
+  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -27,17 +26,22 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const context = stage.get('context');
-  const folderId = stage.get('protocol').xcertPausable.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('folder', new Folder(context, folderId));
+  stage.set('ledger', new AssetLedger(context, ledgerId));
 });
 
-spec.test('returns folder transfer state', async (ctx) => {
-  const folder = ctx.get('folder');
+spec.test('returns ledger info', async (ctx) => {
+  const ledger = ctx.get('ledger');
   
-  const state = await folder.getTransferState().then((q) => q.result);
+  const info = await ledger.getInfo().then((q) => q.result);
 
-  ctx.is(state, FolderTransferState.ENABLED);
+  ctx.deepEqual(info, {
+    name: 'Xcert',
+    symbol: 'Xcert',
+    uriBase: 'http://0xcert.org/',
+    conventionId: 'Xcert',
+  });
 });
 
 export default spec;

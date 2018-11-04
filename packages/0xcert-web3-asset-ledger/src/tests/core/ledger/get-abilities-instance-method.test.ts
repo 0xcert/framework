@@ -1,13 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Folder } from '../../../core/folder';
-import { FolderAbility } from '@0xcert/scaffold';
+import { AssetLedger } from '../../../core/ledger';
+import { AssetLedgerAbility } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;
   context: Context
-  folder: Folder;
+  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -28,9 +28,9 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const context = stage.get('context');
-  const folderId = stage.get('protocol').xcert.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('folder', new Folder(context, folderId));
+  stage.set('ledger', new AssetLedger(context, ledgerId));
 });
 
 spec.before(async (stage) => {
@@ -41,17 +41,17 @@ spec.before(async (stage) => {
 
 spec.test('returns account abilities', async (ctx) => {
   const coinbase = ctx.get('coinbase');
-  const folder = ctx.get('folder');
+  const ledger = ctx.get('ledger');
 
-  const abilities = await folder.getAbilities(coinbase).then((q) => q.result);
+  const abilities = await ledger.getAbilities(coinbase).then((q) => q.result);
 
   ctx.deepEqual(abilities, [
-    FolderAbility.MANAGE_ABILITIES,
-    FolderAbility.MINT_ASSET,
-    FolderAbility.REVOKE_ASSET,
-    FolderAbility.PAUSE_TRANSFER,
-    FolderAbility.UPDATE_PROOF,
-    FolderAbility.SIGN_MINT_CLAIM,
+    AssetLedgerAbility.MANAGE_ABILITIES,
+    AssetLedgerAbility.MINT_ASSET,
+    AssetLedgerAbility.REVOKE_ASSET,
+    AssetLedgerAbility.PAUSE_TRANSFER,
+    AssetLedgerAbility.UPDATE_PROOF,
+    AssetLedgerAbility.SIGN_MINT_CLAIM,
   ]);
 });
 

@@ -1,5 +1,5 @@
 import { Context } from '@0xcert/web3-context';
-import { FolderBase, FolderTransferState, FolderAbility, FolderCapability } from "@0xcert/scaffold";
+import { AssetLedgerBase, AssetLedgerTransferState, AssetLedgerAbility, AssetLedgerCapability } from "@0xcert/scaffold";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
@@ -13,7 +13,7 @@ import * as env from '../config/env';
 /**
  * 
  */
-export class Folder implements FolderBase {
+export class AssetLedger implements AssetLedgerBase {
   readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
@@ -21,9 +21,9 @@ export class Folder implements FolderBase {
   /**
    * 
    */
-  public constructor(context: Context, folderId: string) {
+  public constructor(context: Context, ledgerId: string) {
     this.context = context;
-    this.contract = this.getFolder(folderId);
+    this.contract = this.getAssetLedger(ledgerId);
   }
 
   /**
@@ -64,29 +64,29 @@ export class Folder implements FolderBase {
   /**
    * 
    */
-  public async assignAbilities(accountId: string, abilities: FolderAbility[]) {
+  public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
     return assignAbilities(this, accountId, abilities);
   }
 
   /**
    * 
    */
-  public async revokeAbilities(accountId: string, abilities: FolderAbility[]) {
+  public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
     return revokeAbilities(this, accountId, abilities);
   }
 
   /**
    * 
    */
-  public async setTransferState(state: FolderTransferState) {
+  public async setTransferState(state: AssetLedgerTransferState) {
     return setTransferState(this, state);
   }
 
   /**
    * 
    */
-  protected getFolder(folderId: string) {
-    return new this.context.web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
+  protected getAssetLedger(ledgerId: string) {
+    return new this.context.web3.eth.Contract(env.xcertAbi, ledgerId, { gas: 6000000 });
   }
 
 }
