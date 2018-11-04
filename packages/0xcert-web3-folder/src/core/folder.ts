@@ -14,13 +14,14 @@ import * as env from '../config/env';
  * 
  */
 export class Folder implements FolderBase {
+  readonly platform: string = 'web3';
   readonly connector: Connector;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(folderId: string, connector: Connector) {
+  public constructor(connector: Connector, folderId: string) {
     this.connector = connector;
     this.contract = this.getFolder(folderId);
   }

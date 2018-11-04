@@ -18,6 +18,7 @@ export interface ConnectorAttachOptions {
  * 
  */
 export class Connector implements ConnectorBase {
+  readonly platform: string = 'web3';
   public makerId: string;
   public minterId?: string;
   public exchangeId?: string;

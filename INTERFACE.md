@@ -111,43 +111,120 @@ folder.unsubscribe();
 # Confirmed API
 
 ```ts
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 
-const connector = new Connector();
-connector.web3;
-connector.makerId;
-connector.minterId;
-connector.exchangeId;
-connector.signMethod;
-connector.web3;
-await connector.attach({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
-await connector.detach();
-await connector.sign(data);
+const context = new Context({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
+context.platform; // web3
+await context.attach();
+await context.detach();
+await context.sign(data);
 ```
 ```ts
-import { Folder } from '@0xcert/web3-folder';
+import { Asset } from '@0xcert/asset';
+import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
-const folder = new Folder(connector);
-await folder.getAbilities(accountId);
-await folder.getCapabilities();
-await folder.getInfo();
-await folder.getSupply();
-await folder.getTransferState();
-await folder.assignAbilities(accountId, abilities);
-await folder.revokeAbilities(accountId, abilities);
-await folder.setTransferState(state);
+const ledger = new AssetLedger(connector, folderId?);
+// const registry = AssetLedger.getInstance(connector, folderId?);
+ledger.platform; // web3
+ledger.id;
+await ledger.deploy(hash);
+await ledger.getAbilities(accountId);
+await ledger.getCapabilities();
+await ledger.getInfo();
+await ledger.getSupply();
+await ledger.getTransferState();
+await ledger.assignAbilities(accountId, abilities);
+await ledger.revokeAbilities(accountId, abilities);
+await ledger.setTransferState(state);
 ```
 ```ts
-import { Vault } from '@0xcert/web3-vault';
+import { ValueLedger } from '@0xcert/web3-value-ledger';
 
-const vault = await new Vault(vaultId, connector);
-await vault.getInfo();
-await vault.getSupply();
+const ledger = await new ValueLedger(connector, vaultId?);
+ledger.platform; // web3
+ledger.id;
+await ledger.deploy(hash);
+await ledger.getInfo();
+await ledger.getSupply();
 ```
+```ts
+const order = new ExchnageOrder(connector);
+order.platform;
+order.claim; //
+order.signature;
+order.recipe;
+order.createAsset({ assetId, proof }); // proxy 1
+order.createAsset({ assetId, proof });
+order.createAsset({ assetId, proof });
+order.transferAsset({ from, to, assetId }); // proxy 2
+order.transferAsset({ from, to, assetId });
+order.transferAsset({ from, to, assetId });
+order.transferValue({ from, to, value }); // proxy 3
+order.transferValue({ from, to, value }); // proxy 3
+order.transferValue({ from, to, value }); // proxy 3
+// MAKER
+order.generate().sign().serialize(); // => by email to taker
+// TAKER
+order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
+order.perform();
+
+
+
+order.serialize();
+await order.build({
+  takerId: bob,
+  asset: {
+    folderId: xcertId,
+    assetId: '5',
+    proof: 'foo',
+  },
+  transfers: [
+    { folderId: xcertId, senderId: bob, receiverId: sara, assetId: '100' },
+  ],
+  seed: 1535113220,
+  expiration: 1607731200,
+});
+await order.sign(); // by maker
+await order.cancel(); // by maker
+await order.exchange(); // by taker
+```
+
+
+
+
+
+
+
+
+```ts
+interface User {
+  name: string;
+}
+const asset = new Asset<User>('http://schema.org//....');
+asset.populateById(id);
+asset.name // 
+asset.populate() //
+asset.validate();
+asset.....
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```ts
 import { Minter, MinterOrder } from '@0xcert/web3-minter';
 
 const order = new MinterOrder(connector);
+vault.platform; // web3
 order.claim;
 order.signature;
 order.recipe;
@@ -157,6 +234,7 @@ await order.build({ makerId?, takerId, transfers, seed?, expiration? });
 await order.sign();
 
 const minter = new Minter(connector);
+vault.platform; // web3
 await minter.perform(order);
 await minter.cancel(order);
 ```
@@ -167,12 +245,58 @@ const order = new ExchangeOrder(connector);
 order.claim;
 order.signature;
 order.recipe;
+order.add(Action.TRANSFER_VALUE, { ... });
+order.add(Action.TRANSFER_ASSET, { ... });
+order.add(Action.CREATE_ASSET, { ... });
 order.populate({ claim?, signature?, recipe? });
 order.serialize();
 await order.build({ makerId?, takerId, transfers, seed?, expiration? });
-await order.sign();
+await order.sign(); // seal!
 
 const exchange = new Exchange(connector);
+exchange.on('swap', () => {});
+exchange.subscribe();
+exchange.unsubscribe();
 await exchange.perform(order);
 await exchange.cancel(order);
 ```
+
+# Renaming considerations
+
+`Folder` = AssetContract, Asset
+`Vault` = CoinContract, Coin
+`Minter` = AssetMinter, AssetOrder
+`Exchange` = Exchange, ExchangeOrder
+
+# Assets
+
+## Flow to create an asset
+
+```ts
+const storage = new Storage();
+const connector = new Connector();
+const folder = new Folder(connector, folderId);
+const asset = new Asset(schema);
+asset.platform;
+asset.folderId;
+asset.id;
+asset.populate(data);
+asset.serialize();
+try {
+  await asset.validate();
+  await storage.upload(asset);
+  await folder.mint(asset);
+}
+catch (error) {
+  alsert(error);
+}
+```
+
+# Conventions
+
+## JSON Schema
+
+1. Base for conventons.
+2. Expend functions by adding `expose: []` for exposing data to public.
+3. Convert to schema.org JSON for google search.
+4. Must generate private, public, google search objects.

@@ -28,7 +28,7 @@ spec.before(async (stage) => {
   const connector = stage.get('connector');
   const vaultId = stage.get('protocol').erc20.instance.options.address;
 
-  stage.set('vault', new Vault(vaultId, connector));
+  stage.set('vault', new Vault(connector, vaultId));
 });
 
 spec.test('returns vault total supply', async (ctx) => {

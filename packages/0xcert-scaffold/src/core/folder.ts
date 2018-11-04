@@ -1,4 +1,4 @@
-import { Query, Mutation } from "./connector";
+import { Query, Mutation, ConnectorBase } from "./connector";
 
 /**
  * 
@@ -34,6 +34,7 @@ export enum FolderCapability {
  * 
  */
 export interface FolderBase {
+  readonly platform: string;
   getAbilities(accountId: string): Promise<Query<FolderAbility[]>>;
   getCapabilities(): Promise<Query<FolderCapability[]>>;
   getInfo(): Promise<Query<FolderGetInfoResult>>;

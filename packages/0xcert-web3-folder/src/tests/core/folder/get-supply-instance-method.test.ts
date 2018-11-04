@@ -28,7 +28,7 @@ spec.before(async (stage) => {
   const connector = stage.get('connector');
   const folderId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('folder', new Folder(folderId, connector));
+  stage.set('folder', new Folder(connector, folderId));
 });
 
 spec.test('returns folder total supply', async (ctx) => {

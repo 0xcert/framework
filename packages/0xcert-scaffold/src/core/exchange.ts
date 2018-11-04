@@ -6,6 +6,7 @@ import { VaultTransfer } from "./vault";
  * 
  */
 export interface ExchangeBase {
+  readonly platform: string;
   perform(order): Promise<Mutation>;
   cancel(order): Promise<Mutation>;
 }

@@ -8,13 +8,14 @@ import * as env from '../config/env';
  * 
  */
 export class Vault implements VaultBase {
+  readonly platform: string = 'web3';
   readonly connector: Connector;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(vaultId: string, connector: Connector) {
+  public constructor(connector: Connector, vaultId?: string) {
     this.connector = connector;
     this.contract = this.getVault(vaultId);
   }

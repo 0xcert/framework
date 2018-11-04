@@ -36,10 +36,10 @@ spec.before(async (stage) => {
   const pausableFolderId = stage.get('protocol').xcertPausable.instance.options.address;
   const revokableFolderId = stage.get('protocol').xcertRevokable.instance.options.address;
 
-  stage.set('burnableFolder', new Folder(burnableFolderId, connector));
-  stage.set('mutableFolder', new Folder(mutableFolderId, connector));
-  stage.set('pausableFolder', new Folder(pausableFolderId, connector));
-  stage.set('revokableFolder', new Folder(revokableFolderId, connector));
+  stage.set('burnableFolder', new Folder(connector, burnableFolderId));
+  stage.set('mutableFolder', new Folder(connector, mutableFolderId));
+  stage.set('pausableFolder', new Folder(connector, pausableFolderId));
+  stage.set('revokableFolder', new Folder(connector, revokableFolderId));
 });
 
 spec.before(async (stage) => {

@@ -8,6 +8,7 @@ import { MinterOrder } from './order';
  * 
  */
 export class Minter implements MinterBase {
+  readonly platform: string = 'web3';
   readonly connector: Connector;
   readonly contract: any;
 

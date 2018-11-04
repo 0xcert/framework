@@ -8,6 +8,7 @@ import { ExchangeOrder } from './order';
  * 
  */
 export class Exchange implements ExchangeBase {
+  readonly platform: string = 'web3';
   readonly connector: Connector;
   readonly contract: any;
 

@@ -4,6 +4,7 @@ import { Query } from "./connector";
  * 
  */
 export interface VaultBase {
+  readonly platform: string;
   getInfo(): Promise<Query<VaultGetInfoResult>>;
   getSupply(): Promise<Query<number>>;
 }
