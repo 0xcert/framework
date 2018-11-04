@@ -1,4 +1,4 @@
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import { FolderBase, FolderTransferState, FolderAbility, FolderCapability } from "@0xcert/scaffold";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
@@ -15,14 +15,14 @@ import * as env from '../config/env';
  */
 export class Folder implements FolderBase {
   readonly platform: string = 'web3';
-  readonly connector: Connector;
+  readonly context: Context;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(connector: Connector, folderId: string) {
-    this.connector = connector;
+  public constructor(context: Context, folderId: string) {
+    this.context = context;
     this.contract = this.getFolder(folderId);
   }
 
@@ -86,7 +86,7 @@ export class Folder implements FolderBase {
    * 
    */
   protected getFolder(folderId: string) {
-    return new this.connector.web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
+    return new this.context.web3.eth.Contract(env.xcertAbi, folderId, { gas: 6000000 });
   }
 
 }

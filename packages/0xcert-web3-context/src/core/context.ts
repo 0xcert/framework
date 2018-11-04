@@ -1,4 +1,4 @@
-import { ConnectorBase, ConnectorError, ConnectorIssue, Query, Mutation } from "@0xcert/scaffold";
+import { ContextBase, ConnectorError, ConnectorIssue, Query, Mutation } from "@0xcert/scaffold";
 import { parseError } from '@0xcert/web3-error-parser';
 import * as Web3 from 'web3';
 import { SignMethod } from "./types";
@@ -6,7 +6,7 @@ import { SignMethod } from "./types";
 /**
  * 
  */
-export interface ConnectorAttachOptions {
+export interface ContextAttachOptions {
   makerId?: string;
   minterId?: string;
   exchangeId?: string;
@@ -17,7 +17,7 @@ export interface ConnectorAttachOptions {
 /**
  * 
  */
-export class Connector implements ConnectorBase {
+export class Context implements ContextBase {
   readonly platform: string = 'web3';
   public makerId: string;
   public minterId?: string;
@@ -28,7 +28,7 @@ export class Connector implements ConnectorBase {
   /**
    * 
    */
-  public async attach(options?: ConnectorAttachOptions) {
+  public async attach(options?: ContextAttachOptions) {
     options = options || {};
 
     this.web3 = this.getWeb3(options.web3);

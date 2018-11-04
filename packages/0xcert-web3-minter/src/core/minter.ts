@@ -1,5 +1,5 @@
 import { MinterBase } from '@0xcert/scaffold';
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import { tuple } from '@0xcert/web3-utils';
 import * as env from '../config/env';
 import { MinterOrder } from './order';
@@ -9,15 +9,15 @@ import { MinterOrder } from './order';
  */
 export class Minter implements MinterBase {
   readonly platform: string = 'web3';
-  readonly connector: Connector;
+  readonly context: Context;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(connector: Connector) {
-    this.connector = connector;
-    this.contract = new connector.web3.eth.Contract(env.minterAbi, connector.minterId, { gas: 6000000 });
+  public constructor(context: Context) {
+    this.context = context;
+    this.contract = new context.web3.eth.Contract(env.minterAbi, context.minterId, { gas: 6000000 });
   }
 
   /**
@@ -26,9 +26,9 @@ export class Minter implements MinterBase {
   public async perform(order: MinterOrder) {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(order);
-    const from = this.connector.makerId;
+    const from = this.context.makerId;
 
-    return this.connector.mutate(() => {
+    return this.context.mutate(() => {
       return this.contract.methods.performMint(recipeTuple, signatureTuple).send({ from });
     });
   }
@@ -38,9 +38,9 @@ export class Minter implements MinterBase {
    */
   public async cancel(order: MinterOrder) {
     const recipeTuple = this.createRecipeTuple(order);
-    const from = this.connector.makerId;
+    const from = this.context.makerId;
 
-    return this.connector.mutate(() => {
+    return this.context.mutate(() => {
       return this.contract.methods.cancelMint(recipeTuple).send({ from });
     });
   }

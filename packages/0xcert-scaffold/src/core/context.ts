@@ -1,7 +1,7 @@
 /**
  * 
  */
-export interface ConnectorBase {
+export interface ContextBase {
   readonly platform: string;
   attach(): Promise<this>;
   detach(): Promise<this>;

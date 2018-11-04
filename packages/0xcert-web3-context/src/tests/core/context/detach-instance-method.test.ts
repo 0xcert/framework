@@ -1,6 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Context } from '@0xcert/web3-context';
-import { MinterOrder } from '../../../core/order';
+import { Context } from '../../../core/context';
 
 interface Data {
   context: Context;
@@ -15,14 +14,14 @@ spec.before(async (stage) => {
   stage.set('context', context);
 });
 
-spec.test('signes order claim and sets the signature', async (ctx) => {
+spec.test('wipes context data', async (ctx) => {
   const context = ctx.get('context');
+  await context.detach();
 
-  const order = new MinterOrder(context);
-  order.claim = 'foo';
-  await order.sign();
-
-  ctx.is(order.signature.indexOf('0:'), 0);
+  ctx.is(context.makerId, null);
+  ctx.is(context.minterId, null);
+  ctx.is(context.signMethod, null);
+  ctx.is(context.web3, null);
 });
 
 export default spec;

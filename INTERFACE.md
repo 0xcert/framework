@@ -188,38 +188,6 @@ await order.sign(); // by maker
 await order.cancel(); // by maker
 await order.exchange(); // by taker
 ```
-
-
-
-
-
-
-
-
-```ts
-interface User {
-  name: string;
-}
-const asset = new Asset<User>('http://schema.org//....');
-asset.populateById(id);
-asset.name // 
-asset.populate() //
-asset.validate();
-asset.....
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```ts
 import { Minter, MinterOrder } from '@0xcert/web3-minter';
 

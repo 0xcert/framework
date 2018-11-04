@@ -1,4 +1,4 @@
-import { Query, Mutation, ConnectorBase } from "./connector";
+import { Query, Mutation, ContextBase } from "./context";
 
 /**
  * 

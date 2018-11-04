@@ -1,4 +1,4 @@
-import { Mutation } from "./connector";
+import { Mutation } from "./context";
 import { FolderTransfer } from "./folder";
 import { VaultTransfer } from "./vault";
 

@@ -5,10 +5,10 @@ import { Folder } from "../core/folder";
  * 
  */
 export default async function(folder: Folder, state: FolderTransferState) {
-  const from = folder.connector.makerId;
+  const from = folder.context.makerId;
   const paused = state !== FolderTransferState.ENABLED;
 
-  return folder.connector.mutate(() => {
+  return folder.context.mutate(() => {
     return folder.contract.methods.setPause(paused).send({ from });
   });
 }

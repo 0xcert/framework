@@ -1,5 +1,5 @@
 import { VaultBase } from '@0xcert/scaffold';
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import getInfo from '../queries/get-info';
 import getSupply from '../queries/get-supply';
 import * as env from '../config/env';
@@ -9,14 +9,14 @@ import * as env from '../config/env';
  */
 export class Vault implements VaultBase {
   readonly platform: string = 'web3';
-  readonly connector: Connector;
+  readonly context: Context;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(connector: Connector, vaultId?: string) {
-    this.connector = connector;
+  public constructor(context: Context, vaultId?: string) {
+    this.context = context;
     this.contract = this.getVault(vaultId);
   }
 
@@ -38,7 +38,7 @@ export class Vault implements VaultBase {
    * 
    */
   protected getVault(vaultId: string) {
-    return new this.connector.web3.eth.Contract(env.tokenAbi, vaultId, { gas: 6000000 });
+    return new this.context.web3.eth.Contract(env.tokenAbi, vaultId, { gas: 6000000 });
   }
 
 }

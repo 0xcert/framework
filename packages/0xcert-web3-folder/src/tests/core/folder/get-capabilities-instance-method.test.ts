@@ -1,12 +1,12 @@
 import { Spec } from '@specron/spec';
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Folder } from '../../../core/folder';
 import { FolderAbility, FolderCapability } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;
-  connector: Connector
+  context: Context
   protocol: Protocol;
   burnableFolder: Folder;
   mutableFolder: Folder;
@@ -23,23 +23,23 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = new Connector();
-  await connector.attach(stage);
+  const context = new Context();
+  await context.attach(stage);
 
-  stage.set('connector', connector);
+  stage.set('context', context);
 });
 
 spec.before(async (stage) => {
-  const connector = stage.get('connector');
+  const context = stage.get('context');
   const burnableFolderId = stage.get('protocol').xcertBurnable.instance.options.address;
   const mutableFolderId = stage.get('protocol').xcertMutable.instance.options.address;
   const pausableFolderId = stage.get('protocol').xcertPausable.instance.options.address;
   const revokableFolderId = stage.get('protocol').xcertRevokable.instance.options.address;
 
-  stage.set('burnableFolder', new Folder(connector, burnableFolderId));
-  stage.set('mutableFolder', new Folder(connector, mutableFolderId));
-  stage.set('pausableFolder', new Folder(connector, pausableFolderId));
-  stage.set('revokableFolder', new Folder(connector, revokableFolderId));
+  stage.set('burnableFolder', new Folder(context, burnableFolderId));
+  stage.set('mutableFolder', new Folder(context, mutableFolderId));
+  stage.set('pausableFolder', new Folder(context, pausableFolderId));
+  stage.set('revokableFolder', new Folder(context, revokableFolderId));
 });
 
 spec.before(async (stage) => {

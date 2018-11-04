@@ -1,4 +1,4 @@
-import { Query } from "./connector";
+import { Query } from "./context";
 
 /**
  * 

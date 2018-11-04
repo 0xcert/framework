@@ -1,24 +1,24 @@
 import { Spec } from '@specron/spec';
-import { Connector } from '../../../core/connector';
+import { Context } from '../../../core/context';
 import { SignMethod } from '../../../core/types';
 
 interface Data {
-  connector: Connector;
+  context: Context;
 }
 
 const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
-  const connector = new Connector();
-  await connector.attach(stage);
+  const context = new Context();
+  await context.attach(stage);
 
-  stage.set('connector', connector);
+  stage.set('context', context);
 });
 
 spec.test('signs data and returns signature', async (ctx) => {
-  const connector = ctx.get('connector');
+  const context = ctx.get('context');
 
-  const signature = await connector.sign('foo');
+  const signature = await context.sign('foo');
 
   ctx.true(signature.indexOf(`${SignMethod.ETH_SIGN}:`) === 0);
   ctx.true(signature.length > 10);

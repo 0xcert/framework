@@ -1,11 +1,11 @@
 import { MinterOrderBase, MinterOrderRecipe, MinterOrderRecipeInput, MinterOrderDataInput } from "@0xcert/scaffold";
-import { Connector } from "@0xcert/web3-connector";
+import { Context } from "@0xcert/web3-context";
 
 /**
  * 
  */
 export class MinterOrder implements MinterOrderBase {
-  readonly connector: Connector;
+  readonly context: Context;
   public claim: string;
   public signature: string;
   public recipe: MinterOrderRecipe;
@@ -13,8 +13,8 @@ export class MinterOrder implements MinterOrderBase {
   /**
    * 
    */
-  public constructor(connector: Connector) {
-    this.connector = connector;
+  public constructor(context: Context) {
+    this.context = context;
   }
 
   /**
@@ -35,8 +35,8 @@ export class MinterOrder implements MinterOrderBase {
         ...data.recipe.asset,
       };
       const recipe = {
-        makerId: this.connector.makerId,
-        takerId: this.connector.makerId,
+        makerId: this.context.makerId,
+        takerId: this.context.makerId,
         transfers: [],
         seed: Date.now(),
         expiration: Date.now() + 60 * 60 * 1000,
@@ -68,7 +68,7 @@ export class MinterOrder implements MinterOrderBase {
 
     let temp = '0x0';
     for(const transfer of this.recipe.transfers) {
-      temp = this.connector.web3.utils.soliditySha3(
+      temp = this.context.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
         transfer['folderId'] || transfer['vaultId'],
         transfer['assetId'] ? 1 : 0,
@@ -78,8 +78,8 @@ export class MinterOrder implements MinterOrderBase {
       );
     } 
 
-    this.claim = this.connector.web3.utils.soliditySha3(
-      this.connector.minterId,
+    this.claim = this.context.web3.utils.soliditySha3(
+      this.context.minterId,
       this.recipe.makerId,
       this.recipe.takerId,
       this.recipe.asset.folderId,
@@ -97,7 +97,7 @@ export class MinterOrder implements MinterOrderBase {
    * 
    */
   public async sign() {
-    this.signature = await this.connector.sign(this.claim);
+    this.signature = await this.context.sign(this.claim);
 
     return this;
   }

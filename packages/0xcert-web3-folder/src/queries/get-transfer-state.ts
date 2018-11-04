@@ -5,7 +5,7 @@ import { Folder } from "../core/folder";
  * 
  */
 export default async function(folder: Folder) {
-  return folder.connector.query<FolderTransferState>(async () => {
+  return folder.context.query<FolderTransferState>(async () => {
     const paused = await folder.contract.methods.isPaused().call();
     const state = paused ? FolderTransferState.DISABLED : FolderTransferState.ENABLED;
 

@@ -5,7 +5,7 @@ import { Folder } from "../core/folder";
  * 
  */
 export default async function(folder: Folder) {
-  return folder.connector.query<FolderCapability[]>(async () => {
+  return folder.context.query<FolderCapability[]>(async () => {
     return await Promise.all(
       [ [FolderCapability.BURNABLE, '0x42966c68'],
         [FolderCapability.MUTABLE, '0x33b641ae'],

@@ -5,7 +5,7 @@ import { Folder } from "../core/folder";
  * 
  */
 export default async function(folder: Folder, accountId: string) {
-  return folder.connector.query<FolderAbility[]>(async () => {
+  return folder.context.query<FolderAbility[]>(async () => {
     return await Promise.all(
       [ FolderAbility.MANAGE_ABILITIES,
         FolderAbility.MINT_ASSET,

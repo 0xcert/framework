@@ -1,19 +1,19 @@
 import { Spec } from '@specron/spec';
-import { Connector } from '../../../core/connector';
+import { Context } from '../../../core/context';
 import { ConnectorError } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;
-  connector: Connector;
+  context: Context;
 }
 
 const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
-  const connector = new Connector();
-  await connector.attach(stage);
+  const context = new Context();
+  await context.attach(stage);
 
-  stage.set('connector', connector);
+  stage.set('context', context);
 });
 
 spec.before(async (stage) => {
@@ -23,21 +23,21 @@ spec.before(async (stage) => {
 });
 
 spec.test('reads data from the network', async (ctx) => {
-  const connector = ctx.get('connector');
+  const context = ctx.get('context');
   const coinbase = ctx.get('coinbase');
   const resolver = async () => parseInt(await ctx.web3.eth.getBalance(coinbase));
 
-  const query = await connector.query<number>(resolver);
+  const query = await context.query<number>(resolver);
 
   ctx.true(query.result > 0);
 });
 
 spec.test('handles an error', async (ctx) => {
-  const connector = ctx.get('connector');
+  const context = ctx.get('context');
   const resolver = async () => { throw 'foo' };
 
   try {
-    await connector.query<number>(resolver);
+    await context.query<number>(resolver);
     ctx.fail();
   } catch (error) {
     ctx.is(error.name, 'ConnectorError');

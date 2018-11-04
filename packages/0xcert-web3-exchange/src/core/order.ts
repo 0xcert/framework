@@ -1,12 +1,12 @@
 import { ExchangeOrderBase, ExchangeOrderRecipe, ExchangeOrderRecipeInput,
   ExchangeOrderDataInput } from "@0xcert/scaffold";
-import { Connector } from "@0xcert/web3-connector";
+import { Context } from "@0xcert/web3-context";
 
 /**
  * 
  */
 export class ExchangeOrder implements ExchangeOrderBase {
-  readonly connector: Connector;
+  readonly context: Context;
   public claim: string;
   public signature: string;
   public recipe: ExchangeOrderRecipe;
@@ -14,8 +14,8 @@ export class ExchangeOrder implements ExchangeOrderBase {
   /**
    * 
    */
-  public constructor(connector: Connector) {
-    this.connector = connector;
+  public constructor(context: Context) {
+    this.context = context;
   }
 
   /**
@@ -32,8 +32,8 @@ export class ExchangeOrder implements ExchangeOrderBase {
 
     if (data && data.recipe !== undefined) {
       const recipe = {
-        makerId: this.connector.makerId,
-        takerId: this.connector.makerId,
+        makerId: this.context.makerId,
+        takerId: this.context.makerId,
         transfers: [],
         seed: Date.now(),
         expiration: Date.now() + 60 * 60 * 1000,
@@ -64,7 +64,7 @@ export class ExchangeOrder implements ExchangeOrderBase {
 
     let temp = '0x0';
     for(const transfer of this.recipe.transfers) {
-      temp = this.connector.web3.utils.soliditySha3(
+      temp = this.context.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
         transfer['folderId'] || transfer['vaultId'],
         transfer['assetId'] ? 1 : 0,
@@ -74,8 +74,8 @@ export class ExchangeOrder implements ExchangeOrderBase {
       );
     } 
 
-    this.claim = this.connector.web3.utils.soliditySha3(
-      this.connector.exchangeId,
+    this.claim = this.context.web3.utils.soliditySha3(
+      this.context.exchangeId,
       this.recipe.makerId,
       this.recipe.takerId,
       temp,
@@ -90,7 +90,7 @@ export class ExchangeOrder implements ExchangeOrderBase {
    * 
    */
   public async sign() {
-    this.signature = await this.connector.sign(this.claim);
+    this.signature = await this.context.sign(this.claim);
 
     return this;
   }
