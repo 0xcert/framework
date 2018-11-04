@@ -1,6 +1,6 @@
 import { Mutation } from "./context";
 import { AssetLedgerTransfer } from "./asset-ledger";
-import { VaultTransfer } from "./vault";
+import { ValueLedgerTransfer } from "./value-ledger";
 
 /**
  * 
@@ -50,7 +50,7 @@ export interface MinterOrderRecipe {
     assetId: string;
     proof: string;
   },
-  transfers: (AssetLedgerTransfer | VaultTransfer)[];
+  transfers: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed: number;
   expiration: number;
 }
@@ -66,7 +66,7 @@ export interface MinterOrderRecipeInput {
     assetId: string;
     proof?: string;
   },
-  transfers?: (AssetLedgerTransfer | VaultTransfer)[];
+  transfers?: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed?: number;
   expiration?: number;
 }

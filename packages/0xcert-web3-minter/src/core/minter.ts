@@ -57,7 +57,7 @@ export class Minter implements MinterBase {
 
     const transfers = order.recipe.transfers.map((transfer) => {
       return {
-        token: transfer['ledgerId'] || transfer['vaultId'],
+        token: transfer['ledgerId'],
         proxy: transfer['assetId'] ? 1 : 0,
         from: transfer['senderId'],
         to: transfer['receiverId'],

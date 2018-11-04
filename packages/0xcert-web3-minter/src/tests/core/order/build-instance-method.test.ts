@@ -32,13 +32,13 @@ spec.test('generates and sets order claim', async (ctx) => {
     },
     transfers: [
       {
-        vaultId: '0x2bD270a0F3232E9f11dd439D8E5e74694e46dC53',
+        ledgerId: '0x2bD270a0F3232E9f11dd439D8E5e74694e46dC53',
         senderId: '0x342da4DaE236037E9586499DA06494DDE2a0b52b',
         receiverId: '0x287206D90777dcB5fb96070D0DDF06737FCE3d1E',
         amount: 5000,
       },
       {
-        vaultId: '0x2bD270a0F3232E9f11dd439D8E5e74694e46dC53',
+        ledgerId: '0x2bD270a0F3232E9f11dd439D8E5e74694e46dC53',
         senderId: '0x342da4DaE236037E9586499DA06494DDE2a0b52b',
         receiverId: '0x28bC05dd0Eb0A3912AB7ea9d9C0A0502AE0773C7',
         amount: 300,

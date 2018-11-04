@@ -1,11 +1,11 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Vault } from '../../../core/vault';
+import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
   context: Context
-  vault: Vault;
+  ledger: ValueLedger;
   protocol: Protocol;
 }
 
@@ -26,15 +26,15 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const context = stage.get('context');
-  const vaultId = stage.get('protocol').erc20.instance.options.address;
+  const ledgerId = stage.get('protocol').erc20.instance.options.address;
 
-  stage.set('vault', new Vault(context, vaultId));
+  stage.set('ledger', new ValueLedger(context, ledgerId));
 });
 
-spec.test('returns vault info', async (ctx) => {
-  const vault = ctx.get('vault');
+spec.test('returns ledger info', async (ctx) => {
+  const ledger = ctx.get('ledger');
   
-  const info = await vault.getInfo().then((q) => q.result);
+  const info = await ledger.getInfo().then((q) => q.result);
 
   ctx.deepEqual(info, {
     name: "Mock Token",

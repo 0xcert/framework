@@ -3,16 +3,16 @@ import { Query } from "./context";
 /**
  * 
  */
-export interface VaultBase {
+export interface ValueLedgerBase {
   readonly platform: string;
-  getInfo(): Promise<Query<VaultGetInfoResult>>;
+  getInfo(): Promise<Query<ValueLedgerGetInfoResult>>;
   getSupply(): Promise<Query<number>>;
 }
 
 /**
  * 
  */
-export interface VaultGetInfoResult {
+export interface ValueLedgerGetInfoResult {
   name: string;
   symbol: string;
   decimals: number;
@@ -21,8 +21,8 @@ export interface VaultGetInfoResult {
 /**
  * 
  */
-export interface VaultTransfer {
-  vaultId: string;
+export interface ValueLedgerTransfer {
+  ledgerId: string;
   senderId: string;
   receiverId: string;
   amount: number;

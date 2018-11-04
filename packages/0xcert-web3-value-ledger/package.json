@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/web3-vault",
+  "name": "@0xcert/web3-value-ledger",
   "version": "0.0.0-alpha0",
-  "description": "Ethereum vault for 0xcert protocol.",
+  "description": "Ethereum ledger for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

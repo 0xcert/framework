@@ -372,9 +372,9 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-vault": {
-      "version": "file:projects/web3-vault.tgz",
-      "integrity": "sha512-kwZsll/oH/T7Mx5whuUwXR6773Up/CzbkTgzoNY90oxdsY/PpyxKigc1Lx3OJeenInEBcVHqez+HY7Y8ST2/Jg==",
+    "@rush-temp/web3-value-ledger": {
+      "version": "file:projects/web3-value-ledger.tgz",
+      "integrity": "sha512-opHjB4N/m55BJT45sT0ZoFb1ZxZKkTzd4kcW5lgkk/tnn3NM4aY5FNNBwbbaT4+g2PBEcwzblFu7r3aY/2Tamw==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

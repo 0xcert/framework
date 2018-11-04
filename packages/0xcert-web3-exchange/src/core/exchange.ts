@@ -1,8 +1,8 @@
 import { ExchangeBase } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
 import { tuple } from '@0xcert/web3-utils';
-import * as env from '../config/env';
 import { ExchangeOrder } from './order';
+import * as env from '../config/env';
 
 /**
  * 
@@ -51,7 +51,7 @@ export class Exchange implements ExchangeBase {
   protected createRecipeTuple(order: ExchangeOrder) {
     const transfers = order.recipe.transfers.map((transfer) => {
       return {
-        token: transfer['ledgerId'] || transfer['vaultId'],
+        token: transfer['ledgerId'],
         proxy: transfer['assetId'] ? 1 : 0,
         from: transfer['senderId'],
         to: transfer['receiverId'],
@@ -80,7 +80,7 @@ export class Exchange implements ExchangeBase {
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
       v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-      kind
+      kind,
     };
 
     return tuple(signatureData);

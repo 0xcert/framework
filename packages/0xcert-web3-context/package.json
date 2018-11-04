@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/web3-context",
   "version": "0.0.0-alpha0",
-  "description": "Ethereum connector for 0xcert protocol.",
+  "description": "Ethereum context for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

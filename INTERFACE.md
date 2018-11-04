@@ -122,8 +122,8 @@ await context.sign(data);
 ```ts
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
-const ledger = new AssetLedger(connector, ledgerId?);
-// const registry = AssetLedger.getInstance(connector, ledgerId?);
+const ledger = new AssetLedger(context, ledgerId?);
+// const registry = AssetLedger.getInstance(context, ledgerId?);
 ledger.platform; // web3
 ledger.id;
 await ledger.deploy(hash);
@@ -139,7 +139,7 @@ await ledger.setTransferState(state);
 ```ts
 import { ValueLedger } from '@0xcert/web3-value-ledger';
 
-const ledger = await new ValueLedger(connector, vaultId?);
+const ledger = await new ValueLedger(context, ledgerId?);
 ledger.platform; // web3
 ledger.id;
 await ledger.deploy(hash);
@@ -147,80 +147,21 @@ await ledger.getInfo();
 await ledger.getSupply();
 ```
 ```ts
-const order = new ExchnageOrder(connector);
-order.platform;
-order.claim; //
-order.signature;
-order.recipe;
-order.createAsset({ assetId, proof }); // proxy 1
-order.createAsset({ assetId, proof });
-order.createAsset({ assetId, proof });
-order.transferAsset({ from, to, assetId }); // proxy 2
-order.transferAsset({ from, to, assetId });
-order.transferAsset({ from, to, assetId });
-order.transferValue({ from, to, value }); // proxy 3
-order.transferValue({ from, to, value }); // proxy 3
-order.transferValue({ from, to, value }); // proxy 3
-// MAKER
-order.generate().sign().serialize(); // => by email to taker
-// TAKER
-order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
-order.perform();
-
-
-
-order.serialize();
-await order.build({
-  takerId: bob,
-  asset: {
-    ledgerId: xcertId,
-    assetId: '5',
-    proof: 'foo',
-  },
-  transfers: [
-    { ledgerId: xcertId, senderId: bob, receiverId: sara, assetId: '100' },
-  ],
-  seed: 1535113220,
-  expiration: 1607731200,
-});
-await order.sign(); // by maker
-await order.cancel(); // by maker
-await order.exchange(); // by taker
-```
-```ts
-import { Minter, MinterOrder } from '@0xcert/web3-minter';
-
-const order = new MinterOrder(connector);
-vault.platform; // web3
-order.claim;
-order.signature;
-order.recipe;
-order.populate({ claim?, signature?, recipe? });
-order.serialize();
-await order.build({ makerId?, takerId, transfers, seed?, expiration? });
-await order.sign();
-
-const minter = new Minter(connector);
-vault.platform; // web3
-await minter.perform(order);
-await minter.cancel(order);
-```
-```ts
 import { Exchange, ExchangeOrder } from '@0xcert/web3-exchange';
 
-const order = new ExchangeOrder(connector);
+const order = new ExchangeOrder(context);
 order.claim;
 order.signature;
 order.recipe;
 order.add(Action.TRANSFER_VALUE, { ... });
 order.add(Action.TRANSFER_ASSET, { ... });
 order.add(Action.CREATE_ASSET, { ... });
-order.populate({ claim?, signature?, recipe? });
+order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
 order.serialize();
 await order.build({ makerId?, takerId, transfers, seed?, expiration? });
 await order.sign(); // seal!
 
-const exchange = new Exchange(connector);
+const exchange = new Exchange(context);
 exchange.on('swap', () => {});
 exchange.subscribe();
 exchange.unsubscribe();
@@ -231,7 +172,7 @@ await exchange.cancel(order);
 # Renaming considerations
 
 `AssetLedger` = AssetContract, Asset
-`Vault` = CoinContract, Coin
+`ValueLedger` = CoinContract, Coin
 `Minter` = AssetMinter, AssetOrder
 `Exchange` = Exchange, ExchangeOrder
 
@@ -241,8 +182,8 @@ await exchange.cancel(order);
 
 ```ts
 const storage = new Storage();
-const connector = new Connector();
-const ledger = new AssetLedger(connector, ledgerId);
+const context = new Connector();
+const ledger = new AssetLedger(context, ledgerId);
 const asset = new Asset(schema);
 asset.platform;
 asset.ledgerId;

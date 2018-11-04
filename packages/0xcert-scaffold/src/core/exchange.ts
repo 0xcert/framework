@@ -1,6 +1,6 @@
 import { Mutation } from "./context";
 import { AssetLedgerTransfer } from "./asset-ledger";
-import { VaultTransfer } from "./vault";
+import { ValueLedgerTransfer } from "./value-ledger";
 
 /**
  * 
@@ -45,7 +45,7 @@ export interface ExchangeOrderDataInput {
 export interface ExchangeOrderRecipe {
   makerId: string;
   takerId: string;
-  transfers: (AssetLedgerTransfer | VaultTransfer)[];
+  transfers: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed: number;
   expiration: number;
 }
@@ -56,7 +56,7 @@ export interface ExchangeOrderRecipe {
 export interface ExchangeOrderRecipeInput {
   makerId?: string;
   takerId: string;
-  transfers?: (AssetLedgerTransfer | VaultTransfer)[];
+  transfers?: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed?: number;
   expiration?: number;
 }
