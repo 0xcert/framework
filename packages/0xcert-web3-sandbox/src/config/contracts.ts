@@ -2,7 +2,6 @@ const { TokenMock } = require('@0xcert/web3-erc20-contracts/build/token-mock');
 const { NFTokenEnumerableMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-enumerable-mock');
 const { NFTokenMetadataMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-metadata-mock');
 const { NFTokenMock } = require('@0xcert/web3-erc721-contracts/build/nf-token-mock');
-const { Zxc } = require('@0xcert/web3-zxc-contracts/build/zxc');
 const { BurnableXcertMock } = require('@0xcert/web3-xcert-contracts/build/burnable-xcert-mock');
 const { MutableXcertMock } = require('@0xcert/web3-xcert-contracts/build/mutable-xcert-mock');
 const { PausableXcertMock } = require('@0xcert/web3-xcert-contracts/build/pausable-xcert-mock');
@@ -44,14 +43,6 @@ export const erc721Metadata = {
 export const erc721 = {
   abi: NFTokenMock.abi,
   bytecode: NFTokenMock.evm.bytecode.object,
-};
-
-/**
- * ZXC contract data.
- */
-export const zxc = {
-  abi: Zxc.abi,
-  bytecode: Zxc.evm.bytecode.object,
 };
 
 /**

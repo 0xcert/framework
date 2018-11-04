@@ -50,7 +50,6 @@
     "@0xcert/web3-erc20-contracts": "0.0.0-alpha0",
     "@0xcert/web3-erc721-contracts": "0.0.0-alpha0",
     "@0xcert/web3-proxy-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-zxc-contracts": "0.0.0-alpha0"
+    "@0xcert/web3-xcert-contracts": "0.0.0-alpha0"
   }
 }
