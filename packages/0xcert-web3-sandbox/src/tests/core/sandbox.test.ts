@@ -23,7 +23,6 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.erc721Enumerable);
   ctx.true(!!sandbox.protocol.erc721Metadata);
   ctx.true(!!sandbox.protocol.erc721);
-  ctx.true(!!sandbox.protocol.zxc);
   ctx.true(!!sandbox.protocol.xcertBurnable);
   ctx.true(!!sandbox.protocol.xcertMutable);
   ctx.true(!!sandbox.protocol.xcertPausable);

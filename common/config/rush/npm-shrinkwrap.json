@@ -334,7 +334,7 @@
     },
     "@rush-temp/web3-sandbox": {
       "version": "file:projects/web3-sandbox.tgz",
-      "integrity": "sha512-RWO7zqdG2/UoCg+HkzfW2xtjW76jHsNNz0Lvo/xTjnNSsSVhuPdy2jKem73NRUt91LcBlqeGjJIuaETokwobGw==",
+      "integrity": "sha512-mHrFZlVJYW7SDAB8NR2q5b68stUoUQY6saQhb/kp03HkDCASPZ+u66Abs8TYMz+lvXYtJxIBCqcUEeaFECwUaQ==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
@@ -389,18 +389,6 @@
     "@rush-temp/web3-xcert-contracts": {
       "version": "file:projects/web3-xcert-contracts.tgz",
       "integrity": "sha512-13s64uArkFgiK3xk5IfOgt49Uxhb5lhRURKsfKV1QLkHw3xQ++85EekULNjHeGkBX13oME4fhl6OhbX9ovmOpQ==",
-      "requires": {
-        "@specron/cli": "^0.2.8",
-        "@specron/spec": "^0.2.8",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
-    "@rush-temp/web3-zxc-contracts": {
-      "version": "file:projects/web3-zxc-contracts.tgz",
-      "integrity": "sha512-vMxKXuE5OrydH5AvRZd8GPlee0TXAqWIIyxX3O63X80NoQj+8V03/nJGMQz5V4PlRG3cS7b3jLxb4Ffjj643eQ==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",
@@ -1174,9 +1162,9 @@
       "integrity": "sha1-tf1UIgqivFq1eqtxQMlAdUUDwac="
     },
     "cors": {
-      "version": "2.8.4",
-      "resolved": "https://registry.npmjs.org/cors/-/cors-2.8.4.tgz",
-      "integrity": "sha1-K9OB8usgECAQXNUOpZ2mMJBpRoY=",
+      "version": "2.8.5",
+      "resolved": "https://registry.npmjs.org/cors/-/cors-2.8.5.tgz",
+      "integrity": "sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==",
       "requires": {
         "object-assign": "^4",
         "vary": "^1"
@@ -2136,9 +2124,9 @@
       }
     },
     "graceful-fs": {
-      "version": "4.1.14",
-      "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.14.tgz",
-      "integrity": "sha512-ns/IGcSmmGNPP085JCheg0Nombh1QPvSCnlx+2V+byQWRQEIL4ZB5jXJMNIHOFVS1roi85HIi5Ka0h43iWXfcQ=="
+      "version": "4.1.15",
+      "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.15.tgz",
+      "integrity": "sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA=="
     },
     "graceful-readlink": {
       "version": "1.0.1",

@@ -28,6 +28,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/web3-asset-ledger",
+      "projectFolder": "packages/0xcert-web3-asset-ledger",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/web3-context",
       "projectFolder": "packages/0xcert-web3-context",
       "versionPolicyName": "patchAll"
@@ -55,11 +60,6 @@
     {
       "packageName": "@0xcert/web3-exchange-contracts",
       "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-asset-ledger",
-      "projectFolder": "packages/0xcert-web3-asset-ledger",
       "versionPolicyName": "patchAll"
     },
     {
@@ -100,11 +100,6 @@
     {
       "packageName": "@0xcert/web3-xcert-contracts",
       "projectFolder": "packages/0xcert-web3-xcert-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-zxc-contracts",
-      "projectFolder": "packages/0xcert-web3-zxc-contracts",
       "versionPolicyName": "patchAll"
     }
   ]

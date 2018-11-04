@@ -11,7 +11,6 @@ export class Protocol {
   public erc721Enumerable;
   public erc721Metadata;
   public erc721;
-  public zxc;
   public xcertBurnable;
   public xcertMutable;
   public xcertPausable;
@@ -54,7 +53,6 @@ export class Protocol {
     this.erc721Enumerable = await this.deployErc721Enumerable(from);
     this.erc721Metadata = await this.deployErc721Metadata(from);
     this.erc721 = await this.deployErc721(from);
-    this.zxc = await this.deployZxc(from);
     this.xcertBurnable = await this.deployXcertBurnable(from);
     this.xcertMutable = await this.deployXcertMutable(from);
     this.xcertPausable = await this.deployXcertPausable(from);
@@ -118,19 +116,6 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.erc721.abi,
       bytecode: contracts.erc721.bytecode,
-      from,
-    });
-  }
-
-  /**
-   * Deploys the xcert mint proxy contract.
-   * @param from Contract owner's address.
-   */
-  protected async deployZxc(from: string) {
-    return await deploy({
-      web3: this.web3,
-      abi: contracts.zxc.abi,
-      bytecode: contracts.zxc.bytecode,
       from,
     });
   }
