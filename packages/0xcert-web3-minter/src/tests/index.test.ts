@@ -1,11 +1,11 @@
 import { Spec } from '@specron/spec';
-import * as folder from '..';
+import * as ledger from '..';
 
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!folder.Minter);
-  ctx.true(!!folder.MinterOrder);
+  ctx.true(!!ledger.Minter);
+  ctx.true(!!ledger.MinterOrder);
 });
 
 export default spec;

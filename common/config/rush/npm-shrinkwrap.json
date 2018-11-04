@@ -206,9 +206,23 @@
         "typescript": "^3.1.1"
       }
     },
-    "@rush-temp/web3-connector": {
-      "version": "file:projects/web3-connector.tgz",
-      "integrity": "sha512-21dSaes2OlfBv0PL4mE1aQ/L5JIs2ImTKSrZqry1S/NoujAbAa69ojeBluTBqSi2DKGjBlyiEUHCE5tMpxBr0A==",
+    "@rush-temp/web3-asset-ledger": {
+      "version": "file:projects/web3-asset-ledger.tgz",
+      "integrity": "sha512-eR+e4Be1ReQ/7SP9ZY73GqLqFr1xv/xcs5kTi41y5TFuezPsE9ekNehO9ME7QqIDbTalYFQ6rKFertw4rbYR7g==",
+      "requires": {
+        "@specron/cli": "^0.2.8",
+        "@specron/spec": "^0.2.8",
+        "@types/fs-extra": "^5.0.4",
+        "fs-extra": "^7.0.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
+    "@rush-temp/web3-context": {
+      "version": "file:projects/web3-context.tgz",
+      "integrity": "sha512-fRC5Q8SetR0T95jetM49lSn7Pbc9USuEiZTQ+3/Xo7JkN0/d7k7+QJnfKwgMJ20oO1onHppnm5UGhHFmzDi+Zw==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",
@@ -256,7 +270,7 @@
     },
     "@rush-temp/web3-exchange": {
       "version": "file:projects/web3-exchange.tgz",
-      "integrity": "sha512-Rz77PTIbolhbSFzRlLFS2Um7lCkXSHIKEakEk8Bm6T4ZjQ8WkeDR88QceD9XyI9f+QYW9R9/kCUQIIZn6ZXlzQ==",
+      "integrity": "sha512-drDVHMH8TqepLrVOBX+jOhvg6PvljRvWuKu6pmq0HlOHw+a3Nil5dZXKCftOuMBMG191NgO2LN0rEGOiTUmkcQ==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",
@@ -280,23 +294,9 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-folder": {
-      "version": "file:projects/web3-folder.tgz",
-      "integrity": "sha512-gXHxSsRp+CipCqywFFS7p1IxRHpEgOCrgzDuX8jr98+/6va4q84OxBTui4zA7wBl4iX7LGWh/BL2ZcQrgiD8QA==",
-      "requires": {
-        "@specron/cli": "^0.2.8",
-        "@specron/spec": "^0.2.8",
-        "@types/fs-extra": "^5.0.4",
-        "fs-extra": "^7.0.0",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
     "@rush-temp/web3-minter": {
       "version": "file:projects/web3-minter.tgz",
-      "integrity": "sha512-Yr0YIDkzrtgGYpj8h688OTOpX1RfbU2IYrKaXK0qHo1zOuyOjrdhomPXy6gn0r91Mqp9vYRH57QQIESMgO+B+g==",
+      "integrity": "sha512-NJ/nJ9I2JJqhrWspe9TbtTGQpYRGDhlV/zyeCPqQW1e6n3/14F+RINLkMpxmWKxMRNNpMRHIdkCfeWyXcun0Kg==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",
@@ -372,9 +372,9 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-vault": {
-      "version": "file:projects/web3-vault.tgz",
-      "integrity": "sha512-fF8OcRB0asWQipE4ibsVk9520Jckc4S64ilfw04B3/D/8HWj4rdneIZuSj75J07Ug7TJaZxhzUimUhtn0RSpkQ==",
+    "@rush-temp/web3-value-ledger": {
+      "version": "file:projects/web3-value-ledger.tgz",
+      "integrity": "sha512-opHjB4N/m55BJT45sT0ZoFb1ZxZKkTzd4kcW5lgkk/tnn3NM4aY5FNNBwbbaT4+g2PBEcwzblFu7r3aY/2Tamw==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

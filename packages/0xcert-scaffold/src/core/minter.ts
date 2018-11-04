@@ -1,11 +1,12 @@
-import { Mutation } from "./connector";
-import { FolderTransfer } from "./folder";
-import { VaultTransfer } from "./vault";
+import { Mutation } from "./context";
+import { AssetLedgerTransfer } from "./asset-ledger";
+import { ValueLedgerTransfer } from "./value-ledger";
 
 /**
  * 
  */
 export interface MinterBase {
+  readonly platform: string;
   perform(order): Promise<Mutation>;
   cancel(order): Promise<Mutation>;
 }
@@ -45,11 +46,11 @@ export interface MinterOrderRecipe {
   makerId: string;
   takerId: string;
   asset: {
-    folderId: string;
+    ledgerId: string;
     assetId: string;
     proof: string;
   },
-  transfers: (FolderTransfer | VaultTransfer)[];
+  transfers: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed: number;
   expiration: number;
 }
@@ -61,11 +62,11 @@ export interface MinterOrderRecipeInput {
   makerId?: string;
   takerId: string;
   asset: {
-    folderId: string;
+    ledgerId: string;
     assetId: string;
     proof?: string;
   },
-  transfers?: (FolderTransfer | VaultTransfer)[];
+  transfers?: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed?: number;
   expiration?: number;
 }

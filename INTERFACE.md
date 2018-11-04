@@ -7,7 +7,7 @@ Read asset on the network.
 ```ts
 const { publicData, publicProof } = await protocol.perform({
   queryId: QueryId.READ_ASSET_DATA,
-  folderId: '0x...',
+  ledgerId: '0x...',
   assetId: '0x...',
 });
 ```
@@ -75,104 +75,136 @@ proof.disclose([{ path }]);
 Connector actions.
 
 ```ts
-const folder = new Folder({ ...context });
-folder.on('', () => {}); //Transfer(_from, _to, _tokenId );
-folder.on('', () => {}); //Approval(_owner, _approved, _tokenId );
-folder.on('', () => {}); //ApprovalForAll(_owner, _operator, _approved );
-folder.on('', () => {}); //IsPaused(bool isPaused);
-folder.on('', () => {}); //TokenProofUpdate(_tokenId, _proof);
-folder.on('', () => {}); //AssignAbility(_target, _ability);
-folder.on('', () => {}); //RevokeAbility(_target, _ability);
-folder.off('', () => {});
-folder.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
-folder.burn({ assetId });
-folder.revoke({ assetId }); 
-folder.mint({ assetId, proof });
-folder.updateAssetProof({ assetProof }); // 
-folder.updateUriBase({ uriBase }); // setUriBase
-folder.getSupply();
-folder.getMetadata();
-folder.getCapabilities();
-folder.isEnabled();
-folder.isApproved({ accountId, assetId });
-folder.isApprovedForAll(accountId);
-folder.isAble({ abilityKind, accountId });
-folder.verify({ assetId, data: [{ index, value }] }); // from proof.disclose()
-folder.approveForOne(accountId, assetId);
-folder.approveForAll(); // setApprovalForAll -> setOperator
-folder.revokeAsset(); // revokable
-folder.balanceOf(accountId);
-folder.ownerOf(assetId);
-folder.createAsset(assetId, proof, accountId);
-folder.subscribe();
-folder.unsubscribe();
+const ledger = new AssetLedger({ ...context });
+ledger.on('', () => {}); //Transfer(_from, _to, _tokenId );
+ledger.on('', () => {}); //Approval(_owner, _approved, _tokenId );
+ledger.on('', () => {}); //ApprovalForAll(_owner, _operator, _approved );
+ledger.on('', () => {}); //IsPaused(bool isPaused);
+ledger.on('', () => {}); //TokenProofUpdate(_tokenId, _proof);
+ledger.on('', () => {}); //AssignAbility(_target, _ability);
+ledger.on('', () => {}); //RevokeAbility(_target, _ability);
+ledger.off('', () => {});
+ledger.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
+ledger.burn({ assetId });
+ledger.revoke({ assetId }); 
+ledger.mint({ assetId, proof });
+ledger.updateAssetProof({ assetProof }); // 
+ledger.updateUriBase({ uriBase }); // setUriBase
+ledger.getSupply();
+ledger.getMetadata();
+ledger.getCapabilities();
+ledger.isEnabled();
+ledger.isApproved({ accountId, assetId });
+ledger.isApprovedForAll(accountId);
+ledger.isAble({ abilityKind, accountId });
+ledger.verify({ assetId, data: [{ index, value }] }); // from proof.disclose()
+ledger.approveForOne(accountId, assetId);
+ledger.approveForAll(); // setApprovalForAll -> setOperator
+ledger.revokeAsset(); // revokable
+ledger.balanceOf(accountId);
+ledger.ownerOf(assetId);
+ledger.createAsset(assetId, proof, accountId);
+ledger.subscribe();
+ledger.unsubscribe();
 ```
 
 # Confirmed API
 
 ```ts
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 
-const connector = new Connector();
-connector.web3;
-connector.makerId;
-connector.minterId;
-connector.exchangeId;
-connector.signMethod;
-connector.web3;
-await connector.attach({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
-await connector.detach();
-await connector.sign(data);
+const context = new Context({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
+context.platform; // web3
+await context.attach();
+await context.detach();
+await context.sign(data);
 ```
 ```ts
-import { Folder } from '@0xcert/web3-folder';
+import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
-const folder = new Folder(connector);
-await folder.getAbilities(accountId);
-await folder.getCapabilities();
-await folder.getInfo();
-await folder.getSupply();
-await folder.getTransferState();
-await folder.assignAbilities(accountId, abilities);
-await folder.revokeAbilities(accountId, abilities);
-await folder.setTransferState(state);
+const ledger = new AssetLedger(context, ledgerId?);
+// const registry = AssetLedger.getInstance(context, ledgerId?);
+ledger.platform; // web3
+ledger.id;
+await ledger.deploy(hash);
+await ledger.getAbilities(accountId);
+await ledger.getCapabilities();
+await ledger.getInfo();
+await ledger.getSupply();
+await ledger.getTransferState();
+await ledger.assignAbilities(accountId, abilities);
+await ledger.revokeAbilities(accountId, abilities);
+await ledger.setTransferState(state);
 ```
 ```ts
-import { Vault } from '@0xcert/web3-vault';
+import { ValueLedger } from '@0xcert/web3-value-ledger';
 
-const vault = await new Vault(vaultId, connector);
-await vault.getInfo();
-await vault.getSupply();
-```
-```ts
-import { Minter, MinterOrder } from '@0xcert/web3-minter';
-
-const order = new MinterOrder(connector);
-order.claim;
-order.signature;
-order.recipe;
-order.populate({ claim?, signature?, recipe? });
-order.serialize();
-await order.build({ makerId?, takerId, transfers, seed?, expiration? });
-await order.sign();
-
-const minter = new Minter(connector);
-await minter.perform(order);
-await minter.cancel(order);
+const ledger = await new ValueLedger(context, ledgerId?);
+ledger.platform; // web3
+ledger.id;
+await ledger.deploy(hash);
+await ledger.getInfo();
+await ledger.getSupply();
 ```
 ```ts
 import { Exchange, ExchangeOrder } from '@0xcert/web3-exchange';
 
-const order = new ExchangeOrder(connector);
+const order = new ExchangeOrder(context);
 order.claim;
 order.signature;
 order.recipe;
-order.populate({ claim?, signature?, recipe? });
+order.add(Action.TRANSFER_VALUE, { ... });
+order.add(Action.TRANSFER_ASSET, { ... });
+order.add(Action.CREATE_ASSET, { ... });
+order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
 order.serialize();
 await order.build({ makerId?, takerId, transfers, seed?, expiration? });
-await order.sign();
+await order.sign(); // seal!
 
-const exchange = new Exchange(connector);
+const exchange = new Exchange(context);
+exchange.on('swap', () => {});
+exchange.subscribe();
+exchange.unsubscribe();
 await exchange.perform(order);
 await exchange.cancel(order);
 ```
+
+# Renaming considerations
+
+`AssetLedger` = AssetContract, Asset
+`ValueLedger` = CoinContract, Coin
+`Minter` = AssetMinter, AssetOrder
+`Exchange` = Exchange, ExchangeOrder
+
+# Assets
+
+## Flow to create an asset
+
+```ts
+const storage = new Storage();
+const context = new Connector();
+const ledger = new AssetLedger(context, ledgerId);
+const asset = new Asset(schema);
+asset.platform;
+asset.ledgerId;
+asset.id;
+asset.populate(data);
+asset.serialize();
+try {
+  await asset.validate();
+  await storage.upload(asset);
+  await ledger.mint(asset);
+}
+catch (error) {
+  alsert(error);
+}
+```
+
+# Conventions
+
+## JSON Schema
+
+1. Base for conventons.
+2. Expend functions by adding `expose: []` for exposing data to public.
+3. Convert to schema.org JSON for google search.
+4. Must generate private, public, google search objects.

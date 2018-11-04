@@ -1,13 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import { MinterOrder } from '../../../core/order';
 import { Minter } from '../../../core/minter';
 
 interface Data {
   protocol: Protocol;
-  makerConnector: Connector;
-  takerConnector: Connector;
+  makerContext: Context;
+  takerContext: Context;
   order: MinterOrder;
   coinbase: string;
   bob: string;
@@ -35,14 +35,14 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerConnector = new Connector();
-  await makerConnector.attach({ minterId, makerId: coinbase, ...stage });
+  const makerContext = new Context();
+  await makerContext.attach({ minterId, makerId: coinbase, ...stage });
 
-  const takerConnector = new Connector();
-  await takerConnector.attach({ minterId, makerId: bob, ...stage });
+  const takerContext = new Context();
+  await takerContext.attach({ minterId, makerId: bob, ...stage });
 
-  stage.set('makerConnector', makerConnector);
-  stage.set('takerConnector', takerConnector);
+  stage.set('makerContext', makerContext);
+  stage.set('takerContext', takerContext);
 });
 
 spec.before(async (stage) => {
@@ -59,22 +59,22 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = stage.get('makerConnector');
+  const context = stage.get('makerContext');
   const bob = stage.get('bob');
   const sara = stage.get('sara');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order = new MinterOrder(connector);
+  const order = new MinterOrder(context);
   await order.build({
     takerId: bob,
     asset: {
-      folderId: xcertId,
+      ledgerId: xcertId,
       assetId: '5',
       proof: 'foo',
     },
     transfers: [
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: bob,
         receiverId: sara,
         assetId: '100',
@@ -89,13 +89,13 @@ spec.before(async (stage) => {
 });
 
 spec.test('submits mint order to the network which mints a new asset', async (ctx) => {
-  const connector = ctx.get('takerConnector');
+  const context = ctx.get('takerContext');
   const order = ctx.get('order');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const xcert = ctx.get('protocol').xcert;
 
-  const minter = new Minter(connector);
+  const minter = new Minter(context);
   await minter.perform(order).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('5').call(), bob);

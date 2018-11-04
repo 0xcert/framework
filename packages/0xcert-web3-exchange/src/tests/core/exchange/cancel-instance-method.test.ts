@@ -1,13 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector } from '@0xcert/web3-connector';
+import { Context } from '@0xcert/web3-context';
 import { ExchangeOrder } from '../../../core/order';
 import { Exchange } from '../../../core/exchange';
 
 interface Data {
   protocol: Protocol;
-  makerConnector: Connector;
-  takerConnector: Connector;
+  makerContext: Context;
+  takerContext: Context;
   order: ExchangeOrder;
   coinbase: string;
   bob: string;
@@ -37,14 +37,14 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerConnector = new Connector();
-  await makerConnector.attach({ exchangeId, makerId: coinbase, ...stage });
+  const makerContext = new Context();
+  await makerContext.attach({ exchangeId, makerId: coinbase, ...stage });
 
-  const takerConnector = new Connector();
-  await takerConnector.attach({ exchangeId, makerId: bob, ...stage });
+  const takerContext = new Context();
+  await takerContext.attach({ exchangeId, makerId: bob, ...stage });
 
-  stage.set('makerConnector', makerConnector);
-  stage.set('takerConnector', takerConnector);
+  stage.set('makerContext', makerContext);
+  stage.set('takerContext', takerContext);
 });
 
 spec.before(async (stage) => {
@@ -64,24 +64,24 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = stage.get('makerConnector');
+  const context = stage.get('makerContext');
   const bob = stage.get('bob');
   const sara = stage.get('sara');
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order = new ExchangeOrder(connector);
+  const order = new ExchangeOrder(context);
   await order.build({
     takerId: bob,
     transfers: [
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: sara,
         receiverId: jane,
         assetId: '100',
       },
       {
-        folderId: xcertId,
+        ledgerId: xcertId,
         senderId: jane,
         receiverId: sara,
         assetId: '101',
@@ -96,17 +96,17 @@ spec.before(async (stage) => {
 });
 
 spec.test('marks exchange order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
-  const makerConnector = ctx.get('makerConnector');
-  const takerConnector = ctx.get('takerConnector');
+  const makerContext = ctx.get('makerContext');
+  const takerContext = ctx.get('takerContext');
   const order = ctx.get('order');
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const xcert = ctx.get('protocol').xcert;
 
-  const makerExchange = new Exchange(makerConnector);
+  const makerExchange = new Exchange(makerContext);
   await makerExchange.cancel(order).then(() => ctx.sleep(200));
 
-  const takerExchange = new Exchange(takerConnector);
+  const takerExchange = new Exchange(takerContext);
   await takerExchange.perform(order).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);

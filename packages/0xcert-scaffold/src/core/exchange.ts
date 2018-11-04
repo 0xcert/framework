@@ -1,11 +1,12 @@
-import { Mutation } from "./connector";
-import { FolderTransfer } from "./folder";
-import { VaultTransfer } from "./vault";
+import { Mutation } from "./context";
+import { AssetLedgerTransfer } from "./asset-ledger";
+import { ValueLedgerTransfer } from "./value-ledger";
 
 /**
  * 
  */
 export interface ExchangeBase {
+  readonly platform: string;
   perform(order): Promise<Mutation>;
   cancel(order): Promise<Mutation>;
 }
@@ -44,7 +45,7 @@ export interface ExchangeOrderDataInput {
 export interface ExchangeOrderRecipe {
   makerId: string;
   takerId: string;
-  transfers: (FolderTransfer | VaultTransfer)[];
+  transfers: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed: number;
   expiration: number;
 }
@@ -55,7 +56,7 @@ export interface ExchangeOrderRecipe {
 export interface ExchangeOrderRecipeInput {
   makerId?: string;
   takerId: string;
-  transfers?: (FolderTransfer | VaultTransfer)[];
+  transfers?: (AssetLedgerTransfer | ValueLedgerTransfer)[];
   seed?: number;
   expiration?: number;
 }
