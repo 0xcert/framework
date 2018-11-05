@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run updateMinterAbi; npx tsc",
+    "build": "npm run updateExchangeAbi; npx tsc",
     "test": "npx specron test",
-    "updateMinterAbi": "npx ts-node ./src/scripts/update-exchange-abi"
+    "updateExchangeAbi": "npx ts-node ./src/scripts/update-exchange-abi"
   },
   "specron": {
     "test": {

@@ -6,6 +6,7 @@ import { Context } from "@0xcert/web3-context";
  * 
  */
 export class ExchangeOrder implements ExchangeOrderBase {
+  readonly platform: string = 'web3';
   readonly context: Context;
   public claim: string;
   public signature: string;

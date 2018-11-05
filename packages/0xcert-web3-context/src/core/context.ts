@@ -8,7 +8,6 @@ import { SignMethod } from "./types";
  */
 export interface ContextAttachOptions {
   makerId?: string;
-  minterId?: string;
   exchangeId?: string;
   signMethod?: SignMethod;
   web3?: any;
@@ -20,7 +19,6 @@ export interface ContextAttachOptions {
 export class Context implements ContextBase {
   readonly platform: string = 'web3';
   public makerId: string;
-  public minterId?: string;
   public exchangeId?: string;
   public signMethod: SignMethod;
   public web3: any;
@@ -33,7 +31,6 @@ export class Context implements ContextBase {
 
     this.web3 = this.getWeb3(options.web3);
     this.makerId = await this.getMakerId(options.makerId);
-    this.minterId = options.minterId || '0x';
     this.exchangeId = options.exchangeId || '0x';
     this.signMethod = await this.getSignMethod(options.signMethod);
 
@@ -47,7 +44,6 @@ export class Context implements ContextBase {
     this.web3 = null;
     this.makerId = null;
     this.signMethod = null;
-    this.minterId = null;
     this.exchangeId = null;
 
     return this;
