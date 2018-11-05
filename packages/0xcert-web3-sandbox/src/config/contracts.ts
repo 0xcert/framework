@@ -7,11 +7,9 @@ const { MutableXcertMock } = require('@0xcert/web3-xcert-contracts/build/mutable
 const { PausableXcertMock } = require('@0xcert/web3-xcert-contracts/build/pausable-xcert-mock');
 const { RevokableXcertMock } = require('@0xcert/web3-xcert-contracts/build/revokable-xcert-mock');
 const { XcertMock } = require('@0xcert/web3-xcert-contracts/build/xcert-mock');
-const { XcertMintProxy } = require('@0xcert/web3-proxy-contracts/build/xcert-mint-proxy');
 const { TokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/nftoken-transfer-proxy');
 const { Exchange } = require('@0xcert/web3-exchange-contracts/build/exchange');
-const { Minter } = require('@0xcert/web3-minter-contracts/build/Minter');
 
 /**
  * ERC20 contract data.
@@ -86,14 +84,6 @@ export const xcert = {
 };
 
 /**
- * Xcert mint proxy contract data.
- */
-export const xcertMintProxy = {
-  abi: XcertMintProxy.abi,
-  bytecode: XcertMintProxy.evm.bytecode.object,
-};
-
-/**
  * Token transfer proxy data.
  */
 export const tokenTransferProxy = {
@@ -115,12 +105,4 @@ export const nftokenTransferProxy = {
 export const exchange = {
   abi: Exchange.abi,
   bytecode: Exchange.evm.bytecode.object,
-};
-
-/**
- * Decentralized minter contract data.
- */
-export const minter = {
-  abi: Minter.abi,
-  bytecode: Minter.evm.bytecode.object,
 };

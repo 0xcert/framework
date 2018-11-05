@@ -11,13 +11,16 @@ export class ValueLedger implements ValueLedgerBase {
   readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
+  readonly id: string;
 
   /**
    * 
    */
   public constructor(context: Context, ledgerId?: string) {
     this.context = context;
-    this.contract = this.getValueLedger(ledgerId);
+    this.id = ledgerId;
+
+    this.contract = this.getContract(ledgerId);
   }
 
   /**
@@ -37,7 +40,7 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * 
    */
-  protected getValueLedger(ledgerId: string) {
+  protected getContract(ledgerId: string) {
     return new this.context.web3.eth.Contract(env.tokenAbi, ledgerId, { gas: 6000000 });
   }
 

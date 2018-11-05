@@ -87,7 +87,7 @@ ledger.off('', () => {});
 ledger.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
 ledger.burn({ assetId });
 ledger.revoke({ assetId }); 
-ledger.mint({ assetId, proof });
+ledger.create({ assetId, proof });
 ledger.updateAssetProof({ assetProof }); // 
 ledger.updateUriBase({ uriBase }); // setUriBase
 ledger.getSupply();
@@ -113,7 +113,7 @@ ledger.unsubscribe();
 ```ts
 import { Context } from '@0xcert/web3-context';
 
-const context = new Context({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
+const context = new Context({ makerId? exchangeId?, signMethod?, web3? });
 context.platform; // web3
 await context.attach();
 await context.detach();
@@ -121,6 +121,12 @@ await context.sign(data);
 ```
 ```ts
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
+
+
+// TODO
+- AssetLedger.getInstance
+- ledger.id
+
 
 const ledger = new AssetLedger(context, ledgerId?);
 // const registry = AssetLedger.getInstance(context, ledgerId?);
@@ -173,7 +179,6 @@ await exchange.cancel(order);
 
 `AssetLedger` = AssetContract, Asset
 `ValueLedger` = CoinContract, Coin
-`Minter` = AssetMinter, AssetOrder
 `Exchange` = Exchange, ExchangeOrder
 
 # Assets
@@ -193,7 +198,7 @@ asset.serialize();
 try {
   await asset.validate();
   await storage.upload(asset);
-  await ledger.mint(asset);
+  await ledger.create(asset);
 }
 catch (error) {
   alsert(error);

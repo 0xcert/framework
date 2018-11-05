@@ -16,11 +16,9 @@ export class Protocol {
   public xcertPausable;
   public xcertRevokable;
   public xcert;
-  public xcertMintProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public exchange;
-  public minter;
 
   /**
    * Instantiates the protocol class and deploys the contracts.
@@ -58,11 +56,9 @@ export class Protocol {
     this.xcertPausable = await this.deployXcertPausable(from);
     this.xcertRevokable = await this.deployXcertRevokable(from);
     this.xcert = await this.deployXcert(from);
-    this.xcertMintProxy = await this.deployXcertMintProxy(from);
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.exchange = await this.deployExchange(from);
-    this.minter = await this.deployMinter(from);
 
     return this;
   }
@@ -108,7 +104,7 @@ export class Protocol {
   }
 
   /**
-   * Deploys the xcert mint proxy contract.
+   * Deploys the erc721 contract.
    * @param from Contract owner's address.
    */
   protected async deployErc721(from: string) {
@@ -121,7 +117,7 @@ export class Protocol {
   }
 
   /**
-   * Deploys the xcert mint proxy contract.
+   * Deploys burnable xcert contract.
    * @param from Contract owner's address.
    */
   protected async deployXcertBurnable(from: string) {
@@ -139,7 +135,7 @@ export class Protocol {
   }
 
   /**
-   * Deploys mutable Xcert contract.
+   * Deploys mutable xcert contract.
    * @param from Contract owner's address.
    */
   protected async deployXcertMutable(from: string) {
@@ -157,7 +153,7 @@ export class Protocol {
   }
 
   /**
-   * Deploys pausable Xcert contract.
+   * Deploys pausable xcert contract.
    * @param from Contract owner's address.
    */
   protected async deployXcertPausable(from: string) {
@@ -175,7 +171,7 @@ export class Protocol {
   }
 
   /**
-   * Deploys revokable Xcert contract.
+   * Deploys revokable xcert contract.
    * @param from Contract owner's address.
    */
   protected async deployXcertRevokable(from: string) {
@@ -208,19 +204,6 @@ export class Protocol {
     await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
 
     return xcert;
-  }
-
-  /**
-   * Deploys the xcert mint proxy contract.
-   * @param from Contract owner's address.
-   */
-  protected async deployXcertMintProxy(from: string) {
-    return await deploy({
-      web3: this.web3,
-      abi: contracts.xcertMintProxy.abi,
-      bytecode: contracts.xcertMintProxy.bytecode,
-      from,
-    });
   }
 
   /**
@@ -268,29 +251,6 @@ export class Protocol {
     await this.nftokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
 
     return exchange;
-  }
-
-  /**
-   * Deploys the decentralized minter contract.
-   * @param from Contract owner's address.
-   */
-  protected async deployMinter(from: string) {
-    const minter = await deploy({
-      web3: this.web3,
-      abi: contracts.minter.abi,
-      bytecode: contracts.minter.bytecode,
-      args: [this.xcertMintProxy.receipt._address],
-      from,
-    });
-
-    await minter.instance.methods.assignAbilities(from, [1]).send({ from });
-    await minter.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
-    await minter.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
-    await this.nftokenTransferProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
-    await this.xcertMintProxy.instance.methods.assignAbilities(minter.receipt._address, [1]).send({ from });
-
-    return minter;
   }
 
 }

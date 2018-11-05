@@ -53,10 +53,8 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
 
   const xcert = stage.get('protocol').xcert;
-  const xcertMintProxyId = stage.get('protocol').xcertMintProxy.instance.options.address;
   const nftokenTransferProxyId = stage.get('protocol').nftokenTransferProxy.instance.options.address;
 
-  await xcert.instance.methods.assignAbilities(xcertMintProxyId, [1]).send({ from: coinbase });
   await xcert.instance.methods.mint(sara, '100', 'foo').send({ form: coinbase });
   await xcert.instance.methods.mint(jane, '101', 'bar').send({ form: coinbase });
   await xcert.instance.methods.approve(nftokenTransferProxyId, '100').send({ from: sara });

@@ -17,13 +17,16 @@ export class AssetLedger implements AssetLedgerBase {
   readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
+  readonly id: string;
 
   /**
    * 
    */
   public constructor(context: Context, ledgerId: string) {
     this.context = context;
-    this.contract = this.getAssetLedger(ledgerId);
+    this.id = ledgerId;
+
+    this.contract = this.getContract(ledgerId);
   }
 
   /**
@@ -85,7 +88,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  protected getAssetLedger(ledgerId: string) {
+  protected getContract(ledgerId: string) {
     return new this.context.web3.eth.Contract(env.xcertAbi, ledgerId, { gas: 6000000 });
   }
 

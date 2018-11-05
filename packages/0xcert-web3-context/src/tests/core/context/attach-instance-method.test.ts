@@ -25,7 +25,6 @@ spec.test('initializes context data', async (ctx) => {
   const context = ctx.get('context');
   await context.attach(ctx);
 
-  ctx.true(!!context.minterId);
   ctx.true(!!context.web3);
   ctx.is(context.makerId, ctx.get('coinbase'));
   ctx.is(context.signMethod, SignMethod.ETH_SIGN);
