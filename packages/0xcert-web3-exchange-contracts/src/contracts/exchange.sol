@@ -54,7 +54,7 @@ contract Exchange is
    * @dev Structure representing what to send and where.
    * @param token Address of the token we are sending.
    * @param proxy Id representing approved proxy address.
-   * @param from Address of the sender.
+   * @param param1 Address of the sender or proof.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
    */
@@ -62,7 +62,7 @@ contract Exchange is
   {
     address token;
     uint32 proxy;
-    address from;
+    bytes32 param1;
     address to;
     uint256 value;
   }
@@ -240,7 +240,7 @@ contract Exchange is
           temp,
           _orderData.actions[i].token,
           _orderData.actions[i].proxy,
-          _orderData.actions[i].from,
+          _orderData.actions[i].param1,
           _orderData.actions[i].to,
           _orderData.actions[i].value
         )
@@ -331,7 +331,7 @@ contract Exchange is
      
       Proxy(idToProxy[_actions[i].proxy]).execute(
         _actions[i].token,
-        _actions[i].from,
+        address(_actions[i].param1),
         _actions[i].to,
         _actions[i].value
       );
