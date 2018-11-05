@@ -63,16 +63,6 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-minter",
-      "projectFolder": "packages/0xcert-web3-minter",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-minter-contracts",
-      "projectFolder": "packages/0xcert-web3-minter-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
       "packageName": "@0xcert/web3-proxy-contracts",
       "projectFolder": "packages/0xcert-web3-proxy-contracts",
       "versionPolicyName": "patchAll"

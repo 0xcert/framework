@@ -1,10 +1,12 @@
-import { Query } from "./context";
+import { Query, ContextBase } from "./context";
 
 /**
  * 
  */
 export interface ValueLedgerBase {
   readonly platform: string;
+  readonly context: ContextBase;
+  readonly id: string;
   getInfo(): Promise<Query<ValueLedgerGetInfoResult>>;
   getSupply(): Promise<Query<number>>;
 }

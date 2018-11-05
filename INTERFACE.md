@@ -122,6 +122,12 @@ await context.sign(data);
 ```ts
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
+
+// TODO
+- AssetLedger.getInstance
+- ledger.id
+
+
 const ledger = new AssetLedger(context, ledgerId?);
 // const registry = AssetLedger.getInstance(context, ledgerId?);
 ledger.platform; // web3

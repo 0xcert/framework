@@ -1,4 +1,4 @@
-import { Mutation } from "./context";
+import { Mutation, ContextBase } from "./context";
 import { AssetLedgerTransfer } from "./asset-ledger";
 import { ValueLedgerTransfer } from "./value-ledger";
 
@@ -7,6 +7,7 @@ import { ValueLedgerTransfer } from "./value-ledger";
  */
 export interface ExchangeBase {
   readonly platform: string;
+  readonly context: ContextBase;
   perform(order): Promise<Mutation>;
   cancel(order): Promise<Mutation>;
 }
@@ -15,6 +16,8 @@ export interface ExchangeBase {
  * 
  */
 export interface ExchangeOrderBase extends ExchangeOrderData {
+  readonly platform: string;
+  readonly context: ContextBase;
   populate(data: ExchangeOrderDataInput): this;
   serialize(): ExchangeOrderData;
   build(recipe: ExchangeOrderRecipeInput): Promise<this>;

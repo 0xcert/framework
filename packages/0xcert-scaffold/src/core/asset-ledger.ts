@@ -1,4 +1,4 @@
-import { Query, Mutation } from "./context";
+import { Query, Mutation, ContextBase } from "./context";
 
 /**
  * 
@@ -35,6 +35,8 @@ export enum AssetLedgerCapability {
  */
 export interface AssetLedgerBase {
   readonly platform: string;
+  readonly context: ContextBase;
+  readonly id: string;
   getAbilities(accountId: string): Promise<Query<AssetLedgerAbility[]>>;
   getCapabilities(): Promise<Query<AssetLedgerCapability[]>>;
   getInfo(): Promise<Query<AssetLedgerGetInfoResult>>;
