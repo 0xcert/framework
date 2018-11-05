@@ -15,6 +15,7 @@ contract Exchange is
    * @dev List of abilities:
    * 1 - Ability to set proxies.
    */
+  uint8 constant ABILITY_TO_SET_PROXIES = 1;
 
   /**
    * @dev Error constants.
@@ -151,7 +152,7 @@ contract Exchange is
     address _proxy
   )
     external
-    hasAbility(1)
+    hasAbility(ABILITY_TO_SET_PROXIES)
   {
     idToProxy[_id] = _proxy;
     emit ProxyChange(_id, _proxy);
