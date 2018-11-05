@@ -10,8 +10,7 @@ contract MutableXcert is Xcert {
   /**
    * @dev Error constants.
    */
-  string constant EMPTY_PROOF = "010001";
-  string constant NOT_VALID_XCERT = "010002";
+  string constant NOT_VALID_XCERT = "010001";
 
   /**
    * @dev Emits when proof of a token is changed.
@@ -20,7 +19,7 @@ contract MutableXcert is Xcert {
    */
   event TokenProofUpdate(
     uint256 indexed _tokenId,
-    string _proof
+    bytes32 _proof
   );
 
   /**
@@ -31,7 +30,7 @@ contract MutableXcert is Xcert {
   constructor()
     public
   {
-    supportedInterfaces[0x33b641ae] = true; // MutableXcert
+    supportedInterfaces[0x5e2161af] = true; // MutableXcert
   }
 
   /**
@@ -41,12 +40,11 @@ contract MutableXcert is Xcert {
    */
   function updateTokenProof(
     uint256 _tokenId,
-    string _proof
+    bytes32 _proof
   )
     external
     hasAbility(4)
   {
-    require(bytes(_proof).length > 0, EMPTY_PROOF);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     idToProof[_tokenId] = _proof;
     emit TokenProofUpdate(_tokenId, _proof);

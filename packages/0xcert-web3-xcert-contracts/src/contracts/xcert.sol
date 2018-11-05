@@ -26,11 +26,6 @@ contract Xcert is
   using AddressUtils for address;
 
   /**
-   * @dev Error constants.
-   */
-  string constant EMPTY_PROOF = "007001";
-
-  /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
    * @notice Calculated as keccak256(jsonSchema).
    */
@@ -39,7 +34,7 @@ contract Xcert is
   /**
    * @dev Maps NFT ID to proof.
    */
-  mapping (uint256 => string) internal idToProof;
+  mapping (uint256 => bytes32) internal idToProof;
 
   /**
    * @dev Maps address to authorization of contract.
@@ -54,7 +49,7 @@ contract Xcert is
   constructor()
     public
   {
-    supportedInterfaces[0x53e8e3f4] = true; // Xcert
+    supportedInterfaces[0x9e51f07e] = true; // Xcert
   }
 
   /**
@@ -66,12 +61,11 @@ contract Xcert is
   function mint(
     address _to,
     uint256 _id,
-    string _proof
+    bytes32 _proof
   )
     external
     hasAbility(1)
   {
-    require(bytes(_proof).length > 0, EMPTY_PROOF);
     super._mint(_to, _id);
     idToProof[_id] = _proof;
   }
@@ -96,7 +90,7 @@ contract Xcert is
   )
     external
     view
-    returns(string)
+    returns(bytes32)
   {
     return idToProof[_tokenId];
   }
