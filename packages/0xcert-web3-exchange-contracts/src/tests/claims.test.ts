@@ -73,7 +73,7 @@ spec.beforeEach(async (ctx) => {
   };
   const exchange = ctx.get('exchange');
   const tuple = ctx.tuple(claim);
-  const hash = await exchange.instance.methods.getSwapDataClaim(tuple).call();
+  const hash = await exchange.instance.methods.getOrderDataClaim(tuple).call();
   ctx.set('hash', hash);
 });
 

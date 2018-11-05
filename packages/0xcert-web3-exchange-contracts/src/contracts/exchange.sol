@@ -5,7 +5,8 @@ import "@0xcert/web3-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/web3-utils-contracts/src/contracts/permission/Abilitable.sol";
 
 /**
- * @dev Decentralize exchange for fundgible and non-fundgible tokens powered by atomic swaps. 
+ * @dev Decentralize exchange, minting, updating and other actions for fundgible and non-fundgible 
+ * tokens powered by atomic swaps. 
  */
 contract Exchange is
   Abilitable
@@ -24,8 +25,8 @@ contract Exchange is
   string constant TAKER_EQUAL_TO_MAKER = "015004";
   string constant CLAIM_EXPIRED = "015005";
   string constant INVALID_SIGNATURE = "015006";
-  string constant SWAP_CANCELED = "015007";
-  string constant SWAP_ALREADY_PERFORMED = "015008";
+  string constant ORDER_CANCELED = "015007";
+  string constant ORDER_ALREADY_PERFORMED = "015008";
   string constant MAKER_NOT_EQUAL_TO_SENDER = "015009";
 
   /**
@@ -56,7 +57,7 @@ contract Exchange is
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
    */
-  struct TransferData 
+  struct ActionData 
   {
     address token;
     uint256 proxy;
@@ -81,19 +82,19 @@ contract Exchange is
   }
 
   /**
-   * @dev Structure representing the data needed to do the swap.
+   * @dev Structure representing the data needed to do the order.
    * @param maker Address of the one that made the claim.
    * @param taker Address of the one that is executing the claim.
-   * @param transfers Data of all the transfers that should accure it this swap.
+   * @param actions Data of all the actions that should accure it this order.
    * @param signature Data from the signed claim.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet. 
    */
-  struct SwapData 
+  struct OrderData 
   {
     address maker;
     address taker;
-    TransferData[] transfers;
+    ActionData[] actions;
     uint256 seed;
     uint256 expiration;
   }
@@ -104,19 +105,19 @@ contract Exchange is
   mapping(uint256 => address) public idToProxy;
 
   /**
-   * @dev Mapping of all cancelled transfers.
+   * @dev Mapping of all cancelled orders.
    */
-  mapping(bytes32 => bool) public swapCancelled;
+  mapping(bytes32 => bool) public orderCancelled;
 
   /**
-   * @dev Mapping of all performed transfers.
+   * @dev Mapping of all performed orders.
    */
-  mapping(bytes32 => bool) public swapPerformed;
+  mapping(bytes32 => bool) public orderPerformed;
 
   /**
    * @dev This event emmits when tokens change ownership.
    */
-  event PerformSwap(
+  event Perform(
     address indexed _maker,
     address indexed _taker,
     bytes32 _claim
@@ -125,7 +126,7 @@ contract Exchange is
   /**
    * @dev This event emmits when transfer order is cancelled.
    */
-  event CancelSwap(
+  event Cancel(
     address indexed _maker,
     address indexed _taker,
     bytes32 _claim
@@ -158,11 +159,11 @@ contract Exchange is
 
   /**
    * @dev Performs the ERC721/ERC20 atomic swap.
-   * @param _data Data required to make the swap.
+   * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
-  function performSwap(
-    SwapData _data,
+  function perform(
+    OrderData _data,
     SignatureData _signature
   )
     public 
@@ -171,7 +172,7 @@ contract Exchange is
     require(_data.taker != _data.maker, TAKER_EQUAL_TO_MAKER);
     require(_data.expiration >= now, CLAIM_EXPIRED);
 
-    bytes32 claim = getSwapDataClaim(_data);
+    bytes32 claim = getOrderDataClaim(_data);
     require(
       isValidSignature(
         _data.maker,
@@ -181,14 +182,14 @@ contract Exchange is
       INVALID_SIGNATURE
     );
 
-    require(!swapCancelled[claim], SWAP_CANCELED);
-    require(!swapPerformed[claim], SWAP_ALREADY_PERFORMED);
+    require(!orderCancelled[claim], ORDER_CANCELED);
+    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
-    swapPerformed[claim] = true;
+    orderPerformed[claim] = true;
 
-    _makeTransfers(_data.transfers);
+    _makeTransfers(_data.actions);
 
-    emit PerformSwap(
+    emit Perform(
       _data.maker,
       _data.taker,
       claim
@@ -196,21 +197,21 @@ contract Exchange is
   }
 
   /** 
-   * @dev Cancels swap
-   * @param _data Data of swap to cancel.
+   * @dev Cancels order
+   * @param _data Data of order to cancel.
    */
-  function cancelSwap(
-    SwapData _data
+  function cancel(
+    OrderData _data
   )
     public
   {
     require(_data.maker == msg.sender, MAKER_NOT_EQUAL_TO_SENDER);
 
-    bytes32 claim = getSwapDataClaim(_data);
-    require(!swapPerformed[claim], SWAP_ALREADY_PERFORMED);
+    bytes32 claim = getOrderDataClaim(_data);
+    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
-    swapCancelled[claim] = true;
-    emit CancelSwap(
+    orderCancelled[claim] = true;
+    emit Cancel(
       _data.maker,
       _data.taker,
       claim
@@ -218,12 +219,12 @@ contract Exchange is
   }
 
   /**
-   * @dev Calculates keccak-256 hash of SwapData from parameters.
-   * @param _swapData Data needed for atomic swap.
-   * @return keccak-hash of swap data.
+   * @dev Calculates keccak-256 hash of OrderData from parameters.
+   * @param _orderData Data needed for atomic swap.
+   * @return keccak-hash of order data.
    */
-  function getSwapDataClaim(
-    SwapData _swapData
+  function getOrderDataClaim(
+    OrderData _orderData
   )
     public
     view
@@ -231,16 +232,16 @@ contract Exchange is
   {
     bytes32 temp = 0x0;
 
-    for(uint256 i = 0; i < _swapData.transfers.length; i++)
+    for(uint256 i = 0; i < _orderData.actions.length; i++)
     {
       temp = keccak256(
         abi.encodePacked(
           temp,
-          _swapData.transfers[i].token,
-          _swapData.transfers[i].proxy,
-          _swapData.transfers[i].from,
-          _swapData.transfers[i].to,
-          _swapData.transfers[i].value
+          _orderData.actions[i].token,
+          _orderData.actions[i].proxy,
+          _orderData.actions[i].from,
+          _orderData.actions[i].to,
+          _orderData.actions[i].value
         )
       );
     }
@@ -248,11 +249,11 @@ contract Exchange is
     return keccak256(
       abi.encodePacked(
         address(this),
-        _swapData.maker,
-        _swapData.taker,
+        _orderData.maker,
+        _orderData.taker,
         temp,
-        _swapData.seed,
-        _swapData.expiration
+        _orderData.seed,
+        _orderData.expiration
       )
     );
   }
@@ -313,25 +314,25 @@ contract Exchange is
 
   /**
    * @dev Helper function that makes transfes.
-   * @param _transfers Data needed for transfers.
+   * @param _actions Data needed for actions.
    */
   function _makeTransfers(
-    TransferData[] _transfers
+    ActionData[] _actions
   )
     private
   {
-    for(uint256 i = 0; i < _transfers.length; i++)
+    for(uint256 i = 0; i < _actions.length; i++)
     {
       require(
-        idToProxy[_transfers[i].proxy] != address(0),
+        idToProxy[_actions[i].proxy] != address(0),
         INVALID_PROXY
       );
      
-      Proxy(idToProxy[_transfers[i].proxy]).execute(
-        _transfers[i].token,
-        _transfers[i].from,
-        _transfers[i].to,
-        _transfers[i].value
+      Proxy(idToProxy[_actions[i].proxy]).execute(
+        _actions[i].token,
+        _actions[i].from,
+        _actions[i].to,
+        _actions[i].value
       );
     }
   }
