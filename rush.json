@@ -53,13 +53,18 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-exchange",
-      "projectFolder": "packages/0xcert-web3-exchange",
+      "packageName": "@0xcert/web3-exchange-contracts",
+      "projectFolder": "packages/0xcert-web3-exchange-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-exchange-contracts",
-      "projectFolder": "packages/0xcert-web3-exchange-contracts",
+      "packageName": "@0xcert/web3-order",
+      "projectFolder": "packages/0xcert-web3-order",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/web3-order-exchange",
+      "projectFolder": "packages/0xcert-web3-order-exchange",
       "versionPolicyName": "patchAll"
     },
     {

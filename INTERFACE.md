@@ -159,27 +159,31 @@ const order = new ExchangeOrder(context);
 order.claim;
 order.signature;
 order.recipe;
-order.add(Action.TRANSFER_VALUE, { ... });
-order.add(Action.TRANSFER_ASSET, { ... });
-order.add(Action.CREATE_ASSET, { ... });
-order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
+order.add({ ... });
+order.add({ ... });
+order.add({ ... });
+order.remove({ ... });
+order.populate({ makerId?, takerId, actions, seed?, expiration?, signature? });
 order.serialize();
-await order.build({ makerId?, takerId, transfers, seed?, expiration? });
 await order.sign(); // seal!
 
 const exchange = new Exchange(context);
 exchange.on('swap', () => {});
 exchange.subscribe();
 exchange.unsubscribe();
+// await exchange.getInfo();
 await exchange.perform(order);
 await exchange.cancel(order);
 ```
 
-# Renaming considerations
 
-`AssetLedger` = AssetContract, Asset
-`ValueLedger` = CoinContract, Coin
-`Exchange` = Exchange, ExchangeOrder
+
+
+
+
+
+
+
 
 # Assets
 
@@ -213,3 +217,64 @@ catch (error) {
 2. Expend functions by adding `expose: []` for exposing data to public.
 3. Convert to schema.org JSON for google search.
 4. Must generate private, public, google search objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```ts
+// CONTEXT [ok]
+[I] Context.Base;
+
+// ASSET [in progress]
+[I] Asset.Base;
+
+// ASSET LEDGER [ok]
+[I] AssetLedger.Base;
+[I] AssetLedger.GetInfoResult;
+[E] AssetLedger.Ability;
+[E] AssetLedger.Capability;
+[E] AssetLedger.TransferState;
+[E] AssetLedger.EventName;
+
+// VALUE LEDGER [ok]
+[I] ValueLedger.Base;
+[I] ValueLedger.GetInfoResult;
+[E] ValueLedger.EventName;
+
+// ORDER EXCHANGE [ok]
+[I] OrderExchange.Base;
+[E] OrderExchange.EventName;
+
+// ORDER [ok]
+[I] Order.Base;
+[I] Order.Input;
+[I] Order.Output;
+[I] Order.Action;
+[E] Order.Action.Kind;
+[I] Order.Action.CreateAsset;
+[I] Order.Action.TransferAsset;
+[I] Order.Action.TransferValue;
+
+// ?
+[I] Connector.Error;
+[E] Connector.Issue; // ErrorCode
+[I] ConnectorQuery<T>;
+[I] ConnectorMutation;
+```

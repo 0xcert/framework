@@ -1,14 +1,14 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Context } from '@0xcert/web3-context';
-import { ExchangeOrder } from '../../../core/order';
-import { Exchange } from '../../../core/exchange';
+import { Order, OrderActionKind } from '@0xcert/web3-order';
+import { OrderExchange } from '../../..';
 
 interface Data {
   protocol: Protocol;
   makerContext: Context;
   takerContext: Context;
-  order: ExchangeOrder;
+  order: Order;
   coinbase: string;
   bob: string;
   sara: string;
@@ -68,43 +68,47 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order = new ExchangeOrder(context);
-  await order.build({
-    takerId: bob,
-    transfers: [
-      {
-        ledgerId: xcertId,
-        senderId: sara,
-        receiverId: jane,
-        assetId: '100',
-      },
-      {
-        ledgerId: xcertId,
-        senderId: jane,
-        receiverId: sara,
-        assetId: '101',
-      },
-    ],
-    seed: 1535113220,
-    expiration: 1607731200,
-  });
-  await order.sign();
+  const order = new Order(context);
+  // order.takerId = bob;
+  // order.seed = 1535113220;
+  // order.expiration = 1535113820;
+  // order.actions = [
+  //   {
+  //     kind: OrderActionKind.TRANSFER_ASSET,
+  //     ledgerId: xcertId,
+  //     senderId: sara,
+  //     receiverId: jane,
+  //     assetId: '100',
+  //   },
+  //   {
+  //     kind: OrderActionKind.TRANSFER_ASSET,
+  //     ledgerId: xcertId,
+  //     senderId: jane,
+  //     receiverId: sara,
+  //     assetId: '101',
+  //   },
+  // ];
+  // await order.sign();
 
   stage.set('order', order);
 });
 
-spec.test('submits exchange order to the network which executes transfers', async (ctx) => {
-  const context = ctx.get('takerContext');
+spec.test('marks exchange order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
+  const makerContext = ctx.get('makerContext');
+  const takerContext = ctx.get('takerContext');
   const order = ctx.get('order');
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const xcert = ctx.get('protocol').xcert;
 
-  const exchange = new Exchange(context);
-  await exchange.perform(order).then(() => ctx.sleep(200));
+  // const makerExchange = new OrderExchange(makerContext);
+  // await makerExchange.cancel(order).then(() => ctx.sleep(200));
 
-  ctx.is(await xcert.instance.methods.ownerOf('100').call(), jane);
-  ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
+  // const takerExchange = new OrderExchange(takerContext);
+  // await takerExchange.perform(order).then(() => ctx.sleep(200));
+
+  // ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);
+  // ctx.is(await xcert.instance.methods.ownerOf('101').call(), jane);
 });
 
 export default spec;

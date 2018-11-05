@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
-import { ExchangeOrder } from '../../../core/order';
+import { Order } from '../../..';
 
 interface Data {
   context: Context;
@@ -16,18 +16,18 @@ spec.before(async (stage) => {
 });
 
 spec.test('populates order data', async (ctx) => {
-  const context = ctx.get('context');
+  // const context = ctx.get('context');
 
-  const order = new ExchangeOrder(context);
-  order.populate({
-    claim: 'foo',
-    signature: 'bar',
-    recipe: {} as any,
-  });
+  // const order = new Order(context);
+  // order.populate({
+  //   claim: 'foo',
+  //   signature: 'bar',
+  //   recipe: {} as any,
+  // });
 
-  ctx.is(order.claim, 'foo');
-  ctx.is(order.signature, 'bar');
-  ctx.true(!!order.recipe);
+  // ctx.is(order.claim, 'foo');
+  // ctx.is(order.signature, 'bar');
+  // ctx.true(!!order.recipe);
 });
 
 export default spec;

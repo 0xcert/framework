@@ -4,8 +4,7 @@ import * as ledger from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!ledger.Exchange);
-  ctx.true(!!ledger.ExchangeOrder);
+  ctx.true(!!ledger.Order);
 });
 
 export default spec;

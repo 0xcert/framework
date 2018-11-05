@@ -1,13 +1,13 @@
-import { ExchangeBase } from '@0xcert/scaffold';
+import { OrderExchangeBase } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
+import { Order } from '@0xcert/web3-order';
 import { tuple } from '@0xcert/web3-utils';
-import { ExchangeOrder } from './order';
 import * as env from '../config/env';
 
 /**
  * 
  */
-export class Exchange implements ExchangeBase {
+export class OrderExchange implements OrderExchangeBase {
   readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
@@ -23,7 +23,7 @@ export class Exchange implements ExchangeBase {
   /**
    * 
    */
-  public async perform(order: ExchangeOrder) {
+  public async perform(order: Order) {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(order);
     const from = this.context.makerId;
@@ -36,7 +36,7 @@ export class Exchange implements ExchangeBase {
   /**
    * 
    */
-  public async cancel(order: ExchangeOrder) {
+  public async cancel(order: Order) {
     const recipeTuple = this.createRecipeTuple(order);
     const from = this.context.makerId;
 
@@ -48,23 +48,23 @@ export class Exchange implements ExchangeBase {
   /**
    * 
    */
-  protected createRecipeTuple(order: ExchangeOrder) {
-    const transfers = order.recipe.transfers.map((transfer) => {
+  protected createRecipeTuple(order: Order) {
+    const transfers = order.actions.map((action) => {
       return {
-        token: transfer['ledgerId'],
-        proxy: transfer['assetId'] ? 1 : 0,
-        from: transfer['senderId'],
-        to: transfer['receiverId'],
-        value: transfer['assetId'] || transfer['amount'],
+        token: action['ledgerId'],
+        proxy: action['assetId'] ? 1 : 0,
+        // from: action['senderId'],
+        // to: action['receiverId'],
+        // value: action['assetId'] || action['value'],
       };
     });
     
     const recipeData = {
-      from: order.recipe.makerId,
-      to: order.recipe.takerId,
+      from: order.makerId,
+      to: order.takerId,
       transfers,
-      seed: order.recipe.seed,
-      expirationTimestamp: order.recipe.expiration,
+      seed: order.seed,
+      expirationTimestamp: order.expiration,
     };
     
     return tuple(recipeData);
@@ -73,7 +73,7 @@ export class Exchange implements ExchangeBase {
   /**
    * 
    */
-  protected createSignatureTuple(order: ExchangeOrder) {
+  protected createSignatureTuple(order: Order) {
     const [kind, signature] = (order.signature || '').split(':');
     
     const signatureData = {

@@ -19,13 +19,3 @@ export interface ValueLedgerGetInfoResult {
   symbol: string;
   decimals: number;
 }
-
-/**
- * 
- */
-export interface ValueLedgerTransfer {
-  ledgerId: string;
-  senderId: string;
-  receiverId: string;
-  amount: number;
-}
