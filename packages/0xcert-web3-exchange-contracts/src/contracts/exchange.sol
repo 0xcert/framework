@@ -60,7 +60,7 @@ contract Exchange is
   struct ActionData 
   {
     address token;
-    uint256 proxy;
+    uint32 proxy;
     address from;
     address to;
     uint256 value;
@@ -102,7 +102,7 @@ contract Exchange is
   /** 
    * @dev Valid proxy contract addresses.
    */
-  mapping(uint256 => address) public idToProxy;
+  mapping(uint32 => address) public idToProxy;
 
   /**
    * @dev Mapping of all cancelled orders.
@@ -136,7 +136,7 @@ contract Exchange is
    * @dev This event emmits when proxy address is changed..
    */
   event ProxyChange(
-    uint256 indexed _id,
+    uint32 indexed _id,
     address _proxy
   );
 
@@ -147,7 +147,7 @@ contract Exchange is
    * @param _proxy Proxy address.
    */
   function setProxy(
-    uint256 _id,
+    uint32 _id,
     address _proxy
   )
     external
