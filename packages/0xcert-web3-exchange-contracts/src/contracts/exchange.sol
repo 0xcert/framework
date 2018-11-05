@@ -51,6 +51,15 @@ contract Exchange is
   }
 
   /**
+   * Enum of available action kinds.
+   */
+  enum ActionKind
+  {
+    mint,
+    transfer
+  }
+
+  /**
    * @dev Structure representing what to send and where.
    * @param token Address of the token we are sending.
    * @param proxy Id representing approved proxy address.
@@ -60,8 +69,9 @@ contract Exchange is
    */
   struct ActionData 
   {
-    address token;
+    ActionKind kind;
     uint32 proxy;
+    address token;
     bytes32 param1;
     address to;
     uint256 value;
@@ -238,8 +248,9 @@ contract Exchange is
       temp = keccak256(
         abi.encodePacked(
           temp,
-          _orderData.actions[i].token,
+          _orderData.actions[i].kind,
           _orderData.actions[i].proxy,
+          _orderData.actions[i].token,
           _orderData.actions[i].param1,
           _orderData.actions[i].to,
           _orderData.actions[i].value

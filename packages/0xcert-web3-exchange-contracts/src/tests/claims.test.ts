@@ -57,17 +57,18 @@ spec.beforeEach(async (ctx) => {
 
 
 spec.beforeEach(async (ctx) => {
-  const transfer = {
-    token: ctx.get('cat').receipt._address,
+  const action = {
     kind: 1,
-    from: ctx.get('jane'),
+    proxy: 0,
+    token: ctx.get('cat').receipt._address,
+    param1: ctx.web3.utils.padLeft(ctx.get('jane'), 64),
     to: ctx.get('sara'),
     value: 1,
   };
   const claim = {
     maker: ctx.get('jane'),
     taker: ctx.get('sara'),
-    transfers: [transfer],
+    actions: [action],
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };

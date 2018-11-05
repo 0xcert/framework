@@ -267,18 +267,20 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
-      from: ctx.web3.utils.padLeft(jane, 64),
+      proxy: 1,
+      token: cat.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
-    {
-      token: cat.receipt._address,
+    { 
       kind: 1,
-      from: ctx.web3.utils.padLeft(bob, 64),
+      proxy: 1,
+      token: cat.receipt._address,
+      param1: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
     },
@@ -287,7 +289,7 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -321,24 +323,27 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 4,
     }, 
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -347,7 +352,7 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -387,31 +392,35 @@ erc721s.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
   const fox = ctx.get('fox');
   const bee = ctx.get('bee');
 
-  const transfers = [
+  const actions = [
     {
+      kind: 1,
+      proxy: 1,
       token: cat.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 1,
       token: dog.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: fox.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: fox.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 1,
     },
     {
-      token: bee.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: bee.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 3,
@@ -420,7 +429,7 @@ erc721s.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -469,17 +478,19 @@ erc20s.test('3000 ZXC <=> 50000 GNT', async (ctx) => {
   const zxcAmount = 3000;
   const gntAmount = 50000;
 
-  const transfers = [
+  const actions = [
     {
+      kind: 1,
+      proxy: 0,
       token: zxc.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: zxcAmount,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: gnt.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: gntAmount,
@@ -488,7 +499,7 @@ erc20s.test('3000 ZXC <=> 50000 GNT', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -529,31 +540,35 @@ erc20s.test('500 ZXC, 1 BNB <=> 30 GNT, 5 OMG', async (ctx) => {
   const bnbAmount = 1;
   const omgAmount = 5;
 
-  const transfers = [
+  const actions = [
     {
+      kind: 1,
+      proxy: 0,
       token: zxc.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: zxcAmount,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: bnb.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: bnbAmount,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: gnt.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: gntAmount,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: omg.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: omgAmount,
@@ -562,7 +577,7 @@ erc20s.test('500 ZXC, 1 BNB <=> 30 GNT, 5 OMG', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -612,17 +627,19 @@ erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
   const omg = ctx.get('omg');
   const omgAmount = 5000;
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: omg.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: omgAmount,
@@ -631,7 +648,7 @@ erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -674,52 +691,59 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
   const zxcAmount = 3;
   const gntAmount = 5000;
 
-  const transfers = [
+  const actions = [
     {
+      kind: 1,
+      proxy: 1,
       token: cat.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 1,
       token: dog.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: zxc.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: zxcAmount,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 3,
     },
     {
-      token: fox.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: fox.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: omg.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: omgAmount,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: gnt.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: gntAmount,
@@ -728,7 +752,7 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -783,38 +807,43 @@ erc721sErc20s.test('Cat #1, Dog #1 <=> Cat #3, Fox #1 => 40 ZXC', async (ctx) =>
   const zxc = ctx.get('zxc');
   const zxcAmount = 40;
 
-  const transfers = [
+  const actions = [
     {
+      kind: 1,
+      proxy: 1,
       token: cat.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 1,
       token: dog.receipt._address,
-      kind: 1,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: zxc.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: sara,
       value: zxcAmount,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 3,
     },
     {
-      token: fox.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: fox.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 1,
@@ -823,7 +852,7 @@ erc721sErc20s.test('Cat #1, Dog #1 <=> Cat #3, Fox #1 => 40 ZXC', async (ctx) =>
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -872,17 +901,19 @@ cancel.beforeEach(async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -891,7 +922,7 @@ cancel.beforeEach(async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -958,17 +989,19 @@ fail.test('when proxy not allowed to transfer nft', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -977,7 +1010,7 @@ fail.test('when proxy not allowed to transfer nft', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -1007,17 +1040,19 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   const omg = ctx.get('omg');
   const omgAmount = 5000;
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
+      kind: 1,
+      proxy: 0,
       token: omg.receipt._address,
-      kind: 0,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: omgAmount,
@@ -1026,7 +1061,7 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -1055,17 +1090,19 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -1074,7 +1111,7 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -1102,17 +1139,19 @@ fail.test('when taker and makes addresses are the same', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -1121,7 +1160,7 @@ fail.test('when taker and makes addresses are the same', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: jane,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
@@ -1149,17 +1188,19 @@ fail.test('when current time is after expirationTimestamp', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -1168,7 +1209,7 @@ fail.test('when current time is after expirationTimestamp', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() - 600,
   };
@@ -1196,17 +1237,19 @@ fail.test('when signature is invalid', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -1215,13 +1258,13 @@ fail.test('when signature is invalid', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
   let orderDataTuple = ctx.tuple(orderData);
   const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
-  orderData.transfers[0].kind = 0;
+  orderData.actions[0].kind = 0;
   orderDataTuple = ctx.tuple(orderData);
   
   const signature = await ctx.web3.eth.sign(claim, jane);
@@ -1245,17 +1288,19 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
 
-  const transfers = [
+  const actions = [
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(jane, 64),
       to: bob,
       value: 1,
     },
     {
-      token: cat.receipt._address,
       kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
       from: ctx.web3.utils.padLeft(bob, 64),
       to: jane,
       value: 2,
@@ -1264,7 +1309,7 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   const orderData = {
     maker: jane,
     taker: bob,
-    transfers,
+    actions,
     seed: common.getCurrentTime(), 
     expiration: common.getCurrentTime() + 600,
   };
