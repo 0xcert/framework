@@ -3,14 +3,6 @@ import { Query, Mutation, ContextBase } from "./context";
 /**
  * 
  */
-export enum AssetLedgerTransferState {
-  DISABLED = 0,
-  ENABLED = 1,
-}
-
-/**
- * 
- */
 export enum AssetLedgerAbility {
   MANAGE_ABILITIES = 0,
   MINT_ASSET = 1,
@@ -18,6 +10,14 @@ export enum AssetLedgerAbility {
   PAUSE_TRANSFER = 3,
   UPDATE_PROOF = 4,
   SIGN_MINT_CLAIM = 5,
+}
+
+/**
+ * 
+ */
+export enum AssetLedgerTransferState {
+  DISABLED = 0,
+  ENABLED = 1,
 }
 
 /**
@@ -50,27 +50,9 @@ export interface AssetLedgerBase {
 /**
  * 
  */
-export interface AssetLedgerTransfer {
-  ledgerId: string;
-  senderId: string;
-  receiverId: string;
-  assetId: string;
-}
-
-/**
- * 
- */
 export interface AssetLedgerGetInfoResult {
   name: string;
   symbol: string;
   uriBase: string;
   conventionId: string
-}
-
-/**
- * 
- */
-export interface AssetLedgerGetInfoResult {
-  name: string;
-  symbol: string;
 }
