@@ -10,6 +10,7 @@ const { XcertMock } = require('@0xcert/web3-xcert-contracts/build/xcert-mock');
 const { XcertMintProxy } = require('@0xcert/web3-proxy-contracts/build/xcert-mint-proxy');
 const { TokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/web3-proxy-contracts/build/nftoken-transfer-proxy');
+const { NFTokenSafeTransferProxy } = require('@0xcert/web3-proxy-contracts/build/nftoken-safe-transfer-proxy');
 const { Exchange } = require('@0xcert/web3-exchange-contracts/build/exchange');
 
 /**
@@ -106,6 +107,14 @@ export const tokenTransferProxy = {
 export const nftokenTransferProxy = {
   abi: NFTokenTransferProxy.abi,
   bytecode: NFTokenTransferProxy.evm.bytecode.object,
+};
+
+/**
+ * Non-fungible token safe transfer proxy data.
+ */
+export const nftokenSafeTransferProxy = {
+  abi: NFTokenSafeTransferProxy.abi,
+  bytecode: NFTokenSafeTransferProxy.evm.bytecode.object,
 };
 
 /**
