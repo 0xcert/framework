@@ -26,7 +26,7 @@ contract XcertMintProxy is
     address _xcert,
     address _to,
     uint256 _id,
-    string _proof
+    bytes32 _proof
   )
     external
     hasAbility(1)
