@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/web3-proxy-contracts/src/contracts/iproxy.sol";
-import "@0xcert/web3-utils-contracts/src/contracts/permission/Abilitable.sol";
+import "@0xcert/web3-proxy-contracts/src/contracts/xcert-mint-proxy.sol";
 
 /**
  * @dev Decentralize exchange, minting, updating and other actions for fundgible and non-fundgible 
@@ -29,6 +29,7 @@ contract Exchange is
   string constant ORDER_CANCELED = "015007";
   string constant ORDER_ALREADY_PERFORMED = "015008";
   string constant MAKER_NOT_EQUAL_TO_SENDER = "015009";
+  string constant SIGNER_NOT_AUTHORIZED = "015010";
 
   /**
    * @dev Enum of available signature kinds.
@@ -198,7 +199,7 @@ contract Exchange is
 
     orderPerformed[claim] = true;
 
-    _makeTransfers(_data.actions);
+    _doActions(_data);
 
     emit Perform(
       _data.maker,
@@ -326,26 +327,42 @@ contract Exchange is
 
   /**
    * @dev Helper function that makes transfes.
-   * @param _actions Data needed for actions.
+   * @param _order Data needed for order.
    */
-  function _makeTransfers(
-    ActionData[] _actions
+  function _doActions(
+    OrderData _order
   )
     private
   {
-    for(uint256 i = 0; i < _actions.length; i++)
+    for(uint256 i = 0; i < _order.actions.length; i++)
     {
       require(
-        idToProxy[_actions[i].proxy] != address(0),
+        idToProxy[_order.actions[i].proxy] != address(0),
         INVALID_PROXY
       );
-     
-      Proxy(idToProxy[_actions[i].proxy]).execute(
-        _actions[i].token,
-        address(_actions[i].param1),
-        _actions[i].to,
-        _actions[i].value
-      );
+
+      if(_order.actions[i].kind == ActionKind.mint)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, 5),
+          SIGNER_NOT_AUTHORIZED
+        );
+        
+        XcertMintProxy(idToProxy[_order.actions[i].proxy]).mint(
+          _order.actions[i].token,
+          _order.actions[i].to,
+          _order.actions[i].value,
+          _order.actions[i].param1
+        );
+      } else if (_order.actions[i].kind == ActionKind.transfer)
+      {
+        Proxy(idToProxy[_order.actions[i].proxy]).execute(
+          _order.actions[i].token,
+          address(_order.actions[i].param1),
+          _order.actions[i].to,
+          _order.actions[i].value
+        );
+      }
     }
   }
 }
