@@ -5,10 +5,6 @@ import { Context } from '@0xcert/web3-context';
 
 const context = new Context({ makerId? exchangeId?, signMethod?, web3? });
 context.platform;
-context.makerId;
-context.exchangeId?;
-context.signMethod?;
-context.web3?;
 await context.attach();
 await context.detach();
 await context.sign(data);
@@ -19,8 +15,8 @@ import { AssetLedger } from '@0xcert/web3-asset-ledger';
 const ledger = new AssetLedger(context, ledgerId?);
 ledger.platform;
 ledger.id;
-ledger.on('', () => {});
-ledger.off('', () => {});
+ledger.on(event, handler);
+ledger.off(event, handler);
 ledger.subscribe();
 ledger.unsubscribe();
 await ledger.deploy(hash);
@@ -32,6 +28,8 @@ await ledger.getTransferState();
 await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setTransferState(state);
+await ledger.transfer(to, assetid);
+await ledger.mint(assetId, proof);
 ```
 ```ts
 import { ValueLedger } from '@0xcert/web3-value-ledger';
@@ -39,54 +37,81 @@ import { ValueLedger } from '@0xcert/web3-value-ledger';
 const ledger = await new ValueLedger(context, ledgerId?);
 ledger.platform;
 ledger.id;
-ledger.on('', () => {});
-ledger.off('', () => {});
+ledger.on(event, handler);
+ledger.off(event, handler);
 ledger.subscribe();
 ledger.unsubscribe();
 await ledger.getInfo();
 await ledger.getSupply();
 ```
 ```ts
-import { Order } from '@0xcert/web3-order';
-import { OrderExchange } from '@0xcert/web3-order-exchange';
+import { Order } from '@0xcert/order';
 
-const order = new Order(context);
+const order = new Order();
 order.makerId;
 order.takerId;
 order.actions;
 order.seed;
 order.expiration;
-order.signature;
-order.populate({ makerId?, takerId, actions, seed?, expiration?, signature? });
+order.populate({ makerId?, takerId, actions, seed?, expiration? });
 order.serialize();
-await order.sign();
+order.claim();
 ```
 ```ts
+import { OrderExchange } from '@0xcert/web3-order-exchange';
+
 const exchange = new OrderExchange(context);
-exchange.on('swap', () => {});
+exchange.on(event, handler);
+exchange.off(event, handler);
 exchange.subscribe();
 exchange.unsubscribe();
 await exchange.getInfo();
-await exchange.perform(order);
-await exchange.cancel(order);
+await exchange.perform(order, signature); // taker
+await exchange.cancel(order); // maker
 ```
 ```ts
-import { Asset } from '@0xcert/core-assets';
+import { Asset } from '@0xcert/assets';
 
-const asset = new Asset(schema);
-asset.id;
-asset.proof;
+const asset = new Asset(data);
 asset.field0; // custom based on schema
 asset.field1; // custom based on schema
 asset.field2; // custom based on schema
 asset.populate(data); // populatest model fields
 asset.serialize(); // JSON with all the fields
-asset.serialize('published'); // public JSON data
-asset.serialize('provable'); // private JSON data
-asset.serialize('base'); // only { id, proof }
+asset.serialize('metadata'); // public JSON data
+asset.serialize('record'); // private JSON data
+asset.serialize('proof'); // JSON for merkle tree
 await asset.validate(); // throws on invalid props
-await asset.certify(); // generates proof
 ```
+```ts
+import { Footprint } from '@0xcert/certification';
+
+const footprint = new Footprint();
+await footprint.certify(asset); // root merkle tree
+await footprint.expose(asset, [
+  ['name'],
+  ['book', 'title'],
+]); // merkle values and nodes
+await footprint.verify(); // verifies
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Convention
 
@@ -201,6 +226,7 @@ async function userIdentityRouteHandler(req, res) {
   });
   try {
     await identity.validate(); // magic :)
+    await identity.certify(); // create identity.proof
     await identity.save();
   }
   catch (error) {
@@ -231,6 +257,41 @@ class UserIdentity extends Model {
     schema.props.forEach((p) = this.defineProp(p));
   }
 }
+```
+
+# Asset verification
+
+```ts
+// CREATE ASSET
+const identity = new UserIdentity({
+  id: '100',
+  folderId: '0x9128798s9d8g9sd8f7s9d8f7s9d8fs98',
+  proof: 'ac9128798s9d8g9sd8f7s9d8f7s9d8fs98',
+  firstName: 'John',
+  lastName: 'Smith',
+});
+await identity.validate();
+await identity.certify();
+identity.freez();
+
+const storage = new Storage();
+await storage.createAssetRecord(
+  identity.serialize('record')
+);
+await storage.createMetadataFile(
+  identity.serialize('metadata')
+);
+await ledger.mint(
+  identity.serialize('mint')
+);
+```
+```ts
+// SERVER
+const identity = new UserIdentity();
+await identity.populateById('100');
+res.json(
+  identity.serialize('public')
+);
 ```
 
 # Packages
@@ -274,4 +335,90 @@ class UserIdentity extends Model {
 [E] Connector.Issue; // ErrorCode
 [I] ConnectorQuery<T>;
 [I] ConnectorMutation;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# App Example
+
+```ts
+import { Context } from '@0xcert/web3-context';
+import { AssetLedger } from '@0xcert/web3-asset-ledger';
+import { ValueLedger } from '@0xcert/web3-value-ledger';
+import { OrderExchange } from '@0xcert/web3-order-exchange';
+import { Order } from '@0xcert/order';
+import { CollectibleAsset } from '@0xcert/assets';
+import { Footprint } from '@0xcert/certification';
+
+// keep track and watch all performed transactions
+const storage = new Storage();
+// TODO!!!!!!
+
+// initialize application context
+const context = new Context({ storage });
+
+// work with ERC721 smart contract
+const assetLedger = new AssetLedger(context, '0x78as78sd7gf87as8f7sd8f7fa');
+await assetLedger.getInfo();
+
+// work with ERC20 smart contract
+const valueLedger = new ValueLedger(context, '0x78as78sd7gf87as8f7sd8f7fa');
+await valueLedger.getInfo();
+
+// generate executable order and send it to a user
+const order = new Order({
+  makerId: context.myId,
+  takerId: '0xa79s87d9s8d7f987192341512',
+  actions: [],
+  seed: Date.now(),
+  expiration: Date.now() * 60 * 24,
+});
+order.validate();
+const orderData = {
+  order: order.serialize(),
+  signature: contexdt.sign(order.claim()),
+};
+
+// execute received executable order
+const exchange = new OrderExchange(context);
+const mutation = await exchange.perform(
+  ...orderData
+);
+
+// create new asset and validate the input
+const asset = new CollectibleAsset({
+  id: null,
+  name: 'Superman',
+  photo: 'http://super.org/man.jpg',
+});
+await asset.validate();
+
+// create asset proof
+const footprint = new Footprint();
+const proof = await footprint.certify(asset);
+
+// generate evidence (values, nodes) with which we can verify the data
+const evidence = await footprint.expose(asset, [
+  ['book', 'title'],
+]);
+await footprint.verify(evidence); 
+
+// store it to the database and mint it on the blockchain
+await store.createAsset(asset)
+await assetLedger.mint(asset.id, proof);
 ```
