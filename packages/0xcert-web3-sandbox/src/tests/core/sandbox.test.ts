@@ -28,11 +28,9 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.xcertPausable);
   ctx.true(!!sandbox.protocol.xcertRevokable);
   ctx.true(!!sandbox.protocol.xcert);
-  ctx.true(!!sandbox.protocol.xcertMintProxy);
   ctx.true(!!sandbox.protocol.tokenTransferProxy);
   ctx.true(!!sandbox.protocol.nftokenTransferProxy);
   ctx.true(!!sandbox.protocol.exchange);
-  ctx.true(!!sandbox.protocol.minter);
 });
 
 spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {

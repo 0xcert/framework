@@ -87,7 +87,7 @@ ledger.off('', () => {});
 ledger.transferFrom({ assetId, makerId, takerId }); // najprej te more approvat, vedno klices safeTransferFrom
 ledger.burn({ assetId });
 ledger.revoke({ assetId }); 
-ledger.mint({ assetId, proof });
+ledger.create({ assetId, proof });
 ledger.updateAssetProof({ assetProof }); // 
 ledger.updateUriBase({ uriBase }); // setUriBase
 ledger.getSupply();
@@ -113,7 +113,7 @@ ledger.unsubscribe();
 ```ts
 import { Context } from '@0xcert/web3-context';
 
-const context = new Context({ makerId?, minterId?, exchangeId?, signMethod?, web3? });
+const context = new Context({ makerId? exchangeId?, signMethod?, web3? });
 context.platform; // web3
 await context.attach();
 await context.detach();
@@ -121,6 +121,12 @@ await context.sign(data);
 ```
 ```ts
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
+
+
+// TODO
+- AssetLedger.getInstance
+- ledger.id
+
 
 const ledger = new AssetLedger(context, ledgerId?);
 // const registry = AssetLedger.getInstance(context, ledgerId?);
@@ -153,28 +159,31 @@ const order = new ExchangeOrder(context);
 order.claim;
 order.signature;
 order.recipe;
-order.add(Action.TRANSFER_VALUE, { ... });
-order.add(Action.TRANSFER_ASSET, { ... });
-order.add(Action.CREATE_ASSET, { ... });
-order.populate({ claim?, signature?, recipe?: { makerId?, takerId, actions, seed?, expiration? } });
+order.add({ ... });
+order.add({ ... });
+order.add({ ... });
+order.remove({ ... });
+order.populate({ makerId?, takerId, actions, seed?, expiration?, signature? });
 order.serialize();
-await order.build({ makerId?, takerId, transfers, seed?, expiration? });
 await order.sign(); // seal!
 
 const exchange = new Exchange(context);
 exchange.on('swap', () => {});
 exchange.subscribe();
 exchange.unsubscribe();
+// await exchange.getInfo();
 await exchange.perform(order);
 await exchange.cancel(order);
 ```
 
-# Renaming considerations
 
-`AssetLedger` = AssetContract, Asset
-`ValueLedger` = CoinContract, Coin
-`Minter` = AssetMinter, AssetOrder
-`Exchange` = Exchange, ExchangeOrder
+
+
+
+
+
+
+
 
 # Assets
 
@@ -193,7 +202,7 @@ asset.serialize();
 try {
   await asset.validate();
   await storage.upload(asset);
-  await ledger.mint(asset);
+  await ledger.create(asset);
 }
 catch (error) {
   alsert(error);
@@ -208,3 +217,64 @@ catch (error) {
 2. Expend functions by adding `expose: []` for exposing data to public.
 3. Convert to schema.org JSON for google search.
 4. Must generate private, public, google search objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```ts
+// CONTEXT [ok]
+[I] Context.Base;
+
+// ASSET [in progress]
+[I] Asset.Base;
+
+// ASSET LEDGER [ok]
+[I] AssetLedger.Base;
+[I] AssetLedger.GetInfoResult;
+[E] AssetLedger.Ability;
+[E] AssetLedger.Capability;
+[E] AssetLedger.TransferState;
+[E] AssetLedger.EventName;
+
+// VALUE LEDGER [ok]
+[I] ValueLedger.Base;
+[I] ValueLedger.GetInfoResult;
+[E] ValueLedger.EventName;
+
+// ORDER EXCHANGE [ok]
+[I] OrderExchange.Base;
+[E] OrderExchange.EventName;
+
+// ORDER [ok]
+[I] Order.Base;
+[I] Order.Input;
+[I] Order.Output;
+[I] Order.Action;
+[E] Order.Action.Kind;
+[I] Order.Action.CreateAsset;
+[I] Order.Action.TransferAsset;
+[I] Order.Action.TransferValue;
+
+// ?
+[I] Connector.Error;
+[E] Connector.Issue; // ErrorCode
+[I] ConnectorQuery<T>;
+[I] ConnectorMutation;
+```

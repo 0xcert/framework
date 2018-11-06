@@ -19,7 +19,6 @@ spec.test('wipes context data', async (ctx) => {
   await context.detach();
 
   ctx.is(context.makerId, null);
-  ctx.is(context.minterId, null);
   ctx.is(context.signMethod, null);
   ctx.is(context.web3, null);
 });

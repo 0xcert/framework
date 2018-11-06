@@ -1,12 +1,4 @@
-import { Query, Mutation } from "./context";
-
-/**
- * 
- */
-export enum AssetLedgerTransferState {
-  DISABLED = 0,
-  ENABLED = 1,
-}
+import { Query, Mutation, ContextBase } from "./context";
 
 /**
  * 
@@ -18,6 +10,14 @@ export enum AssetLedgerAbility {
   PAUSE_TRANSFER = 3,
   UPDATE_PROOF = 4,
   SIGN_MINT_CLAIM = 5,
+}
+
+/**
+ * 
+ */
+export enum AssetLedgerTransferState {
+  DISABLED = 0,
+  ENABLED = 1,
 }
 
 /**
@@ -35,6 +35,8 @@ export enum AssetLedgerCapability {
  */
 export interface AssetLedgerBase {
   readonly platform: string;
+  readonly context: ContextBase;
+  readonly id: string;
   getAbilities(accountId: string): Promise<Query<AssetLedgerAbility[]>>;
   getCapabilities(): Promise<Query<AssetLedgerCapability[]>>;
   getInfo(): Promise<Query<AssetLedgerGetInfoResult>>;
@@ -48,27 +50,9 @@ export interface AssetLedgerBase {
 /**
  * 
  */
-export interface AssetLedgerTransfer {
-  ledgerId: string;
-  senderId: string;
-  receiverId: string;
-  assetId: string;
-}
-
-/**
- * 
- */
 export interface AssetLedgerGetInfoResult {
   name: string;
   symbol: string;
   uriBase: string;
   conventionId: string
-}
-
-/**
- * 
- */
-export interface AssetLedgerGetInfoResult {
-  name: string;
-  symbol: string;
 }
