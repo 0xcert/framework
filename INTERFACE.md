@@ -47,7 +47,7 @@ await ledger.getSupply();
 ```ts
 import { Order } from '@0xcert/order';
 
-const order = new Order();
+const order = new Order(data);
 order.id;
 order.folderId;
 order.makerId;
@@ -87,12 +87,12 @@ asset.serialize('proof'); // JSON for merkle tree
 await asset.validate(); // throws on invalid props
 ```
 ```ts
-import { Footprint } from '@0xcert/certification';
+import { Imprint } from '@0xcert/certification';
 
-const footprint = new Footprint();
-await footprint.certify(asset); // root merkle tree
-await footprint.expose(asset, [['name']]); // evidence with merkle values and nodes
-await footprint.verify(evidence);
+const imprint = new Imprint();
+await imprint.certify(asset); // root merkle tree
+await imprint.expose(asset, [['name']]); // evidence with merkle values and nodes
+await imprint.verify(evidence);
 ```
 
 # Convention
