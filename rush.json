@@ -13,6 +13,11 @@
   },
   "projects": [
     {
+      "packageName": "@0xcert/assets",
+      "projectFolder": "packages/0xcert-assets",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "versionPolicyName": "patchAll"

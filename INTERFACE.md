@@ -68,7 +68,7 @@ exchange.on(event, handler);
 exchange.off(event, handler);
 exchange.subscribe();
 exchange.unsubscribe();
-await exchange.getInfo();
+// await exchange.getInfo();
 await exchange.claim(order); // signed claim (maker)
 await exchange.cancel(order); // (maker)
 await exchange.perform(order, signature); // (taker)
