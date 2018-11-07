@@ -74,9 +74,9 @@ await exchange.cancel(order); // (maker)
 await exchange.perform(order, signature); // (taker)
 ```
 ```ts
-import { Asset } from '@0xcert/assets';
+import { KittyAsset } from '@0xcert/assets';
 
-const asset = new Asset(data);
+const asset = new KittyAsset(data);
 asset.field0; // custom based on schema
 asset.field1; // custom based on schema
 asset.field2; // custom based on schema

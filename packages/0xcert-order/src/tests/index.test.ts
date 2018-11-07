@@ -4,11 +4,11 @@ import * as order from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!order.CreateAssetAction);
+  ctx.true(!!order.CreateAssetOrderAction);
   ctx.true(!!order.Order);
-  ctx.true(!!order.TransferAssetAction);
-  ctx.true(!!order.TransferValueAction);
-  ctx.true(!!order.ActionKind);
+  ctx.true(!!order.TransferAssetOrderAction);
+  ctx.true(!!order.TransferValueOrderAction);
+  ctx.true(!!order.OrderActionKind);
 });
 
 export default spec;

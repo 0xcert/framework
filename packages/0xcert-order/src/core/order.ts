@@ -1,26 +1,21 @@
 import { Model, prop } from '@rawmodel/core';
-import { ActionKind } from './types';
-import { CreateAssetAction } from './create-asset-action';
-import { TransferAssetAction } from './transfer-asset-action';
-import { TransferValueAction } from './transfer-value-action';
+import { OrderActionKind, OrderAction } from './types';
+import { CreateAssetOrderAction } from './create-asset-order-action';
+import { TransferAssetOrderAction } from './transfer-asset-order-action';
+import { TransferValueOrderAction } from './transfer-value-order-action';
 
 /**
  * 
  */
-export type Action = CreateAssetAction | TransferAssetAction | TransferValueAction;
-
-/**
- * 
- */
-function castToAction(obj) {
-  if (obj && obj.kind === ActionKind.CREATE_ASSET) {
-    return new CreateAssetAction(obj);
+function castToOrderAction(obj): OrderAction {
+  if (obj && obj.kind === OrderActionKind.CREATE_ASSET) {
+    return new CreateAssetOrderAction(obj);
   }
-  else if (obj && obj.kind === ActionKind.TRANSFER_ASSET) {
-    return new TransferAssetAction(obj);
+  else if (obj && obj.kind === OrderActionKind.TRANSFER_ASSET) {
+    return new TransferAssetOrderAction(obj);
   }
-  else if (obj && obj.kind === ActionKind.TRANSFER_VALUE) {
-    return new TransferValueAction(obj);
+  else if (obj && obj.kind === OrderActionKind.TRANSFER_VALUE) {
+    return new TransferValueOrderAction(obj);
   }
   else {
     return null;
@@ -46,14 +41,6 @@ export class Order extends Model {
   @prop({
     cast: { handler: 'String' },
   })
-  public ledgerId: string;
-
-  /**
-   * 
-   */
-  @prop({
-    cast: { handler: 'String' },
-  })
   public makerId: string;
 
   /**
@@ -68,16 +55,17 @@ export class Order extends Model {
    * 
    */
   @prop({
-    cast: { handler: castToAction },
+    cast: { handler: castToOrderAction, array: true },
     emptyValue: [],
   })
-  public actions: Action[];
+  public actions: OrderAction[];
 
   /**
    * 
    */
   @prop({
     cast: { handler: 'Integer' },
+    defaultValue: () => Date.now(),
   })
   public seed: number;
 
@@ -86,6 +74,7 @@ export class Order extends Model {
    */
   @prop({
     cast: { handler: 'Integer' },
+    defaultValue: () => Date.now() * 60 * 60 * 24, // 1h
   })
   public expiration: number;
 

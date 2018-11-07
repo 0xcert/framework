@@ -1,19 +1,30 @@
 import { Model, prop } from '@rawmodel/core';
-import { ActionKind } from './types';
+import { OrderActionKind } from './types';
 
 /**
  * 
  */
-export class TransferAssetAction extends Model {
+export interface TransferValueOrderActionBase {
+  kind: OrderActionKind.TRANSFER_VALUE;
+  ledgerId: string;
+  senderId: string;
+  receiverId: string;
+  value: number;
+}
+
+/**
+ * 
+ */
+export class TransferValueOrderAction extends Model implements TransferValueOrderActionBase {
 
   /**
    * 
    */
   @prop({
     cast: { handler: 'Integer' },
-    get: () => ActionKind.TRANSFER_ASSET,
+    get: () => OrderActionKind.TRANSFER_VALUE,
   })
-  public kind: ActionKind.TRANSFER_ASSET;
+  public kind: OrderActionKind.TRANSFER_VALUE;
 
   /**
    * 
