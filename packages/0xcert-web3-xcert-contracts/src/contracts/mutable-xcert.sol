@@ -8,6 +8,12 @@ import "./xcert.sol";
 contract MutableXcert is Xcert {
 
   /**
+   * @dev List of abilities:
+   * 4 - Ability to change xcert proof.
+   */
+  uint8 constant ABILITY_TO_CHANGE_PROOF = 4;
+
+  /**
    * @dev Error constants.
    */
   string constant NOT_VALID_XCERT = "010001";
@@ -43,7 +49,7 @@ contract MutableXcert is Xcert {
     bytes32 _proof
   )
     external
-    hasAbility(4)
+    hasAbility(ABILITY_TO_CHANGE_PROOF)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     idToProof[_tokenId] = _proof;

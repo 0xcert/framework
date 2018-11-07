@@ -321,7 +321,7 @@
     },
     "@rush-temp/web3-exchange-contracts": {
       "version": "file:projects/web3-exchange-contracts.tgz",
-      "integrity": "sha512-mhHxLkXN3OF3Co1hhzOo0VgTcDB+WggboHS8TnBjF2XLBXP0Ke7FkkEp4tJogtPKtrIrVJFhz8RmuexQm/oGgA==",
+      "integrity": "sha512-+LwIDSuykqpIuW+i4OtkCvWkwWdPZt6NbXbdJILtbAXP0x+RBIRdSovfdF7Q1Dufups6R/sILo+OqpUvFhO+oA==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

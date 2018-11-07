@@ -8,6 +8,13 @@ import "./xcert.sol";
 contract PausableXcert is Xcert {
 
   /**
+   * @dev List of abilities:
+   * 3 - Ability to pause xcert transfers.
+   */
+  uint8 constant ABILITY_TO_PAUSE_TRANSFERS = 3;
+
+
+  /**
    * @dev Error constants.
    */
   string constant TRANSFERS_PAUSED = "009001";
@@ -41,7 +48,7 @@ contract PausableXcert is Xcert {
     bool _isPaused
   )
     external
-    hasAbility(3)
+    hasAbility(ABILITY_TO_PAUSE_TRANSFERS)
   {
     isPaused = _isPaused;
     emit IsPaused(_isPaused);

@@ -14,6 +14,7 @@ contract XcertMintProxy is
    * @dev List of abilities:
    * 1 - Ability to execute mint. 
    */
+  uint8 constant ABILITY_TO_EXECUTE = 1;
 
   /**
    * @dev Mints a new NFT.
@@ -29,7 +30,7 @@ contract XcertMintProxy is
     bytes32 _proof
   )
     external
-    hasAbility(1)
+    hasAbility(ABILITY_TO_EXECUTE)
   {
     Xcert(_xcert).mint(_to, _id, _proof);
   }

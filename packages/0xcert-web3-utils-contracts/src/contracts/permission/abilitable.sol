@@ -21,6 +21,7 @@ contract Abilitable {
    * Other ability id are determined by implementing contract.
    */
   mapping(address => mapping(uint8 => bool)) private addressToAbility;
+  uint8 constant ABILITY_TO_MANAGE_ABILITIES = 0;
 
   /**
    * @dev Count of zero ability addresses.
@@ -80,7 +81,7 @@ contract Abilitable {
     uint8[] _abilities
   )
     public
-    hasAbility(0)
+    hasAbility(ABILITY_TO_MANAGE_ABILITIES)
   {
     for(uint8 i; i<_abilities.length; i++)
     {
@@ -104,7 +105,7 @@ contract Abilitable {
     uint8[] _abilities
   )
     public
-    hasAbility(0)
+    hasAbility(ABILITY_TO_MANAGE_ABILITIES)
   {
     for(uint8 i; i<_abilities.length; i++)
     {

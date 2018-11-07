@@ -13,7 +13,7 @@ contract Xcert is
   Abilitable
 {
   /**
-   * @dev List of abilities gathered from all extensions:
+   * @dev List of abilities (gathered from all extensions):
    * 1 - Ability to mint new xcerts.
    * 2 - Ability to revoke xcerts.
    * 3 - Ability to pause xcert transfers.
@@ -21,6 +21,8 @@ contract Xcert is
    * 5 - Ability to sign claims (valid signatures for minter).
    * 6 - Ability to change URI base.
    */
+  uint8 constant ABILITY_TO_MINT_NEW_XCERTS = 1;
+  uint8 constant ABILITY_TO_CHANGE_URI_BASE = 6;
 
   using SafeMath for uint256;
   using AddressUtils for address;
@@ -64,7 +66,7 @@ contract Xcert is
     bytes32 _proof
   )
     external
-    hasAbility(1)
+    hasAbility(ABILITY_TO_MINT_NEW_XCERTS)
   {
     super._mint(_to, _id);
     idToProof[_id] = _proof;
@@ -103,7 +105,7 @@ contract Xcert is
     string _uriBase
   )
     external
-    hasAbility(6)
+    hasAbility(ABILITY_TO_CHANGE_URI_BASE)
   {
     super._setUriBase(_uriBase);
   }

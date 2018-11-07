@@ -6,7 +6,7 @@ import "./xcert.sol";
  * @dev Xcert implementation where tokens can be destroyed by the owner or operator.
  */
 contract BurnableXcert is Xcert {
-
+  
   /**
    * @dev Error constants.
    */

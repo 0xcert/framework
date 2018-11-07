@@ -8,6 +8,12 @@ import "./xcert.sol";
 contract RevokableXcert is Xcert {
 
   /**
+   * @dev List of abilities:
+   * 2 - Ability to revoke xcerts.
+   */
+  uint8 constant ABILITY_TO_REVOKE_XCERTS = 2;
+
+  /**
    * @dev Contract constructor.
    * @notice When implementing this contract don't forget to set nftConventionId, nftName and
    * nftSymbol.
@@ -27,7 +33,7 @@ contract RevokableXcert is Xcert {
     uint256 _tokenId
   )
     external
-    hasAbility(2)
+    hasAbility(ABILITY_TO_REVOKE_XCERTS)
   {
     super._burn(_tokenId);
     delete idToProof[_tokenId];

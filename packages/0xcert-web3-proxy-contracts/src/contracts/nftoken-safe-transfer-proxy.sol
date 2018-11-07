@@ -9,13 +9,13 @@ import "@0xcert/web3-utils-contracts/src/contracts/permission/abilitable.sol";
  * been approved via decentralized governance.
  * @dev based on:https://github.com/0xProject/contracts/blob/master/contracts/TokenTransferProxy.sol
  */
-contract NFTokenTransferProxy is 
+contract NFTokenSafeTransferProxy is 
   Proxy,
   Abilitable 
 {
   /**
    * @dev List of abilities:
-   * 1 - Ability to execute transfer. 
+   * 1 - Ability to execute. 
    */
   uint8 constant ABILITY_TO_EXECUTE = 1;
 
@@ -35,6 +35,6 @@ contract NFTokenTransferProxy is
     external
     hasAbility(ABILITY_TO_EXECUTE)
   {
-    ERC721(_target).transferFrom(_a, _b, _c);
+    ERC721(_target).safeTransferFrom(_a, _b, _c);
   }
 }
