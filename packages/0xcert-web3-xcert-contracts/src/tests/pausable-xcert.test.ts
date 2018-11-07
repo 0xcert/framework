@@ -28,7 +28,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('uriBase', 'http://0xcert.org/1');
-  ctx.set('proof1', '973124FFC4A03E66D6A4458E587D5D6146F71FC57F359C8D516E0B12A50AB0D9');
+  ctx.set('proof1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
 });
 
 spec.beforeEach(async (ctx) => {

@@ -13,7 +13,7 @@ contract Xcert is
   Abilitable
 {
   /**
-   * @dev List of abilities gathered from all extensions:
+   * @dev List of abilities (gathered from all extensions):
    * 1 - Ability to mint new xcerts.
    * 2 - Ability to revoke xcerts.
    * 3 - Ability to pause xcert transfers.
@@ -21,14 +21,11 @@ contract Xcert is
    * 5 - Ability to sign claims (valid signatures for minter).
    * 6 - Ability to change URI base.
    */
+  uint8 constant ABILITY_TO_MINT_NEW_XCERTS = 1;
+  uint8 constant ABILITY_TO_CHANGE_URI_BASE = 6;
 
   using SafeMath for uint256;
   using AddressUtils for address;
-
-  /**
-   * @dev Error constants.
-   */
-  string constant EMPTY_PROOF = "007001";
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -39,7 +36,7 @@ contract Xcert is
   /**
    * @dev Maps NFT ID to proof.
    */
-  mapping (uint256 => string) internal idToProof;
+  mapping (uint256 => bytes32) internal idToProof;
 
   /**
    * @dev Maps address to authorization of contract.
@@ -54,7 +51,7 @@ contract Xcert is
   constructor()
     public
   {
-    supportedInterfaces[0x53e8e3f4] = true; // Xcert
+    supportedInterfaces[0x9e51f07e] = true; // Xcert
   }
 
   /**
@@ -66,12 +63,11 @@ contract Xcert is
   function mint(
     address _to,
     uint256 _id,
-    string _proof
+    bytes32 _proof
   )
     external
-    hasAbility(1)
+    hasAbility(ABILITY_TO_MINT_NEW_XCERTS)
   {
-    require(bytes(_proof).length > 0, EMPTY_PROOF);
     super._mint(_to, _id);
     idToProof[_id] = _proof;
   }
@@ -96,7 +92,7 @@ contract Xcert is
   )
     external
     view
-    returns(string)
+    returns(bytes32)
   {
     return idToProof[_tokenId];
   }
@@ -109,7 +105,7 @@ contract Xcert is
     string _uriBase
   )
     external
-    hasAbility(6)
+    hasAbility(ABILITY_TO_CHANGE_URI_BASE)
   {
     super._setUriBase(_uriBase);
   }

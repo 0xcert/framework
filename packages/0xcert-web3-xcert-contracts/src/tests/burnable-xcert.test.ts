@@ -33,8 +33,8 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
   ctx.set('uriBase', 'http://0xcert.org/');
-  ctx.set('proof1', '973124FFC4A03E66D6A4458E587D5D6146F71FC57F359C8D516E0B12A50AB0D9');
-  ctx.set('proof2', '6F25B3F4BC7EADAFB8F57D69F8A59DB3B23F198151DBF3C66AC3082381518329');
+  ctx.set('proof1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
+  ctx.set('proof2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
 });
 
 spec.beforeEach(async (ctx) => {
