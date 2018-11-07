@@ -67,11 +67,10 @@ const rootNode = await merkle.calculate([
   { index: 0, value: 'a' },
 ], [
   // nodes
-  { level: 0, index: 0, hash: '0x...' },
   { level: 1, index: 0, hash: '0x...' },
   { level: 1, index: 1, hash: '0x...' },
   { level: 2, index: 0, hash: '0x...' },
-]);
+], 4);
 ```
 
 ## License (MIT)

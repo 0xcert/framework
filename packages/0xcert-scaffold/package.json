@@ -18,6 +18,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/order": "0.0.0-alpha0",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
     "@types/node": "^10.12.0",

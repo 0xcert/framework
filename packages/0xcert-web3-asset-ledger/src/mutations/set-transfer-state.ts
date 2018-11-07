@@ -5,7 +5,7 @@ import { AssetLedger } from "../core/ledger";
  * 
  */
 export default async function(ledger: AssetLedger, state: AssetLedgerTransferState) {
-  const from = ledger.context.makerId;
+  const from = ledger.context.myId;
   const paused = state !== AssetLedgerTransferState.ENABLED;
 
   return ledger.context.mutate(() => {

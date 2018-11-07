@@ -58,8 +58,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-order",
-      "projectFolder": "packages/0xcert-web3-order",
+      "packageName": "@0xcert/order",
+      "projectFolder": "packages/0xcert-order",
       "versionPolicyName": "patchAll"
     },
     {

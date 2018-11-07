@@ -4,8 +4,8 @@ import { sha256 } from '../..';
 const spec = new Spec();
 
 spec.test('converts string into SHA256 hash', async (ctx) => {
-  ctx.is(await sha256('foo#'), '1be8b7d6d1cee093012d345c4ad7fe97fd96c6264b8645ff1479aadae73b2cc8');
-  ctx.is(await sha256('bar!'), 'aba486bc2a09c13af75ec06cd314746ead68be5cd4577e4242e627e82c77531c');
+  ctx.is(await sha256('foo#'), '18845243706c9f9a00b514348b58edd82fe708a68393ccbb3f70e1599577a148');
+  ctx.is(await sha256('bar!'), 'e687b749f2cd93615923a2f705faace4033f35d57ccfca652cdc39616a94a3c2');
 });
 
 export default spec;

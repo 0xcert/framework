@@ -7,8 +7,8 @@ import { SignMethod } from "./types";
  * 
  */
 export interface ContextAttachOptions {
-  makerId?: string;
   exchangeId?: string;
+  myId?: string;
   signMethod?: SignMethod;
   web3?: any;
 }
@@ -18,21 +18,28 @@ export interface ContextAttachOptions {
  */
 export class Context implements ContextBase {
   readonly platform: string = 'web3';
-  public makerId: string;
   public exchangeId?: string;
+  public myId: string;
   public signMethod: SignMethod;
   public web3: any;
 
   /**
    * 
    */
-  public async attach(options?: ContextAttachOptions) {
+  public constructor(options?: ContextAttachOptions) {
     options = options || {};
 
     this.web3 = this.getWeb3(options.web3);
-    this.makerId = await this.getMakerId(options.makerId);
+    this.myId = options.myId;
     this.exchangeId = options.exchangeId || '0x';
-    this.signMethod = await this.getSignMethod(options.signMethod);
+    this.signMethod = this.getSignMethod(options.signMethod)
+  }
+
+  /**
+   * 
+   */
+  public async attach() {
+    this.myId = await this.getMyId(this.myId);
 
     return this;
   }
@@ -41,10 +48,10 @@ export class Context implements ContextBase {
    * 
    */
   public async detach() {
-    this.web3 = null;
-    this.makerId = null;
-    this.signMethod = null;
     this.exchangeId = null;
+    this.myId = null;
+    this.signMethod = null;
+    this.web3 = null;
 
     return this;
   }
@@ -110,18 +117,18 @@ export class Context implements ContextBase {
   /**
    * 
    */
-  protected async getMakerId(makerId?: string) {
+  protected async getMyId(myId?: string) {
     const accounts = await this.getAccounts();
 
-    if (makerId === undefined) {
-      makerId = accounts[0];
+    if (myId === undefined) {
+      myId = accounts[0];
     }
 
-    if (accounts.indexOf(makerId) === -1) {
+    if (accounts.indexOf(myId) === -1) {
       throw new ConnectorError(ConnectorIssue.INVALID_MAKER_ID)
     }
 
-    return makerId;
+    return myId;
   }
 
   /**
@@ -146,7 +153,7 @@ export class Context implements ContextBase {
     try {
       switch (this.signMethod) {
         case SignMethod.ETH_SIGN:
-          return await this.web3.eth.sign(data, this.makerId);
+          return await this.web3.eth.sign(data, this.myId);
         case SignMethod.TREZOR:
           return '';
         case SignMethod.EIP712:
