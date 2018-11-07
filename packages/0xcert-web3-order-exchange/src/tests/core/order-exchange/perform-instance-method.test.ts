@@ -1,8 +1,7 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Context } from '@0xcert/web3-context';
-import { Order, OrderActionKind } from '@0xcert/web3-order';
-import { OrderExchange } from '../../..';
+import { Order } from '@0xcert/order';
 
 interface Data {
   protocol: Protocol;
@@ -37,11 +36,11 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerContext = new Context();
-  await makerContext.attach({ exchangeId, makerId: coinbase, ...stage });
+  const makerContext = new Context({ exchangeId, myId: coinbase, ...stage });
+  await makerContext.attach();
 
-  const takerContext = new Context();
-  await takerContext.attach({ exchangeId, makerId: bob, ...stage });
+  const takerContext = new Context({ exchangeId, myId: bob, ...stage });
+  await takerContext.attach();
 
   stage.set('makerContext', makerContext);
   stage.set('takerContext', takerContext);
@@ -74,14 +73,14 @@ spec.before(async (stage) => {
   // order.expiration = 1535113820;
   // order.actions = [
   //   {
-  //     kind: OrderActionKind.TRANSFER_ASSET,
+  //     kind: ActionKind.TRANSFER_ASSET,
   //     ledgerId: xcertId,
   //     senderId: sara,
   //     receiverId: jane,
   //     assetId: '100',
   //   },
   //   {
-  //     kind: OrderActionKind.TRANSFER_ASSET,
+  //     kind: ActionKind.TRANSFER_ASSET,
   //     ledgerId: xcertId,
   //     senderId: jane,
   //     receiverId: sara,

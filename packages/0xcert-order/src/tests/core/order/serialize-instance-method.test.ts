@@ -1,19 +1,7 @@
-import { Spec } from '@specron/spec';
-import { Context } from '@0xcert/web3-context';
+import { Spec } from '@hayspec/spec';
 import { Order } from '../../..';
 
-interface Data {
-  context: Context;
-}
-
-const spec = new Spec<Data>();
-
-spec.before(async (stage) => {
-  const context = new Context();
-  await context.attach(stage);
-
-  stage.set('context', context);
-});
+const spec = new Spec();
 
 spec.test('serializes order data', async (ctx) => {
   // const context = ctx.get('context');

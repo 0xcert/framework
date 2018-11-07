@@ -174,6 +174,46 @@
       "resolved": "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz",
       "integrity": "sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw=="
     },
+    "@rawmodel/core": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/@rawmodel/core/-/core-2.0.5.tgz",
+      "integrity": "sha512-CeYs0tXLhPGBxUp5oq3JRGZtkpn35Ekli/CysZzSfYkId7jVs2BlJnWmrPrwgrUTUevai0j4wMTI3xoqIxmNhw==",
+      "requires": {
+        "@rawmodel/handler": "^2.0.5",
+        "@rawmodel/parser": "^2.0.5",
+        "@rawmodel/utils": "^2.0.5",
+        "@rawmodel/validator": "^2.0.5"
+      }
+    },
+    "@rawmodel/handler": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/@rawmodel/handler/-/handler-2.0.5.tgz",
+      "integrity": "sha512-dM8IY590jWn2337Jd7FvUy+6iO7Rs2X1+p9wFYqErXwVSx3ewnKGNvxlt+rKZfwcap4BQYiznzKuACjUs/XSkA==",
+      "requires": {
+        "@rawmodel/utils": "^2.0.5"
+      }
+    },
+    "@rawmodel/parser": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/@rawmodel/parser/-/parser-2.0.5.tgz",
+      "integrity": "sha512-Ct77mv5fL2Ap09Xiz4tJq0Zubhtw7U/hFtE4jfOs2wuGdjqig/DvLvXSXOZZUL9M6PxikHgaS88w51zHHeXa5Q==",
+      "requires": {
+        "@rawmodel/utils": "^2.0.5"
+      }
+    },
+    "@rawmodel/utils": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/@rawmodel/utils/-/utils-2.0.5.tgz",
+      "integrity": "sha512-5j5N1aeyh/w+h56g2M422qUAb/r0KjZYkPbobpJvGNpP3ODDyykbFIrc9Tlw1ikqUGTRy6tLtbmF8AUbiegbRA=="
+    },
+    "@rawmodel/validator": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/@rawmodel/validator/-/validator-2.0.5.tgz",
+      "integrity": "sha512-fXhYaEqPSZr65DdSF/rz0M1We04JIE0c0c0DWQHmt5mo3KEuJO3HfQSNQWi6GBOUjjiqdqR3BMyWSrNc3g5Lfg==",
+      "requires": {
+        "@rawmodel/utils": "^2.0.5"
+      }
+    },
     "@rush-temp/crypto": {
       "version": "file:projects/crypto.tgz",
       "integrity": "sha512-tSZe0bQVS4WmgMK3IAHFj1/mMabjms356w1h/EQ89rxMg4I8t6IEAmpUHpYLYvJ5j2zH3h2VkETAYxHs5xJdZw==",
@@ -195,9 +235,20 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/order": {
+      "version": "file:projects/order.tgz",
+      "integrity": "sha512-smEo+VSwUr898gR1OOLtjW85dG9nMzifDjZklhfI/t5xv6uyrXZSHXNtkwfQC2rhuikTphcSs93yjY2DhYMGLg==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "@rawmodel/core": "^2.0.5",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/scaffold": {
       "version": "file:projects/scaffold.tgz",
-      "integrity": "sha512-f5euGcpD87Du1MHfrl3gM8fVgH6JW24yhp5FAxNhmaCdB6ytD3Q7mzOkm1N/A3P0IoUXT+wtJDCq37jEc3/lRQ==",
+      "integrity": "sha512-D9UuGOT44wOuosmPdFMHQKglVOyQKk7cRjovlVk2uwOECa9vjKdupIn0T9w+J3rB2l6YRHXpuTyuB0SCyaSFrQ==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
@@ -280,21 +331,9 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-order": {
-      "version": "file:projects/web3-order.tgz",
-      "integrity": "sha512-BEr6d8HICAZHPe05ih6TedGRk1lVKehtJwOIo1nckBSWvRQrfBetLH1TPF7ZLnnJSvzzXMshqFcPJSk7RCkvVw==",
-      "requires": {
-        "@specron/cli": "^0.2.8",
-        "@specron/spec": "^0.2.8",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
     "@rush-temp/web3-order-exchange": {
       "version": "file:projects/web3-order-exchange.tgz",
-      "integrity": "sha512-LPidNHx2dFK6ZdRSAqI003gGlNfSa635C3CeQHCpZS4lZwYvr/uSbTslN++VvgaZr0jMR5gxbnFN5oVc418qJg==",
+      "integrity": "sha512-l65vsckJJBjC9iEBO2lgQbpmumao0AUyFmsu0C9oGvBgj1wr86t0g2kbngSe2zAhmk3nALsxfppZXvfyRR3+kQ==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",

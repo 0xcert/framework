@@ -10,8 +10,8 @@ interface Data {
 const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
-  const context = new Context();
-  await context.attach(stage);
+  const context = new Context(stage);
+  await context.attach();
 
   stage.set('context', context);
 });

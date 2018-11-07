@@ -1,3 +1,4 @@
+import { Order } from "@0xcert/order";
 import { Mutation, ContextBase } from "./context";
 
 /**
@@ -6,6 +7,7 @@ import { Mutation, ContextBase } from "./context";
 export interface OrderExchangeBase {
   readonly platform: string;
   readonly context: ContextBase;
-  perform(order): Promise<Mutation>;
-  cancel(order): Promise<Mutation>;
+  claim(order: Order): Promise<string>;
+  perform(order: Order, claim: string): Promise<Mutation>;
+  cancel(order: Order): Promise<Mutation>;
 }

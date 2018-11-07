@@ -48,14 +48,16 @@ await ledger.getSupply();
 import { Order } from '@0xcert/order';
 
 const order = new Order();
+order.id;
+order.folderId;
 order.makerId;
 order.takerId;
 order.actions;
 order.seed;
 order.expiration;
-order.populate({ makerId?, takerId, actions, seed?, expiration? });
-order.serialize();
-order.claim();
+order.populate({ ... });
+order.serialize('record');
+order.serialize('claim');
 ```
 ```ts
 import { OrderExchange } from '@0xcert/web3-order-exchange';
@@ -66,6 +68,7 @@ exchange.off(event, handler);
 exchange.subscribe();
 exchange.unsubscribe();
 await exchange.getInfo();
+await exchange.claim(order); // signed claim
 await exchange.perform(order, signature); // taker
 await exchange.cancel(order); // maker
 ```
@@ -88,30 +91,9 @@ import { Footprint } from '@0xcert/certification';
 
 const footprint = new Footprint();
 await footprint.certify(asset); // root merkle tree
-await footprint.expose(asset, [
-  ['name'],
-  ['book', 'title'],
-]); // merkle values and nodes
-await footprint.verify(); // verifies
+await footprint.expose(asset, [['name']]); // evidence with merkle values and nodes
+await footprint.verify(evidence);
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Convention
 
@@ -413,12 +395,11 @@ const footprint = new Footprint();
 const proof = await footprint.certify(asset);
 
 // generate evidence (values, nodes) with which we can verify the data
-const evidence = await footprint.expose(asset, [
-  ['book', 'title'],
-]);
-await footprint.verify(evidence); 
+const evidence = await footprint.expose(asset, [['book', 'title']]);
+await footprint.verify(evidence);
 
 // store it to the database and mint it on the blockchain
-await store.createAsset(asset)
+await store.createAsset(asset); // you have folderId and an ID
 await assetLedger.mint(asset.id, proof);
+// you can observe the folder
 ```
