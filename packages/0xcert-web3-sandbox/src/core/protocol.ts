@@ -15,7 +15,7 @@ export class Protocol {
   public xcertMutable;
   public xcertPausable;
   public xcertRevokable;
-  public xcert;  
+  public xcert;
   public xcertMintProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
@@ -275,9 +275,9 @@ export class Protocol {
     });
 
     await exchange.instance.methods.assignAbilities(from, [1]).send({ from });
-    await exchange.instance.methods.setProxy(0, this.tokenTransferProxy.receipt._address).send({ from });
-    await exchange.instance.methods.setProxy(1, this.nftokenTransferProxy.receipt._address).send({ from });
-    await exchange.instance.methods.setProxy(2, this.xcertMintProxy.receipt._address).send({ from });
+    await exchange.instance.methods.setProxy(0, this.xcertMintProxy.receipt._address).send({ from });
+    await exchange.instance.methods.setProxy(1, this.tokenTransferProxy.receipt._address).send({ from });
+    await exchange.instance.methods.setProxy(2, this.nftokenTransferProxy.receipt._address).send({ from });
     await exchange.instance.methods.setProxy(3, this.nftokenSafeTransferProxy.receipt._address).send({ from });
     await this.tokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
     await this.nftokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });

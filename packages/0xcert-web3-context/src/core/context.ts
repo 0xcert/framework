@@ -39,7 +39,7 @@ export class Context implements ContextBase {
    * 
    */
   public async attach() {
-    this.myId = await this.getMyId(this.myId);
+    this.myId = await this.getAccountId(this.myId);
 
     return this;
   }
@@ -80,12 +80,54 @@ export class Context implements ContextBase {
   /**
    * 
    */
-  public async mutate(resolver: () => any): Promise<Mutation> {
+  public async mutate(resolver: () => Promise<any>, from?: string): Promise<Mutation> {
+    from = await this.getAccountId(from || this.myId);
+
     try {
+      const multiplyer = 1.2;
+      const obj = await resolver();
+      const gas = await obj.estimateGas({ from });
+      const price = await this.web3.eth.getGasPrice().then((p) => p * multiplyer);
+      const gasLimit = await this.web3.eth.getBlock('latest').then((b) => b.gasLimit);
+      
+      if (gas > gasLimit) {
+        throw 'Gas exceeds max allowed gas';
+      }
+
       return await new Promise((resolve, reject) => {
-        const obj = resolver();
-        obj.once('transactionHash', (hash) => resolve({ hash }));
-        obj.once('error', reject);
+        const promise = obj.send({ from, gas, price });
+        promise.once('receipt', (tx) => resolve({ hash: tx.transactionHash })); // this event may still throw errors
+        promise.once('error', reject);
+      }).then((d) => {
+        return d as Mutation;
+      });
+    }
+    catch (error) {
+      throw parseError(error);
+    }
+  }
+
+  /**
+   * 
+   */
+  public async transfer(data: { value: number, to: string }, from?: string): Promise<Mutation> {
+    from = await this.getAccountId(from || this.myId);
+
+    try {
+      const multiplyer = 1.2;
+      const { value, to } = data;
+      const gas = await this.web3.eth.estimateGas({ from, to, value });
+      const gasPrice = await this.web3.eth.getGasPrice().then((p) => p * multiplyer);
+      const gasLimit = await this.web3.eth.getBlock('latest').then((b) => b.gasLimit);
+      
+      if (gas > gasLimit) {
+        throw 'Gas exceeds max allowed gas';
+      }
+
+      return await new Promise((resolve, reject) => {
+        const promise = this.web3.eth.sendTransaction({ from, to, value, gas, gasPrice });
+        promise.once('transactionHash', (hash) => resolve({ hash }));
+        promise.once('error', reject);
       }).then((d) => {
         return d as Mutation;
       });
@@ -117,18 +159,18 @@ export class Context implements ContextBase {
   /**
    * 
    */
-  protected async getMyId(myId?: string) {
+  protected async getAccountId(accountid?: string) {
     const accounts = await this.getAccounts();
 
-    if (myId === undefined) {
-      myId = accounts[0];
+    if (accountid === undefined) {
+      accountid = accounts[0];
     }
 
-    if (accounts.indexOf(myId) === -1) {
+    if (accounts.indexOf(accountid) === -1) {
       throw new ConnectorError(ConnectorIssue.INVALID_MAKER_ID)
     }
 
-    return myId;
+    return accountid;
   }
 
   /**

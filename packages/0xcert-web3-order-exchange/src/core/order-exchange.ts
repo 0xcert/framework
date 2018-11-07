@@ -1,6 +1,6 @@
-import { OrderExchangeBase } from '@0xcert/scaffold';
+import { OrderExchangeBase, ConnectorError } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
-import { Order } from '@0xcert/order';
+import { Order, OrderActionKind, OrderAction } from '@0xcert/order';
 import { tuple } from '@0xcert/web3-utils';
 import * as env from '../config/env';
 
@@ -24,28 +24,7 @@ export class OrderExchange implements OrderExchangeBase {
    * 
    */
   public async claim(order) {
-
-    let temp = '0x0';
-    for(const action of order.actions) {
-      temp = this.context.web3.utils.soliditySha3(
-        { t: 'bytes32', v: temp },
-        action['kind'],
-        action['ledgerId'],
-        action['assetId'] ? 1 : 0,
-        action.senderId,
-        action.receiverId,
-        action['assetId'] || action['value'],
-      );
-    } 
-
-    const hash = this.context.web3.utils.soliditySha3(
-      order.context.exchangeId,
-      order.makerId,
-      order.takerId,
-      temp,
-      order.seed || Date.now(), // seed
-      order.expiration // expires
-    );
+    const hash = this.createOrderHash(order);
 
     return await this.context.sign(hash);
   }
@@ -56,10 +35,9 @@ export class OrderExchange implements OrderExchangeBase {
   public async perform(order: Order, claim: string) {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(claim);
-    const from = this.context.myId;
 
-    return this.context.mutate(() => {
-      return this.contract.methods.performSwap(recipeTuple, signatureTuple).send({ from });
+    return this.context.mutate(async () => {
+      return this.contract.methods.perform(recipeTuple, signatureTuple);
     });
   }
 
@@ -70,8 +48,8 @@ export class OrderExchange implements OrderExchangeBase {
     const recipeTuple = this.createRecipeTuple(order);
     const from = this.context.myId;
 
-    return this.context.mutate(() => {
-      return this.contract.methods.cancelSwap(recipeTuple).send({ from });
+    return this.context.mutate(async () => {
+      return this.contract.methods.cancel(recipeTuple);
     });
   }
 
@@ -79,24 +57,26 @@ export class OrderExchange implements OrderExchangeBase {
    * 
    */
   protected createRecipeTuple(order: Order) {
-    const transfers = order.actions.map((action) => {
+
+    const actions = order.actions.map((action) => {
       return {
-        token: action['ledgerId'],
-        proxy: action['assetId'] ? 1 : 0,
-        from: action['senderId'],
-        to: action['receiverId'],
-        value: action['assetId'] || action['value'],
+        kind: this.getHashKind(action),
+        proxy: this.getHashProxy(action),
+        token: action.ledgerId,
+        param1: this.getHashParam1(action),
+        to: action.receiverId,
+        value: this.getHashValue(action),
       };
     });
-    
+
     const recipeData = {
       from: order.makerId,
       to: order.takerId,
-      transfers,
+      actions,
       seed: order.seed,
       expirationTimestamp: order.expiration,
     };
-    
+
     return tuple(recipeData);
   }
 
@@ -120,27 +100,66 @@ export class OrderExchange implements OrderExchangeBase {
    * 
    */
   protected createOrderHash(order: Order) {
+
     let temp = '0x0';
     for(const action of order.actions) {
       temp = this.context.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
-        action['kind'],
-        action['ledgerId'],
-        action['assetId'] ? 1 : 0,
-        action.senderId,
+        { t: 'uint8', v: this.getHashKind(action) },
+        { t: 'uint32', v: this.getHashProxy(action) },
+        action.ledgerId,
+        this.getHashParam1(action),
         action.receiverId,
-        action['assetId'] || action['value'],
+        this.getHashValue(action),
       );
-    } 
+    }
 
     return this.context.web3.utils.soliditySha3(
       this.context.exchangeId,
       order.makerId,
       order.takerId,
       temp,
-      order.seed || Date.now(), // seed
-      order.expiration // expires
+      order.seed,
+      order.expiration
     );
+  }
+
+  /**
+   * 
+   */
+  protected getHashKind(action: OrderAction) {
+    return action.kind === OrderActionKind.CREATE_ASSET ? 0 : 1;
+  }
+
+  /**
+   * 
+   */
+  protected getHashProxy(action: OrderAction) {
+    if (action.kind === OrderActionKind.TRANSFER_VALUE) {
+      return 1;
+    }
+    else if (action.kind === OrderActionKind.TRANSFER_ASSET) {
+      return 3; // TODO if safeTransfer not supported set to 2
+    }
+    else {
+      return 0;
+    }
+  }
+
+  /**
+   * 
+   */
+  protected getHashParam1(action: OrderAction) {
+    return action.kind === OrderActionKind.CREATE_ASSET
+      ? action['assetProof']
+      : this.context.web3.utils.padLeft(action.senderId, 64);
+  }
+
+  /**
+   * 
+   */
+  protected getHashValue(action: OrderAction) {
+    return action['assetId'] || action['value'];
   }
 
 }

@@ -1,19 +1,30 @@
 import { Model, prop } from '@rawmodel/core';
-import { ActionKind } from './types';
+import { OrderActionKind } from './types';
 
 /**
  * 
  */
-export class CreateAssetAction extends Model {
+export interface TransferAssetOrderActionBase {
+  kind: OrderActionKind.TRANSFER_ASSET;
+  ledgerId: string;
+  senderId: string;
+  receiverId: string;
+  assetId: string;
+}
+
+/**
+ * 
+ */
+export class TransferAssetOrderAction extends Model implements TransferAssetOrderActionBase {
 
   /**
    * 
    */
   @prop({
     cast: { handler: 'Integer' },
-    get: () => ActionKind.CREATE_ASSET,
+    get: () => OrderActionKind.TRANSFER_ASSET,
   })
-  public kind: ActionKind.CREATE_ASSET;
+  public kind: OrderActionKind.TRANSFER_ASSET;
 
   /**
    * 
@@ -46,13 +57,5 @@ export class CreateAssetAction extends Model {
     cast: { handler: 'String' },
   })
   public assetId: string;
-
-  /**
-   * 
-   */
-  @prop({
-    cast: { handler: 'String' },
-  })
-  public assetProof: string;
 
 }
