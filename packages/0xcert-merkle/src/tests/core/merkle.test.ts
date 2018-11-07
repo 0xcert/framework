@@ -17,17 +17,17 @@ const spec = new Spec<Data>();
 spec.before((stg) => {
   stg.set('merkle', new Merkle({ algo: sha256 }));
   stg.set('nodes', [
-    { level: 0, index: 0, hash: 'bbbca93ef50c14162855807bf169d26660c1669401db62246cf1ecbb9db1d66e' },
-    { level: 1, index: 0, hash: 'c0ee3e916bb2f9b562c76383daeeb47a9844cdcdd204b659d37184027b3cc084' },
-    { level: 1, index: 1, hash: '306ca0db44290454c319a7cac70c7bde91844ff934fc3e6f827b08ff4d28393e' },
-    { level: 2, index: 0, hash: '13d183be78dbcc966b780df120a1860b5974f42528b180adf2a23bf036839b68' },
-    { level: 2, index: 1, hash: 'd0bf2233f0c5110a95f5989b608c632123046eb897cc789f0799960ef31d5e71' },
-    { level: 2, index: 2, hash: '306ca0db44290454c319a7cac70c7bde91844ff934fc3e6f827b08ff4d28393e' },
-    { level: 3, index: 0, hash: '3acdaa86b3d73e8d18b7019d3f520000531a23db3b6dda7a94ad28db61a9008c' },
-    { level: 3, index: 1, hash: '62b0edb16d2fb7beab23da14d2831750820ee0404dc24b82392658efb13b8b34' },
-    { level: 3, index: 2, hash: '78716e0ee7fd6fb4421145561981b1d02f94a6a596e86543fea7f8723320051e' },
-    { level: 3, index: 3, hash: '546dffd24e26047e732c2b2c9bb9f34dbadb539540e3d08b929795ec3312d60a' },
-    { level: 3, index: 4, hash: '306ca0db44290454c319a7cac70c7bde91844ff934fc3e6f827b08ff4d28393e' },
+    { level: 0, index: 0, hash: 'dea979f026a014fcb2300d6300e73ae1ccfb0dd238835d33895286d610eb7c4f' },
+    { level: 1, index: 0, hash: '58c89d709329eb37285837b042ab6ff72c7c8f74de0446b091b6a0131c102cfd' },
+    { level: 1, index: 1, hash: '3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea' },
+    { level: 2, index: 0, hash: '62af5c3cb8da3e4f25061e829ebeea5c7513c54949115b1acc225930a90154da' },
+    { level: 2, index: 1, hash: 'd3a0f1c792ccf7f1708d5422696263e35755a86917ea76ef9242bd4a8cf4891a' },
+    { level: 2, index: 2, hash: '3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea' },
+    { level: 3, index: 0, hash: 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb' },
+    { level: 3, index: 1, hash: '3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d' },
+    { level: 3, index: 2, hash: '2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6' },
+    { level: 3, index: 3, hash: '18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4' },
+    { level: 3, index: 4, hash: '3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea' },
   ]);
   stg.set('values', [
     { index: 0, value: 'a' },
