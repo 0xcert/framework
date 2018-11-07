@@ -22,15 +22,16 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/scaffold": "0.0.0-alpha0",
-    "@0xcert/web3-error-parser": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
-    "@0xcert/web3-utils": "0.0.0-alpha0",
     "@specron/cli": "^0.2.8",
     "@specron/spec": "^0.2.8",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36"
+  },
+  "dependencies": {
+    "@0xcert/scaffold": "0.0.0-alpha0",
+    "@0xcert/web3-error-parser": "0.0.0-alpha0"
   }
 }
