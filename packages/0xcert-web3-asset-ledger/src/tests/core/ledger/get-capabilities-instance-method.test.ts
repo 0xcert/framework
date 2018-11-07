@@ -2,7 +2,7 @@ import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { AssetLedger } from '../../../core/ledger';
-import { AssetLedgerAbility, AssetLedgerCapability } from '@0xcert/scaffold';
+import { AssetLedgerCapability } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;

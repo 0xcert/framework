@@ -8,7 +8,7 @@ export default async function(ledger: AssetLedger) {
   return ledger.context.query<AssetLedgerCapability[]>(async () => {
     return await Promise.all(
       [ [AssetLedgerCapability.BURNABLE, '0x42966c68'],
-        [AssetLedgerCapability.MUTABLE, '0x33b641ae'],
+        [AssetLedgerCapability.MUTABLE, '0x5e2161af'],
         [AssetLedgerCapability.PAUSABLE, '0xbedb86fb'],
         [AssetLedgerCapability.REVOKABLE, '0x20c5429b'],
       ].map(async (capability) => {

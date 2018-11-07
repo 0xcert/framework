@@ -12,7 +12,7 @@ await context.sign(data);
 ```ts
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
-const ledger = new AssetLedger(context, ledgerId?);
+const ledger = new AssetLedger(context, ledgerId);
 ledger.platform;
 ledger.id; // contract address
 ledger.on(event, handler);
@@ -34,7 +34,7 @@ await ledger.mint(assetId, proof);
 ```ts
 import { ValueLedger } from '@0xcert/web3-value-ledger';
 
-const ledger = await new ValueLedger(context, ledgerId?);
+const ledger = await new ValueLedger(context, ledgerId);
 ledger.platform;
 ledger.id; // contract address
 ledger.on(event, handler);
