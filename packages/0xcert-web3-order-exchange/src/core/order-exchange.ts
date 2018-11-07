@@ -26,13 +26,6 @@ export class OrderExchange implements OrderExchangeBase {
   public async claim(order) {
     const hash = this.createOrderHash(order);
 
-    console.log('CLAIM1', hash);
-    console.log('CLAIM2',
-      await this.contract.methods.getOrderDataClaim(
-        this.createRecipeTuple(order)
-      ).call()
-    );
-
     return await this.context.sign(hash);
   }
 
@@ -42,39 +35,9 @@ export class OrderExchange implements OrderExchangeBase {
   public async perform(order: Order, claim: string) {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(claim);
-    const from = this.context.myId;
 
-    try {
-      const gas = await this.contract.methods.perform(recipeTuple, signatureTuple).estimateGas({ from });
-      if (gas > 6000000) {
-        throw new ConnectorError(0);
-      }
-    } 
-    catch (error) {
-      console.log('ERRORR!!!!!!!', error);
-      throw new ConnectorError(0);
-    }
-
-    // const resolver = () => {
-    //   return this.contract.methods.perform(recipeTuple, signatureTuple).send({ from, gas });
-    // };
-    // await new Promise((resolve, reject) => {
-    //   try {
-    //     const obj = resolver();
-    //     obj.once('receipt', (tx) => resolve(tx.transactionId));
-    //     obj.once('error', () => reject('ERROR2'));
-    //   }
-    //   catch (error) {
-    //     reject('ERROR');
-    //   }
-    // // }).catch(() => {
-    // //   console.log('ERROR');
-    // }).catch(() => {
-    //   console.log('ERROR!!!!!!!')
-    // });
-
-    return this.context.mutate(() => {
-      return this.contract.methods.perform(recipeTuple, signatureTuple).send({ from });
+    return this.context.mutate(async () => {
+      return this.contract.methods.perform(recipeTuple, signatureTuple);
     });
   }
 
@@ -85,8 +48,8 @@ export class OrderExchange implements OrderExchangeBase {
     const recipeTuple = this.createRecipeTuple(order);
     const from = this.context.myId;
 
-    return this.context.mutate(() => {
-      return this.contract.methods.cancel(recipeTuple).send({ from });
+    return this.context.mutate(async () => {
+      return this.contract.methods.cancel(recipeTuple);
     });
   }
 
@@ -113,8 +76,6 @@ export class OrderExchange implements OrderExchangeBase {
       seed: order.seed,
       expirationTimestamp: order.expiration,
     };
-
-    console.log(recipeData);
 
     return tuple(recipeData);
   }
@@ -144,23 +105,14 @@ export class OrderExchange implements OrderExchangeBase {
     for(const action of order.actions) {
       temp = this.context.web3.utils.soliditySha3(
         { t: 'bytes32', v: temp },
-        { t: 'uint256', v: this.getHashKind(action) },
-        this.getHashProxy(action),
+        { t: 'uint8', v: this.getHashKind(action) },
+        { t: 'uint32', v: this.getHashProxy(action) },
         action.ledgerId,
         this.getHashParam1(action),
         action.receiverId,
         this.getHashValue(action),
       );
     }
-
-    console.log(
-      this.context.exchangeId,
-      order.makerId,
-      order.takerId,
-      temp,
-      order.seed,
-      order.expiration
-    );
 
     return this.context.web3.utils.soliditySha3(
       this.context.exchangeId,

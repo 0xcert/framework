@@ -27,8 +27,6 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
 
-  console.log('COINBASE', accounts[0]);
-
   stage.set('coinbase', accounts[0]);
   stage.set('bob', accounts[1]);
   stage.set('sara', accounts[2]);
@@ -56,12 +54,12 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
 
   const xcert = stage.get('protocol').xcert;
-  const nftokenTransferProxyId = stage.get('protocol').nftokenTransferProxy.instance.options.address;
+  const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
 
   await xcert.instance.methods.mint(sara, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.mint(jane, '101', '0x0').send({ form: coinbase });
-  await xcert.instance.methods.approve(nftokenTransferProxyId, '100').send({ from: sara });
-  await xcert.instance.methods.approve(nftokenTransferProxyId, '101').send({ from: jane });
+  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: sara });
+  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: jane });
 });
 
 spec.before(async (stage) => {
@@ -102,7 +100,6 @@ spec.before(async (stage) => {
   const exchange = new OrderExchange(context);
   const order = stage.get('order');
   
-  console.log('MYID', context.myId);
   stage.set('claim', await exchange.claim(order));
 });
 

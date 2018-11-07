@@ -1,21 +1,13 @@
 import { Spec } from '@specron/spec';
-import { Protocol } from '@0xcert/web3-sandbox';
 import { Context } from '../../../core/context';
 
 interface Data {
-  protocol: Protocol;
   coinbase: string;
   bob: string;
   context: Context;
 }
 
 const spec = new Spec<Data>();
-
-spec.before(async (stage) => {
-  const protocol = new Protocol(stage.web3);
-  
-  stage.set('protocol', await protocol.deploy());
-});
 
 spec.before(async (stage) => {
   const context = new Context(stage);
@@ -35,20 +27,18 @@ spec.test('submits transaction to the network', async (ctx) => {
   const context = ctx.get('context');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  const xcert = ctx.get('protocol').xcert;
 
-  const resolver = async () => xcert.instance.methods.mint(bob, '100', '0x0');
-  const mutation = await context.mutate(resolver, coinbase);
+  const mutation = await context.transfer({ to: bob, value: 1000 }, coinbase);
 
   ctx.true(!!mutation.hash);
 });
 
 spec.test('handles an error', async (ctx) => {
   const context = ctx.get('context');
-  const resolver = async () => { throw 'foo' };
+  const coinbase = ctx.get('coinbase');
 
   try {
-    await context.mutate(resolver);
+    await context.transfer({ to: 'foo', value: -10 }, coinbase);
     ctx.fail();
   } catch (error) {
     ctx.is(error.name, 'ConnectorError');
