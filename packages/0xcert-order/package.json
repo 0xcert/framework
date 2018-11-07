@@ -18,10 +18,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@rawmodel/core": "^2.0.5",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
+  },
+  "dependencies": {
+    "@rawmodel/core": "^2.0.5"
   }
 }

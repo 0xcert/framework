@@ -18,11 +18,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/crypto": "0.0.0-alpha0",
-    "@0xcert/merkle": "0.0.0-alpha0",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
+  },
+  "dependencies": {
+    "@0xcert/crypto": "0.0.0-alpha0",
+    "@0xcert/merkle": "0.0.0-alpha0"
   }
 }
