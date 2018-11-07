@@ -24,30 +24,9 @@ export class OrderExchange implements OrderExchangeBase {
    * 
    */
   public async claim(order) {
-
-    let temp = '0x0';
-    for(const action of order.actions) {
-      temp = this.context.web3.utils.soliditySha3(
-        { t: 'bytes32', v: temp },
-        action['kind'],
-        action['ledgerId'],
-        action['assetId'] ? 1 : 0,
-        action.senderId,
-        action.receiverId,
-        action['assetId'] || action['value'],
-      );
-    } 
-
-    const hash = this.context.web3.utils.soliditySha3(
-      order.context.exchangeId,
-      order.makerId,
-      order.takerId,
-      temp,
-      order.seed || Date.now(), // seed
-      order.expiration // expires
+    return await this.context.sign(
+      this.createOrderHash(order)
     );
-
-    return await this.context.sign(hash);
   }
 
   /**
@@ -132,7 +111,6 @@ export class OrderExchange implements OrderExchangeBase {
         action['assetId'] || action['value'],
       );
     } 
-
     return this.context.web3.utils.soliditySha3(
       this.context.exchangeId,
       order.makerId,

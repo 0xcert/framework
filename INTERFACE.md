@@ -14,12 +14,12 @@ import { AssetLedger } from '@0xcert/web3-asset-ledger';
 
 const ledger = new AssetLedger(context, ledgerId?);
 ledger.platform;
-ledger.id;
+ledger.id; // contract address
 ledger.on(event, handler);
 ledger.off(event, handler);
 ledger.subscribe();
 ledger.unsubscribe();
-await ledger.deploy(hash);
+// await ledger.deploy(hash);
 await ledger.getAbilities(accountId);
 await ledger.getCapabilities();
 await ledger.getInfo();
@@ -36,7 +36,7 @@ import { ValueLedger } from '@0xcert/web3-value-ledger';
 
 const ledger = await new ValueLedger(context, ledgerId?);
 ledger.platform;
-ledger.id;
+ledger.id; // contract address
 ledger.on(event, handler);
 ledger.off(event, handler);
 ledger.subscribe();
@@ -58,6 +58,7 @@ order.expiration;
 order.populate({ ... });
 order.serialize('record');
 order.serialize('claim');
+await order.validate();
 ```
 ```ts
 import { OrderExchange } from '@0xcert/web3-order-exchange';
@@ -68,9 +69,9 @@ exchange.off(event, handler);
 exchange.subscribe();
 exchange.unsubscribe();
 await exchange.getInfo();
-await exchange.claim(order); // signed claim
-await exchange.perform(order, signature); // taker
-await exchange.cancel(order); // maker
+await exchange.claim(order); // signed claim (maker)
+await exchange.cancel(order); // (maker)
+await exchange.perform(order, signature); // (taker)
 ```
 ```ts
 import { Asset } from '@0xcert/assets';
