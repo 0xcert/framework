@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.3.0",
+  "rushVersion": "5.5.1",
   "npmVersion": "6.4.1",
   "nodeSupportedVersionRange": ">=11.0.0",
   "gitPolicy": {},
@@ -95,11 +95,6 @@
     {
       "packageName": "@0xcert/web3-value-ledger",
       "projectFolder": "packages/0xcert-web3-value-ledger",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-xcert-contracts",
-      "projectFolder": "packages/0xcert-web3-xcert-contracts",
       "versionPolicyName": "patchAll"
     },
     {
