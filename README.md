@@ -1,10 +1,8 @@
 # 0xcert suite
 
 ## TODO
-- asset,
-- conventions
 - error parsing
-- ledger/ledger event subscription
+- ledger event subscription
 - webpack for bundling bundles '.min.js' (where you can select which components you need)
 
 ## Development
