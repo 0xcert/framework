@@ -86,7 +86,9 @@ export class Context implements ContextBase {
     try {
       const multiplyer = 1.2;
       const obj = await resolver();
-      const gas = await obj.estimateGas({ from });
+      let gas = await obj.estimateGas({ from });
+      // We increase gas since estimateGas can be wrong see: https://ethereum.stackexchange.com/questions/266/what-are-the-limitations-to-estimategas-and-when-would-its-estimate-be-considera
+      gas = new this.web3.utils.BN(gas * 1.1);
       const price = await this.web3.eth.getGasPrice().then((p) => p * multiplyer);
       const gasLimit = await this.web3.eth.getBlock('latest').then((b) => b.gasLimit);
       
