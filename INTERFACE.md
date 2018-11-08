@@ -74,9 +74,9 @@ await exchange.cancel(order); // (maker)
 await exchange.perform(order, signature); // (taker)
 ```
 ```ts
-import { KittyAsset } from '@0xcert/assets';
+import { Zcip1 } from '@0xcert/assets';
 
-const asset = new KittyAsset(data);
+const asset = new Zcip1(data);
 asset.field0; // custom based on schema
 asset.field1; // custom based on schema
 asset.field2; // custom based on schema
@@ -96,55 +96,6 @@ await imprint.expose(asset, [['name']]); // evidence with merkle values and node
 await imprint.verify(evidence);
 ```
 
-# Convention
-
-```json
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "University credential",
-  "id": "https://0xcert.org/abi/schemas/zcip-47891",
-  "properties": {
-    "number": {
-      "type": "number",
-      "multipleOf": 3,
-      "maximum": 10,
-      "exclusiveMaximum": 100,
-      "minimum": 0,
-      "exclusiveMinimum": 0
-    },
-    "string": {
-      "type": "string", // date-time, date, time, email, idn-email, hostname, idn-hostname, ipv4, ipv6, uri, uri-reference, iri, iri-reference, 
-      "maxLength": 10,
-      "minLength": 10,
-      "pattern": "/do/",
-      "contentEncoding": "base64",
-      "contentMediaType": "image/png"
-    },
-    "array": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "maxItems": 2,
-      "minItems": 1,
-      "uniqueItems": true,
-      "contains": ""
-    },
-    "object": {
-      "type": "object",
-      "properties": {
-        "foo": {}
-      },
-      "required": [""],
-      "published": [""],
-      "provable": [""]
-    },
-  },
-  "title": "Person",
-  "type": "object"
-}
-```
-
 # Assets usage
 
 Here is an example of a development flow for using Asset class. You start by a plain asset object.
@@ -153,6 +104,7 @@ Here is an example of a development flow for using Asset class. You start by a p
 import { Asset } from '@0xcert/assets';
 
 const asset = new Asset(schema);
+asset.zcip; // ZXIP number ???
 asset.id;
 asset.proof;
 asset.field0; // custom based on schema
