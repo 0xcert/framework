@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "0xcert Asset Base Class",
+    "type": "object",
+    "allOf": [
+        {"$ref": "erc721.json"}
+    ],
+    "properties": {
+        "proofs": {
+            "type": "array",
+            "description": "A set of proofs for Asset properties using JSON pointers, see https://json-schema.org/latest/relative-json-pointer.html or maybe json path?"
+        }
+    }
+}
