@@ -234,6 +234,16 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/certification": {
+      "version": "file:projects/certification.tgz",
+      "integrity": "sha512-1GkUo1jJr4tqpwKs/Zrm+Jo+czx/8ufhHzK0PQ4XDAvGkpTeiWFBim/vc+u4FGdrxGtFo7wg/zEtJ5+4ckZaFg==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/crypto": {
       "version": "file:projects/crypto.tgz",
       "integrity": "sha512-tSZe0bQVS4WmgMK3IAHFj1/mMabjms356w1h/EQ89rxMg4I8t6IEAmpUHpYLYvJ5j2zH3h2VkETAYxHs5xJdZw==",
@@ -243,6 +253,18 @@
         "@types/node": "^10.12.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
+      }
+    },
+    "@rush-temp/examples": {
+      "version": "file:projects/examples.tgz",
+      "integrity": "sha512-f16djN5AAPl0Gg8lm2DAlvNZbcPur8qT7J8GfT6PYTd/qmBG1Pxwbhd+SbemAyf4z6HtVI/dLCUx7hCAGjBkJQ==",
+      "requires": {
+        "@specron/cli": "^0.2.8",
+        "@specron/spec": "^0.2.8",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/merkle": {
@@ -4267,7 +4289,7 @@
     },
     "os-tmpdir": {
       "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz",
+      "resolved": "http://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz",
       "integrity": "sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ="
     },
     "p-cancelable": {

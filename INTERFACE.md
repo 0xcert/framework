@@ -19,7 +19,6 @@ ledger.on(event, handler);
 ledger.off(event, handler);
 ledger.subscribe();
 ledger.unsubscribe();
-// await ledger.deploy(hash);
 await ledger.getAbilities(accountId);
 await ledger.getCapabilities();
 await ledger.getInfo();
@@ -45,20 +44,27 @@ await ledger.getInfo();
 await ledger.getSupply();
 ```
 ```ts
-import { Order } from '@0xcert/order';
+import { OrderInterface, KittyInterface } from '@0xcert/assets';
 
-const order = new Order(data);
-order.id;
-order.folderId;
-order.makerId;
-order.takerId;
-order.actions;
-order.seed;
-order.expiration;
-order.populate({ ... });
-order.serialize('record');
-order.serialize('claim');
-await order.validate();
+const order = {
+  $schema: 'http...',
+  $evidence: 'http...',
+  id: '100',
+  folderId: '0x...',
+  makerId: '0x...',
+  takerId: '0x...',
+  actions: [],
+  seed: 1234,
+  expiration: 5678,
+} as OrderInterface;
+
+const asset = {
+  $schema: 'http...',
+  $evidence: 'http...',
+  name: '',
+  description: '',
+  image: '',
+} as KittyInterface;
 ```
 ```ts
 import { OrderExchange } from '@0xcert/web3-order-exchange';
@@ -68,129 +74,29 @@ exchange.on(event, handler);
 exchange.off(event, handler);
 exchange.subscribe();
 exchange.unsubscribe();
-// await exchange.getInfo();
 await exchange.claim(order); // signed claim (maker)
 await exchange.cancel(order); // (maker)
 await exchange.perform(order, signature); // (taker)
 ```
 ```ts
-import { Zcip1 } from '@0xcert/assets';
+import { Notary } from '@0xcert/certification';
 
-const asset = new Zcip1(data);
-asset.field0; // custom based on schema
-asset.field1; // custom based on schema
-asset.field2; // custom based on schema
-asset.populate(data); // populatest model fields
-asset.serialize(); // JSON with all the fields
-asset.serialize('metadata'); // public JSON data
-asset.serialize('record'); // private JSON data
-asset.serialize('proof'); // JSON for merkle tree
-await asset.validate(); // throws on invalid props
-```
-```ts
-import { Imprint } from '@0xcert/certification';
-
-const imprint = new Imprint();
-await imprint.certify(asset); // root merkle tree
-await imprint.expose(asset, [['name']]); // evidence with merkle values and nodes
-await imprint.verify(evidence);
+const notary = new Notary({ algo });
+const imprint = await notary.notarize(asset, schema);
+const evidence = await notary.expose(asset, schema, strategy); // only evidence
+const verified = await notary.verify(asset, schema, evidence, merkleRoot); // verify `asset` based on schema and evidence
+// const values = await notary.query(evidence, merkleRoot, selectedPaths);
 ```
 
-# Assets usage
+# Schema
 
-Here is an example of a development flow for using Asset class. You start by a plain asset object.
-
-```ts
-import { Asset } from '@0xcert/assets';
-
-const asset = new Asset(schema);
-asset.zcip; // ZXIP number ???
-asset.id;
-asset.proof;
-asset.field0; // custom based on schema
-asset.field1; // custom based on schema
-asset.field2; // custom based on schema
-asset.populate(data); // populatest model fields
-asset.serialize(); // JSON with all the fields
-asset.serialize('published'); // public JSON data
-asset.serialize('provable'); // private JSON data
-asset.serialize('base'); // only { id, proof }
-await asset.validate(); // throws on invalid props
-await asset.certify(); // generates proof
-```
-
-But this class is very limited when it comes to modelling, type safety, validation, error handling, data manipulation and typescript. The first improvment is to create an interface which describes asset fields.
-
-```ts
-interface UserIdentity {
-  firstName: string;
-  lastName: string;
-}
-const asset = new Asset<UserIdentity>(schema);
-...
-```
-
-Some applications will be working with much more complex assets that will require custom validators, special error handling, methods for saving/updating/deleting records in the database, method to RESTful call etc. In this case you will need to extend the Asset class and create your own asset model. This will be the usual flow for specialised applications which offer/mint a specific type of assets (e.g. KYC dApp, CryptoKitties dApp).
-
-```ts
-import { Model, prop } from '@0xcert/models';
-
-class UserIdentity extends Model {
-  readonly context: Context;
-
-  @prop({ ... })
-  public firstName: string;
-  @prop({ ... })
-  public lastName: string;
-
-  public async save() {
-    this.context.mongo.collection('credentials').insert(
-      this.serialize()
-    );
-  }
-}
-```
-
-This new asset model can now nicely be used in your app (e.g. REST route).
-
-```ts
-async function userIdentityRouteHandler(req, res) {
-  const identity = new UserIdentity({
-    firstName: 'John',
-    lastName: 'Smith',
-  });
-  try {
-    await identity.validate(); // magic :)
-    await identity.certify(); // create identity.proof
-    await identity.save();
-  }
-  catch (error) {
-    await identity.handle(error); // magic :)
-  }
-  return identity.serialize(); // magic :)
-}
-```
-
-This is elegant! I’d propose we provide these very common implementations, confirmed by the community, in the framework by default (e.g. CollectibleAsset, IdentityAsset). These could be called `ZCIP-1000` (0xcert improvment proposal).
-
-We can somehow enable JSON schema in a custom model like this:
-
-```ts
-import { Schema } from '0xcert/json-schema';
-import { Model, prop } from '@0xcert/json-model';
-
-class UserIdentity extends Model {
-  readonly context: Context;
-
-  public firstName: string;
-  public lastName: string;
-
-  public constructor(schema, context) {
-    super(context);
-
-    const schema = new Schema(schema);
-    schema.props.forEach((p) = this.defineProp(p));
-  }
+```json
+{
+  "$schema": "",
+  "$evidence": "",
+  "name": "",
+  "description": "",
+  "image": ""
 }
 ```
 

@@ -4,7 +4,7 @@ import { Protocol } from '@0xcert/web3-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
-  context: Context
+  context: Context;
   ledger: AssetLedger;
   protocol: Protocol;
 }

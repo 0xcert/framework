@@ -18,6 +18,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/certification",
+      "projectFolder": "packages/0xcert-certification",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/crypto",
       "projectFolder": "packages/0xcert-crypto",
       "versionPolicyName": "patchAll"
@@ -26,6 +31,11 @@
       "packageName": "@0xcert/merkle",
       "projectFolder": "packages/0xcert-merkle",
       "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/examples",
+      "projectFolder": "packages/0xcert-examples",
+      "shouldPublish": false
     },
     {
       "packageName": "@0xcert/scaffold",

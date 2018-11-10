@@ -3,7 +3,7 @@ issue: 1
 title: Crypto Collectible Asset
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 0.0.1
-category: convention
+category: conventions
 status: Draft
 created: 2018-11-07
 ---
@@ -20,17 +20,32 @@ This convention represents a digital asset that represents a crypto-collectible.
 
 The table below shows the "properties" that constitute a crypto-collectible data object.
 
-| Property | Type | Constraints | Default | Strategy | Description
-|-|-|-|-|-|-
-| description | String | Required | - | metadata, record | Describes the asset.
-| id | String | Required | - | record | Unique ID.
-| image | String | Yes | Required | metadata, record | A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
-| name | String | Yes | Required | metadata, record | Identifies the asset.
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [{ "$ref": "#/definitions/asset" }],
+  "description": "Crypto colectible.",
+  "properties": {},
+  "exposed": [
+    "name",
+    "description",
+    "image"
+  ],
+  "provable": [
+    "name",
+    "image"
+  ],
+  "title": "Asset Evidencce",
+  "type": "object"
+}
+```
 
 ## Example
 
 ```json
 {
+  "$evidence": "http://...",
+  "$schema": "http://...",
   "description": "Magic Sword",
   "id": "fc819",
   "image": "https://troopersgame.com/dog.jpg",

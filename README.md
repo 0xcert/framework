@@ -1,9 +1,12 @@
 # 0xcert suite
 
 ## TODO
+- Notary class, evidence
+- Update the merkle module - use William's proposal of calculation instead
+- JSON schema definition, implementations do not have references, always extend ERC721 and evidence schema.
 - error parsing
 - ledger event subscription
-- webpack for bundling bundles '.min.js' (where you can select which components you need)
+- webpack for bundling bundles '.min.js' (where you can select which components you need), https://www.npmjs.com/package/simplifyify
 
 ## Development
 
@@ -19,3 +22,16 @@ See [CONTRIBUTING.md](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.m
 ## Licence
 
 See [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) for details.
+
+
+
+
+
+
+
+[a, b, c, d, e]
+
+hashA ------- ROOT (iz hashA in hashBC)
+hashBC(hashB, hashC) ------- ROOT (iz hashBC in hashDEFG)
+hashD, hashE, prazenHashF, prazenHashG => hashDEFG ------- ROOT ()
+
