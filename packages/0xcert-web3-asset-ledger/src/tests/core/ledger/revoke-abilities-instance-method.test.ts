@@ -5,7 +5,7 @@ import { AssetLedger } from '../../../core/ledger';
 import { AssetLedgerAbility } from '@0xcert/scaffold';
 
 interface Data {
-  context: Context
+  context: Context;
   ledger: AssetLedger;
   protocol: Protocol;
   bob: string;

@@ -13,8 +13,13 @@
   },
   "projects": [
     {
-      "packageName": "@0xcert/assets",
-      "projectFolder": "packages/0xcert-assets",
+      "packageName": "@0xcert/certification",
+      "projectFolder": "packages/0xcert-certification",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/conventions",
+      "projectFolder": "packages/0xcert-conventions",
       "versionPolicyName": "patchAll"
     },
     {
@@ -60,11 +65,6 @@
     {
       "packageName": "@0xcert/web3-exchange-contracts",
       "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/order",
-      "projectFolder": "packages/0xcert-order",
       "versionPolicyName": "patchAll"
     },
     {

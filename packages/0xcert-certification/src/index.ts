@@ -1,1 +1,1 @@
-export * from './core/imprint';
+export * from './core/notary';

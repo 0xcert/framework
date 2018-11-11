@@ -6,7 +6,7 @@ import { AssetLedgerCapability } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;
-  context: Context
+  context: Context;
   protocol: Protocol;
   burnableAssetLedger: AssetLedger;
   mutableAssetLedger: AssetLedger;

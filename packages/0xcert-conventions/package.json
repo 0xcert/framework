@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/scaffold",
+  "name": "@0xcert/conventions",
   "version": "0.0.0-alpha0",
-  "description": "0xcert protocol scaffold.",
+  "description": "0xcert conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -20,7 +20,6 @@
   "devDependencies": {
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
-    "@types/node": "^10.12.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   }

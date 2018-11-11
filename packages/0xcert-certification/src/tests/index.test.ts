@@ -4,7 +4,7 @@ import * as certification from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!certification.Imprint);
+  ctx.true(!!certification.Notary);
 });
 
 export default spec;

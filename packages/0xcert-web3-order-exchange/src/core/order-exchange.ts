@@ -1,7 +1,6 @@
-import { OrderExchangeBase, ConnectorError } from '@0xcert/scaffold';
+import { OrderExchangeBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
-import { Order, OrderActionKind, OrderAction } from '@0xcert/order';
-import { tuple } from '@0xcert/web3-utils';
+import { tuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/web3-utils';
 import * as env from '../config/env';
 
 /**
@@ -62,19 +61,19 @@ export class OrderExchange implements OrderExchangeBase {
       return {
         kind: this.getHashKind(action),
         proxy: this.getHashProxy(action),
-        token: action.ledgerId,
+        token: toString(action.ledgerId),
         param1: this.getHashParam1(action),
-        to: action.receiverId,
+        to: toString(action.receiverId),
         value: this.getHashValue(action),
       };
     });
 
     const recipeData = {
-      from: order.makerId,
-      to: order.takerId,
+      from: toString(order.makerId),
+      to: toString(order.takerId),
       actions,
-      seed: order.seed,
-      expirationTimestamp: order.expiration,
+      seed: toInteger(order.seed),
+      expirationTimestamp: toSeconds(order.expiration),
     };
 
     return tuple(recipeData);
@@ -107,20 +106,20 @@ export class OrderExchange implements OrderExchangeBase {
         { t: 'bytes32', v: temp },
         { t: 'uint8', v: this.getHashKind(action) },
         { t: 'uint32', v: this.getHashProxy(action) },
-        action.ledgerId,
+        toString(action.ledgerId),
         this.getHashParam1(action),
-        action.receiverId,
+        toString(action.receiverId),
         this.getHashValue(action),
       );
     }
 
     return this.context.web3.utils.soliditySha3(
       this.context.exchangeId,
-      order.makerId,
-      order.takerId,
+      toString(order.makerId),
+      toString(order.takerId),
       temp,
-      order.seed,
-      order.expiration
+      toInteger(order.seed),
+      toSeconds(order.expiration)
     );
   }
 
@@ -152,14 +151,14 @@ export class OrderExchange implements OrderExchangeBase {
   protected getHashParam1(action: OrderAction) {
     return action.kind === OrderActionKind.CREATE_ASSET
       ? action['assetProof']
-      : this.context.web3.utils.padLeft(action.senderId, 64);
+      : this.context.web3.utils.padLeft(toString(action.senderId), 64);
   }
 
   /**
    * 
    */
   protected getHashValue(action: OrderAction) {
-    return action['assetId'] || action['value'];
+    return action['assetId'] || toFloat(action['value']);
   }
 
 }
