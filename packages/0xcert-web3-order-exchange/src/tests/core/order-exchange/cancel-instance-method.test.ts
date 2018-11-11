@@ -73,8 +73,8 @@ spec.before(async (stage) => {
   const order: Order = {
     makerId: coinbase,
     takerId: bob,
-    seed: 1535113220,
-    expiration: Math.floor(Date.now() / 1000 * 60),
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
         kind: OrderActionKind.TRANSFER_ASSET,

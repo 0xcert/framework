@@ -1,9 +1,9 @@
 import { Spec } from '@specron/spec';
-import { tuple } from '../../core/tuples';
+import { tuple } from '../..';
 
 const spec = new Spec();
 
-spec.test('method `tuple` transforms an object to tuple', (ctx) => {
+spec.test('transforms an object to tuple', (ctx) => {
   const res = tuple({
     foo: "FOO",
     bar: ["BAR1", "BAR2"],
