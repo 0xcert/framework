@@ -20,7 +20,7 @@ A digital asset in the 0xcert protocol is defined in form of a specifically desi
 
 The schema represents a technical specification of a particular digital asset, which explains the JSON data object structure and a detailed description of each data key. The naming of JSON properties follows the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format. The convention also expects the JSON keys to be defined in alphabetical order.
 
-Every asset convention should extend from this basic metadata schema.
+This schema follows [ERC721 Metadata JSON Schema](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md). Every asset convention should extend from this basic metadata schema.
 
 ```json
 {

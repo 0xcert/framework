@@ -7,6 +7,7 @@ spec.test('exposes objects', (ctx) => {
   ctx.true(!!conventions.assetMetadata86);
   ctx.true(!!conventions.assetEvidence87);
   ctx.true(!!conventions.cryptoCollectible88);
+  ctx.true(!!conventions.erc721);
 });
 
 export default spec;
