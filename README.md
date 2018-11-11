@@ -5,7 +5,7 @@
 - Update the merkle module - use William's proposal of calculation instead
 - error parsing
 - ledger event subscription
-- webpack for bundling bundles '.min.js' (where you can select which components you need), https://www.npmjs.com/package/simplifyify
+- optimize webpack to bundle only needed modules
 
 ## Development
 

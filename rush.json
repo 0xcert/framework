@@ -101,6 +101,11 @@
       "packageName": "@0xcert/web3-xcert-contracts",
       "projectFolder": "packages/0xcert-web3-xcert-contracts",
       "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/webpack",
+      "projectFolder": "packages/0xcert-webpack",
+      "shouldPublish": false
     }
   ]
 }
