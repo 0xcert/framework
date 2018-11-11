@@ -1,10 +1,10 @@
 import { Spec } from '@hayspec/spec';
-import { Imprint } from '../../..';
+import { Notary } from '../../..';
 
 const spec = new Spec();
 
 spec.test('populates all proiperties', async (ctx) => {
-  const imprint = new Imprint();
+  const imprint = new Notary();
   // order.populate({
   //   claim: 'foo',
   //   signature: 'bar',

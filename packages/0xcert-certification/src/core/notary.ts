@@ -1,7 +1,7 @@
 /**
  * 
  */
-export class Imprint {
+export class Notary {
 
   /**
    * 

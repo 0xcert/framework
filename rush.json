@@ -13,11 +13,6 @@
   },
   "projects": [
     {
-      "packageName": "@0xcert/assets",
-      "projectFolder": "packages/0xcert-assets",
-      "versionPolicyName": "patchAll"
-    },
-    {
       "packageName": "@0xcert/certification",
       "projectFolder": "packages/0xcert-certification",
       "versionPolicyName": "patchAll"
@@ -31,11 +26,6 @@
       "packageName": "@0xcert/merkle",
       "projectFolder": "packages/0xcert-merkle",
       "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/examples",
-      "projectFolder": "packages/0xcert-examples",
-      "shouldPublish": false
     },
     {
       "packageName": "@0xcert/scaffold",
@@ -70,11 +60,6 @@
     {
       "packageName": "@0xcert/web3-exchange-contracts",
       "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/order",
-      "projectFolder": "packages/0xcert-order",
       "versionPolicyName": "patchAll"
     },
     {

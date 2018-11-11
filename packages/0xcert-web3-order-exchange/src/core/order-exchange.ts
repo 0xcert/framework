@@ -1,6 +1,5 @@
-import { OrderExchangeBase, ConnectorError } from '@0xcert/scaffold';
+import { OrderExchangeBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
-import { Order, OrderActionKind, OrderAction } from '@0xcert/order';
 import { tuple } from '@0xcert/web3-utils';
 import * as env from '../config/env';
 

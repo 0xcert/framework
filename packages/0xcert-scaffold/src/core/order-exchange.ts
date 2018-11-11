@@ -1,4 +1,4 @@
-import { Order } from "@0xcert/order";
+import { Order } from "./order";
 import { Mutation, ContextBase } from "./context";
 
 /**

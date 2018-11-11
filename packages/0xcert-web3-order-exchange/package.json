@@ -37,7 +37,6 @@
   "dependencies": {
     "@0xcert/scaffold": "0.0.0-alpha0",
     "@0xcert/web3-context": "0.0.0-alpha0",
-    "@0xcert/order": "0.0.0-alpha0",
     "@0xcert/web3-utils": "0.0.0-alpha0"
   }
 }

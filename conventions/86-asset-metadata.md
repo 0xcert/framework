@@ -16,7 +16,11 @@ A digital asset JSON Schema definition.
 
 A digital asset in the 0xcert protocol is defined in form of a specifically designed JSON object. Every data object has its own convention which follows the [JSON Schema](http://json-schema.org) specification. To simplify the process of describing a digital asset as a data object and to enable interoperability between different applications 0xcert provides a convention for each digital asset.
 
-Every digital asset in the 0xcert protocol has its own JSON Schema definition. The schema represents a technical specification of a particular digital asset, which explains the JSON data object structure and a detailed description of each data key. The naming of JSON properties follows the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format. The convention also expects the JSON keys to be defined in alphabetical order.
+## Specification
+
+The schema represents a technical specification of a particular digital asset, which explains the JSON data object structure and a detailed description of each data key. The naming of JSON properties follows the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format. The convention also expects the JSON keys to be defined in alphabetical order.
+
+Every asset convention should extend from this basic metadata schema.
 
 ```json
 {

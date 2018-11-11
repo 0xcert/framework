@@ -202,8 +202,7 @@ import { Context } from '@0xcert/web3-context';
 import { AssetLedger } from '@0xcert/web3-asset-ledger';
 import { ValueLedger } from '@0xcert/web3-value-ledger';
 import { OrderExchange } from '@0xcert/web3-order-exchange';
-import { Order } from '@0xcert/order';
-import { CollectibleAsset } from '@0xcert/assets';
+import { Order, AssetMetadata } from '@0xcert/scaffold';
 import { Footprint } from '@0xcert/certification';
 
 // keep track and watch all performed transactions
@@ -222,13 +221,13 @@ const valueLedger = new ValueLedger(context, '0x78as78sd7gf87as8f7sd8f7fa');
 await valueLedger.getInfo();
 
 // generate executable order and send it to a user
-const order = new Order({
+const order: Order = {
   makerId: context.myId,
   takerId: '0xa79s87d9s8d7f987192341512',
   actions: [],
   seed: Date.now(),
   expiration: Date.now() * 60 * 24,
-});
+};
 order.validate();
 const orderData = {
   order: order.serialize(),

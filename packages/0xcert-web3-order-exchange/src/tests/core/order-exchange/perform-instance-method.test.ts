@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
+import { Order, OrderActionKind } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
-import { Order, OrderActionKind } from '@0xcert/order';
 import { OrderExchange } from '../../../core/order-exchange';
 
 interface Data {
@@ -70,27 +70,28 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order = new Order(context);
-  order.makerId = coinbase;
-  order.takerId = bob;
-  order.seed = 1535113220;
-  order.expiration = Date.now() / 1000 * 60;
-  order.actions = [
-    {
-      kind: OrderActionKind.TRANSFER_ASSET,
-      ledgerId: xcertId,
-      senderId: sara,
-      receiverId: jane,
-      assetId: '100',
-    },
-    {
-      kind: OrderActionKind.TRANSFER_ASSET,
-      ledgerId: xcertId,
-      senderId: jane,
-      receiverId: sara,
-      assetId: '101',
-    },
-  ];
+  const order: Order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220,
+    expiration: Math.floor(Date.now() / 1000 * 60),
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: sara,
+        receiverId: jane,
+        assetId: '100',
+      },
+      {
+        kind: OrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: jane,
+        receiverId: sara,
+        assetId: '101',
+      },
+    ],
+  };
 
   stage.set('order', order);
 });
