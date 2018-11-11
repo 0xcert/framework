@@ -19,7 +19,7 @@ created: 2018-11-07
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "Crypto colectible.",
+  "description": "The evidence file with data to verify the asset data.",
   "properties": {
     "values": {
       "description": "...",
@@ -30,7 +30,7 @@ created: 2018-11-07
       "type": "..."
     }
   },
-  "title": "Asset Evidencce",
+  "title": "Asset Evidence",
   "type": "object"
 }
 ```

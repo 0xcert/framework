@@ -23,8 +23,8 @@ The table below shows the "properties" that constitute a crypto-collectible data
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "allOf": [{ "$ref": "#/definitions/asset" }],
-  "description": "Crypto colectible.",
+  "allOf": [{ "$ref": "#/schemas/asset-metadata" }],
+  "description": "A digital assets that have a unique combination of different properties.",
   "properties": {},
   "exposed": [
     "name",
@@ -35,7 +35,7 @@ The table below shows the "properties" that constitute a crypto-collectible data
     "name",
     "image"
   ],
-  "title": "Asset Evidencce",
+  "title": "Crypto Collectible Asset",
   "type": "object"
 }
 ```

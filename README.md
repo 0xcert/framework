@@ -3,8 +3,6 @@
 ## TODO
 - Notary class, evidence
 - Update the merkle module - use William's proposal of calculation instead
-- JSON schema definition, implementations do not have references, always extend ERC721 and evidence schema.
-- handle `expiration` (`Math.floor(Date.now() / 1000)`) in OrderExchange.
 - error parsing
 - ledger event subscription
 - webpack for bundling bundles '.min.js' (where you can select which components you need), https://www.npmjs.com/package/simplifyify

@@ -27,6 +27,14 @@ Every asset convention should extend from this basic metadata schema.
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "An abstract digital asset schema.",
   "properties": {
+    "$evidence": {
+      "description": "A path to the evidence JSON with data needed to verify the asset.",
+      "type": "string"
+    },
+    "$schema": {
+      "description": "A path to JSON Schema definition file.",
+      "type": "string"
+    },
     "description": {
       "description": "A public property of type string that holds a detailed description of an asset. The property is always required and is limited to 255 characters.",
       "type": "string"
