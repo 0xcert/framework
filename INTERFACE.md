@@ -87,6 +87,17 @@ const evidence = await notary.expose(asset, schema, strategy); // only evidence
 const verified = await notary.verify(asset, schema, evidence, merkleRoot); // verify `asset` based on schema and evidence
 // const values = await notary.query(evidence, merkleRoot, selectedPaths);
 ```
+```ts
+import { TransactionWatcher } from '@0xcert/web3-transaction-watcher';
+
+const watcher = new TransactionWatcher({ confirmations, removeConfirmed });
+watcher.on(event, handler);
+watcher.off(event, handler);
+watcher.add(transactionId, transactionId, ...);
+watcher.remove(transactionId, transactionId, ...);
+watcher.listen();
+watcher.close();
+```
 
 # Schema
 
