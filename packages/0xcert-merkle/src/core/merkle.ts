@@ -29,7 +29,7 @@ export class Merkle {
   /**
    * 
    */
-  public build(values: string[]) {
+  public buildRoot(values: string[]) {
     // 
   }
 
