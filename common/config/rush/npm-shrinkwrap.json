@@ -2205,15 +2205,15 @@
       "integrity": "sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk="
     },
     "fast-glob": {
-      "version": "2.2.3",
-      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-2.2.3.tgz",
-      "integrity": "sha512-NiX+JXjnx43RzvVFwRWfPKo4U+1BrK5pJPsHQdKMlLoFHrrGktXglQhHliSihWAq+m1z6fHk3uwGHrtRbS9vLA==",
+      "version": "2.2.4",
+      "resolved": "https://registry.npmjs.org/fast-glob/-/fast-glob-2.2.4.tgz",
+      "integrity": "sha512-FjK2nCGI/McyzgNtTESqaWP3trPvHyRyoyY70hxjc3oKPNmDe8taohLZpoVKoUjW85tbU5txaYUZCNtVzygl1g==",
       "requires": {
         "@mrmlnc/readdir-enhanced": "^2.2.1",
-        "@nodelib/fs.stat": "^1.0.1",
+        "@nodelib/fs.stat": "^1.1.2",
         "glob-parent": "^3.1.0",
         "is-glob": "^4.0.0",
-        "merge2": "^1.2.1",
+        "merge2": "^1.2.3",
         "micromatch": "^3.1.10"
       }
     },
@@ -3055,9 +3055,9 @@
       "integrity": "sha512-HchvMJNYh9dGSCy8pOQ2O8u/hoXaL+0XhnrwH0RyLiSXMMTl9W3N6KUU73+JFOg5PGjtzl6VZzUQsnrpm7Szag=="
     },
     "globals": {
-      "version": "11.8.0",
-      "resolved": "https://registry.npmjs.org/globals/-/globals-11.8.0.tgz",
-      "integrity": "sha512-io6LkyPVuzCHBSQV9fmOwxZkUk6nIaGmxheLDgmuFv89j0fm2aqDbIXKAGfzCMHqz3HLF2Zf8WSG6VqMh2qFmA=="
+      "version": "11.9.0",
+      "resolved": "https://registry.npmjs.org/globals/-/globals-11.9.0.tgz",
+      "integrity": "sha512-5cJVtyXWH8PiJPVLZzzoIizXx944O4OmRro5MWKx5fT4MgcN7OfaMutPeaTdJCCURwbWdhhcCWcKIffPnmTzBg=="
     },
     "got": {
       "version": "7.1.0",
