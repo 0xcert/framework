@@ -1,4 +1,4 @@
-import { sha } from "../tests/utils/sha";
+import { sha } from "../utils/sha";
 
 /**
  * Converts a message into SHA256 hash string.
