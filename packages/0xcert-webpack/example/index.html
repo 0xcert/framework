@@ -1,0 +1,34 @@
+<html>
+<head>
+  <title>XCert</title>
+</head>
+<body>
+  <script src="./web3.js"></script>
+  <script src="../dist/0xcert-main.min.js"></script>
+  <script src="../dist/0xcert-web3.min.js"></script>
+  <script>
+
+    const ctx = new window.zxc.web3.Context({
+      web3: new Web3(web3.currentProvider),
+      signMethod: 2,
+    });
+    ctx.attach().then(() => {
+      console.log('ready')
+      console.log(
+        ctx.web3.eth.sign('foo', ctx.myId).then(console.log).catch(console.log)
+      );
+    });
+
+
+    function sign(value) {
+      ctx.sign(value).then((hash) => {
+        console.log('DONE', hash);
+      }).catch((error) => {
+        console.log('ERROR', error);
+      });
+    }
+
+  </script>
+  <button onclick="sign('foo')">Sign</button>
+</body>
+</html>

@@ -8,6 +8,9 @@ module.exports = {
   output: {
     filename: `[name].min.js`,
   },
+  // optimization: {
+  //   minimize: false,
+  // },
   target: 'web',
   mode: process.env.NODE_ENV || 'production',
 };
