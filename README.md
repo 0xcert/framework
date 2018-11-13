@@ -1,11 +1,11 @@
 # 0xcert suite
 
 ## TODO
-- Notary class, evidence
 - Update the merkle module - use William's proposal of calculation instead
-- error parsing
-- ledger event subscription
-- optimize webpack to bundle only needed modules
+- Notary class, evidence
+- Ledger event subscription
+- Optimize webpack to bundle only needed modules
+- transaction watcher with hidration
 
 ## Development
 
@@ -21,16 +21,3 @@ See [CONTRIBUTING.md](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.m
 ## Licence
 
 See [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) for details.
-
-
-
-
-
-
-
-[a, b, c, d, e]
-
-hashA ------- ROOT (iz hashA in hashBC)
-hashBC(hashB, hashC) ------- ROOT (iz hashBC in hashDEFG)
-hashD, hashE, prazenHashF, prazenHashG => hashDEFG ------- ROOT ()
-
