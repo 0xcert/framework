@@ -66,5 +66,6 @@ package-deps.json
 .DS_Store
 
 # Compiled data
-dist
 build
+**/dist/*
+!dist/*
