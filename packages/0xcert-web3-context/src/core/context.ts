@@ -1,6 +1,5 @@
 import { ContextBase, ConnectorError, ConnectorIssue, Query, Mutation } from "@0xcert/scaffold";
 import { parseError } from '@0xcert/web3-error-parser';
-import * as Web3 from 'web3';
 import { SignMethod } from "./types";
 
 /**
@@ -10,7 +9,7 @@ export interface ContextAttachOptions {
   exchangeId?: string;
   myId?: string;
   signMethod?: SignMethod;
-  web3?: any;
+  web3: any;
 }
 
 /**
@@ -26,10 +25,8 @@ export class Context implements ContextBase {
   /**
    * 
    */
-  public constructor(options?: ContextAttachOptions) {
-    options = options || {};
-
-    this.web3 = this.getWeb3(options.web3);
+  public constructor(options: ContextAttachOptions) {
+    this.web3 = options.web3;
     this.myId = options.myId;
     this.exchangeId = options.exchangeId || '0x';
     this.signMethod = this.getSignMethod(options.signMethod)
@@ -139,13 +136,6 @@ export class Context implements ContextBase {
     }
   }
   
-  /**
-   * 
-   */
-  protected getWeb3(web3?: any) {
-    return web3 ? web3 : new Web3('ws://localhost:8545');
-  }
-
   /**
    * 
    */

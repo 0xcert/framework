@@ -1,28 +1,60 @@
-## Define Convention
 
-Asset convention is defined as a list of data items.
+## Getting started
 
-| Index | Type | Description
+First, define an array with values.
+
+| Value | Type | Description
 |-|-|-
-| 0 | String | First name of a user.
-| 1 | String | Middle name of a user.
-| 2 | String | Last name of a user.
-| 3 | String | Email address of a user.
-| 4 | Integer | Age of a user.
+| 1 | String | First name of a user.
+| 2 | String | Middle name of a user.
+| 3 | String | Last name of a user.
+| 4 | String | Email address of a user.
+| 5 | Integer | Age of a user.
 
 This can be converted into a merkle tree where leafs represent the values and the root represents the proof.
 
+```ts
+                ROOT
+                |
+    -----------------------
+    |                     |
+    h12                   h11
+    A                     |
+        ---------------------------
+        |                         |
+        h10                       h7
+    ---------                     |
+    |       |                     |
+    h8      h9                    |
+    B       C                     |
+                ---------------------------
+                |                         |
+                h6                        h1
+    -------------------------             |
+    |       |       |       |             | 
+    h2      h3      h4      h5            |
+    D       E       F       G             empty
 ```
-                    [0,0]             
-                    99999               MerkleNode
-            [1,0]               [1,1]
-            88888               55555   MerkleNode
-    [2,0]           [2,1]       [2,2]
-    66666           77777       55555   MerkleNode
-[3,0]   [3,1]   [3,2]   [3,3]   [3,4]
-11111   22222   33333   44444   55555   MerkleNode
------   -----   -----   -----   —----
-  a       b       c       d       e     MerkleValue
+
+```ts
+const exposed = [
+  { // level root
+    level: 2,
+    index: -1, // root hash
+    hash: 'c',
+  },
+  { // level hash 
+    level: 2,
+    index: 0, // item b
+    hash: 'b',
+  },
+  { // level value
+    level: 2,
+    index: 1, // item c
+    value: 'c',
+    nonce: '-',
+  },
+];
 ```
 
 ## Usage
@@ -34,7 +66,7 @@ import { sha256 } from '@0xcert/crypto';
 import { Merkle } from '@0xcert/merkle'; 
 
 const merkle = new Merkle({
-  algo: sha256, 
+  algo: sha256,
 });
 ```
 
