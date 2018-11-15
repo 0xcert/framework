@@ -2,6 +2,7 @@ import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { parseError } from '../../core/errors';
 import { ConnectorIssue } from '@0xcert/scaffold/dist/core/errors';
+import { tuple } from '@0xcert/web3-utils';
 
 interface Data {
   protocol: Protocol;
@@ -83,7 +84,8 @@ spec.test('correctly throws INVALID_NFT error', async (ctx) => {
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.INVALID_NFT);
   });
-  await mutableXcert.instance.methods.updateTokenProof('1','0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').call({ from: owner })
+  await mutableXcert.instance.methods.updateTokenProof('1','0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9')
+  .call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.INVALID_NFT);
@@ -139,6 +141,506 @@ spec.test('correctly throws NOT_AUTHORIZED error', async (ctx) => {
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.NOT_AUTHORIZED);
+  });
+});
+
+// TODO: For some reason the revert happens on another level so is throws a general revert. 
+spec.test('correctly throws RECEIVER_DOES_NOT_SUPPORT_NFT error', async (ctx) => {
+  const erc721 = ctx.get('protocol').erc721;
+  const erc721Metadata = ctx.get('protocol').erc721Metadata;
+  const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
+  const jane = ctx.get('jane');
+
+  await erc721.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.GENERAL_REVERT);
+  });
+  await erc721Metadata.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.GENERAL_REVERT);
+  });
+  await erc721Enumerable.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.GENERAL_REVERT);
+  });
+});
+
+spec.test('correctly throws NFT_ALREADY_EXISTS error', async (ctx) => {
+  const erc721 = ctx.get('protocol').erc721;
+  const erc721Metadata = ctx.get('protocol').erc721Metadata;
+  const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  await erc721.instance.methods.mint(bob, '123').call({ from: owner })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.NFT_ALREADY_EXISTS);
+  });
+  await erc721Metadata.instance.methods.mint(bob, '123').call({ from: owner })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.NFT_ALREADY_EXISTS);
+  });
+  await erc721Enumerable.instance.methods.mint(bob, '123').call({ from: owner })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.NFT_ALREADY_EXISTS);
+  });
+});
+
+spec.test('correctly throws INVALID_INDEX error', async (ctx) => {
+  const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
+  const owner = ctx.get('owner');
+  await erc721Enumerable.instance.methods.tokenByIndex(2).call()
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.INVALID_INDEX);
+  });
+  await erc721Enumerable.instance.methods.tokenOfOwnerByIndex(owner, 2).call()
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.INVALID_INDEX);
+  });
+});
+
+spec.test('correctly throws TRANSFERS_PAUSED error', async (ctx) => {
+  const pausableXcert = ctx.get('protocol').xcertPausable;
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  await pausableXcert.instance.methods.setPause(true).send({ from: owner });
+  await pausableXcert.instance.methods.transferFrom(jane, owner, '123').call({ from: jane })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.TRANSFERS_PAUSED);
+  });
+});
+
+// TODO: Because revert is done with revert() not require() ganache does not throw message.
+spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const signatureData = {
+    r: '0x0',
+    s: '0x0',
+    v: 1,
+    kind: 3
+  }
+
+  const signatureDataTuple = tuple(signatureData);
+  await exchange.instance.methods.isValidSignature(jane, '0x0', signatureDataTuple).call()
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.GENERAL_REVERT); // INVALID_SIGNATURE_KIND
+  });
+});
+
+spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 6,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.INVALID_PROXY);
+  });
+});
+
+
+spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const owner = ctx.get('owner');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: owner })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_NOT_THE_TAKER);
+  });
+});
+
+spec.test('correctly throws YOU_ARE_THE_MAKER error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: jane,
+    actions,
+    seed: new Date().getTime(),
+    
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: jane })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_THE_MAKER);
+  });
+});
+
+spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) - 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.ORDER_EXPIRED);
+  });
+});
+
+spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  let orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  orderData.seed = 123;
+  orderDataTuple = ctx.tuple(orderData);
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.INVALID_SIGNATURE);
+  });
+});
+
+spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await exchange.instance.methods.cancel(orderDataTuple).send({ from: jane });
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.ORDER_CANCELED);
+  });
+});
+
+spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const nftProxy = ctx.get('protocol').nftokenTransferProxy;
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.ORDER_CANNOT_BE_PERFORMED_TWICE);
+  });
+});
+
+spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const erc721 = ctx.get('protocol').erc721;
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 2,
+      token: erc721.receipt._address,
+      param1: ctx.web3.utils.padLeft(jane, 64),
+      to: bob,
+      value: '123',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  
+  await exchange.instance.methods.cancel(orderDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_NOT_THE_MAKER);
+  });
+});
+
+spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
+  const exchange = ctx.get('protocol').exchange;
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const xcert = ctx.get('protocol').xcert;
+
+  const actions = [
+    {
+      kind: 0,
+      proxy: 0,
+      token: xcert.receipt._address,
+      param1: '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8',
+      to: bob,
+      value: '1234',
+    }
+  ];
+
+  const orderData = {
+    maker: jane,
+    taker: bob,
+    actions,
+    seed: new Date().getTime(),
+    expiration: Math.floor((new Date().getTime() / 1000)) + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.SIGNER_NOT_AUTHORIZED);
+  });
+});
+
+spec.test('correctly throws ONE_ZERO_ABILITY_HAS_TO_EXIST error', async (ctx) => {
+  const owner = ctx.get('owner');
+  const xcert = ctx.get('protocol').xcert;
+
+  await xcert.instance.methods.revokeAbilities(owner, [0]).call({ from: owner })
+  .then(() => { ctx.fail(); })
+  .catch((e) => {
+    ctx.is(parseError(e).issue, ConnectorIssue.ONE_ZERO_ABILITY_HAS_TO_EXIST);
   });
 });
 
