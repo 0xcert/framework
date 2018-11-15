@@ -1,9 +1,9 @@
 import { Spec } from '@hayspec/spec';
-import { getLevelFromSize, getSizeFromLevel } from '../../utils/calcs';
+import { getLevelFromSize } from '../../../utils/calcs';
 
 const spec = new Spec();
 
-spec.test('method `getLevelFromSize` returns level index based on number of values', async (ctx) => {
+spec.test('returns level index based on number of values', async (ctx) => {
   ctx.is(getLevelFromSize(0), 0);
   ctx.is(getLevelFromSize(1), 0);
   ctx.is(getLevelFromSize(2), 1);
@@ -21,15 +21,6 @@ spec.test('method `getLevelFromSize` returns level index based on number of valu
   ctx.is(getLevelFromSize(14), 3);
   ctx.is(getLevelFromSize(15), 3);
   ctx.is(getLevelFromSize(16), 4);
-});
-
-spec.test('method `getSizeFromLevel` returns the number of values based on level index', async (ctx) => {
-  ctx.is(getSizeFromLevel(0), 1);
-  ctx.is(getSizeFromLevel(1), 3);
-  ctx.is(getSizeFromLevel(2), 7);
-  ctx.is(getSizeFromLevel(3), 15);
-  ctx.is(getSizeFromLevel(4), 31);
-  ctx.is(getSizeFromLevel(5), 63);
 });
 
 export default spec;
