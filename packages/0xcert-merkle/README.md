@@ -72,52 +72,18 @@ import { Merkle } from '@0xcert/merkle';
 
 const merkle = new Merkle({
   hasher: (v) => sha256(v),
-  seeder: (i) => i,
 });
-const imprint = merkle.buildImprint(data);
-const evidence = merkle.buildEvidence(data);
-const evidence = merkle.verifyEvidence(data);
-```
-
-Build merkle tree nodes from a list of values.
-
-```ts
-const allNodes = merkle.build([
-  { index: 0, value: 'a' },
-  { index: 1, value: 'b' },
-  { index: 2, value: 'c' },
-  { index: 3, value: 'd' },
-  { index: 4, value: 'e' },
-]);
-```
-
-Create a minimal list of nodes from which a tree root can be calculated.
-
-```ts
-const recipeNodes = await merkle.pack(
-  allNodes, 
-  [0, 2] // expose values `a` and `c`
-);
-```
-
-Recalculate the tree root hash object.
-
-```ts
-const rootNode = await merkle.calculate([
-  // values
-  { index: 0, value: 'a' },
-], [
-  // nodes
-  { level: 1, index: 0, hash: '0x...' },
-  { level: 1, index: 1, hash: '0x...' },
-  { level: 2, index: 0, hash: '0x...' },
-], 4);
+const values = ['A', 'B', 'C', 'D', 'E'];
+const expose = [2, 3];
+const recipe = await ctx.get('merkle').buildRecipe(values);
+const evidence = await ctx.get('merkle').buildEvidence(recipe, expose);
+const imprint = await ctx.get('merkle').buildImprint(evidence);
 ```
 
 ## License (MIT)
 
 ```
-Copyright (c) 2017+ Kristijan Sedlak <xpepermint@gmail.com>
+Copyright (c) 2018 Kristijan Sedlak <xpepermint@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated modelation files (the "Software"), to deal

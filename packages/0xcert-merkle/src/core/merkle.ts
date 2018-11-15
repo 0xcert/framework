@@ -103,7 +103,7 @@ export class Merkle {
       }
       else {
         evidence.nodes.push(
-          recipe.nodes[level + 1]
+          recipe.nodes[level * 2 + 1]
         );
       }
     }
