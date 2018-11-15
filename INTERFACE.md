@@ -88,15 +88,15 @@ const verified = await notary.verify(asset, schema, evidence, merkleRoot); // ve
 // const values = await notary.query(evidence, merkleRoot, selectedPaths);
 ```
 ```ts
-import { TransactionWatcher } from '@0xcert/web3-transaction-watcher';
+import { TransactionQueue } from '@0xcert/web3-transaction-queue';
 
-const watcher = new TransactionWatcher({ confirmations, removeConfirmed });
-watcher.on(event, handler);
-watcher.off(event, handler);
-watcher.add(transactionId, transactionId, ...);
-watcher.remove(transactionId, transactionId, ...);
-watcher.listen();
-watcher.close();
+const queue = new TransactionQueue({ confirmations, removeConfirmed });
+queue.on(event, handler);
+queue.off(event, handler);
+queue.add(transactionId, transactionId, ...);
+queue.remove(transactionId, transactionId, ...);
+queue.listen();
+queue.close();
 ```
 
 # Schema

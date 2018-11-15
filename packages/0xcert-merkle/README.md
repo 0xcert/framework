@@ -3,59 +3,64 @@
 
 First, define an array with values.
 
-| Value | Type | Description
-|-|-|-
-| 1 | String | First name of a user.
-| 2 | String | Middle name of a user.
-| 3 | String | Last name of a user.
-| 4 | String | Email address of a user.
-| 5 | Integer | Age of a user.
+```ts
+const values = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+```
 
-This can be converted into a merkle tree where leafs represent the values and the root represents the proof.
+The evidence for this array of values is a binary merkle tree as shown below.
 
 ```ts
-                ROOT
+                n0
                 |
-    -----------------------
-    |                     |
-    h12                   h11
-    A                     |
-        ---------------------------
+        --------------------------- 
         |                         |
-        h10                       h7
+        n1                        n2
     ---------                     |
     |       |                     |
-    h8      h9                    |
-    B       C                     |
+    p0      p1                    |
+    A       B                     |
                 ---------------------------
-                |                         |
-                h6                        h1
+                |                         |         
+                n3                        n4
     -------------------------             |
     |       |       |       |             | 
-    h2      h3      h4      h5            |
-    D       E       F       G             empty
+    p2      p3      p4      p5            |
+    C       D       E       F             |
+                                -------------------------------------------
+                                |                                         |
+                                n5                                        n6
+    ---------------------------------------------------------             |
+    |       |       |       |       |       |       |       |             |
+    p6      p7      p8      p9      p10     p11     p12     p13           |
+    G       H       -       -       -       -       -       -             -
 ```
 
+A user can expose selected values from this tree by providing the evidence file that looks like this:
+
 ```ts
-const exposed = [
-  { // level root
-    level: 2,
-    index: -1, // root hash
-    hash: 'c',
-  },
-  { // level hash 
-    level: 2,
-    index: 0, // item b
-    hash: 'b',
-  },
-  { // level value
-    level: 2,
-    index: 1, // item c
-    value: 'c',
-    nonce: '-',
-  },
-];
+const recipe = {
+  values: [
+    { index: 0, value: 'A' },
+    { index: 1, value: 'B' },
+    { index: 2, value: 'C' },
+    ...
+  ],
+  proofs: [
+    { index: 0, hash: '0x...' }, // p0
+    { index: 1, hash: '0x...' }, // p1
+    { index: 2, hash: '0x...' }, // p2
+    ...
+  ],
+  nodes: [
+    { index: 0, hash: '0x...' }, // n0 (root)
+    { index: 1, hash: '0x...' }, // n1
+    { index: 2, hash: '0x...' }, // n2
+    ...
+  ],
+};
 ```
+
+Note, that the root hash is never part of the evidence object!
 
 ## Usage
 
@@ -66,49 +71,19 @@ import { sha256 } from '@0xcert/crypto';
 import { Merkle } from '@0xcert/merkle'; 
 
 const merkle = new Merkle({
-  algo: sha256,
+  hasher: (v) => sha256(v),
 });
-```
-
-Build merkle tree nodes from a list of values.
-
-```ts
-const allNodes = merkle.build([
-  { index: 0, value: 'a' },
-  { index: 1, value: 'b' },
-  { index: 2, value: 'c' },
-  { index: 3, value: 'd' },
-  { index: 4, value: 'e' },
-]);
-```
-
-Create a minimal list of nodes from which a tree root can be calculated.
-
-```ts
-const recipeNodes = await merkle.pack(
-  allNodes, 
-  [0, 2] // expose values `a` and `c`
-);
-```
-
-Recalculate the tree root hash object.
-
-```ts
-const rootNode = await merkle.calculate([
-  // values
-  { index: 0, value: 'a' },
-], [
-  // nodes
-  { level: 1, index: 0, hash: '0x...' },
-  { level: 1, index: 1, hash: '0x...' },
-  { level: 2, index: 0, hash: '0x...' },
-], 4);
+const values = ['A', 'B', 'C', 'D', 'E'];
+const expose = [2, 3];
+const recipe = await ctx.get('merkle').buildRecipe(values);
+const evidence = await ctx.get('merkle').buildEvidence(recipe, expose);
+const imprint = await ctx.get('merkle').buildImprint(evidence);
 ```
 
 ## License (MIT)
 
 ```
-Copyright (c) 2017+ Kristijan Sedlak <xpepermint@gmail.com>
+Copyright (c) 2018 Kristijan Sedlak <xpepermint@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated modelation files (the "Software"), to deal

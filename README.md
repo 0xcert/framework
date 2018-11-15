@@ -1,11 +1,11 @@
 # 0xcert suite
 
 ## TODO
-- Update the merkle module - use William's proposal of calculation instead
-- Notary class, evidence
-- Ledger event subscription
-- Optimize webpack to bundle only needed modules
-- transaction watcher with hidration
+
+- [K] Update the merkle module - use William's proposal of calculation instead
+- [K] Notary class, evidence
+- [K] 0xcert-web3-transaction-queue, hidration
+- [K,T] Ledger event subscription
 
 ## Development
 
