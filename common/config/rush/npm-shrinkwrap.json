@@ -278,7 +278,7 @@
     },
     "@rush-temp/web3-error-parser": {
       "version": "file:projects/web3-error-parser.tgz",
-      "integrity": "sha512-apk7NKXO6kuf6bE2ZDrwTxgsPRhjBeqi41SO8VOc2X8PI9S7hMd8K4kmgFi1ElRcVGJ3YTZ3oFbCg1yEFncHNQ==",
+      "integrity": "sha512-beFOEae5w4Jpx2urdVa/9xl0UpdYzXxzMkZU61Fs7v1S5p263e+kJUvkydCZBIFMwx/9hHmxS10ZxWyqGkSTUg==",
       "requires": {
         "@specron/cli": "^0.2.8",
         "@specron/spec": "^0.2.8",
