@@ -63,11 +63,6 @@ export function parseError(error: any) {
       {
         return new ConnectorError(ConnectorIssue.INVALID_INDEX, error);
       }
-      if(stringError.indexOf('005007') > 0
-        || stringError.indexOf('006007') > 0)
-      {
-        return new ConnectorError(ConnectorIssue.INVALID_INDEX, error);
-      }
       if(stringError.indexOf('009001') > 0)
       {
         return new ConnectorError(ConnectorIssue.TRANSFERS_PAUSED, error);
