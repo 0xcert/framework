@@ -4,35 +4,30 @@
 First, define an array with values.
 
 ```ts
-const values = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+const values = ['A', 'B', 'C', 'D'];
 ```
 
-The evidence for this array of values is a binary merkle tree as shown below.
+The evidence for this array of values is a simple binary merkle tree as shown below.
 
 ```ts
-                n0
-                |
-        --------------------------- 
-        |                         |
-        n1                        n2
-    ---------                     |
-    |       |                     |
-    p0      p1                    |
-    A       B                     |
-                ---------------------------
-                |                         |         
-                n3                        n4
-    -------------------------             |
-    |       |       |       |             | 
-    p2      p3      p4      p5            |
-    C       D       E       F             |
-                                -------------------------------------------
-                                |                                         |
-                                n5                                        n6
-    ---------------------------------------------------------             |
-    |       |       |       |       |       |       |       |             |
-    p6      p7      p8      p9      p10     p11     p12     p13           |
-    G       H       -       -       -       -       -       -             -
+    n0
+    |
+---------
+|       |
+n1      n2
+A       |
+    ---------
+    |       |
+    n3      n4
+    B       |
+        ---------
+        |       |
+        n5      n6
+        C       |
+            ---------
+            |       |
+            n7      n8
+            D       empty
 ```
 
 A user can expose selected values from this tree by providing the evidence file that looks like this:
@@ -43,12 +38,6 @@ const recipe = {
     { index: 0, value: 'A' },
     { index: 1, value: 'B' },
     { index: 2, value: 'C' },
-    ...
-  ],
-  proofs: [
-    { index: 0, hash: '0x...' }, // p0
-    { index: 1, hash: '0x...' }, // p1
-    { index: 2, hash: '0x...' }, // p2
     ...
   ],
   nodes: [
@@ -75,9 +64,9 @@ const merkle = new Merkle({
 });
 const values = ['A', 'B', 'C', 'D', 'E'];
 const expose = [2, 3];
-const recipe = await ctx.get('merkle').buildRecipe(values);
-const evidence = await ctx.get('merkle').buildEvidence(recipe, expose);
-const imprint = await ctx.get('merkle').buildImprint(evidence);
+const recipe = await merkle.notarize(values);
+const evidence = await merkle.disclose(recipe, expose);
+const imprint = await merkle.imprint(evidence);
 ```
 
 ## License (MIT)

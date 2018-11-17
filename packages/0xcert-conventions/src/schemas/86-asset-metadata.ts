@@ -14,6 +14,16 @@ export default {
     },
     ...erc721.properties,
   },
+  exposed: [
+    'description',
+    'image',
+    'name'
+  ],
+  required: [
+    'description',
+    'image',
+    'name'
+  ],
   title: 'Asset',
   type: 'object',
 }
