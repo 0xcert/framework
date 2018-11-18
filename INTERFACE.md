@@ -81,27 +81,22 @@ await exchange.perform(order, signature); // (taker)
 ```ts
 import { Cert } from '@0xcert/certification';
 
-const cert = new Cert({ schema, hasher? });
-// const paths = contract.getPaths(PropVisibility.EXPOSED); // REQUIRED | ALL
-const recipe = cert.notarize(asset);
-const evidence = await contract.disclose(paths);
-const imprint = await contract.imprint(asset, evidence);
-
-// const notary = new Notary({ algo, schema });
-// const recipe = await notary.notarize(asset);
-// const evidence = await notary.expose(recipe, paths); // only evidence
-// const imprint = await notary.verify(asset, evidence); // imprint should match with the one in the token
+const cert = new Cert({ schema });
+const proofs = await cert.notarize(data);
+const proofs = await cert.disclose(exampleData, [ ...paths... ]);
+const imprint = await cert.calculate(data, proofs);
+const imprint = await cert.imprint(data);
 ```
 ```ts
 import { TransactionQueue } from '@0xcert/web3-transaction-queue';
 
-const queue = new TransactionQueue({ confirmations, removeConfirmed });
+const queue = new TransactionQueue(context);
 queue.on(event, handler);
 queue.off(event, handler);
 queue.add(transactionId, transactionId, ...);
 queue.remove(transactionId, transactionId, ...);
-queue.listen();
-queue.close();
+queue.start();
+queue.stop();
 ```
 
 # Structs
