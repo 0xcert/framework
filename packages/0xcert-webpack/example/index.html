@@ -3,30 +3,42 @@
   <title>XCert</title>
 </head>
 <body>
-  <script src="./web3.js"></script>
-  <script src="../dist/0xcert-main.min.js"></script>
-  <script src="../dist/0xcert-web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+  <script src="../../../dist/0xcert-main.min.js"></script>
+  <script src="../../../dist/0xcert-web3.min.js"></script>
   <script>
 
-    const ctx = new window.zxc.web3.Context({
-      web3: new Web3(web3.currentProvider),
-      signMethod: 2,
-    });
-    ctx.attach().then(() => {
+    window.addEventListener('load', async () => {
+      window.web3 = new Web3(ethereum);
+      try {
+        await ethereum.enable();
+      } catch (error) {
+        alert('Ethereum not available.');
+      }
+
+      window.ctx = new window.zxc.web3.Context({
+        web3: window.web3,
+        signMethod: 2,
+      });
+
+      await ctx.attach();
+      
+      const data = ctx.web3.utils.soliditySha3('DATA');
       console.log('ready')
       console.log(
-        ctx.web3.eth.sign('foo', ctx.myId).then(console.log).catch(console.log)
+        ctx.web3.eth.sign(data, ctx.myId).then(console.log).catch(console.log)
       );
+
     });
 
 
-    function sign(value) {
-      ctx.sign(value).then((hash) => {
-        console.log('DONE', hash);
-      }).catch((error) => {
-        console.log('ERROR', error);
-      });
-    }
+    // function sign(value) {
+    //   ctx.sign(value).then((hash) => {
+    //     console.log('DONE', hash);
+    //   }).catch((error) => {
+    //     console.log('ERROR', error);
+    //   });
+    // }
 
   </script>
   <button onclick="sign('foo')">Sign</button>
