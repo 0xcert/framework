@@ -133,7 +133,7 @@ export class Merkle {
       const left = nodes.find((n) => n.index === i - 1);
 
       if (right && left) {
-        nodes.push({
+        nodes.unshift({
           index: i - 2,
           hash: await this.config.hasher(`${left.hash}${right.hash}`),
         });
