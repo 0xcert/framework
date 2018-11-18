@@ -7,6 +7,7 @@ module.exports = {
   },
   output: {
     filename: `[name].min.js`,
+    path: path.join(__dirname, '..', '..', 'dist'),
   },
   // optimization: {
   //   minimize: false,
