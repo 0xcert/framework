@@ -10,4 +10,18 @@
 // WORDING
 // evidence -> consists of proofs -> forms an imprint
 // data object -> consists of properties (props)
+
+// USAGE
+// Define arbitrary data object.
+const data = { ... };
+// Define certificate with JSON schema definition.
+const cert = new Cert({ schema: { ...} });
+// Notarize data object (returns all proofs for whole data object).
+const proofs = await cert.notarize(data);
+// Expose selected data keys (returns proofs and exposed values from which an imprint can be calculated).
+const proofs = await cert.disclose(exampleData, [ ...paths... ]);
+// Verify data object against proofs generated with function `disclose` (if object is valid, an imprint is the right root hash).
+const imprint = await cert.calculate(data, proofs);
+// Generate root hash from complete data object.
+const imprint = await cert.imprint(data);
 ```
