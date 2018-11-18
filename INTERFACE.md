@@ -79,13 +79,18 @@ await exchange.cancel(order); // (maker)
 await exchange.perform(order, signature); // (taker)
 ```
 ```ts
-import { Notary } from '@0xcert/certification';
+import { Cert } from '@0xcert/certification';
 
-const notary = new Notary({ algo });
-const imprint = await notary.notarize(asset, schema);
-const evidence = await notary.expose(asset, schema, strategy); // only evidence
-const verified = await notary.verify(asset, schema, evidence, merkleRoot); // verify `asset` based on schema and evidence
-// const values = await notary.query(evidence, merkleRoot, selectedPaths);
+const cert = new Cert({ schema, hasher? });
+// const paths = contract.getPaths(PropVisibility.EXPOSED); // REQUIRED | ALL
+const recipe = cert.notarize(asset);
+const evidence = await contract.disclose(paths);
+const imprint = await contract.imprint(asset, evidence);
+
+// const notary = new Notary({ algo, schema });
+// const recipe = await notary.notarize(asset);
+// const evidence = await notary.expose(recipe, paths); // only evidence
+// const imprint = await notary.verify(asset, evidence); // imprint should match with the one in the token
 ```
 ```ts
 import { TransactionQueue } from '@0xcert/web3-transaction-queue';
@@ -99,7 +104,10 @@ queue.listen();
 queue.close();
 ```
 
-# Schema
+# Structs
+
+
+Asset JSON object:
 
 ```json
 {
@@ -111,164 +119,70 @@ queue.close();
 }
 ```
 
-# Asset verification
+Asset evidence:
 
-```ts
-// CREATE ASSET
-const identity = new UserIdentity({
-  id: '100',
-  folderId: '0x9128798s9d8g9sd8f7s9d8f7s9d8fs98',
-  proof: 'ac9128798s9d8g9sd8f7s9d8f7s9d8fs98',
-  firstName: 'John',
-  lastName: 'Smith',
-});
-await identity.validate();
-await identity.certify();
-identity.freez();
-
-const storage = new Storage();
-await storage.createAssetRecord(
-  identity.serialize('record')
-);
-await storage.createMetadataFile(
-  identity.serialize('metadata')
-);
-await ledger.mint(
-  identity.serialize('mint')
-);
-```
-```ts
-// SERVER
-const identity = new UserIdentity();
-await identity.populateById('100');
-res.json(
-  identity.serialize('public')
-);
-```
-
-# Packages
-
-```ts
-// CONTEXT [ok]
-[I] Context.Base;
-
-// ASSET [in progress]
-[I] Asset.Base;
-
-// ASSET LEDGER [ok]
-[I] AssetLedger.Base;
-[I] AssetLedger.GetInfoResult;
-[E] AssetLedger.Ability;
-[E] AssetLedger.Capability;
-[E] AssetLedger.TransferState;
-[E] AssetLedger.EventName;
-
-// VALUE LEDGER [ok]
-[I] ValueLedger.Base;
-[I] ValueLedger.GetInfoResult;
-[E] ValueLedger.EventName;
-
-// ORDER EXCHANGE [ok]
-[I] OrderExchange.Base;
-[E] OrderExchange.EventName;
-
-// ORDER [ok]
-[I] Order.Base;
-[I] Order.Input;
-[I] Order.Output;
-[I] Order.Action;
-[E] Order.Action.Kind;
-[I] Order.Action.CreateAsset;
-[I] Order.Action.TransferAsset;
-[I] Order.Action.TransferValue;
-
-// ?
-[I] Connector.Error;
-[E] Connector.Issue; // ErrorCode
-[I] ConnectorQuery<T>;
-[I] ConnectorMutation;
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# App Example
-
-```ts
-import { Context } from '@0xcert/web3-context';
-import { AssetLedger } from '@0xcert/web3-asset-ledger';
-import { ValueLedger } from '@0xcert/web3-value-ledger';
-import { OrderExchange } from '@0xcert/web3-order-exchange';
-import { Order, AssetMetadata } from '@0xcert/scaffold';
-import { Footprint } from '@0xcert/certification';
-
-// keep track and watch all performed transactions
-const storage = new Storage();
-// TODO!!!!!!
-
-// initialize application context
-const context = new Context({ storage });
-
-// work with ERC721 smart contract
-const assetLedger = new AssetLedger(context, '0x78as78sd7gf87as8f7sd8f7fa');
-await assetLedger.getInfo();
-
-// work with ERC20 smart contract
-const valueLedger = new ValueLedger(context, '0x78as78sd7gf87as8f7sd8f7fa');
-await valueLedger.getInfo();
-
-// generate executable order and send it to a user
-const order: Order = {
-  makerId: context.myId,
-  takerId: '0xa79s87d9s8d7f987192341512',
-  actions: [],
-  seed: Date.now(),
-  expiration: Date.now() * 60 * 24,
+```js
+const patsh = [
+  ['books', 0, 'release', 'date'],
+]
+const json = {
+  name: 'John',
+  books: [
+    {
+      title: 'Start',
+      release: {
+        date: '',
+      },
+    },
+  ],
 };
-order.validate();
-const orderData = {
-  order: order.serialize(),
-  signature: contexdt.sign(order.claim()),
-};
-
-// execute received executable order
-const exchange = new OrderExchange(context);
-const mutation = await exchange.perform(
-  ...orderData
-);
-
-// create new asset and validate the input
-const asset = new CollectibleAsset({
-  id: null,
-  name: 'Superman',
-  photo: 'http://super.org/man.jpg',
-});
-await asset.validate();
-
-// create asset proof
-const footprint = new Footprint();
-const proof = await footprint.certify(asset);
-
-// generate evidence (values, nodes) with which we can verify the data
-const evidence = await footprint.expose(asset, [['book', 'title']]);
-await footprint.verify(evidence);
-
-// store it to the database and mint it on the blockchain
-await store.createAsset(asset); // you have folderId and an ID
-await assetLedger.mint(asset.id, proof);
-// you can observe the folder
+const recipe = [
+  {
+    path: [],
+    evidence: {
+      proofs: [
+        { index: 0, hash: '0x', key: 'name' },
+        { index: 1, hash: '0x', key: 'book' },
+        { index: 2, hash: '0x', key: 'books' },
+      ],
+      nodes: [
+        { index: 0, hash: '0x' },
+        { index: 1, hash: '0x' },
+      ],
+    },
+  },
+  {
+    path: ['book'],
+    evidence: {
+      proofs: [
+        { index: 0, hash: '0x', key: 'title' },
+      ],
+      nodes: [
+        { index: 0, hash: '0x' },
+      ],
+    },
+  },
+  {
+    path: ['books'],
+    evidence: {
+      proofs: [
+        { index: 0, hash: '0x', key: 0 },
+      ],
+      nodes: [
+        { index: 0, hash: '0x' },
+      ],
+    },
+  },
+  {
+    path: ['books', 0],
+    evidence: {
+      proofs: [
+        { index: 0, hash: '0x', key: 'title' },
+      ],
+      nodes: [
+        { index: 0, hash: '0x' },
+      ],
+    },
+  },
+];
 ```

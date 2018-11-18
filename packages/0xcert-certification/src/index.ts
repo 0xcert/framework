@@ -1,1 +1,2 @@
-export * from './core/notary';
+export * from './core/cert';
+export * from './core/prop';

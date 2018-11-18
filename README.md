@@ -2,8 +2,6 @@
 
 ## TODO
 
-- [K] Update the merkle module - use William's proposal of calculation instead
-- [K] Notary class, evidence
 - [K] 0xcert-web3-transaction-queue, hidration
 - [K,T] Ledger event subscription
 
