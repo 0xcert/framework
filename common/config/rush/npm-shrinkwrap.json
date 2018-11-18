@@ -207,7 +207,7 @@
     },
     "@rush-temp/merkle": {
       "version": "file:projects/merkle.tgz",
-      "integrity": "sha512-oOl9Yu3LQkXDoQsN58f6zZD4Jr9s28AzZd8QA4ixibwH9r11zRnfp69Lm6YB8wVkUPvgriqiPiJkhz7xqcbTPg==",
+      "integrity": "sha512-1OcPXBQNGdCYO9hgF3O8P1KSgdyKQZLw79D2WmReeaLcWa16fYHo3IGW3JF++TTeWPdN4iRdptbco32YMUUlMg==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",

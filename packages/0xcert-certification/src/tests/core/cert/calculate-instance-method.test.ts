@@ -1,40 +1,60 @@
 import { Spec } from '@hayspec/spec';
 import { Cert } from '../../../core/cert';
-import { exampleSchema } from '../helpers/schema';
+import { exampleSchema, exampleData } from '../helpers/schema';
 
-interface Data {
-  schema: any;
-}
+const spec = new Spec();
 
-const spec = new Spec<Data>();
-
-spec.before((ctx) => {
-  ctx.set('schema', exampleSchema);
+spec.test('imprints complete data object', async (ctx) => {
+  const cert = new Cert({
+    schema: exampleSchema,
+  });
+  const proofs = await cert.notarize(exampleData);
+  const imprint = await cert.calculate(exampleData, proofs);
+  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
 });
 
-spec.test('creates evidence object from selected JSON paths', async (ctx) => {
+spec.test('validates selected paths', async (ctx) => {
   const cert = new Cert({
-    schema: ctx.get('schema'),
+    schema: exampleSchema,
   });
-  const data = {
-    // book: {
-    //   title: 'fooA',
-    //   date: { month: 'fooB' },
-    // },
-    // books: [
-    //   { title: 'bar0', date: 'bar0' },
-    //   { title: 'bar1', date: 'bar1' },
-    // ],
-    // name: 'name',
-    // tags: [1, 2],
-  };
-  // const recipe = await cert.notarize(data);
-  const proofs = await cert.disclose(data, [
-    // ['book', 'date', 'month']
-    // ['books', 1, 'title']
+  const proofs = await cert.disclose(exampleData, [
+    ['name'],
   ]);
-  const imprint = await cert.calculate(proofs);
-  ctx.is(imprint, '');
+  const data = { name: 'B' };
+  const imprint = await cert.calculate(data, proofs);
+  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+});
+
+spec.test('validates selected paths', async (ctx) => {
+  const cert = new Cert({
+    schema: exampleSchema,
+  });
+  const proofs = await cert.disclose(exampleData, [
+    ['name'],
+    ['books', 1, 'title'],
+  ]);
+  const data = {
+    name: 'B',
+    books: [{}, { title: 'B1' }],
+  };
+  const imprint = await cert.calculate(data, proofs);
+  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+});
+
+spec.test('fails when data includes more data then expesed', async (ctx) => {
+  const cert = new Cert({
+    schema: exampleSchema,
+  });
+  const proofs = await cert.disclose(exampleData, [
+    ['name'],
+    ['books', 1, 'title'],
+  ]);
+  const data = {
+    name: 'B',
+    books: [{ title: 'B0' }, { title: 'B1' }], // ['books', 0, 'title'], is not exposed
+  };
+  const imprint = await cert.calculate(data, proofs);
+  ctx.is(imprint, null);
 });
 
 export default spec;

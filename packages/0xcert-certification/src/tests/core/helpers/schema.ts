@@ -1,6 +1,26 @@
+/**
+ * 
+ */
 export const exampleSchema = {
   type: 'object',
   properties: {
+    'books': {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          'note': {
+            type: 'string',
+          },
+          'title': {
+            type: 'string',
+          },
+        },
+      },
+    },
+    'email': {
+      type: 'integer',
+    },
     'event': {
       type: 'object',
       properties: {
@@ -20,23 +40,6 @@ export const exampleSchema = {
         },
       },
     },
-    'books': {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          'note': {
-            type: 'string',
-          },
-          'title': {
-            type: 'string',
-          },
-        },
-      },
-    },
-    'email': {
-      type: 'integer',
-    },
     'name': {
       type: 'string',
     },
@@ -47,4 +50,30 @@ export const exampleSchema = {
       },
     },
   },
+};
+
+/**
+ * 
+ */
+export const exampleData = {
+  books: [
+    {
+      note: 'A0',
+      title: 'B0',
+    },
+    {
+      note: 'A1',
+      title: 'B1',
+    },
+  ],
+  email: 'A',
+  event: {
+    organizer: {
+      email: 'A',
+      name: 'B',
+    },
+    title: 'A',
+  },
+  name: 'B',
+  tags: [1, 2],
 };

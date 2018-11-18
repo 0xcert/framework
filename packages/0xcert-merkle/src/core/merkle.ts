@@ -1,16 +1,14 @@
-import { toString } from '../utils/data';
-
 /**
  * Merkle tree node definition.
  */
-export type MerkleHasher = ((v: string) => string) | ((v: string) => Promise<string>);
+export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
 
 /**
  * 
  */
 export interface MerkleValue {
   index: number;
-  value: string;
+  value: any;
 }
 
 /**
@@ -57,12 +55,8 @@ export class Merkle {
    * @param data List of arbitrary values.
    */
   public async notarize(data: (string|number|boolean)[]) {
-    const values = [
-      ...data.map((v) => toString(v))
-    ];
-    const nodes = [
-      await this.config.hasher('')
-    ];
+    const values = [...data];
+    const nodes = [await this.config.hasher('')];
 
     for (let i = values.length - 1; i >= 0; i--) {
       const right = nodes[0];

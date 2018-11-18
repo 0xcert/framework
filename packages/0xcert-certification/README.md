@@ -1,5 +1,5 @@
 ```ts
-// VERIFICATION
+// VERIFICATION EXAMPLE
 // I share an evidence file that proofs certain JSON paths (e.g. public JSON)
 // I have an object with just some data.
 // The function recreates a recipe for this partial data object and assignes is to the evidence file.
