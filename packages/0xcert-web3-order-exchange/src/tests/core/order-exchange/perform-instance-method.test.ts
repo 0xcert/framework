@@ -50,24 +50,20 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
-  const sara = stage.get('sara');
-  const jane = stage.get('jane');
+  const bob = stage.get('bob');
 
   const xcert = stage.get('protocol').xcert;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
 
-  await xcert.instance.methods.mint(sara, '100', '0x0').send({ form: coinbase });
-  await xcert.instance.methods.mint(jane, '101', '0x0').send({ form: coinbase });
-  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: sara });
-  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: jane });
+  await xcert.instance.methods.mint(coinbase, '100', '0x0').send({ form: coinbase });
+  await xcert.instance.methods.mint(bob, '101', '0x0').send({ form: coinbase });
+  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: coinbase });
+  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: bob });
 });
 
 spec.before(async (stage) => {
-  const context = stage.get('makerContext');
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
-  const sara = stage.get('sara');
-  const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
   const order: Order = {
@@ -79,15 +75,15 @@ spec.before(async (stage) => {
       {
         kind: OrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
-        senderId: sara,
-        receiverId: jane,
+        senderId: coinbase,
+        receiverId: bob,
         assetId: '100',
       },
       {
         kind: OrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
-        senderId: jane,
-        receiverId: sara,
+        senderId: bob,
+        receiverId: coinbase,
         assetId: '101',
       },
     ],
@@ -108,15 +104,15 @@ spec.test('submits exchange order to the network which executes transfers', asyn
   const context = ctx.get('takerContext');
   const order = ctx.get('order');
   const claim = ctx.get('claim');
-  const sara = ctx.get('sara');
-  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcert;
 
   const exchange = new OrderExchange(context);
   await exchange.perform(order, claim).then(() => ctx.sleep(200));
 
-  ctx.is(await xcert.instance.methods.ownerOf('100').call(), jane);
-  ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
+  ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
+  ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
 });
 
 export default spec;
