@@ -94,6 +94,7 @@ const queue = new TransactionQueue(context);
 queue.on(event, handler);
 queue.off(event, handler);
 queue.add(transactionId, transactionId, ...);
+queue.check(transactionId);
 queue.remove(transactionId, transactionId, ...);
 queue.start();
 queue.stop();
