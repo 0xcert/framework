@@ -330,7 +330,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws YOU_ARE_THE_MAKER error', async (ctx) => {
+spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
   const exchange = ctx.get('protocol').exchange;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -349,8 +349,8 @@ spec.test('correctly throws YOU_ARE_THE_MAKER error', async (ctx) => {
   ];
 
   const orderData = {
-    maker: jane,
-    taker: jane,
+    maker: bob,
+    taker: bob,
     actions,
     seed: new Date().getTime(),
     
@@ -359,7 +359,7 @@ spec.test('correctly throws YOU_ARE_THE_MAKER error', async (ctx) => {
   const orderDataTuple = ctx.tuple(orderData);
   const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, jane);
+  const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
     r: signature.substr(0, 66),
     s: `0x${signature.substr(66, 64)}`,
@@ -369,10 +369,10 @@ spec.test('correctly throws YOU_ARE_THE_MAKER error', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: jane })
+  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_THE_MAKER);
+    ctx.is(parseError(e).issue, ConnectorIssue.SENDER_NOT_TAKER_OR_MAKER);
   });
 });
 
