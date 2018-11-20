@@ -85,7 +85,7 @@ export function parseError(error: any) {
       }
       if(stringError.indexOf('015004') > 0)
       {
-        return new ConnectorError(ConnectorIssue.YOU_ARE_THE_MAKER, error);
+        return new ConnectorError(ConnectorIssue.SENDER_NOT_TAKER_OR_MAKER, error);
       }
       if(stringError.indexOf('015005') > 0)
       {

@@ -11,7 +11,7 @@
 | INVALID_SIGNATURE_KIND                               | Provided signature kind is not supported.                    |
 | INVALID_PROXY                                        | Provided proxy is not supported.                             |
 | YOU_ARE_NOT_THE_TAKER                                | You are trying to perform an order from an account that cannot perform it. Check order takerId field to see which address has the ability to perform this order. |
-| YOU_ARE_THE_MAKER                                    | Maker and taker of the order cannot be the same.             |
+| SENDER_NOT_TAKER_OR_MAKER                                    | You are trying to transfer assets that you are not allowed.             |
 | ORDER_EXPIRED                                        | Order has expired (check expiration field).                  |
 | INVALID_SIGNATURE                                    | The signature provided is invalid.                           |
 | ORDER_CANCELED                                       | Order has been canceled.                                     |

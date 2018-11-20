@@ -1132,55 +1132,6 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
   await ctx.reverts(() => exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
 
-fail.test('when taker and makes addresses are the same', async (ctx) => {
-  const exchange = ctx.get('exchange');
-  const nftProxy = ctx.get('nftProxy');
-  const jane = ctx.get('jane');
-  const bob = ctx.get('bob');
-  const cat = ctx.get('cat');
-
-  const actions = [
-    {
-      kind: 1,
-      proxy: 1,
-      token: cat.receipt._address,
-      from: ctx.web3.utils.padLeft(jane, 64),
-      to: bob,
-      value: 1,
-    },
-    {
-      kind: 1,
-      proxy: 1,
-      token: cat.receipt._address,
-      from: ctx.web3.utils.padLeft(bob, 64),
-      to: jane,
-      value: 2,
-    },
-  ];
-  const orderData = {
-    maker: jane,
-    taker: jane,
-    actions,
-    seed: common.getCurrentTime(), 
-    expiration: common.getCurrentTime() + 600,
-  };
-  const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, jane);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
-  await ctx.reverts(() => exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: jane }), '015004');
-});
-
 fail.test('when current time is after expirationTimestamp', async (ctx) => {
   const exchange = ctx.get('exchange');
   const nftProxy = ctx.get('nftProxy');
@@ -1329,4 +1280,54 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
   await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   await ctx.reverts(() => exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015008');
+});
+
+fail.test('when trying to transfer third party assets', async (ctx) => {
+  const exchange = ctx.get('exchange');
+  const nftProxy = ctx.get('nftProxy');
+  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const cat = ctx.get('cat');
+
+  const actions = [
+    {
+      kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
+      from: ctx.web3.utils.padLeft(jane, 64),
+      to: sara,
+      value: 1,
+    },
+    {
+      kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
+      from: ctx.web3.utils.padLeft(bob, 64),
+      to: sara,
+      value: 2,
+    },
+  ];
+  const orderData = {
+    maker: sara,
+    taker: bob,
+    actions,
+    seed: common.getCurrentTime(), 
+    expiration: common.getCurrentTime() + 600,
+  };
+  const orderDataTuple = ctx.tuple(orderData);
+  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  
+  const signature = await ctx.web3.eth.sign(claim, sara);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.instance.methods.setApprovalForAll(nftProxy.receipt._address, true).send({ from: jane });
+  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await ctx.reverts(() => exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015004');
 });
