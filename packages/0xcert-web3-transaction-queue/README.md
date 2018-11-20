@@ -1,7 +1,5 @@
 ```ts
-import { Web3ConnectorConnector } from '@0xcert/web3-connectr';
+import { TransactionQueu } from '@0xcert/web3-transaction-queue';
 
-const web3Connector = new Web3ConnectorConnector({
-  web3Provider: 'http://localhost:8354',
-});
+const queue = new TransactionQueu(context);
 ```
