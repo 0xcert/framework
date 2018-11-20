@@ -23,7 +23,7 @@ contract Exchange is
   string constant INVALID_SIGNATURE_KIND = "015001";
   string constant INVALID_PROXY = "015002";
   string constant TAKER_NOT_EQUAL_TO_SENDER = "015003";
-  string constant TAKER_EQUAL_TO_MAKER = "015004";
+  string constant SENDER_NOT_TAKER_OR_MAKER = "015004";
   string constant CLAIM_EXPIRED = "015005";
   string constant INVALID_SIGNATURE = "015006";
   string constant ORDER_CANCELED = "015007";
@@ -181,7 +181,6 @@ contract Exchange is
     public 
   {
     require(_data.taker == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
-    require(_data.taker != _data.maker, TAKER_EQUAL_TO_MAKER);
     require(_data.expiration >= now, CLAIM_EXPIRED);
 
     bytes32 claim = getOrderDataClaim(_data);
@@ -356,6 +355,12 @@ contract Exchange is
         );
       } else if (_order.actions[i].kind == ActionKind.transfer)
       {
+        require(
+          address(_order.actions[i].param1) == _order.maker
+          || address(_order.actions[i].param1) == _order.taker,
+          SENDER_NOT_TAKER_OR_MAKER
+        );
+        
         Proxy(idToProxy[_order.actions[i].proxy]).execute(
           _order.actions[i].token,
           address(_order.actions[i].param1),
