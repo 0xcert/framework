@@ -1,6 +1,12 @@
 ## About
 
+Asset is a representation of a unique digital item. It is also known as a non fundgible token or ERC721 (on ethereum blockchain). 
 
+To show this on an example. When you graduate from a collage you get a diploma. Every diploma is unique but every diploma has all the same ingredients. So in every diploma you would have a list of courses and their scores, your name, some kind of unique identifier etc. To digitize this you need a computer software that intakes that information and stores is by the uniqe identifier. Now you have a bunch of diplomas saved in the same place.
+
+If we build on top of the example above we would say that 0xcert provides the framework for storage of digitized diplomas to which we add real ownership. So a diploma is not stored in some software college owns but on a public blockchain and only the owner can access it. 
+
+To use blockchain storage of assets trough 0xcert framework you need to first understand some terminology. We will still be using the above example to explain furder. How the diploma is defined (the ingredients we talked about) is what we call asset design or a recipe. Diploma itself would be an asset and the place where all the diplomas are stored would be called an asset ledger. So to create a diploma with 0xcert framework you would first create a diploma recipe from which you could create an asset ledger specific to that recipe and creates diploma assets to be stored in it.
 
 ## Interoperability
 
