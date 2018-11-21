@@ -6,22 +6,36 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npx tsc",
-    "test": "npx hayspec test"
+    "test": "npx specron test"
   },
-  "hayspec": {
+  "specron": {
+    "test": {
+      "port": 8518,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ],
+      "blockTime": 0.1
+    },
     "require": [
       "ts-node/register"
-    ],
-    "match": [
-      "./src/tests/**/*.test.ts"
     ]
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/scaffold": "^0.0.0-alpha0",
-    "@hayspec/cli": "^0.7.6",
-    "@hayspec/spec": "^0.7.6",
+    "@0xcert/web3-connector": "0.0.0-alpha0",
+    "@0xcert/web3-asset-ledger": "0.0.0-alpha0",
+    "@0xcert/web3-order-exchange": "0.0.0-alpha0",
+    "@0xcert/web3-sandbox": "0.0.0-alpha0",
+    "@0xcert/web3-value-ledger": "0.0.0-alpha0",
+    "@specron/cli": "^0.3.0",
+    "@specron/spec": "^0.3.0",
+    "solc": "^0.4.25",
     "ts-node": "^7.0.1",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  },
+  "dependencies": {
+    "@0xcert/certification": "0.0.0-alpha0",
+    "@0xcert/scaffold": "0.0.0-alpha0"
   }
 }

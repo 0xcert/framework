@@ -48,6 +48,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/web3-connector",
+      "projectFolder": "packages/0xcert-web3-connector",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/web3-context",
       "projectFolder": "packages/0xcert-web3-context",
       "versionPolicyName": "patchAll"

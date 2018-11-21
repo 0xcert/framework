@@ -40,7 +40,7 @@ spec.test('submits transaction to the network', async (ctx) => {
   const resolver = async () => xcert.instance.methods.mint(bob, '100', '0x0');
   const mutation = await context.mutate(resolver, coinbase);
 
-  ctx.true(!!mutation.hash);
+  ctx.true(!!mutation.id);
 });
 
 spec.test('handles an error', async (ctx) => {

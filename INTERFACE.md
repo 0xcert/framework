@@ -119,15 +119,12 @@ const client = new Client({
 });
 
 client.sign(string); // -> string
-
 client.deployAssetLedger(ledgerId); // -> Mutation
 client.deployValueLedger(ledgerId); // -> Mutation
-
 client.getMutation(txId); // -> Mutation ~ { id, confirmed }
 client.getExchange(); // -> OrderExchange
 client.getAssetLedger(ledgerId); // -> AssetLedger
 client.getValueLedger(ledgerId); // -> ValueLedger
-
 client.createSchema(schema); // Cert
 client.createQueue(schema); // MutationQueue
 ```
@@ -214,3 +211,7 @@ const recipe = [
   },
 ];
 ```
+
+## NOTES
+
+- add listner for metamask address changed
