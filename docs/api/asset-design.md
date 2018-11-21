@@ -11,7 +11,7 @@ We describe all the three components below.
 
 ## Digital Asset Specification
 
-To define an object, use the [JSON Schema specification](http://json-schema.org/) to define your object. It's best if your keys are in alphabetical order as per convention (otherwise the framework handles this for you) and that you version the definition according to [Semantic Versioning](https://semver.org/).
+To define an object, use the [JSON Schema specification](http://json-schema.org/) to define your object. Your keys must be in alphabetical order as per convention (otherwise the framework handles this for you).
 
 ### Example
 
