@@ -18,6 +18,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/client",
+      "projectFolder": "packages/0xcert-client",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/conventions",
       "projectFolder": "packages/0xcert-conventions",
       "versionPolicyName": "patchAll"
@@ -40,6 +45,11 @@
     {
       "packageName": "@0xcert/web3-asset-ledger",
       "projectFolder": "packages/0xcert-web3-asset-ledger",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/web3-connector",
+      "projectFolder": "packages/0xcert-web3-connector",
       "versionPolicyName": "patchAll"
     },
     {

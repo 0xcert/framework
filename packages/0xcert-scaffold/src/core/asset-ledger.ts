@@ -34,8 +34,6 @@ export enum AssetLedgerCapability {
  * 
  */
 export interface AssetLedgerBase {
-  readonly platform: string;
-  readonly context: ContextBase;
   readonly id: string;
   getAbilities(accountId: string): Promise<Query<AssetLedgerAbility[]>>;
   getCapabilities(): Promise<Query<AssetLedgerCapability[]>>;

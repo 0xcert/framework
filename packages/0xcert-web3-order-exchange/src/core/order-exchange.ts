@@ -7,16 +7,22 @@ import * as env from '../config/env';
  * 
  */
 export class OrderExchange implements OrderExchangeBase {
-  readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
 
   /**
    * 
    */
-  public constructor(context: Context) {
+  public constructor(context: Context, id?: string) {
     this.context = context;
-    this.contract = new context.web3.eth.Contract(env.exchangeAbi, context.exchangeId, { gas: 6000000 });
+    this.contract = this.getContract(id);
+  }
+
+  /**
+   * 
+   */
+  public get id() {
+    return this.contract.options.address;
   }
 
   /**
@@ -159,6 +165,14 @@ export class OrderExchange implements OrderExchangeBase {
    */
   protected getHashValue(action: OrderAction) {
     return action['assetId'] || toFloat(action['value']);
+  }
+
+  /**
+   * 
+   */
+  protected getContract(id: string) {
+    id = id || this.context.exchangeId;
+    return new this.context.web3.eth.Contract(env.exchangeAbi, id, { gas: 6000000 });
   }
 
 }

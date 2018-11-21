@@ -2,7 +2,6 @@
  * 
  */
 export interface ContextBase {
-  readonly platform: string;
   myId: string;
   attach(): Promise<this>;
   detach(): Promise<this>;
@@ -20,5 +19,6 @@ export interface Query<T> {
  * 
  */
 export interface Mutation {
-  hash: string;
+  id: string;
+  confirmations: number;
 }

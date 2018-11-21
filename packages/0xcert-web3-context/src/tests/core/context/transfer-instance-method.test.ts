@@ -30,7 +30,7 @@ spec.test('submits transaction to the network', async (ctx) => {
 
   const mutation = await context.transfer({ to: bob, value: 1000 }, coinbase);
 
-  ctx.true(!!mutation.hash);
+  ctx.true(!!mutation.id);
 });
 
 spec.test('handles an error', async (ctx) => {

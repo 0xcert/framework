@@ -11,7 +11,7 @@
   },
   "specron": {
     "test": {
-      "port": 8515,
+      "port": 8517,
       "match": [
         "./src/tests/**/*.test.ts"
       ],
@@ -25,8 +25,8 @@
   "devDependencies": {
     "@0xcert/web3-erc20-contracts": "0.0.0-alpha0",
     "@0xcert/web3-sandbox": "0.0.0-alpha0",
-    "@specron/cli": "^0.2.8",
-    "@specron/spec": "^0.2.8",
+    "@specron/cli": "^0.3.0",
+    "@specron/spec": "^0.3.0",
     "@types/fs-extra": "^5.0.4",
     "fs-extra": "^7.0.0",
     "solc": "^0.4.25",

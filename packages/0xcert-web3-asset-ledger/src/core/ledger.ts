@@ -14,19 +14,22 @@ import * as env from '../config/env';
  * 
  */
 export class AssetLedger implements AssetLedgerBase {
-  readonly platform: string = 'web3';
   readonly context: Context;
   readonly contract: any;
-  readonly id: string;
 
   /**
    * 
    */
-  public constructor(context: Context, ledgerId: string) {
+  public constructor(context: Context, id: string) {
     this.context = context;
-    this.id = ledgerId;
+    this.contract = this.getContract(id);
+  }
 
-    this.contract = this.getContract(ledgerId);
+  /**
+   * 
+   */
+  public get id() {
+    return this.contract.options.address;
   }
 
   /**
@@ -88,8 +91,8 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  protected getContract(ledgerId: string) {
-    return new this.context.web3.eth.Contract(env.xcertAbi, ledgerId, { gas: 6000000 });
+  protected getContract(id: string) {
+    return new this.context.web3.eth.Contract(env.xcertAbi, id, { gas: 6000000 });
   }
 
 }

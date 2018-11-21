@@ -5,7 +5,7 @@ import { SignMethod } from "./types";
 /**
  * 
  */
-export interface ContextAttachOptions {
+export interface ContextOptions {
   exchangeId?: string;
   myId?: string;
   signMethod?: SignMethod;
@@ -16,7 +16,6 @@ export interface ContextAttachOptions {
  * 
  */
 export class Context implements ContextBase {
-  readonly platform: string = 'web3';
   public exchangeId?: string;
   public myId: string;
   public signMethod: SignMethod;
@@ -25,7 +24,7 @@ export class Context implements ContextBase {
   /**
    * 
    */
-  public constructor(options: ContextAttachOptions) {
+  public constructor(options: ContextOptions) {
     this.web3 = options.web3;
     this.myId = options.myId;
     this.exchangeId = options.exchangeId || '0x';
@@ -95,7 +94,7 @@ export class Context implements ContextBase {
 
       return await new Promise((resolve, reject) => {
         const promise = obj.send({ from, gas, price });
-        promise.once('receipt', (tx) => resolve({ hash: tx.transactionHash })); // this event may still throw errors
+        promise.once('receipt', (tx) => resolve({ id: tx.transactionHash })); // this event may still throw errors
         promise.once('error', reject);
       }).then((d) => {
         return d as Mutation;
@@ -125,7 +124,7 @@ export class Context implements ContextBase {
 
       return await new Promise((resolve, reject) => {
         const promise = this.web3.eth.sendTransaction({ from, to, value, gas, gasPrice });
-        promise.once('transactionHash', (hash) => resolve({ hash }));
+        promise.once('transactionHash', (id) => resolve({ id }));
         promise.once('error', reject);
       }).then((d) => {
         return d as Mutation;
