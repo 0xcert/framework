@@ -184,6 +184,16 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/client": {
+      "version": "file:projects/client.tgz",
+      "integrity": "sha512-3mcAYi3bO16z6sqcSgiQ0BM4yQydi0R5cFrMDbAFBG5f2Fot+1972yF3IAp5zU4lm1C0QVdvewlsp//voI27+Q==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
       "integrity": "sha512-YcFgoqug+eKNf2c1euG8qaZtuqUKijNXGjQeI3AmZgsW7DhoZP7RIEnDeEKPeiT941Iy+LSAWTnmWldYfjaQ0Q==",

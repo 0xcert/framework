@@ -1,6 +1,6 @@
-window.zxc = window.zxc || {};
-window.zxc.main = window.zxc.main || {};
+window.$0xcert = window.$0xcert || {};
+window.$0xcert.main = window.$0xcert.main || {};
 
-window.zxc.main = {
+window.$0xcert.main = {
   ...require('@0xcert/scaffold'),
 };

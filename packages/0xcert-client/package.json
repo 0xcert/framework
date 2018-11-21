@@ -1,0 +1,27 @@
+{
+  "name": "@0xcert/client",
+  "version": "0.0.0-alpha0",
+  "description": "0xcert client.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/scaffold": "^0.0.0-alpha0",
+    "@hayspec/cli": "^0.7.6",
+    "@hayspec/spec": "^0.7.6",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1"
+  }
+}
