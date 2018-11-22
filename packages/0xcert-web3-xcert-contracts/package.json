@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/web3-xcert-contracts",
   "description": "Xcert token implementation for the 0xcert protocol.",
-  "version": "0.0.0-alpha0",
+  "version": "0.0.0-alpha1",
   "scripts": {
     "build": "npx specron compile",
     "sandbox": "npx specron sandbox",
@@ -27,8 +27,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/web3-utils-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-erc721-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-utils-contracts": "0.0.0-alpha1",
+    "@0xcert/web3-erc721-contracts": "0.0.0-alpha1",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",

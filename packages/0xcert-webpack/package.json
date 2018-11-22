@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/client": "0.0.0-alpha0",
-    "@0xcert/web3-connector": "0.0.0-alpha0",
+    "@0xcert/client": "0.0.0-alpha1",
+    "@0xcert/web3-connector": "0.0.0-alpha1",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }
