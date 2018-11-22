@@ -190,7 +190,7 @@ export class Context implements ContextBase {
         case SignMethod.TREZOR:
           return '';
         case SignMethod.EIP712:
-          return '';
+          return await this.web3.eth.sign(data, this.myId);
         default:
           return null;
       }
