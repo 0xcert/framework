@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/certification",
-  "version": "0.0.0-alpha0",
+  "version": "0.0.0-alpha1",
   "description": "Ethereum certification for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,7 +24,7 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/crypto": "0.0.0-alpha0",
-    "@0xcert/merkle": "0.0.0-alpha0"
+    "@0xcert/crypto": "0.0.0-alpha1",
+    "@0xcert/merkle": "0.0.0-alpha1"
   }
 }

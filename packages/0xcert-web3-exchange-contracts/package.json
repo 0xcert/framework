@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/web3-exchange-contracts",
-  "version": "0.0.0-alpha0",
+  "version": "0.0.0-alpha1",
   "description": "Decentralized exchange implementation for 0xcert protocol",
   "scripts": {
     "build": "npx specron compile",
@@ -26,11 +26,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/web3-utils-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-erc20-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-erc721-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-xcert-contracts": "0.0.0-alpha0",
-    "@0xcert/web3-proxy-contracts": "0.0.0-alpha0",
+    "@0xcert/web3-utils-contracts": "0.0.0-alpha1",
+    "@0xcert/web3-erc20-contracts": "0.0.0-alpha1",
+    "@0xcert/web3-erc721-contracts": "0.0.0-alpha1",
+    "@0xcert/web3-xcert-contracts": "0.0.0-alpha1",
+    "@0xcert/web3-proxy-contracts": "0.0.0-alpha1",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",

@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    '0xcert-main': `./src/0xcert-main.js`,
-    '0xcert-web3': `./src/0xcert-web3.js`,
+    '0xcert-client': `./src/0xcert-client.js`,
+    '0xcert-web3-connector': `./src/0xcert-web3-connector.js`,
   },
   output: {
     filename: `[name].min.js`,
