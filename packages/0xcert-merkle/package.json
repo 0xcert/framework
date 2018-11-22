@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npx tsc",
     "test": "npx hayspec test"
   },
   "hayspec": {

@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run updateTokenAbi; npx tsc",
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npm run updateTokenAbi; npx tsc",
     "test": "npx specron test",
     "updateTokenAbi": "npx ts-node ./src/scripts/update-token-abi"
   },

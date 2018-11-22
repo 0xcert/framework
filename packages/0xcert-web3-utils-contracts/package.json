@@ -3,7 +3,8 @@
   "description": "Common utilities.",
   "version": "0.0.0-alpha1",
   "scripts": {
-    "build": "npx specron compile",
+    "clean": "rm -Rf ./build",
+    "build": "npm run clean && npx specron compile",
     "sandbox": "npx specron sandbox",
     "test": "rm -rf build && npx specron compile && npx specron test"
   },

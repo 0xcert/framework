@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run updateXcertAbi; npx tsc",
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npm run updateXcertAbi; npx tsc",
     "test": "npx specron test",
     "updateXcertAbi": "npx ts-node ./src/scripts/update-xcert-abi"
   },

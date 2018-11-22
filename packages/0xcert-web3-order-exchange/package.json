@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run updateExchangeAbi; npx tsc",
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npm run updateExchangeAbi; npx tsc",
     "test": "npx specron test",
     "updateExchangeAbi": "npx ts-node ./src/scripts/update-exchange-abi"
   },
