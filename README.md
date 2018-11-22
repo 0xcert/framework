@@ -2,7 +2,6 @@
 
 ## TODO
 
-- [K] 0xcert-web3-transaction-queue, hidration
 - [K,T] Ledger event subscription
 
 ## Development

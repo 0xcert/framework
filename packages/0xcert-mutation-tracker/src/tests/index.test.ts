@@ -1,10 +1,10 @@
 import { Spec } from '@hayspec/spec';
-import * as expoed from '..';
+import * as tracker from '..';
 
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!expoed.TransactionQueue);
+  ctx.true(!!tracker.MutationTracker);
 });
 
 export default spec;

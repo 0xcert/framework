@@ -90,16 +90,18 @@ const imprint = await cert.calculate(data, proofs);
 const imprint = await cert.imprint(data);
 ```
 ```ts
-import { TransactionQueue } from '@0xcert/web3-transaction-queue';
+import { MutationTracker } from '@0xcert/mutation-tracker';
 
-const queue = new TransactionQueue(context);
-queue.on(event, handler);
-queue.off(event, handler);
-queue.add(transactionId, transactionId, ...);
-queue.check(transactionId);
-queue.remove(transactionId, transactionId, ...);
-queue.start();
-queue.stop();
+const tracker = new MutationTracker(context);
+tracker.on(event, handler);
+tracker.off(event, handler);
+tracker.add(transactionId, transactionId, ...);
+tracker.check(transactionId);
+tracker.remove(transactionId, transactionId, ...);
+tracker.isRunning();
+tracker.start();
+tracker.stop();
+tracker.clear();
 ```
 
 ## Framework

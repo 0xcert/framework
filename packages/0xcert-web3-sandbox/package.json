@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "build": "npm run clean; npx tsc",
+    "build": "npm run clean && npx tsc",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
     "prepare": "npm run build",
     "test": "npx nyc npx hayspec test"

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/webpack",
-  "version": "0.0.0-alpha0",
+  "version": "0.0.0-alpha1",
   "description": "0xcert webpack scripts.",
   "scripts": {
     "build": "npx webpack",

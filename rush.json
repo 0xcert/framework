@@ -93,6 +93,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/mutation-tracker",
+      "projectFolder": "packages/0xcert-mutation-tracker",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/web3-utils",
       "projectFolder": "packages/0xcert-web3-utils",
       "versionPolicyName": "patchAll"

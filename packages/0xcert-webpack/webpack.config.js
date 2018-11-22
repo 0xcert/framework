@@ -9,9 +9,9 @@ module.exports = {
     filename: `[name].min.js`,
     path: path.join(__dirname, '..', '..', 'dist'),
   },
-  // optimization: {
-  //   minimize: false,
-  // },
+  optimization: {
+    minimize: false,
+  },
   target: 'web',
   mode: process.env.NODE_ENV || 'production',
 };

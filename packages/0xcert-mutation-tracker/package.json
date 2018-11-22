@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/merkle",
+  "name": "@0xcert/mutation-tracker",
   "version": "0.0.0-alpha1",
-  "description": "Merkle tree management tool.",
+  "description": "Mutation tracker.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -19,9 +19,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/crypto": "0.0.0-alpha1",
+    "@0xcert/scaffold": "0.0.0-alpha1",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
+    "@types/node": "^10.12.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   }

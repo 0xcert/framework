@@ -186,7 +186,7 @@
     },
     "@rush-temp/client": {
       "version": "file:projects/client.tgz",
-      "integrity": "sha512-kibnulRB4JzFYhIvN9rlNrLGqqu7CHo+Je9iuk09K77XjlRXpea1a2v9okrd+Wz6I62tcpZzfbaV6UINBlTj6g==",
+      "integrity": "sha512-tdZL+sscS0uZovcVL1FUchbwBvWi9OKWX9qDWoQoScoItmOvK2epZA1wxmhhAqMCUISlQRx/Hg7nO3bcJoshLA==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -223,6 +223,17 @@
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
+    "@rush-temp/mutation-tracker": {
+      "version": "file:projects/mutation-tracker.tgz",
+      "integrity": "sha512-rD9RMQIxW4u0PnH+QrNvT2r0wB0eVV6YDsjP7DgbxT8oAwxF9GuPZ7m/EnoUKDIRbjcp5Er3osk0q5KBAxej1Q==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "@types/node": "^10.12.0",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }
