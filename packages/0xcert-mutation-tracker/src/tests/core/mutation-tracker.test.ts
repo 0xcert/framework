@@ -1,6 +1,6 @@
 import { Spec } from '@hayspec/spec';
 import { FaceConnector } from '../helpers/connector';
-import { MutationTracker } from '../..';
+import { MutationTracker, MutationEvent } from '../..';
 
 interface Data {
   connector: FaceConnector;
@@ -32,7 +32,7 @@ spec.test('adds and removes mutation ids', async (ctx) => {
 spec.test('starts and stops the heartbit', async (ctx) => {
   const tracker = ctx.get('tracker');
   let counter = 0;
-  tracker.on('tick', () => counter++);
+  tracker.on(MutationEvent.TICK, () => counter++);
   tracker.start();
   await ctx.sleep(6000);
   ctx.is(counter, 2);
@@ -46,8 +46,8 @@ spec.test('handles mutation confirmations', async (ctx) => {
   const tracker = ctx.get('tracker');
   const stats = { confirm: 0, complete: 0 };
   tracker.add('100', '101', '102');
-  tracker.on('confirm', () => stats.confirm++);
-  tracker.on('complete', () => stats.complete++);
+  tracker.on(MutationEvent.CONFIRM, () => stats.confirm++);
+  tracker.on(MutationEvent.COMPLETE, () => stats.complete++);
   for (let i = 0; i < 10; i++) {
     await tracker.tick();
     connector.confirmations = i; // simulate confirmations

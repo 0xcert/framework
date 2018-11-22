@@ -3,8 +3,6 @@
  */
 export interface ContextBase {
   myId: string;
-  attach(): Promise<this>;
-  detach(): Promise<this>;
   sign(data: string): Promise<string>;
 }
 
