@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/conventions",
-  "version": "0.0.0-alpha1",
+  "version": "0.0.0-alpha2",
   "description": "0xcert conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

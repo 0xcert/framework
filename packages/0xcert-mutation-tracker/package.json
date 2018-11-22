@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/mutation-tracker",
-  "version": "0.0.0-alpha1",
+  "version": "0.0.0-alpha2",
   "description": "Mutation tracker.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/scaffold": "0.0.0-alpha1",
+    "@0xcert/scaffold": "0.0.0-alpha2",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
     "@types/node": "^10.12.0",

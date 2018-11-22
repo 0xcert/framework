@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/client",
-  "version": "0.0.0-alpha1",
+  "version": "0.0.0-alpha2",
   "description": "0xcert client.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,11 +23,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/web3-connector": "0.0.0-alpha1",
-    "@0xcert/web3-asset-ledger": "0.0.0-alpha1",
-    "@0xcert/web3-order-exchange": "0.0.0-alpha1",
-    "@0xcert/web3-sandbox": "0.0.0-alpha1",
-    "@0xcert/web3-value-ledger": "0.0.0-alpha1",
+    "@0xcert/web3-connector": "0.0.0-alpha2",
+    "@0xcert/web3-asset-ledger": "0.0.0-alpha2",
+    "@0xcert/web3-order-exchange": "0.0.0-alpha2",
+    "@0xcert/web3-sandbox": "0.0.0-alpha2",
+    "@0xcert/web3-value-ledger": "0.0.0-alpha2",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",
@@ -36,8 +36,8 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/certification": "0.0.0-alpha1",
-    "@0xcert/scaffold": "0.0.0-alpha1",
-    "@0xcert/mutation-tracker": "0.0.0-alpha1"
+    "@0xcert/certification": "0.0.0-alpha2",
+    "@0xcert/scaffold": "0.0.0-alpha2",
+    "@0xcert/mutation-tracker": "0.0.0-alpha2"
   }
 }

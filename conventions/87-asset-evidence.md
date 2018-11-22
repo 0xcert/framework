@@ -2,7 +2,7 @@
 issue: 1
 title: Asset Evidence
 author: Kristijan Sedlak <kristijan@0xcert.org>
-version: 0.0.0-alpha1
+version: 0.0.0-alpha2
 category: conventions
 status: Draft
 created: 2018-11-07
