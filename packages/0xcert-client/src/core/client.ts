@@ -1,5 +1,6 @@
 import { ConnectorBase, Mutation } from "@0xcert/scaffold";
 import { Cert } from '@0xcert/certification';
+import { MutationTracker } from '@0xcert/mutation-tracker';
 
 /**
  * 
@@ -70,6 +71,13 @@ export class Client {
    */
   public createCert(schema) {
     return new Cert(schema);
+  }
+
+  /**
+   * 
+   */
+  public createMutationTracker() {
+    return new MutationTracker(this.connector);
   }
 
 }

@@ -1,0 +1,29 @@
+{
+  "name": "@0xcert/mutation-tracker",
+  "version": "0.0.0-alpha1",
+  "description": "Mutation tracker.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npx tsc",
+    "test": "npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/scaffold": "0.0.0-alpha1",
+    "@hayspec/cli": "^0.7.6",
+    "@hayspec/spec": "^0.7.6",
+    "@types/node": "^10.12.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1"
+  }
+}

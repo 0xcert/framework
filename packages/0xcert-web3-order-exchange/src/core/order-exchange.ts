@@ -98,10 +98,10 @@ export class OrderExchange implements OrderExchangeBase {
       kind,
     };
 
-    if(signatureData.v < 27)
-    {
+    if(signatureData.v < 27) {
       signatureData.v = signatureData.v + 27;
     }
+
     return tuple(signatureData);
   }
 
