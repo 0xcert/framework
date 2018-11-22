@@ -124,7 +124,7 @@ export class OrderExchange implements OrderExchangeBase {
     }
 
     return this.context.web3.utils.soliditySha3(
-      this.context.exchangeId,
+      this.id,
       toString(order.makerId),
       toString(order.takerId),
       temp,
@@ -175,7 +175,6 @@ export class OrderExchange implements OrderExchangeBase {
    * 
    */
   protected getContract(id: string) {
-    id = id || this.context.exchangeId;
     return new this.context.web3.eth.Contract(env.exchangeAbi, id, { gas: 6000000 });
   }
 

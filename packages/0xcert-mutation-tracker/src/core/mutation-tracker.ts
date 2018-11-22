@@ -8,6 +8,7 @@ export enum MutationEvent {
   CONFIRM = 'confirm',
   COMPLETE = 'complete',
   REMOVE = 'remove',
+  TICK = 'tick',
 }
 
 /**

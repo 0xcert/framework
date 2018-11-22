@@ -19,8 +19,10 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const context = new Context(stage);
-  await context.attach();
+  const context = new Context({
+    web3: stage.web3,
+    myId: await stage.web3.eth.getCoinbase(),
+  });
 
   stage.set('context', context);
 });

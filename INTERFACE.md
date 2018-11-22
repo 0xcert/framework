@@ -7,8 +7,6 @@ import { Context } from '@0xcert/web3-context';
 
 const context = new Context({ makerId? exchangeId?, signMethod?, web3? });
 context.platform;
-await context.attach();
-await context.detach();
 await context.sign(data);
 ```
 ```ts

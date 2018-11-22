@@ -6,7 +6,6 @@ import { SignMethod } from "./types";
  * 
  */
 export interface ContextOptions {
-  exchangeId?: string;
   myId?: string;
   signMethod?: SignMethod;
   web3: any;
@@ -16,7 +15,6 @@ export interface ContextOptions {
  * 
  */
 export class Context implements ContextBase {
-  public exchangeId?: string;
   public myId: string;
   public signMethod: SignMethod;
   public web3: any;
@@ -25,31 +23,9 @@ export class Context implements ContextBase {
    * 
    */
   public constructor(options: ContextOptions) {
-    this.web3 = options.web3;
     this.myId = options.myId;
-    this.exchangeId = options.exchangeId || '0x';
-    this.signMethod = this.getSignMethod(options.signMethod)
-  }
-
-  /**
-   * 
-   */
-  public async attach() {
-    this.myId = await this.getAccountId(this.myId);
-
-    return this;
-  }
-
-  /**
-   * 
-   */
-  public async detach() {
-    this.exchangeId = null;
-    this.myId = null;
-    this.signMethod = null;
-    this.web3 = null;
-
-    return this;
+    this.signMethod = this.getSignMethod(options.signMethod);
+    this.web3 = options.web3;
   }
 
   /**
@@ -77,7 +53,7 @@ export class Context implements ContextBase {
    * 
    */
   public async mutate(resolver: () => Promise<any>, from?: string): Promise<Mutation> {
-    from = await this.getAccountId(from || this.myId);
+    from = from || this.myId;
 
     try {
       const multiplyer = 1.2;
@@ -109,7 +85,7 @@ export class Context implements ContextBase {
    * 
    */
   public async transfer(data: { value: number, to: string }, from?: string): Promise<Mutation> {
-    from = await this.getAccountId(from || this.myId);
+    from = from || this.myId;
 
     try {
       const multiplyer = 1.2;
@@ -135,35 +111,6 @@ export class Context implements ContextBase {
     }
   }
   
-  /**
-   * 
-   */
-  protected async getAccounts() {
-    try {
-      return await this.web3.eth.getAccounts();
-    }
-    catch (error) {
-      throw parseError(error);
-    }
-  }
-
-  /**
-   * 
-   */
-  protected async getAccountId(accountid?: string) {
-    const accounts = await this.getAccounts();
-
-    if (accountid === undefined) {
-      accountid = accounts[0];
-    }
-
-    if (accounts.indexOf(accountid) === -1) {
-      throw new ConnectorError(ConnectorIssue.INVALID_MAKER_ID)
-    }
-
-    return accountid;
-  }
-
   /**
    * 
    */
