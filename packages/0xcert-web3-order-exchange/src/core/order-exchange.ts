@@ -88,10 +88,14 @@ export class OrderExchange implements OrderExchangeBase {
     const signatureData = {
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
-      v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+      v: parseInt(`0x${signature.substr(130, 2)}`),
       kind,
     };
 
+    if(signatureData.v < 27)
+    {
+      signatureData.v = signatureData.v + 27;
+    }
     return tuple(signatureData);
   }
 
