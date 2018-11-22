@@ -8,11 +8,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/scaffold": "0.0.0-alpha0",
-    "@0xcert/web3-asset-ledger": "0.0.0-alpha0",
-    "@0xcert/web3-context": "0.0.0-alpha0",
-    "@0xcert/web3-order-exchange": "0.0.0-alpha0",
-    "@0xcert/web3-value-ledger": "0.0.0-alpha0",
+    "@0xcert/client": "0.0.0-alpha0",
+    "@0xcert/web3-connector": "0.0.0-alpha0",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }
