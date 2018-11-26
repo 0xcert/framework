@@ -1,11 +1,12 @@
 import { Spec } from '@specron/spec';
 import { Connector } from '@0xcert/ethereum-connector';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ValueLedger } from '../../../core/ledger';
+import { AssetLedger } from '../../../core/ledger';
+import { AssetLedgerTransferState } from '@0xcert/scaffold';
 
 interface Data {
-  connector: Connector
-  ledger: ValueLedger;
+  connector: Connector;
+  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -27,21 +28,17 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const connector = stage.get('connector');
-  const ledgerId = stage.get('protocol').erc20.instance.options.address;
+  const ledgerId = stage.get('protocol').xcertPausable.instance.options.address;
 
-  stage.set('ledger', new ValueLedger(connector, ledgerId));
+  stage.set('ledger', new AssetLedger(connector, ledgerId));
 });
 
-spec.test('returns ledger info', async (ctx) => {
+spec.test('returns ledger transfer state', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const info = await ledger.getInfo() //.then((q) => q.result);
+  const state = await ledger.getTransferState();
 
-  ctx.deepEqual(info, {
-    name: "Mock Token",
-    symbol: "MCK",
-    decimals: 18,
-  });
+  ctx.is(state, AssetLedgerTransferState.ENABLED);
 });
 
 export default spec;

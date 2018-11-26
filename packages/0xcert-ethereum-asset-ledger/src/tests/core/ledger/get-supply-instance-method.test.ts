@@ -1,11 +1,11 @@
 import { Spec } from '@specron/spec';
 import { Connector } from '@0xcert/ethereum-connector';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ValueLedger } from '../../../core/ledger';
+import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
-  connector: Connector
-  ledger: ValueLedger;
+  connector: Connector;
+  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -27,21 +27,17 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const connector = stage.get('connector');
-  const ledgerId = stage.get('protocol').erc20.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('ledger', new ValueLedger(connector, ledgerId));
+  stage.set('ledger', new AssetLedger(connector, ledgerId));
 });
 
-spec.test('returns ledger info', async (ctx) => {
+spec.test('returns ledger total supply', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const info = await ledger.getInfo() //.then((q) => q.result);
+  const supply = await ledger.getSupply();
 
-  ctx.deepEqual(info, {
-    name: "Mock Token",
-    symbol: "MCK",
-    decimals: 18,
-  });
+  ctx.is(supply, 0);
 });
 
 export default spec;

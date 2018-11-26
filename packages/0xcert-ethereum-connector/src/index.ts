@@ -1,2 +1,2 @@
 export * from './core/errors';
-export * from './core/ethereum-connector';
+export * from './core/connector';

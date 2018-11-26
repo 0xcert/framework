@@ -1,10 +1,10 @@
-import { EthereumConnector } from "@0xcert/ethereum-connector";
+import { Connector } from "@0xcert/ethereum-connector";
 import erc20Abi from '../config/erc20Abi';
 
 /**
  * 
  */
-export default async function(connector: EthereumConnector, ledgerId: string) {
+export default async function(connector: Connector, ledgerId: string) {
   return {
     name: await connector.queryContract({
       to: ledgerId,

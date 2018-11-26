@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
-import { EthereumConnector } from '@0xcert/ethereum-connector';
+import { Connector } from '@0xcert/ethereum-connector';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
-  connector: EthereumConnector
+  connector: Connector
   ledger: ValueLedger;
   protocol: Protocol;
 }
@@ -18,7 +18,9 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = new EthereumConnector(stage.web3);
+  const connector = new Connector({
+    provider: stage.web3,
+  });
 
   stage.set('connector', connector);
 });

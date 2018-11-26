@@ -4,18 +4,11 @@ import { ContractQueryOptions, RpcResponse } from '../core/types';
 /**
  * 
  */
-function buildData(abi) {
-  return encodeFunctionCall(abi, []);
-}
-
-/**
- * 
- */
 export function buildParams(options: ContractQueryOptions) {
   return [
     {
       to: options.to,
-      data: buildData(options.abi),
+      data: encodeFunctionCall(options.abi, options.data || []),
     },
     options.tag,
   ];

@@ -1,8 +1,8 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { parseError } from '../../core/errors';
 import { ConnectorIssue } from '@0xcert/scaffold/dist/core/errors';
 import { tuple } from '@0xcert/utils';
+import { parseError } from '../../..';
 
 interface Data {
   protocol: Protocol;

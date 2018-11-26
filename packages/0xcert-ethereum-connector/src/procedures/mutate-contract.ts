@@ -4,19 +4,12 @@ import { RpcResponse, ContractMutationOptions } from '../core/types';
 /**
  * 
  */
-function buildData({ abi, data }: ContractMutationOptions) {
-  return encodeFunctionCall(abi, data);
-}
-
-/**
- * 
- */
 export function buildParams(options: ContractMutationOptions) {
   return [
     {
       from: options.from,
       to: options.to,
-      data: buildData(options),
+      data: encodeFunctionCall(options.abi, options.data || []),
       gas: 6000000,
     },
   ];

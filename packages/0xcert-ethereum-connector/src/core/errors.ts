@@ -124,8 +124,8 @@ export function parseError(error: any) {
       return new ConnectorError(ConnectorIssue.TRANSATION_RESPONSE_ERROR_CHECK_PENDING_TRANSACTIONS, error);
     }
     if(stringError.indexOf('invalid address') > 0
-    || stringError.indexOf('is invalid, the capitalization checksum test failed, or its an indrect IBAN address which') > 0
-    || stringError.indexOf('Provided address is not a valid addres') > 0)
+      || stringError.indexOf('is invalid, the capitalization checksum test failed, or its an indrect IBAN address which') > 0
+      || stringError.indexOf('Provided address is not a valid addres') > 0)
     {
       return new ConnectorError(ConnectorIssue.INVALID_ADDRESS, error);
     }

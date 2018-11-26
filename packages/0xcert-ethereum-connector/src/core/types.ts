@@ -34,10 +34,10 @@ export interface TransactionObject {
  * 
  */
 export interface ContractMutationOptions {
-  from: string;
   to: string;
   abi: {[key: string]: any};
   data: any;
+  from?: string;
 }
 
 /**
@@ -47,6 +47,7 @@ export interface ContractQueryOptions {
   to: string;
   abi: {[key: string]: any};
   tag: QuantityTag;
+  data?: any;
 }
 
 /**
