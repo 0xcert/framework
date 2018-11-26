@@ -5,19 +5,24 @@
 ```ts
 import { EthereumConnector } from '@0xcert/ethereum-connector';
 
-const provider = new EthereumConnector({
+const connector = new EthereumConnector({
   provider: window.ethereum,
   password: '',
   timeout: '',
 });
-provider.isSupported();
-await provider.enable();
-await provider.isEnabled();
+connector.isSupported();
+await connector.enable();
+await connector.isEnabled();
+await connector.queryContract({}); // eth_call
+await connector.mutateContract({}); // eth_call
+await connector.getBlock(); // eth_getBlockByNumber
+await connector.getGasPrice(); // eth_gasPrice
+await connector.getGasEstimation(); // eth_estimateGas
 ```
 ```ts
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 
-const ledger = new AssetLedger(provider, ledgerId);
+const ledger = new AssetLedger(connector, ledgerId);
 ledger.platform;
 ledger.id; // contract address
 ledger.on(event, handler);

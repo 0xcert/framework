@@ -1,0 +1,38 @@
+{
+  "name": "@0xcert/ethereum-connector",
+  "version": "0.0.0-alpha2",
+  "description": "Ethereum ledger for 0xcert protocol.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npm run updateTokenAbi; npx tsc",
+    "test": "npx specron test",
+    "updateTokenAbi": "npx ts-node ./src/scripts/update-token-abi"
+  },
+  "specron": {
+    "test": {
+      "port": 8517,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ],
+      "blockTime": 0.1
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/web3-sandbox": "0.0.0-alpha2",
+    "@specron/cli": "^0.3.0",
+    "@specron/spec": "^0.3.0",
+    "solc": "^0.4.25",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  },
+  "dependencies": {
+    "web3-eth-abi": "^1.0.0-beta.36"
+  }
+}
