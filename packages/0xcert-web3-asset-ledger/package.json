@@ -24,9 +24,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/web3-sandbox": "0.0.0-alpha2",
-    "@0xcert/web3-xcert-contracts": "0.0.0-alpha2",
-    "@0xcert/web3-utils": "0.0.0-alpha2",
+    "@0xcert/ethereum-sandbox": "0.0.0-alpha2",
+    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha2",
+    "@0xcert/utils": "0.0.0-alpha2",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "@types/fs-extra": "^5.0.4",
@@ -39,6 +39,6 @@
   "dependencies": {
     "@0xcert/scaffold": "0.0.0-alpha2",
     "@0xcert/web3-context": "0.0.0-alpha2",
-    "@0xcert/web3-error-parser": "0.0.0-alpha2"
+    "@0xcert/ethereum-connector": "0.0.0-alpha2"
   }
 }

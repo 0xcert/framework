@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { EthereumConnector } from '@0xcert/ethereum-connector';
-import { Protocol } from '@0xcert/web3-sandbox';
+import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
 interface Data {

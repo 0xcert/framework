@@ -74,7 +74,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const cat = await ctx.deploy({ 
-    src: '@0xcert/web3-xcert-contracts/build/xcert-mock.json',
+    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6'],
   });
@@ -90,7 +90,7 @@ spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const dog = await ctx.deploy({ 
-    src: '@0xcert/web3-xcert-contracts/build/xcert-mock.json',
+    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6'],
   });
@@ -121,7 +121,7 @@ spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const fox = await ctx.deploy({ 
-    src: '@0xcert/web3-xcert-contracts/build/xcert-mock.json',
+    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6'],
   });
@@ -141,7 +141,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const zxc = await ctx.deploy({
-    src: '@0xcert/web3-erc20-contracts/build/token-mock.json',
+    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
@@ -155,7 +155,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const bnb = await ctx.deploy({
-    src: '@0xcert/web3-erc20-contracts/build/token-mock.json',
+    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     from: jane
   });
@@ -164,7 +164,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
-    src: '@0xcert/web3-proxy-contracts/build/token-transfer-proxy.json',
+    src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
     contract: 'TokenTransferProxy'
   });
   ctx.set('tokenProxy', tokenProxy);
@@ -172,7 +172,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const nftProxy = await ctx.deploy({
-    src: '@0xcert/web3-proxy-contracts/build/nftoken-transfer-proxy.json',
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy.json',
     contract: 'NFTokenTransferProxy',
   });
   ctx.set('nftProxy', nftProxy);
@@ -180,7 +180,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const mintProxy = await ctx.deploy({
-    src: '@0xcert/web3-proxy-contracts/build/xcert-mint-proxy.json',
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-mint-proxy.json',
     contract: 'XcertMintProxy',
   });
   ctx.set('mintProxy', mintProxy);

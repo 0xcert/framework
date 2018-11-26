@@ -1,0 +1,54 @@
+{
+  "name": "@0xcert/ethereum-sandbox",
+  "version": "0.0.0-alpha2",
+  "description": "Web3 provider sandbox environment",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && npx tsc",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "prepare": "npm run build",
+    "test": "npx nyc npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "author": "Kristijan Sedlak (Xpepermint)",
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "^0.7.6",
+    "@hayspec/spec": "^0.7.6",
+    "@types/node": "^10.12.0",
+    "ganache-cli": "6.1.8",
+    "nyc": "^13.0.1",
+    "supertest": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.1",
+    "web3": "^1.0.0-beta.36"
+  },
+  "dependencies": {
+    "@0xcert/web3-exchange-contracts": "0.0.0-alpha2",
+    "@0xcert/ethereum-erc20-contracts": "0.0.0-alpha2",
+    "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha2",
+    "@0xcert/ethereum-proxy-contracts": "0.0.0-alpha2",
+    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha2"
+  }
+}

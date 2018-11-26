@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
 import { OrderExchange } from '@0xcert/web3-order-exchange';
-import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector } from '@0xcert/web3-connector';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Connector } from '@0xcert/ethereum-connector';
 import { Client } from '../../..';
 
 interface Data {

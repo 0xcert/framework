@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Protocol } from '@0xcert/web3-sandbox';
+import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
 import { OrderExchange } from '../../../core/order-exchange';

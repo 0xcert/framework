@@ -1,8 +1,8 @@
 pragma solidity ^0.4.25;
 pragma experimental ABIEncoderV2;
 
-import "@0xcert/web3-proxy-contracts/src/contracts/iproxy.sol";
-import "@0xcert/web3-proxy-contracts/src/contracts/xcert-mint-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-mint-proxy.sol";
 
 /**
  * @dev Decentralize exchange, minting, updating and other actions for fundgible and non-fundgible 

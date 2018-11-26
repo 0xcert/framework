@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Protocol } from '@0xcert/web3-sandbox';
+import { Protocol } from '@0xcert/ethereum-sandbox';
 import { EthereumConnector } from '../../..';
 
 interface Data {

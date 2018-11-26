@@ -48,6 +48,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/utils",
+      "projectFolder": "packages/0xcert-utils",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/vue-example",
       "projectFolder": "packages/0xcert-vue-example",
       "versionPolicyName": "patchAll"
@@ -58,23 +63,13 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-context",
-      "projectFolder": "packages/0xcert-web3-context",
+      "packageName": "@0xcert/ethereum-erc20-contracts",
+      "projectFolder": "packages/0xcert-ethereum-erc20-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-erc20-contracts",
-      "projectFolder": "packages/0xcert-web3-erc20-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-erc721-contracts",
-      "projectFolder": "packages/0xcert-web3-erc721-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-error-parser",
-      "projectFolder": "packages/0xcert-web3-error-parser",
+      "packageName": "@0xcert/ethereum-erc721-contracts",
+      "projectFolder": "packages/0xcert-ethereum-erc721-contracts",
       "versionPolicyName": "patchAll"
     },
     {
@@ -88,13 +83,13 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-proxy-contracts",
-      "projectFolder": "packages/0xcert-web3-proxy-contracts",
+      "packageName": "@0xcert/ethereum-proxy-contracts",
+      "projectFolder": "packages/0xcert-ethereum-proxy-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-sandbox",
-      "projectFolder": "packages/0xcert-web3-sandbox",
+      "packageName": "@0xcert/ethereum-sandbox",
+      "projectFolder": "packages/0xcert-ethereum-sandbox",
       "versionPolicyName": "patchAll"
     },
     {
@@ -103,13 +98,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-utils",
-      "projectFolder": "packages/0xcert-web3-utils",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-utils-contracts",
-      "projectFolder": "packages/0xcert-web3-utils-contracts",
+      "packageName": "@0xcert/ethereum-utils-contracts",
+      "projectFolder": "packages/0xcert-ethereum-utils-contracts",
       "versionPolicyName": "patchAll"
     },
     {
@@ -118,8 +108,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-xcert-contracts",
-      "projectFolder": "packages/0xcert-web3-xcert-contracts",
+      "packageName": "@0xcert/ethereum-xcert-contracts",
+      "projectFolder": "packages/0xcert-ethereum-xcert-contracts",
       "versionPolicyName": "patchAll"
     },
     {

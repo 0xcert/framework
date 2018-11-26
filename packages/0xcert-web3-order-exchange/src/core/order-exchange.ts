@@ -1,6 +1,6 @@
 import { OrderExchangeBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
 import { Context } from '@0xcert/web3-context';
-import { tuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/web3-utils';
+import { tuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/utils';
 import * as env from '../config/env';
 
 /**

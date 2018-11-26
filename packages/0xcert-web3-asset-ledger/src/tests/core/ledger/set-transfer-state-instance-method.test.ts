@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Context } from '@0xcert/web3-context';
-import { Protocol } from '@0xcert/web3-sandbox';
+import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 import { AssetLedgerTransferState } from '@0xcert/scaffold';
 

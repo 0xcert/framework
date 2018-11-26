@@ -24,7 +24,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
-    src: '@0xcert/web3-proxy-contracts/build/token-transfer-proxy.json',
+    src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
     contract: 'TokenTransferProxy'
   });
   ctx.set('tokenProxy', tokenProxy);
@@ -32,7 +32,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const nftProxy = await ctx.deploy({
-    src: '@0xcert/web3-proxy-contracts/build/nftoken-transfer-proxy.json',
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy.json',
     contract: 'NFTokenTransferProxy',
   });
   ctx.set('nftProxy', nftProxy);

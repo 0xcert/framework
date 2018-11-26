@@ -2,7 +2,7 @@ import * as pt from 'path';
 import * as fs from 'fs-extra';
 
 function getXcertAbi() {
-  return require('@0xcert/web3-xcert-contracts/build/full-xcert-mock')['FullXcertMock']['abi'];
+  return require('@0xcert/ethereum-xcert-contracts/build/full-xcert-mock')['FullXcertMock']['abi'];
 }
 
 function readEnvFile() {
