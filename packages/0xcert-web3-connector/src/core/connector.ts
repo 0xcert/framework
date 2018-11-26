@@ -66,12 +66,4 @@ export class Connector implements ConnectorBase {
     return new OrderExchange(this.context, id);
   }
 
-  /**
-   * 
-   * @param schema 
-   */
-  public createQueue(schema) {
-    return null;
-  }
-
 }
