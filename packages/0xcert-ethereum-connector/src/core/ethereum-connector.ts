@@ -17,7 +17,7 @@ export class EthereumConnector {
    * @param provider Ethereum provider instance (e.g. window.ethereum).
    */
   public constructor(provider: any) {
-    this.provider = provider;
+    this.provider = provider.currentProvider ? provider.currentProvider : provider;
   }
   
   /**

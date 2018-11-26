@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import { ValueLedger } from '@0xcert/web3-value-ledger';
+import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { Connector } from '@0xcert/web3-connector';
 import { Client } from '../../..';

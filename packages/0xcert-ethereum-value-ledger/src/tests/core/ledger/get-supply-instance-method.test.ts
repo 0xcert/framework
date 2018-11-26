@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
-import { Context } from '@0xcert/web3-context';
+import { EthereumConnector } from '@0xcert/ethereum-connector';
 import { Protocol } from '@0xcert/web3-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
-  context: Context
+  connector: EthereumConnector
   ledger: ValueLedger;
   protocol: Protocol;
 }
@@ -18,25 +18,22 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const context = new Context({
-    web3: stage.web3,
-    myId: await stage.web3.eth.getCoinbase(),
-  });
+  const connector = new EthereumConnector(stage.web3);
 
-  stage.set('context', context);
+  stage.set('connector', connector);
 });
 
 spec.before(async (stage) => {
-  const context = stage.get('context');
+  const connector = stage.get('connector');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
 
-  stage.set('ledger', new ValueLedger(context, ledgerId));
+  stage.set('ledger', new ValueLedger(connector, ledgerId));
 });
 
 spec.test('returns ledger total supply', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const supply = await ledger.getSupply().then((q) => q.result);
+  const supply = await ledger.getSupply();
 
   ctx.is(supply, 300000000000000000000000000);
 });

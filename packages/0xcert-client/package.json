@@ -27,7 +27,7 @@
     "@0xcert/web3-asset-ledger": "0.0.0-alpha2",
     "@0xcert/web3-order-exchange": "0.0.0-alpha2",
     "@0xcert/web3-sandbox": "0.0.0-alpha2",
-    "@0xcert/web3-value-ledger": "0.0.0-alpha2",
+    "@0xcert/ethereum-value-ledger": "0.0.0-alpha2",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",

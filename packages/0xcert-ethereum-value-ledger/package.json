@@ -1,17 +1,18 @@
 {
-  "name": "@0xcert/web3-connector",
+  "name": "@0xcert/ethereum-value-ledger",
   "version": "0.0.0-alpha2",
-  "description": "Ethereum connector.",
+  "description": "Ethereum ledger for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "build": "npm run clean && npx tsc",
-    "test": "npx specron test"
+    "build": "npm run clean && npm run updateTokenAbi; npx tsc",
+    "test": "npx specron test",
+    "updateTokenAbi": "npx ts-node ./src/scripts/update-token-abi"
   },
   "specron": {
     "test": {
-      "port": 8516,
+      "port": 8517,
       "match": [
         "./src/tests/**/*.test.ts"
       ],
@@ -33,9 +34,6 @@
   },
   "dependencies": {
     "@0xcert/scaffold": "0.0.0-alpha2",
-    "@0xcert/web3-context": "0.0.0-alpha2",
-    "@0xcert/web3-asset-ledger": "0.0.0-alpha2",
-    "@0xcert/web3-order-exchange": "0.0.0-alpha2",
-    "@0xcert/web3-value-ledger": "0.0.0-alpha2"
+    "@0xcert/ethereum-connector": "0.0.0-alpha2"
   }
 }
