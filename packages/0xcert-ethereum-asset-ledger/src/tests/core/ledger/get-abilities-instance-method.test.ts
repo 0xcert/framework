@@ -1,12 +1,12 @@
 import { Spec } from '@specron/spec';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 import { AssetLedgerAbility } from '@0xcert/scaffold';
 
 interface Data {
   protocol: Protocol;
-  connector: Connector;
+  provider: GenericProvider;
   ledger: AssetLedger;
   coinbase: string;
 }
@@ -20,18 +20,18 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = new Connector({
-    provider: stage.web3,
+  const provider = new GenericProvider({
+    client: stage.web3,
   });
 
-  stage.set('connector', connector);
+  stage.set('provider', provider);
 });
 
 spec.before(async (stage) => {
-  const connector = stage.get('connector');
+  const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('ledger', new AssetLedger(connector, ledgerId));
+  stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
 spec.before(async (stage) => {

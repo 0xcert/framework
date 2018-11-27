@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "@0xcert/scaffold": "0.0.0-alpha2",
-    "@0xcert/ethereum-connector": "0.0.0-alpha2"
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha2"
   }
 }

@@ -1,7 +1,7 @@
 ```ts
-import { Web3ConnectorConnector } from '@0xcert/web3-connectr';
+import { Web3GenericProviderGenericProvider } from '@0xcert/web3-connectr';
 
-const web3Connector = new Web3ConnectorConnector({
+const web3GenericProvider = new Web3GenericProviderGenericProvider({
   web3Provider: 'http://localhost:8354',
 });
 ```

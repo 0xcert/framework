@@ -10,6 +10,14 @@ export enum SignMethod {
 /**
  * 
  */
+export interface RpcClient {
+  send(r: any, c: (e: any, d: any) => any): any;
+  currentProvider?: any; // support web3 instance
+}
+
+/**
+ * 
+ */
 export interface RpcResponse {
   id: number;
   jsonrpc: string;

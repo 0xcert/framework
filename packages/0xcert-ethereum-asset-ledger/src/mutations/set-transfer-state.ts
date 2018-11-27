@@ -1,12 +1,12 @@
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerTransferState } from "@0xcert/scaffold";
 import xcertAbi from '../config/xcertAbi';
 
 /**
  * 
  */
-export default async function(connector: Connector, ledgerId: string, state: AssetLedgerTransferState) {
-  return connector.mutateContract({
+export default async function(provider: GenericProvider, ledgerId: string, state: AssetLedgerTransferState) {
+  return provider.mutateContract({
     to: ledgerId,
     abi: xcertAbi.find((a) => a.name === 'setPause'),
     data: [state !== AssetLedgerTransferState.ENABLED],

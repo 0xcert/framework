@@ -1,10 +1,10 @@
-import { ConnectorError, ConnectorIssue } from '@0xcert/scaffold';
+import { GenericProviderError, GenericProviderIssue } from '@0xcert/scaffold';
 /**
- * Converts web3 error into uified ConnectorError.
+ * Converts web3 error into uified GenericProviderError.
  * @param error Error object.
  */
 export function parseError(error: any) {
-  if (error instanceof ConnectorError) {
+  if (error instanceof GenericProviderError) {
     return error;
   }
   else {
@@ -19,7 +19,7 @@ export function parseError(error: any) {
         || stringError.indexOf('006001') > 0
         || stringError.indexOf('018002') > 0)
       {
-        return new ConnectorError(ConnectorIssue.ZERO_ADDRESS, error);
+        return new GenericProviderError(GenericProviderIssue.ZERO_ADDRESS, error);
       }
       if(stringError.indexOf('003002') > 0
         || stringError.indexOf('004002') > 0
@@ -27,7 +27,7 @@ export function parseError(error: any) {
         || stringError.indexOf('006002') > 0
         || stringError.indexOf('010001') > 0)
       {
-        return new ConnectorError(ConnectorIssue.INVALID_NFT, error);
+        return new GenericProviderError(GenericProviderIssue.INVALID_NFT, error);
       }
       if(stringError.indexOf('003003') > 0
         || stringError.indexOf('003004') > 0
@@ -42,93 +42,93 @@ export function parseError(error: any) {
         || stringError.indexOf('018001') > 0
         || stringError.indexOf('019001') > 0)
       {
-        return new ConnectorError(ConnectorIssue.NOT_AUTHORIZED, error);
+        return new GenericProviderError(GenericProviderIssue.NOT_AUTHORIZED, error);
       }
       if(stringError.indexOf('003005') > 0
         || stringError.indexOf('004005') > 0
         || stringError.indexOf('005005') > 0
         || stringError.indexOf('006005') > 0)
       {
-        return new ConnectorError(ConnectorIssue.RECEIVER_DOES_NOT_SUPPORT_NFT, error);
+        return new GenericProviderError(GenericProviderIssue.RECEIVER_DOES_NOT_SUPPORT_NFT, error);
       }
       if(stringError.indexOf('003006') > 0
         || stringError.indexOf('004006') > 0
         || stringError.indexOf('005006') > 0
         || stringError.indexOf('006006') > 0)
       {
-        return new ConnectorError(ConnectorIssue.NFT_ALREADY_EXISTS, error);
+        return new GenericProviderError(GenericProviderIssue.NFT_ALREADY_EXISTS, error);
       }
       if(stringError.indexOf('005007') > 0
         || stringError.indexOf('006007') > 0)
       {
-        return new ConnectorError(ConnectorIssue.INVALID_INDEX, error);
+        return new GenericProviderError(GenericProviderIssue.INVALID_INDEX, error);
       }
       if(stringError.indexOf('009001') > 0)
       {
-        return new ConnectorError(ConnectorIssue.TRANSFERS_PAUSED, error);
+        return new GenericProviderError(GenericProviderIssue.TRANSFERS_PAUSED, error);
       }
       if(stringError.indexOf('012001') > 0)
       {
-        return new ConnectorError(ConnectorIssue.COIN_TRANSFER_FAILED, error);
+        return new GenericProviderError(GenericProviderIssue.COIN_TRANSFER_FAILED, error);
       }
       if(stringError.indexOf('015001') > 0)
       {
-        return new ConnectorError(ConnectorIssue.INVALID_SIGNATURE_KIND, error);
+        return new GenericProviderError(GenericProviderIssue.INVALID_SIGNATURE_KIND, error);
       }
       if(stringError.indexOf('015002') > 0)
       {
-        return new ConnectorError(ConnectorIssue.INVALID_PROXY, error);
+        return new GenericProviderError(GenericProviderIssue.INVALID_PROXY, error);
       }
       if(stringError.indexOf('015003') > 0)
       {
-        return new ConnectorError(ConnectorIssue.YOU_ARE_NOT_THE_TAKER, error);
+        return new GenericProviderError(GenericProviderIssue.YOU_ARE_NOT_THE_TAKER, error);
       }
       if(stringError.indexOf('015004') > 0)
       {
-        return new ConnectorError(ConnectorIssue.SENDER_NOT_TAKER_OR_MAKER, error);
+        return new GenericProviderError(GenericProviderIssue.SENDER_NOT_TAKER_OR_MAKER, error);
       }
       if(stringError.indexOf('015005') > 0)
       {
-        return new ConnectorError(ConnectorIssue.ORDER_EXPIRED, error);
+        return new GenericProviderError(GenericProviderIssue.ORDER_EXPIRED, error);
       }
       if(stringError.indexOf('015006') > 0)
       {
-        return new ConnectorError(ConnectorIssue.INVALID_SIGNATURE, error);
+        return new GenericProviderError(GenericProviderIssue.INVALID_SIGNATURE, error);
       }
       if(stringError.indexOf('015007') > 0)
       {
-        return new ConnectorError(ConnectorIssue.ORDER_CANCELED, error);
+        return new GenericProviderError(GenericProviderIssue.ORDER_CANCELED, error);
       }
       if(stringError.indexOf('015008') > 0)
       {
-        return new ConnectorError(ConnectorIssue.ORDER_CANNOT_BE_PERFORMED_TWICE, error);
+        return new GenericProviderError(GenericProviderIssue.ORDER_CANNOT_BE_PERFORMED_TWICE, error);
       }
       if(stringError.indexOf('015009') > 0)
       {
-        return new ConnectorError(ConnectorIssue.YOU_ARE_NOT_THE_MAKER, error);
+        return new GenericProviderError(GenericProviderIssue.YOU_ARE_NOT_THE_MAKER, error);
       }
       if(stringError.indexOf('015010') > 0)
       {
-        return new ConnectorError(ConnectorIssue.SIGNER_NOT_AUTHORIZED, error);
+        return new GenericProviderError(GenericProviderIssue.SIGNER_NOT_AUTHORIZED, error);
       }
       if(stringError.indexOf('017002') > 0)
       {
-        return new ConnectorError(ConnectorIssue.ONE_ZERO_ABILITY_HAS_TO_EXIST, error);
+        return new GenericProviderError(GenericProviderIssue.ONE_ZERO_ABILITY_HAS_TO_EXIST, error);
       }
-      return new ConnectorError(ConnectorIssue.GENERAL_REVERT, error);
+      return new GenericProviderError(GenericProviderIssue.GENERAL_REVERT, error);
     }
     // node errors
     if(stringError.indexOf('Transaction was not mined within') > 0
       || stringError.indexOf('Invalid JSON RPC response') > 0)
     {
-      return new ConnectorError(ConnectorIssue.TRANSATION_RESPONSE_ERROR_CHECK_PENDING_TRANSACTIONS, error);
+      return new GenericProviderError(GenericProviderIssue.TRANSATION_RESPONSE_ERROR_CHECK_PENDING_TRANSACTIONS, error);
     }
     if(stringError.indexOf('invalid address') > 0
       || stringError.indexOf('is invalid, the capitalization checksum test failed, or its an indrect IBAN address which') > 0
       || stringError.indexOf('Provided address is not a valid addres') > 0)
     {
-      return new ConnectorError(ConnectorIssue.INVALID_ADDRESS, error);
+      return new GenericProviderError(GenericProviderIssue.INVALID_ADDRESS, error);
     }
-    return new ConnectorError(ConnectorIssue.UNHANDLED, error);
+    return new GenericProviderError(GenericProviderIssue.UNHANDLED, error);
   }
 }

@@ -1,5 +1,5 @@
 import { Client } from '@0xcert/client'
-import { Connector } from '@0xcert/ethereum-connector'
+import { GenericProvider } from '@0xcert/ethereum-generic-provider'
 import * as Web3 from 'web3';
 
 /**
@@ -10,21 +10,21 @@ const web3Instance = new Web3(ethereum)
 /**
  * 
  */
-const connector = new Connector({ web3: web3Instance, signMethod: 2 })
-connector.isSupported = function() {
+const provider = new GenericProvider({ web3: web3Instance, signMethod: 2 })
+provider.isSupported = function() {
   return (
     typeof window !== 'undefined'
     && typeof window['ethereum'] !== 'undefined'
   );
 }
-connector.isEnabled = async function() {
+provider.isEnabled = async function() {
   return (
     this.isSupported()
     && await window['ethereum']._metamask.isApproved()
     && !!this.context.myId
   );
 }
-connector.enable = async function() {
+provider.enable = async function() {
   if (this.isSupported()) {
     this.context.myId = await window['ethereum'].enable().then((a) => a[0]);
   }
@@ -36,7 +36,7 @@ connector.enable = async function() {
  */
 export default {
   install(Vue) {
-    const client = new Client({ connector })
+    const client = new Client({ provider })
     Vue.prototype.$0xcert = client;
   }
 }

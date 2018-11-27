@@ -1,5 +1,5 @@
 import { ValueLedgerBase } from '@0xcert/scaffold';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import getInfo from '../queries/get-info';
 import getSupply from '../queries/get-supply';
 
@@ -7,14 +7,14 @@ import getSupply from '../queries/get-supply';
  * 
  */
 export class ValueLedger /*implements ValueLedgerBase*/ {
-  protected connector: Connector;
+  protected provider: GenericProvider;
   readonly id: string;
 
   /**
    * 
    */
-  public constructor(connector: Connector, id: string) {
-    this.connector = connector;
+  public constructor(provider: GenericProvider, id: string) {
+    this.provider = provider;
     this.id = id;
   }
 
@@ -22,14 +22,14 @@ export class ValueLedger /*implements ValueLedgerBase*/ {
    * 
    */
   public async getInfo() {
-    return getInfo(this.connector, this.id);
+    return getInfo(this.provider, this.id);
   }
 
   /**
    * 
    */
   public async getSupply() {
-    return getSupply(this.connector, this.id);
+    return getSupply(this.provider, this.id);
   }
 
 }

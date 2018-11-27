@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Connector } from '../../..';
+import { GenericProvider } from '../../..';
 
 interface Data {
   protocol: Protocol;
-  connector: Connector;
+  provider: GenericProvider;
 }
 
 const spec = new Spec<Data>();
@@ -16,17 +16,17 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = new Connector({
-    provider: stage.web3,
+  const provider = new GenericProvider({
+    client: stage.web3,
   });
 
-  stage.set('connector', connector);
+  stage.set('provider', provider);
 });
 
 spec.test('returns block data', async (ctx) => {
-  const connector = ctx.get('connector');
+  const provider = ctx.get('provider');
 
-  const res = await connector.getBlockByNumber(20);
+  const res = await provider.getBlockByNumber(20);
 
   ctx.is(res.number, 20);
 });

@@ -1,5 +1,5 @@
 import { OrderGatewayBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { toTuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/utils';
 import { soliditySha3, padLeft } from './utils';
 import gatewayAbi from '../config/gatewayAbi';
@@ -8,14 +8,14 @@ import gatewayAbi from '../config/gatewayAbi';
  * 
  */
 export class OrderGateway /*implements OrderGatewayBase*/ {
-  protected connector: Connector;
+  protected provider: GenericProvider;
   readonly id: string;
 
   /**
    * 
    */
-  public constructor(connector: Connector, id: string) {
-    this.connector = connector;
+  public constructor(provider: GenericProvider, id: string) {
+    this.provider = provider;
     this.id = id;
   }
 
@@ -25,7 +25,7 @@ export class OrderGateway /*implements OrderGatewayBase*/ {
   public async claim(order) {
     const message = this.createOrderHash(order);
 
-    return this.connector.sign({ message });
+    return this.provider.sign({ message });
   }
 
   /**
@@ -35,7 +35,7 @@ export class OrderGateway /*implements OrderGatewayBase*/ {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(claim);
 
-    return this.connector.mutateContract({
+    return this.provider.mutateContract({
       to: this.id,
       abi: gatewayAbi.find((a) => a.name === 'perform'),
       data: [recipeTuple, signatureTuple],
@@ -48,7 +48,7 @@ export class OrderGateway /*implements OrderGatewayBase*/ {
   public async cancel(order: Order) {
     const recipeTuple = this.createRecipeTuple(order);
 
-    return this.connector.mutateContract({
+    return this.provider.mutateContract({
       to: this.id,
       abi: gatewayAbi.find((a) => a.name === 'cancel'),
       data: [recipeTuple],

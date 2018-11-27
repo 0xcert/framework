@@ -1,5 +1,5 @@
 {
-  "name": "@0xcert/ethereum-connector",
+  "name": "@0xcert/ethereum-generic-provider",
   "version": "0.0.0-alpha2",
   "description": "Ethereum ledger for 0xcert protocol.",
   "main": "./dist/index.js",

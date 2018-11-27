@@ -3,26 +3,26 @@
 ## Packages
 
 ```ts
-import { EthereumConnector } from '@0xcert/ethereum-connector';
+import { EthereumGenericProvider } from '@0xcert/ethereum-generic-provider';
 
-const connector = new EthereumConnector({
+const provider = new EthereumGenericProvider({
   provider: window.ethereum,
   password: '',
   timeout: '',
 });
-connector.isSupported();
-await connector.enable();
-await connector.isEnabled();
-await connector.queryContract({}); // eth_call
-await connector.mutateContract({}); // eth_call
-await connector.getBlock(); // eth_getBlockByNumber
-await connector.getGasPrice(); // eth_gasPrice
-await connector.getGasEstimation(); // eth_estimateGas
+provider.isSupported();
+await provider.enable();
+await provider.isEnabled();
+await provider.queryContract({}); // eth_call
+await provider.mutateContract({}); // eth_call
+await provider.getBlock(); // eth_getBlockByNumber
+await provider.getGasPrice(); // eth_gasPrice
+await provider.getGasEstimation(); // eth_estimateGas
 ```
 ```ts
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 
-const ledger = new AssetLedger(connector, ledgerId);
+const ledger = new AssetLedger(provider, ledgerId);
 ledger.platform;
 ledger.id; // contract address
 ledger.on(event, handler);
@@ -112,14 +112,14 @@ tracker.clear();
 ## Framework
 
 ```ts
-import { EthereumConnector } from '@0xcert/ethereum-connector';
+import { EthereumGenericProvider } from '@0xcert/ethereum-generic-provider';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Cert } from '@0xcert/cert';
 import { MutationTracker } from '@0xcert/ethereum-tracker';
 
-const provider = new EthereumConnector({
+const provider = new EthereumGenericProvider({
   provider: window.ethereum,
   password: '',
   timeout: '',

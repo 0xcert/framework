@@ -1,6 +1,6 @@
-import { ConnectorBase, Mutation } from '@0xcert/scaffold';
+import { GenericProviderBase, Mutation } from '@0xcert/scaffold';
 
-export class FaceConnector implements ConnectorBase {
+export class FakeGenericProvider implements GenericProviderBase {
   public confirmations: number;
 
   public async sign(val: string) {

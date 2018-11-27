@@ -5,35 +5,36 @@ import * as queryContract from '../procedures/query-contract';
 import * as sign from '../procedures/sign';
 import { TransactionObject, BlockObject, RpcResponse, QuantityTag,
   ContractQueryOptions, ContractMutationOptions, SendOptions, SignOptions,
-  SignMethod} from './types';
+  SignMethod,
+  RpcClient} from './types';
 import { parseError } from './errors';
 
 /**
  * 
  */
-export interface ConnectorOptions {
-  provider: any;
+export interface GenericProviderOptions {
   accountId?: string;
+  client: RpcClient;
   signMethod?: SignMethod;
 }
 
 /**
  * Ethereum RPC client.
  */
-export class Connector {
-  protected provider: any;
+export class GenericProvider {
+  protected client: RpcClient;
   protected requestIndex: number = 0;
   public accountId: string;
   public signMethod: SignMethod;
 
   /**
    * Class constructor.
-   * @param options.provider Ethereum provider instance (e.g. window.ethereum).
+   * @param options.client RPC client instance (e.g. window.ethereum).
    * @param options.accountId Coinbase address.
    */
-  public constructor(options: ConnectorOptions) {
-    this.provider = options.provider.currentProvider || options.provider;
+  public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
+    this.client = options.client.currentProvider || options.client;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
   }
   
@@ -134,7 +135,7 @@ export class Connector {
     const requestIndex = this.getUniqueRequestIndex();
 
     return new Promise<RpcResponse>((resolve, reject) => {
-      this.provider.send({
+      this.client.send({
         jsonrpc: '2.0',
         id: requestIndex,
         ...options,

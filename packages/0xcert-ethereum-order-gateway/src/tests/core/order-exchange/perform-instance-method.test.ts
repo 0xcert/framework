@@ -1,13 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderGateway } from '../../../core/gateway';
 
 interface Data {
   protocol: Protocol;
-  makerConnector: Connector;
-  takerConnector: Connector;
+  makerGenericProvider: GenericProvider;
+  takerGenericProvider: GenericProvider;
   order: Order;
   claim: string;
   coinbase: string;
@@ -37,17 +37,17 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerConnector = new Connector({ 
-    provider: stage.web3,
+  const makerGenericProvider = new GenericProvider({ 
+    client: stage.web3,
     accountId: coinbase,
   });
-  const takerConnector = new Connector({ 
-    provider: stage.web3,
+  const takerGenericProvider = new GenericProvider({ 
+    client: stage.web3,
     accountId: bob,
   });
 
-  stage.set('makerConnector', makerConnector);
-  stage.set('takerConnector', takerConnector);
+  stage.set('makerGenericProvider', makerGenericProvider);
+  stage.set('takerGenericProvider', takerGenericProvider);
 });
 
 spec.before(async (stage) => {
@@ -96,8 +96,8 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
-  const connector = stage.get('makerConnector');
-  const orderGateway = new OrderGateway(connector, orderGatewayId);
+  const provider = stage.get('makerGenericProvider');
+  const orderGateway = new OrderGateway(provider, orderGatewayId);
   const order = stage.get('order');
   
   stage.set('claim', await orderGateway.claim(order));
@@ -105,14 +105,14 @@ spec.before(async (stage) => {
 
 spec.test('submits orderGateway order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const connector = ctx.get('takerConnector');
+  const provider = ctx.get('takerGenericProvider');
   const order = ctx.get('order');
   const claim = ctx.get('claim');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcert;
 
-  const orderGateway = new OrderGateway(connector, orderGatewayId);
+  const orderGateway = new OrderGateway(provider, orderGatewayId);
   await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);

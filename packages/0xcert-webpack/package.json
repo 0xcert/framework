@@ -9,7 +9,7 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/client": "0.0.0-alpha2",
-    "@0xcert/ethereum-connector": "0.0.0-alpha2",
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha2",
     "raw-loader": "^0.5.1",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
