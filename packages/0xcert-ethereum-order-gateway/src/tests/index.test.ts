@@ -4,7 +4,7 @@ import * as exchange from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!exchange.OrderExchange);
+  ctx.true(!!exchange.OrderGateway);
 });
 
 export default spec;

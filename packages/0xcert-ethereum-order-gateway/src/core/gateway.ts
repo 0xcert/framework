@@ -1,37 +1,31 @@
-import { OrderExchangeBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
-import { Context } from '@0xcert/web3-context';
+import { OrderGatewayBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
+import { Connector } from '@0xcert/ethereum-connector';
 import { tuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/utils';
-import * as env from '../config/env';
+import { soliditySha3, padLeft } from './utils';
+import gatewayAbi from '../config/gatewayAbi';
 
 /**
  * 
  */
-export class OrderExchange implements OrderExchangeBase {
-  readonly context: Context;
-  readonly contract: any;
+export class OrderGateway /*implements OrderGatewayBase*/ {
+  protected connector: Connector;
+  readonly id: string;
 
   /**
    * 
    */
-  public constructor(context: Context, id?: string) {
-    this.context = context;
-    this.contract = this.getContract(id);
-  }
-
-  /**
-   * 
-   */
-  public get id() {
-    return this.contract.options.address;
+  public constructor(connector: Connector, id: string) {
+    this.connector = connector;
+    this.id = id;
   }
 
   /**
    * 
    */
   public async claim(order) {
-    const hash = this.createOrderHash(order);
+    const message = this.createOrderHash(order);
 
-    return await this.context.sign(hash);
+    return this.connector.sign({ message });
   }
 
   /**
@@ -41,8 +35,10 @@ export class OrderExchange implements OrderExchangeBase {
     const recipeTuple = this.createRecipeTuple(order);
     const signatureTuple = this.createSignatureTuple(claim);
 
-    return this.context.mutate(async () => {
-      return this.contract.methods.perform(recipeTuple, signatureTuple);
+    return this.connector.mutateContract({
+      to: this.id,
+      abi: gatewayAbi.find((a) => a.name === 'perform'),
+      data: [recipeTuple, signatureTuple],
     });
   }
 
@@ -51,10 +47,11 @@ export class OrderExchange implements OrderExchangeBase {
    */
   public async cancel(order: Order) {
     const recipeTuple = this.createRecipeTuple(order);
-    const from = this.context.myId;
 
-    return this.context.mutate(async () => {
-      return this.contract.methods.cancel(recipeTuple);
+    return this.connector.mutateContract({
+      to: this.id,
+      abi: gatewayAbi.find((a) => a.name === 'cancel'),
+      data: [recipeTuple],
     });
   }
 
@@ -90,7 +87,7 @@ export class OrderExchange implements OrderExchangeBase {
    */
   protected createSignatureTuple(claim: string) {
     const [kind, signature] = claim.split(':');
-    
+
     const signatureData = {
       r: signature.substr(0, 66),
       s: `0x${signature.substr(66, 64)}`,
@@ -112,7 +109,7 @@ export class OrderExchange implements OrderExchangeBase {
 
     let temp = '0x0';
     for(const action of order.actions) {
-      temp = this.context.web3.utils.soliditySha3(
+      temp = soliditySha3(
         { t: 'bytes32', v: temp },
         { t: 'uint8', v: this.getHashKind(action) },
         { t: 'uint32', v: this.getHashProxy(action) },
@@ -122,8 +119,8 @@ export class OrderExchange implements OrderExchangeBase {
         this.getHashValue(action),
       );
     }
-
-    return this.context.web3.utils.soliditySha3(
+    
+    return soliditySha3(
       this.id,
       toString(order.makerId),
       toString(order.takerId),
@@ -161,7 +158,7 @@ export class OrderExchange implements OrderExchangeBase {
   protected getHashParam1(action: OrderAction) {
     return action.kind === OrderActionKind.CREATE_ASSET
       ? action['assetProof']
-      : this.context.web3.utils.padLeft(toString(action.senderId), 64);
+      : padLeft(toString(action.senderId), 64);
   }
 
   /**
@@ -169,13 +166,6 @@ export class OrderExchange implements OrderExchangeBase {
    */
   protected getHashValue(action: OrderAction) {
     return action['assetId'] || toFloat(action['value']);
-  }
-
-  /**
-   * 
-   */
-  protected getContract(id: string) {
-    return new this.context.web3.eth.Contract(env.exchangeAbi, id, { gas: 6000000 });
   }
 
 }

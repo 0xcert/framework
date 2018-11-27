@@ -1,13 +1,13 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
-import { Context } from '@0xcert/web3-context';
-import { OrderExchange } from '../../../core/order-exchange';
+import { Connector } from '@0xcert/ethereum-connector';
+import { OrderGateway } from '../../../core/gateway';
 
 interface Data {
   protocol: Protocol;
-  makerContext: Context;
-  takerContext: Context;
+  makerConnector: Connector;
+  takerConnector: Connector;
   order: Order;
   claim: string;
   coinbase: string;
@@ -37,17 +37,17 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerContext = new Context({ 
-    myId: coinbase,
-    web3: stage.web3,
+  const makerConnector = new Connector({ 
+    provider: stage.web3,
+    accountId: coinbase,
   });
-  const takerContext = new Context({ 
-    myId: bob,
-    web3: stage.web3,
+  const takerConnector = new Connector({ 
+    provider: stage.web3,
+    accountId: bob,
   });
 
-  stage.set('makerContext', makerContext);
-  stage.set('takerContext', takerContext);
+  stage.set('makerConnector', makerConnector);
+  stage.set('takerConnector', takerConnector);
 });
 
 spec.before(async (stage) => {
@@ -95,25 +95,25 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const exchangeId = stage.get('protocol').exchange.instance.options.address;
-  const context = stage.get('makerContext');
-  const exchange = new OrderExchange(context, exchangeId);
+  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const connector = stage.get('makerConnector');
+  const orderGateway = new OrderGateway(connector, orderGatewayId);
   const order = stage.get('order');
   
-  stage.set('claim', await exchange.claim(order));
+  stage.set('claim', await orderGateway.claim(order));
 });
 
-spec.test('submits exchange order to the network which executes transfers', async (ctx) => {
-  const exchangeId = ctx.get('protocol').exchange.instance.options.address;
-  const context = ctx.get('takerContext');
+spec.test('submits orderGateway order to the network which executes transfers', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const connector = ctx.get('takerConnector');
   const order = ctx.get('order');
   const claim = ctx.get('claim');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcert;
 
-  const exchange = new OrderExchange(context, exchangeId);
-  await exchange.perform(order, claim).then(() => ctx.sleep(200));
+  const orderGateway = new OrderGateway(connector, orderGatewayId);
+  await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);

@@ -2,8 +2,10 @@ import * as getBlockByNumber from '../procedures/get-block-by-number';
 import * as getTransactionByHash from '../procedures/get-transaction-by-hash';
 import * as mutateContract from '../procedures/mutate-contract';
 import * as queryContract from '../procedures/query-contract';
+import * as sign from '../procedures/sign';
 import { TransactionObject, BlockObject, RpcResponse, QuantityTag,
-  ContractQueryOptions, ContractMutationOptions, SendOptions} from './types';
+  ContractQueryOptions, ContractMutationOptions, SendOptions, SignOptions,
+  SignMethod} from './types';
 import { parseError } from './errors';
 
 /**
@@ -12,6 +14,7 @@ import { parseError } from './errors';
 export interface ConnectorOptions {
   provider: any;
   accountId?: string;
+  signMethod?: SignMethod;
 }
 
 /**
@@ -21,6 +24,7 @@ export class Connector {
   protected provider: any;
   protected requestIndex: number = 0;
   public accountId: string;
+  public signMethod: SignMethod;
 
   /**
    * Class constructor.
@@ -30,6 +34,7 @@ export class Connector {
   public constructor(options: ConnectorOptions) {
     this.provider = options.provider.currentProvider || options.provider;
     this.accountId = options.accountId;
+    this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
   }
   
   /**
@@ -69,12 +74,13 @@ export class Connector {
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sendtransaction
    */
   public async mutateContract(options: ContractMutationOptions): Promise<string> {
+    options = {
+      from: this.accountId,
+      ...options,
+    };
     return this.send({
       method: 'eth_sendTransaction',
-      params: mutateContract.buildParams({
-        from: this.accountId,
-        ...options,
-      }),
+      params: mutateContract.buildParams(options),
     }).then((res) => {
       return mutateContract.parseResult(res);
     });
@@ -97,6 +103,26 @@ export class Connector {
   }
 
   /**
+   * Signs a message.
+   * @param options.from Signer's wallet address.
+   * @param options.message Text tobe signed.
+   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+   */
+  public async sign(options: SignOptions): Promise<string> {
+    options = {
+      from: this.accountId,
+      signMethod: this.signMethod,
+      ...options,
+    };
+    return this.send({
+      method: 'eth_sign',
+      params: sign.buildParams(options),
+    }).then((res) => {
+      return sign.parseResult(options, res);
+    });
+  }
+
+  /**
    * Sends a raw RPC request through the provider.
    * @param options.method RPC procedure name.
    * @param options.params RPC procedure parameters.
@@ -113,7 +139,16 @@ export class Connector {
         id: requestIndex,
         ...options,
       }, (err, res) => {
-        res.id === requestIndex ? resolve(res) : reject(err);
+        if (err) {
+          return reject(err);
+        }
+        else if (res.error) {
+          return reject(res.error);
+        }
+        else if (res.id !== requestIndex) {
+          return reject('Invalid RPC id');
+        }
+        return resolve(res);
       });
     }).catch((err) => {
       throw parseError(err);

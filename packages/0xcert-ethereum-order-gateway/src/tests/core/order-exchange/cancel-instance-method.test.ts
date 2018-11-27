@@ -1,20 +1,20 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
-import { Context } from '@0xcert/web3-context';
-import { OrderExchange } from '../../../core/order-exchange';
+import { Connector } from '@0xcert/ethereum-connector';
+import { OrderGateway } from '../../../core/gateway';
 
 interface Data {
   protocol: Protocol;
-  makerContext: Context;
-  takerContext: Context;
+  makerConnector: Connector;
+  takerConnector: Connector;
   order: Order;
   claim: string;
   coinbase: string;
   bob: string;
   sara: string;
   jane: string;
-  exchangeId: string;
+  orderGatewayId: string;
 }
 
 const spec = new Spec<Data>();
@@ -38,17 +38,17 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerContext = new Context({
-    myId: coinbase,
-    web3: stage.web3,
+  const makerConnector = new Connector({
+    provider: stage.web3,
+    accountId: coinbase,
   });
-  const takerContext = new Context({
-    myId: bob,
-    web3: stage.web3,
+  const takerConnector = new Connector({
+    provider: stage.web3,
+    accountId: bob,
   });
 
-  stage.set('makerContext', makerContext);
-  stage.set('takerContext', takerContext);
+  stage.set('makerConnector', makerConnector);
+  stage.set('takerConnector', takerConnector);
 });
 
 spec.before(async (stage) => {
@@ -66,7 +66,6 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const context = stage.get('makerContext');
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
   const sara = stage.get('sara');
@@ -100,29 +99,29 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const exchangeId = stage.get('protocol').exchange.instance.options.address;
-  const context = stage.get('makerContext');
-  const exchange = new OrderExchange(context, exchangeId);
+  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const connector = stage.get('makerConnector');
+  const orderGateway = new OrderGateway(connector, orderGatewayId);
   const order = stage.get('order');
   
-  stage.set('claim', await exchange.claim(order));
+  stage.set('claim', await orderGateway.claim(order));
 });
 
-spec.test('marks exchange order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
-  const exchangeId = ctx.get('protocol').exchange.instance.options.address;
-  const makerContext = ctx.get('makerContext');
-  const takerContext = ctx.get('takerContext');
+spec.test('marks orderGateway order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const makerConnector = ctx.get('makerConnector');
+  const takerConnector = ctx.get('takerConnector');
   const order = ctx.get('order');
   const claim = ctx.get('claim');
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const xcert = ctx.get('protocol').xcert;
 
-  const makerExchange = new OrderExchange(makerContext, exchangeId);
-  await makerExchange.cancel(order).then(() => ctx.sleep(200));
+  const makerOrderGateway = new OrderGateway(makerConnector, orderGatewayId);
+  await makerOrderGateway.cancel(order).then(() => ctx.sleep(200));
 
-  const takerExchange = new OrderExchange(takerContext, exchangeId);
-  await ctx.throws(() => takerExchange.perform(order, claim).then(() => ctx.sleep(200)));
+  const takerOrderGateway = new OrderGateway(takerConnector, orderGatewayId);
+  await ctx.throws(() => takerOrderGateway.perform(order, claim).then(() => ctx.sleep(200)));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), jane);

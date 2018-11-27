@@ -219,7 +219,7 @@ spec.test('correctly throws TRANSFERS_PAUSED error', async (ctx) => {
 
 // TODO: Because revert is done with revert() not require() ganache does not throw message.
 spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const signatureData = {
     r: '0x0',
@@ -229,7 +229,7 @@ spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
   }
 
   const signatureDataTuple = tuple(signatureData);
-  await exchange.instance.methods.isValidSignature(jane, '0x0', signatureDataTuple).call()
+  await orderGateway.instance.methods.isValidSignature(jane, '0x0', signatureDataTuple).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.GENERAL_REVERT); // INVALID_SIGNATURE_KIND
@@ -237,7 +237,7 @@ spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
 });
 
 spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -263,7 +263,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -274,7 +274,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.INVALID_PROXY);
@@ -283,7 +283,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
 
 
 spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const owner = ctx.get('owner');
@@ -310,7 +310,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -322,7 +322,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: owner })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_NOT_THE_TAKER);
@@ -330,7 +330,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
 });
 
 spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -356,7 +356,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
@@ -368,7 +368,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.SENDER_NOT_TAKER_OR_MAKER);
@@ -376,7 +376,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
 });
 
 spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -401,7 +401,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) - 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -413,7 +413,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.ORDER_EXPIRED);
@@ -421,7 +421,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
 });
 
 spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -446,7 +446,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   let orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -460,7 +460,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
   orderData.seed = 123;
   orderDataTuple = ctx.tuple(orderData);
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.INVALID_SIGNATURE);
@@ -468,7 +468,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
 });
 
 spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -493,7 +493,7 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -503,9 +503,9 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
     kind: 0,
   };
   const signatureDataTuple = ctx.tuple(signatureData);
-  await exchange.instance.methods.cancel(orderDataTuple).send({ from: jane });
+  await orderGateway.instance.methods.cancel(orderDataTuple).send({ from: jane });
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.ORDER_CANCELED);
@@ -513,7 +513,7 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
 });
 
 spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const nftProxy = ctx.get('protocol').nftokenTransferProxy;
@@ -538,7 +538,7 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -549,8 +549,8 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
   await erc721.instance.methods.approve(nftProxy.receipt._address, '123').send({ from: jane });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.ORDER_CANNOT_BE_PERFORMED_TWICE);
@@ -558,7 +558,7 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
 });
 
 spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const erc721 = ctx.get('protocol').erc721;
@@ -583,7 +583,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
   };
   const orderDataTuple = ctx.tuple(orderData);
   
-  await exchange.instance.methods.cancel(orderDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.cancel(orderDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.YOU_ARE_NOT_THE_MAKER);
@@ -591,7 +591,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
 });
 
 spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
-  const exchange = ctx.get('protocol').exchange;
+  const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const xcert = ctx.get('protocol').xcert;
@@ -615,7 +615,7 @@ spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
     expiration: Math.floor((new Date().getTime() / 1000)) + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
-  const claim = await exchange.instance.methods.getOrderDataClaim(orderDataTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -625,7 +625,7 @@ spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
     kind: 0,
   };
   const signatureDataTuple = ctx.tuple(signatureData);
-  await exchange.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
+  await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
     ctx.is(parseError(e).issue, ConnectorIssue.SIGNER_NOT_AUTHORIZED);

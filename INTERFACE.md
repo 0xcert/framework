@@ -74,7 +74,7 @@ const asset = {
 };
 ```
 ```ts
-import { OrderGateway } from '@0xcert/ethereum-order-exchange';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 
 const gateway = new OrderGateway(context);
 gateway.on(event, handler);
@@ -115,7 +115,7 @@ tracker.clear();
 import { EthereumConnector } from '@0xcert/ethereum-connector';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
-import { OrderGateway } from '@0xcert/ethereum-order-exchange';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Cert } from '@0xcert/certification';
 import { MutationTracker } from '@0xcert/ethereum-tracker';
 

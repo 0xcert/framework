@@ -1,22 +1,20 @@
 {
-  "name": "@0xcert/web3-order-exchange",
+  "name": "@0xcert/ethereum-order-gateway",
   "version": "0.0.0-alpha2",
   "description": "Ethereum exchange for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "build": "npm run clean && npm run updateExchangeAbi; npx tsc",
-    "test": "npx specron test",
-    "updateExchangeAbi": "npx ts-node ./src/scripts/update-exchange-abi"
+    "build": "npm run clean; npx tsc",
+    "test": "npx specron test"
   },
   "specron": {
     "test": {
       "port": 8510,
       "match": [
         "./src/tests/**/*.test.ts"
-      ],
-      "blockTime": 0.1
+      ]
     },
     "require": [
       "ts-node/register"
@@ -24,19 +22,18 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/web3-exchange-contracts": "0.0.0-alpha2",
     "@0xcert/ethereum-sandbox": "0.0.0-alpha2",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
-    "@types/fs-extra": "^5.0.4",
-    "fs-extra": "^7.0.0",
     "solc": "^0.4.25",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
+    "@0xcert/ethereum-connector": "0.0.0-alpha2",
     "@0xcert/scaffold": "0.0.0-alpha2",
-    "@0xcert/utils": "0.0.0-alpha2"
+    "@0xcert/utils": "0.0.0-alpha2",
+    "web3-utils": "1.0.0-beta.36"
   }
 }

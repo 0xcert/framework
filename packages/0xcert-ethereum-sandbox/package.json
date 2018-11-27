@@ -45,7 +45,7 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/web3-exchange-contracts": "0.0.0-alpha2",
+    "@0xcert/ethereum-order-gateway-contracts": "0.0.0-alpha2",
     "@0xcert/ethereum-erc20-contracts": "0.0.0-alpha2",
     "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha2",
     "@0xcert/ethereum-proxy-contracts": "0.0.0-alpha2",

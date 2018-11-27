@@ -5,7 +5,7 @@ import { Spec } from '@specron/spec';
  */
 
 interface Data {
-  exchange?: any;
+  orderGateway?: any;
   tokenProxy?: any;
   nftProxy?: any;
   owner?: string;
@@ -40,12 +40,12 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
-  const exchange = await ctx.deploy({
-    src: './build/exchange.json',
-    contract: 'Exchange',
+  const orderGateway = await ctx.deploy({
+    src: './build/order-gateway.json',
+    contract: 'OrderGateway',
   });
-  await exchange.instance.methods.assignAbilities(owner, [1]).send();
-  ctx.set('exchange', exchange);
+  await orderGateway.instance.methods.assignAbilities(owner, [1]).send();
+  ctx.set('orderGateway', orderGateway);
 });
 
 spec.test('correctly set proxy addresses', async (ctx) => {
@@ -53,29 +53,29 @@ spec.test('correctly set proxy addresses', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const zeroAddress = ctx.get('zeroAddress');
   const owner = ctx.get('owner');
-  const exchange = ctx.get('exchange');
+  const orderGateway = ctx.get('orderGateway');
 
-  const logs = await exchange.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
+  const logs = await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   ctx.not(logs.events.ProxyChange, undefined);
 
-  let proxy = await exchange.instance.methods.idToProxy(0).call();
+  let proxy = await orderGateway.instance.methods.idToProxy(0).call();
   ctx.is(tokenProxy.receipt._address, proxy);
 
-  await exchange.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
-  await exchange.instance.methods.setProxy(0, zeroAddress).send({ from: owner });
+  await orderGateway.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.setProxy(0, zeroAddress).send({ from: owner });
 
-  proxy = await exchange.instance.methods.idToProxy(0).call();
+  proxy = await orderGateway.instance.methods.idToProxy(0).call();
   ctx.is(zeroAddress, proxy);
-  proxy = await exchange.instance.methods.idToProxy(1).call();
+  proxy = await orderGateway.instance.methods.idToProxy(1).call();
   ctx.is(nftProxy.receipt._address, proxy);
 });
 
 spec.test('throws when a third party tries to set proxy address', async (ctx) => {
   const zeroAddress = ctx.get('zeroAddress');
   const bob = ctx.get('bob');
-  const exchange = ctx.get('exchange');
+  const orderGateway = ctx.get('orderGateway');
 
-  await ctx.reverts(() => exchange.instance.methods.setProxy(0, zeroAddress).send({ from: bob }));
+  await ctx.reverts(() => orderGateway.instance.methods.setProxy(0, zeroAddress).send({ from: bob }));
 });
 
 export default spec;

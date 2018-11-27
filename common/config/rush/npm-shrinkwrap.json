@@ -1126,7 +1126,7 @@
     },
     "@rush-temp/client": {
       "version": "file:projects/client.tgz",
-      "integrity": "sha512-HrVWNMF7fQHc41ETLLRCcJ7RETXAS8+ctaNNznxK8WmmFAjcgGxBQlsGlvDcTmJEB5X8FNsURCFJwEsAcWQJBQ==",
+      "integrity": "sha512-sgVm74hyMoXyKpiEFtxARWmQ86QMgbntOQidiX7UEULFpKz/054KjWLXEILfQ2cJ/xFbku42m6NZxv0J1q4KGg==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1206,6 +1206,31 @@
         "web3": "^1.0.0-beta.36"
       }
     },
+    "@rush-temp/ethereum-order-gateway": {
+      "version": "file:projects/ethereum-order-gateway.tgz",
+      "integrity": "sha512-RR+9gIvWy2eW4WTJJULJgEGsOkncoAsd5h7FQojMDuuwmA+HNNLu07h4H0AxzBM3fTij+CoG4lyLGGEoflWNqA==",
+      "requires": {
+        "@specron/cli": "^0.3.0",
+        "@specron/spec": "^0.3.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36",
+        "web3-utils": "1.0.0-beta.36"
+      }
+    },
+    "@rush-temp/ethereum-order-gateway-contracts": {
+      "version": "file:projects/ethereum-order-gateway-contracts.tgz",
+      "integrity": "sha512-eDP2JeMSj8js3Lbhbjn70WgK2hluJ+wl+1URP7PpM6kSK8C7h6UWxJcy5qzTVRp73G9GDx9xZ3qm3/tDUMA5XA==",
+      "requires": {
+        "@specron/cli": "^0.3.0",
+        "@specron/spec": "^0.3.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
       "integrity": "sha512-tA46qeWHCqVLVBsvV91vxULewhdiAJyV1zQr8wJUvXGEEuoXqqfzaOTi9mqZsJO/JL2bT8dIcAn8n9bJdsuexQ==",
@@ -1220,7 +1245,7 @@
     },
     "@rush-temp/ethereum-sandbox": {
       "version": "file:projects/ethereum-sandbox.tgz",
-      "integrity": "sha512-19zKA3fVfuHbdzzHhY/Yyn+Rn9uCmtfCNjrcp8Lm+iAxY3cguCq6DaPLMFU8YojRwcOJR5WPATpT0aUlufiQNw==",
+      "integrity": "sha512-rJLvGk/pQ+mLfov5+OkDXmHQTu32d0AvMZnrjDmP7TGvEBxYiWhla7xCwP7BZHVUjm0DoB/OoZgXaypM9b4PzA==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
@@ -1322,32 +1347,6 @@
         "web3": "^1.0.0-beta.36"
       }
     },
-    "@rush-temp/web3-exchange-contracts": {
-      "version": "file:projects/web3-exchange-contracts.tgz",
-      "integrity": "sha512-oaDNOdiBHz7z2n9tjjfIFXm3FGmcXoGjfoXC6CWpfguIByBHofuTbFCWi5aW9I1u3HgjdBG6q8Eu9npb1pmTxw==",
-      "requires": {
-        "@specron/cli": "^0.3.0",
-        "@specron/spec": "^0.3.0",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
-    "@rush-temp/web3-order-exchange": {
-      "version": "file:projects/web3-order-exchange.tgz",
-      "integrity": "sha512-F/60T8MSEvN1nEZp20q4KBCNal24PG38CA6EnqYFaowyAz++vfHR2VUENk7uoN2HF1Q3od7Msy1nOYP3uaq3Dg==",
-      "requires": {
-        "@specron/cli": "^0.3.0",
-        "@specron/spec": "^0.3.0",
-        "@types/fs-extra": "^5.0.4",
-        "fs-extra": "^7.0.0",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
-      }
-    },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
       "integrity": "sha512-c+e2groBh6XR5zW5gPg8b/DIlxzTZfKqWtcEH9WFBridFAMCr98vupCpdoc7JAudkEpZ/OHSCBb4q8ShhOm+VA==",
@@ -1406,14 +1405,6 @@
         "@hayspec/runner": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
         "@specron/sandbox": "^0.3.0"
-      }
-    },
-    "@types/fs-extra": {
-      "version": "5.0.4",
-      "resolved": "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-5.0.4.tgz",
-      "integrity": "sha512-DsknoBvD8s+RFfSGjmERJ7ZOP1HI0UZRA3FSI+Zakhrc/Gy26YQsLI+m5V5DHxroHRJqCDLKJp7Hixn8zyaF7g==",
-      "requires": {
-        "@types/node": "*"
       }
     },
     "@types/node": {
@@ -2047,11 +2038,6 @@
         "hoopy": "^0.1.2",
         "tryer": "^1.0.0"
       }
-    },
-    "big.js": {
-      "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
-      "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
     },
     "binary-extensions": {
       "version": "1.12.0",
@@ -5129,6 +5115,13 @@
             "emojis-list": "^2.0.0",
             "json5": "^0.5.0",
             "object-assign": "^4.0.1"
+          },
+          "dependencies": {
+            "big.js": {
+              "version": "3.2.0",
+              "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
+              "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
+            }
           }
         }
       }
@@ -5862,6 +5855,11 @@
         "json5": "^0.5.0"
       },
       "dependencies": {
+        "big.js": {
+          "version": "3.2.0",
+          "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
+          "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
+        },
         "json5": {
           "version": "0.5.1",
           "resolved": "http://registry.npmjs.org/json5/-/json5-0.5.1.tgz",

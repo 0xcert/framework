@@ -73,13 +73,13 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-exchange-contracts",
-      "projectFolder": "packages/0xcert-web3-exchange-contracts",
+      "packageName": "@0xcert/ethereum-order-gateway-contracts",
+      "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-order-exchange",
-      "projectFolder": "packages/0xcert-web3-order-exchange",
+      "packageName": "@0xcert/ethereum-order-gateway",
+      "projectFolder": "packages/0xcert-ethereum-order-gateway",
       "versionPolicyName": "patchAll"
     },
     {

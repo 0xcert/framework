@@ -1,5 +1,5 @@
 {
-  "name": "@0xcert/web3-exchange-contracts",
+  "name": "@0xcert/ethereum-order-gateway-contracts",
   "version": "0.0.0-alpha2",
   "description": "Decentralized exchange implementation for 0xcert protocol",
   "scripts": {

@@ -1,6 +1,15 @@
 /**
  * 
  */
+export enum SignMethod {
+  ETH_SIGN = 0,
+  TREZOR = 1,
+  EIP712 = 2,
+}
+
+/**
+ * 
+ */
 export interface RpcResponse {
   id: number;
   jsonrpc: string;
@@ -58,6 +67,15 @@ export interface SendOptions {
   params: any[];
   id?: number;
   jsonrpc?: string;
+}
+
+/**
+ * 
+ */
+export interface SignOptions {
+  message: string;
+  from?: string;
+  signMethod?: SignMethod;
 }
 
 /**

@@ -11,7 +11,7 @@ const { XcertMintProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert
 const { TokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy');
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
-const { Exchange } = require('@0xcert/web3-exchange-contracts/build/exchange');
+const { OrderGateway } = require('@0xcert/ethereum-order-gateway-contracts/build/order-gateway');
 
 /**
  * ERC20 contract data.
@@ -118,9 +118,9 @@ export const nftokenSafeTransferProxy = {
 };
 
 /**
- * Decentralized exchange contract data.
+ * Decentralized orderGateway contract data.
  */
-export const exchange = {
-  abi: Exchange.abi,
-  bytecode: Exchange.evm.bytecode.object,
+export const orderGateway = {
+  abi: OrderGateway.abi,
+  bytecode: OrderGateway.evm.bytecode.object,
 };

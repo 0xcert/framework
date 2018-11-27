@@ -8,7 +8,7 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-mint-proxy.sol";
  * @dev Decentralize exchange, minting, updating and other actions for fundgible and non-fundgible 
  * tokens powered by atomic swaps. 
  */
-contract Exchange is
+contract OrderGateway is
   Abilitable
 {
   /**

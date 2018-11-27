@@ -20,7 +20,7 @@ export class Protocol {
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
-  public exchange;
+  public orderGateway;
 
   /**
    * Instantiates the protocol class and deploys the contracts.
@@ -62,7 +62,7 @@ export class Protocol {
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
-    this.exchange = await this.deployExchange(from);
+    this.orderGateway = await this.deployOrderGateway(from);
 
     return this;
   }
@@ -263,27 +263,27 @@ export class Protocol {
   }
 
   /**
-   * Deploys the decentralized exchange contract.
+   * Deploys the decentralized orderGateway contract.
    * @param from Contract owner's address.
    */
-  protected async deployExchange(from: string) {
-    const exchange = await deploy({
+  protected async deployOrderGateway(from: string) {
+    const orderGateway = await deploy({
       web3: this.web3,
-      abi: contracts.exchange.abi,
-      bytecode: contracts.exchange.bytecode,
+      abi: contracts.orderGateway.abi,
+      bytecode: contracts.orderGateway.bytecode,
       from,
     });
 
-    await exchange.instance.methods.assignAbilities(from, [1]).send({ from });
-    await exchange.instance.methods.setProxy(0, this.xcertMintProxy.receipt._address).send({ from });
-    await exchange.instance.methods.setProxy(1, this.tokenTransferProxy.receipt._address).send({ from });
-    await exchange.instance.methods.setProxy(2, this.nftokenTransferProxy.receipt._address).send({ from });
-    await exchange.instance.methods.setProxy(3, this.nftokenSafeTransferProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
-    await this.nftokenTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
-    await this.xcertMintProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
-    await this.nftokenSafeTransferProxy.instance.methods.assignAbilities(exchange.receipt._address, [1]).send({ from });
+    await orderGateway.instance.methods.assignAbilities(from, [1]).send({ from });
+    await orderGateway.instance.methods.setProxy(0, this.xcertMintProxy.receipt._address).send({ from });
+    await orderGateway.instance.methods.setProxy(1, this.tokenTransferProxy.receipt._address).send({ from });
+    await orderGateway.instance.methods.setProxy(2, this.nftokenTransferProxy.receipt._address).send({ from });
+    await orderGateway.instance.methods.setProxy(3, this.nftokenSafeTransferProxy.receipt._address).send({ from });
+    await this.tokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
+    await this.nftokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
+    await this.xcertMintProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
+    await this.nftokenSafeTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
 
-    return exchange;
+    return orderGateway;
   }
 }
