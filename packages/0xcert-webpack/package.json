@@ -3,13 +3,18 @@
   "version": "0.0.0-alpha2",
   "description": "0xcert webpack scripts.",
   "scripts": {
-    "build": "npx webpack",
+    "clean": "rm -Rf ../../dist",
+    "build": "npm run clean; npx webpack",
     "test": ""
   },
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/cert": "0.0.0-alpha2",
+    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha2",
     "@0xcert/ethereum-generic-provider": "0.0.0-alpha2",
-    "raw-loader": "^0.5.1",
+    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha2",
+    "@0xcert/ethereum-order-gateway": "0.0.0-alpha2",
+    "@0xcert/ethereum-value-ledger": "0.0.0-alpha2",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }
