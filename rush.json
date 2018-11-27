@@ -73,11 +73,6 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-mutation",
-      "projectFolder": "packages/0xcert-ethereum-mutation",
-      "versionPolicyName": "patchAll"
-    },
-    {
       "packageName": "@0xcert/ethereum-order-gateway-contracts",
       "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
       "versionPolicyName": "patchAll"

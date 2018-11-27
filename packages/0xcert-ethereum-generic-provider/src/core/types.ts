@@ -18,6 +18,15 @@ export enum ProviderEvent {
 /**
  * 
  */
+export enum MutationEvent {
+  RESOLVE = 'resolve',
+  ERROR = 'error',
+  CONFIRM = 'confirm',
+}
+
+/**
+ * 
+ */
 export interface RpcResponse {
   id: number;
   jsonrpc: string;

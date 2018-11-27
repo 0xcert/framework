@@ -1,7 +1,6 @@
 import { Spec } from '@specron/spec';
-import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Mutation, MutationEvent } from '../..';
+import { Mutation, MutationEvent, GenericProvider } from '../../..';
 
 interface Data {
   provider: GenericProvider

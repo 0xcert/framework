@@ -12,6 +12,7 @@
   "specron": {
     "test": {
       "port": 8520,
+      "blockTime": 0.1,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
@@ -23,6 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "0.0.0-alpha2",
+    "@types/node": "^10.12.10",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",

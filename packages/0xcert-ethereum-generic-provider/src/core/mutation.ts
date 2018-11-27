@@ -1,25 +1,66 @@
-import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { MutationEmitter } from './emitter';
+import { EventEmitter } from 'events';
 import { MutationEvent } from './types';
 
 /**
  * 
  */
-export class Mutation extends MutationEmitter {
+export class Mutation extends EventEmitter {
   public id: string;
   public confirmations: number = 0;
-  protected provider: GenericProvider;
+  protected provider: any;
   protected timer: any = null;
   protected done: boolean = false;
 
   /**
    * 
    */
-  public constructor(provider: GenericProvider, id: string) {
+  public constructor(provider: any, id: string) {
     super();
 
     this.provider = provider;
     this.id = id;
+  }
+
+    /**
+   * 
+   */
+  public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
+  public emit(event: MutationEvent.RESOLVE, mutation: Mutation);
+  public emit(event: MutationEvent.ERROR, error: any);
+  public emit(...args) {
+    return super.emit.call(this, ...args);
+  }
+
+  /**
+   * 
+   */
+  public on(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
+  public on(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
+  public on(event: MutationEvent.ERROR, handler: (e: any) => any);
+  public on(...args) {
+    return super.on.call(this, ...args);
+  }
+
+  /**
+   * 
+   */
+  public once(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
+  public once(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
+  public once(event: MutationEvent.ERROR, handler: (e: any) => any);
+  public once(...args) {
+    return super.once.call(this, ...args);
+  }
+
+  /**
+   * 
+   */
+  public off(event: MutationEvent, handler?: () => any) {
+    if (handler) {
+      return super.off(event, handler);
+    }
+    else {
+      return super.removeAllListeners(event);
+    }
   }
 
   /**

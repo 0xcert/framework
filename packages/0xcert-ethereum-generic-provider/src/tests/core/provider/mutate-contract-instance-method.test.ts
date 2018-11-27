@@ -51,7 +51,8 @@ spec.test('returns block data', async (ctx) => {
     ],
   });
 
-  ctx.true(res.length === 66);
+  ctx.true(res.id.length === 66);
+  ctx.true(res.confirmations >= 0);
 });
 
 export default spec;
