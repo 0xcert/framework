@@ -3,12 +3,12 @@
 ## Packages
 
 ```ts
-import { EthereumGenericProvider } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 
-const provider = new EthereumGenericProvider({
+const provider = new GenericProvider({
   provider: window.ethereum,
-  password: '',
-  timeout: '',
+  accountId: '',
+  signMethod: 2,
 });
 provider.isSupported();
 await provider.enable();
@@ -18,6 +18,16 @@ await provider.mutateContract({}); // eth_call
 await provider.getBlock(); // eth_getBlockByNumber
 await provider.getGasPrice(); // eth_gasPrice
 await provider.getGasEstimation(); // eth_estimateGas
+```
+```ts
+import { Mutation } from '@0xcert/ethereum-mutation';
+
+const mutation = new Mutation(provider, txId);
+mutation.on(MutationEvent.SUCCESS, handler);
+mutation.on(MutationEvent.FAILURE, handler);
+mutation.on(MutationEvent.ERROR, handler);
+mutation.on(MutationEvent.CONFIRMATION, handler);
+mutation.resolve(); // promise which ends on SUCCESS
 ```
 ```ts
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
@@ -116,44 +126,6 @@ tracker.isRunning();
 tracker.start();
 tracker.stop();
 tracker.clear();
-```
-
-## Framework
-
-```ts
-import { EthereumGenericProvider } from '@0xcert/ethereum-generic-provider';
-import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
-import { ValueLedger } from '@0xcert/ethereum-value-ledger';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
-import { Cert } from '@0xcert/cert';
-import { MutationTracker } from '@0xcert/ethereum-tracker';
-
-const provider = new EthereumGenericProvider({
-  provider: window.ethereum,
-  password: '',
-  timeout: '',
-});
-provider.enable();
-provider.isSupported();
-provider.isEnabled();
-
-const mutation = await AssetLedger.deploy();
-const assetLedger = new AssetLedger({ provider, id });
-await assetLedger.getSupply();
-
-const mutation = await ValueLedger.deploy();
-const valueLedger = new ValueLedger({ provider, id });
-await valueLedger.getSupply();
-
-const orderGateway = new OrderGateway({ provider });
-await orderGateway.claim();
-
-const tracker = new MutationTracker({ provider });
-tracker.on(event, handler);
-tracker.start();
-
-const cert = new Cert({ schema });
-await cert.notarize(data);
 ```
 
 # Structs

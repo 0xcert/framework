@@ -1,3 +1,4 @@
+import { EventEmitter } from "events";
 import * as getBlockByNumber from '../procedures/get-block-by-number';
 import * as getTransactionByHash from '../procedures/get-transaction-by-hash';
 import * as mutateContract from '../procedures/mutate-contract';
@@ -5,10 +6,9 @@ import * as queryContract from '../procedures/query-contract';
 import * as sign from '../procedures/sign';
 import { TransactionObject, BlockObject, RpcResponse, QuantityTag,
   ContractQueryOptions, ContractMutationOptions, SendOptions, SignOptions,
-  SignMethod, 
-  ProviderEvent} from './types';
+  SignMethod, ProviderEvent } from './types';
 import { parseError } from './errors';
-import { ProviderEmitter } from './emitter';
+import { Mutation } from './mutation';
 
 /**
  * 
@@ -22,7 +22,7 @@ export interface GenericProviderOptions {
 /**
  * Ethereum RPC client.
  */
-export class GenericProvider extends ProviderEmitter {
+export class GenericProvider extends EventEmitter {
   protected client: any;
   protected requestIndex: number = 0;
   public accountId: string;
@@ -48,7 +48,40 @@ export class GenericProvider extends ProviderEmitter {
       this.client.on(ProviderEvent.ACCOUNT_CHANGE, () => this.emit(ProviderEvent.ACCOUNT_CHANGE));
     }
   }
-  
+
+  /**
+   * 
+   */
+  public emit(event: ProviderEvent) {
+    return super.emit(event);
+  }
+
+  /**
+   * 
+   */
+  public on(event: ProviderEvent, handler: () => any) {
+    return super.on(event, handler);
+  }
+
+  /**
+   * 
+   */
+  public once(event: ProviderEvent, handler: () => any) {
+    return super.once(event, handler);
+  }
+
+  /**
+   * 
+   */
+  public off(event: ProviderEvent, handler?: () => any) {
+    if (handler) {
+      return super.off(event, handler);
+    }
+    else {
+      return super.removeAllListeners(event);
+    }
+  }
+
   /**
    * Returns block information.
    * @param tag Block number or tag.
@@ -85,7 +118,7 @@ export class GenericProvider extends ProviderEmitter {
    * @param options.tag Block number or tag.
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sendtransaction
    */
-  public async mutateContract(options: ContractMutationOptions): Promise<string> {
+  public async mutateContract(options: ContractMutationOptions): Promise<Mutation> {
     options = {
       from: this.accountId,
       ...options,
@@ -95,6 +128,8 @@ export class GenericProvider extends ProviderEmitter {
       params: mutateContract.buildParams(options),
     }).then((res) => {
       return mutateContract.parseResult(res);
+    }).then((id) => {
+      return new Mutation(this, id);
     });
   }
 
