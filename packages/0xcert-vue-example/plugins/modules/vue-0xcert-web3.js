@@ -1,5 +1,5 @@
 import { Client } from '@0xcert/client'
-import { Connector } from '@0xcert/web3-connector'
+import { Connector } from '@0xcert/ethereum-connector'
 import * as Web3 from 'web3';
 
 /**

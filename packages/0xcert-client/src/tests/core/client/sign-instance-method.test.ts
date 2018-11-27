@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
-import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector, SignMethod } from '@0xcert/web3-connector';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Connector, SignMethod } from '@0xcert/ethereum-connector';
 import { Client } from '../../..';
 
 interface Data {

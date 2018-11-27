@@ -48,58 +48,48 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/utils",
+      "projectFolder": "packages/0xcert-utils",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/vue-example",
       "projectFolder": "packages/0xcert-vue-example",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-asset-ledger",
-      "projectFolder": "packages/0xcert-web3-asset-ledger",
+      "packageName": "@0xcert/ethereum-asset-ledger",
+      "projectFolder": "packages/0xcert-ethereum-asset-ledger",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-connector",
-      "projectFolder": "packages/0xcert-web3-connector",
+      "packageName": "@0xcert/ethereum-erc20-contracts",
+      "projectFolder": "packages/0xcert-ethereum-erc20-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-context",
-      "projectFolder": "packages/0xcert-web3-context",
+      "packageName": "@0xcert/ethereum-erc721-contracts",
+      "projectFolder": "packages/0xcert-ethereum-erc721-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-erc20-contracts",
-      "projectFolder": "packages/0xcert-web3-erc20-contracts",
+      "packageName": "@0xcert/ethereum-order-gateway-contracts",
+      "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-erc721-contracts",
-      "projectFolder": "packages/0xcert-web3-erc721-contracts",
+      "packageName": "@0xcert/ethereum-order-gateway",
+      "projectFolder": "packages/0xcert-ethereum-order-gateway",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-error-parser",
-      "projectFolder": "packages/0xcert-web3-error-parser",
+      "packageName": "@0xcert/ethereum-proxy-contracts",
+      "projectFolder": "packages/0xcert-ethereum-proxy-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-exchange-contracts",
-      "projectFolder": "packages/0xcert-web3-exchange-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-order-exchange",
-      "projectFolder": "packages/0xcert-web3-order-exchange",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-proxy-contracts",
-      "projectFolder": "packages/0xcert-web3-proxy-contracts",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-sandbox",
-      "projectFolder": "packages/0xcert-web3-sandbox",
+      "packageName": "@0xcert/ethereum-sandbox",
+      "projectFolder": "packages/0xcert-ethereum-sandbox",
       "versionPolicyName": "patchAll"
     },
     {
@@ -108,23 +98,18 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-utils",
-      "projectFolder": "packages/0xcert-web3-utils",
+      "packageName": "@0xcert/ethereum-utils-contracts",
+      "projectFolder": "packages/0xcert-ethereum-utils-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-utils-contracts",
-      "projectFolder": "packages/0xcert-web3-utils-contracts",
+      "packageName": "@0xcert/ethereum-value-ledger",
+      "projectFolder": "packages/0xcert-ethereum-value-ledger",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/web3-value-ledger",
-      "projectFolder": "packages/0xcert-web3-value-ledger",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/web3-xcert-contracts",
-      "projectFolder": "packages/0xcert-web3-xcert-contracts",
+      "packageName": "@0xcert/ethereum-xcert-contracts",
+      "projectFolder": "packages/0xcert-ethereum-xcert-contracts",
       "versionPolicyName": "patchAll"
     },
     {

@@ -39,8 +39,8 @@ export class Client {
   /**
    * 
    */
-  public async getOrderExchange(id: string = null) {
-    return this.connector.getOrderExchange(id);
+  public async getOrderGateway(id: string = null) {
+    return this.connector.getOrderGateway(id);
   }
 
   /**

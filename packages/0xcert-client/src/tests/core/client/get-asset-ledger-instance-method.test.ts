@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
-import { AssetLedger } from '@0xcert/web3-asset-ledger';
-import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector } from '@0xcert/web3-connector';
+import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Connector } from '@0xcert/ethereum-connector';
 import { Client } from '../../..';
 
 interface Data {

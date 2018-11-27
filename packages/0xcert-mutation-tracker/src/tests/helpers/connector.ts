@@ -11,7 +11,7 @@ export class FaceConnector implements ConnectorBase {
     return { id, confirmations: this.confirmations };
   }
 
-  public async getOrderExchange(id: string) {
+  public async getOrderGateway(id: string) {
     return null;
   }
 

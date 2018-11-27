@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
-import { OrderExchange } from '@0xcert/web3-order-exchange';
-import { Protocol } from '@0xcert/web3-sandbox';
-import { Connector } from '@0xcert/web3-connector';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Connector } from '@0xcert/ethereum-connector';
 import { Client } from '../../..';
 
 interface Data {
@@ -25,9 +25,9 @@ spec.before(async (stage) => {
 spec.test('creates an instance of order exchange', async (ctx) => {
   const client = ctx.get('client');
   const exchangeId = ctx.get('protocol').exchange.instance.options.address;
-  const exchange = await client.getOrderExchange(exchangeId);
+  const exchange = await client.getOrderGateway(exchangeId);
   ctx.is(exchange.id, exchangeId);
-  ctx.true(exchange instanceof OrderExchange); 
+  ctx.true(exchange instanceof OrderGateway); 
 });
 
 export default spec;

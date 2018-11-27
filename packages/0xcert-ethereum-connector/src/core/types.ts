@@ -1,6 +1,15 @@
 /**
  * 
  */
+export enum SignMethod {
+  ETH_SIGN = 0,
+  TREZOR = 1,
+  EIP712 = 2,
+}
+
+/**
+ * 
+ */
 export interface RpcResponse {
   id: number;
   jsonrpc: string;
@@ -34,10 +43,10 @@ export interface TransactionObject {
  * 
  */
 export interface ContractMutationOptions {
-  from: string;
   to: string;
   abi: {[key: string]: any};
   data: any;
+  from?: string;
 }
 
 /**
@@ -47,6 +56,7 @@ export interface ContractQueryOptions {
   to: string;
   abi: {[key: string]: any};
   tag: QuantityTag;
+  data?: any;
 }
 
 /**
@@ -57,6 +67,15 @@ export interface SendOptions {
   params: any[];
   id?: number;
   jsonrpc?: string;
+}
+
+/**
+ * 
+ */
+export interface SignOptions {
+  message: string;
+  from?: string;
+  signMethod?: SignMethod;
 }
 
 /**
