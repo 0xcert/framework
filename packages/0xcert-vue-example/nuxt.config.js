@@ -5,7 +5,6 @@ export default {
     },
   },
   plugins: [
-    { src: '~/plugins/vue-0xcert', ssr: false },
+    { src: '~/plugins/0xcert', ssr: false },
   ],
-
 }

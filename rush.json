@@ -40,6 +40,11 @@
     {
       "packageName": "@0xcert/vue-example",
       "projectFolder": "packages/0xcert-vue-example",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@0xcert/vue-plugin",
+      "projectFolder": "packages/0xcert-vue-plugin",
       "versionPolicyName": "patchAll"
     },
     {
