@@ -1,12 +1,12 @@
 import { Spec } from '@specron/spec';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 import { AssetLedgerCapability } from '@0xcert/scaffold';
 
 interface Data {
   coinbase: string;
-  connector: Connector;
+  provider: GenericProvider;
   protocol: Protocol;
   burnableAssetLedger: AssetLedger;
   mutableAssetLedger: AssetLedger;
@@ -23,24 +23,24 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const connector = new Connector({
-    provider: stage.web3,
+  const provider = new GenericProvider({
+    client: stage.web3,
   });
 
-  stage.set('connector', connector);
+  stage.set('provider', provider);
 });
 
 spec.before(async (stage) => {
-  const connector = stage.get('connector');
+  const provider = stage.get('provider');
   const burnableAssetLedgerId = stage.get('protocol').xcertBurnable.instance.options.address;
   const mutableAssetLedgerId = stage.get('protocol').xcertMutable.instance.options.address;
   const pausableAssetLedgerId = stage.get('protocol').xcertPausable.instance.options.address;
   const revokableAssetLedgerId = stage.get('protocol').xcertRevokable.instance.options.address;
 
-  stage.set('burnableAssetLedger', new AssetLedger(connector, burnableAssetLedgerId));
-  stage.set('mutableAssetLedger', new AssetLedger(connector, mutableAssetLedgerId));
-  stage.set('pausableAssetLedger', new AssetLedger(connector, pausableAssetLedgerId));
-  stage.set('revokableAssetLedger', new AssetLedger(connector, revokableAssetLedgerId));
+  stage.set('burnableAssetLedger', new AssetLedger(provider, burnableAssetLedgerId));
+  stage.set('mutableAssetLedger', new AssetLedger(provider, mutableAssetLedgerId));
+  stage.set('pausableAssetLedger', new AssetLedger(provider, pausableAssetLedgerId));
+  stage.set('revokableAssetLedger', new AssetLedger(provider, revokableAssetLedgerId));
 });
 
 spec.before(async (stage) => {

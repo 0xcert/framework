@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Connector, SignMethod } from '@0xcert/ethereum-connector';
+import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { Client } from '../../..';
 
 interface Data {
@@ -17,7 +17,7 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   stage.set('client', new Client({
-    connector: new Connector({
+    provider: new GenericProvider({
       web3: stage.web3,
       myId: await stage.web3.eth.getAccounts().then((a) => a[0]),
     }),

@@ -1114,9 +1114,9 @@
         "stack-trace": "0.0.10"
       }
     },
-    "@rush-temp/certification": {
-      "version": "file:projects/certification.tgz",
-      "integrity": "sha512-z48iKWCBvRaDCgvIpnulorO2SgnCH88mm8TrP4vbMiWCS4XT0gfZwos4Ce9wtdtbdz+bYdo6OQBvWM8QWb5IEA==",
+    "@rush-temp/cert": {
+      "version": "file:projects/cert.tgz",
+      "integrity": "sha512-55K1ad+FhHDRjS4IZaqz7wQ5BJPAjbWwDY5l5X7pduo8AL/uvjLmndPeEEt2Gxgit5/+VH4vdk8YIdc7FS53+g==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
@@ -1126,7 +1126,7 @@
     },
     "@rush-temp/client": {
       "version": "file:projects/client.tgz",
-      "integrity": "sha512-sgVm74hyMoXyKpiEFtxARWmQ86QMgbntOQidiX7UEULFpKz/054KjWLXEILfQ2cJ/xFbku42m6NZxv0J1q4KGg==",
+      "integrity": "sha512-oWI4xMZYpt43+IPf+giUIs1mC57tglwUnqidU1ujI+rgXedkfsmKq0YH4YbfVYMtuTqG89eFv7Hppt/BHE3tZw==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1134,32 +1134,11 @@
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
         "web3": "^1.0.0-beta.36"
-      }
-    },
-    "@rush-temp/conventions": {
-      "version": "file:projects/conventions.tgz",
-      "integrity": "sha512-YcFgoqug+eKNf2c1euG8qaZtuqUKijNXGjQeI3AmZgsW7DhoZP7RIEnDeEKPeiT941Iy+LSAWTnmWldYfjaQ0Q==",
-      "requires": {
-        "@hayspec/cli": "^0.7.6",
-        "@hayspec/spec": "^0.7.6",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
-    "@rush-temp/crypto": {
-      "version": "file:projects/crypto.tgz",
-      "integrity": "sha512-tSZe0bQVS4WmgMK3IAHFj1/mMabjms356w1h/EQ89rxMg4I8t6IEAmpUHpYLYvJ5j2zH3h2VkETAYxHs5xJdZw==",
-      "requires": {
-        "@hayspec/cli": "^0.7.6",
-        "@hayspec/spec": "^0.7.6",
-        "@types/node": "^10.12.0",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
       }
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-4Cwf09+/r4E1VhNwc7CDKSVnHj6kZI0sbjuzM8hBSQtoPVXMrjQd5Y4tXio2Z1OjiLVnv6QTSLcQ+s96jRkPeA==",
+      "integrity": "sha512-QQxl9rByqXLJv6Lltg+fP4WZQP4aFAypP3hFN6TDO8e35drF6ZkC7GR7M+hyB1NmA9h+9pQxBNy1mejTeGA/Aw==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1167,19 +1146,6 @@
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
         "web3": "^1.0.0-beta.36"
-      }
-    },
-    "@rush-temp/ethereum-connector": {
-      "version": "file:projects/ethereum-connector.tgz",
-      "integrity": "sha512-YXYvF/VKqchHrm0tjzXSH7Ik4TOZMSCv6g6WcbW8KPv6iuJQpVDOe1OA3k+jB3psD1nWIXwWkXHRItpWL413AQ==",
-      "requires": {
-        "@specron/cli": "^0.3.0",
-        "@specron/spec": "^0.3.0",
-        "solc": "^0.4.25",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36",
-        "web3-eth-abi": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-erc20-contracts": {
@@ -1206,9 +1172,34 @@
         "web3": "^1.0.0-beta.36"
       }
     },
+    "@rush-temp/ethereum-generic-provider": {
+      "version": "file:projects/ethereum-generic-provider.tgz",
+      "integrity": "sha512-KmkbSXhlsxYMIEOGxOIOC8rHyo1arXgrl/aIPobEQpeVtaZjLmQVI2D5wSfRqcPyptKrVqZNMW5KSwB4RkdpIQ==",
+      "requires": {
+        "@specron/cli": "^0.3.0",
+        "@specron/spec": "^0.3.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36",
+        "web3-eth-abi": "^1.0.0-beta.36"
+      }
+    },
+    "@rush-temp/ethereum-metamask-provider": {
+      "version": "file:projects/ethereum-metamask-provider.tgz",
+      "integrity": "sha512-BJMrHnED35bUMMODPUjo6GQbYgNmhRA46WfbjaV1XKdjuZ81B+ZXuFY0QGAeNWVPkph1erbR5UPSMYjXtYiO1g==",
+      "requires": {
+        "@specron/cli": "^0.3.0",
+        "@specron/spec": "^0.3.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
-      "integrity": "sha512-RR+9gIvWy2eW4WTJJULJgEGsOkncoAsd5h7FQojMDuuwmA+HNNLu07h4H0AxzBM3fTij+CoG4lyLGGEoflWNqA==",
+      "integrity": "sha512-MNqBy+bZ/Rhy5Stzq9hbMPDUJhqCI/JiYJpeOjOW2aBcDSQiL9DjRMX8bYxf4Pk1HD9eg+WonoAvvcIld9V78g==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1273,7 +1264,7 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-MKDyEPJE/XGswxpLGNbrVpaL12SgI8gMCPp4Be1QkhYvkjX1FezPXiQhjaTLh2eU8zuNPC9A2XxP/wnPHeey4w==",
+      "integrity": "sha512-/8QD02JzWWZZLoBnUJSeXqH8Phow/AfyvRD0lvHwdocgBn8VqZCbZK83qgbmGHFd4dlVnDx1Ke551Q7HLrXIRg==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1297,7 +1288,7 @@
     },
     "@rush-temp/merkle": {
       "version": "file:projects/merkle.tgz",
-      "integrity": "sha512-v3BWQpDcL/vH8fmwrSwsWHV/41e+j1AO0DntJbBY2BsHDM8CNq3s9ewv7FWoj7IW/qmvLHxB01eEeUPktlrSxw==",
+      "integrity": "sha512-mmIBBERkKTxBwSWBN3HzyQREkKi/ajBDkPbmoYm5fh7jnKhUkkG5swX+L/OV2Bk/A2mLA4MD/uiZ/ULk21a49Q==",
       "requires": {
         "@hayspec/cli": "^0.7.6",
         "@hayspec/spec": "^0.7.6",
@@ -1327,6 +1318,16 @@
         "typescript": "^3.1.1"
       }
     },
+    "@rush-temp/schemas": {
+      "version": "file:projects/schemas.tgz",
+      "integrity": "sha512-W4EPsNVSvM0EcDC12Scd74YXHgtEmcg32HRctI/rdVpKHhqV86ixllT215XLgjuOZaErCaJQKnZmuu/LoSt9rg==",
+      "requires": {
+        "@hayspec/cli": "^0.7.6",
+        "@hayspec/spec": "^0.7.6",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
     "@rush-temp/utils": {
       "version": "file:projects/utils.tgz",
       "integrity": "sha512-GSMOOvCavz9gpvDLVXqtWXB3POcf1GovqGyV3UYMU0/pLST1/yCjzCJMDHsi1o2uyi+ouXD7eoQ/+X+oXbq49A==",
@@ -1341,15 +1342,14 @@
     },
     "@rush-temp/vue-example": {
       "version": "file:projects/vue-example.tgz",
-      "integrity": "sha512-wnqxsohIej2X2U8ZGOFVgpRGsCyY75lxdvEipHO+rPexQF1CPTppswiGiYZumb1HNkeVEP5wRf+WziaVcm4+fw==",
+      "integrity": "sha512-hs5kuCC5w+dxcajfdyhuL+AXhlU5Ap/W8thsQR5qPJ8b9K8xVVaqXKP3yAHQy+kniaQIfk8PKH5L5hJMIiD1Iw==",
       "requires": {
-        "nuxt": "^2.3.1",
-        "web3": "^1.0.0-beta.36"
+        "nuxt": "^2.3.1"
       }
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-c+e2groBh6XR5zW5gPg8b/DIlxzTZfKqWtcEH9WFBridFAMCr98vupCpdoc7JAudkEpZ/OHSCBb4q8ShhOm+VA==",
+      "integrity": "sha512-FavJtYDbNPuhAY+ToJQCbfzKdJs5oo87M73udXfhMS9RLQcTFW5tlKIMuTtClZ2dbUwXiguCpUtxooIoRSH0/Q==",
       "requires": {
         "raw-loader": "^0.5.1",
         "webpack": "^4.25.0",
@@ -2039,6 +2039,11 @@
         "tryer": "^1.0.0"
       }
     },
+    "big.js": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
+      "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
+    },
     "binary-extensions": {
       "version": "1.12.0",
       "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.12.0.tgz",
@@ -2414,9 +2419,9 @@
       }
     },
     "caniuse-lite": {
-      "version": "1.0.30000910",
-      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000910.tgz",
-      "integrity": "sha512-u/nxtHGAzCGZzIxt3dA/tpSPOcirBZFWKwz1EPz4aaupnBI2XR0Rbr74g0zc6Hzy41OEM4uMoZ38k56TpYAWjQ=="
+      "version": "1.0.30000911",
+      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000911.tgz",
+      "integrity": "sha512-x/E/SNwD80I0bT+fF9Y3Kbwo7Xd1xSafCAmFlpJmaVg3SQoJJOH4Ivb9fi9S0WjfqewQ6Ydt1zEVZpmMVYNeDA=="
     },
     "caseless": {
       "version": "0.12.0",
@@ -3527,9 +3532,9 @@
       },
       "dependencies": {
         "tapable": {
-          "version": "0.2.8",
-          "resolved": "https://registry.npmjs.org/tapable/-/tapable-0.2.8.tgz",
-          "integrity": "sha1-mTcqXJmb8t8WCvwNdL7U9HlIzSI="
+          "version": "0.2.9",
+          "resolved": "https://registry.npmjs.org/tapable/-/tapable-0.2.9.tgz",
+          "integrity": "sha512-2wsvQ+4GwBvLPLWsNfLCDYGsW6xb7aeC6utq2Qh0PFwgEy7K7dsma9Jsmb2zSQj7GvYAyUGSntLtsv++GmgL1A=="
         }
       }
     },
@@ -5115,13 +5120,6 @@
             "emojis-list": "^2.0.0",
             "json5": "^0.5.0",
             "object-assign": "^4.0.1"
-          },
-          "dependencies": {
-            "big.js": {
-              "version": "3.2.0",
-              "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
-              "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
-            }
           }
         }
       }
@@ -5855,11 +5853,6 @@
         "json5": "^0.5.0"
       },
       "dependencies": {
-        "big.js": {
-          "version": "3.2.0",
-          "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.2.0.tgz",
-          "integrity": "sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q=="
-        },
         "json5": {
           "version": "0.5.1",
           "resolved": "http://registry.npmjs.org/json5/-/json5-0.5.1.tgz",
@@ -8847,9 +8840,9 @@
       },
       "dependencies": {
         "mime": {
-          "version": "2.3.1",
-          "resolved": "https://registry.npmjs.org/mime/-/mime-2.3.1.tgz",
-          "integrity": "sha512-OEUllcVoydBHGN1z84yfQDimn58pZNNNXgZlHXSboxMlFvgI6MXSWpWKpFRra7H1HxpVhHTkrghfRW49k6yjeg=="
+          "version": "2.4.0",
+          "resolved": "https://registry.npmjs.org/mime/-/mime-2.4.0.tgz",
+          "integrity": "sha512-ikBcWwyqXQSHKtciCcctu9YfPbFYZ4+gbHEmE0Q8jzcTYQg5dHCr3g2wwAZjPoJfQVXZq6KXAjpXOTf5/cjT7w=="
         }
       }
     },
@@ -10296,9 +10289,9 @@
       }
     },
     "tapable": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/tapable/-/tapable-1.1.0.tgz",
-      "integrity": "sha512-IlqtmLVaZA2qab8epUXbVWRn3aB1imbDMJtjB3nu4X0NqPkcY/JH9ZtCBWKHWPxs8Svi9tyo8w2dBoi07qZbBA=="
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/tapable/-/tapable-1.1.1.tgz",
+      "integrity": "sha512-9I2ydhj8Z9veORCw5PRm4u9uebCn0mcCa6scWoNcbZ6dAtoo2618u9UUzxgmsCOreJpqDDuv61LvwofW7hLcBA=="
     },
     "tar": {
       "version": "2.2.1",
@@ -10953,9 +10946,9 @@
       },
       "dependencies": {
         "mime": {
-          "version": "2.3.1",
-          "resolved": "https://registry.npmjs.org/mime/-/mime-2.3.1.tgz",
-          "integrity": "sha512-OEUllcVoydBHGN1z84yfQDimn58pZNNNXgZlHXSboxMlFvgI6MXSWpWKpFRra7H1HxpVhHTkrghfRW49k6yjeg=="
+          "version": "2.4.0",
+          "resolved": "https://registry.npmjs.org/mime/-/mime-2.4.0.tgz",
+          "integrity": "sha512-ikBcWwyqXQSHKtciCcctu9YfPbFYZ4+gbHEmE0Q8jzcTYQg5dHCr3g2wwAZjPoJfQVXZq6KXAjpXOTf5/cjT7w=="
         },
         "schema-utils": {
           "version": "1.0.0",
@@ -11621,9 +11614,9 @@
       },
       "dependencies": {
         "mime": {
-          "version": "2.3.1",
-          "resolved": "https://registry.npmjs.org/mime/-/mime-2.3.1.tgz",
-          "integrity": "sha512-OEUllcVoydBHGN1z84yfQDimn58pZNNNXgZlHXSboxMlFvgI6MXSWpWKpFRra7H1HxpVhHTkrghfRW49k6yjeg=="
+          "version": "2.4.0",
+          "resolved": "https://registry.npmjs.org/mime/-/mime-2.4.0.tgz",
+          "integrity": "sha512-ikBcWwyqXQSHKtciCcctu9YfPbFYZ4+gbHEmE0Q8jzcTYQg5dHCr3g2wwAZjPoJfQVXZq6KXAjpXOTf5/cjT7w=="
         }
       }
     },

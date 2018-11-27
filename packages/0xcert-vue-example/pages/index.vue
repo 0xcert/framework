@@ -53,9 +53,9 @@ export default {
   },
   methods: {
     async connect() {
-      await this.$0xcert.connector.enable()
-      const isSupported = this.$0xcert.connector.isSupported()
-      const isEnabled = await this.$0xcert.connector.isEnabled()
+      await this.$ethereum.enable()
+      const isSupported = this.$ethereum.isSupported()
+      const isEnabled = await this.$ethereum.isEnabled()
       console.log('Is metamask supported:', isSupported)
       console.log('Is metamask enabled:', isEnabled)
     },

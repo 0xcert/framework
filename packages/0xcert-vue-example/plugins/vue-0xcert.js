@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import Vue0xcert from './modules/vue-0xcert-web3'
+import VueMetamask from './modules/vue-metamask'
 
-Vue.use(Vue0xcert)
+Vue.use(VueMetamask)

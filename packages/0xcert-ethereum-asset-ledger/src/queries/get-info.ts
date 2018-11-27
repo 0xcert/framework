@@ -1,27 +1,27 @@
-import { Connector } from "@0xcert/ethereum-connector";
+import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import xcertAbi from '../config/xcertAbi';
 
 /**
  * 
  */
-export default async function(connector: Connector, ledgerId: string) {
+export default async function(provider: GenericProvider, ledgerId: string) {
   return {
-    name: await connector.queryContract({
+    name: await provider.queryContract({
       to: ledgerId,
       abi: xcertAbi.find((a) => a.name === 'name'),
       tag: 'latest',
     }).then((r) => r[0]),
-    symbol: await connector.queryContract({
+    symbol: await provider.queryContract({
       to: ledgerId,
       abi: xcertAbi.find((a) => a.name === 'symbol'),
       tag: 'latest',
     }).then((r) => r[0]),
-    uriBase: await connector.queryContract({
+    uriBase: await provider.queryContract({
       to: ledgerId,
       abi: xcertAbi.find((a) => a.name === 'uriBase'),
       tag: 'latest',
     }).then((r) => r[0]),
-    conventionId: await connector.queryContract({
+    conventionId: await provider.queryContract({
       to: ledgerId,
       abi: xcertAbi.find((a) => a.name === 'conventionId'),
       tag: 'latest',

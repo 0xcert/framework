@@ -10,7 +10,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   stage.set('client', new Client({
-    connector: null,
+    provider: null,
   }));
 });
 

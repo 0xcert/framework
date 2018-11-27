@@ -1,7 +1,7 @@
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Client } from '../../..';
 
 interface Data {
@@ -18,7 +18,7 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   stage.set('client', new Client({
-    connector: new Connector(stage),
+    provider: new GenericProvider(stage),
   }));
 });
 

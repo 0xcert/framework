@@ -1,7 +1,7 @@
 /**
  * Error codes.
  */
-export enum ConnectorIssue {
+export enum GenericProviderIssue {
   UNHANDLED = 0,
   GENERAL_REVERT = 1,
   SIGNATURE_UNKNOWN = 9000,
@@ -33,8 +33,8 @@ export enum ConnectorIssue {
 /**
  * Handled system error.
  */
-export class ConnectorError extends Error {
-  readonly issue: ConnectorIssue;
+export class GenericProviderError extends Error {
+  readonly issue: GenericProviderIssue;
   readonly original: any;
 
   /**
@@ -42,13 +42,13 @@ export class ConnectorError extends Error {
    * @param issue Issue identification.
    * @param details Original error object.
    */
-  constructor(issue: ConnectorIssue, original?: any) {
+  constructor(issue: GenericProviderIssue, original?: any) {
     super();
 
-    this.name = 'ConnectorError';
+    this.name = 'GenericProviderError';
     this.issue = issue;
     this.original = original;
-    this.message = `Connector error [issue: ${issue}]`;
+    this.message = `GenericProvider error [issue: ${issue}]`;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);

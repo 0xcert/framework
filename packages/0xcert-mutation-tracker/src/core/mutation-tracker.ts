@@ -1,4 +1,4 @@
-import { ConnectorBase, Mutation } from '@0xcert/scaffold';
+import { GenericProviderBase, Mutation } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 
 /**
@@ -16,18 +16,18 @@ export enum MutationEvent {
  */
 export class MutationTracker extends EventEmitter {
   public transactions: {[key: string]: number} = {};
-  protected connector: ConnectorBase;
+  protected provider: GenericProviderBase;
   protected timer = null;
   protected running = false;
 
   /**
    * 
-   * @param connector Connector instance.
+   * @param provider GenericProvider instance.
    */
-  public constructor(connector: ConnectorBase) {
+  public constructor(provider: GenericProviderBase) {
     super();
   
-    this.connector = connector;
+    this.provider = provider;
   }
 
   /**
@@ -84,7 +84,7 @@ export class MutationTracker extends EventEmitter {
    * 
    */
   public async check(id: string) {
-    return this.connector.getMutation(id);
+    return this.provider.getMutation(id);
   }
 
   /**
@@ -123,7 +123,7 @@ export class MutationTracker extends EventEmitter {
     this.emit('tick');
 
     for (const tx in this.transactions) {
-      const mutation = await this.connector.getMutation(tx);
+      const mutation = await this.provider.getMutation(tx);
       const confirmations = this.transactions[tx];
 
       if (!mutation) {

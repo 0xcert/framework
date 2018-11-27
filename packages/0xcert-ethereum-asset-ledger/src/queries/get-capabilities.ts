@@ -1,18 +1,18 @@
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerCapability } from "@0xcert/scaffold";
 import xcertAbi from '../config/xcertAbi';
 
 /**
  * 
  */
-export default async function(connector: Connector, ledgerId: string) {
+export default async function(provider: GenericProvider, ledgerId: string) {
   return Promise.all(
     [ [AssetLedgerCapability.BURNABLE, '0x42966c68'],
       [AssetLedgerCapability.MUTABLE, '0x5e2161af'],
       [AssetLedgerCapability.PAUSABLE, '0xbedb86fb'],
       [AssetLedgerCapability.REVOKABLE, '0x20c5429b'],
     ].map(async (capability) => {
-      return connector.queryContract({
+      return provider.queryContract({
         to: ledgerId,
         abi: xcertAbi.find((a) => a.name === 'supportsInterface'),
         data: [capability[1]],

@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Cert } from '@0xcert/certification';
+import { Cert } from '@0xcert/cert';
 import { Client } from '../../..';
 
 interface Data {
@@ -10,7 +10,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   stage.set('client', new Client({
-    connector: null,
+    provider: null,
   }));
 });
 

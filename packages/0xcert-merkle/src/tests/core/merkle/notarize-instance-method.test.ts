@@ -1,5 +1,5 @@
 import { Spec } from '@hayspec/spec';
-import { sha256 } from '@0xcert/crypto';
+import { sha } from '@0xcert/utils';
 import { Merkle } from '../../..';
 
 interface Data {
@@ -9,7 +9,7 @@ interface Data {
 const spec = new Spec<Data>();
 
 spec.before(async (ctx) => {
-  ctx.set('merkle', new Merkle({ hasher: sha256 }));
+  ctx.set('merkle', new Merkle({ hasher: (v) => sha(256, v) }));
 });
 
 spec.test('empty array', async (ctx) => {

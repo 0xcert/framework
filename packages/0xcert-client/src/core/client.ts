@@ -1,60 +1,60 @@
-import { ConnectorBase, Mutation } from "@0xcert/scaffold";
-import { Cert } from '@0xcert/certification';
+import { GenericProviderBase, Mutation } from "@0xcert/scaffold";
+import { Cert } from '@0xcert/cert';
 import { MutationTracker } from '@0xcert/mutation-tracker';
 
 /**
  * 
  */
 export interface ClientConfig {
-  connector: ConnectorBase;
+  provider: GenericProviderBase;
 }
 
 /**
  * 
  */
 export class Client {
-  protected connector: ConnectorBase;
+  protected provider: GenericProviderBase;
 
   /**
    * 
    */
   public constructor(options: ClientConfig) {
-    this.connector = options.connector;
+    this.provider = options.provider;
   }
 
   /**
    * 
    */
   public async sign(val: string) {
-    return this.connector.sign(val);
+    return this.provider.sign(val);
   }
 
   /**
    * 
    */
   public async getMutation(id: string): Promise<Mutation> {
-    return this.connector.getMutation(id);
+    return this.provider.getMutation(id);
   }
 
   /**
    * 
    */
   public async getOrderGateway(id: string = null) {
-    return this.connector.getOrderGateway(id);
+    return this.provider.getOrderGateway(id);
   }
 
   /**
    * 
    */
   public async getAssetLedger(id: string) {
-    return this.connector.getAssetLedger(id);
+    return this.provider.getAssetLedger(id);
   }
 
   /**
    * 
    */
   public async getValueLedger(id: string) {
-    return this.connector.getValueLedger(id);
+    return this.provider.getValueLedger(id);
   }
 
   /**
@@ -77,7 +77,7 @@ export class Client {
    * 
    */
   public createMutationTracker() {
-    return new MutationTracker(this.connector);
+    return new MutationTracker(this.provider);
   }
 
 }

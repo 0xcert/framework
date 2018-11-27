@@ -1,21 +1,21 @@
 import { Spec } from '@hayspec/spec';
-import { FaceConnector } from '../helpers/connector';
+import { FakeGenericProvider } from '../helpers/provider';
 import { MutationTracker, MutationEvent } from '../..';
 
 interface Data {
-  connector: FaceConnector;
+  provider: FakeGenericProvider;
   tracker: MutationTracker;
 }
 
 const spec = new Spec<Data>();
 
 spec.beforeEach((ctx) => {
-  ctx.set('connector', new FaceConnector());
+  ctx.set('provider', new FakeGenericProvider());
 });
 
 spec.beforeEach((ctx) => {
   ctx.set('tracker', new MutationTracker(
-    ctx.get('connector')
+    ctx.get('provider')
   ))
 });
 
@@ -42,7 +42,7 @@ spec.test('starts and stops the heartbit', async (ctx) => {
 });
 
 spec.test('handles mutation confirmations', async (ctx) => {
-  const connector = ctx.get('connector');
+  const provider = ctx.get('provider');
   const tracker = ctx.get('tracker');
   const stats = { confirm: 0, complete: 0 };
   tracker.add('100', '101', '102');
@@ -50,7 +50,7 @@ spec.test('handles mutation confirmations', async (ctx) => {
   tracker.on(MutationEvent.COMPLETE, () => stats.complete++);
   for (let i = 0; i < 10; i++) {
     await tracker.tick();
-    connector.confirmations = i; // simulate confirmations
+    provider.confirmations = i; // simulate confirmations
   }
   ctx.is(stats.confirm, 12);
   ctx.is(stats.complete, 3);

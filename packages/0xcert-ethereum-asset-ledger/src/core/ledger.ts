@@ -1,4 +1,4 @@
-import { Connector } from '@0xcert/ethereum-connector';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerBase, AssetLedgerTransferState, AssetLedgerAbility, AssetLedgerCapability } from "@0xcert/scaffold";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
@@ -13,14 +13,14 @@ import setTransferState from '../mutations/set-transfer-state';
  * 
  */
 export class AssetLedger /*implements AssetLedgerBase*/ {
-  protected connector: Connector;
+  protected provider: GenericProvider;
   readonly id: string;
 
   /**
    * 
    */
-  public constructor(connector: Connector, id: string) {
-    this.connector = connector;
+  public constructor(provider: GenericProvider, id: string) {
+    this.provider = provider;
     this.id = id;
   }
 
@@ -28,56 +28,56 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
-    return assignAbilities(this.connector, this.id, accountId, abilities);
+    return assignAbilities(this.provider, this.id, accountId, abilities);
   }
 
   /**
    * 
    */
   public async getAbilities(accountId: string) {
-    return getAbilities(this.connector, this.id, accountId);
+    return getAbilities(this.provider, this.id, accountId);
   }
 
   /**
    * 
    */
   public async getCapabilities() {
-    return getCapabilities(this.connector, this.id);
+    return getCapabilities(this.provider, this.id);
   }
 
   /**
    * 
    */
   public async getInfo() {
-    return getInfo(this.connector, this.id);
+    return getInfo(this.provider, this.id);
   }
 
   /**
    * 
    */
   public async getSupply() {
-    return getSupply(this.connector, this.id);
+    return getSupply(this.provider, this.id);
   }
 
   /**
    * 
    */
   public async getTransferState() {
-    return getTransferState(this.connector, this.id);
+    return getTransferState(this.provider, this.id);
   }
 
   /**
    * 
    */
   public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
-    return revokeAbilities(this.connector, this.id, accountId, abilities);
+    return revokeAbilities(this.provider, this.id, accountId, abilities);
   }
 
   /**
    * 
    */
   public async setTransferState(state: AssetLedgerTransferState) {
-    return setTransferState(this.connector, this.id, state);
+    return setTransferState(this.provider, this.id, state);
   }
 
 }

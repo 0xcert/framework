@@ -1,11 +1,11 @@
-import { Connector } from "@0xcert/ethereum-connector";
+import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import { AssetLedgerAbility } from "@0xcert/scaffold";
 import xcertAbi from '../config/xcertAbi';
 
 /**
  * 
  */
-export default async function(connector: Connector, ledgerId: string, accountId: string) {
+export default async function(provider: GenericProvider, ledgerId: string, accountId: string) {
   return await Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
       AssetLedgerAbility.MINT_ASSET,
@@ -14,7 +14,7 @@ export default async function(connector: Connector, ledgerId: string, accountId:
       AssetLedgerAbility.SIGN_MINT_CLAIM,
       AssetLedgerAbility.UPDATE_PROOF,
     ].map(async (ability) => {
-      return connector.queryContract({
+      return provider.queryContract({
         to: ledgerId,
         abi: xcertAbi.find((a) => a.name === 'isAble'),
         data: [accountId, ability],

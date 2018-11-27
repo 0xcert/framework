@@ -56,11 +56,11 @@ Note, that the root hash is never part of the evidence object!
 Create an instance of a merkle tree.
 
 ```js
-import { sha256 } from '@0xcert/crypto'; 
+import { sha } from '@0xcert/utils'; 
 import { Merkle } from '@0xcert/merkle'; 
 
 const merkle = new Merkle({
-  hasher: (v) => sha256(v),
+  hasher: (v) => sha(256, v),
 });
 const values = ['A', 'B', 'C', 'D', 'E'];
 const expose = [2, 3];

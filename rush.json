@@ -13,28 +13,13 @@
   },
   "projects": [
     {
-      "packageName": "@0xcert/certification",
-      "projectFolder": "packages/0xcert-certification",
+      "packageName": "@0xcert/cert",
+      "projectFolder": "packages/0xcert-cert",
       "versionPolicyName": "patchAll"
     },
     {
       "packageName": "@0xcert/client",
       "projectFolder": "packages/0xcert-client",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/conventions",
-      "projectFolder": "packages/0xcert-conventions",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/crypto",
-      "projectFolder": "packages/0xcert-crypto",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/ethereum-connector",
-      "projectFolder": "packages/0xcert-ethereum-connector",
       "versionPolicyName": "patchAll"
     },
     {
@@ -45,6 +30,11 @@
     {
       "packageName": "@0xcert/scaffold",
       "projectFolder": "packages/0xcert-scaffold",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/schemas",
+      "projectFolder": "packages/0xcert-schemas",
       "versionPolicyName": "patchAll"
     },
     {
@@ -70,6 +60,16 @@
     {
       "packageName": "@0xcert/ethereum-erc721-contracts",
       "projectFolder": "packages/0xcert-ethereum-erc721-contracts",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-generic-provider",
+      "projectFolder": "packages/0xcert-ethereum-generic-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-metamask-provider",
+      "projectFolder": "packages/0xcert-ethereum-metamask-provider",
       "versionPolicyName": "patchAll"
     },
     {
