@@ -48,14 +48,14 @@ export default {
       assetData: {
         age: 38,
         name: 'John',
-      }
+      },
     }
   },
   methods: {
     async connect() {
-      await this.$ethereum.enable()
-      const isSupported = this.$ethereum.isSupported()
-      const isEnabled = await this.$ethereum.isEnabled()
+      await this.$0xcert.provider.enable()
+      const isSupported = this.$0xcert.provider.isSupported()
+      const isEnabled = await this.$0xcert.provider.isEnabled()
       console.log('Is metamask supported:', isSupported)
       console.log('Is metamask enabled:', isEnabled)
     },
