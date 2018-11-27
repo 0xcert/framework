@@ -5,24 +5,25 @@ import * as queryContract from '../procedures/query-contract';
 import * as sign from '../procedures/sign';
 import { TransactionObject, BlockObject, RpcResponse, QuantityTag,
   ContractQueryOptions, ContractMutationOptions, SendOptions, SignOptions,
-  SignMethod,
-  RpcClient} from './types';
+  SignMethod, 
+  ProviderEvent} from './types';
 import { parseError } from './errors';
+import { ProviderEmitter } from './emitter';
 
 /**
  * 
  */
 export interface GenericProviderOptions {
   accountId?: string;
-  client: RpcClient;
+  client: any;
   signMethod?: SignMethod;
 }
 
 /**
  * Ethereum RPC client.
  */
-export class GenericProvider {
-  protected client: RpcClient;
+export class GenericProvider extends ProviderEmitter {
+  protected client: any;
   protected requestIndex: number = 0;
   public accountId: string;
   public signMethod: SignMethod;
@@ -33,9 +34,19 @@ export class GenericProvider {
    * @param options.accountId Coinbase address.
    */
   public constructor(options: GenericProviderOptions) {
+    super();
+    
     this.accountId = options.accountId;
-    this.client = options.client.currentProvider || options.client;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
+
+    this.client = options.client && options.client.currentProvider
+      ? options.client.currentProvider
+      : options.client;
+    
+    if (this.client) {
+      this.client.on(ProviderEvent.NETWORK_CHANGE, () => this.emit(ProviderEvent.NETWORK_CHANGE));
+      this.client.on(ProviderEvent.ACCOUNT_CHANGE, () => this.emit(ProviderEvent.ACCOUNT_CHANGE));
+    }
   }
   
   /**

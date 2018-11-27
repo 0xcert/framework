@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/ethereum-generic-provider",
+  "name": "@0xcert/ethereum-metamask-provider",
   "version": "0.0.0-alpha2",
-  "description": "Ethereum ledger for 0xcert protocol.",
+  "description": "Metamsk provider for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "specron": {
     "test": {
-      "port": 8520,
+      "port": 8519,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
@@ -31,8 +31,6 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/scaffold": "0.0.0-alpha2",
-    "@0xcert/utils": "0.0.0-alpha2",
-    "web3-eth-abi": "^1.0.0-beta.36"
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha2"
   }
 }

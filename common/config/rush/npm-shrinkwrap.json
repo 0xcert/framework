@@ -1185,6 +1185,18 @@
         "web3-eth-abi": "^1.0.0-beta.36"
       }
     },
+    "@rush-temp/ethereum-metamask-provider": {
+      "version": "file:projects/ethereum-metamask-provider.tgz",
+      "integrity": "sha512-BJMrHnED35bUMMODPUjo6GQbYgNmhRA46WfbjaV1XKdjuZ81B+ZXuFY0QGAeNWVPkph1erbR5UPSMYjXtYiO1g==",
+      "requires": {
+        "@specron/cli": "^0.3.0",
+        "@specron/spec": "^0.3.0",
+        "solc": "^0.4.25",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1",
+        "web3": "^1.0.0-beta.36"
+      }
+    },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
       "integrity": "sha512-MNqBy+bZ/Rhy5Stzq9hbMPDUJhqCI/JiYJpeOjOW2aBcDSQiL9DjRMX8bYxf4Pk1HD9eg+WonoAvvcIld9V78g==",
@@ -1330,10 +1342,9 @@
     },
     "@rush-temp/vue-example": {
       "version": "file:projects/vue-example.tgz",
-      "integrity": "sha512-ziCoa1rYKD76XupPOLYBLACyRIa0Of7Q20LyXG08aGrztPy4L8OmsWo6F4XkC7sdzYc/gsqLrWtRdSvBk9+LFA==",
+      "integrity": "sha512-hs5kuCC5w+dxcajfdyhuL+AXhlU5Ap/W8thsQR5qPJ8b9K8xVVaqXKP3yAHQy+kniaQIfk8PKH5L5hJMIiD1Iw==",
       "requires": {
-        "nuxt": "^2.3.1",
-        "web3": "^1.0.0-beta.36"
+        "nuxt": "^2.3.1"
       }
     },
     "@rush-temp/webpack": {

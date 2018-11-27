@@ -68,6 +68,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/ethereum-metamask-provider",
+      "projectFolder": "packages/0xcert-ethereum-metamask-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/ethereum-order-gateway-contracts",
       "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
       "versionPolicyName": "patchAll"
