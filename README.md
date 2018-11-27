@@ -2,7 +2,10 @@
 
 ## TODO
 
-- [K,T] Ledger event subscription
+- Ethereum mutation vs mutation tracker
+- Add static methods `deploy` and `new` for AssetLednger and ValueLedger.
+- Configure webpack ./dist packages
+- use BigNumber for all ethereum packages
 
 ## Development
 
@@ -23,4 +26,3 @@ See [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) for details.
 Once this repo is public we'll be able to use the compiled libraries through a CDN like this:
 * For `0xcert-main`: `https://cdn.jsdelivr.net/gh/0xcert/framework@[version]/dist/0xcert-main.js`,
 * For `0xcert-web3`: `https://cdn.jsdelivr.net/gh/0xcert/framework@[version]/dist/0xcert-web3.js`.
-
