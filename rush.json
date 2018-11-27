@@ -93,11 +93,6 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/mutation-tracker",
-      "projectFolder": "packages/0xcert-mutation-tracker",
-      "versionPolicyName": "patchAll"
-    },
-    {
       "packageName": "@0xcert/ethereum-utils-contracts",
       "projectFolder": "packages/0xcert-ethereum-utils-contracts",
       "versionPolicyName": "patchAll"
