@@ -2,9 +2,7 @@
 
 ## TODO
 
-- Ethereum mutation vs mutation tracker
 - Add static methods `deploy` and `new` for AssetLednger and ValueLedger.
-- Configure webpack ./dist packages
 - use BigNumber for all ethereum packages
 
 ## Development
