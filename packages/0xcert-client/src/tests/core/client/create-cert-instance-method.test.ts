@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import { Cert } from '@0xcert/certification';
+import { Cert } from '@0xcert/cert';
 import { Client } from '../../..';
 
 interface Data {

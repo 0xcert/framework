@@ -1,4 +1,4 @@
-import { sha256 } from '@0xcert/crypto';
+import { sha } from '@0xcert/utils';
 import { Merkle, MerkleHasher } from '@0xcert/merkle';
 import { toString, stepPaths, cloneObject, readPath } from '../utils/data';
 import { PropProof, PropPath } from './prop';
@@ -26,7 +26,7 @@ export class Cert {
     this.schema = config.schema;
 
     this.merkle = new Merkle({
-      hasher: (v) => sha256(toString(v)),
+      hasher: (v) => sha(256, toString(v)),
       ...config,
     });
   }

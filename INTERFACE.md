@@ -86,7 +86,7 @@ await gateway.cancel(order); // (maker)
 await gateway.perform(order, signature); // (taker)
 ```
 ```ts
-import { Cert } from '@0xcert/certification';
+import { Cert } from '@0xcert/cert';
 
 const cert = new Cert({ schema });
 const proofs = await cert.notarize(data);
@@ -116,7 +116,7 @@ import { EthereumConnector } from '@0xcert/ethereum-connector';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
-import { Cert } from '@0xcert/certification';
+import { Cert } from '@0xcert/cert';
 import { MutationTracker } from '@0xcert/ethereum-tracker';
 
 const provider = new EthereumConnector({
@@ -233,3 +233,43 @@ const recipe = [
 ## NOTES
 
 - add listner for metamask address changed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```ts
+// 0xcert
+0xcert-cert
+0xcert-schemas
+0xcert-merkle
+0xcert-scaffold
+0xcert-utils
+0xcert-webpack
+// Ethereum
+0xcert-ethereum-asset-ledger
+0xcert-ethereum-value-ledger
+0xcert-ethereum-order-gateway
+0xcert-ethereum-basic-provider
+0xcert-ethereum-metamask-provider
+0xcert-ethereum-erc20-contracts
+0xcert-ethereum-erc721-contracts
+0xcert-ethereum-proxy-contracts
+0xcert-ethereum-utils-contracts
+0xcert-ethereum-xcert-contracts
+0xcert-ethereum-order-gateway-contracts
+0xcert-ethereum-mutation-tracker
+0xcert-ethereum-sandbox
+// VueJS
+0xcert-vue-plugin
+0xcert-vue-example
+```

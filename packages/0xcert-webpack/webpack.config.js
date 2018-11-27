@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   entry: {
     '0xcert-client': `./src/0xcert-client.js`,
+    '0xcert-ethereum-connector': `./src/0xcert-ethereum-connector.js`,
   },
   output: {
     filename: `[name].min.js`,

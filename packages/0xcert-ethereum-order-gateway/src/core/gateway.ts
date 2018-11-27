@@ -1,6 +1,6 @@
 import { OrderGatewayBase, Order, OrderActionKind, OrderAction } from '@0xcert/scaffold';
 import { Connector } from '@0xcert/ethereum-connector';
-import { tuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/utils';
+import { toTuple, toFloat, toInteger, toSeconds, toString } from '@0xcert/utils';
 import { soliditySha3, padLeft } from './utils';
 import gatewayAbi from '../config/gatewayAbi';
 
@@ -79,7 +79,7 @@ export class OrderGateway /*implements OrderGatewayBase*/ {
       expirationTimestamp: toSeconds(order.expiration),
     };
 
-    return tuple(recipeData);
+    return toTuple(recipeData);
   }
 
   /**
@@ -99,7 +99,7 @@ export class OrderGateway /*implements OrderGatewayBase*/ {
       signatureData.v = signatureData.v + 27;
     }
 
-    return tuple(signatureData);
+    return toTuple(signatureData);
   }
 
   /**

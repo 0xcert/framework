@@ -1,5 +1,5 @@
 import { ConnectorBase, Mutation } from "@0xcert/scaffold";
-import { Cert } from '@0xcert/certification';
+import { Cert } from '@0xcert/cert';
 import { MutationTracker } from '@0xcert/mutation-tracker';
 
 /**

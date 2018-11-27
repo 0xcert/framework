@@ -1,7 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ConnectorIssue } from '@0xcert/scaffold/dist/core/errors';
-import { tuple } from '@0xcert/utils';
 import { parseError } from '../../..';
 
 interface Data {
@@ -228,7 +227,7 @@ spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
     kind: 3
   }
 
-  const signatureDataTuple = tuple(signatureData);
+  const signatureDataTuple = ctx.tuple(signatureData);
   await orderGateway.instance.methods.isValidSignature(jane, '0x0', signatureDataTuple).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {

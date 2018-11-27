@@ -139,13 +139,13 @@ export class Connector {
         id: requestIndex,
         ...options,
       }, (err, res) => {
-        if (err) {
+        if (err) { // client error
           return reject(err);
         }
-        else if (res.error) {
+        else if (res.error) { // RPC error
           return reject(res.error);
         }
-        else if (res.id !== requestIndex) {
+        else if (res.id !== requestIndex) { // anomaly
           return reject('Invalid RPC id');
         }
         return resolve(res);

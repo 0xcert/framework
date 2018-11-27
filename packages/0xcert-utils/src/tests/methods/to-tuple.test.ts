@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
-import { tuple } from '../..';
+import { toTuple } from '../..';
 
 const spec = new Spec();
 
 spec.test('transforms an object to tuple', (ctx) => {
-  const res = tuple({
+  const res = toTuple({
     foo: "FOO",
     bar: ["BAR1", "BAR2"],
     baz: {
