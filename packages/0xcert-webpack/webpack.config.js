@@ -2,16 +2,17 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    '0xcert-client': `./src/0xcert-client.js`,
-    // '0xcert-ethereum-generic-provider': `./src/0xcert-ethereum-generic-provider.js`,
+    '0xcert-cert': './src/0xcert-cert.js',
+    '0xcert-ethereum-asset-ledger': './src/0xcert-ethereum-asset-ledger.js',
+    '0xcert-ethereum-generic-provider': './src/0xcert-ethereum-generic-provider.js',
+    '0xcert-ethereum-metamask-provider': './src/0xcert-ethereum-metamask-provider.js',
+    '0xcert-ethereum-order-gateway': './src/0xcert-ethereum-order-gateway.js',
+    '0xcert-ethereum-value-ledger': './src/0xcert-ethereum-value-ledger.js',
   },
   output: {
     filename: `[name].min.js`,
     path: path.join(__dirname, '..', '..', 'dist'),
   },
-  // optimization: {
-  //   minimize: false,
-  // },
   externals: {
     'window': {},
     'crypto': {}, // node only

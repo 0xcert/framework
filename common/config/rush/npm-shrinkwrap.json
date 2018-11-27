@@ -1162,10 +1162,11 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-KmkbSXhlsxYMIEOGxOIOC8rHyo1arXgrl/aIPobEQpeVtaZjLmQVI2D5wSfRqcPyptKrVqZNMW5KSwB4RkdpIQ==",
+      "integrity": "sha512-PEZLfrNihhmJCvC7vahcA9e7h7jEDcuQfq+eUedCePkOsfFNqwRdv8y88SFzPj36Vq4vdS71FNsXTPDB+QFUoQ==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
+        "@types/node": "^10.12.10",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -1284,17 +1285,6 @@
         "typescript": "^3.1.1"
       }
     },
-    "@rush-temp/mutation-tracker": {
-      "version": "file:projects/mutation-tracker.tgz",
-      "integrity": "sha512-w7s8/XCHRUKhEoEdcvlliacsuR+ODB0Vfu0wzGVMWj5OHKSn1Dmjzoxv1BsKhuNwqbYzk0beUDmvh2NWrgXRgQ==",
-      "requires": {
-        "@hayspec/cli": "^0.7.6",
-        "@hayspec/spec": "^0.7.6",
-        "@types/node": "^10.12.0",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
     "@rush-temp/scaffold": {
       "version": "file:projects/scaffold.tgz",
       "integrity": "sha512-f5euGcpD87Du1MHfrl3gM8fVgH6JW24yhp5FAxNhmaCdB6ytD3Q7mzOkm1N/A3P0IoUXT+wtJDCq37jEc3/lRQ==",
@@ -1347,9 +1337,8 @@
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-kERDAxJpHs/9pqWm2Is1zkRdt/ZClW5nvAyCqlSSeIjNvA3ZfVVwA4MQuq85ArP6qjiWBBmtX+khXH3O3ifUZA==",
+      "integrity": "sha512-EMwg8ZalVZZ6QQGLu3wi34ErorIk8P49/Z9Fi0/MElrTjBLjsd4BoYN608vphxMhdvr5ZgF3RLWoFUr1FUzrMA==",
       "requires": {
-        "raw-loader": "^0.5.1",
         "webpack": "^4.25.0",
         "webpack-cli": "^3.1.2"
       }
@@ -8840,11 +8829,6 @@
           }
         }
       }
-    },
-    "raw-loader": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/raw-loader/-/raw-loader-0.5.1.tgz",
-      "integrity": "sha1-DD0L6u2KAclm2Xh793goElKpeao="
     },
     "read-cache": {
       "version": "1.0.0",
