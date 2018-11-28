@@ -48,8 +48,7 @@ spec.test('approve account for token transfer', async (ctx) => {
   
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.approveAccount(bob, '1');
-  // TODO(Kristjan): To make test independent we should check id Approved event was emited.
-  const approvedAccount = await ledger.getApprovedAccount('1');
+  const approvedAccount = await xcert.instance.methods.getApproved('1').call();
   ctx.is(approvedAccount, bob);
 });
 
