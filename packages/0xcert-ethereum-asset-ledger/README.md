@@ -33,5 +33,6 @@ await ledger.getAssetAccount(assetId);
 
 await ledger.setOperator(accountId, bool);
 await ledger.isOperator(ownerId, accountId);
+await ledger.clamTransferAsset(); // ??; transfer where from is not you
 // Enumerable ???
 ```

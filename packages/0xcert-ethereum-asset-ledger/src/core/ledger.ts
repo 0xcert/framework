@@ -11,11 +11,13 @@ import setTransferState from '../mutations/set-transfer-state';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
 import createAsset from '../mutations/create-asset';
-import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions } from './types';
+import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions, TransferAssetOptions } from './types';
 import updateAsset from '../mutations/update-asset';
 import destroyAsset from '../mutations/destroy-asset';
 import revokeAsset from '../mutations/revoke-asset';
 import update from '../mutations/update';
+import transfer from '../mutations/transfer';
+import safeTransfer from '../mutations/safeTransfer';
 
 /**
  * 
@@ -156,5 +158,19 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   public async update(data: UpdateOptions) {
     // TODO(Kristjan): available only if xcert.
     return await update(this.provider, this.id, data.uriBase);
+  }
+
+  /**
+   * 
+   */
+  public async transferAsset(data: TransferAssetOptions) {
+    // TODO(Kristjan): validate data.data param if exists.
+    if(true)// TODO(Kristjan): check provider for "unsafe" exceptions.
+    {
+      return await safeTransfer(this.provider, this.id, this.provider.accountId, data.to, data.id, data.data);
+    }else
+    {
+      return await transfer(this.provider, this.id, this.provider.accountId, data.to, data.id);
+    }
   }
 }

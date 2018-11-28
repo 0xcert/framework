@@ -20,3 +20,12 @@ export interface UpdateAssetOptions {
 export interface UpdateOptions {
   uriBase: string;
 }
+
+/**
+ * 
+ */
+export interface TransferAssetOptions {
+  id: string;
+  to: string;
+  data?: string;
+}
