@@ -14,6 +14,7 @@ import createAsset from '../mutations/create-asset';
 import { CreateAssetOptions, UpdateAssetOptions } from './types';
 import updateAsset from '../mutations/update-asset';
 import destroyAsset from '../mutations/destroy-asset';
+import revokeAsset from '../mutations/revoke-asset';
 
 /**
  * 
@@ -139,4 +140,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
     // TODO(Kristjan): available only if burnable xcert.
     return await destroyAsset(this.provider, this.id, assetId);
   }
+
+  /**
+   * 
+   */
+  public async revokeAsset(assetId: string) {
+    // TODO(Kristjan): available only if revokable xcert.
+    return await revokeAsset(this.provider, this.id, assetId);
+  }
+  
 }
