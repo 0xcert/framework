@@ -13,3 +13,10 @@ export interface CreateAssetOptions {
 export interface UpdateAssetOptions {
   proof: string;
 }
+
+/**
+ * 
+ */
+export interface UpdateOptions {
+  uriBase: string;
+}

@@ -283,4 +283,18 @@ export default [
     "stateMutability": "nonpayable",
     "type": "function"
   },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_uriBase",
+        "type": "string"
+      }
+    ],
+    "name": "setUriBase",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
 ];
