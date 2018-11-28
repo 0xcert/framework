@@ -13,6 +13,7 @@ import getApprovedAccount from '../queries/get-approved-account';
 import createAsset from '../mutations/create-asset';
 import { CreateAssetOptions, UpdateAssetOptions } from './types';
 import updateAsset from '../mutations/update-asset';
+import destroyAsset from '../mutations/destroy-asset';
 
 /**
  * 
@@ -129,5 +130,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
     // TODO(Kristjan): proof input validation that it is a hex of length 64.
     // TODO(Kristjan): available only if mutable xcert.
     return await updateAsset(this.provider, this.id, assetId, data.proof);
+  }
+
+  /**
+   * 
+   */
+  public async destroyAsset(assetId: string) {
+    // TODO(Kristjan): available only if burnable xcert.
+    return await destroyAsset(this.provider, this.id, assetId);
   }
 }

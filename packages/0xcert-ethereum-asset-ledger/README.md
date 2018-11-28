@@ -9,6 +9,7 @@ await ledger.setTransferState(state);
 await ledger.approveAccount(assetId, takerId); // ERC20 ERC721
 await ledger.createAsset({ accountId, assetId, proof });
 await ledger.updateAsset(assetId, { proof });
+await ledger.destroyAsset(assetId);
 
 ### Queries
 await ledger.getAbilities(accountId);
@@ -20,7 +21,6 @@ await ledger.isAprovedAccount(takerId, assetId); // ERC20 ERC721
 await ledger.getAprovedAccount(assetId); // ERC20 ERC721
 
 ## TODO
-await ledger.destroyAsset(assetId);
 await ledger.revokeAsset(assetId);
 await ledger.update({ uriBase });
 await ledger.transferAsset({ id, to, data? }); // safeTransfer / transfer based on provider info.
