@@ -92,15 +92,15 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async getApprovedAccount(tokenId: string) {
-    return getApprovedAccount(this.provider, this.id, tokenId);
+  public async getApprovedAccount(assetId: string) {
+    return getApprovedAccount(this.provider, this.id, assetId);
   }
 
   /**
    * 
    */
-  public async isApprovedAccount(accountId: string, tokenId: string) {
-    const account = await getApprovedAccount(this.provider, this.id, tokenId);
+  public async isApprovedAccount(accountId: string, assetId: string) {
+    const account = await getApprovedAccount(this.provider, this.id, assetId);
     return account === accountId;
   }
 }
