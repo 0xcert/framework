@@ -6,3 +6,10 @@ export interface CreateAssetOptions {
   assetId: string;
   proof: string;
 }
+
+/**
+ * 
+ */
+export interface UpdateAssetOptions {
+  proof: string;
+}

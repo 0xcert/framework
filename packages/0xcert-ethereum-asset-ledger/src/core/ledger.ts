@@ -11,7 +11,8 @@ import setTransferState from '../mutations/set-transfer-state';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
 import createAsset from '../mutations/create-asset';
-import { CreateAssetOptions } from './types';
+import { CreateAssetOptions, UpdateAssetOptions } from './types';
+import updateAsset from '../mutations/update-asset';
 
 /**
  * 
@@ -32,6 +33,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
+    // TODO(Kristjan): Available only if xcert.
     return assignAbilities(this.provider, this.id, accountId, abilities);
   }
 
@@ -39,6 +41,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getAbilities(accountId: string) {
+    // TODO(Kristjan): Available only if xcert.
     return getAbilities(this.provider, this.id, accountId);
   }
 
@@ -46,6 +49,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getCapabilities() {
+    // TODO(Kristjan): Available only if xcert.
     return getCapabilities(this.provider, this.id);
   }
 
@@ -67,6 +71,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getTransferState() {
+    // TODO(Kristjan): Available only if xcert.
     return getTransferState(this.provider, this.id);
   }
 
@@ -74,6 +79,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
+    // TODO(Kristjan): Available only if xcert.
     return revokeAbilities(this.provider, this.id, accountId, abilities);
   }
 
@@ -81,6 +87,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async setTransferState(state: AssetLedgerTransferState) {
+    // TODO(Kristjan): Available only if pausable xcert.
     return setTransferState(this.provider, this.id, state);
   }
 
@@ -111,6 +118,16 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    */
   public async createAsset(data: CreateAssetOptions) {
     // TODO(Kristjan): proof input validation that it is a hex of length 64.
+    // TODO(Kristjan): available only if xcert
     return await createAsset(this.provider, this.id, data.accountId, data.assetId, data.proof);
+  }
+
+  /**
+   * 
+   */
+  public async updateAsset(assetId: string, data: UpdateAssetOptions) {
+    // TODO(Kristjan): proof input validation that it is a hex of length 64.
+    // TODO(Kristjan): available only if mutable xcert.
+    return await updateAsset(this.provider, this.id, assetId, data.proof);
   }
 }

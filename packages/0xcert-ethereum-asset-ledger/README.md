@@ -6,7 +6,9 @@ A list of all available methods.
 await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setTransferState(state);
-await ledger.approveAccount(tokenId, takerId); // ERC20 ERC721
+await ledger.approveAccount(assetId, takerId); // ERC20 ERC721
+await ledger.createAsset({ accountId, assetId, proof });
+await ledger.updateAsset(assetId, { proof });
 
 ### Queries
 await ledger.getAbilities(accountId);
@@ -18,8 +20,6 @@ await ledger.isAprovedAccount(takerId, assetId); // ERC20 ERC721
 await ledger.getAprovedAccount(assetId); // ERC20 ERC721
 
 ## TODO
-await ledger.createAsset({ id, proof });
-await ledger.updateAsset(assetId, { proof });
 await ledger.destroyAsset(assetId);
 await ledger.revokeAsset(assetId);
 await ledger.update({ uriBase });
