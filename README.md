@@ -2,6 +2,7 @@
 
 ## TODO
 
+- Refactor `@0xcert/scaffold` and apply rules to packages
 - Add static methods `deploy` and `new` for AssetLednger and ValueLedger.
 - use BigNumber for all ethereum packages
 
@@ -11,6 +12,12 @@ Repository management: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda38
 Codecov integration: https://gist.github.com/xpepermint/34c1815c2c0eae7aebed58941b16094e
 Rush commands: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d
 Error code list: https://docs.google.com/spreadsheets/d/1TKiFKO9oORTIrMyjC11oqcaWWpTUVli5o9tOTh5Toio/edit?usp=sharing
+
+## CDN hosting
+
+```
+https://cdn.jsdelivr.net/gh/0xcert/ethereum-erc721/dist/<file-name>.min.js
+```
 
 ## Contributing
 
