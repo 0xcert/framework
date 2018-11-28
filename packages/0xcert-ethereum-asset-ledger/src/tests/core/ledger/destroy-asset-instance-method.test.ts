@@ -8,6 +8,7 @@ interface Data {
   ledger: AssetLedger;
   protocol: Protocol;
   coinbase: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -18,9 +19,15 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('coinbase', accounts[0]);
+  stage.set('bob', accounts[1]);
+});
+
+spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
-    accountId: await stage.web3.eth.getCoinbase(),
+    accountId: stage.get('bob'),
   });
 
   stage.set('provider', provider);
@@ -33,20 +40,18 @@ spec.before(async (stage) => {
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-spec.before(async (stage) => {
-  const accounts = await stage.web3.eth.getAccounts();
-  stage.set('coinbase', accounts[0]);
-});
+
 
 spec.test('destoy asset', async (ctx) => {
   const xcert = ctx.get('protocol').xcertBurnable;
   const ledger = ctx.get('ledger');
+  const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
 
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.mint(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.destroyAsset('1');
-  const coinbaseBalance = await xcert.instance.methods.balanceOf(coinbase).call();
-  ctx.is(coinbaseBalance, '0');
+  const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
+  ctx.is(bobBalance, '0');
 });
 
 export default spec;
