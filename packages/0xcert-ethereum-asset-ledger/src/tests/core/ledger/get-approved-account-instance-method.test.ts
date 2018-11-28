@@ -2,7 +2,6 @@ import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
-import { AssetLedgerAbility } from '@0xcert/scaffold';
 
 interface Data {
   protocol: Protocol;
