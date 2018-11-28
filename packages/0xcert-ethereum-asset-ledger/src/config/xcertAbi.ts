@@ -214,5 +214,27 @@ export default [
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
+  },
+  {
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_id",
+				"type": "uint256"
+			},
+			{
+				"name": "_proof",
+				"type": "bytes32"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 ];

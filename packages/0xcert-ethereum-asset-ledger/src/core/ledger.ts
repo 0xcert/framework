@@ -10,6 +10,7 @@ import revokeAbilities from '../mutations/revoke-abilities';
 import setTransferState from '../mutations/set-transfer-state';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
+import createAsset from '../mutations/create-asset';
 
 /**
  * 
@@ -102,5 +103,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   public async isApprovedAccount(accountId: string, assetId: string) {
     const account = await getApprovedAccount(this.provider, this.id, assetId);
     return account === accountId;
+  }
+
+  /**
+   * 
+   */
+  public async createAsset(accountId: string, assetId: string, proof: string) {
+    // TODO(Kristjan): proof input validation that it is a hex of length 64.
+    return await createAsset(this.provider, this.id, accountId, assetId, proof);
   }
 }
