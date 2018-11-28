@@ -7,8 +7,8 @@ interface Data {
   provider: GenericProvider;
   ledger: AssetLedger;
   protocol: Protocol;
-  bob: string;
   coinbase: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -40,16 +40,18 @@ spec.before(async (stage) => {
   stage.set('bob', accounts[1]);
 });
 
-spec.test('approve account for token transfer', async (ctx) => {
+spec.test('transfer asset', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  
+
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.approveAccount(bob, '1');
-  const approvedAccount = await xcert.instance.methods.getApproved('1').call();
-  ctx.is(approvedAccount, bob);
+  await ledger.transferAsset(
+    { to: bob, id: '1' }
+  );
+  const asset1Owner = await xcert.instance.methods.ownerOf('1').call();
+  ctx.is(asset1Owner, bob);
 });
 
 export default spec;

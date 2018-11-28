@@ -10,6 +10,14 @@ import revokeAbilities from '../mutations/revoke-abilities';
 import setTransferState from '../mutations/set-transfer-state';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
+import createAsset from '../mutations/create-asset';
+import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions, TransferAssetOptions } from './types';
+import updateAsset from '../mutations/update-asset';
+import destroyAsset from '../mutations/destroy-asset';
+import revokeAsset from '../mutations/revoke-asset';
+import update from '../mutations/update';
+import transfer from '../mutations/transfer';
+import safeTransfer from '../mutations/safeTransfer';
 
 /**
  * 
@@ -30,6 +38,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
+    // TODO(Kristjan): Available only if xcert.
     return assignAbilities(this.provider, this.id, accountId, abilities);
   }
 
@@ -37,6 +46,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getAbilities(accountId: string) {
+    // TODO(Kristjan): Available only if xcert.
     return getAbilities(this.provider, this.id, accountId);
   }
 
@@ -44,6 +54,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getCapabilities() {
+    // TODO(Kristjan): Available only if xcert.
     return getCapabilities(this.provider, this.id);
   }
 
@@ -65,6 +76,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async getTransferState() {
+    // TODO(Kristjan): Available only if xcert.
     return getTransferState(this.provider, this.id);
   }
 
@@ -72,6 +84,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
+    // TODO(Kristjan): Available only if xcert.
     return revokeAbilities(this.provider, this.id, accountId, abilities);
   }
 
@@ -79,6 +92,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    * 
    */
   public async setTransferState(state: AssetLedgerTransferState) {
+    // TODO(Kristjan): Available only if pausable xcert.
     return setTransferState(this.provider, this.id, state);
   }
 
@@ -92,15 +106,71 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async getApprovedAccount(tokenId: string) {
-    return getApprovedAccount(this.provider, this.id, tokenId);
+  public async getApprovedAccount(assetId: string) {
+    return getApprovedAccount(this.provider, this.id, assetId);
   }
 
   /**
    * 
    */
-  public async isApprovedAccount(accountId: string, tokenId: string) {
-    const account = await getApprovedAccount(this.provider, this.id, tokenId);
+  public async isApprovedAccount(accountId: string, assetId: string) {
+    const account = await getApprovedAccount(this.provider, this.id, assetId);
     return account === accountId;
+  }
+
+  /**
+   * 
+   */
+  public async createAsset(data: CreateAssetOptions) {
+    // TODO(Kristjan): proof input validation that it is a hex of length 64.
+    // TODO(Kristjan): available only if xcert
+    return await createAsset(this.provider, this.id, data.accountId, data.assetId, data.proof);
+  }
+
+  /**
+   * 
+   */
+  public async updateAsset(assetId: string, data: UpdateAssetOptions) {
+    // TODO(Kristjan): proof input validation that it is a hex of length 64.
+    // TODO(Kristjan): available only if mutable xcert.
+    return await updateAsset(this.provider, this.id, assetId, data.proof);
+  }
+
+  /**
+   * 
+   */
+  public async destroyAsset(assetId: string) {
+    // TODO(Kristjan): available only if burnable xcert.
+    return await destroyAsset(this.provider, this.id, assetId);
+  }
+
+  /**
+   * 
+   */
+  public async revokeAsset(assetId: string) {
+    // TODO(Kristjan): available only if revokable xcert.
+    return await revokeAsset(this.provider, this.id, assetId);
+  }
+
+  /**
+   * 
+   */
+  public async update(data: UpdateOptions) {
+    // TODO(Kristjan): available only if xcert.
+    return await update(this.provider, this.id, data.uriBase);
+  }
+
+  /**
+   * 
+   */
+  public async transferAsset(data: TransferAssetOptions) {
+    // TODO(Kristjan): validate data.data param if exists.
+    if(true)// TODO(Kristjan): check provider for "unsafe" exceptions.
+    {
+      return await safeTransfer(this.provider, this.id, this.provider.accountId, data.to, data.id, data.data);
+    }else
+    {
+      return await transfer(this.provider, this.id, this.provider.accountId, data.to, data.id);
+    }
   }
 }

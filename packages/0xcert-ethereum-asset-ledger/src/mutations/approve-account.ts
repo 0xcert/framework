@@ -4,10 +4,10 @@ import xcertAbi from '../config/xcertAbi';
 /**
  * 
  */
-export default async function(provider: GenericProvider, ledgerId: string, accountId: string, tokenId: string) {
+export default async function(provider: GenericProvider, ledgerId: string, accountId: string, assetId: string) {
   return provider.mutateContract({
     to: ledgerId,
     abi: xcertAbi.find((a) => a.name === 'approve'),
-    data: [accountId, tokenId],
+    data: [accountId, assetId],
   });
 }

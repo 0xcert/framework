@@ -7,8 +7,8 @@ interface Data {
   provider: GenericProvider;
   ledger: AssetLedger;
   protocol: Protocol;
-  bob: string;
   coinbase: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -29,7 +29,7 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').xcert.instance.options.address;
+  const ledgerId = stage.get('protocol').xcertRevokable.instance.options.address;
 
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
@@ -40,16 +40,16 @@ spec.before(async (stage) => {
   stage.set('bob', accounts[1]);
 });
 
-spec.test('approve account for token transfer', async (ctx) => {
-  const xcert = ctx.get('protocol').xcert;
+spec.test('revoke asset', async (ctx) => {
+  const xcert = ctx.get('protocol').xcertRevokable;
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.approveAccount(bob, '1');
-  const approvedAccount = await xcert.instance.methods.getApproved('1').call();
-  ctx.is(approvedAccount, bob);
+
+  await xcert.instance.methods.mint(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await ledger.revokeAsset('1');
+  const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
+  ctx.is(bobBalance, '0');
 });
 
 export default spec;
