@@ -23,7 +23,7 @@ await ledger.isAprovedAccount(takerId, assetId); // ERC20 ERC721
 await ledger.getAprovedAccount(assetId); // ERC20 ERC721
 
 ## TODO
-await ledger.transferAsset({ id, to, data? }); // safeTransfer / transfer based on provider info.
+await ledger.transferAsset({ id, to, data? }); // Safe transfer is done, still needs normal transfer based on provider info implementation.
 
 await ledger.getAsset(assetId); // proof, uri, assetId
 await ledger.getBalance(accountId);

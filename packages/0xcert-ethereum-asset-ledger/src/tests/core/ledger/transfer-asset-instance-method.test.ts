@@ -82,4 +82,8 @@ spec.test('transfer asset to a contract with data', async (ctx) => {
   ctx.is(asset1Owner, nftokenReceiver);
 });
 
+spec.test('transfer asset to unsafe contract', async (ctx) => {
+  // TODO(Kristjan): Write test after you implement list of "usafe" contract in provider and ledger.ts
+});
+
 export default spec;
