@@ -13,10 +13,15 @@ export function buildParams(hash: string) {
  * 
  */
 export function parseResult({ result }: RpcResponse): TransactionObject {
-  return {
-    ...result,
-    nonce: parseInt(result.nonce),
-    blockNumber: parseInt(result.blockNumber),
-    transactionIndex: parseInt(result.transactionIndex),
-  };
+  if (!result) {
+    return result;
+  }
+  else {
+    return {
+      ...result,
+      nonce: parseInt(result.nonce),
+      blockNumber: parseInt(result.blockNumber),
+      transactionIndex: parseInt(result.transactionIndex),
+    };  
+  }
 } 

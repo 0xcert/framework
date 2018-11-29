@@ -68,6 +68,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/ethereum-http-provider",
+      "projectFolder": "packages/0xcert-ethereum-http-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/ethereum-metamask-provider",
       "projectFolder": "packages/0xcert-ethereum-metamask-provider",
       "versionPolicyName": "patchAll"
@@ -100,6 +105,11 @@
     {
       "packageName": "@0xcert/ethereum-value-ledger",
       "projectFolder": "packages/0xcert-ethereum-value-ledger",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-ws-provider",
+      "projectFolder": "packages/0xcert-ethereum-ws-provider",
       "versionPolicyName": "patchAll"
     },
     {
