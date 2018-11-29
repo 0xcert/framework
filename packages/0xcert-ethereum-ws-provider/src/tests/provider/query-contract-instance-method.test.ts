@@ -1,10 +1,10 @@
 import { Spec } from '@specron/spec';
 // import { Protocol } from '@0xcert/ethereum-sandbox';
-import { HttpProvider } from '../..';
+import { WsProvider } from '../..';
 
 interface Data {
   // protocol: Protocol;
-  provider: HttpProvider;
+  provider: WsProvider;
 }
 
 const spec = new Spec<Data>();
@@ -16,7 +16,7 @@ const spec = new Spec<Data>();
 // });
 
 spec.before(async (stage) => {
-  const provider = new HttpProvider({
+  const provider = new WsProvider({
     host: 'wss://ropsten.infura.io/ws',
   });
 

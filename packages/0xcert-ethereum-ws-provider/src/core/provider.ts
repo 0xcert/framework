@@ -4,7 +4,7 @@ import * as Web3WsProvider from 'web3-providers-ws';
 /**
  * 
  */
-export interface HttpProviderOptions {
+export interface WsProviderOptions {
   host?: string;
   timeout?: number;
   headers?: {
@@ -17,12 +17,12 @@ export interface HttpProviderOptions {
 /**
  * Metamask RPC client.
  */
-export class HttpProvider extends GenericProvider {
+export class WsProvider extends GenericProvider {
 
   /**
    * Class constructor.
    */
-  public constructor(options: HttpProviderOptions) {
+  public constructor(options: WsProviderOptions) {
     super({});
 
     options = { 
