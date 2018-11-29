@@ -15,7 +15,7 @@ import { Mutation } from './mutation';
  */
 export interface GenericProviderOptions {
   accountId?: string;
-  client: any;
+  client?: any;
   signMethod?: SignMethod;
 }
 
