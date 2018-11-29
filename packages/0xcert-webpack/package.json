@@ -16,7 +16,6 @@
     "@0xcert/ethereum-order-gateway": "0.0.0-alpha3",
     "@0xcert/ethereum-value-ledger": "0.0.0-alpha3",
     "webpack": "^4.25.0",
-    "webpack-cli": "^3.1.2",
-    "grpc-web": "*"
+    "webpack-cli": "^3.1.2"
   }
 }
