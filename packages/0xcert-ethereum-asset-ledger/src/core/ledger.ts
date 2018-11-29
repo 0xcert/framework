@@ -48,6 +48,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
+  public static getInstance(provider: GenericProvider, id: string) {
+    return new AssetLedger(provider, id);
+  }
+
+  /**
+   * 
+   */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]) {
     // TODO(Kristjan): Available only if xcert.
     return assignAbilities(this.provider, this.id, accountId, abilities);
@@ -176,11 +183,10 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    */
   public async transferAsset(data: TransferAssetOptions) {
     // TODO(Kristjan): validate data.data param if exists.
-    if(true)// TODO(Kristjan): check provider for "unsafe" exceptions.
-    {
+    if(true) {// TODO(Kristjan): check provider for "unsafe" exceptions.
       return await safeTransfer(this.provider, this.id, this.provider.accountId, data.to, data.id, data.data);
-    }else
-    {
+    }
+    else {
       return await transfer(this.provider, this.id, this.provider.accountId, data.to, data.id);
     }
   }
