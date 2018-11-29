@@ -1,4 +1,4 @@
-import { GenericProvider } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerBase, AssetLedgerTransferState, AssetLedgerAbility, AssetLedgerCapability } from "@0xcert/scaffold";
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
@@ -11,7 +11,7 @@ import setTransferState from '../mutations/set-transfer-state';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
 import createAsset from '../mutations/create-asset';
-import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions, TransferAssetOptions } from './types';
+import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions, TransferAssetOptions, AssetLedgerDeployOptions } from './types';
 import updateAsset from '../mutations/update-asset';
 import destroyAsset from '../mutations/destroy-asset';
 import revokeAsset from '../mutations/revoke-asset';
@@ -21,6 +21,7 @@ import safeTransfer from '../mutations/safe-transfer';
 import getBalance from '../queries/get-balance';
 import getAssetAccount from '../queries/get-asset-account';
 import getAsset from '../queries/get-asset';
+import deploy from '../mutations/deploy';
 
 /**
  * 
@@ -35,6 +36,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   public constructor(provider: GenericProvider, id: string) {
     this.provider = provider;
     this.id = id;
+  }
+
+  /**
+   * 
+   */
+  public static async deploy(provider: GenericProvider, options: AssetLedgerDeployOptions) {
+    return deploy(provider, options);
   }
 
   /**

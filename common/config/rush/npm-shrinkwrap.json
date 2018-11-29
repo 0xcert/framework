@@ -1126,14 +1126,15 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-QIAryKq99QKXoIgFkAV3AJxjJ0W5e2cJvv7BNQm37Ky4ejD3paWbE6qOUDAC48qGAvUqOjGSpNaYb0UtVJNr1A==",
+      "integrity": "sha512-qkrdWKoJPRfr49AzxxFwhHi+oUwDhY4e8TOiCI73FrFFRPKmMTi2fVb863MnXgTEduduZRCIQGXhuKIuQIql/w==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "^1.0.0-beta.36",
+        "web3-eth-abi": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-erc20-contracts": {
@@ -1364,9 +1365,8 @@
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-9++yXINrQuDSb90ljJdBW77lEuyUzEXFt7sRVgff0O9dG8DJRMZIfHWSoaj7Fx212nOGIfskDiQyp6ZtC5sv/Q==",
+      "integrity": "sha512-y4geiTLr53znsLhSdh10VxH3XLUTLgwOvdCkLyOF0gdLjqcyWTzBniz/Oa56On91FlA2QMB8yE8Yy38OAU/H9w==",
       "requires": {
-        "grpc-web": "*",
         "webpack": "^4.25.0",
         "webpack-cli": "^3.1.2"
       }
@@ -1664,9 +1664,9 @@
       "integrity": "sha1-4h3xCtbCBTKVvLuNq0Cwnb6ofk0="
     },
     "ajv": {
-      "version": "6.5.5",
-      "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.5.5.tgz",
-      "integrity": "sha512-7q7gtRQDJSyuEHjuVgHoUa2VuemFiCMrfQc9Tc08XTAc4Zj/5U1buQJ0HU6i7fKjXU09SVgSmxa4sLvuvS8Iyg==",
+      "version": "6.6.0",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.6.0.tgz",
+      "integrity": "sha512-ZCIMdm75ps9usdeb0GQL9rKOUlTtS0p0vU2nQVXgRIu6Yb00G9GY7AvbVLwTQ5Po4JDKIwJlT5nwggoRDrDVAw==",
       "requires": {
         "fast-deep-equal": "^2.0.1",
         "fast-json-stable-stringify": "^2.0.0",
@@ -4908,11 +4908,6 @@
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz",
       "integrity": "sha1-TK+tdrxi8C+gObL5Tpo906ORpyU="
     },
-    "grpc-web": {
-      "version": "1.0.3",
-      "resolved": "https://registry.npmjs.org/grpc-web/-/grpc-web-1.0.3.tgz",
-      "integrity": "sha512-C1mk+55YgPAmU4OK36Fm+nZoo62KTmjSF4/aUHT/yfpKFKTR6r/O8aavyRWaXUT83EcsoZoQaWYWY/2hrOSRJg=="
-    },
     "gzip-size": {
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/gzip-size/-/gzip-size-5.0.0.tgz",
@@ -6409,9 +6404,9 @@
       }
     },
     "node-releases": {
-      "version": "1.0.4",
-      "resolved": "https://registry.npmjs.org/node-releases/-/node-releases-1.0.4.tgz",
-      "integrity": "sha512-GqRV9GcHw8JCRDaP/JoeNMNzEGzHAknMvIHqMb2VeTOmg1Cf9+ej8bkV12tHfzWHQMCkQ5zUFgwFUkfraynNCw==",
+      "version": "1.0.5",
+      "resolved": "https://registry.npmjs.org/node-releases/-/node-releases-1.0.5.tgz",
+      "integrity": "sha512-Ky7q0BO1BBkG/rQz6PkEZ59rwo+aSfhczHP1wwq8IowoVdN/FpiP7qp0XW0P2+BVCWe5fQUBozdbVd54q1RbCQ==",
       "requires": {
         "semver": "^5.3.0"
       }

@@ -23,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "0.0.0-alpha3",
+    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha3",
     "@0xcert/utils": "0.0.0-alpha3",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "@0xcert/scaffold": "0.0.0-alpha3",
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha3"
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha3",
+    "web3-eth-abi": "^1.0.0-beta.36"
   }
 }

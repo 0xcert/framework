@@ -29,3 +29,13 @@ export interface TransferAssetOptions {
   to: string;
   data?: string;
 }
+
+/**
+ * 
+ */
+export interface AssetLedgerDeployOptions {
+  source: string;
+  name: string;
+  symbol: string;
+  uriBase: string;
+}
