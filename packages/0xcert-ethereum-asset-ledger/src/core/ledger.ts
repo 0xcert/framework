@@ -18,6 +18,7 @@ import revokeAsset from '../mutations/revoke-asset';
 import update from '../mutations/update';
 import transfer from '../mutations/transfer';
 import safeTransfer from '../mutations/safe-transfer';
+import getBalance from '../queries/get-balance';
 
 /**
  * 
@@ -172,5 +173,12 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
     {
       return await transfer(this.provider, this.id, this.provider.accountId, data.to, data.id);
     }
+  }
+
+  /**
+   * 
+   */
+  public async getBalance(accountId: string) {
+    return await getBalance(this.provider, this.id, accountId);
   }
 }
