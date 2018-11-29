@@ -35,6 +35,10 @@ export class MetamaskProvider extends GenericProvider {
       && !!this.accountId
     );
   }
+
+  /**
+   * 
+   */
   public async enable() {
     if (this.isSupported()) {
       this.accountId = await this.client.enable().then((a) => a[0]);

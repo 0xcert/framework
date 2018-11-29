@@ -25,8 +25,14 @@ docker run -d \
   --testnet \
   --rpc \
   --rpcaddr "0.0.0.0" \
+  --rpccorsdomain "*" \
+  --rpcapi "db,eth,net,web3,personal,web3" \
   --cache=512
 ```
 ```
 docker exec -it geth-test geth console --port 35555
 ```
+```
+curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":67}' http://localhost:8545
+```
+

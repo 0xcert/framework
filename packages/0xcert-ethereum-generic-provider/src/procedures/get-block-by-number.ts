@@ -14,10 +14,15 @@ export function buildParams(tag: QuantityTag) {
  * 
  */
 export function parseResult({ result }: RpcResponse): BlockObject {
-  return {
-    ...result,
-    number: parseInt(result.number),
-    nonce: parseInt(result.nonce),
-    timestamp: parseInt(result.timestamp),
-  };
+  if (!result) {
+    return result;
+  }
+  else {
+    return {
+      ...result,
+      number: parseInt(result.number),
+      nonce: parseInt(result.nonce),
+      timestamp: parseInt(result.timestamp),
+    };
+  } 
 } 
