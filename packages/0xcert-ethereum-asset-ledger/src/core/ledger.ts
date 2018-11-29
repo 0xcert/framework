@@ -17,7 +17,7 @@ import destroyAsset from '../mutations/destroy-asset';
 import revokeAsset from '../mutations/revoke-asset';
 import update from '../mutations/update';
 import transfer from '../mutations/transfer';
-import safeTransfer from '../mutations/safeTransfer';
+import safeTransfer from '../mutations/safe-transfer';
 
 /**
  * 
