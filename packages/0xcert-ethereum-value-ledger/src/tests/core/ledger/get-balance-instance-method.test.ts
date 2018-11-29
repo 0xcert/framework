@@ -7,6 +7,7 @@ interface Data {
   provider: GenericProvider
   ledger: ValueLedger;
   protocol: Protocol;
+  coinbase: string;
 }
 
 const spec = new Spec<Data>();
@@ -32,11 +33,19 @@ spec.before(async (stage) => {
   stage.set('ledger', new ValueLedger(provider, ledgerId));
 });
 
-spec.test('returns ledger total supply', async (ctx) => {
+spec.before(async (stage) => {
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('coinbase', accounts[0]);
+});
+
+
+spec.test('returns account balance', async (ctx) => {
   const ledger = ctx.get('ledger');
+  const coinbase = ctx.get('coinbase');
   
-  const supply = await ledger.getSupply();
-  ctx.is(supply.toString(), '300000000000000000000000000');
+  const balance = await ledger.getBalance(coinbase);
+
+  ctx.is(balance.toString(), '300000000000000000000000000');
 });
 
 export default spec;
