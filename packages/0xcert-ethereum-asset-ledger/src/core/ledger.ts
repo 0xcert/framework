@@ -19,6 +19,7 @@ import update from '../mutations/update';
 import transfer from '../mutations/transfer';
 import safeTransfer from '../mutations/safe-transfer';
 import getBalance from '../queries/get-balance';
+import getAssetAccount from '../queries/get-asset-account';
 
 /**
  * 
@@ -180,5 +181,12 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
    */
   public async getBalance(accountId: string) {
     return await getBalance(this.provider, this.id, accountId);
+  }
+
+  /**
+   * 
+   */
+  public async getAssetAccount(assetId: string) {
+    return await getAssetAccount(this.provider, this.id, assetId);
   }
 }
