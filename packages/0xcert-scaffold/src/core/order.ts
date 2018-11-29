@@ -44,7 +44,7 @@ export interface TransferValueOrderActionBase {
   ledgerId: string;
   senderId: string;
   receiverId: string;
-  value: number;
+  value: string; // TODO BN.js
 }
 
 /**

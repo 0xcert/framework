@@ -2,11 +2,14 @@ import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
+import { BN } from '../../../core/utils';
 
 interface Data {
   provider: GenericProvider
   ledger: ValueLedger;
   protocol: Protocol;
+  coinbase: string;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -18,8 +21,15 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('coinbase', accounts[0]);
+  stage.set('bob', accounts[1]);
+});
+
+spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
+    accountId: stage.get('coinbase')
   });
 
   stage.set('provider', provider);
@@ -32,11 +42,16 @@ spec.before(async (stage) => {
   stage.set('ledger', new ValueLedger(provider, ledgerId));
 });
 
-spec.test('returns ledger total supply', async (ctx) => {
+spec.test('approves account', async (ctx) => {
   const ledger = ctx.get('ledger');
-  
-  const supply = await ledger.getSupply();
-  ctx.is(supply.toString(), '300000000000000000000000000');
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const token = ctx.get('protocol').erc20;
+  const amount = new BN('300000000000000000000000'); 
+
+  await ledger.approveAccount(bob, amount);
+  const allowance = await token.instance.methods.allowance(coinbase, bob).call();
+  ctx.is(allowance, new BN('300000000000000000000000').toString());
 });
 
 export default spec;

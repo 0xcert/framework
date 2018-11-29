@@ -32,6 +32,7 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.tokenTransferProxy);
   ctx.true(!!sandbox.protocol.nftokenTransferProxy);
   ctx.true(!!sandbox.protocol.nftokenSafeTransferProxy);
+  ctx.true(!!sandbox.protocol.nftokenReceiver);
   ctx.true(!!sandbox.protocol.orderGateway);
 });
 

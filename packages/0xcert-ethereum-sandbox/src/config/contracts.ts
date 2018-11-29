@@ -11,6 +11,7 @@ const { XcertMintProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert
 const { TokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy');
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
+const { NFTokenReceiverTestMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-receiver-test-mock');
 const { OrderGateway } = require('@0xcert/ethereum-order-gateway-contracts/build/order-gateway');
 
 /**
@@ -43,6 +44,14 @@ export const erc721Metadata = {
 export const erc721 = {
   abi: NFTokenMock.abi,
   bytecode: NFTokenMock.evm.bytecode.object,
+};
+
+/**
+ * ERC721 receiver.
+ */
+export const erc721receiver = {
+  abi: NFTokenReceiverTestMock.abi,
+  bytecode: NFTokenReceiverTestMock.evm.bytecode.object,
 };
 
 /**
