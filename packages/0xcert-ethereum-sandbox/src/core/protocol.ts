@@ -20,6 +20,7 @@ export class Protocol {
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
+  public nftokenReceiver;
   public orderGateway;
 
   /**
@@ -62,6 +63,7 @@ export class Protocol {
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
+    this.nftokenReceiver = await this.deployNFTokenReceiver(from);
     this.orderGateway = await this.deployOrderGateway(from);
 
     return this;
@@ -262,6 +264,19 @@ export class Protocol {
     });
   }
 
+  /**
+   * Deploys the non-fungible token receiver contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployNFTokenReceiver(from: string) {
+    return await deploy({
+      web3: this.web3,
+      abi: contracts.erc721receiver.abi,
+      bytecode: contracts.erc721receiver.bytecode,
+      from,
+    });
+  }
+  
   /**
    * Deploys the decentralized orderGateway contract.
    * @param from Contract owner's address.

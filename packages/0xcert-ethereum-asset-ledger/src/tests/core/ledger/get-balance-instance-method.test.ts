@@ -1,12 +1,13 @@
 import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ValueLedger } from '../../../core/ledger';
+import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
-  provider: GenericProvider
-  ledger: ValueLedger;
+  provider: GenericProvider;
+  ledger: AssetLedger;
   protocol: Protocol;
+  bob: string;
 }
 
 const spec = new Spec<Data>();
@@ -27,16 +28,23 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').erc20.instance.options.address;
+  const ledgerId = stage.get('protocol').xcert.instance.options.address;
 
-  stage.set('ledger', new ValueLedger(provider, ledgerId));
+  stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-spec.test('returns ledger total supply', async (ctx) => {
+spec.before(async (stage) => {
+  const accounts = await stage.web3.eth.getAccounts();
+  stage.set('bob', accounts[1]);
+});
+
+spec.test('returns accounts balance', async (ctx) => {
   const ledger = ctx.get('ledger');
+  const bob = ctx.get('bob');
   
-  const supply = await ledger.getSupply();
-  ctx.is(supply.toString(), '300000000000000000000000000');
+  const balance = await ledger.getBalance(bob);
+
+  ctx.is(balance, 0);
 });
 
 export default spec;

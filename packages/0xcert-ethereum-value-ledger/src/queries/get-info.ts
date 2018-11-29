@@ -1,5 +1,6 @@
 import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import erc20Abi from '../config/erc20Abi';
+import { BN } from '../core/utils';
 
 /**
  * 

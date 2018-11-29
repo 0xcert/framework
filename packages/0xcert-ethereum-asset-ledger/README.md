@@ -21,18 +21,14 @@ await ledger.getSupply();
 await ledger.getTransferState();
 await ledger.isAprovedAccount(takerId, assetId); // ERC20 ERC721
 await ledger.getAprovedAccount(assetId); // ERC20 ERC721
-
-## TODO
-await ledger.transferAsset({ id, to, data? }); // safeTransfer / transfer based on provider info.
-
-await ledger.getAsset(assetId); // proof, uri, assetId
 await ledger.getBalance(accountId);
 await ledger.getAssetAccount(assetId);
+await ledger.getAsset(assetId); // proof, uri, assetId
 
-### Special TODO
-
-await ledger.setOperator(accountId, bool);
-await ledger.isOperator(ownerId, accountId);
+## TODO
+await ledger.transferAsset({ id, to, data? }); // Safe transfer is done, still needs normal transfer based on provider info implementation.
+await ledger.setOperator(accountId, bool); // how to name this? 
+await ledger.isOperator(ownerId, accountId); 
 await ledger.clamTransferAsset(); // ??; transfer where from is not you
 // Enumerable ???
 ```
