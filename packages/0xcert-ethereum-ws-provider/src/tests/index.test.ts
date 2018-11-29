@@ -4,7 +4,7 @@ import * as view from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!view.HttpProvider);
+  ctx.true(!!view.WsProvider);
 });
 
 export default spec;
