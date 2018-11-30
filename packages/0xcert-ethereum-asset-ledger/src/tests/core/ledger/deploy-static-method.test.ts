@@ -40,13 +40,14 @@ spec.test('deploys new assetledger', async (ctx) => {
   const provider = ctx.get('provider');
 
   const mutation = await AssetLedger.deploy(provider, {
-    source: ctx.get('bytecode'),
+    source: ctx.get('bytecode')['object'],
     name: 'Foo',
     symbol: 'Bar',
     uriBase: 'http://foo.bar',
+    conventionId: '0x0',
   });
 
-  // await xcert.instance.methods.mint(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  // const name = await xcert.instance.methods.name().call();
   // await ledger.destroyAsset('1');
   // const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
   // ctx.is(bobBalance, '0');

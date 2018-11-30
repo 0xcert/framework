@@ -44,7 +44,7 @@ spec.test('returns accounts balance', async (ctx) => {
   
   const balance = await ledger.getBalance(bob);
 
-  ctx.is(balance, 0);
+  ctx.is(balance, '0');
 });
 
 export default spec;

@@ -4,14 +4,16 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
+ * Smart contract method abi.
+ */
+const abi = xcertAbi.find((a) => (
+  a.name === 'isAble' && a.type === 'function'
+));
+
+/**
  * Gets an array of all abilities an account has.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'isAble' && a.type === 'function'
-  ));
-
   return await Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
       AssetLedgerAbility.MINT_ASSET,
@@ -20,20 +22,15 @@ export default async function(ledger: AssetLedger, accountId: string) {
       AssetLedgerAbility.SIGN_MINT_CLAIM,
       AssetLedgerAbility.UPDATE_PROOF,
     ].map(async (ability) => {
-      return ledger.provider.send({
+      const attrs = {
+        to: ledger.id,
+        data: encodeFunctionCall(abi, [accountId, ability]),
+      };
+      const res = await ledger.provider.send({
         method: 'eth_call',
-        params: [
-          {
-            to: ledger.id,
-            data: encodeFunctionCall(abi, [accountId, ability]),
-          },
-          'latest'
-        ],
-      }).then(({ result }) => {
-        return decodeParameters(abi.outputs, result);
-      }).then((r) => {
-        return r[0] ? ability : -1;
+        params: [attrs, 'latest'],
       });
+      return decodeParameters(abi.outputs, res.result)[0] ? ability : -1;
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort();

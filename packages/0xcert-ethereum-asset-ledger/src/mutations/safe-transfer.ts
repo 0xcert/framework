@@ -4,32 +4,32 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
+ * Smart contract method abi.
+ */
+const abis = xcertAbi.filter((a) => (
+  a.name === 'safeTransferFrom' && a.type === 'function'
+));
+
+/**
  * Transfers asset from one account to another while checking if receiving account can actually 
  * receive the asset (it fails if receiver is a smart contract that does not implement 
  * erc721receiver).
  */
 export default async function(ledger: AssetLedger, to: string, assetId: string, receiverData?: string) {
-
-  const data = [ledger.provider.accountId, to, assetId];
-  if (receiverData !== undefined) {
-    data.push(receiverData);
-  }  
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'safeTransferFrom' && a.inputs.length == data.length
+  const abi = abis.find((a) => (
+    a.inputs.length === (typeof receiverData !== 'undefined' ? 4 : 3)
   ));
-
-  return ledger.provider.send({
+  const data = [ledger.provider.accountId, to, assetId, receiverData]
+    .filter((a) => typeof a !== 'undefined');
+  const attrs = {
+    from: ledger.provider.accountId,
+    to: ledger.id,
+    data: encodeFunctionCall(abi, data),
+    gas: 6000000,
+  };
+  const res = await ledger.provider.send({
     method: 'eth_sendTransaction',
-    params: [
-      {
-        from: ledger.provider.accountId,
-        to: ledger.id,
-        data: encodeFunctionCall(abi, data),
-        gas: 6000000,
-      },
-    ],
-  }).then((txId) => {
-    return new Mutation(ledger.provider, txId.result);
-  });
+    params: [attrs],
+  })
+  return new Mutation(ledger.provider, res.result);
 }

@@ -38,4 +38,24 @@ export interface AssetLedgerDeployOptions {
   name: string;
   symbol: string;
   uriBase: string;
+  conventionId: string;
+}
+
+/**
+ * 
+ */
+export interface AssetObject {
+  id: string;
+  uri: string;
+  proof: string;
+}
+
+/**
+ * 
+ */
+export interface InfoObject {
+  name: string;
+  symbol: string;
+  uriBase: string;
+  conventionId: string;
 }

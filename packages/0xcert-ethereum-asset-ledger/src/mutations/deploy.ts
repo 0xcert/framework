@@ -4,28 +4,24 @@ import { encodeParameters } from 'web3-eth-abi';
 import xcertAbi from '../config/xcertAbi'
 
 /**
+ * Smart contract constructir abi.
+ */
+const abi = xcertAbi.find((a) => (
+  a.type === 'constructor'
+));
+
+/**
  * 
  */
-export default async function(provider: GenericProvider, options: AssetLedgerDeployOptions) {
-  const source = options.source['object'];
-  const params = [
-    options.name, options.symbol, options.uriBase, '0x0',
-  ];
-
-  const { inputs } = xcertAbi.find((a) => (
-    a.type === 'constructor'
-  ));
-
-  return provider.send({
+export default async function(provider: GenericProvider, { source, name, symbol, uriBase, conventionId }: AssetLedgerDeployOptions) {
+  const attrs = {
+    from: provider.accountId,
+    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, conventionId]).substr(2)}`,
+    gas: 6000000,
+  };
+  const res = await provider.send({
     method: 'eth_sendTransaction',
-    params: [
-      {
-        from: provider.accountId,
-        data: `${source}${encodeParameters(inputs, params).substr(2)}`,
-        gas: 6000000,
-      },
-    ],
-  }).then((txId) => {
-    return new Mutation(provider, txId.result);
+    params: [attrs],
   });
+  return new Mutation(provider, res.result);
 }

@@ -3,113 +3,35 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * Gets asset ledger information (name, symbol, uriBase, conventionId).
+ * Smart contract method abi.
  */
-async function getName(ledger: AssetLedger) {
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'name' && a.type === 'function'
+const abis = ['name', 'symbol', 'uriBase', 'conventionId'].map((name) => {  
+  return xcertAbi.find((a) => (
+    a.name === name && a.type === 'function'
   ));
-
-  return ledger.provider.send({
-    method: 'eth_call',
-    params: [
-      {
-        to: ledger.id,
-        data: encodeFunctionCall(abi, []),
-      },
-      'latest'
-    ],
-  }).then(({ result }) => {
-    return decodeParameters(abi.outputs, result);
-  }).then((r) => {
-    return r[0];
-  });
-}
-
-/**
- * 
- */
-async function getSymbol(ledger: AssetLedger) {
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'symbol' && a.type === 'function'
-  ));
-
-  return ledger.provider.send({
-    method: 'eth_call',
-    params: [
-      {
-        to: ledger.id,
-        data: encodeFunctionCall(abi, []),
-      },
-      'latest'
-    ],
-  }).then(({ result }) => {
-    return decodeParameters(abi.outputs, result);
-  }).then((r) => {
-    return r[0];
-  });
-}
-
-/**
- * 
- */
-async function getUriBase(ledger: AssetLedger) {
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'uriBase' && a.type === 'function'
-  ));
-
-  return ledger.provider.send({
-    method: 'eth_call',
-    params: [
-      {
-        to: ledger.id,
-        data: encodeFunctionCall(abi, []),
-      },
-      'latest'
-    ],
-  }).then(({ result }) => {
-    return decodeParameters(abi.outputs, result);
-  }).then((r) => {
-    return r[0];
-  });
-}
-
-/**
- * 
- */
-async function getConventionId(ledger: AssetLedger) {
-
-  const abi = xcertAbi.find((a) => (
-    a.name === 'conventionId' && a.type === 'function'
-  ));
-
-  return ledger.provider.send({
-    method: 'eth_call',
-    params: [
-      {
-        to: ledger.id,
-        data: encodeFunctionCall(abi, []),
-      },
-      'latest'
-    ],
-  }).then(({ result }) => {
-    return decodeParameters(abi.outputs, result);
-  }).then((r) => {
-    return r[0];
-  });
-}
+});
 
 /**
  * 
  */
 export default async function(ledger: AssetLedger) {
+  const info = await Promise.all(
+    abis.map(async (abi) => {
+      const attrs = {
+        to: ledger.id,
+        data: encodeFunctionCall(abi, []),
+      };
+      const res = await ledger.provider.send({
+        method: 'eth_call',
+        params: [attrs, 'latest'],
+      });
+      return decodeParameters(abi.outputs, res.result)[0];
+    })
+  );
   return {
-    name: await getName(ledger),
-    symbol: await getSymbol(ledger),
-    uriBase: await getUriBase(ledger),
-    conventionId: await getConventionId(ledger),
+    name: info[0],
+    symbol: info[1],
+    uriBase: info[2],
+    conventionId: info[3],
   };
 }

@@ -37,7 +37,7 @@ spec.test('returns ledger total supply', async (ctx) => {
   
   const supply = await ledger.getSupply();
 
-  ctx.is(supply, 0);
+  ctx.is(supply, '0');
 });
 
 export default spec;
