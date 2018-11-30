@@ -3,7 +3,7 @@ import { AssetLedgerAbility } from "@0xcert/scaffold";
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets an array of all abilities an account has.
  */
 export default async function(provider: GenericProvider, ledgerId: string, accountId: string) {
   return await Promise.all(

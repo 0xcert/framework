@@ -2,7 +2,7 @@ import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets the amount of assets the account owns.
  */
 export default async function(provider: GenericProvider, ledgerId: string, accountId: string) {
   return provider.queryContract({
