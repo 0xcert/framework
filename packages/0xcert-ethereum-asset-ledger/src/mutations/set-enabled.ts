@@ -14,11 +14,11 @@ const abi = xcertAbi.find((a) => (
 /**
  * Allows or freezes the option of transfering assets in specifies asset ledger.
  */
-export default async function(ledger: AssetLedger, state: AssetLedgerTransferState) {
+export default async function(ledger: AssetLedger, enabled: boolean) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [state !== AssetLedgerTransferState.ENABLED]),
+    data: encodeFunctionCall(abi, [!enabled]),
     gas: 6000000,
   };
   const res = await ledger.provider.send({

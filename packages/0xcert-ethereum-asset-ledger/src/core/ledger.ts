@@ -1,16 +1,15 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { AssetLedgerBase, AssetLedgerTransferState, AssetLedgerAbility,
-  AssetLedgerCapability } from "@0xcert/scaffold";
+import { AssetLedgerBase, AssetLedgerAbility, AssetLedgerCapability } from "@0xcert/scaffold";
 import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions,TransferAssetOptions,
   AssetLedgerDeployOptions, AssetObject, InfoObject } from './types';
 import getAbilities from '../queries/get-abilities';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import getSupply from '../queries/get-supply';
-import getTransferState from '../queries/get-transfer-state';
+import isEnabled from '../queries/is-enabled';
 import assignAbilities from '../mutations/assign-abilities';
 import revokeAbilities from '../mutations/revoke-abilities';
-import setTransferState from '../mutations/set-transfer-state';
+import setEnabled from '../mutations/set-enabled';
 import approveAccount from '../mutations/approve-account';
 import getApprovedAccount from '../queries/get-approved-account';
 import createAsset from '../mutations/create-asset';
@@ -113,8 +112,8 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async getTransferState(): Promise<AssetLedgerTransferState> {
-    return getTransferState(this);
+  public async isEnabled(): Promise<boolean> {
+    return isEnabled(this);
   }
 
   /**
@@ -183,8 +182,8 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async setTransferState(state: AssetLedgerTransferState): Promise<Mutation> {
-    return setTransferState(this, state);
+  public async setEnabled(enabled: boolean): Promise<Mutation> {
+    return setEnabled(this, enabled);
   }
 
   /**

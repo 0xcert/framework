@@ -37,18 +37,18 @@ spec.before(async (stage) => {
 spec.test('assignes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
 
-  const state0 = await ledger.getTransferState();
-  ctx.is(state0, AssetLedgerTransferState.ENABLED);
+  const enabled0 = await ledger.isEnabled();
+  ctx.true(enabled0);
 
-  await ledger.setTransferState(AssetLedgerTransferState.DISABLED).then(() => ctx.sleep(200));
+  await ledger.setEnabled(false).then(() => ctx.sleep(200));
 
-  const state1 = await ledger.getTransferState();
-  ctx.is(state1, AssetLedgerTransferState.DISABLED);
+  const enabled1 = await ledger.isEnabled();
+  ctx.false(enabled1);
 
-  await ledger.setTransferState(AssetLedgerTransferState.ENABLED).then(() => ctx.sleep(200));
+  await ledger.setEnabled(true).then(() => ctx.sleep(200));
 
-  const state2 = await ledger.getTransferState();
-  ctx.is(state2, AssetLedgerTransferState.ENABLED);
+  const enabled2 = await ledger.isEnabled();
+  ctx.true(enabled2);
 });
 
 export default spec;

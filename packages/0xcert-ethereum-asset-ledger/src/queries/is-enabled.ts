@@ -1,6 +1,5 @@
 import { encodeFunctionCall, decodeParameters } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
-import { AssetLedgerTransferState } from '@0xcert/scaffold';
 import xcertAbi from '../config/xcertAbi';
 
 /**
@@ -11,7 +10,7 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Gets the current transfer state.
+ * Tels if the transfer is enabled.
  */
 export default async function(ledger: AssetLedger) {
   const attrs = {
@@ -22,7 +21,5 @@ export default async function(ledger: AssetLedger) {
     method: 'eth_call',
     params: [attrs, 'latest'],
   });
-  return decodeParameters(abi.outputs, res.result)[0]
-    ? AssetLedgerTransferState.DISABLED
-    : AssetLedgerTransferState.ENABLED
+  return !decodeParameters(abi.outputs, res.result)[0]
 }

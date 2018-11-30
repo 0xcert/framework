@@ -1,4 +1,4 @@
-import { Query, Mutation, ContextBase } from "./context";
+import { Query, Mutation } from "./context";
 
 /**
  * 
@@ -39,10 +39,10 @@ export interface AssetLedgerBase {
   getCapabilities(): Promise<Query<AssetLedgerCapability[]>>;
   getInfo(): Promise<Query<AssetLedgerGetInfoResult>>;
   getSupply(): Promise<Query<number>>;
-  getTransferState(): Promise<Query<AssetLedgerTransferState>>;
+  isEnabled(): Promise<boolean>;
   assignAbilities(accountId: string, abilities: AssetLedgerAbility[]);
   revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]);
-  setTransferState(state: AssetLedgerTransferState): Promise<Mutation>;
+  setEnabled(enabled: AssetLedgerTransferState): Promise<Mutation>;
 }
 
 /**
