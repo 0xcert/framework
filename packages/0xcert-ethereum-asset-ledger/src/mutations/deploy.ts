@@ -8,10 +8,13 @@ import xcertAbi from '../config/xcertAbi'
  */
 export default async function(provider: GenericProvider, options: AssetLedgerDeployOptions) {
   const source = options.source['object'];
-  const { inputs } = xcertAbi.find((a) => a.type === 'constructor');
   const params = [
     options.name, options.symbol, options.uriBase, '0x0',
   ];
+
+  const { inputs } = xcertAbi.find((a) => (
+    a.type === 'constructor'
+  ));
 
   return provider.send({
     method: 'eth_sendTransaction',

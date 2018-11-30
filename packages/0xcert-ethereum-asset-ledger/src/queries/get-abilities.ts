@@ -1,11 +1,17 @@
-import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import { AssetLedgerAbility } from "@0xcert/scaffold";
+import { encodeFunctionCall, decodeParameters } from 'web3-eth-abi';
+import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
  * 
  */
-export default async function(provider: GenericProvider, ledgerId: string, accountId: string) {
+export default async function(ledger: AssetLedger, accountId: string) {
+
+  const abi = xcertAbi.find((a) => (
+    a.name === 'isAble' && a.type === 'function'
+  ));
+
   return await Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
       AssetLedgerAbility.MINT_ASSET,
@@ -14,11 +20,17 @@ export default async function(provider: GenericProvider, ledgerId: string, accou
       AssetLedgerAbility.SIGN_MINT_CLAIM,
       AssetLedgerAbility.UPDATE_PROOF,
     ].map(async (ability) => {
-      return provider.queryContract({
-        to: ledgerId,
-        abi: xcertAbi.find((a) => a.name === 'isAble'),
-        data: [accountId, ability],
-        tag: 'latest',
+      return ledger.provider.send({
+        method: 'eth_call',
+        params: [
+          {
+            to: ledger.id,
+            data: encodeFunctionCall(abi, [accountId, ability]),
+          },
+          'latest'
+        ],
+      }).then(({ result }) => {
+        return decodeParameters(abi.outputs, result);
       }).then((r) => {
         return r[0] ? ability : -1;
       });
