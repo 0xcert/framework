@@ -2,7 +2,7 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Destroys an assets (removes it from blockchain, its history is still accessable).
  */
 export default async function(provider: GenericProvider, ledgerId: string, assetId: string) {
   return provider.mutateContract({

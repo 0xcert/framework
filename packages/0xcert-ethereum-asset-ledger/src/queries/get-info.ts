@@ -2,7 +2,7 @@ import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets asset ledger information (name, symbol, uriBase, conventionId).
  */
 export default async function(provider: GenericProvider, ledgerId: string) {
   return {

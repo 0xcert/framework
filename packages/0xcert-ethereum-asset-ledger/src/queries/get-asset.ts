@@ -2,7 +2,7 @@ import { GenericProvider } from "@0xcert/ethereum-generic-provider";
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets asset information (id, proof, uri).
  */
 export default async function(provider: GenericProvider, ledgerId: string, assetId: string) {
   return {

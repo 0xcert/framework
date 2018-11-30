@@ -3,7 +3,7 @@ import { AssetLedgerCapability } from "@0xcert/scaffold";
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets all the asset ledger capabilities.
  */
 export default async function(provider: GenericProvider, ledgerId: string) {
   return Promise.all(
