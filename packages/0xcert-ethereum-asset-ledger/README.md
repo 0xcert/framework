@@ -33,7 +33,7 @@ await ledger.clamTransferAsset(); // ??; transfer where from is not you
 // Enumerable ???
 ```
 
+# TODO
 - big number
-- refactor types
 - class implements scaffold.AssetLedgerBase
 - deploy contract - kako prebrati `ledgerId` ko je contract zdeployan

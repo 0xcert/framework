@@ -1,35 +1,36 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { AssetLedgerBase, AssetLedgerAbility, AssetLedgerCapability } from "@0xcert/scaffold";
-import { CreateAssetOptions, UpdateAssetOptions, UpdateOptions,TransferAssetOptions,
-  AssetLedgerDeployOptions, AssetObject, InfoObject } from './types';
+import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
+  AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
+  AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
+  AssetLedgerUpdateRecipe } from "@0xcert/scaffold";
+import deploy from '../mutations/deploy';
 import getAbilities from '../queries/get-abilities';
+import getApprovedAccount from '../queries/get-approved-account';
+import getAssetAccount from '../queries/get-asset-account';
+import getAsset from '../queries/get-asset';
+import getBalance from '../queries/get-balance';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import getSupply from '../queries/get-supply';
 import isEnabled from '../queries/is-enabled';
-import assignAbilities from '../mutations/assign-abilities';
-import revokeAbilities from '../mutations/revoke-abilities';
-import setEnabled from '../mutations/set-enabled';
 import approveAccount from '../mutations/approve-account';
-import getApprovedAccount from '../queries/get-approved-account';
+import assignAbilities from '../mutations/assign-abilities';
 import createAsset from '../mutations/create-asset';
-import updateAsset from '../mutations/update-asset';
 import destroyAsset from '../mutations/destroy-asset';
+import revokeAbilities from '../mutations/revoke-abilities';
 import revokeAsset from '../mutations/revoke-asset';
-import update from '../mutations/update';
-import transfer from '../mutations/transfer';
+import setEnabled from '../mutations/set-enabled';
 import safeTransfer from '../mutations/safe-transfer';
-import getBalance from '../queries/get-balance';
-import getAssetAccount from '../queries/get-asset-account';
-import getAsset from '../queries/get-asset';
-import deploy from '../mutations/deploy';
+import transfer from '../mutations/transfer';
+import updateAsset from '../mutations/update-asset';
+import update from '../mutations/update';
 
 /**
  * 
  */
-export class AssetLedger /*implements AssetLedgerBase*/ {
-  readonly provider: GenericProvider;
+export class AssetLedger implements AssetLedgerBase {
   readonly id: string;
+  readonly provider: GenericProvider;
 
   /**
    * 
@@ -42,8 +43,8 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public static async deploy(provider: GenericProvider, options: AssetLedgerDeployOptions): Promise<Mutation> {
-    return deploy(provider, options);
+  public static async deploy(provider: GenericProvider, recipe: AssetLedgerDeployRecipe): Promise<Mutation> {
+    return deploy(provider, recipe);
   }
 
   /**
@@ -77,7 +78,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async getAsset(assetId: string): Promise<AssetObject> {
+  public async getAsset(assetId: string): Promise<AssetLedgerItem> {
     return getAsset(this, assetId);
   }
 
@@ -98,7 +99,7 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async getInfo(): Promise<InfoObject> {
+  public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
   }
 
@@ -112,15 +113,15 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async isEnabled(): Promise<boolean> {
-    return isEnabled(this);
-  }
-
-  /**
-   * 
-   */
   public async isApprovedAccount(accountId: string, assetId: string): Promise<boolean> {
     return accountId === await getApprovedAccount(this, assetId);
+  }
+
+    /**
+   * 
+   */
+  public async isEnabled(): Promise<boolean> {
+    return isEnabled(this);
   }
 
   /**
@@ -140,9 +141,9 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async createAsset(data: CreateAssetOptions): Promise<Mutation> {
+  public async createAsset(input: AssetLedgerItemRecipe): Promise<Mutation> {
     // TODO(Kristjan): proof input validation that it is a hex of length 64.
-    return createAsset(this, data.accountId, data.assetId, data.proof);
+    return createAsset(this, input.accountId, input.assetId, input.proof);
   }
 
   /**
@@ -169,13 +170,13 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async transferAsset(data: TransferAssetOptions): Promise<Mutation> {
+  public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
     // TODO(Kristjan): validate data.data param if exists.
     if (true) { // TODO(Kristjan): check provider for "unsafe" exceptions.
-      return safeTransfer(this, data.to, data.id, data.data);
+      return safeTransfer(this, recipe.to, recipe.id, recipe.data);
     }
     else {
-      return transfer(this, data.to, data.id);
+      return transfer(this, recipe.to, recipe.id);
     }
   }
 
@@ -189,16 +190,16 @@ export class AssetLedger /*implements AssetLedgerBase*/ {
   /**
    * 
    */
-  public async updateAsset(assetId: string, data: UpdateAssetOptions): Promise<Mutation> {
+  public async updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation> {
     // TODO(Kristjan): proof input validation that it is a hex of length 64.
-    return updateAsset(this, assetId, data.proof);
+    return updateAsset(this, assetId, recipe.proof);
   }
 
   /**
    * 
    */
-  public async update(data: UpdateOptions): Promise<Mutation> {
-    return update(this, data.uriBase);
+  public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
+    return update(this, recipe.uriBase);
   }
 
 }
