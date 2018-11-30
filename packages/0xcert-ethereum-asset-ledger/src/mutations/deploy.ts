@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { AssetLedgerDeployOptions } from '../core/types';
 import { encodeParameters } from 'web3-eth-abi';
-import xcertAbi from '../config/xcertAbi'
+import { AssetLedgerDeployRecipe } from '@0xcert/scaffold';
+import xcertAbi from '../config/xcertAbi';
 
 /**
  * Smart contract constructir abi.
@@ -13,7 +13,7 @@ const abi = xcertAbi.find((a) => (
 /**
  * 
  */
-export default async function(provider: GenericProvider, { source, name, symbol, uriBase, conventionId }: AssetLedgerDeployOptions) {
+export default async function(provider: GenericProvider, { source, name, symbol, uriBase, conventionId }: AssetLedgerDeployRecipe) {
   const attrs = {
     from: provider.accountId,
     data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, conventionId]).substr(2)}`,
