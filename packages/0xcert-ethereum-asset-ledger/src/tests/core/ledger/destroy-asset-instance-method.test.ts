@@ -40,8 +40,6 @@ spec.before(async (stage) => {
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-
-
 spec.test('destoy asset', async (ctx) => {
   const xcert = ctx.get('protocol').xcertBurnable;
   const ledger = ctx.get('ledger');

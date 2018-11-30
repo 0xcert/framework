@@ -1,6 +1,6 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
+import { encodeFunctionCall } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import { encodeFunctionCall } from 'web3-eth-abi';
 import xcertAbi from '../config/xcertAbi';
 
 /**

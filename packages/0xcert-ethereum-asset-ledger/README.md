@@ -30,10 +30,8 @@ await ledger.transferAsset({ id, to, data? }); // Safe transfer is done, still n
 await ledger.setOperator(accountId, bool); // how to name this? 
 await ledger.isOperator(ownerId, accountId); 
 await ledger.clamTransferAsset(); // ??; transfer where from is not you
-// Enumerable ???
 ```
 
 # TODO
 - big number
-- class implements scaffold.AssetLedgerBase
 - deploy contract - kako prebrati `ledgerId` ko je contract zdeployan

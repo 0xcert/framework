@@ -1,4 +1,4 @@
-import { encodeFunctionCall, decodeParameters } from 'web3-eth-abi';
+import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 

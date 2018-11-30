@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeParameters } from 'web3-eth-abi';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployRecipe } from '@0xcert/scaffold';
 import xcertAbi from '../config/xcertAbi';
 

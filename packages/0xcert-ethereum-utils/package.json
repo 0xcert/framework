@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/ethereum-asset-ledger",
+  "name": "@0xcert/ethereum-utils",
   "version": "0.0.0-alpha3",
-  "description": "Ethereum ledger for 0xcert protocol.",
+  "description": "Ethereum utils for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "specron": {
     "test": {
-      "port": 8513,
+      "port": 8523,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
@@ -23,8 +23,6 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "0.0.0-alpha3",
-    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha3",
-    "@0xcert/utils": "0.0.0-alpha3",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",
@@ -33,8 +31,6 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/scaffold": "0.0.0-alpha3",
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha3",
-    "@0xcert/ethereum-utils": "0.0.0-alpha3"
+    "web3-eth-abi": "^1.0.0-beta.36"
   }
 }

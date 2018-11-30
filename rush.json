@@ -98,6 +98,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/ethereum-utils",
+      "projectFolder": "packages/0xcert-ethereum-utils",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/ethereum-utils-contracts",
       "projectFolder": "packages/0xcert-ethereum-utils-contracts",
       "versionPolicyName": "patchAll"
