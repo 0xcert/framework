@@ -3,7 +3,7 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets the amount of assets than exist in this asset ledger.
  */
 export default async function(ledger: AssetLedger) {
 

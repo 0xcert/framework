@@ -4,7 +4,7 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Approves an account for transfering a specific token.
  */
 export default async function(ledger: AssetLedger, accountId: string, assetId: string) {
 

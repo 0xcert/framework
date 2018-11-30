@@ -4,7 +4,7 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets an array of all abilities an account has.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
 

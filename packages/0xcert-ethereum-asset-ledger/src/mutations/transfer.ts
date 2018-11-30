@@ -3,6 +3,9 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Transfers asset from one account to another.
+ */
 export default async function(ledger: AssetLedger, to: string, assetId: string) {
 
   const abi = xcertAbi.find((a) => (

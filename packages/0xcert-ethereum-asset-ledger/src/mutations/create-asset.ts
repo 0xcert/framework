@@ -3,6 +3,9 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Creates a new asset an gives ownership to the specifies account.
+ */
 export default async function(ledger: AssetLedger, accountId: string, assetId: string, proof: string) {
 
   const abi = xcertAbi.find((a) => (

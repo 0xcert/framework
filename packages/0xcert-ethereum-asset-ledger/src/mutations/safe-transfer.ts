@@ -3,6 +3,11 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Transfers asset from one account to another while checking if receiving account can actually 
+ * receive the asset (it fails if receiver is a smart contract that does not implement 
+ * erc721receiver).
+ */
 export default async function(ledger: AssetLedger, to: string, assetId: string, receiverData?: string) {
 
   const data = [ledger.provider.accountId, to, assetId];

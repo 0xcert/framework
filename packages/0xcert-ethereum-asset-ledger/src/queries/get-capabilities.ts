@@ -4,7 +4,7 @@ import xcertAbi from '../config/xcertAbi';
 import { AssetLedger } from '../core/ledger';
 
 /**
- * 
+ * Gets all the asset ledger capabilities.
  */
 export default async function(ledger: AssetLedger) {
 

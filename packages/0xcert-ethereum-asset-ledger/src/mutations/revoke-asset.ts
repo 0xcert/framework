@@ -3,6 +3,10 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Destroys an asset the same way as destoryAsset does but only an account with revoke ability can
+ * call it.
+ */
 export default async function(ledger: AssetLedger, assetId: string) {
 
   const abi = xcertAbi.find((a) => (

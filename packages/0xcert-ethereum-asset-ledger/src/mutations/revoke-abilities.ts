@@ -4,6 +4,9 @@ import { AssetLedger } from '../core/ledger';
 import { AssetLedgerAbility } from '@0xcert/scaffold';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Revokes abilities from account.
+ */
 export default async function(ledger: AssetLedger, accountId: string, abilities: AssetLedgerAbility[]) {
 
   const abi = xcertAbi.find((a) => (

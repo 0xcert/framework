@@ -3,7 +3,7 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets the amount of assets the account owns.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
 

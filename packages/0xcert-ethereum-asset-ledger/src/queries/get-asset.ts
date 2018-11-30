@@ -3,7 +3,7 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets asset information (id, proof, uri).
  */
 async function getUri(ledger: AssetLedger, assetId: string) {
 

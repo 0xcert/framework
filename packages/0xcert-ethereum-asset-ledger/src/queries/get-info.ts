@@ -3,7 +3,7 @@ import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * 
+ * Gets asset ledger information (name, symbol, uriBase, conventionId).
  */
 async function getName(ledger: AssetLedger) {
 

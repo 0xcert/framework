@@ -3,6 +3,9 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Destroys an assets (removes it from blockchain, its history is still accessable).
+ */
 export default async function(ledger: AssetLedger, assetId: string) {
 
   const abi = xcertAbi.find((a) => (

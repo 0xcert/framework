@@ -4,6 +4,9 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Assigns abilities to an account.
+ */
 export default async function(ledger: AssetLedger, accountId: string, abilities: AssetLedgerAbility[]) {
 
   const abi = xcertAbi.find((a) => (

@@ -3,6 +3,9 @@ import { encodeFunctionCall } from 'web3-eth-abi';
 import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
+/**
+ * Updates asset ledger uri base.
+ */
 export default async function(ledger: AssetLedger, uriBase: string) {
 
   const abi = xcertAbi.find((a) => (
