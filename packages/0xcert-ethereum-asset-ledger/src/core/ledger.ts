@@ -1,4 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
+import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
@@ -29,15 +30,29 @@ import update from '../mutations/update';
  * 
  */
 export class AssetLedger implements AssetLedgerBase {
-  readonly id: string;
-  readonly provider: GenericProvider;
+  protected $id: string;
+  protected $provider: GenericProvider;
 
   /**
    * 
    */
   public constructor(provider: GenericProvider, id: string) {
-    this.provider = provider;
-    this.id = id;
+    this.$id = normalizeAddress(id);
+    this.$provider = provider;
+  }
+
+  /**
+   * 
+   */
+  public get id() {
+    return this.$id;
+  }
+
+  /**
+   * 
+   */
+  public get provider() {
+    return this.$provider;
   }
 
   /**

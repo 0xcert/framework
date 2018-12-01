@@ -23,3 +23,13 @@ export function decodeParameters(abi: any, data: any) {
 
   return output;
 }
+
+export function decodeParameter(type: string, data: any) {
+  return eth.decodeParameter(type, data);
+}
+
+export function normalizeAddress(address) {
+  // alternative: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
+  if (!address) return address;
+  return address.toLowerCase();
+}

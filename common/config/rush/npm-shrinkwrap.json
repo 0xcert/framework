@@ -1162,7 +1162,7 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-WmmRsbjzF7Sz+b2Qp1KcFe4xeOCXxVpU6quaP0PEfsIEb2+AOdYCH5Z4qCNiYALGdxK/Gz3ZLZDwMYtUop+qUg==",
+      "integrity": "sha512-iBap8CqkT9KB3dwxAT3G5ldyoStAo2tuEyL31QSszmNHr4nE+a1h5B9KKwnVKrS6CImM378Yt1I115RjCxou5w==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",

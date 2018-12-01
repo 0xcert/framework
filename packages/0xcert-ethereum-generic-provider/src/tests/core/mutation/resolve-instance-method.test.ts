@@ -34,11 +34,13 @@ spec.before(async (stage) => {
 
 spec.test('method `resolve` resolves mutation', async (ctx) => {
   const provider = ctx.get('provider');
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
   const counters = { confirm: 0, resolve: 0 };
 
   const { transactionHash } = await ctx.web3.eth.sendTransaction({
-    from: ctx.get('coinbase'),
-    to: ctx.get('bob'),
+    from: coinbase,
+    to: bob,
     value: 100000,
   });
 
@@ -48,9 +50,11 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   await mutation.resolve();
 
   ctx.is(mutation.id, transactionHash);
+  ctx.is(mutation.senderId, coinbase.toLowerCase());
+  ctx.is(mutation.receiverId, bob.toLowerCase());
   ctx.is(counters.confirm, 1);
-  ctx.true(counters.confirm >= 1);
   ctx.true(mutation.confirmations >= 25);
+  ctx.true(counters.confirm >= 1);
 });
 
 export default spec;
