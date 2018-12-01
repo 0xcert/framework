@@ -17,7 +17,7 @@ export class ValueLedger implements ValueLedgerBase {
    * 
    */
   public constructor(provider: GenericProvider, id: string) {
-    this.$id = id;
+    this.$id = normalizeAddress(id);
     this.$provider = provider;
   }
 
