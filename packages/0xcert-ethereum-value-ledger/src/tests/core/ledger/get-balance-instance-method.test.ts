@@ -45,7 +45,7 @@ spec.test('returns account balance', async (ctx) => {
   
   const balance = await ledger.getBalance(coinbase);
 
-  ctx.is(balance.toString(), '300000000000000000000000000');
+  ctx.is(balance, '500000000');
 });
 
 export default spec;

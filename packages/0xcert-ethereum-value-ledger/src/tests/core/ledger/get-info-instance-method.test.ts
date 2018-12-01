@@ -35,12 +35,13 @@ spec.before(async (stage) => {
 spec.test('returns ledger info', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const info = await ledger.getInfo() //.then((q) => q.result);
+  const info = await ledger.getInfo();
 
   ctx.deepEqual(info, {
-    name: "Mock Token",
-    symbol: "MCK",
-    decimals: 18,
+    name: "ERC20",
+    symbol: "ERC20",
+    decimals: '18',
+    supply: '500000000',
   });
 });
 

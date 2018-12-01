@@ -78,6 +78,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.erc20.abi,
       bytecode: contracts.erc20.bytecode,
+      args: ['ERC20', 'ERC20', 18, '500000000'],
       from,
     });
   }

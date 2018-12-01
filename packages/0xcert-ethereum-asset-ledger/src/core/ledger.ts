@@ -12,7 +12,6 @@ import getAsset from '../queries/get-asset';
 import getBalance from '../queries/get-balance';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
-import getSupply from '../queries/get-supply';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
 import assignAbilities from '../mutations/assign-abilities';
@@ -116,13 +115,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
-  }
-
-  /**
-   * 
-   */
-  public async getSupply(): Promise<string> {
-    return getSupply(this);
   }
 
   /**
