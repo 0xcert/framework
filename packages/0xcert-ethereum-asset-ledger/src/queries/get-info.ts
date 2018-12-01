@@ -1,30 +1,37 @@
-import { GenericProvider } from "@0xcert/ethereum-generic-provider";
+import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { AssetLedger } from '../core/ledger';
 import xcertAbi from '../config/xcertAbi';
 
 /**
- * Gets asset ledger information (name, symbol, uriBase, conventionId).
+ * Smart contract method abi.
  */
-export default async function(provider: GenericProvider, ledgerId: string) {
+const abis = ['name', 'symbol', 'uriBase', 'conventionId'].map((name) => {  
+  return xcertAbi.find((a) => (
+    a.name === name && a.type === 'function'
+  ));
+});
+
+/**
+ * 
+ */
+export default async function(ledger: AssetLedger) {
+  const info = await Promise.all(
+    abis.map(async (abi) => {
+      const attrs = {
+        to: ledger.id,
+        data: encodeFunctionCall(abi, []),
+      };
+      const res = await ledger.provider.send({
+        method: 'eth_call',
+        params: [attrs, 'latest'],
+      });
+      return decodeParameters(abi.outputs, res.result)[0];
+    })
+  );
   return {
-    name: await provider.queryContract({
-      to: ledgerId,
-      abi: xcertAbi.find((a) => a.name === 'name'),
-      tag: 'latest',
-    }).then((r) => r[0]),
-    symbol: await provider.queryContract({
-      to: ledgerId,
-      abi: xcertAbi.find((a) => a.name === 'symbol'),
-      tag: 'latest',
-    }).then((r) => r[0]),
-    uriBase: await provider.queryContract({
-      to: ledgerId,
-      abi: xcertAbi.find((a) => a.name === 'uriBase'),
-      tag: 'latest',
-    }).then((r) => r[0]),
-    conventionId: await provider.queryContract({
-      to: ledgerId,
-      abi: xcertAbi.find((a) => a.name === 'conventionId'),
-      tag: 'latest',
-    }).then((r) => r[0]),
+    name: info[0],
+    symbol: info[1],
+    uriBase: info[2],
+    conventionId: info[3],
   };
 }

@@ -5,7 +5,6 @@ const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
   ctx.true(!!ledger.AssetLedger);
-  ctx.true(!!ledger.AssetLedgerTransferState);
   ctx.true(!!ledger.AssetLedgerAbility);
   ctx.true(!!ledger.AssetLedgerCapability);  
 });

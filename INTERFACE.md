@@ -46,10 +46,10 @@ await ledger.getAbilities(accountId);
 await ledger.getCapabilities();
 await ledger.getInfo();
 await ledger.getSupply();
-await ledger.getTransferState();
+await ledger.isEnabled();
 await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
-await ledger.setTransferState(state);
+await ledger.setEnabled(state);
 await ledger.transfer(to, assetid);
 await ledger.mint(assetId, proof);
 await ledger.approveAccount(tokenId, takerId); // ERC20 ERC721

@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/ethereum-metamask-provider",
+  "name": "@0xcert/ethereum-utils",
   "version": "0.0.0-alpha3",
-  "description": "Metamsk provider for 0xcert protocol.",
+  "description": "Ethereum utils for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "specron": {
     "test": {
-      "port": 8525,
+      "port": 8523,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
@@ -31,6 +31,6 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha3"
+    "web3-eth-abi": "^1.0.0-beta.36"
   }
 }

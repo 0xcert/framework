@@ -177,7 +177,7 @@ export class GenericProvider extends EventEmitter {
    * @param options.jsonrpc RPC protocol version.
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
    */
-  protected async send(options: SendOptions): Promise<RpcResponse> {
+  public async send(options: SendOptions): Promise<RpcResponse> {
     const requestIndex = this.getUniqueRequestIndex();
 
     return new Promise<RpcResponse>((resolve, reject) => {

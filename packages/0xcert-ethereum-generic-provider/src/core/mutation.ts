@@ -1,3 +1,4 @@
+import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { EventEmitter } from 'events';
 import { MutationEvent } from './types';
 
@@ -5,11 +6,13 @@ import { MutationEvent } from './types';
  * 
  */
 export class Mutation extends EventEmitter {
-  public id: string;
-  public confirmations: number = 0;
-  protected provider: any;
-  protected timer: any = null;
-  protected done: boolean = false;
+  protected $id: string;
+  protected $confirmations: number = 0;
+  protected $senderId: string;
+  protected $receiverId: string;
+  protected $provider: any;
+  protected $timer: any = null;
+  protected $done: boolean = false;
 
   /**
    * 
@@ -17,11 +20,60 @@ export class Mutation extends EventEmitter {
   public constructor(provider: any, id: string) {
     super();
 
-    this.provider = provider;
+    this.$provider = provider;
     this.id = id;
   }
 
-    /**
+  /**
+   * 
+   */
+  public get id() {
+    return this.$id;
+  }
+
+  /**
+   * 
+   */
+  public get confirmations() {
+    return this.$confirmations;
+  }
+
+  /**
+   * 
+   */
+  public get senderId() {
+    return this.$senderId;
+  }
+
+  /**
+   * 
+   */
+  public get receiverId() {
+    return this.$receiverId;
+  }
+
+  /**
+   * 
+   */
+  public set id(id) {
+    this.$id = normalizeAddress(id);
+  }
+
+  /**
+   * 
+   */
+  public set senderId(id) {
+    this.$senderId = normalizeAddress(id);
+  }
+
+  /**
+   * 
+   */
+  public set receiverId(id) {
+    this.$receiverId = normalizeAddress(id);
+  }
+
+  /**
    * 
    */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
@@ -67,7 +119,7 @@ export class Mutation extends EventEmitter {
    * 
    */
   public async resolve() {
-    if (this.done) {
+    if (this.$done) {
       return this;
     }
 
@@ -82,8 +134,8 @@ export class Mutation extends EventEmitter {
    * 
    */
   public forget() {
-    if (this.timer) {
-      clearTimeout(this.timer);
+    if (this.$timer) {
+      clearTimeout(this.$timer);
     }
 
     return this;
@@ -93,25 +145,67 @@ export class Mutation extends EventEmitter {
    * 
    */
   protected async loopUntilResolved() {
-    const tx = await this.provider.getTransactionByHash(this.id);
+    const tx = await this.getTransactionObject();
     if (!tx) {
       return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
     }
+    else if (!tx.to) {
+      const receipt = await this.getTransactionReceipt();
+      if (!receipt) {
+        return this.emit(MutationEvent.ERROR, new Error('Mutation not found (2)'));
+      }
+      tx.to = receipt.contractAddress;  
+    }
+    this.senderId = tx.from;
+    this.receiverId = tx.to;
 
-    const block = await this.provider.getBlockByNumber('latest');
+    const block = await this.getLastBlock();
     if (!block) {
-      return this.emit(MutationEvent.ERROR, new Error('Mutation not found (2)'));
+      return this.emit(MutationEvent.ERROR, new Error('Mutation not found (3)'));
     }
     
-    this.confirmations = block.number - tx.blockNumber;
+    this.$confirmations = parseInt(block.number) - parseInt(tx.blockNumber);
     if (this.confirmations >= 25) {
-      this.done = true;
+      this.$done = true;
       this.emit(MutationEvent.RESOLVE, this);
     }
     else {
       this.emit(MutationEvent.CONFIRM, this);
-      this.timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
+      this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
     }
+  }
+
+  /**
+   * 
+   */
+  protected async getTransactionObject() {
+    const res = await this.$provider.send({
+      method: 'eth_getTransactionByHash',
+      params: this.id,
+    });
+    return res.result;
+  }
+
+  /**
+   * 
+   */
+  protected async getTransactionReceipt() {
+    const res = await this.$provider.send({
+      method: 'eth_getTransactionReceipt',
+      params: this.id,
+    });
+    return res.result;
+  }
+
+  /**
+   * 
+   */
+  protected async getLastBlock() {
+    const res = await this.$provider.send({
+      method: 'eth_getBlockByNumber',
+      params: ['latest', false],
+    });
+    return res.result;
   }
 
 }

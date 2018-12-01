@@ -2,7 +2,6 @@ import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
-import { AssetLedgerTransferState } from '@0xcert/scaffold';
 
 interface Data {
   provider: GenericProvider;
@@ -36,9 +35,9 @@ spec.before(async (stage) => {
 spec.test('returns ledger transfer state', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const state = await ledger.getTransferState();
+  const enabled = await ledger.isEnabled();
 
-  ctx.is(state, AssetLedgerTransferState.ENABLED);
+  ctx.true(enabled);
 });
 
 export default spec;

@@ -7,17 +7,17 @@ import xcertAbi from '../config/xcertAbi';
  * Smart contract method abi.
  */
 const abi = xcertAbi.find((a) => (
-  a.name === 'updateTokenProof' && a.type === 'function'
+  a.name === 'setPause' && a.type === 'function'
 ));
 
- /**
- * Updates asset proof.
+/**
+ * Allows or freezes the option of transfering assets in specifies asset ledger.
  */
-export default async function(ledger: AssetLedger, assetId: string, proof: string) {
+export default async function(ledger: AssetLedger, enabled: boolean) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [assetId, proof]),
+    data: encodeFunctionCall(abi, [!enabled]),
     gas: 6000000,
   };
   const res = await ledger.provider.send({

@@ -6,20 +6,20 @@ import xcertAbi from '../config/xcertAbi';
  * Smart contract method abi.
  */
 const abi = xcertAbi.find((a) => (
-  a.name === 'balanceOf' && a.type === 'function'
+  a.name === 'isPaused' && a.type === 'function'
 ));
 
 /**
- * Gets the amount of assets the account owns.
+ * Tels if the transfer is enabled.
  */
-export default async function(ledger: AssetLedger, accountId: string) {
+export default async function(ledger: AssetLedger) {
   const attrs = {
     to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId]),
+    data: encodeFunctionCall(abi, []),
   };
   const res = await ledger.provider.send({
     method: 'eth_call',
     params: [attrs, 'latest'],
   });
-  return decodeParameters(abi.outputs, res.result)[0];
+  return !decodeParameters(abi.outputs, res.result)[0]
 }
