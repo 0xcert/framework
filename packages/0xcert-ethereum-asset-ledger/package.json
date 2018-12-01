@@ -24,7 +24,6 @@
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "0.0.0-alpha3",
     "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha3",
-    "@0xcert/utils": "0.0.0-alpha3",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",

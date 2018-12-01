@@ -33,5 +33,4 @@ await ledger.clamTransferAsset(); // ??; transfer where from is not you
 ```
 
 # TODO
-- big number
 - deploy contract - kako prebrati `ledgerId` ko je contract zdeployan

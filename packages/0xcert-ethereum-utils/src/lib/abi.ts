@@ -11,5 +11,15 @@ export function encodeParameters(abi: any, data: any) {
 }
 
 export function decodeParameters(abi: any, data: any) {
-  return eth.decodeParameters(abi, data);
+  const output = eth.decodeParameters(abi, data);
+
+  // for (const i in abi) {
+  //   switch(abi[i].type) {
+  //     case 'uint256':
+  //       output[i] = new Big(output[i]);
+  //       break;
+  //   }
+  // }
+
+  return output;
 }

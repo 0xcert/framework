@@ -11,7 +11,7 @@
   },
   "specron": {
     "test": {
-      "port": 8519,
+      "port": 8525,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
