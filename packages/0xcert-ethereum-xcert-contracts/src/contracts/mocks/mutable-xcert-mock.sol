@@ -26,6 +26,6 @@ contract MutableXcertMock is MutableXcert {
     nftName = _name;
     nftSymbol = _symbol;
     uriBase = _uriBase;
-    nftConventionId = _schemaId;
+    nftSchemaId = _schemaId;
   }
 }

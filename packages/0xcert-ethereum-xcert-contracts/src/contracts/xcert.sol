@@ -31,7 +31,7 @@ contract Xcert is
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
    * @notice Calculated as keccak256(jsonSchema).
    */
-  bytes32 internal nftConventionId;
+  bytes32 internal nftSchemaId;
 
   /**
    * @dev Maps NFT ID to proof.
@@ -45,13 +45,13 @@ contract Xcert is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftConventionId, nftName, nftSymbol
+   * @notice When implementing this contract don't forget to set nftSchemaId, nftName, nftSymbol
    * and uriBase.
    */
   constructor()
     public
   {
-    supportedInterfaces[0x9e51f07e] = true; // Xcert
+    supportedInterfaces[0xc65e10ef] = true; // Xcert
   }
 
   /**
@@ -80,7 +80,7 @@ contract Xcert is
     view
     returns (bytes32 _schemaId)
   {
-    _schemaId = nftConventionId;
+    _schemaId = nftSchemaId;
   }
 
   /**
