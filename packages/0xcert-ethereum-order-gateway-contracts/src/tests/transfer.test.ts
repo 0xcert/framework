@@ -162,6 +162,7 @@ spec.beforeEach(async (ctx) => {
   const zxc = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: jane
   });
   ctx.set('zxc', zxc);
@@ -176,6 +177,7 @@ spec.beforeEach(async (ctx) => {
   const bnb = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: jane
   });
   ctx.set('bnb', bnb);
@@ -190,6 +192,7 @@ spec.beforeEach(async (ctx) => {
   const gnt = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: bob
   });
   ctx.set('gnt', gnt);
@@ -204,6 +207,7 @@ spec.beforeEach(async (ctx) => {
   const omg = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: bob
   });
   ctx.set('omg', omg);

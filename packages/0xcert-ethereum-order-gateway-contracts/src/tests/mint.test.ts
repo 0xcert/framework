@@ -143,6 +143,7 @@ spec.beforeEach(async (ctx) => {
   const zxc = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: jane
   });
   ctx.set('zxc', zxc);
@@ -157,6 +158,7 @@ spec.beforeEach(async (ctx) => {
   const bnb = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
     from: jane
   });
   ctx.set('bnb', bnb);

@@ -1,4 +1,4 @@
-import { Mutation } from "./misc";
+import { MutationBase } from "./misc";
 
 /**
  * 
@@ -7,7 +7,7 @@ export interface ValueLedgerBase {
   readonly id: string;
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
-  approveAccount(accountId: string, value: string): Promise<Mutation>;
+  approveAccount(accountId: string, value: string): Promise<MutationBase>;
 }
 
 /**

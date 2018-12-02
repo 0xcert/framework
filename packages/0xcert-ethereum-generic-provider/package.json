@@ -34,8 +34,6 @@
   },
   "dependencies": {
     "@0xcert/ethereum-utils": "0.0.0-alpha3",
-    "@0xcert/scaffold": "0.0.0-alpha3",
-    "@0xcert/utils": "0.0.0-alpha3",
-    "web3-eth-abi": "^1.0.0-beta.36"
+    "@0xcert/scaffold": "0.0.0-alpha3"
   }
 }

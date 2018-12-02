@@ -1162,7 +1162,7 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-iBap8CqkT9KB3dwxAT3G5ldyoStAo2tuEyL31QSszmNHr4nE+a1h5B9KKwnVKrS6CImM378Yt1I115RjCxou5w==",
+      "integrity": "sha512-HbtYRrHHyxHhNsJeyuqCBpQ+wtvsFATJ6xYBW/qkrzPq5o1HREKVkOvMUPZ1HSqtvo0+p9IPI93YyPdwaL5oQw==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
@@ -1170,8 +1170,7 @@
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36",
-        "web3-eth-abi": "^1.0.0-beta.36"
+        "web3": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-http-provider": {
@@ -1201,15 +1200,14 @@
     },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
-      "integrity": "sha512-qpZxcHf4n3YWERRv9JlFNKnxoH6RIbQYioO5b05Y/lSa5bhi7i3bEsLxKkckQprfSKIM+TGSHakPhYL1JbFp0Q==",
+      "integrity": "sha512-z/0TqoJ2HIt9GItp4/i9ATz7hBF2lYrIpqfmH3M9y0Rb6C2wERZYdmMdTVZFvA/AvPHQ86Lf/7s3vPb66GKEBw==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36",
-        "web3-utils": "1.0.0-beta.36"
+        "web3": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-order-gateway-contracts": {

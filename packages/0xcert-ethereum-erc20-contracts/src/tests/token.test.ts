@@ -31,6 +31,7 @@ spec.beforeEach(async (ctx) => {
   const token = await ctx.deploy({ 
     src: './build/token-mock.json',
     contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
   });
   ctx.set('token', token);
 });
@@ -51,22 +52,19 @@ spec.test('has correct totalSupply after construction', async (ctx) => {
 spec.test('has correct token name after construction', async (ctx) => {
   const token = ctx.get('token');
   const actualTokenName = await token.instance.methods.name().call();
-  const tokenName = 'Mock Token';
-  ctx.is(tokenName, actualTokenName);
+  ctx.is(actualTokenName, 'ERC20');
 });
 
 spec.test('has correct token symbol after construction', async (ctx) => {
   const token = ctx.get('token');
   const actualTokenSymbol = await token.instance.methods.symbol().call();
-  const tokenSymbol = 'MCK';
-  ctx.is(tokenSymbol, actualTokenSymbol);
+  ctx.is(actualTokenSymbol, 'ERC');
 });
 
 spec.test('has correct token decimals after construction', async (ctx) => {
   const token = ctx.get('token');
   const actualTokenDecimals = await token.instance.methods.decimals().call();
-  const tokenDecimals = '18';
-  ctx.is(tokenDecimals, actualTokenDecimals);
+  ctx.is(actualTokenDecimals, '18');
 });
 
 spec.test('has correct owner token balance after construction', async (ctx) => {
