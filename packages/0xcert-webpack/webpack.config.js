@@ -8,7 +8,6 @@ module.exports = {
     '0xcert-ethereum-metamask-provider': './src/0xcert-ethereum-metamask-provider.js',
     '0xcert-ethereum-order-gateway': './src/0xcert-ethereum-order-gateway.js',
     '0xcert-ethereum-value-ledger': './src/0xcert-ethereum-value-ledger.js',
-    '0xcert-ethereum-ws-provider': './src/0xcert-ethereum-ws-provider.js',
   },
   output: {
     filename: `[name].min.js`,

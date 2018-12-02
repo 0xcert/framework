@@ -18,7 +18,7 @@ spec.before(async (stage) => {
 spec.test('returns block data', async (ctx) => {
   const provider = ctx.get('provider');
 
-  const res = await provider.send({
+  const res = await provider.post({
     method: 'web3_clientVersion',
     params: [],
   });

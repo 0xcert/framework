@@ -113,11 +113,6 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-ws-provider",
-      "projectFolder": "packages/0xcert-ethereum-ws-provider",
-      "versionPolicyName": "patchAll"
-    },
-    {
       "packageName": "@0xcert/ethereum-xcert-contracts",
       "projectFolder": "packages/0xcert-ethereum-xcert-contracts",
       "versionPolicyName": "patchAll"

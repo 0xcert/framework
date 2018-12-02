@@ -19,7 +19,7 @@ spec.test('returns block data', async (ctx) => {
   const provider = ctx.get('provider');
   const tx = '0x853f015e3964a00be518dd0f06262165ce464cb261c36e86645077b1eaeb75a9';
 
-  const res = await provider.send({
+  const res = await provider.post({
     method: 'eth_getTransactionByHash',
     params: [tx],
   });

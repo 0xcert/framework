@@ -41,8 +41,8 @@ export class GenericProvider {
    * @param options.jsonrpc RPC protocol version.
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
    */
-  public async send(options: SendOptions): Promise<RpcResponse> {
-    const requestIndex = this.getUniqueRequestIndex();
+  public async post(options: SendOptions): Promise<RpcResponse> {
+    const requestIndex = options.id || this.getUniqueRequestIndex();
 
     return new Promise<RpcResponse>((resolve, reject) => {
       this.client.send({

@@ -24,7 +24,7 @@ export default async function(gateway: OrderGateway, order: Order, claim: string
     data: encodeFunctionCall(abi, [recipeTuple, signatureTuple]),
     gas: 6000000,
   };
-  const res = await gateway.provider.send({
+  const res = await gateway.provider.post({
     method: 'eth_sendTransaction',
     params: [attrs],
   });

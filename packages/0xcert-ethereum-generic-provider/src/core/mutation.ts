@@ -158,7 +158,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * 
    */
   protected async getTransactionObject() {
-    const res = await this.$provider.send({
+    const res = await this.$provider.post({
       method: 'eth_getTransactionByHash',
       params: this.id,
     });
@@ -169,7 +169,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * 
    */
   protected async getTransactionReceipt() {
-    const res = await this.$provider.send({
+    const res = await this.$provider.post({
       method: 'eth_getTransactionReceipt',
       params: this.id,
     });
@@ -180,7 +180,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * 
    */
   protected async getLastBlock() {
-    const res = await this.$provider.send({
+    const res = await this.$provider.post({
       method: 'eth_blockNumber',
     });
     return parseInt(res.result);
