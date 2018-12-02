@@ -11,6 +11,7 @@ export interface HttpProviderOptions {
     name: string;
     value: string;
   }[];
+  accountId?: string;
   signMethod?: SignMethod,
 }
 
@@ -23,17 +24,14 @@ export class HttpProvider extends GenericProvider {
    * Class constructor.
    */
   public constructor(options: HttpProviderOptions) {
-    super({});
+    super(options);
 
     options = { 
-      signMethod: SignMethod.ETH_SIGN,
       host: 'http://localhost:8545',
       timeout: 20000,
       headers: [],
       ...options,
     };
-
-    this.signMethod = options.signMethod;
 
     this.client = new Web3HttpProvider(
       options.host,

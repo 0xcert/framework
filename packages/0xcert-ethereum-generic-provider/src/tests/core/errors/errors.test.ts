@@ -1,6 +1,6 @@
 import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { GenericProviderIssue } from '@0xcert/scaffold/dist/core/errors';
+import { ProviderIssue } from '@0xcert/scaffold';
 import { parseError } from '../../..';
 
 interface Data {
@@ -47,17 +47,17 @@ spec.test('correctly throws ZERO_ADDRESS error', async (ctx) => {
   await erc721.instance.methods.balanceOf(zeroAddress).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ZERO_ADDRESS);
+    ctx.is(parseError(e).issue, ProviderIssue.ZERO_ADDRESS);
   });
   await erc721Metadata.instance.methods.balanceOf(zeroAddress).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ZERO_ADDRESS);
+    ctx.is(parseError(e).issue, ProviderIssue.ZERO_ADDRESS);
   });
   await erc721Enumerable.instance.methods.balanceOf(zeroAddress).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ZERO_ADDRESS);
+    ctx.is(parseError(e).issue, ProviderIssue.ZERO_ADDRESS);
   });
 });
 
@@ -70,23 +70,23 @@ spec.test('correctly throws INVALID_NFT error', async (ctx) => {
   await erc721.instance.methods.ownerOf('2').call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_NFT);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_NFT);
   });
   await erc721Metadata.instance.methods.ownerOf('2').call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_NFT);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_NFT);
   });
   await erc721Enumerable.instance.methods.ownerOf('2').call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_NFT);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_NFT);
   });
   await mutableXcert.instance.methods.updateTokenProof('1','0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9')
   .call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_NFT);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_NFT);
   });
 });
 
@@ -103,42 +103,42 @@ spec.test('correctly throws NOT_AUTHORIZED error', async (ctx) => {
   await erc721.instance.methods.approve(bob, '2').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await erc721Metadata.instance.methods.approve(bob, '2').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await erc721Enumerable.instance.methods.approve(bob, '2').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await erc721.instance.methods.transferFrom(jane, bob, '123').call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await erc721Metadata.instance.methods.transferFrom(jane, bob, '123').call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await erc721Enumerable.instance.methods.transferFrom(jane, bob, '123').call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await burnableXcert.instance.methods.burn('123').call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
   await xcert.instance.methods.assignAbilities(bob, [0]).call({from: bob})
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.NOT_AUTHORIZED);
   });
 });
 
@@ -152,17 +152,17 @@ spec.test('correctly throws RECEIVER_DOES_NOT_SUPPORT_NFT error', async (ctx) =>
   await erc721.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.GENERAL_REVERT);
+    ctx.is(parseError(e).issue, ProviderIssue.GENERAL_REVERT);
   });
   await erc721Metadata.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.GENERAL_REVERT);
+    ctx.is(parseError(e).issue, ProviderIssue.GENERAL_REVERT);
   });
   await erc721Enumerable.instance.methods.safeTransferFrom(jane, erc721.instance._address, '123').call({ from: jane })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.GENERAL_REVERT);
+    ctx.is(parseError(e).issue, ProviderIssue.GENERAL_REVERT);
   });
 });
 
@@ -175,17 +175,17 @@ spec.test('correctly throws NFT_ALREADY_EXISTS error', async (ctx) => {
   await erc721.instance.methods.mint(bob, '123').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NFT_ALREADY_EXISTS);
+    ctx.is(parseError(e).issue, ProviderIssue.NFT_ALREADY_EXISTS);
   });
   await erc721Metadata.instance.methods.mint(bob, '123').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NFT_ALREADY_EXISTS);
+    ctx.is(parseError(e).issue, ProviderIssue.NFT_ALREADY_EXISTS);
   });
   await erc721Enumerable.instance.methods.mint(bob, '123').call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.NFT_ALREADY_EXISTS);
+    ctx.is(parseError(e).issue, ProviderIssue.NFT_ALREADY_EXISTS);
   });
 });
 
@@ -195,12 +195,12 @@ spec.test('correctly throws INVALID_INDEX error', async (ctx) => {
   await erc721Enumerable.instance.methods.tokenByIndex(2).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_INDEX);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_INDEX);
   });
   await erc721Enumerable.instance.methods.tokenOfOwnerByIndex(owner, 2).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_INDEX);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_INDEX);
   });
 });
 
@@ -212,7 +212,7 @@ spec.test('correctly throws TRANSFERS_PAUSED error', async (ctx) => {
   await pausableXcert.instance.methods.transferFrom(jane, owner, '123').call({ from: jane })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.TRANSFERS_PAUSED);
+    ctx.is(parseError(e).issue, ProviderIssue.TRANSFERS_PAUSED);
   });
 });
 
@@ -231,7 +231,7 @@ spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
   await orderGateway.instance.methods.isValidSignature(jane, '0x0', signatureDataTuple).call()
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.GENERAL_REVERT); // INVALID_SIGNATURE_KIND
+    ctx.is(parseError(e).issue, ProviderIssue.GENERAL_REVERT); // INVALID_SIGNATURE_KIND
   });
 });
 
@@ -276,7 +276,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_PROXY);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_PROXY);
   });
 });
 
@@ -324,7 +324,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.YOU_ARE_NOT_THE_TAKER);
+    ctx.is(parseError(e).issue, ProviderIssue.YOU_ARE_NOT_THE_TAKER);
   });
 });
 
@@ -370,7 +370,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.SENDER_NOT_TAKER_OR_MAKER);
+    ctx.is(parseError(e).issue, ProviderIssue.SENDER_NOT_TAKER_OR_MAKER);
   });
 });
 
@@ -415,7 +415,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ORDER_EXPIRED);
+    ctx.is(parseError(e).issue, ProviderIssue.ORDER_EXPIRED);
   });
 });
 
@@ -462,7 +462,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.INVALID_SIGNATURE);
+    ctx.is(parseError(e).issue, ProviderIssue.INVALID_SIGNATURE);
   });
 });
 
@@ -507,7 +507,7 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ORDER_CANCELED);
+    ctx.is(parseError(e).issue, ProviderIssue.ORDER_CANCELED);
   });
 });
 
@@ -552,7 +552,7 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ORDER_CANNOT_BE_PERFORMED_TWICE);
+    ctx.is(parseError(e).issue, ProviderIssue.ORDER_CANNOT_BE_PERFORMED_TWICE);
   });
 });
 
@@ -585,7 +585,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
   await orderGateway.instance.methods.cancel(orderDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.YOU_ARE_NOT_THE_MAKER);
+    ctx.is(parseError(e).issue, ProviderIssue.YOU_ARE_NOT_THE_MAKER);
   });
 });
 
@@ -627,7 +627,7 @@ spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).call({ from: bob })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.SIGNER_NOT_AUTHORIZED);
+    ctx.is(parseError(e).issue, ProviderIssue.SIGNER_NOT_AUTHORIZED);
   });
 });
 
@@ -638,7 +638,7 @@ spec.test('correctly throws ONE_ZERO_ABILITY_HAS_TO_EXIST error', async (ctx) =>
   await xcert.instance.methods.revokeAbilities(owner, [0]).call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, GenericProviderIssue.ONE_ZERO_ABILITY_HAS_TO_EXIST);
+    ctx.is(parseError(e).issue, ProviderIssue.ONE_ZERO_ABILITY_HAS_TO_EXIST);
   });
 });
 

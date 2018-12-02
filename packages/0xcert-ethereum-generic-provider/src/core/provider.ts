@@ -15,10 +15,10 @@ export interface GenericProviderOptions {
  * Ethereum RPC client.
  */
 export class GenericProvider extends EventEmitter {
-  protected client: any;
-  protected requestIndex: number = 0;
   public accountId: string;
   public signMethod: SignMethod;
+  protected client: any;
+  protected requestIndex: number = 0;
 
   /**
    * Class constructor.
