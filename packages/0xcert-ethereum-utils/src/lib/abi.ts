@@ -1,6 +1,6 @@
-import * as eth from 'web3-eth-abi';
+// TODO: Refacto all !!!!!!!
 
-// TODO!!!!!!!
+import * as eth from 'web3-eth-abi';
 
 export function encodeFunctionCall(abi: any, data: any) {
   return eth.encodeFunctionCall(abi, data);
