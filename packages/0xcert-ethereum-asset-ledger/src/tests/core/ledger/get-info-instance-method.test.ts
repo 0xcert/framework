@@ -42,6 +42,7 @@ spec.test('returns ledger info', async (ctx) => {
     symbol: 'Xcert',
     uriBase: 'http://0xcert.org/',
     conventionId: '0x0500000000000000000000000000000000000000000000000000000000000000',
+    supply: '0',
   });
 });
 

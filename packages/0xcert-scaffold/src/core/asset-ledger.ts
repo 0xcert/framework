@@ -34,7 +34,6 @@ export interface AssetLedgerBase {
   getBalance(accountId: string): Promise<string>;
   getCapabilities(): Promise<AssetLedgerCapability[]>;
   getInfo(): Promise<AssetLedgerInfo>;
-  getSupply(): Promise<string>;
   isApprovedAccount(accountId: string, assetId: string): Promise<boolean>;
   isEnabled(): Promise<boolean>;
   approveAccount(accountId: string, tokenId: string): Promise<Mutation>;
@@ -77,6 +76,7 @@ export interface AssetLedgerInfo {
   symbol: string;
   uriBase: string;
   conventionId: string;
+  supply: string;
 }
 
 /**

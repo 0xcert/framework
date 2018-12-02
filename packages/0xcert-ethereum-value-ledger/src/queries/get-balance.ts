@@ -1,15 +1,25 @@
-import { GenericProvider } from "@0xcert/ethereum-generic-provider";
+import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { ValueLedger } from '../core/ledger';
 import erc20Abi from '../config/erc20Abi';
-import { BN } from '../core/utils';
 
 /**
- * 
+ * Smart contract method abi.
  */
-export default async function(provider: GenericProvider, ledgerId: string, accountId: string) {
-  return provider.queryContract({
-    to: ledgerId,
-    abi: erc20Abi.find((a) => a.name === 'balanceOf'),
-    data: [accountId],
-    tag: 'latest',
-  }).then((r) => new BN(r[0]));
+const abi = erc20Abi.find((a) => (
+  a.name === 'balanceOf' && a.type === 'function'
+));
+
+/**
+ * Gets the amount of assets the account owns.
+ */
+export default async function(ledger: ValueLedger, accountId: string) {
+  const attrs = {
+    to: ledger.id,
+    data: encodeFunctionCall(abi, [accountId]),
+  };
+  const res = await ledger.provider.send({
+    method: 'eth_call',
+    params: [attrs, 'latest'],
+  });
+  return decodeParameters(abi.outputs, res.result)[0];
 }

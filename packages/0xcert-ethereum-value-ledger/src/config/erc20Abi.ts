@@ -3,6 +3,29 @@
  */
 export default [
   {
+    "inputs": [
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_symbol",
+        "type": "string"
+      },
+      {
+        "name": "_decimals",
+        "type": "uint8"
+      },
+      {
+        "name": "_supply",
+        "type": "uint256"
+      },
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor",
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "name",

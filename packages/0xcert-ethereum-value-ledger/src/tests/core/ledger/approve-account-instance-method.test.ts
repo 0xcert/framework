@@ -2,7 +2,6 @@ import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
-import { BN } from '../../../core/utils';
 
 interface Data {
   provider: GenericProvider
@@ -47,11 +46,11 @@ spec.test('approves account', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
-  const amount = new BN('300000000000000000000000'); 
+  const value = '300000000000000000000000'; 
 
-  await ledger.approveAccount(bob, amount);
+  await ledger.approveAccount(bob, value);
   const allowance = await token.instance.methods.allowance(coinbase, bob).call();
-  ctx.is(allowance, new BN('300000000000000000000000').toString());
+  ctx.is(allowance, value);
 });
 
 export default spec;

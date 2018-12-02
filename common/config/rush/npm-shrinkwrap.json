@@ -1279,15 +1279,14 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-APL5ndvacBI3RGOWctrF51cHmR6VJl0lnR7SltrFsABT+5+u1WlCowU/gQa0doHn0d3KqTU7172Cc7AtgzGeLQ==",
+      "integrity": "sha512-CDRFAWrd7IUFDcUulhongA/8YAwNeAXC/q6q2spG9uxI5UgTmzWhqppZuQju7RNdK4AOypcAaiTOe07S07obvg==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",
         "solc": "^0.4.25",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36",
-        "web3-utils": "1.0.0-beta.36"
+        "web3": "^1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-ws-provider": {
