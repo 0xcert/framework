@@ -1,16 +1,10 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import * as Web3WsProvider from 'web3-providers-ws';
+import { RpcClient, RpcClientOptions } from './client';
 
 /**
  * 
  */
-export interface WsProviderOptions {
-  host?: string;
-  timeout?: number;
-  headers?: {
-    name: string;
-    value: string;
-  }[];
+export interface WsProviderOptions extends RpcClientOptions {
   accountId?: string;
   signMethod?: SignMethod,
 }
@@ -26,30 +20,17 @@ export class WsProvider extends GenericProvider {
   public constructor(options: WsProviderOptions) {
     super(options);
 
-    options = { 
-      host: 'ws://localhost:8546',
-      timeout: 20000,
-      headers: [],
+    this.client = new RpcClient({ 
+      url: 'ws://localhost:8546',
       ...options,
-    };
-
-    const headers = {};
-    options.headers.forEach((h) => headers[h.name] = h.value);
-
-    this.client = new Web3WsProvider(
-      options.host,
-      {
-        timeout: options.timeout,
-        headers,
-      }
-    );
+    });
   }
 
   /**
    * 
    */
   public isSupported() {
-    return true;
+    return !!window && !!window['Websocket'];
   }
   
 }

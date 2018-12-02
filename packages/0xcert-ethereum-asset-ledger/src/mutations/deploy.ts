@@ -19,7 +19,7 @@ export default async function(provider: GenericProvider, { source, name, symbol,
     data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, conventionId]).substr(2)}`,
     gas: 6000000,
   };
-  const res = await provider.send({
+  const res = await provider.post({
     method: 'eth_sendTransaction',
     params: [attrs],
   });
