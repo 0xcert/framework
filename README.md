@@ -11,13 +11,13 @@
 
 ### Core
 
-- use BigNumber for all ethereum packages
-- default paths to `./dist` when calling sub items in packages
-- HttpProvider and WsProvider refactor - remove web3
-- upgrade to solidity 5
-- GenericProvider, OrderGateway support safeTransfer by adding a list of trusted addresses
-- 0xcert/ethereum-utils complete refactoring - remove web3
-- automatically handle `gas: 6000000,` on mutations
+- [K] 0xcert/ethereum-utils complete refactoring - remove web3
+- [K] HttpProvider and WsProvider refactor - remove web3
+- [K] use BigNumber for all ethereum packages
+- [K] verify that typescript es6 target works in targeted browsers
+- [T] GenericProvider, OrderGateway support safeTransfer by adding a list of trusted addresses
+- [T] automatically handle `gas: 6000000,` on mutations
+- [T] upgrade to solidity 5
 
 ## Development
 
