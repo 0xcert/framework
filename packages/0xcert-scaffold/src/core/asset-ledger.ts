@@ -83,8 +83,8 @@ export interface AssetLedgerInfo {
  * 
  */
 export interface AssetLedgerItemRecipe {
-  accountId: string;
-  assetId: string;
+  receiverId: string;
+  id: string;
   proof: string;
 }
 
@@ -92,8 +92,8 @@ export interface AssetLedgerItemRecipe {
  * 
  */
 export interface AssetLedgerTransferRecipe {
+  receiverId: string;
   id: string;
-  to: string;
   data?: string;
 }
 

@@ -13,11 +13,11 @@ const abi = xcertAbi.find((a) => (
 /**
  * Transfers asset from one account to another.
  */
-export default async function(ledger: AssetLedger, to: string, assetId: string) {
+export default async function(ledger: AssetLedger, receiverId: string, id: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [ledger.provider.accountId, to, assetId]),
+    data: encodeFunctionCall(abi, [ledger.provider.accountId, receiverId, id]),
     gas: 6000000,
   };
   const res = await ledger.provider.post({

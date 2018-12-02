@@ -148,9 +148,9 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async createAsset(input: AssetLedgerItemRecipe): Promise<Mutation> {
+  public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
     // TODO(Kristjan): proof input validation that it is a hex of length 64.
-    return createAsset(this, input.accountId, input.assetId, input.proof);
+    return createAsset(this, recipe.receiverId, recipe.id, recipe.proof);
   }
 
   /**
@@ -180,10 +180,10 @@ export class AssetLedger implements AssetLedgerBase {
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
     // TODO(Kristjan): validate data.data param if exists.
     if (true) { // TODO(Kristjan): check provider for "unsafe" exceptions.
-      return safeTransfer(this, recipe.to, recipe.id, recipe.data);
+      return safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
     }
     else {
-      return transfer(this, recipe.to, recipe.id);
+      return transfer(this, recipe.receiverId, recipe.id);
     }
   }
 

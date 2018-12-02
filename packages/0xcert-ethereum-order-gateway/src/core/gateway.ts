@@ -19,6 +19,13 @@ export class OrderGateway implements OrderGatewayBase {
     this.$id = normalizeAddress(id);
     this.$provider = provider;
   }
+
+  /**
+   * 
+   */
+  public static getInstance(provider: GenericProvider, id?: string): OrderGateway {
+    return new OrderGateway(provider, id);
+  }
   
   /**
    * 

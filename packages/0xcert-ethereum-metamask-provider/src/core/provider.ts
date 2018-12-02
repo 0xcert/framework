@@ -18,6 +18,13 @@ export class MetamaskProvider extends GenericProvider {
   /**
    * 
    */
+  public static getInstance(): MetamaskProvider {
+    return new MetamaskProvider();
+  }
+
+  /**
+   * 
+   */
   public isSupported() {
     return (
       typeof window !== 'undefined'

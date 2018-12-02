@@ -40,6 +40,13 @@ export class HttpProvider extends GenericProvider {
   /**
    * 
    */
+  public static getInstance(options: HttpProviderOptions): HttpProvider {
+    return new HttpProvider(options);
+  }
+
+  /**
+   * 
+   */
   public isSupported() {
     return !!this.client.fetch;
   }

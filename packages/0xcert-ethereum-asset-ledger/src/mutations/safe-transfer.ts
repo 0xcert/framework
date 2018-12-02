@@ -15,11 +15,11 @@ const abis = xcertAbi.filter((a) => (
  * receive the asset (it fails if receiver is a smart contract that does not implement 
  * erc721receiver).
  */
-export default async function(ledger: AssetLedger, to: string, assetId: string, receiverData?: string) {
+export default async function(ledger: AssetLedger, receiverId: string, id: string, receiverData?: string) {
   const abi = abis.find((a) => (
     a.inputs.length === (typeof receiverData !== 'undefined' ? 4 : 3)
   ));
-  const data = [ledger.provider.accountId, to, assetId, receiverData]
+  const data = [ledger.provider.accountId, receiverId, id, receiverData]
     .filter((a) => typeof a !== 'undefined');
   const attrs = {
     from: ledger.provider.accountId,
