@@ -26,7 +26,7 @@ contract PausableXcertMock is PausableXcert {
     nftName = _name;
     nftSymbol = _symbol;
     uriBase = _uriBase;
-    nftConventionId = _schemaId;
+    nftSchemaId = _schemaId;
     isPaused = false; // set the default pause state
   }
 }

@@ -31,7 +31,7 @@ contract PausableXcert is Xcert {
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftConventionId, nftName, nftSymbol
+   * @notice When implementing this contract don't forget to set nftSchemaId, nftName, nftSymbol
    * and default pause state.
    */
   constructor()

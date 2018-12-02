@@ -30,7 +30,7 @@ contract MutableXcert is Xcert {
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftConventionId, nftName and
+   * @notice When implementing this contract don't forget to set nftSchemaId, nftName and
    * nftSymbol.
    */
   constructor()
