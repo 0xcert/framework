@@ -34,7 +34,7 @@ export class HttpProvider extends GenericProvider {
     super(options);
 
     this.$options = options;
-    this.client = this;
+    this.$client = this;
   }
 
   /**
@@ -48,7 +48,7 @@ export class HttpProvider extends GenericProvider {
    * 
    */
   public isSupported() {
-    return !!this.client.fetch;
+    return !!this.$client.fetch;
   }
 
   /**

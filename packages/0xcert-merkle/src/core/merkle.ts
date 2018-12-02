@@ -30,7 +30,7 @@ export interface MerkleRecipe {
 /**
  * Merkle tree configuration.
  */
-export interface MerkleConfig {
+export interface MerkleOptions {
   hasher?: MerkleHasher;
 }
 
@@ -38,15 +38,15 @@ export interface MerkleConfig {
  * Merkle tree class.
  */
 export class Merkle {
-  protected config: MerkleConfig;
+  protected $options: MerkleOptions;
 
   /**
    * 
    */
-  public constructor(config?: MerkleConfig) {
-    this.config = {
+  public constructor(options?: MerkleOptions) {
+    this.$options = {
       hasher: (v) => v,
-      ...config,
+      ...options,
     };
   }
 
@@ -56,17 +56,17 @@ export class Merkle {
    */
   public async notarize(data: (string|number|boolean)[]) {
     const values = [...data];
-    const nodes = [await this.config.hasher('')];
+    const nodes = [await this.$options.hasher('')];
 
     for (let i = values.length - 1; i >= 0; i--) {
       const right = nodes[0];
       const value = values[i];
       nodes.unshift(
-        await this.config.hasher(value)
+        await this.$options.hasher(value)
       );
       const left = nodes[0];
       nodes.unshift(
-        await this.config.hasher(`${left}${right}`)
+        await this.$options.hasher(`${left}${right}`)
       );
     }
 
@@ -114,7 +114,7 @@ export class Merkle {
       ...await Promise.all(
         evidence.values.map(async (v) => ({
           index: v.index * 2 + 1,
-          hash: await this.config.hasher(v.value),
+          hash: await this.$options.hasher(v.value),
           value: v.value
         }))
       ),
@@ -129,7 +129,7 @@ export class Merkle {
       if (right && left) {
         nodes.unshift({
           index: i - 2,
-          hash: await this.config.hasher(`${left.hash}${right.hash}`),
+          hash: await this.$options.hasher(`${left.hash}${right.hash}`),
         });
       }
     }
