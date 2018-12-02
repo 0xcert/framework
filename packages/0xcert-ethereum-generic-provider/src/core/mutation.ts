@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { MutationBase } from '@0xcert/scaffold';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-address';
 import { MutationEvent } from './types';
 
 /**
