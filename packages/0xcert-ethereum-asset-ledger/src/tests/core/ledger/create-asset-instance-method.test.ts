@@ -44,8 +44,8 @@ spec.test('create a new asset', async (ctx) => {
   const bob = ctx.get('bob');
 
   await ledger.createAsset({
-    accountId: bob, 
-    assetId: '1',
+    receiverId: bob, 
+    id: '1',
     proof: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9'
   });
   const asset1Owner = await xcert.instance.methods.ownerOf('1').call();

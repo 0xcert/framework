@@ -47,9 +47,12 @@ spec.test('transfer asset', async (ctx) => {
   const bob = ctx.get('bob');
 
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.transferAsset(
-    { to: bob, id: '1' }
-  );
+
+  await ledger.transferAsset({
+    receiverId: bob,
+    id: '1',
+  });
+
   const asset1Owner = await xcert.instance.methods.ownerOf('1').call();
   ctx.is(asset1Owner, bob);
 });
@@ -61,9 +64,12 @@ spec.test('transfer asset to a contract', async (ctx) => {
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
 
   await xcert.instance.methods.mint(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.transferAsset(
-    { to: nftokenReceiver, id: '2' }
-  );
+
+  await ledger.transferAsset({
+    receiverId: nftokenReceiver,
+    id: '2',
+  });
+
   const asset1Owner = await xcert.instance.methods.ownerOf('2').call();
   ctx.is(asset1Owner, nftokenReceiver);
 });
@@ -75,9 +81,11 @@ spec.test('transfer asset to a contract with data', async (ctx) => {
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
 
   await xcert.instance.methods.mint(coinbase, '3', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.transferAsset(
-    { to: nftokenReceiver, id: '3', data: '0x01' }
-  );
+
+  await ledger.transferAsset({
+    receiverId: nftokenReceiver, id: '3', data: '0x01',
+  });
+
   const asset1Owner = await xcert.instance.methods.ownerOf('3').call();
   ctx.is(asset1Owner, nftokenReceiver);
 });

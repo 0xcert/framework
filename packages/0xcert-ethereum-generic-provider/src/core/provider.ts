@@ -16,8 +16,8 @@ export interface GenericProviderOptions {
 export class GenericProvider {
   public accountId: string;
   public signMethod: SignMethod;
-  protected client: any;
-  protected requestIndex: number = 0;
+  protected $client: any;
+  protected $id: number = 0;
 
   /**
    * Class constructor.
@@ -28,7 +28,7 @@ export class GenericProvider {
     this.accountId = options.accountId;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
 
-    this.client = options.client && options.client.currentProvider
+    this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
   }
@@ -42,10 +42,10 @@ export class GenericProvider {
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
    */
   public async post(options: SendOptions): Promise<RpcResponse> {
-    const requestIndex = options.id || this.getUniqueRequestIndex();
+    const requestIndex = options.id || this.getNextId();
 
     return new Promise<RpcResponse>((resolve, reject) => {
-      this.client.send({
+      this.$client.send({
         jsonrpc: '2.0',
         id: requestIndex,
         ...options,
@@ -69,9 +69,9 @@ export class GenericProvider {
   /**
    * Returns the next unique instance `requestIndex`.
    */
-  protected getUniqueRequestIndex() {
-    this.requestIndex++;
-    return this.requestIndex;
+  protected getNextId() {
+    this.$id++;
+    return this.$id;
   }
 
 }
