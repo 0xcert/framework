@@ -44,7 +44,7 @@ spec.test('deploys new assetledger', async (ctx) => {
     name: 'Foo',
     symbol: 'Bar',
     uriBase: 'http://foo.bar',
-    conventionId: '0x0',
+    schemaId: '0x0',
   });
 
   // const name = await xcert.instance.methods.name().call();

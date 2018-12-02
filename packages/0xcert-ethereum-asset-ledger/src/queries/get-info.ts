@@ -5,7 +5,7 @@ import xcertAbi from '../config/xcertAbi';
 /**
  * Smart contract method abi.
  */
-const abis = ['name', 'symbol', 'uriBase', 'conventionId', 'totalSupply'].map((name) => {  
+const abis = ['name', 'symbol', 'uriBase', 'schemaId', 'totalSupply'].map((name) => {  
   return xcertAbi.find((a) => (
     a.name === name && a.type === 'function'
   ));
@@ -32,7 +32,7 @@ export default async function(ledger: AssetLedger) {
     name: info[0],
     symbol: info[1],
     uriBase: info[2],
-    conventionId: info[3],
+    schemaId: info[3],
     supply: info[4],
   };
 }

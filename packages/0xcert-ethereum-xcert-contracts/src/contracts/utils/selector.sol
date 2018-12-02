@@ -24,7 +24,7 @@ contract Selector {
     Xcert i;
     return (
       i.mint.selector
-      ^ i.conventionId.selector
+      ^ i.schemaId.selector
       ^ i.tokenProof.selector
       ^ i.setUriBase.selector
       ^ i.assignAbilities.selector

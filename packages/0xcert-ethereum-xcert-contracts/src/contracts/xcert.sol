@@ -75,12 +75,12 @@ contract Xcert is
   /**
    * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.
    */
-  function conventionId()
+  function schemaId()
     external
     view
-    returns (bytes32 _conventionId)
+    returns (bytes32 _schemaId)
   {
-    _conventionId = nftConventionId;
+    _schemaId = nftConventionId;
   }
 
   /**

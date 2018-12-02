@@ -17,7 +17,7 @@ export default [
         "type": "string"
       },
       {
-        "name": "_conventionId",
+        "name": "_schemaId",
         "type": "bytes32"
       }
     ],
@@ -75,10 +75,10 @@ export default [
   {
     "constant": true,
     "inputs": [],
-    "name": "conventionId",
+    "name": "schemaId",
     "outputs": [
       {
-        "name": "_conventionId",
+        "name": "_schemaId",
         "type": "bytes32"
       }
     ],
