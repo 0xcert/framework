@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-http-provider",
   "version": "0.0.0-alpha3",
-  "description": "Metamsk provider for 0xcert protocol.",
+  "description": "HTTP provider for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "0.0.0-alpha3",
-    "web3-providers-http": "^1.0.0-beta.36"
+    "node-fetch": "^2.3.0"
   }
 }

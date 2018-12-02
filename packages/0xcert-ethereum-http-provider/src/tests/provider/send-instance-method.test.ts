@@ -9,7 +9,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const provider = new HttpProvider({
-    host: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
+    url: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
   });
 
   stage.set('provider', provider);

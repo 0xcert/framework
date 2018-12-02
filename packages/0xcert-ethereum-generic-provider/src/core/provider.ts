@@ -1,5 +1,4 @@
-import { EventEmitter } from "events";
-import { RpcResponse, SendOptions, SignMethod, ProviderEvent } from './types';
+import { RpcResponse, SendOptions, SignMethod } from './types';
 import { parseError } from './errors';
 
 /**
@@ -14,7 +13,7 @@ export interface GenericProviderOptions {
 /**
  * Ethereum RPC client.
  */
-export class GenericProvider extends EventEmitter {
+export class GenericProvider {
   public accountId: string;
   public signMethod: SignMethod;
   protected client: any;
@@ -26,52 +25,12 @@ export class GenericProvider extends EventEmitter {
    * @param options.accountId Coinbase address.
    */
   public constructor(options: GenericProviderOptions) {
-    super();
-    
     this.accountId = options.accountId;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
 
     this.client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
-    
-    if (this.client) {
-      this.client.on(ProviderEvent.NETWORK_CHANGE, () => this.emit(ProviderEvent.NETWORK_CHANGE));
-      this.client.on(ProviderEvent.ACCOUNT_CHANGE, () => this.emit(ProviderEvent.ACCOUNT_CHANGE));
-    }
-  }
-
-  /**
-   * 
-   */
-  public emit(event: ProviderEvent) {
-    return super.emit(event);
-  }
-
-  /**
-   * 
-   */
-  public on(event: ProviderEvent, handler: () => any) {
-    return super.on(event, handler);
-  }
-
-  /**
-   * 
-   */
-  public once(event: ProviderEvent, handler: () => any) {
-    return super.once(event, handler);
-  }
-
-  /**
-   * 
-   */
-  public off(event: ProviderEvent, handler?: () => any) {
-    if (handler) {
-      return super.off(event, handler);
-    }
-    else {
-      return super.removeAllListeners(event);
-    }
   }
 
   /**

@@ -11,10 +11,11 @@
   "devDependencies": {
     "@0xcert/cert": "0.0.0-alpha3",
     "@0xcert/ethereum-asset-ledger": "0.0.0-alpha3",
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha3",
+    "@0xcert/ethereum-http-provider": "0.0.0-alpha3",
     "@0xcert/ethereum-metamask-provider": "0.0.0-alpha3",
     "@0xcert/ethereum-order-gateway": "0.0.0-alpha3",
     "@0xcert/ethereum-value-ledger": "0.0.0-alpha3",
+    "@0xcert/ethereum-ws-provider": "0.0.0-alpha3",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }

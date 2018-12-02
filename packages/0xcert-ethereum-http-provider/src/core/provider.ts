@@ -1,16 +1,10 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import * as Web3HttpProvider from 'web3-providers-http';
+import { RpcClient, RpcClientOptions } from './client';
 
 /**
  * 
  */
-export interface HttpProviderOptions {
-  host?: string;
-  timeout?: number;
-  headers?: {
-    name: string;
-    value: string;
-  }[];
+export interface HttpProviderOptions extends RpcClientOptions {
   accountId?: string;
   signMethod?: SignMethod,
 }
@@ -26,27 +20,17 @@ export class HttpProvider extends GenericProvider {
   public constructor(options: HttpProviderOptions) {
     super(options);
 
-    options = { 
-      host: 'http://localhost:8545',
-      timeout: 20000,
-      headers: [],
+    this.client = new RpcClient({ 
+      url: 'http://localhost:8545',
       ...options,
-    };
-
-    this.client = new Web3HttpProvider(
-      options.host,
-      {
-        timeout: options.timeout,
-        headers: [...options.headers],
-      }
-    );
+    });
   }
 
   /**
    * 
    */
   public isSupported() {
-    return true;
+    return typeof window === 'undefined' || window.fetch;
   }
   
 }

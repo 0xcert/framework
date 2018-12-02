@@ -11,13 +11,13 @@
 
 ### Core
 
-- [K] 0xcert/ethereum-utils complete refactoring - remove web3
+- [L,K,T] 0xcert/ethereum-utils complete refactoring - remove web3
+- [K] use BigNumber for all ethereum packages (when 0xcert/ethereum-utils is refactored)
 - [K] HttpProvider and WsProvider refactor - remove web3
-- [K] use BigNumber for all ethereum packages
-- [K] verify that typescript es6 target works in targeted browsers
 - [T] GenericProvider, OrderGateway support safeTransfer by adding a list of trusted addresses
 - [T] automatically handle `gas: 6000000,` on mutations
 - [T] upgrade to solidity 5
+- [T] Trezor & EIP712 signature
 
 ## Development
 
