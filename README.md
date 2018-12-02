@@ -13,10 +13,11 @@
 
 - [L,K,T] 0xcert/ethereum-utils complete refactoring - remove web3
 - [K] WsProvider for https://github.com/ethereum/go-ethereum/wiki/RPC-PUB-SUB (window.Websocket or require('ws')).
-- [K] AssetLedger, ValueLedger and OrderGateway subscribe to events
+- [K] AssetLedger, ValueLedger and OrderGateway subscribe to events (handle connetion lost)
 - [K] use BigNumber for all ethereum packages (when 0xcert/ethereum-utils is refactored)
 - [T] GenericProvider, OrderGateway support safeTransfer by adding a list of trusted addresses
 - [T] automatically handle `gas: 6000000,` on mutations
+- [T] add transfer to ValueLedger
 - [T] upgrade to solidity 5
 - [T] Trezor & EIP712 signature
 
