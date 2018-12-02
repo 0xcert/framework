@@ -21,8 +21,8 @@ export class Mutation extends EventEmitter implements MutationBase {
   public constructor(provider: any, id: string) {
     super();
 
+    this.$id = normalizeAddress(id);
     this.$provider = provider;
-    this.id = id;
   }
 
   /**
@@ -30,6 +30,13 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   public get id() {
     return this.$id;
+  }
+
+  /**
+   * 
+   */
+  public get provider() {
+    return this.$provider;
   }
 
   /**
@@ -51,27 +58,6 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   public get receiverId() {
     return this.$receiverId;
-  }
-
-  /**
-   * 
-   */
-  public set id(id) {
-    this.$id = normalizeAddress(id);
-  }
-
-  /**
-   * 
-   */
-  public set senderId(id) {
-    this.$senderId = normalizeAddress(id);
-  }
-
-  /**
-   * 
-   */
-  public set receiverId(id) {
-    this.$receiverId = normalizeAddress(id);
   }
 
   /**
@@ -151,21 +137,13 @@ export class Mutation extends EventEmitter implements MutationBase {
       return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
     }
     else if (!tx.to) {
-      const receipt = await this.getTransactionReceipt();
-      if (!receipt) {
-        return this.emit(MutationEvent.ERROR, new Error('Mutation not found (2)'));
-      }
-      tx.to = receipt.contractAddress;  
+      tx.to = await this.getTransactionReceipt().then((r) => r.contractAddress);
     }
-    this.senderId = tx.from;
-    this.receiverId = tx.to;
 
-    const block = await this.getLastBlock();
-    if (!block) {
-      return this.emit(MutationEvent.ERROR, new Error('Mutation not found (3)'));
-    }
-    
-    this.$confirmations = parseInt(block.number) - parseInt(tx.blockNumber);
+    this.$senderId = normalizeAddress(tx.from);
+    this.$receiverId = normalizeAddress(tx.to);
+    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber));
+
     if (this.confirmations >= 25) {
       this.$done = true;
       this.emit(MutationEvent.RESOLVE, this);
@@ -203,10 +181,9 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   protected async getLastBlock() {
     const res = await this.$provider.send({
-      method: 'eth_getBlockByNumber',
-      params: ['latest', false],
+      method: 'eth_blockNumber',
     });
-    return res.result;
+    return parseInt(res.result);
   }
 
 }

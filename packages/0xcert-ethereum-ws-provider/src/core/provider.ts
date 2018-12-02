@@ -11,6 +11,7 @@ export interface WsProviderOptions {
     name: string;
     value: string;
   }[];
+  accountId?: string;
   signMethod?: SignMethod,
 }
 
@@ -23,17 +24,14 @@ export class WsProvider extends GenericProvider {
    * Class constructor.
    */
   public constructor(options: WsProviderOptions) {
-    super({});
+    super(options);
 
     options = { 
-      signMethod: SignMethod.ETH_SIGN,
       host: 'ws://localhost:8546',
       timeout: 20000,
       headers: [],
       ...options,
     };
-
-    this.signMethod = options.signMethod;
 
     const headers = {};
     options.headers.forEach((h) => headers[h.name] = h.value);

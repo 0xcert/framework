@@ -2,10 +2,22 @@
 
 ## TODO
 
-- Refactor `@0xcert/scaffold` and apply rules to packages
+### Docs
+
+- add provider errors table
+- add asset ledger
+- add value ledger
+- add order gateway
+
+### Core
+
 - use BigNumber for all ethereum packages
 - default paths to `./dist` when calling sub items in packages
-- http/ws provider refactor
+- HttpProvider and WsProvider refactor - remove web3
+- upgrade to solidity 5
+- GenericProvider, OrderGateway support safeTransfer by adding a list of trusted addresses
+- 0xcert/ethereum-utils complete refactoring - remove web3
+- automatically handle `gas: 6000000,` on mutations
 
 ## Development
 
