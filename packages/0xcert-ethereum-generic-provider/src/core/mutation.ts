@@ -1,11 +1,12 @@
-import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { EventEmitter } from 'events';
+import { MutationBase } from '@0xcert/scaffold';
+import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { MutationEvent } from './types';
 
 /**
  * 
  */
-export class Mutation extends EventEmitter {
+export class Mutation extends EventEmitter implements MutationBase {
   protected $id: string;
   protected $confirmations: number = 0;
   protected $senderId: string;

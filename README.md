@@ -3,8 +3,9 @@
 ## TODO
 
 - Refactor `@0xcert/scaffold` and apply rules to packages
-- Add static methods `deploy` and `new` for AssetLednger and ValueLedger.
 - use BigNumber for all ethereum packages
+- default paths to `./dist` when calling sub items in packages
+- http/ws provider refactor
 
 ## Development
 

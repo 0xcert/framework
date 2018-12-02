@@ -1,14 +1,6 @@
 import { EventEmitter } from "events";
-import * as getBlockByNumber from '../procedures/get-block-by-number';
-import * as getTransactionByHash from '../procedures/get-transaction-by-hash';
-import * as mutateContract from '../procedures/mutate-contract';
-import * as queryContract from '../procedures/query-contract';
-import * as sign from '../procedures/sign';
-import { TransactionObject, BlockObject, RpcResponse, QuantityTag,
-  ContractQueryOptions, ContractMutationOptions, SendOptions, SignOptions,
-  SignMethod, ProviderEvent } from './types';
+import { RpcResponse, SendOptions, SignMethod, ProviderEvent } from './types';
 import { parseError } from './errors';
-import { Mutation } from './mutation';
 
 /**
  * 
@@ -80,93 +72,6 @@ export class GenericProvider extends EventEmitter {
     else {
       return super.removeAllListeners(event);
     }
-  }
-
-  /**
-   * Returns block information.
-   * @param tag Block number or tag.
-   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getblockbynumber
-   */
-  public async getBlockByNumber(tag: QuantityTag): Promise<BlockObject> {
-    return this.send({
-      method: 'eth_getBlockByNumber',
-      params: getBlockByNumber.buildParams(tag),
-    }).then((res) => {
-      return getBlockByNumber.parseResult(res);
-    });
-  }
-
-  /**
-   * Returns transaction information.
-   * @param hash Transaction hash.
-   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_gettransactionbyhash
-   */
-  public async getTransactionByHash(hash: string): Promise<TransactionObject> {
-    return this.send({
-      method: 'eth_getTransactionByHash',
-      params: getTransactionByHash.buildParams(hash),
-    }).then((res) => {
-      return getTransactionByHash.parseResult(res);
-    });
-  }
-
-  /**
-   * Performs a mutation operation on a smart contract.
-   * @param options.from Sender's wallet address.
-   * @param options.to Contract address.
-   * @param options.abi Contract method ABI.
-   * @param options.tag Block number or tag.
-   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sendtransaction
-   */
-  public async mutateContract(options: ContractMutationOptions): Promise<Mutation> {
-    options = {
-      from: this.accountId,
-      ...options,
-    };
-    return this.send({
-      method: 'eth_sendTransaction',
-      params: mutateContract.buildParams(options),
-    }).then((res) => {
-      return mutateContract.parseResult(res);
-    }).then((id) => {
-      return new Mutation(this, id);
-    });
-  }
-
-  /**
-   * Performs a query operation on a smart contract.
-   * @param options.to Contract address.
-   * @param options.abi Contract method ABI.
-   * @param options.tag Block number or tag.
-   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_call
-   */
-  public async queryContract<T=any[]>(options: ContractQueryOptions): Promise<T> {
-    return this.send({
-      method: 'eth_call',
-      params: queryContract.buildParams(options),
-    }).then((res) => {
-      return queryContract.parseResult(options, res);
-    });
-  }
-
-  /**
-   * Signs a message.
-   * @param options.from Signer's wallet address.
-   * @param options.message Text tobe signed.
-   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
-   */
-  public async sign(options: SignOptions): Promise<string> {
-    options = {
-      from: this.accountId,
-      signMethod: this.signMethod,
-      ...options,
-    };
-    return this.send({
-      method: 'eth_sign',
-      params: sign.buildParams(options),
-    }).then((res) => {
-      return sign.parseResult(options, res);
-    });
   }
 
   /**

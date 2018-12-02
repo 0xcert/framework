@@ -10,13 +10,13 @@ export enum OrderActionKind {
 /**
  * 
  */
-export type OrderAction = CreateAssetOrderActionBase | TransferAssetOrderActionBase
-| TransferValueOrderActionBase;
+export type OrderAction = OrderActionCreateAsset | OrderActionTransferAsset
+  | OrderActionTransferValue;
 
 /**
  * 
  */
-export interface CreateAssetOrderActionBase {
+export interface OrderActionCreateAsset {
   kind: OrderActionKind.CREATE_ASSET;
   ledgerId: string;
   senderId: string;
@@ -28,7 +28,7 @@ export interface CreateAssetOrderActionBase {
 /**
  * 
  */
-export interface TransferAssetOrderActionBase {
+export interface OrderActionTransferAsset {
   kind: OrderActionKind.TRANSFER_ASSET;
   ledgerId: string;
   senderId: string;
@@ -39,7 +39,7 @@ export interface TransferAssetOrderActionBase {
 /**
  * 
  */
-export interface TransferValueOrderActionBase {
+export interface OrderActionTransferValue {
   kind: OrderActionKind.TRANSFER_VALUE;
   ledgerId: string;
   senderId: string;

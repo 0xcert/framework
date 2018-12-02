@@ -1,4 +1,4 @@
-import { Mutation } from "./misc";
+import { MutationBase } from "./misc";
 
 /**
  * 
@@ -36,16 +36,16 @@ export interface AssetLedgerBase {
   getInfo(): Promise<AssetLedgerInfo>;
   isApprovedAccount(accountId: string, assetId: string): Promise<boolean>;
   isEnabled(): Promise<boolean>;
-  approveAccount(accountId: string, tokenId: string): Promise<Mutation>;
-  assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation>;
-  createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation>;
-  destroyAsset(assetId: string): Promise<Mutation>;
-  revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation>;
-  revokeAsset(assetId: string): Promise<Mutation>;
-  transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation>;
-  setEnabled(enabled: boolean): Promise<Mutation>;
-  updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation>;
-  update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation>;
+  approveAccount(accountId: string, tokenId: string): Promise<MutationBase>;
+  assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
+  createAsset(recipe: AssetLedgerItemRecipe): Promise<MutationBase>;
+  destroyAsset(assetId: string): Promise<MutationBase>;
+  revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
+  revokeAsset(assetId: string): Promise<MutationBase>;
+  transferAsset(recipe: AssetLedgerTransferRecipe): Promise<MutationBase>;
+  setEnabled(enabled: boolean): Promise<MutationBase>;
+  updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<MutationBase>;
+  update(recipe: AssetLedgerUpdateRecipe): Promise<MutationBase>;
 }
 
 /**
