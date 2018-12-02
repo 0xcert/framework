@@ -13,10 +13,10 @@ const abi = xcertAbi.find((a) => (
 /**
  * 
  */
-export default async function(provider: GenericProvider, { source, name, symbol, uriBase, conventionId }: AssetLedgerDeployRecipe) {
+export default async function(provider: GenericProvider, { source, name, symbol, uriBase, schemaId }: AssetLedgerDeployRecipe) {
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, conventionId]).substr(2)}`,
+    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId]).substr(2)}`,
     gas: 6000000,
   };
   const res = await provider.post({

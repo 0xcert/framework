@@ -58,7 +58,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.test('returns correct convention', async (ctx) => {
   const xcert = ctx.get('xcert');
-  const convention = await xcert.instance.methods.conventionId().call();
+  const convention = await xcert.instance.methods.schemaId().call();
   ctx.is(convention, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658');
 });
 

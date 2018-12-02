@@ -56,7 +56,7 @@ export interface AssetLedgerDeployRecipe {
   name: string;
   symbol: string;
   uriBase: string;
-  conventionId: string;
+  schemaId: string;
 }
 
 /**
@@ -75,7 +75,7 @@ export interface AssetLedgerInfo {
   name: string;
   symbol: string;
   uriBase: string;
-  conventionId: string;
+  schemaId: string;
   supply: string;
 }
 
