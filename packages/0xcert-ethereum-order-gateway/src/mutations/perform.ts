@@ -16,7 +16,7 @@ const abi = gatewayAbi.find((a) => (
  * Submits the provided order to the network.
  */
 export default async function(gateway: OrderGateway, order: Order, claim: string) {
-  const recipeTuple = createRecipeTuple(order);
+  const recipeTuple = createRecipeTuple(gateway, order);
   const signatureTuple = createSignatureTuple(claim);
   const attrs = {
     from: gateway.provider.accountId,
