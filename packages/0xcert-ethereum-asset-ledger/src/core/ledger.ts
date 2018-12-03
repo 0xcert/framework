@@ -3,7 +3,7 @@ import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
-  AssetLedgerUpdateRecipe } from "@0xcert/scaffold";
+  AssetLedgerUpdateRecipe, OrderGatewayBase} from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getAbilities from '../queries/get-abilities';
 import getApprovedAccount from '../queries/get-approved-account';
@@ -14,6 +14,7 @@ import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
+import approveOrderGateway from '../mutations/approve-order-gateway';
 import assignAbilities from '../mutations/assign-abilities';
 import createAsset from '../mutations/create-asset';
 import destroyAsset from '../mutations/destroy-asset';
@@ -134,8 +135,10 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string, assetId: string): Promise<Mutation> {
-    return approveAccount(this, accountId, assetId);
+  public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
+    return typeof accountId === 'string'
+      ? approveAccount(this, accountId, assetId)
+      : approveOrderGateway(this, accountId, assetId);
   }
 
   /**
