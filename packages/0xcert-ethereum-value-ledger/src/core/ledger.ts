@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { normalizeAddress, BN } from '@0xcert/ethereum-utils';
 import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo } from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
@@ -78,4 +78,11 @@ export class ValueLedger implements ValueLedgerBase {
     return getAllowance(this, accountId, spenderId);
   }
 
+  /**
+   * 
+   */
+  public async isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean> {
+    const approved = await getAllowance(this, accountId, spenderId);
+    return new BN(approved).gte(new BN(value));
+  }
 }
