@@ -5,6 +5,7 @@ import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
 import getInfo from '../queries/get-info';
 import approveAccount from '../mutations/approve-account';
+import getAllowance from '../queries/get-allowance';
 
 /**
  * 
@@ -68,6 +69,13 @@ export class ValueLedger implements ValueLedgerBase {
    */
   public async approveAccount(accountId: string, value: string): Promise<Mutation> {
     return approveAccount(this, accountId, value);
+  }
+
+  /**
+   * 
+   */
+  public async getApprovedValue(accountId: string, spenderId: string): Promise<Mutation> {
+    return getAllowance(this, accountId, spenderId);
   }
 
 }
