@@ -134,8 +134,8 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string, tokenId: string): Promise<Mutation> {
-    return approveAccount(this, accountId, tokenId);
+  public async approveAccount(accountId: string, assetId: string): Promise<Mutation> {
+    return approveAccount(this, accountId, assetId);
   }
 
   /**
@@ -178,13 +178,9 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
-    // TODO(Kristjan): validate data.data param if exists.
-    if (true) { // TODO(Kristjan): check provider for "unsafe" exceptions.
-      return safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
-    }
-    else {
-      return transfer(this, recipe.receiverId, recipe.id);
-    }
+    return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
+      ? transfer(this, recipe.receiverId, recipe.id)
+      : safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
   }
 
   /**
