@@ -1,6 +1,13 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
+ * 
+ */
+export interface MetamaskProviderOptions {
+  unsafeRecipientIds?: string[];
+}
+
+/**
  * Metamask RPC client.
  */
 export class MetamaskProvider extends GenericProvider {
@@ -8,8 +15,9 @@ export class MetamaskProvider extends GenericProvider {
   /**
    * Class constructor.
    */
-  public constructor() {
+  public constructor(options?: MetamaskProviderOptions) {
     super({
+      ...options,
       client: typeof window !== 'undefined' ? window['ethereum'] : null,
       signMethod: SignMethod.EIP712,
     });
