@@ -3,8 +3,7 @@ import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
-  AssetLedgerUpdateRecipe, 
-  OrderGatewayBase} from "@0xcert/scaffold";
+  AssetLedgerUpdateRecipe, OrderGatewayBase} from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getAbilities from '../queries/get-abilities';
 import getApprovedAccount from '../queries/get-approved-account';
