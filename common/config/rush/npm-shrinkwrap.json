@@ -1285,7 +1285,7 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-CDRFAWrd7IUFDcUulhongA/8YAwNeAXC/q6q2spG9uxI5UgTmzWhqppZuQju7RNdK4AOypcAaiTOe07S07obvg==",
+      "integrity": "sha512-94F3MqImA7ZaoqVXqsLj5MfREZn6dyUrtzVZ8bsKRwOiKUPGj6nXpuq15eo5grFEKNvUQXQ/JOAV2yiStDssmw==",
       "requires": {
         "@specron/cli": "^0.3.0",
         "@specron/spec": "^0.3.0",

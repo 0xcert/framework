@@ -1,11 +1,13 @@
 import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider
   ledger: ValueLedger;
+  gateway: OrderGateway;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -21,6 +23,7 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
+
   stage.set('coinbase', accounts[0]);
   stage.set('bob', accounts[1]);
 });
@@ -37,11 +40,13 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
+  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
 
   stage.set('ledger', new ValueLedger(provider, ledgerId));
+  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
-spec.test('approves account', async (ctx) => {
+spec.test('approves account for value transfer', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -49,8 +54,21 @@ spec.test('approves account', async (ctx) => {
   const value = '300000000000000000000000'; 
 
   await ledger.approveAccount(bob, value);
-  const allowance = await token.instance.methods.allowance(coinbase, bob).call();
-  ctx.is(allowance, value);
+
+  ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), value);
+});
+
+spec.test('approves order gateway proxy for value transfer', async (ctx) => {
+  const ledger = ctx.get('ledger');
+  const coinbase = ctx.get('coinbase');
+  const gateway = ctx.get('gateway');
+  const proxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
+  const token = ctx.get('protocol').erc20;
+  const value = '300000000000000000000000'; 
+
+  await ledger.approveAccount(gateway, value);
+
+  ctx.is(await token.instance.methods.allowance(coinbase, proxyId).call(), value);
 });
 
 export default spec;
