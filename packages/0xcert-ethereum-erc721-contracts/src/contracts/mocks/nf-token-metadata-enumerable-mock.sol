@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../nf-token-metadata-enumerable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
@@ -18,9 +18,9 @@ contract NFTokenMetadataEnumerableMock is
    * @param _uriBase Base of uri for token metadata uris. 
    */
   constructor(
-    string _name,
-    string _symbol,
-    string _uriBase
+    string memory _name,
+    string memory _symbol,
+    string memory _uriBase
   )
     public
   {
@@ -62,7 +62,7 @@ contract NFTokenMetadataEnumerableMock is
    * @param _uriBase New uriBase.
    */
   function setUriBase(
-    string _uriBase
+    string calldata _uriBase
   )
     external
     onlyOwner

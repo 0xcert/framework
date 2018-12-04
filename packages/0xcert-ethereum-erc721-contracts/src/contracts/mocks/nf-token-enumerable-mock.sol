@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../../contracts/nf-token-enumerable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../../contracts/mocks/nf-token-metadata-enumerable-mock.sol";
 
@@ -6,9 +6,9 @@ contract NFTokenMetadataEnumerableTestMock is
   NFTokenMetadataEnumerableMock
 {
   constructor(
-    string _name,
-    string _symbol,
-    string _uriBase
+    string memory _name,
+    string memory _symbol,
+    string memory _uriBase
   )
     NFTokenMetadataEnumerableMock(_name, _symbol, _uriBase)
     public
