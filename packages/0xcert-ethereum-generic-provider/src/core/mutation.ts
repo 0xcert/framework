@@ -129,6 +129,8 @@ export class Mutation extends EventEmitter implements MutationBase {
    * 
    */
   public async resolve() {
+    const start = this.$status === MutationStatus.INITIALIZED;
+
     if (this.isResolved()) {
       return this;
     }
@@ -137,9 +139,17 @@ export class Mutation extends EventEmitter implements MutationBase {
     }
 
     return new Promise((resolve, reject) => {
-      this.once(MutationEvent.RESOLVE, () => resolve(this));
-      this.once(MutationEvent.ERROR, (err) => reject(err));
-      this.loopUntilResolved();
+      if (!this.isResolved()) {
+        this.once(MutationEvent.RESOLVE, () => resolve(this));
+        this.once(MutationEvent.ERROR, (err) => reject(err));
+      }
+      else {
+        resolve(this);
+      }
+
+      if (start) {
+        this.loopUntilResolved();
+      }
     });
   }
 
