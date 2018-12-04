@@ -14,7 +14,7 @@ export function createOrderHash(gatewayId, order: Order) {
       { t: 'uint8', v: getActionKind(action) },
       { t: 'uint32', v: getActionProxy(action) },
       action.ledgerId,
-      getActionParam1(action),
+      { t: 'bytes32', v: getActionParam1(action) },
       action.receiverId,
       getActionValue(action),
     );
@@ -105,7 +105,7 @@ export function getActionProxy(action: OrderAction) {
 export function getActionParam1(action: OrderAction) {
   return action.kind === OrderActionKind.CREATE_ASSET
     ? action['assetProof']
-    : padLeft(action.senderId, 64);
+    : action.senderId;
 }
 
 /**
