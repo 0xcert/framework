@@ -105,7 +105,7 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
  */
 export function getActionParam1(action: OrderAction) {
   return action.kind === OrderActionKind.CREATE_ASSET
-    ? action['assetProof']
+    ? action['assetImprint']
     : padLeft(action.senderId, 64);
 }
 

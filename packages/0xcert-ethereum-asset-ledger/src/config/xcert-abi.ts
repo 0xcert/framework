@@ -250,7 +250,7 @@ export default [
 				"type": "uint256"
 			},
 			{
-				"name": "_proof",
+				"name": "_imprint",
 				"type": "bytes32"
 			}
 		],
@@ -268,11 +268,11 @@ export default [
         "type": "uint256"
       },
       {
-        "name": "_proof",
+        "name": "_imprint",
         "type": "bytes32"
       }
     ],
-    "name": "updateTokenProof",
+    "name": "updateTokenImprint",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -436,7 +436,7 @@ export default [
         "type": "uint256"
       }
     ],
-    "name": "tokenProof",
+    "name": "tokenImprint",
     "outputs": [
       {
         "name": "",

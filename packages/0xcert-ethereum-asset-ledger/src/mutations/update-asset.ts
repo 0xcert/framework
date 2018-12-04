@@ -7,17 +7,17 @@ import xcertAbi from '../config/xcert-abi';
  * Smart contract method abi.
  */
 const abi = xcertAbi.find((a) => (
-  a.name === 'updateTokenProof' && a.type === 'function'
+  a.name === 'updateTokenImprint' && a.type === 'function'
 ));
 
  /**
- * Updates asset proof.
+ * Updates asset imprint.
  */
-export default async function(ledger: AssetLedger, assetId: string, proof: string) {
+export default async function(ledger: AssetLedger, assetId: string, imprint: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [assetId, proof]),
+    data: encodeFunctionCall(abi, [assetId, imprint]),
     gas: 6000000,
   };
   const res = await ledger.provider.post({

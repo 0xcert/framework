@@ -5,7 +5,7 @@ import xcertAbi from '../config/xcert-abi';
 /**
  * Smart contract method abi.
  */
-const abis = ['tokenURI', 'tokenProof'].map((name) => {  
+const abis = ['tokenURI', 'tokenImprint'].map((name) => {  
   return xcertAbi.find((a) => (
     a.name === name && a.type === 'function'
   ));
@@ -31,6 +31,6 @@ export default async function(ledger: AssetLedger, assetId: string) {
   return {
     id: assetId,
     uri: data[0],
-    proof: data[1],
+    imprint: data[1],
   };
 }
