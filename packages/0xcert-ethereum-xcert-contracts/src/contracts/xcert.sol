@@ -17,7 +17,7 @@ contract Xcert is
    * 1 - Ability to mint new xcerts.
    * 2 - Ability to revoke xcerts.
    * 3 - Ability to pause xcert transfers.
-   * 4 - Ability to change xcert proof.
+   * 4 - Ability to change xcert imprint.
    * 5 - Ability to sign claims (valid signatures for minter).
    * 6 - Ability to change URI base.
    */
@@ -34,9 +34,9 @@ contract Xcert is
   bytes32 internal nftSchemaId;
 
   /**
-   * @dev Maps NFT ID to proof.
+   * @dev Maps NFT ID to imprint.
    */
-  mapping (uint256 => bytes32) internal idToProof;
+  mapping (uint256 => bytes32) internal idToImprint;
 
   /**
    * @dev Maps address to authorization of contract.
@@ -51,25 +51,25 @@ contract Xcert is
   constructor()
     public
   {
-    supportedInterfaces[0xc65e10ef] = true; // Xcert
+    supportedInterfaces[0xca12f2bf] = true; // Xcert
   }
 
   /**
    * @dev Mints a new Xcert.
    * @param _to The address that will own the minted Xcert.
    * @param _id The Xcert to be minted by the msg.sender.
-   * @param _proof Cryptographic asset imprint.
+   * @param _imprint Cryptographic asset imprint.
    */
   function mint(
     address _to,
     uint256 _id,
-    bytes32 _proof
+    bytes32 _imprint
   )
     external
     hasAbility(ABILITY_TO_MINT_NEW_XCERTS)
   {
     super._mint(_to, _id);
-    idToProof[_id] = _proof;
+    idToImprint[_id] = _imprint;
   }
 
   /**
@@ -84,17 +84,17 @@ contract Xcert is
   }
 
   /**
-   * @dev Returns proof for Xcert.
+   * @dev Returns imprint for Xcert.
    * @param _tokenId Id of the Xcert.
    */
-  function tokenProof(
+  function tokenImprint(
     uint256 _tokenId
   )
     external
     view
     returns(bytes32)
   {
-    return idToProof[_tokenId];
+    return idToImprint[_tokenId];
   }
 
   /**
