@@ -3,7 +3,7 @@ import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
-  AssetLedgerUpdateRecipe } from "@0xcert/scaffold";
+  AssetLedgerUpdateRecipe, OrderGatewayBase} from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getAbilities from '../queries/get-abilities';
 import getApprovedAccount from '../queries/get-approved-account';
@@ -14,6 +14,7 @@ import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
+import approveOrderGateway from '../mutations/approve-order-gateway';
 import assignAbilities from '../mutations/assign-abilities';
 import createAsset from '../mutations/create-asset';
 import destroyAsset from '../mutations/destroy-asset';
@@ -134,8 +135,10 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string, tokenId: string): Promise<Mutation> {
-    return approveAccount(this, accountId, tokenId);
+  public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
+    return typeof accountId === 'string'
+      ? approveAccount(this, accountId, assetId)
+      : approveOrderGateway(this, accountId, assetId);
   }
 
   /**
@@ -178,13 +181,9 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
-    // TODO(Kristjan): validate data.data param if exists.
-    if (true) { // TODO(Kristjan): check provider for "unsafe" exceptions.
-      return safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
-    }
-    else {
-      return transfer(this, recipe.receiverId, recipe.id);
-    }
+    return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
+      ? transfer(this, recipe.receiverId, recipe.id)
+      : safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
   }
 
   /**

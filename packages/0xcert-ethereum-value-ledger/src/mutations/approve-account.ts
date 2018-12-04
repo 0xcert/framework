@@ -1,7 +1,7 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeFunctionCall } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
-import erc20Abi from '../config/erc20Abi';
+import erc20Abi from '../config/erc20-abi';
 
 /**
  * Smart contract method abi.

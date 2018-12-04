@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployRecipe } from '@0xcert/scaffold';
-import xcertAbi from '../config/xcertAbi';
+import xcertAbi from '../config/xcert-abi';
 
 /**
  * Smart contract constructir abi.

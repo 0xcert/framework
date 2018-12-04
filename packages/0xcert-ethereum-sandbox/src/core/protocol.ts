@@ -277,7 +277,7 @@ export class Protocol {
       from,
     });
   }
-  
+
   /**
    * Deploys the decentralized orderGateway contract.
    * @param from Contract owner's address.

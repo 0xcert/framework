@@ -6,7 +6,7 @@ import { createOrderHash } from '../lib/order';
  * Creates order hash, signes it and returns signed order claim.
  */
 export default async function(gateway: OrderGateway, order: Order) {
-  const message = createOrderHash(gateway.id, order);
+  const message = createOrderHash(gateway, order);
   const res = await gateway.provider.post({
     method: 'eth_sign',
     params: [gateway.provider.accountId, message],

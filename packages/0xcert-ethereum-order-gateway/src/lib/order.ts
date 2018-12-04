@@ -1,18 +1,19 @@
 import { OrderAction, OrderActionKind, Order } from '@0xcert/scaffold';
 import { toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { padLeft, soliditySha3 } from '@0xcert/ethereum-utils';
+import { OrderGateway } from '../core/gateway';
 
 /**
  * 
  */
-export function createOrderHash(gatewayId, order: Order) {
+export function createOrderHash(gateway: OrderGateway, order: Order) {
   let temp = '0x0';
 
   for (const action of order.actions) {
     temp = soliditySha3(
       { t: 'bytes32', v: temp },
       { t: 'uint8', v: getActionKind(action) },
-      { t: 'uint32', v: getActionProxy(action) },
+      { t: 'uint32', v: getActionProxy(gateway, action) },
       action.ledgerId,
       { t: 'bytes32', v: getActionParam1(action) },
       action.receiverId,
@@ -21,7 +22,7 @@ export function createOrderHash(gatewayId, order: Order) {
   }
   
   return soliditySha3(
-    gatewayId,
+    gateway.id,
     order.makerId,
     order.takerId,
     temp,
@@ -33,12 +34,12 @@ export function createOrderHash(gatewayId, order: Order) {
 /**
  * 
  */
-export function createRecipeTuple(order: Order) {
+export function createRecipeTuple(gateway: OrderGateway, order: Order) {
 
   const actions = order.actions.map((action) => {
     return {
       kind: getActionKind(action),
-      proxy: getActionProxy(action),
+      proxy: getActionProxy(gateway, action),
       token: action.ledgerId,
       param1: getActionParam1(action),
       to: action.receiverId,
@@ -87,12 +88,12 @@ export function getActionKind(action: OrderAction) {
 /**
  * 
  */
-export function getActionProxy(action: OrderAction) {
+export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
   if (action.kind === OrderActionKind.TRANSFER_VALUE) {
     return 1;
   }
   else if (action.kind === OrderActionKind.TRANSFER_ASSET) {
-    return 3; // TODO if safeTransfer not supported set to 2
+    return gateway.provider.unsafeRecipientIds.indexOf(action.receiverId) !== -1 ? 2 : 3;
   }
   else {
     return 0;
