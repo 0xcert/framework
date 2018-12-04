@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 import "../math/safe-math.sol";
 
 /**
@@ -78,7 +78,7 @@ contract Abilitable {
    */
   function assignAbilities(
     address _target,
-    uint8[] _abilities
+    uint8[] memory _abilities
   )
     public
     hasAbility(ABILITY_TO_MANAGE_ABILITIES)
@@ -102,7 +102,7 @@ contract Abilitable {
    */
   function revokeAbilities(
     address _target,
-    uint8[] _abilities
+    uint8[] memory _abilities
   )
     public
     hasAbility(ABILITY_TO_MANAGE_ABILITIES)
