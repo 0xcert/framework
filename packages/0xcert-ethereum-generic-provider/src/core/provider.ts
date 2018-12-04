@@ -47,6 +47,38 @@ export class GenericProvider {
   public async post(options: SendOptions): Promise<RpcResponse> {
     const requestIndex = options.id || this.getNextId();
 
+    // TODO: testi if this works if error throwing works on ropsten or do we need to check if the 
+    // resulting gas amount is the same as block gas amount => revert.
+    // if making a transaction where gas is not defined we calculate it using estimateGas.
+    if(options.method === 'eth_sendTransaction'
+      && options.params.length > 0
+      && options.params[0].gas === undefined)
+    {
+      options.method = 'eth_estimateGas';
+      const res = await new Promise<RpcResponse>((resolve, reject) => {
+        this.$client.send({
+          jsonrpc: '2.0',
+          id: requestIndex,
+          ...options,
+        }, (err, res) => {
+          if (err) {
+            return reject(err);
+          }
+          else if (res.error) {
+            return reject(res.error);
+          }
+          return resolve(res);
+        });
+      }).catch((err) => {
+        throw parseError(err);
+      });
+
+      // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
+      // gas we multiply result with 1.1.
+      options.params[0].gas = res.result * 1.1;
+      options.method = 'eth_sendTransaction';
+    }
+
     return new Promise<RpcResponse>((resolve, reject) => {
       this.$client.send({
         jsonrpc: '2.0',
