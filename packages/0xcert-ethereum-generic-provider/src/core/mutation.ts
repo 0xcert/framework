@@ -168,7 +168,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     this.$senderId = normalizeAddress(tx.from);
     this.$receiverId = normalizeAddress(tx.to);
-    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber));
+    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock));
 
     if (this.confirmations >= 25) {
       this.$status = MutationStatus.RESOLVED;
@@ -209,7 +209,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     const res = await this.$provider.post({
       method: 'eth_blockNumber',
     });
-    return parseInt(res.result, 16);
+    return parseInt(res.result);
   }
 
 }
