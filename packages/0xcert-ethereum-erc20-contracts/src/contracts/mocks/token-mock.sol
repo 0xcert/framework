@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../token.sol";
 
@@ -8,8 +8,8 @@ import "../token.sol";
 contract TokenMock is Token {
 
   constructor(
-    string _name,
-    string _symbol,
+    string memory _name,
+    string memory _symbol,
     uint8 _decimals,
     uint256 _supply
   )
