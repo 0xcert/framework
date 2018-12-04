@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedgerDeployRecipe } from '@0xcert/scaffold';
-import erc20Abi from '../config/erc20Abi';
+import erc20Abi from '../config/erc20-abi';
 
 /**
  * Smart contract constructir abi.

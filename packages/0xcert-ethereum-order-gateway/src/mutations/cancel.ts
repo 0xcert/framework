@@ -16,7 +16,7 @@ const abi = gatewayAbi.find((a) => (
  * Cancels already submited order on the network.
  */
 export default async function(gateway: OrderGateway, order: Order) {
-  const recipeTuple = createRecipeTuple(order);
+  const recipeTuple = createRecipeTuple(gateway, order);
   const attrs = {
     from: gateway.provider.accountId,
     to: gateway.id,

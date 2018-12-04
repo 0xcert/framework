@@ -1,6 +1,6 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { normalizeAddress, BN } from '@0xcert/ethereum-utils';
-import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from "@0xcert/scaffold";
+import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
 import getInfo from '../queries/get-info';
@@ -8,6 +8,7 @@ import approveAccount from '../mutations/approve-account';
 import getAllowance from '../queries/get-allowance';
 import transfer from '../mutations/transfer';
 import transferFrom from '../mutations/transfer-from';
+import approveOrderGateway from '../mutations/approve-order-gateway';
 
 /**
  * 
@@ -69,8 +70,10 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string, value: string): Promise<Mutation> {
-    return approveAccount(this, accountId, value);
+  public async approveAccount(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
+    return typeof accountId === 'string'
+      ? approveAccount(this, accountId, value)
+      : approveOrderGateway(this, accountId, value);
   }
 
   /**

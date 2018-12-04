@@ -1,7 +1,7 @@
 import { AssetLedgerAbility } from "@0xcert/scaffold";
 import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcertAbi';
+import xcertAbi from '../config/xcert-abi';
 
 /**
  * Smart contract method abi.
