@@ -18,7 +18,6 @@ export default async function(ledger: AssetLedger, uriBase: string) {
     from: ledger.provider.accountId,
     to: ledger.id,
     data: encodeFunctionCall(abi, [uriBase]),
-    gas: 6000000,
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

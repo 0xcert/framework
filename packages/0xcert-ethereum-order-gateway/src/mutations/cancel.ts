@@ -21,7 +21,6 @@ export default async function(gateway: OrderGateway, order: Order) {
     from: gateway.provider.accountId,
     to: gateway.id,
     data: encodeFunctionCall(abi, [recipeTuple]),
-    gas: 6000000,
   };
   const res = await gateway.provider.post({
     method: 'eth_sendTransaction',
