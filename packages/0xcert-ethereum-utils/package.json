@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-utils",
-  "version": "0.0.0-alpha3",
+  "version": "0.0.0-alpha4",
   "description": "Ethereum utils for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "0.0.0-alpha3",
+    "@0xcert/ethereum-sandbox": "0.0.0-alpha4",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.4.25",
