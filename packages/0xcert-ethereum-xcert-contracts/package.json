@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-xcert-contracts",
   "description": "Xcert token implementation for the 0xcert protocol.",
-  "version": "0.0.0-alpha3",
+  "version": "0.0.0-alpha4",
   "scripts": {
     "clean": "rm -Rf ./build",
     "build": "npm run clean && npx specron compile",
@@ -28,8 +28,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha3",
-    "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha3",
+    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha4",
+    "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha4",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",
     "solc": "^0.5.1",

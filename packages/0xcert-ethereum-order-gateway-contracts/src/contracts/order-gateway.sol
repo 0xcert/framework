@@ -64,7 +64,7 @@ contract OrderGateway is
    * @dev Structure representing what to send and where.
    * @param token Address of the token we are sending.
    * @param proxy Id representing approved proxy address.
-   * @param param1 Address of the sender or proof.
+   * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
    */

@@ -25,7 +25,7 @@ contract Selector {
     return (
       i.mint.selector
       ^ i.schemaId.selector
-      ^ i.tokenProof.selector
+      ^ i.tokenImprint.selector
       ^ i.setUriBase.selector
       ^ i.assignAbilities.selector
       ^ i.revokeAbilities.selector
@@ -66,7 +66,7 @@ contract Selector {
     returns (bytes4)
   {
     MutableXcert i;
-    return i.updateTokenProof.selector;
+    return i.updateTokenImprint.selector;
   }
 
   /**

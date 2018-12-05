@@ -47,14 +47,18 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   const mutation = new Mutation(provider, transactionHash);
   mutation.on(MutationEvent.CONFIRM, () => counters.confirm++)
   mutation.on(MutationEvent.RESOLVE, () => counters.resolve++)
-  await mutation.resolve();
 
+  mutation.resolve();
+  ctx.true(mutation.isPending());
+  await mutation.resolve();
+  ctx.true(mutation.isResolved());
+
+  ctx.true(mutation.confirmations >= 25);
+  ctx.true(counters.confirm >= 1);
   ctx.is(mutation.id, transactionHash);
   ctx.is(mutation.senderId, coinbase.toLowerCase());
   ctx.is(mutation.receiverId, bob.toLowerCase());
   ctx.is(counters.confirm, 1);
-  ctx.true(mutation.confirmations >= 25);
-  ctx.true(counters.confirm >= 1);
 });
 
 export default spec;

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/scaffold",
-  "version": "0.0.0-alpha3",
+  "version": "0.0.0-alpha4",
   "description": "0xcert protocol scaffold.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

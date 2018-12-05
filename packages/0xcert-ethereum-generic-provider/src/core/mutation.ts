@@ -6,6 +6,15 @@ import { MutationEvent } from './types';
 /**
  * 
  */
+export enum MutationStatus {
+  INITIALIZED = 0,
+  PENDING = 1,
+  RESOLVED = 2,
+}
+
+/**
+ * 
+ */
 export class Mutation extends EventEmitter implements MutationBase {
   protected $id: string;
   protected $confirmations: number = 0;
@@ -13,7 +22,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected $receiverId: string;
   protected $provider: any;
   protected $timer: any = null;
-  protected $done: boolean = false;
+  protected $status: MutationStatus = MutationStatus.INITIALIZED;
 
   /**
    * 
@@ -63,6 +72,20 @@ export class Mutation extends EventEmitter implements MutationBase {
   /**
    * 
    */
+  public isPending() {
+    return this.$status === MutationStatus.PENDING;
+  }
+
+  /**
+   * 
+   */
+  public isResolved() {
+    return this.$status === MutationStatus.RESOLVED;
+  }
+
+  /**
+   * 
+   */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
   public emit(event: MutationEvent.RESOLVE, mutation: Mutation);
   public emit(event: MutationEvent.ERROR, error: any);
@@ -106,14 +129,27 @@ export class Mutation extends EventEmitter implements MutationBase {
    * 
    */
   public async resolve() {
-    if (this.$done) {
+    const start = this.$status === MutationStatus.INITIALIZED;
+
+    if (this.isResolved()) {
       return this;
+    }
+    else {
+      this.$status = MutationStatus.PENDING;
     }
 
     return new Promise((resolve, reject) => {
-      this.once(MutationEvent.RESOLVE, () => resolve(this));
-      this.once(MutationEvent.ERROR, (err) => reject(err));
-      this.loopUntilResolved();
+      if (!this.isResolved()) {
+        this.once(MutationEvent.RESOLVE, () => resolve(this));
+        this.once(MutationEvent.ERROR, (err) => reject(err));
+      }
+      else {
+        resolve(this);
+      }
+
+      if (start) {
+        this.loopUntilResolved();
+      }
     });
   }
 
@@ -142,10 +178,10 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     this.$senderId = normalizeAddress(tx.from);
     this.$receiverId = normalizeAddress(tx.to);
-    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber));
+    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock));
 
     if (this.confirmations >= 25) {
-      this.$done = true;
+      this.$status = MutationStatus.RESOLVED;
       this.emit(MutationEvent.RESOLVE, this);
     }
     else {
@@ -160,7 +196,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected async getTransactionObject() {
     const res = await this.$provider.post({
       method: 'eth_getTransactionByHash',
-      params: this.id,
+      params: [this.id],
     });
     return res.result;
   }
@@ -171,7 +207,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected async getTransactionReceipt() {
     const res = await this.$provider.post({
       method: 'eth_getTransactionReceipt',
-      params: this.id,
+      params: [this.id],
     });
     return res.result;
   }

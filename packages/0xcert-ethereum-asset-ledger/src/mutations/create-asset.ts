@@ -13,11 +13,11 @@ const abi = xcertAbi.find((a) => (
 /**
  * Creates a new asset an gives ownership to the specifies account.
  */
-export default async function(ledger: AssetLedger, receiverId: string, id: string, proof: string) {
+export default async function(ledger: AssetLedger, receiverId: string, id: string, imprint: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [receiverId, id, proof]),
+    data: encodeFunctionCall(abi, [receiverId, id, imprint]),
     gas: 6000000,
   };
   const res = await ledger.provider.post({

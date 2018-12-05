@@ -7,8 +7,8 @@ await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setEnabled(state);
 await ledger.approveAccount(assetId, takerId); // ERC20 ERC721
-await ledger.createAsset({ accountId, assetId, proof });
-await ledger.updateAsset(assetId, { proof });
+await ledger.createAsset({ accountId, assetId, imprint });
+await ledger.updateAsset(assetId, { imprint });
 await ledger.destroyAsset(assetId);
 await ledger.revokeAsset(assetId);
 await ledger.update({ uriBase });
@@ -23,7 +23,7 @@ await ledger.isAprovedAccount(takerId, assetId); // ERC20 ERC721
 await ledger.getAprovedAccount(assetId); // ERC20 ERC721
 await ledger.getBalance(accountId);
 await ledger.getAssetAccount(assetId);
-await ledger.getAsset(assetId); // proof, uri, assetId
+await ledger.getAsset(assetId); // imprint, uri, assetId
 
 ## TODO
 await ledger.transferAsset({ id, to, data? }); // Safe transfer is done, still needs normal transfer based on provider info implementation.

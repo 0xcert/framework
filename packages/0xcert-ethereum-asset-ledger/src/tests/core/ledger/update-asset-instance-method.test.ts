@@ -38,7 +38,7 @@ spec.before(async (stage) => {
   stage.set('coinbase', accounts[0]);
 });
 
-spec.test('update asset proof', async (ctx) => {
+spec.test('update asset imprint', async (ctx) => {
   const xcert = ctx.get('protocol').xcertMutable;
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
@@ -46,11 +46,11 @@ spec.test('update asset proof', async (ctx) => {
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
 
   await ledger.updateAsset('1', {
-    proof: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7',
+    imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7',
   });
 
-  const proof = await xcert.instance.methods.tokenProof('1').call();
-  ctx.is(proof, '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7');
+  const imprint = await xcert.instance.methods.tokenImprint('1').call();
+  ctx.is(imprint, '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7');
 });
 
 export default spec;

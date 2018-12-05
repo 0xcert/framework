@@ -38,6 +38,6 @@ contract BurnableXcert is Xcert {
       tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
       NOT_OWNER_OR_OPERATOR
     );
-    delete idToProof[_tokenId];
+    delete idToImprint[_tokenId];
   }
 }
