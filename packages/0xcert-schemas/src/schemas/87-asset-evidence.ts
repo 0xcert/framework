@@ -6,7 +6,7 @@ export default {
       description: '...',
       type: '...'
     },
-    proofs: {
+    imprints: {
       description: '...',
       type: '...'
     },
@@ -17,7 +17,7 @@ export default {
   },
   require: [
     'nodes',
-    'proofs',
+    'imprints',
     'values'
   ],
   title: 'Asset Evidence',

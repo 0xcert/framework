@@ -65,7 +65,7 @@ export interface AssetLedgerDeployRecipe {
 export interface AssetLedgerItem {
   id: string;
   uri: string;
-  proof: string;
+  imprint: string;
 }
 
 /**
@@ -85,7 +85,7 @@ export interface AssetLedgerInfo {
 export interface AssetLedgerItemRecipe {
   receiverId: string;
   id: string;
-  proof: string;
+  imprint: string;
 }
 
 /**
@@ -101,7 +101,7 @@ export interface AssetLedgerTransferRecipe {
  * 
  */
 export interface AssetLedgerObjectUpdateRecipe {
-  proof: string;
+  imprint: string;
 }
 
 /**

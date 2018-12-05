@@ -51,7 +51,7 @@ await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setEnabled(state);
 await ledger.transfer(to, assetid);
-await ledger.mint(assetId, proof);
+await ledger.mint(assetId, imprint);
 await ledger.approveAccount(tokenId, takerId); // ERC20 ERC721
 await ledger.isAprovedAccount(takerId, tokenId); // ERC20 ERC721
 await ledger.getAprovedAccount(tokenId); // ERC20 ERC721
@@ -108,9 +108,9 @@ await gateway.perform(order, signature); // (taker)
 import { Cert } from '@0xcert/cert';
 
 const cert = new Cert({ schema });
-const proofs = await cert.notarize(data);
-const proofs = await cert.disclose(exampleData, [ ...paths... ]);
-const imprint = await cert.calculate(data, proofs);
+const imprints = await cert.notarize(data);
+const imprints = await cert.disclose(exampleData, [ ...paths... ]);
+const imprint = await cert.calculate(data, imprints);
 const imprint = await cert.imprint(data);
 ```
 ```ts
@@ -164,7 +164,7 @@ const recipe = [
   {
     path: [],
     evidence: {
-      proofs: [
+      imprints: [
         { index: 0, hash: '0x', key: 'name' },
         { index: 1, hash: '0x', key: 'book' },
         { index: 2, hash: '0x', key: 'books' },
@@ -178,7 +178,7 @@ const recipe = [
   {
     path: ['book'],
     evidence: {
-      proofs: [
+      imprints: [
         { index: 0, hash: '0x', key: 'title' },
       ],
       nodes: [
@@ -189,7 +189,7 @@ const recipe = [
   {
     path: ['books'],
     evidence: {
-      proofs: [
+      imprints: [
         { index: 0, hash: '0x', key: 0 },
       ],
       nodes: [
@@ -200,7 +200,7 @@ const recipe = [
   {
     path: ['books', 0],
     evidence: {
-      proofs: [
+      imprints: [
         { index: 0, hash: '0x', key: 'title' },
       ],
       nodes: [

@@ -36,6 +36,6 @@ contract RevokableXcert is Xcert {
     hasAbility(ABILITY_TO_REVOKE_XCERTS)
   {
     super._burn(_tokenId);
-    delete idToProof[_tokenId];
+    delete idToImprint[_tokenId];
   }
 }

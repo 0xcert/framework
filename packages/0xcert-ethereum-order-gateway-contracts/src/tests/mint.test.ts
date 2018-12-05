@@ -33,9 +33,9 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  proof1?: string;
-  proof2?: string;
-  proof3?: string;
+  imprint1?: string;
+  imprint2?: string;
+  imprint3?: string;
 }
 
 
@@ -62,9 +62,9 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '1');
   ctx.set('id2', '2');
   ctx.set('id3', '3');
-  ctx.set('proof1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
-  ctx.set('proof2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
-  ctx.set('proof3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
+  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
+  ctx.set('imprint2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
+  ctx.set('imprint3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
 });
 
 
@@ -227,14 +227,14 @@ perform.test('Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     }
@@ -276,14 +276,14 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -339,14 +339,14 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -412,14 +412,14 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const cat = ctx.get('cat');
   const dog = ctx.get('dog');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -500,16 +500,16 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   const id = ctx.get('id1');
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
-  const proof = ctx.get('proof1');
-  const proof2 = ctx.get('proof2');
-  const proof3 = ctx.get('proof3');
+  const imprint = ctx.get('imprint1');
+  const imprint2 = ctx.get('imprint2');
+  const imprint3 = ctx.get('imprint3');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -517,7 +517,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof2,
+      param1: imprint2,
       to: jane,
       value: id2,
     },
@@ -525,7 +525,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof3,
+      param1: imprint3,
       to: sara,
       value: id3,
     },
@@ -611,14 +611,14 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const cat = ctx.get('cat');
   const dog = ctx.get('dog');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -712,14 +712,14 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const dog = ctx.get('dog');
   const fox = ctx.get('fox');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -799,14 +799,14 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -853,14 +853,14 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -908,14 +908,14 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -961,14 +961,14 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -1014,14 +1014,14 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -1075,14 +1075,14 @@ cancel.test('succeeds', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -1129,14 +1129,14 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
@@ -1170,14 +1170,14 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const proof = ctx.get('proof1');
+  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
       kind: 0,
       proxy: 2,
       token: cat.receipt._address,
-      param1: proof,
+      param1: imprint,
       to: jane,
       value: id,
     },
