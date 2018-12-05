@@ -61,7 +61,7 @@ spec.beforeEach(async (ctx) => {
     kind: 1,
     proxy: 0,
     token: ctx.get('cat').receipt._address,
-    param1: ctx.web3.utils.padLeft(ctx.get('jane'), 64),
+    param1: ctx.get('jane'),
     to: ctx.get('sara'),
     value: 1,
   };

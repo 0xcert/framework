@@ -15,7 +15,7 @@ export function createOrderHash(gateway: OrderGateway, order: Order) {
       { t: 'uint8', v: getActionKind(action) },
       { t: 'uint32', v: getActionProxy(gateway, action) },
       action.ledgerId,
-      getActionParam1(action),
+      { t: 'bytes32', v: getActionParam1(action) },
       action.receiverId,
       getActionValue(action),
     );
@@ -106,7 +106,7 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
 export function getActionParam1(action: OrderAction) {
   return action.kind === OrderActionKind.CREATE_ASSET
     ? action['assetImprint']
-    : padLeft(action.senderId, 64);
+    : action.senderId;
 }
 
 /**

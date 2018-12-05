@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../burnable-xcert.sol";
 import "../mutable-xcert.sol";
@@ -25,9 +25,9 @@ contract FullXcertMock is
    * convention.
    */
   constructor(
-    string _name,
-    string _symbol,
-    string _uriBase,
+    string memory _name,
+    string memory _symbol,
+    string memory _uriBase,
     bytes32 _schemaId
   )
     public

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
@@ -102,7 +102,7 @@ contract Xcert is
    * @param _uriBase New uriBase.
    */
   function setUriBase(
-    string _uriBase
+    string calldata _uriBase
   )
     external
     hasAbility(ABILITY_TO_CHANGE_URI_BASE)

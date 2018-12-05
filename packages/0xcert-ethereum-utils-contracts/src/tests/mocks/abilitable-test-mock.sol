@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../../contracts/permission/abilitable.sol";
 
@@ -9,7 +9,7 @@ contract AbilitableTestMock is
     external
     view
     hasAbility(1)
-    returns (string)
+    returns (string memory)
   {
     return "1";
   }
@@ -18,7 +18,7 @@ contract AbilitableTestMock is
     external
     view
     hasAbility(2)
-    returns (string)
+    returns (string memory)
   {
     return "2";
   }
