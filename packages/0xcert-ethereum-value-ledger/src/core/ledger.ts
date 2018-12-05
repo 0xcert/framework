@@ -1,10 +1,13 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
-import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo, OrderGatewayBase } from "@0xcert/scaffold";
+import { normalizeAddress, BN } from '@0xcert/ethereum-utils';
+import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
 import getInfo from '../queries/get-info';
 import approveAccount from '../mutations/approve-account';
+import getAllowance from '../queries/get-allowance';
+import transfer from '../mutations/transfer';
+import transferFrom from '../mutations/transfer-from';
 import approveOrderGateway from '../mutations/approve-order-gateway';
 
 /**
@@ -73,4 +76,31 @@ export class ValueLedger implements ValueLedgerBase {
       : approveOrderGateway(this, accountId, value);
   }
 
+  /**
+   * 
+   */
+  public async getApprovedValue(accountId: string, spenderId: string): Promise<String> {
+    return getAllowance(this, accountId, spenderId);
+  }
+
+  /**
+   * 
+   */
+  public async isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean> {
+    const approved = await getAllowance(this, accountId, spenderId);
+    return new BN(approved).gte(new BN(value));
+  }
+
+ /**
+  * 
+  */
+ public async transferValue(data: ValueLedgerTransferRecipe): Promise<Mutation> {
+   if(data.senderId === undefined)
+   {
+     return transfer(this, data.receiverId, data.value);
+   }else
+   {
+     return transferFrom(this, data.senderId, data.receiverId, data.value);
+   }
+ }
 }
