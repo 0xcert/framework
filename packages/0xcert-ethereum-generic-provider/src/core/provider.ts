@@ -45,8 +45,70 @@ export class GenericProvider {
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
    */
   public async post(options: SendOptions): Promise<RpcResponse> {
-    const requestIndex = options.id || this.getNextId();
+    
+    // TODO: testi if this works if error throwing works on ropsten or do we need to check if the 
+    // resulting gas amount is the same as block gas amount => revert.
+    // if making a transaction where gas is not defined we calculate it using estimateGas.
+    if(options.method === 'eth_sendTransaction'
+      && options.params.length > 0)
+    {
+      if(options.params[0].gas === undefined)
+      {
+        options.method = 'eth_estimateGas';
+        const res = await new Promise<RpcResponse>((resolve, reject) => {
+          this.$client.send({
+            jsonrpc: '2.0',
+            id: this.getNextId(),
+            ...options,
+          }, (err, res) => {
+            if (err) {
+              return reject(err);
+            }
+            else if (res.error) {
+              return reject(res.error);
+            }
+            return resolve(res);
+          });
+        }).catch((err) => {
+          throw parseError(err);
+        });
 
+        // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
+        // gas we multiply result with 1.1.
+        options.params[0].gas = res.result * 1.1;
+        options.method = 'eth_sendTransaction';
+      }
+
+      if(options.params[0].gasPrice === undefined)
+      {
+        // get gas price
+        const res = await new Promise<RpcResponse>((resolve, reject) => {
+          this.$client.send({
+            jsonrpc: '2.0',
+            method: 'eth_gasPrice',
+            params: [],
+            id: this.getNextId()
+          }, (err, res) => {
+            if (err) {
+              return reject(err);
+            }
+            else if (res.error) {
+              return reject(res.error);
+            }
+            return resolve(res);
+          });
+        }).catch((err) => {
+          throw parseError(err);
+        });
+
+        // TODO: get multiplyer from provider settings
+        const multiplyer = 1.1;
+        // set gas price
+        options.params[0].gasPrice = res.result * multiplyer;
+      }
+    }
+    
+    const requestIndex = options.id || this.getNextId();
     return new Promise<RpcResponse>((resolve, reject) => {
       this.$client.send({
         jsonrpc: '2.0',
