@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "../xcert.sol";
 
@@ -16,9 +16,9 @@ contract XcertMock is Xcert {
    * convention.
    */
   constructor(
-    string _name,
-    string _symbol,
-    string _uriBase,
+    string memory _name,
+    string memory _symbol,
+    string memory _uriBase,
     bytes32 _schemaId
   )
     public

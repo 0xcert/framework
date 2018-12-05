@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "./ownable.sol";
 
@@ -52,7 +52,7 @@ contract Claimable is Ownable {
     require(msg.sender == pendingOwner, NOT_PENDING_OWNER);
     address previousOwner = owner;
     owner = pendingOwner;
-    pendingOwner = 0;
+    pendingOwner = address(0);
     emit OwnershipTransferred(previousOwner, owner);
   }
 }

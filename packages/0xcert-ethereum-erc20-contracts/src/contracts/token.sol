@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "./erc20.sol";
@@ -73,7 +73,7 @@ contract Token is
   function name()
     external
     view
-    returns (string _name)
+    returns (string memory _name)
   {
     _name = tokenName;
   }
@@ -84,7 +84,7 @@ contract Token is
   function symbol()
     external
     view
-    returns (string _symbol)
+    returns (string memory _symbol)
   {
     _symbol = tokenSymbol;
   }
