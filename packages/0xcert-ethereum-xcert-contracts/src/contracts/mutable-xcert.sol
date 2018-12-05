@@ -3,13 +3,13 @@ pragma solidity ^0.4.25;
 import "./xcert.sol";
 
 /**
- * @dev Xcert implementation where token proof can be updated.
+ * @dev Xcert implementation where token imprint can be updated.
  */
 contract MutableXcert is Xcert {
 
   /**
    * @dev List of abilities:
-   * 4 - Ability to change xcert proof.
+   * 4 - Ability to change xcert imprint.
    */
   uint8 constant ABILITY_TO_CHANGE_PROOF = 4;
 
@@ -19,13 +19,13 @@ contract MutableXcert is Xcert {
   string constant NOT_VALID_XCERT = "010001";
 
   /**
-   * @dev Emits when proof of a token is changed.
+   * @dev Emits when imprint of a token is changed.
    * @param _tokenId Id of the Xcert.
-   * @param _proof Cryptographic asset imprint.
+   * @param _imprint Cryptographic asset imprint.
    */
-  event TokenProofUpdate(
+  event TokenImprintUpdate(
     uint256 indexed _tokenId,
-    bytes32 _proof
+    bytes32 _imprint
   );
 
   /**
@@ -36,23 +36,23 @@ contract MutableXcert is Xcert {
   constructor()
     public
   {
-    supportedInterfaces[0x5e2161af] = true; // MutableXcert
+    supportedInterfaces[0xbda0e852] = true; // MutableXcert
   }
 
   /**
-   * @dev Updates Xcert proof.
+   * @dev Updates Xcert imprint.
    * @param _tokenId Id of the Xcert.
-   * @param _proof New proof.
+   * @param _imprint New imprint.
    */
-  function updateTokenProof(
+  function updateTokenImprint(
     uint256 _tokenId,
-    bytes32 _proof
+    bytes32 _imprint
   )
     external
     hasAbility(ABILITY_TO_CHANGE_PROOF)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
-    idToProof[_tokenId] = _proof;
-    emit TokenProofUpdate(_tokenId, _proof);
+    idToImprint[_tokenId] = _imprint;
+    emit TokenImprintUpdate(_tokenId, _imprint);
   }
 }

@@ -82,7 +82,7 @@ spec.test('correctly throws INVALID_NFT error', async (ctx) => {
   .catch((e) => {
     ctx.is(parseError(e).issue, ProviderIssue.INVALID_NFT);
   });
-  await mutableXcert.instance.methods.updateTokenProof('1','0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9')
+  await mutableXcert.instance.methods.updateTokenImprint('1','0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9')
   .call({ from: owner })
   .then(() => { ctx.fail(); })
   .catch((e) => {

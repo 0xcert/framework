@@ -30,3 +30,13 @@ export interface ValueLedgerInfo {
   decimals: number;
   supply: string;
 }
+
+/**
+ * 
+ */
+export interface ValueLedgerTransferRecipe {
+  senderId?: string;
+  receiverId: string;
+  value: string;
+}
+

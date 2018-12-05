@@ -22,7 +22,7 @@ export interface OrderActionCreateAsset {
   senderId: string;
   receiverId: string;
   assetId: string;
-  assetProof: string;
+  assetImprint: string;
 }
 
 /**

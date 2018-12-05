@@ -3,7 +3,7 @@ import { encodeFunctionCall } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { Order } from '../../../0xcert-scaffold/dist';
 import { createRecipeTuple, createSignatureTuple } from '../lib/order';
-import gatewayAbi from '../config/gatewayAbi';
+import gatewayAbi from '../config/gateway-abi';
 
 /**
  * Smart contract method abi.

@@ -26,7 +26,7 @@ Because we are talking about complete ownership of assets, asset management slig
 | Creating new assets.               | Ability to create a new asset.                               |
 | Revoke an asset.                   | Ability to revoke any asset.                                 |
 | Pause transfers.                   | Ability to pause/unpause asset transfers.                    |
-| Update asset data.                 | Ability to update private asset data which is represented by the proof. |
+| Update asset data.                 | Ability to update private asset data which is represented by the imprint. |
 | Sign claim.                        | Anyone with this ability is a valid claim signer for any asset. |
 | Update uri base.                   | Ability to update the uri base used for public metadata.     |
 
@@ -34,7 +34,7 @@ Smart contract creator can assign this abilities to others or himself. For the s
 
 ### Create
 
-An issuer can create a new asset. When creating an asset issuer has to specify uniqe identification number representing the asset and data that was specified when [designing the asset](link to asset design documentation). That data gets automatically transformed into public data accessable via url and private data that is transformed into the asset proof. When creating a new asset issuer has to specify who is the recipient of the asset. It cannot be created and assigned later.
+An issuer can create a new asset. When creating an asset issuer has to specify uniqe identification number representing the asset and data that was specified when [designing the asset](link to asset design documentation). That data gets automatically transformed into public data accessable via url and private data that is transformed into the asset imprint. When creating a new asset issuer has to specify who is the recipient of the asset. It cannot be created and assigned later.
 
 ### Transfer
 
@@ -66,14 +66,14 @@ Issuer can at any time pause all transfers so an owner cannot transfer his owner
 
 This is an optional function that is only available if the issuer adds it when [designing an asset](). 
 
-Issuer can at any time update private data of an asset (proof) he created. Previous data can always be retrived but new data will be the one defining the asset. 
+Issuer can at any time update private data of an asset (imprint) he created. Previous data can always be retrived but new data will be the one defining the asset. 
 
 ## Certification and validation
 
-### What is proof
+### What is imprint
 
-### Generating proofs
+### Generating imprints
 
-### Validate proof
+### Validate imprint
 
 ### Exposing certified data

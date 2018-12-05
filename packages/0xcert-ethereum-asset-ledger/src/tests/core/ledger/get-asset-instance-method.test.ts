@@ -49,7 +49,7 @@ spec.test('returns asset info', async (ctx) => {
   ctx.deepEqual(asset, {
     id: '1',
     uri: 'http://0xcert.org/1',
-    proof: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
+    imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
   });
 });
 

@@ -53,7 +53,7 @@ Once you have the asset definition from the previous step, open up an [issue](ht
 
 ## Metadata Server
 
-Every digital asset from your specification will have a corresponding cryptographic proof of it called Xcert in the form of a non-fungible token. This Xcert will be stored on a blockchain.
+Every digital asset from your specification will have a corresponding cryptographic imprint of it called Xcert in the form of a non-fungible token. This Xcert will be stored on a blockchain.
 
 An Xcert does not include any publicly available information, but points to a publicly available object metadata file. We could store this information on the blockchain as well but this would be both expensive and less flexible.
 
