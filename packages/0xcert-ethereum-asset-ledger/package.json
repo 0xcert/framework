@@ -22,8 +22,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-order-gateway": "0.0.0-alpha4",
     "@0xcert/ethereum-sandbox": "0.0.0-alpha4",
+    "@0xcert/ethereum-order-gateway": "0.0.0-alpha4",
     "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha4",
     "@specron/cli": "^0.3.0",
     "@specron/spec": "^0.3.0",

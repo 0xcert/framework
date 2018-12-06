@@ -30,19 +30,20 @@ spec.test('transfers value to another account', async (ctx) => {
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const amount = '5000000';
-  const provider = new GenericProvider({
-    client: ctx.web3,
-    accountId: coinbase
-  });
-  const ledger = new ValueLedger(provider, ctx.get('protocol').erc20.instance.options.address);
 
+  const ledger = new ValueLedger(
+    new GenericProvider({
+      client: ctx.web3,
+      accountId: coinbase,
+    }),
+    ctx.get('protocol').erc20.instance.options.address
+  );
   await ledger.transferValue({
     receiverId: bob,
-    value: amount
+    value: amount,
   });
 
-  const balanceOfBob = await token.instance.methods.balanceOf(bob).call();
-  ctx.is(balanceOfBob, amount);
+  ctx.is(await token.instance.methods.balanceOf(bob).call(), amount);
 });
 
 spec.test('transfers approved amount to another account', async (ctx) => {
@@ -52,21 +53,22 @@ spec.test('transfers approved amount to another account', async (ctx) => {
   const token = ctx.get('protocol').erc20;
   const approveAmount = '5000000';
 
-  const provider = new GenericProvider({
-    client: ctx.web3,
-    accountId: bob
-  });
-  const ledger = new ValueLedger(provider, ctx.get('protocol').erc20.instance.options.address);
-
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
+
+  const ledger = new ValueLedger(
+    new GenericProvider({
+      client: ctx.web3,
+      accountId: bob,
+    }),
+    ctx.get('protocol').erc20.instance.options.address
+  );
   await ledger.transferValue({
     senderId: coinbase,
     receiverId: sara,
-    value: approveAmount
+    value: approveAmount,
   });
 
-  const balanceOfSara = await token.instance.methods.balanceOf(sara).call();
-  ctx.is(balanceOfSara, approveAmount);
+  ctx.is(await token.instance.methods.balanceOf(sara).call(), approveAmount);
 });
 
 export default spec;

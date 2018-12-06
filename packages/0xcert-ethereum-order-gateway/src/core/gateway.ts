@@ -1,7 +1,9 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { OrderGatewayBase, Order } from '@0xcert/scaffold';
 import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { OrderGatewayProxy } from './types';
 import claim from '../queries/claim';
+import getProxyAccountId from '../queries/get-proxy-account-id';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
 
@@ -60,6 +62,13 @@ export class OrderGateway implements OrderGatewayBase {
    */
   public async cancel(order: Order): Promise<Mutation> {
     return cancel(this, order);
+  }
+
+  /**
+   * 
+   */
+  public async getProxyAccountId(proxyId: OrderGatewayProxy) {
+    return getProxyAccountId(this, proxyId);
   }
 
 }

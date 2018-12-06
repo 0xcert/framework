@@ -8,7 +8,6 @@ import approveAccount from '../mutations/approve-account';
 import getAllowance from '../queries/get-allowance';
 import transfer from '../mutations/transfer';
 import transferFrom from '../mutations/transfer-from';
-import approveOrderGateway from '../mutations/approve-order-gateway';
 
 /**
  * 
@@ -56,6 +55,13 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * 
    */
+  public async getApprovedValue(accountId: string, spenderId: string): Promise<String> {
+    return getAllowance(this, accountId, spenderId);
+  }
+
+  /**
+   * 
+   */
   public async getBalance(accountId: string): Promise<string> {
     return getBalance(this, accountId);
   }
@@ -70,37 +76,28 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
-    return typeof accountId === 'string'
-      ? approveAccount(this, accountId, value)
-      : approveOrderGateway(this, accountId, value);
-  }
-
-  /**
-   * 
-   */
-  public async getApprovedValue(accountId: string, spenderId: string): Promise<String> {
-    return getAllowance(this, accountId, spenderId);
-  }
-
-  /**
-   * 
-   */
   public async isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean> {
     const approved = await getAllowance(this, accountId, spenderId);
     return new BN(approved).gte(new BN(value));
   }
 
- /**
-  * 
-  */
- public async transferValue(data: ValueLedgerTransferRecipe): Promise<Mutation> {
-   if(data.senderId === undefined)
-   {
-     return transfer(this, data.receiverId, data.value);
-   }else
-   {
-     return transferFrom(this, data.senderId, data.receiverId, data.value);
-   }
- }
+  /**
+   * 
+   */
+  public async approveAccount(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(1);
+    }
+    return approveAccount(this, accountId as string, value);
+  }
+
+  /**
+   * 
+   */
+  public async transferValue(data: ValueLedgerTransferRecipe): Promise<Mutation> {
+    return data.senderId
+      ? transferFrom(this, data.senderId, data.receiverId, data.value)
+      : transfer(this, data.receiverId, data.value);
+  }
+
 }

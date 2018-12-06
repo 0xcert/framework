@@ -247,7 +247,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
       kind: 1,
       proxy: 6,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -294,7 +294,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -340,7 +340,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -386,7 +386,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -431,7 +431,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -478,7 +478,7 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }
@@ -523,10 +523,10 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
-    }
+    },
   ];
 
   const orderData = {
@@ -567,7 +567,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
       kind: 1,
       proxy: 2,
       token: erc721.receipt._address,
-      param1: ctx.web3.utils.padLeft(jane, 64),
+      param1: jane,
       to: bob,
       value: '123',
     }

@@ -22,7 +22,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
-    unsafeRecipientIds: [stage.get('protocol').tokenTransferProxy.instance.options.address]
+    unsafeAccountIds: [stage.get('protocol').tokenTransferProxy.instance.options.address]
   });
 
   stage.set('provider', provider);
