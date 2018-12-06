@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
@@ -64,7 +64,7 @@ contract OrderGateway is
    * @dev Structure representing what to send and where.
    * @param token Address of the token we are sending.
    * @param proxy Id representing approved proxy address.
-   * @param param1 Address of the sender or proof.
+   * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
    */
@@ -175,8 +175,8 @@ contract OrderGateway is
    * @param _signature Data from the signature. 
    */
   function perform(
-    OrderData _data,
-    SignatureData _signature
+    OrderData memory _data,
+    SignatureData memory _signature
   )
     public 
   {
@@ -212,7 +212,7 @@ contract OrderGateway is
    * @param _data Data of order to cancel.
    */
   function cancel(
-    OrderData _data
+    OrderData memory _data
   )
     public
   {
@@ -235,7 +235,7 @@ contract OrderGateway is
    * @return keccak-hash of order data.
    */
   function getOrderDataClaim(
-    OrderData _orderData
+    OrderData memory _orderData
   )
     public
     view
@@ -279,7 +279,7 @@ contract OrderGateway is
   function isValidSignature(
     address _signer,
     bytes32 _claim,
-    SignatureData _signature
+    SignatureData memory _signature
   )
     public
     pure
@@ -329,7 +329,7 @@ contract OrderGateway is
    * @param _order Data needed for order.
    */
   function _doActions(
-    OrderData _order
+    OrderData memory _order
   )
     private
   {
@@ -355,15 +355,16 @@ contract OrderGateway is
         );
       } else if (_order.actions[i].kind == ActionKind.transfer)
       {
+        address from = address(uint160(bytes20(_order.actions[i].param1)));
         require(
-          address(_order.actions[i].param1) == _order.maker
-          || address(_order.actions[i].param1) == _order.taker,
+          from == _order.maker
+          || from == _order.taker,
           SENDER_NOT_TAKER_OR_MAKER
         );
         
         Proxy(idToProxy[_order.actions[i].proxy]).execute(
           _order.actions[i].token,
-          address(_order.actions[i].param1),
+          from,
           _order.actions[i].to,
           _order.actions[i].value
         );

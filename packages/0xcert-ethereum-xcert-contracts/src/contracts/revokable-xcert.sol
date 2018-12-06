@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "./xcert.sol";
 
@@ -36,6 +36,6 @@ contract RevokableXcert is Xcert {
     hasAbility(ABILITY_TO_REVOKE_XCERTS)
   {
     super._burn(_tokenId);
-    delete idToProof[_tokenId];
+    delete idToImprint[_tokenId];
   }
 }

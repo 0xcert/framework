@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 /**
  * @title A standard interface for tokens.
@@ -11,7 +11,7 @@ interface ERC20 {
   function name()
     external
     view
-    returns (string _name);
+    returns (string memory _name);
 
   /**
    * @dev Returns the symbol of the token.
@@ -19,7 +19,7 @@ interface ERC20 {
   function symbol()
     external
     view
-    returns (string _symbol);
+    returns (string memory _symbol);
 
   /**
    * @dev Returns the number of decimals the token uses.

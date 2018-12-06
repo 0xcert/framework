@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "./erc721.sol";
 import "./erc721-token-receiver.sol";
@@ -153,7 +153,7 @@ contract NFToken is
     address _from,
     address _to,
     uint256 _tokenId,
-    bytes _data
+    bytes calldata _data
   )
     external
   {
@@ -312,7 +312,7 @@ contract NFToken is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if(idToApproval[_tokenId] != 0)
+    if(idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -352,7 +352,7 @@ contract NFToken is
     );
 
     // clear approval
-    if(idToApproval[_tokenId] != 0)
+    if(idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -379,7 +379,7 @@ contract NFToken is
     address _from,
     address _to,
     uint256 _tokenId,
-    bytes _data
+    bytes memory _data
   )
     internal
   {

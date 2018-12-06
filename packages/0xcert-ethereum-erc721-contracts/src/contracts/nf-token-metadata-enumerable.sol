@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
 import "./erc721.sol";
 import "./erc721-metadata.sol";
@@ -191,7 +191,7 @@ contract NFTokenMetadataEnumerable is
     address _from,
     address _to,
     uint256 _tokenId,
-    bytes _data
+    bytes calldata _data
   )
     external
   {
@@ -358,7 +358,7 @@ contract NFTokenMetadataEnumerable is
   function name()
     external
     view
-    returns (string _name)
+    returns (string memory _name)
   {
     _name = nftName;
   }
@@ -369,7 +369,7 @@ contract NFTokenMetadataEnumerable is
   function symbol()
     external
     view
-    returns (string _symbol)
+    returns (string memory _symbol)
   {
     _symbol = nftSymbol;
   }
@@ -385,7 +385,7 @@ contract NFTokenMetadataEnumerable is
   )
     external
     view
-    returns (string)
+    returns (string memory)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
     if(bytes(uriBase).length > 0)
@@ -403,7 +403,7 @@ contract NFTokenMetadataEnumerable is
    * @param _uriBase String representing RFC 3986 URI base.
    */
   function _setUriBase(
-    string _uriBase
+    string memory _uriBase
   )
     internal
   {
@@ -457,7 +457,7 @@ contract NFTokenMetadataEnumerable is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if(idToApproval[_tokenId] != 0)
+    if(idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -467,10 +467,10 @@ contract NFTokenMetadataEnumerable is
 
     uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
     uint256 lastTokenIndex = ownerToIds[owner].length - 1;
-
+    uint256 lastToken;
     if(lastTokenIndex != tokenToRemoveIndex)
     {
-      uint256 lastToken = ownerToIds[owner][lastTokenIndex];
+      lastToken = ownerToIds[owner][lastTokenIndex];
       ownerToIds[owner][tokenToRemoveIndex] = lastToken;
       idToOwnerIndex[lastToken] = tokenToRemoveIndex;
     }
@@ -523,7 +523,7 @@ contract NFTokenMetadataEnumerable is
     );
 
     // clear approval
-    if(idToApproval[_tokenId] != 0)
+    if(idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -562,7 +562,7 @@ contract NFTokenMetadataEnumerable is
     address _from,
     address _to,
     uint256 _tokenId,
-    bytes _data
+    bytes memory _data
   )
     internal
   {
@@ -585,7 +585,7 @@ contract NFTokenMetadataEnumerable is
   ) 
     internal
     pure
-    returns (string)
+    returns (string memory)
   {
     if (_i == 0) return "0";
     uint256 j = _i;
@@ -598,7 +598,7 @@ contract NFTokenMetadataEnumerable is
     uint256 k = length - 1;
     j = _i;
     while (j != 0){
-      bstr[k--] = byte(48 + j % 10);
+      bstr[k--] = byte(uint8(48 + j % 10));
       j /= 10;
     }
     return string(bstr);
