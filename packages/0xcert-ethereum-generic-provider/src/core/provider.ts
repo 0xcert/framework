@@ -49,11 +49,8 @@ export class GenericProvider {
     // TODO: testi if this works if error throwing works on ropsten or do we need to check if the 
     // resulting gas amount is the same as block gas amount => revert.
     // if making a transaction where gas is not defined we calculate it using estimateGas.
-    if(options.method === 'eth_sendTransaction'
-      && options.params.length > 0)
-    {
-      if(options.params[0].gas === undefined)
-      {
+    if (options.method === 'eth_sendTransaction' && options.params.length > 0) {
+      if (typeof options.params[0].gas === 'undefined') {
         options.method = 'eth_estimateGas';
         const res = await new Promise<RpcResponse>((resolve, reject) => {
           this.$client.send({
@@ -74,20 +71,19 @@ export class GenericProvider {
         });
 
         // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
-        // gas we multiply result with 1.1.
-        options.params[0].gas = res.result * 1.1;
+        // gas we multiply result with 1.2.
+        options.params[0].gas = res.result * 1.2;
         options.method = 'eth_sendTransaction';
       }
 
-      if(options.params[0].gasPrice === undefined)
-      {
+      if (typeof options.params[0].gasPrice === 'undefined') {
         // get gas price
         const res = await new Promise<RpcResponse>((resolve, reject) => {
           this.$client.send({
             jsonrpc: '2.0',
             method: 'eth_gasPrice',
             params: [],
-            id: this.getNextId()
+            id: this.getNextId(),
           }, (err, res) => {
             if (err) {
               return reject(err);
@@ -102,7 +98,7 @@ export class GenericProvider {
         });
 
         // TODO: get multiplyer from provider settings
-        const multiplyer = 1.1;
+        const multiplyer = 1.2;
         // set gas price
         options.params[0].gasPrice = res.result * multiplyer;
       }

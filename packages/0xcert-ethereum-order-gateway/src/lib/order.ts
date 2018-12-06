@@ -1,6 +1,6 @@
 import { OrderAction, OrderActionKind, Order } from '@0xcert/scaffold';
 import { toInteger, toSeconds, toTuple } from '@0xcert/utils';
-import { padLeft, soliditySha3 } from '@0xcert/ethereum-utils';
+import { soliditySha3 } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
 
