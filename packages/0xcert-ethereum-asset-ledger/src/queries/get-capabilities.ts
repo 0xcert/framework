@@ -16,7 +16,7 @@ const abi = xcertAbi.find((a) => (
 export default async function(ledger: AssetLedger) {
   return Promise.all(
     [ [AssetLedgerCapability.BURNABLE, '0x42966c68'],
-      [AssetLedgerCapability.MUTABLE, '0x5e2161af'],
+      [AssetLedgerCapability.MUTABLE, '0xbda0e852'],
       [AssetLedgerCapability.PAUSABLE, '0xbedb86fb'],
       [AssetLedgerCapability.REVOKABLE, '0x20c5429b'],
     ].map(async (capability) => {

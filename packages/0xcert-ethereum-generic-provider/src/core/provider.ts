@@ -72,7 +72,7 @@ export class GenericProvider {
 
         // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
         // gas we multiply result with 1.2.
-        options.params[0].gas = res.result * 1.2;
+        options.params[0].gas = Math.ceil(res.result * 1.1);
         options.method = 'eth_sendTransaction';
       }
 
@@ -98,12 +98,12 @@ export class GenericProvider {
         });
 
         // TODO: get multiplyer from provider settings
-        const multiplyer = 1.2;
+        const multiplyer = 1.1;
         // set gas price
-        options.params[0].gasPrice = res.result * multiplyer;
+        options.params[0].gasPrice = Math.ceil(res.result * multiplyer);
       }
     }
-    
+
     const requestIndex = options.id || this.getNextId();
     return new Promise<RpcResponse>((resolve, reject) => {
       this.$client.send({
