@@ -2,6 +2,7 @@ import { OrderAction, OrderActionKind, Order } from '@0xcert/scaffold';
 import { toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { padLeft, soliditySha3 } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
+import { OrderGatewayProxy } from '../core/types';
 
 /**
  * 
@@ -90,13 +91,15 @@ export function getActionKind(action: OrderAction) {
  */
 export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
   if (action.kind === OrderActionKind.TRANSFER_VALUE) {
-    return 1;
+    return OrderGatewayProxy.TOKEN_TRANSFER;
   }
   else if (action.kind === OrderActionKind.TRANSFER_ASSET) {
-    return gateway.provider.unsafeRecipientIds.indexOf(action.receiverId) !== -1 ? 2 : 3;
+    return gateway.provider.unsafeAccountIds.indexOf(action.ledgerId) === -1
+      ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
+      : OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
   else {
-    return 0;
+    return OrderGatewayProxy.XCERT_MINT;
   }
 }
 

@@ -8,7 +8,7 @@ export interface GenericProviderOptions {
   accountId?: string;
   client?: any;
   signMethod?: SignMethod;
-  unsafeRecipientIds?: string[];
+  unsafeAccountIds?: string[];
 }
 
 /**
@@ -17,7 +17,7 @@ export interface GenericProviderOptions {
 export class GenericProvider {
   public accountId: string;
   public signMethod: SignMethod;
-  public unsafeRecipientIds: string[];
+  public unsafeAccountIds: string[];
   protected $client: any;
   protected $id: number = 0;
 
@@ -29,7 +29,7 @@ export class GenericProvider {
   public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
-    this.unsafeRecipientIds = options.unsafeRecipientIds || [];
+    this.unsafeAccountIds = options.unsafeAccountIds || [];
 
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider

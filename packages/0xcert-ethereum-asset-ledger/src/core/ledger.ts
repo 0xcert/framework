@@ -14,7 +14,6 @@ import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
-import approveOrderGateway from '../mutations/approve-order-gateway';
 import assignAbilities from '../mutations/assign-abilities';
 import createAsset from '../mutations/create-asset';
 import destroyAsset from '../mutations/destroy-asset';
@@ -121,7 +120,10 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async isApprovedAccount(accountId: string, assetId: string): Promise<boolean> {
+  public async isApprovedAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<boolean> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
     return accountId === await getApprovedAccount(this, assetId);
   }
 
@@ -136,9 +138,10 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
-    return typeof accountId === 'string'
-      ? approveAccount(this, accountId, assetId)
-      : approveOrderGateway(this, accountId, assetId);
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return approveAccount(this, accountId as string, assetId);
   }
 
   /**
@@ -181,7 +184,7 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
-    return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
+    return this.provider.unsafeAccountIds.indexOf(recipe.receiverId) !== -1
       ? transfer(this, recipe.receiverId, recipe.id)
       : safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
   }
@@ -206,6 +209,15 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
     return update(this, recipe.uriBase);
+  }
+
+  /**
+   * 
+   */
+  protected getProxyId() {
+    return this.provider.unsafeAccountIds.indexOf(this.id) === -1
+      ? 3 // OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
+      : 2 // OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
 
 }

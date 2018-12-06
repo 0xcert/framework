@@ -5,7 +5,6 @@ import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
 import getInfo from '../queries/get-info';
 import approveAccount from '../mutations/approve-account';
-import approveOrderGateway from '../mutations/approve-order-gateway';
 
 /**
  * 
@@ -68,9 +67,10 @@ export class ValueLedger implements ValueLedgerBase {
    * 
    */
   public async approveAccount(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
-    return typeof accountId === 'string'
-      ? approveAccount(this, accountId, value)
-      : approveOrderGateway(this, accountId, value);
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(1);
+    }
+    return approveAccount(this, accountId as string, value);
   }
 
 }
