@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/merkle",
-  "version": "0.0.0-alpha4",
+  "version": "0.0.0-alpha5",
   "description": "Merkle tree management tool.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/utils": "0.0.0-alpha4",
+    "@0xcert/utils": "0.0.0-alpha5",
     "@hayspec/cli": "^0.7.6",
     "@hayspec/spec": "^0.7.6",
     "ts-node": "^7.0.1",
