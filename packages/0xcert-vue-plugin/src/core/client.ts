@@ -48,10 +48,10 @@ export class Client {
    * 
    */
   public getValueLedger(id: string) {
-    const module = this.getModule('OrderGateway');
+    const module = this.getModule('ValueLedger');
 
     if (!module) {
-      throw this.getMissingModuleError('OrderGateway');
+      throw this.getMissingModuleError('ValueLedger');
     }
     else {
       return new module.object(this.provider, id);

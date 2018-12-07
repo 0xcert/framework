@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-erc721-contracts",
-  "version": "0.0.0-alpha4",
+  "version": "0.0.0-alpha5",
   "description": "Non-fungible token standard implementation for the 0xcert protocol.",
   "scripts": {
     "clean": "rm -Rf ./build",
@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha4",
+    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha5",
     "@specron/cli": "^0.4.3",
     "@specron/spec": "^0.4.3",
     "solc": "^0.5.1",

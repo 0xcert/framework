@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-proxy-contracts",
-  "version": "0.0.0-alpha4",
+  "version": "0.0.0-alpha5",
   "description": "Proxy implementation for 0xcert protocol. ",
   "scripts": {
     "clean": "rm -Rf ./dist",
@@ -28,10 +28,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha4",
-    "@0xcert/ethereum-erc20-contracts": "0.0.0-alpha4",
-    "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha4",
-    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha4",
+    "@0xcert/ethereum-utils-contracts": "0.0.0-alpha5",
+    "@0xcert/ethereum-erc20-contracts": "0.0.0-alpha5",
+    "@0xcert/ethereum-erc721-contracts": "0.0.0-alpha5",
+    "@0xcert/ethereum-xcert-contracts": "0.0.0-alpha5",
     "@specron/cli": "^0.4.3",
     "@specron/spec": "^0.4.3",
     "solc": "^0.5.1",
