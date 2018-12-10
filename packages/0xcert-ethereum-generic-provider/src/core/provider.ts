@@ -8,7 +8,7 @@ export interface GenericProviderOptions {
   accountId?: string;
   client?: any;
   signMethod?: SignMethod;
-  unsafeAccountIds?: string[];
+  unsafeRecipientIds?: string[];
 }
 
 /**
@@ -17,7 +17,7 @@ export interface GenericProviderOptions {
 export class GenericProvider {
   public accountId: string;
   public signMethod: SignMethod;
-  public unsafeAccountIds: string[];
+  public unsafeRecipientIds: string[];
   protected $client: any;
   protected $id: number = 0;
 
@@ -29,7 +29,7 @@ export class GenericProvider {
   public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
     this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
-    this.unsafeAccountIds = options.unsafeAccountIds || [];
+    this.unsafeRecipientIds = options.unsafeRecipientIds || [];
 
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
@@ -72,7 +72,8 @@ export class GenericProvider {
 
         // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
         // gas we multiply result with 1.2.
-        options.params[0].gas = Math.ceil(res.result * 1.1).toString();
+        //options.params[0].gas = res.result;
+        options.params[0].gas = Math.ceil(res.result * 1.1).toString(16);
         options.method = 'eth_sendTransaction';
       }
 
@@ -99,8 +100,7 @@ export class GenericProvider {
 
         // TODO: get multiplyer from provider settings
         const multiplyer = 1.1;
-        // set gas price
-        options.params[0].gasPrice = Math.ceil(res.result * multiplyer).toString();
+        options.params[0].gasPrice = Math.ceil(res.result * multiplyer).toString(16);
       }
     }
 
