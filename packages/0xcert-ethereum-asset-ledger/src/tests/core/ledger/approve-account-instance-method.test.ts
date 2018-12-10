@@ -59,7 +59,7 @@ spec.test('approves account for token transfer', async (ctx) => {
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
 
-  await ledger.approveAccount(bob, '1');
+  await ledger.approveAccount('1', bob);
 
   ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
 });
@@ -70,7 +70,7 @@ spec.test('approves order gateway proxy for token transfer', async (ctx) => {
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').nftokenSafeTransferProxy.instance.options.address;
 
-  await ledger.approveAccount(gateway, '2');
+  await ledger.approveAccount('2', gateway);
 
   ctx.is(await xcert.instance.methods.getApproved('2').call(), proxyId);
 });

@@ -137,11 +137,18 @@ export class AssetLedger  { // implements AssetLedgerBase
   /**
    * 
    */
-  public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
+  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
     return approveAccount(this, accountId as string, assetId);
+  }
+
+  /**
+   * 
+   */
+  public async disapproveAccount(assetId: string): Promise<Mutation> {
+    return approveAccount(this, '0x0000000000000000000000000000000000000000', assetId);
   }
 
   /**
