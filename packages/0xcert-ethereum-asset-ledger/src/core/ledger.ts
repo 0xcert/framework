@@ -184,7 +184,7 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
-    return this.provider.unsafeAccountIds.indexOf(recipe.receiverId) !== -1
+    return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
       ? transfer(this, recipe.receiverId, recipe.id)
       : safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
   }
@@ -215,7 +215,7 @@ export class AssetLedger implements AssetLedgerBase {
    * 
    */
   protected getProxyId() {
-    return this.provider.unsafeAccountIds.indexOf(this.id) === -1
+    return this.provider.unsafeRecipientIds.indexOf(this.id) === -1
       ? 3 // OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : 2 // OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
