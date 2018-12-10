@@ -7,7 +7,8 @@ export interface ValueLedgerBase {
   readonly id: string;
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
-  approveAccount(accountId: string, value: string): Promise<MutationBase>;
+  approveValue(accountId: string, value: string): Promise<MutationBase>;
+  disapproveValue(accountId: string): Promise<MutationBase>;
 }
 
 /**
