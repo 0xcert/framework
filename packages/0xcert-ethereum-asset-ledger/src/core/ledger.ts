@@ -28,7 +28,7 @@ import update from '../mutations/update';
 /**
  * 
  */
-export class AssetLedger implements AssetLedgerBase {
+export class AssetLedger  { // implements AssetLedgerBase
   protected $id: string;
   protected $provider: GenericProvider;
 
@@ -130,7 +130,7 @@ export class AssetLedger implements AssetLedgerBase {
     /**
    * 
    */
-  public async isEnabled(): Promise<boolean> {
+  public async isTransferable(): Promise<boolean> {
     return isEnabled(this);
   }
 
@@ -192,8 +192,15 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async setEnabled(enabled: boolean): Promise<Mutation> {
-    return setEnabled(this, enabled);
+  public async enableTransfer(): Promise<Mutation> {
+    return setEnabled(this, true);
+  }
+
+  /**
+   * 
+   */
+  public async disableTransfer(): Promise<Mutation> {
+    return setEnabled(this, false);
   }
 
   /**
