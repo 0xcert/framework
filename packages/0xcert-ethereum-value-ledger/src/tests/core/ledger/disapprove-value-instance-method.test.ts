@@ -46,7 +46,7 @@ spec.before(async (stage) => {
   stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
-spec.test('approves account for value transfer', async (ctx) => {
+spec.test('disapproves account for value transfer', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -58,7 +58,7 @@ spec.test('approves account for value transfer', async (ctx) => {
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), '0');
 });
 
-spec.test('approves order gateway proxy for value transfer', async (ctx) => {
+spec.test('disapproves order gateway proxy for value transfer', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const gateway = ctx.get('gateway');
