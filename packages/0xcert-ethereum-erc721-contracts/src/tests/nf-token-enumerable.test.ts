@@ -50,8 +50,10 @@ spec.beforeEach(async (ctx) => {
 spec.test('correctly checks all the supported interfaces', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const nftokenInterface = await nftoken.instance.methods.supportsInterface('0x80ac58cd').call();
+  const nftokenEnumerableInterface = await nftoken.instance.methods.supportsInterface('0x780e9d63').call();
   const nftokenNonExistingInterface = await nftoken.instance.methods.supportsInterface('0x5b5e139f').call();
   ctx.is(nftokenInterface, true);
+  ctx.is(nftokenEnumerableInterface, true);
   ctx.is(nftokenNonExistingInterface, false);
 });
 

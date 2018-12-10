@@ -41,7 +41,6 @@ spec.beforeEach(async (ctx) => {
   const nfToken = await ctx.deploy({ 
     src: './build/nf-token-mock.json',
     contract: 'NFTokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
   });
   ctx.set('nfToken', nfToken);
 });

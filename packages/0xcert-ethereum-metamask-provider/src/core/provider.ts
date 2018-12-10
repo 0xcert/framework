@@ -4,7 +4,7 @@ import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
  * 
  */
 export interface MetamaskProviderOptions {
-  unsafeAccountIds?: string[];
+  unsafeRecipientIds?: string[];
 }
 
 /**

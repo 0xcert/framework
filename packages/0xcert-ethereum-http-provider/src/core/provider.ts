@@ -18,7 +18,7 @@ export interface HttpProviderOptions {
   mode?: 'no-cors' | 'cors' | 'same-origin' | string;
   redirect?: 'manual' | 'follow' | 'error' | string;
   signMethod?: SignMethod,
-  unsafeAccountIds?: string[];
+  unsafeRecipientIds?: string[];
   url: string;
 }
 

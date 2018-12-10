@@ -94,7 +94,7 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
     return OrderGatewayProxy.TOKEN_TRANSFER;
   }
   else if (action.kind === OrderActionKind.TRANSFER_ASSET) {
-    return gateway.provider.unsafeAccountIds.indexOf(action.ledgerId) === -1
+    return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
       ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
