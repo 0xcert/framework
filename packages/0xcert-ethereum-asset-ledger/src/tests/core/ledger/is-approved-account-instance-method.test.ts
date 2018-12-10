@@ -59,11 +59,11 @@ spec.test('checks if account is approved', async (ctx) => {
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
   
-  ctx.false(await ledger.isApprovedAccount(bob, '1'));
+  ctx.false(await ledger.isApprovedAccount('1', bob, ));
   await ledger.approveAccount('1', bob);
-  ctx.true(await ledger.isApprovedAccount(bob, '1'));
+  ctx.true(await ledger.isApprovedAccount('1', bob));
   await ledger.approveAccount('1', coinbase);
-  ctx.false(await ledger.isApprovedAccount(bob, '1'));
+  ctx.false(await ledger.isApprovedAccount('1', bob));
 });
 
 spec.test('checks if gateway proxy is approved', async (ctx) => {
@@ -71,11 +71,11 @@ spec.test('checks if gateway proxy is approved', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   
-  ctx.false(await ledger.isApprovedAccount(gateway, '2'));
+  ctx.false(await ledger.isApprovedAccount('2', gateway));
   await ledger.approveAccount('2', gateway);
-  ctx.true(await ledger.isApprovedAccount(gateway, '2'));
+  ctx.true(await ledger.isApprovedAccount('2', gateway));
   await ledger.approveAccount('2', coinbase);
-  ctx.false(await ledger.isApprovedAccount(gateway, '2'));
+  ctx.false(await ledger.isApprovedAccount('2', gateway));
 });
 
 export default spec;

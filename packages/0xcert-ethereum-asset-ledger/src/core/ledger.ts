@@ -120,7 +120,7 @@ export class AssetLedger  { // implements AssetLedgerBase
   /**
    * 
    */
-  public async isApprovedAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<boolean> {
+  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
