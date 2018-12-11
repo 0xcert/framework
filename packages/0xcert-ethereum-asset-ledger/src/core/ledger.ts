@@ -24,6 +24,8 @@ import safeTransfer from '../mutations/safe-transfer';
 import transfer from '../mutations/transfer';
 import updateAsset from '../mutations/update-asset';
 import update from '../mutations/update';
+import setApprovalForAll from '../mutations/set-approval-for-all';
+import isApprovedForAll from '../queries/is-approved-for-all';
 
 /**
  * 
@@ -223,6 +225,36 @@ export class AssetLedger  { // implements AssetLedgerBase
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
     return update(this, recipe.uriBase);
+  }
+
+  /**
+   * 
+   */
+  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, true);
+  }
+
+  /**
+   * 
+   */
+  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, false);
+  }
+
+  /**
+   * 
+   */
+  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
+    if (typeof operatorId !== 'string') {
+      operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
+    }
+    return isApprovedForAll(this, accountId, operatorId as string);
   }
 
   /**
