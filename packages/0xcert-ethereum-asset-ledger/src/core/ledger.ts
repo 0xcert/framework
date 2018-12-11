@@ -30,7 +30,7 @@ import isApprovedForAll from '../queries/is-approved-for-all';
 /**
  * 
  */
-export class AssetLedger  { // implements AssetLedgerBase
+export class AssetLedger implements AssetLedgerBase {
   protected $id: string;
   protected $provider: GenericProvider;
 
