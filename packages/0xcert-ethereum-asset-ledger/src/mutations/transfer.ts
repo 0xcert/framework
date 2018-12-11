@@ -12,6 +12,9 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Transfers asset from one account to another.
+ * @param ledger Asset ledger instance.
+ * @param receiverId Address that will receive the asset.
+ * @param id Asset id.
  */
 export default async function(ledger: AssetLedger, receiverId: string, id: string) {
   const attrs = {

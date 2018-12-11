@@ -12,6 +12,8 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Allows or freezes the option of transfering assets in specifies asset ledger.
+ * @param ledger Asset ledger instance.
+ * @param enabled Enable state.
  */
 export default async function(ledger: AssetLedger, enabled: boolean) {
   const attrs = {

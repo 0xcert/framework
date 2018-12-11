@@ -12,6 +12,8 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Updates asset ledger uri base.
+ * @param ledger Asset ledger instance.
+ * @param uriBase New uri base.
  */
 export default async function(ledger: AssetLedger, uriBase: string) {
   const attrs = {

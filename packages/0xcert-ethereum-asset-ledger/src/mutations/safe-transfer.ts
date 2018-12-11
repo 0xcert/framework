@@ -14,6 +14,10 @@ const abis = xcertAbi.filter((a) => (
  * Transfers asset from one account to another while checking if receiving account can actually 
  * receive the asset (it fails if receiver is a smart contract that does not implement 
  * erc721receiver).
+ * @param ledger Asset ledger instance.
+ * @param receiverId Address that will receive the asset.
+ * @param id Asset id.
+ * @param receiverData Addition data that will be send to the receiver.
  */
 export default async function(ledger: AssetLedger, receiverId: string, id: string, receiverData?: string) {
   const abi = abis.find((a) => (

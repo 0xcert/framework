@@ -13,6 +13,8 @@ const abi = xcertAbi.find((a) => (
 /**
  * Destroys an asset the same way as destoryAsset does but only an account with revoke ability can
  * call it.
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
  */
 export default async function(ledger: AssetLedger, assetId: string) {
   const attrs = {
