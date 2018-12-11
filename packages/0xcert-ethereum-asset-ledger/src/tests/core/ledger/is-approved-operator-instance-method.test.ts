@@ -46,36 +46,27 @@ spec.before(async (stage) => {
   stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
-spec.before(async (stage) => {
-  const xcert = stage.get('protocol').xcert;
-  const coinbase = stage.get('coinbase');
-
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await xcert.instance.methods.mint(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-});
-
-spec.test('checks if account is approved', async (ctx) => {
-  const coinbase = ctx.get('coinbase');
+spec.test('checks if account is operator', async (ctx) => {
+  const xcert = ctx.get('protocol').xcert;
   const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
   const ledger = ctx.get('ledger');
-  
-  ctx.false(await ledger.isApprovedAccount('1', bob, ));
-  await ledger.approveAccount('1', bob);
-  ctx.true(await ledger.isApprovedAccount('1', bob));
-  await ledger.approveAccount('1', coinbase);
-  ctx.false(await ledger.isApprovedAccount('1', bob));
+
+  await xcert.instance.methods.setApprovalForAll(bob, true).send({ from: coinbase });
+
+  ctx.true(await ledger.isApprovedOperator(coinbase, bob));
 });
 
-spec.test('checks if gateway proxy is approved', async (ctx) => {
-  const coinbase = ctx.get('coinbase');
+spec.test('checks if gateway proxy is operator', async (ctx) => {
+  const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
-  
-  ctx.false(await ledger.isApprovedAccount('2', gateway));
-  await ledger.approveAccount('2', gateway);
-  ctx.true(await ledger.isApprovedAccount('2', gateway));
-  await ledger.approveAccount('2', coinbase);
-  ctx.false(await ledger.isApprovedAccount('2', gateway));
+  const coinbase = ctx.get('coinbase');
+  const proxyId = ctx.get('protocol').nftokenSafeTransferProxy.instance.options.address;
+
+  await xcert.instance.methods.setApprovalForAll(proxyId, true).send({ from: coinbase });
+
+  ctx.true(await ledger.isApprovedOperator(coinbase, gateway));
 });
 
 export default spec;

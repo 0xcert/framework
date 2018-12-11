@@ -35,7 +35,7 @@ spec.before(async (stage) => {
 spec.test('returns ledger transfer state', async (ctx) => {
   const ledger = ctx.get('ledger');
   
-  const enabled = await ledger.isEnabled();
+  const enabled = await ledger.isTransferable();
 
   ctx.true(enabled);
 });

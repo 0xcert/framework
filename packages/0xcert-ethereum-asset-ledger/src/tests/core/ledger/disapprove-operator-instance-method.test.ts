@@ -46,33 +46,31 @@ spec.before(async (stage) => {
   stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
-spec.before(async (stage) => {
-  const xcert = stage.get('protocol').xcert;
-  const coinbase = stage.get('coinbase');
-
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await xcert.instance.methods.mint(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-});
-
-spec.test('approves account for token transfer', async (ctx) => {
+spec.test('disapproves operator', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
   const ledger = ctx.get('ledger');
 
-  await ledger.approveAccount('1', bob);
+  await xcert.instance.methods.setApprovalForAll(bob, true).send({ from: coinbase });
+  ctx.true(await xcert.instance.methods.isApprovedForAll(coinbase, bob).call());
 
-  ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
+  await ledger.disapproveOperator(bob);
+  ctx.false(await xcert.instance.methods.isApprovedForAll(coinbase, bob).call());
 });
 
-spec.test('approves order gateway proxy for token transfer', async (ctx) => {
+spec.test('disapproves order gateway proxy as operator', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
+  const coinbase = ctx.get('coinbase');
   const proxyId = ctx.get('protocol').nftokenSafeTransferProxy.instance.options.address;
 
-  await ledger.approveAccount('2', gateway);
+  await xcert.instance.methods.setApprovalForAll(proxyId, true).send({ from: coinbase });
+  ctx.true(await xcert.instance.methods.isApprovedForAll(coinbase, proxyId).call());
 
-  ctx.is(await xcert.instance.methods.getApproved('2').call(), proxyId);
+  await ledger.disapproveOperator(gateway);
+  ctx.false(await xcert.instance.methods.isApprovedForAll(coinbase, proxyId).call());
 });
 
 export default spec;

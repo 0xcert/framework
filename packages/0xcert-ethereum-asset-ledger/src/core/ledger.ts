@@ -24,6 +24,8 @@ import safeTransfer from '../mutations/safe-transfer';
 import transfer from '../mutations/transfer';
 import updateAsset from '../mutations/update-asset';
 import update from '../mutations/update';
+import setApprovalForAll from '../mutations/set-approval-for-all';
+import isApprovedForAll from '../queries/is-approved-for-all';
 
 /**
  * 
@@ -120,7 +122,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async isApprovedAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<boolean> {
+  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -130,18 +132,25 @@ export class AssetLedger implements AssetLedgerBase {
     /**
    * 
    */
-  public async isEnabled(): Promise<boolean> {
+  public async isTransferable(): Promise<boolean> {
     return isEnabled(this);
   }
 
   /**
    * 
    */
-  public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
+  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
     return approveAccount(this, accountId as string, assetId);
+  }
+
+  /**
+   * 
+   */
+  public async disapproveAccount(assetId: string): Promise<Mutation> {
+    return approveAccount(this, '0x0000000000000000000000000000000000000000', assetId);
   }
 
   /**
@@ -192,8 +201,15 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * 
    */
-  public async setEnabled(enabled: boolean): Promise<Mutation> {
-    return setEnabled(this, enabled);
+  public async enableTransfer(): Promise<Mutation> {
+    return setEnabled(this, true);
+  }
+
+  /**
+   * 
+   */
+  public async disableTransfer(): Promise<Mutation> {
+    return setEnabled(this, false);
   }
 
   /**
@@ -209,6 +225,36 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
     return update(this, recipe.uriBase);
+  }
+
+  /**
+   * 
+   */
+  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, true);
+  }
+
+  /**
+   * 
+   */
+  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, false);
+  }
+
+  /**
+   * 
+   */
+  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
+    if (typeof operatorId !== 'string') {
+      operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
+    }
+    return isApprovedForAll(this, accountId, operatorId as string);
   }
 
   /**
