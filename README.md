@@ -2,6 +2,28 @@
 
 ## TODO
 
+### Tests
+
+Blockers for 1.0.0-beta.1:
+
+- add a test for erc-20 using Truffle
+- make it work in travis (costs $70), include badge on repo README.md
+- add a test for erc-20 using Spectron
+- make it work in travis
+- add all other smart contract tests (ONE TEST PER CONTRACT)
+- remove travis test
+- add unit tests for other parts of framework (ONE TEST ONLY PER PACKAGE)
+- make everything work in travis using one job per package
+- find a test coverage tool that works for each package, add it to travis builds
+  - make test coverage required
+  - travis will be failing at the point
+
+Blockers for 1.0.0-rc.1:
+
+- update tests to resolve code coverage errors
+- update tests to resolve other errors
+
+
 ### Docs
 
 - add provider errors table
