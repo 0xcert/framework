@@ -15,7 +15,6 @@ export interface ValueLedgerBase {
  * 
  */
 export interface ValueLedgerDeployRecipe {
-  source: string;
   name: string;
   symbol: string;
   decimals: string;

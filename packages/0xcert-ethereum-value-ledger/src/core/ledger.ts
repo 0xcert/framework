@@ -1,6 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { normalizeAddress, BN } from '@0xcert/ethereum-utils';
-import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
+import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
+  ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
 import getBalance from '../queries/get-balance';
 import getInfo from '../queries/get-info';
