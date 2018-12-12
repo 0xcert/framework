@@ -2,7 +2,7 @@ import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { fetch } from '@0xcert/utils';
 
 /**
- * 
+ * HTTP RPC client options interface.
  */
 export interface HttpProviderOptions {
   accountId?: string;
@@ -36,7 +36,8 @@ export class HttpProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Returns a new provider instance.
+   * @param options HTTP provider options.
    */
   public static getInstance(options: HttpProviderOptions): HttpProvider {
     return new HttpProvider(options);
