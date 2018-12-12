@@ -24,6 +24,8 @@ import safeTransfer from '../mutations/safe-transfer';
 import transfer from '../mutations/transfer';
 import updateAsset from '../mutations/update-asset';
 import update from '../mutations/update';
+import setApprovalForAll from '../mutations/set-approval-for-all';
+import isApprovedForAll from '../queries/is-approved-for-all';
 
 /**
  * Ethereum asset ledger implementation.
@@ -133,7 +135,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param assetId Id of the asset.
    */
-  public async isApprovedAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<boolean> {
+  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -143,7 +145,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Checks if transfers on the asset ledger are enabled.
    */
-  public async isEnabled(): Promise<boolean> {
+  public async isTransferable(): Promise<boolean> {
     return isEnabled(this);
   }
 
@@ -152,7 +154,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param assetId Id of the asset.
    */
-  public async approveAccount(accountId: string | OrderGatewayBase, assetId: string): Promise<Mutation> {
+  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -163,6 +165,13 @@ export class AssetLedger implements AssetLedgerBase {
    * Gives an account abilities.
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
+   */
+  public async disapproveAccount(assetId: string): Promise<Mutation> {
+    return approveAccount(this, '0x0000000000000000000000000000000000000000', assetId);
+  }
+
+  /**
+   * 
    */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     return assignAbilities(this, accountId, abilities);
@@ -216,8 +225,15 @@ export class AssetLedger implements AssetLedgerBase {
    * Allows or disallowes transfer of asset on the asset ledger.
    * @param enabled Enable state.
    */
-  public async setEnabled(enabled: boolean): Promise<Mutation> {
-    return setEnabled(this, enabled);
+  public async enableTransfer(): Promise<Mutation> {
+    return setEnabled(this, true);
+  }
+
+  /**
+   * 
+   */
+  public async disableTransfer(): Promise<Mutation> {
+    return setEnabled(this, false);
   }
 
   /**
@@ -240,6 +256,36 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Helper function that gets the right proxy id depending on the asset.
+   */
+  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, true);
+  }
+
+  /**
+   * 
+   */
+  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
+    }
+    return setApprovalForAll(this, accountId as string, false);
+  }
+
+  /**
+   * 
+   */
+  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
+    if (typeof operatorId !== 'string') {
+      operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
+    }
+    return isApprovedForAll(this, accountId, operatorId as string);
+  }
+
+  /**
+   * 
    */
   protected getProxyId() {
     return this.provider.unsafeRecipientIds.indexOf(this.id) === -1

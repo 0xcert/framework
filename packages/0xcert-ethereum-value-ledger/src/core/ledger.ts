@@ -84,11 +84,21 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * 
    */
-  public async approveAccount(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
+  public async approveValue(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
     return approveAccount(this, accountId as string, value);
+  }
+
+    /**
+   * 
+   */
+  public async disapproveValue(accountId: string | OrderGatewayBase): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(1);
+    }
+    return approveAccount(this, accountId as string, '0');
   }
 
   /**

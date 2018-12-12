@@ -53,7 +53,7 @@ spec.test('approves account for value transfer', async (ctx) => {
   const token = ctx.get('protocol').erc20;
   const value = '300000000000000000000000'; 
 
-  await ledger.approveAccount(bob, value);
+  await ledger.approveValue(bob, value);
 
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), value);
 });
@@ -66,7 +66,7 @@ spec.test('approves order gateway proxy for value transfer', async (ctx) => {
   const token = ctx.get('protocol').erc20;
   const value = '300000000000000000000000'; 
 
-  await ledger.approveAccount(gateway, value);
+  await ledger.approveValue(gateway, value);
 
   ctx.is(await token.instance.methods.allowance(coinbase, proxyId).call(), value);
 });
