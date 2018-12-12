@@ -1,6 +1,8 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployRecipe } from '@0xcert/scaffold';
+import { fetch } from '@0xcert/utils';
+import { getInterfaceCode } from '../lib/capabilities';
 import xcertAbi from '../config/xcert-abi';
 
 /**
@@ -15,10 +17,13 @@ const abi = xcertAbi.find((a) => (
  * @param provider Instance of the provider.
  * @param param1 Data needed to deploy a new asset ledger.
  */
-export default async function(provider: GenericProvider, { source, name, symbol, uriBase, schemaId, capabilities }: AssetLedgerDeployRecipe) {
+export default async function(provider: GenericProvider, { name, symbol, uriBase, schemaId, capabilities }: AssetLedgerDeployRecipe) {
+  const contract = await fetch(provider.assetLedgerSource).then((r) => r.json());
+  const source = contract.AssetLedger.evm.bytecode.object;
+  const codes = capabilities.map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId, capabilities]).substr(2)}`,
+    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',

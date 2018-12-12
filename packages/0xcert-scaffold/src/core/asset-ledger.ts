@@ -56,12 +56,11 @@ export interface AssetLedgerBase {
  * 
  */
 export interface AssetLedgerDeployRecipe {
-  source: string;
   name: string;
   symbol: string;
   uriBase: string;
   schemaId: string;
-  capabilities?: number[];
+  capabilities?: AssetLedgerCapability[];
 }
 
 /**
