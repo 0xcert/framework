@@ -1,3 +1,4 @@
+export * from './methods/fetch';
 export * from './methods/sha';
 export * from './methods/to-float';
 export * from './methods/to-integer';
