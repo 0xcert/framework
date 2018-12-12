@@ -23,8 +23,8 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const { FullXcertMock } = require('@0xcert/ethereum-xcert-contracts/build/full-xcert-mock.json');
-  stage.set('bytecode', FullXcertMock.evm.bytecode);
+  const { XcertMock } = require('@0xcert/ethereum-xcert-contracts/build/xcert-mock.json');
+  stage.set('bytecode', XcertMock.evm.bytecode);
 });
 
 spec.before(async (stage) => {

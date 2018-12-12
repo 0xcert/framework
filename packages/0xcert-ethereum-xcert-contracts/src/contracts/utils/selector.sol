@@ -1,10 +1,6 @@
 pragma solidity ^0.5.1;
 
 import "../xcert.sol";
-import "../burnable-xcert.sol";
-import "../revokable-xcert.sol";
-import "../mutable-xcert.sol";
-import "../pausable-xcert.sol";
 
 /**
  * @dev This contracts calculates interface id of Xcert contracts as described in EIP165:
@@ -41,7 +37,7 @@ contract Selector {
     pure
     returns (bytes4)
   {
-    BurnableXcert i;
+    Xcert i;
     return i.burn.selector;
   }
 
@@ -53,7 +49,7 @@ contract Selector {
     pure
     returns (bytes4)
   {
-    RevokableXcert i;
+    Xcert i;
     return i.revoke.selector;
   }
 
@@ -65,7 +61,7 @@ contract Selector {
     pure
     returns (bytes4)
   {
-    MutableXcert i;
+    Xcert i;
     return i.updateTokenImprint.selector;
   }
 
@@ -77,7 +73,7 @@ contract Selector {
     pure
     returns (bytes4)
   {
-    PausableXcert i;
+    Xcert i;
     return i.setPause.selector;
   }
 }

@@ -12,6 +12,9 @@ contract Xcert is
   NFTokenMetadataEnumerable,
   Abilitable
 {
+  using SafeMath for uint256;
+  using AddressUtils for address;
+
   /**
    * @dev List of abilities (gathered from all extensions):
    * 1 - Ability to mint new xcerts.
@@ -22,10 +25,33 @@ contract Xcert is
    * 6 - Ability to change URI base.
    */
   uint8 constant ABILITY_TO_MINT_NEW_XCERTS = 1;
+  uint8 constant ABILITY_TO_REVOKE_XCERTS = 2;
+  uint8 constant ABILITY_TO_PAUSE_TRANSFERS = 3;
+  uint8 constant ABILITY_TO_CHANGE_PROOF = 4;
   uint8 constant ABILITY_TO_CHANGE_URI_BASE = 6;
 
-  using SafeMath for uint256;
-  using AddressUtils for address;
+  /**
+   * @dev Error constants.
+   */
+  string constant CAPABILITY_NOT_SUPPORTED = "007001";
+  string constant TRANSFERS_PAUSED = "007002";
+  string constant NOT_VALID_XCERT = "007003";
+  string constant NOT_OWNER_OR_OPERATOR = "007004";
+
+  /**
+   * @dev This emits when ability of beeing able to transfer Xcerts changes (paused/unpaused).
+   */
+  event IsPaused(bool isPaused);
+
+  /**
+   * @dev Emits when imprint of a token is changed.
+   * @param _tokenId Id of the Xcert.
+   * @param _imprint Cryptographic asset imprint.
+   */
+  event TokenImprintUpdate(
+    uint256 indexed _tokenId,
+    bytes32 _imprint
+  );
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -42,6 +68,11 @@ contract Xcert is
    * @dev Maps address to authorization of contract.
    */
   mapping (address => bool) internal addressToAuthorized;
+
+  /**
+   * @dev Are Xcerts paused or not.
+   */
+  bool public isPaused;
 
   /**
    * @dev Contract constructor.
@@ -108,5 +139,91 @@ contract Xcert is
     hasAbility(ABILITY_TO_CHANGE_URI_BASE)
   {
     super._setUriBase(_uriBase);
+  }
+
+  /**
+   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
+   * address.
+   * @param _tokenId Id of the Xcert we want to burn.
+   */
+  function revoke(
+    uint256 _tokenId
+  )
+    external
+    hasAbility(ABILITY_TO_REVOKE_XCERTS)
+  {
+    require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
+    super._burn(_tokenId);
+    delete idToImprint[_tokenId];
+  }
+
+  /**
+   * @dev Sets if Xcerts are paused or not.
+   * @param _isPaused Pause status.
+   */
+  function setPause(
+    bool _isPaused
+  )
+    external
+    hasAbility(ABILITY_TO_PAUSE_TRANSFERS)
+  {
+    require(supportedInterfaces[0xbedb86fb], CAPABILITY_NOT_SUPPORTED);
+    isPaused = _isPaused;
+    emit IsPaused(_isPaused);
+  }
+
+  /**
+   * @dev Updates Xcert imprint.
+   * @param _tokenId Id of the Xcert.
+   * @param _imprint New imprint.
+   */
+  function updateTokenImprint(
+    uint256 _tokenId,
+    bytes32 _imprint
+  )
+    external
+    hasAbility(ABILITY_TO_CHANGE_PROOF)
+  {
+    require(supportedInterfaces[0xbda0e852], CAPABILITY_NOT_SUPPORTED);
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
+    idToImprint[_tokenId] = _imprint;
+    emit TokenImprintUpdate(_tokenId, _imprint);
+  }
+
+  /**
+   * @dev Burns a specified Xcert. Reverts if not called from xcert owner or operator.
+   * @param _tokenId Id of the Xcert we want to burn.
+   */
+  function burn(
+    uint256 _tokenId
+  )
+    external
+  {
+    require(supportedInterfaces[0x42966c68], CAPABILITY_NOT_SUPPORTED);
+    address tokenOwner = idToOwner[_tokenId];
+    super._burn(_tokenId);
+    require(
+      tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
+      NOT_OWNER_OR_OPERATOR
+    );
+    delete idToImprint[_tokenId];
+  }
+
+  /**
+   * @dev Helper methods that actually does the transfer.
+   * @param _from The current owner of the NFT.
+   * @param _to The new owner.
+   * @param _tokenId The NFT to transfer.
+   */
+  function _transferFrom(
+    address _from,
+    address _to,
+    uint256 _tokenId
+  )
+    internal
+  {
+    if(supportedInterfaces[0xbedb86fb])
+      require(!isPaused, TRANSFERS_PAUSED);
+    super._transferFrom(_from, _to, _tokenId);
   }
 }

@@ -24,7 +24,7 @@ export function parseError(error: any) {
       || stringError.indexOf('004002') > 0
       || stringError.indexOf('005002') > 0
       || stringError.indexOf('006002') > 0
-      || stringError.indexOf('010001') > 0) {
+      || stringError.indexOf('007003') > 0) {
       return new ProviderError(ProviderIssue.INVALID_NFT, error);
     }
     else if (stringError.indexOf('003003') > 0
@@ -35,7 +35,7 @@ export function parseError(error: any) {
       || stringError.indexOf('005004') > 0
       || stringError.indexOf('006003') > 0
       || stringError.indexOf('006004') > 0
-      || stringError.indexOf('008001') > 0
+      || stringError.indexOf('007004') > 0
       || stringError.indexOf('017001') > 0
       || stringError.indexOf('018001') > 0
       || stringError.indexOf('019001') > 0) {
@@ -57,7 +57,7 @@ export function parseError(error: any) {
       || stringError.indexOf('006007') > 0) {
       return new ProviderError(ProviderIssue.INVALID_INDEX, error);
     }
-    else if (stringError.indexOf('009001') > 0) {
+    else if (stringError.indexOf('007002') > 0) {
       return new ProviderError(ProviderIssue.TRANSFERS_PAUSED, error);
     }
     else if (stringError.indexOf('012001') > 0) {

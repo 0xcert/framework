@@ -47,9 +47,9 @@ spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
   const xcert = await ctx.deploy({ 
-    src: './build/mutable-xcert-mock.json',
-    contract: 'MutableXcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
+    src: './build/xcert-mock.json',
+    contract: 'XcertMock',
+    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']]
   });
 
   await xcert.instance.methods.assignAbilities(owner, [1,4]).send({ from: owner });
@@ -90,5 +90,5 @@ spec.test('throws when trying to update xcert that does not exist', async (ctx) 
   const id = ctx.get('id1');
   const imprint = ctx.get('imprint1');
 
-  await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, imprint).send({ from: owner }), '010001');
+  await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, imprint).send({ from: owner }), '007003');
 });
