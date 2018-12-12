@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "0.0.0-alpha6",
-    "node-fetch": "^2.3.0"
+    "@0xcert/utils": "0.0.0-alpha6"
   }
 }

@@ -9,6 +9,9 @@ export interface GenericProviderOptions {
   client?: any;
   signMethod?: SignMethod;
   unsafeRecipientIds?: string[];
+  assetLedgerSource?: string;
+  valueLedgerSource?: string;
+  requiredConfirmations?: number;
 }
 
 /**
@@ -18,6 +21,9 @@ export class GenericProvider {
   public accountId: string;
   public signMethod: SignMethod;
   public unsafeRecipientIds: string[];
+  public assetLedgerSource: string;
+  public valueLedgerSource: string;
+  public requiredConfirmations: number;
   protected $client: any;
   protected $id: number = 0;
 
@@ -28,9 +34,12 @@ export class GenericProvider {
    */
   public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
-    this.signMethod = options.signMethod || SignMethod.ETH_SIGN;
     this.unsafeRecipientIds = options.unsafeRecipientIds || [];
-
+    this.assetLedgerSource = options.assetLedgerSource || 'https://cdn.jsdelivr.net/gh/xpepermint/0xcert-contracts/asset-ledger.json',
+    this.valueLedgerSource = options.valueLedgerSource || 'https://cdn.jsdelivr.net/gh/xpepermint/0xcert-contracts/value-ledger.json',
+    this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
+    this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 21;
+    
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;

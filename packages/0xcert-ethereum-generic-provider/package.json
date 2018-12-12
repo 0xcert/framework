@@ -12,7 +12,6 @@
   "specron": {
     "test": {
       "port": 8520,
-      "blockTime": 0.1,
       "match": [
         "./src/tests/**/*.test.ts"
       ]
