@@ -34,6 +34,7 @@
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "0.0.0-alpha6",
     "@0xcert/ethereum-utils": "0.0.0-alpha6",
-    "@0xcert/scaffold": "0.0.0-alpha6"
+    "@0xcert/scaffold": "0.0.0-alpha6",
+    "@0xcert/utils": "0.0.0-alpha6"
   }
 }

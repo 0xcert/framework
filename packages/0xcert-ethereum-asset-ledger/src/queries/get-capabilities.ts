@@ -1,6 +1,7 @@
 import { AssetLedgerCapability } from "@0xcert/scaffold";
 import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
+import { getInterfaceCode } from '../lib/capabilities';
 import xcertAbi from '../config/xcert-abi';
 
 /**
@@ -16,20 +17,21 @@ const abi = xcertAbi.find((a) => (
  */
 export default async function(ledger: AssetLedger) {
   return Promise.all(
-    [ [AssetLedgerCapability.BURN, '0x42966c68'],
-      [AssetLedgerCapability.UPDATE_IMPRINT, '0xbda0e852'],
-      [AssetLedgerCapability.TOGGLE_TRANSFER, '0xbedb86fb'],
-      [AssetLedgerCapability.REVOKE, '0x20c5429b'],
+    [ AssetLedgerCapability.BURN,
+      AssetLedgerCapability.REVOKE,
+      AssetLedgerCapability.TOGGLE_TRANSFER,
+      AssetLedgerCapability.UPDATE_IMPRINT,
     ].map(async (capability) => {
+      const code = getInterfaceCode(capability);
       const attrs = {
         to: ledger.id,
-        data: encodeFunctionCall(abi, [capability[1]]),
+        data: encodeFunctionCall(abi, [code]),
       };
       const res = await ledger.provider.post({
         method: 'eth_call',
         params: [attrs, 'latest'],
       });
-      return decodeParameters(abi.outputs, res.result)[0] ? capability[0] : -1;
+      return decodeParameters(abi.outputs, res.result)[0] ? capability : -1;
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort() as AssetLedgerCapability[];
