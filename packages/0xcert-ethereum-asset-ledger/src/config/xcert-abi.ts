@@ -19,6 +19,10 @@ export default [
       {
         "name": "_schemaId",
         "type": "bytes32"
+      },
+      {
+        "name": "_capabilities",
+        "type": "bytes4[]"
       }
     ],
     "payable": false,
