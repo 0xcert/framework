@@ -14,8 +14,7 @@
       "port": 8515,
       "match": [
         "./src/tests/**/*.test.ts"
-      ],
-      "blockTime": 0.1
+      ]
     },
     "require": [
       "ts-node/register"
