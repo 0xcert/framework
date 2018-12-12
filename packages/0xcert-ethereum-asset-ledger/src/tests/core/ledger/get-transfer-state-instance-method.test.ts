@@ -5,7 +5,6 @@ import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider;
-  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -25,19 +24,23 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.before(async (stage) => {
-  const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').xcertPausable.instance.options.address;
-
-  stage.set('ledger', new AssetLedger(provider, ledgerId));
-});
-
 spec.test('returns ledger transfer state', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  
-  const enabled = await ledger.isTransferable();
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcertPausable.instance.options.address;
 
+  const ledger = new AssetLedger(provider, ledgerId);
+  const enabled = await ledger.isTransferable();
   ctx.true(enabled);
 });
+
+spec.test('returns null transfer state on contract that does not support transfer states', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721Enumerable.instance.options.address;
+
+  const ledger = new AssetLedger(provider, ledgerId);
+  const enabled = await ledger.isTransferable();
+  ctx.is(enabled, null);
+});
+
 
 export default spec;

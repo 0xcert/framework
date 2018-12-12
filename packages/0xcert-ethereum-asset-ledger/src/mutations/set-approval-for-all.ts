@@ -11,7 +11,10 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Approves an account for transfering a specific token.
+ * Sets aproval for an account to have control over all assets.
+ * @param ledger Asset ledger instance.
+ * @param accountId Account id.
+ * @param approved Is approved or not.
  */
 export default async function(ledger: AssetLedger, accountId: string, approved: boolean) {
   const attrs = {

@@ -12,20 +12,25 @@ const abis = ['name', 'symbol', 'uriBase', 'schemaId', 'totalSupply'].map((name)
 });
 
 /**
- * 
+ * Gets information(name, symbol, uriBase, schemaId, supply) of the asset ledger.
+ * @param ledger Asset ledger instance.
  */
 export default async function(ledger: AssetLedger) {
   const info = await Promise.all(
     abis.map(async (abi) => {
-      const attrs = {
-        to: ledger.id,
-        data: encodeFunctionCall(abi, []),
-      };
-      const res = await ledger.provider.post({
-        method: 'eth_call',
-        params: [attrs, 'latest'],
-      });
-      return decodeParameters(abi.outputs, res.result)[0];
+      try {
+        const attrs = {
+          to: ledger.id,
+          data: encodeFunctionCall(abi, []),
+        };
+        const res = await ledger.provider.post({
+          method: 'eth_call',
+          params: [attrs, 'latest'],
+        });
+        return decodeParameters(abi.outputs, res.result)[0];
+      } catch (error) {
+        return null;
+      }
     })
   );
   return {

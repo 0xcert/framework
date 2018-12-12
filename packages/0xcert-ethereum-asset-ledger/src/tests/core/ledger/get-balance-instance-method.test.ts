@@ -5,7 +5,6 @@ import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider;
-  ledger: AssetLedger;
   protocol: Protocol;
   bob: string;
 }
@@ -26,25 +25,26 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.before(async (stage) => {
-  const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').xcert.instance.options.address;
-
-  stage.set('ledger', new AssetLedger(provider, ledgerId));
-});
-
-spec.before(async (stage) => {
-  const accounts = await stage.web3.eth.getAccounts();
-  stage.set('bob', accounts[1]);
-});
-
 spec.test('returns accounts balance', async (ctx) => {
-  const ledger = ctx.get('ledger');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcert.instance.options.address;
   const bob = ctx.get('bob');
-  
+
+  const ledger = new AssetLedger(provider, ledgerId);
   const balance = await ledger.getBalance(bob);
 
   ctx.is(balance, '0');
+});
+
+spec.test('returns null balance on smart contract that does not support getBalance', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').nftokenReceiver.instance.options.address;
+  const bob = ctx.get('bob');
+
+  const ledger = new AssetLedger(provider, ledgerId);
+  const balance = await ledger.getBalance(bob);
+
+  ctx.is(balance, null);
 });
 
 export default spec;

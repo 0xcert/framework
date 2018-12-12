@@ -28,14 +28,16 @@ import setApprovalForAll from '../mutations/set-approval-for-all';
 import isApprovedForAll from '../queries/is-approved-for-all';
 
 /**
- * 
+ * Ethereum asset ledger implementation.
  */
 export class AssetLedger implements AssetLedgerBase {
   protected $id: string;
   protected $provider: GenericProvider;
 
   /**
-   * 
+   * Initialize asset ledger.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param id Address of the erc721/xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
     this.$id = normalizeAddress(id);
@@ -43,84 +45,98 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Gets the address of the smart contract that represents this asset ledger.
    */
   public get id() {
     return this.$id;
   }
 
   /**
-   * 
+   * Gets the provider that is used to comunicate with blockchain.
    */
   public get provider() {
     return this.$provider;
   }
 
   /**
-   * 
+   * Deploys a new smart contract representing asset ledger to the blockchain. 
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param recipe Data needed to deploy a new asset ledger.
    */
   public static async deploy(provider: GenericProvider, recipe: AssetLedgerDeployRecipe): Promise<Mutation> {
+    if (recipe.capabilities === undefined) {
+      recipe.capabilities = [];
+    }
     return deploy(provider, recipe);
   }
 
   /**
-   * 
+   * Gets an instance of already deployed asset ledger.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param id Address of the erc721/xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
     return new AssetLedger(provider, id);
   }
 
   /**
-   * 
+   * Gets a list of abilities an account has for this asset ledger.
+   * @param accountId Account address for wich we want to get abilities.
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
     return getAbilities(this, accountId);
   }
 
   /**
-   * 
+   * Gets accountId if anyone is approved for this asset.
+   * @param assetId Id of the asset.
    */
   public async getApprovedAccount(assetId: string): Promise<string> {
     return getApprovedAccount(this, assetId);
   }
 
   /**
-   * 
+   * Gets the assets owner accountId.
+   * @param assetId Id of the asset.
    */
   public async getAssetAccount(assetId: string): Promise<string> {
     return getAssetAccount(this, assetId);
   }
 
   /**
-   * 
+   * Gets information about the asset(id, uri, imprint).
+   * @param assetId Id of the asset.
    */
   public async getAsset(assetId: string): Promise<AssetLedgerItem> {
     return getAsset(this, assetId);
   }
 
   /**
-   * 
+   * Gets the count of assets an account owns.
+   * @param accountId Address for which we want asset count.
    */
   public async getBalance(accountId: string): Promise<string> {
     return getBalance(this, accountId);
   }
 
   /**
-   * 
+   * Gets a list of all asset ledger capabilities(options). 
    */
   public async getCapabilities(): Promise<AssetLedgerCapability[]> {
     return getCapabilities(this);
   }
 
   /**
-   * 
+   * Gets information about the asset ledger (name, symbol, uriBase, schemaId, supply).
    */
   public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
   }
 
   /**
-   * 
+   * Checks if a specific account is approved for a specific asset.
+   * @param accountId Id of the account.
+   * @param assetId Id of the asset.
    */
   public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
@@ -130,14 +146,16 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Checks if transfers on the asset ledger are enabled.
    */
   public async isTransferable(): Promise<boolean> {
     return isEnabled(this);
   }
 
   /**
-   * 
+   * Approves another account so it can transfer the specific asset.
+   * @param assetId Id of the asset.
+   * @param accountId Id of the account.
    */
   public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
@@ -147,21 +165,25 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Disapproves approved account for a specific asset.
+   * @param assetId Asset id.
    */
   public async disapproveAccount(assetId: string): Promise<Mutation> {
     return approveAccount(this, '0x0000000000000000000000000000000000000000', assetId);
   }
 
   /**
-   * 
+   * Gives an account abilities.
+   * @param accountId Id of the account.
+   * @param abilities List of the abilities.
    */
   public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     return assignAbilities(this, accountId, abilities);
   }
 
   /**
-   * 
+   * Creates a new asset.
+   * @param recipe Data from which the new asset is created.
    */
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
     // TODO(Kristjan): imprint input validation that it is a hex of length 64.
@@ -169,28 +191,33 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Destoys an existing asset (only asset owner can do this).
+   * @param assetId Id of the asset.
    */
   public async destroyAsset(assetId: string): Promise<Mutation> {
     return destroyAsset(this, assetId);
   }
 
   /**
-   * 
+   * Removes abilities from account.
+   * @param accountId Id of the account.
+   * @param abilities List of the abilities.
    */
   public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     return revokeAbilities(this, accountId, abilities);
   }
 
   /**
-   * 
+   * Destroys an existing asset (only someone with asset ledger revoke ability can do this).
+   * @param assetId If of the asset.
    */
   public async revokeAsset(assetId: string): Promise<Mutation> {
     return revokeAsset(this, assetId);
   }
 
   /**
-   * 
+   * Transfers asset to another account.
+   * @param recipe Data needed for the transfer.
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
     return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
@@ -199,21 +226,23 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Enables transfers of asset on the asset ledger.
    */
   public async enableTransfer(): Promise<Mutation> {
     return setEnabled(this, true);
   }
 
   /**
-   * 
+   * Disables transfers of asset on the asset ledger.
    */
   public async disableTransfer(): Promise<Mutation> {
     return setEnabled(this, false);
   }
 
   /**
-   * 
+   * Updates data on an existing asset.
+   * @param assetId Id of the asset.
+   * @param recipe Data to update asset with.
    */
   public async updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation> {
     // TODO(Kristjan): imprint input validation that it is a hex of length 64.
@@ -221,14 +250,16 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Updates asset ledger data.
+   * @param recipe Data to update asset ledger with.
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
     return update(this, recipe.uriBase);
   }
 
   /**
-   * 
+   * Approves an account as an operator (meaning he has full controll of all of your assets).
+   * @param accountId Account id.
    */
   public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
@@ -238,7 +269,8 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Disapproves an account as an operator.
+   * @param accountId Account id.
    */
   public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
@@ -248,7 +280,9 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Checks if specific account is the operator for specific account.
+   * @param accountId Account id.
+   * @param operatorId Operator account id.
    */
   public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof operatorId !== 'string') {
@@ -258,7 +292,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * 
+   * Helper function that gets the right proxy id depending on the asset.
    */
   protected getProxyId() {
     return this.provider.unsafeRecipientIds.indexOf(this.id) === -1

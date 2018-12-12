@@ -12,6 +12,8 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Gets an array of all abilities an account has.
+ * @param ledger Asset ledger instance.
+ * @param accountId Account id.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
   return await Promise.all(
@@ -34,5 +36,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort();
+  }).catch(() => {
+    return [];
   });
 }

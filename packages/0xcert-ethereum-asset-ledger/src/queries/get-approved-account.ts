@@ -11,15 +11,21 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Gets the account that is approved for transfering a specific asset.
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
  */
 export default async function(ledger: AssetLedger, assetId: string) {
-  const attrs = {
-    to: ledger.id,
-    data: encodeFunctionCall(abi, [assetId]),
-  };
-  const res = await ledger.provider.post({
-    method: 'eth_call',
-    params: [attrs, 'latest'],
-  });
-  return decodeParameters(abi.outputs, res.result)[0];
+  try {
+    const attrs = {
+      to: ledger.id,
+      data: encodeFunctionCall(abi, [assetId]),
+    };
+    const res = await ledger.provider.post({
+      method: 'eth_call',
+      params: [attrs, 'latest'],
+    });
+    return decodeParameters(abi.outputs, res.result)[0];
+  } catch (error) {
+    return null;
+  }
 }

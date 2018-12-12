@@ -47,9 +47,9 @@ spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
   const xcert = await ctx.deploy({ 
-    src: './build/revokable-xcert-mock.json',
-    contract: 'RevokableXcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
+    src: './build/xcert-mock.json',
+    contract: 'XcertMock',
+    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x20c5429b']]
   });
 
   await xcert.instance.methods.assignAbilities(owner, [1,2]).send({ from: owner });

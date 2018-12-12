@@ -124,15 +124,15 @@ export class Protocol {
   }
 
   /**
-   * Deploys burnable xcert contract.
+   * Deploys xcert contract with burn capability.
    * @param from Contract owner's address.
    */
   protected async deployXcertBurnable(from: string) {
     const xcert = await deploy({
       web3: this.web3,
-      abi: contracts.xcertBurnable.abi,
-      bytecode: contracts.xcertBurnable.bytecode,
-      args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1'],
+      abi: contracts.xcert.abi,
+      bytecode: contracts.xcert.bytecode,
+      args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1', ['0x42966c68']],
       from,
     });
 
@@ -142,15 +142,15 @@ export class Protocol {
   }
 
   /**
-   * Deploys mutable xcert contract.
+   * Deploys xcert contract with mutate capability.
    * @param from Contract owner's address.
    */
   protected async deployXcertMutable(from: string) {
     const xcert = await deploy({
       web3: this.web3,
-      abi: contracts.xcertMutable.abi,
-      bytecode: contracts.xcertMutable.bytecode,
-      args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2'],
+      abi: contracts.xcert.abi,
+      bytecode: contracts.xcert.bytecode,
+      args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2', ['0xbda0e852']],
       from,
     });
 
@@ -160,15 +160,15 @@ export class Protocol {
   }
 
   /**
-   * Deploys pausable xcert contract.
+   * Deploys xcert contract with pause capability.
    * @param from Contract owner's address.
    */
   protected async deployXcertPausable(from: string) {
     const xcert = await deploy({
       web3: this.web3,
-      abi: contracts.xcertPausable.abi,
-      bytecode: contracts.xcertPausable.bytecode,
-      args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3'],
+      abi: contracts.xcert.abi,
+      bytecode: contracts.xcert.bytecode,
+      args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3', ['0xbedb86fb']],
       from,
     });
 
@@ -178,15 +178,15 @@ export class Protocol {
   }
 
   /**
-   * Deploys revokable xcert contract.
+   * Deploys xcert contract with revoke capability.
    * @param from Contract owner's address.
    */
   protected async deployXcertRevokable(from: string) {
     const xcert = await deploy({
       web3: this.web3,
-      abi: contracts.xcertRevokable.abi,
-      bytecode: contracts.xcertRevokable.bytecode,
-      args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4'],
+      abi: contracts.xcert.abi,
+      bytecode: contracts.xcert.bytecode,
+      args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4', ['0x20c5429b']],
       from,
     });
 
@@ -204,7 +204,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5'],
+      args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5', []],
       from,
     });
 

@@ -7,7 +7,6 @@ import { AssetLedgerAbility } from '@0xcert/scaffold';
 interface Data {
   protocol: Protocol;
   provider: GenericProvider;
-  ledger: AssetLedger;
   coinbase: string;
 }
 
@@ -40,10 +39,12 @@ spec.before(async (stage) => {
   stage.set('coinbase', accounts[0]);
 });
 
-spec.test('returns account abilities', async (ctx) => {
+spec.test('returns account abilities (xcert smart contract)', async (ctx) => {
   const coinbase = ctx.get('coinbase');
-  const ledger = ctx.get('ledger');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcert.instance.options.address;
 
+  const ledger = new AssetLedger(provider, ledgerId);
   const abilities = await ledger.getAbilities(coinbase);
 
   ctx.deepEqual(abilities, [
@@ -54,6 +55,17 @@ spec.test('returns account abilities', async (ctx) => {
     AssetLedgerAbility.UPDATE_PROOF,
     AssetLedgerAbility.SIGN_MINT_CLAIM,
   ]);
+});
+
+spec.test('returns account abilities (erc721 smart contract)', async (ctx) => {
+  const coinbase = ctx.get('coinbase');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721.instance.options.address;
+
+  const ledger = new AssetLedger(provider, ledgerId);
+  const abilities = await ledger.getAbilities(coinbase);
+
+  ctx.deepEqual(abilities, []);
 });
 
 export default spec;

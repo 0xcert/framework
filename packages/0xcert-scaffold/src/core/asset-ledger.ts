@@ -61,6 +61,7 @@ export interface AssetLedgerDeployRecipe {
   symbol: string;
   uriBase: string;
   schemaId: string;
+  capabilities?: number[];
 }
 
 /**

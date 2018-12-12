@@ -10,16 +10,23 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Tels if the transfer is enabled.
+ * Checks if an account is approved for controling all assets of another account.
+ * @param ledger Asset ledger instance.
+ * @param accountId Account id.
+ * @param operatorId Operator account id.
  */
 export default async function(ledger: AssetLedger, accountId: string, operatorId: string) {
-  const attrs = {
-    to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId, operatorId]),
-  };
-  const res = await ledger.provider.post({
-    method: 'eth_call',
-    params: [attrs, 'latest'],
-  });
-  return decodeParameters(abi.outputs, res.result)[0]
+  try {
+    const attrs = {
+      to: ledger.id,
+      data: encodeFunctionCall(abi, [accountId, operatorId]),
+    };
+    const res = await ledger.provider.post({
+      method: 'eth_call',
+      params: [attrs, 'latest'],
+    });
+    return decodeParameters(abi.outputs, res.result)[0]
+  } catch (error) {
+    return null;
+  }
 }

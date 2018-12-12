@@ -76,7 +76,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6'],
+    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
   });
   await cat.instance.methods.assignAbilities(owner, [5]).send();
   ctx.set('cat', cat);
@@ -92,7 +92,7 @@ spec.beforeEach(async (ctx) => {
   const dog = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6'],
+    args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6', []],
   });
   await dog.instance.methods.assignAbilities(owner, [1]).send();
   await dog.instance.methods
@@ -123,7 +123,7 @@ spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6'],
+    args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6', []],
   });
   await fox.instance.methods.assignAbilities(owner, [1]).send();
   await fox.instance.methods

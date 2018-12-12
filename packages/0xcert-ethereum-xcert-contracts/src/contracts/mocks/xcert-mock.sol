@@ -19,7 +19,8 @@ contract XcertMock is Xcert {
     string memory _name,
     string memory _symbol,
     string memory _uriBase,
-    bytes32 _schemaId
+    bytes32 _schemaId,
+    bytes4[] memory _capabilities
   )
     public
   {
@@ -27,5 +28,9 @@ contract XcertMock is Xcert {
     nftSymbol = _symbol;
     uriBase = _uriBase;
     nftSchemaId = _schemaId;
+    for(uint256 i = 0; i < _capabilities.length; i++)
+    {
+      supportedInterfaces[_capabilities[i]] = true;
+    }
   }
 }

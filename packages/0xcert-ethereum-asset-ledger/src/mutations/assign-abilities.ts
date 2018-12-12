@@ -11,8 +11,11 @@ const abi = xcertAbi.find((a) => (
   a.name === 'assignAbilities' && a.type === 'function'
 ));
 
- /**
+/**
  * Assigns abilities to an account.
+ * @param ledger Asset ledger instance.
+ * @param accountId Account address.
+ * @param abilities List of abilities.
  */
 export default async function(ledger: AssetLedger, accountId: string, abilities: AssetLedgerAbility[]) {
   const attrs = {

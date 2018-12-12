@@ -11,12 +11,14 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * 
+ * Deploys a new asset ledger.
+ * @param provider Instance of the provider.
+ * @param param1 Data needed to deploy a new asset ledger.
  */
-export default async function(provider: GenericProvider, { source, name, symbol, uriBase, schemaId }: AssetLedgerDeployRecipe) {
+export default async function(provider: GenericProvider, { source, name, symbol, uriBase, schemaId, capabilities }: AssetLedgerDeployRecipe) {
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId]).substr(2)}`,
+    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId, capabilities]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
