@@ -64,8 +64,9 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data needed to deploy a new asset ledger.
    */
   public static async deploy(provider: GenericProvider, recipe: AssetLedgerDeployRecipe): Promise<Mutation> {
-    if(recipe.capabilities === undefined)
+    if (recipe.capabilities === undefined) {
       recipe.capabilities = [];
+    }
     return deploy(provider, recipe);
   }
 
