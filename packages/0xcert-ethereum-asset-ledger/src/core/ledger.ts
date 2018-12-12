@@ -129,7 +129,7 @@ export class AssetLedger implements AssetLedgerBase {
     return accountId === await getApprovedAccount(this, assetId);
   }
 
-    /**
+  /**
    * 
    */
   public async isTransferable(): Promise<boolean> {
