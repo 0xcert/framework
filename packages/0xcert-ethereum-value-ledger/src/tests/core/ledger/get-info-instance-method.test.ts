@@ -5,7 +5,6 @@ import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider
-  ledger: ValueLedger;
   protocol: Protocol;
 }
 
@@ -25,16 +24,11 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.before(async (stage) => {
-  const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').erc20.instance.options.address;
-
-  stage.set('ledger', new ValueLedger(provider, ledgerId));
-});
-
 spec.test('returns ledger info', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
+
+  const ledger =  new ValueLedger(provider, ledgerId);
   const info = await ledger.getInfo();
 
   ctx.deepEqual(info, {
@@ -42,6 +36,22 @@ spec.test('returns ledger info', async (ctx) => {
     symbol: "ERC20",
     decimals: '18',
     supply: '500000000',
+  });
+});
+
+
+spec.test('returns ledger info for contract that does not fully support it', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721Metadata.instance.options.address;
+
+  const ledger =  new ValueLedger(provider, ledgerId);
+  const info = await ledger.getInfo();
+
+  ctx.deepEqual(info, {
+    name: 'ERC721 Metadata',
+    symbol: 'ERC721Metadata',
+    decimals: null,
+    supply: null,
   });
 });
 
