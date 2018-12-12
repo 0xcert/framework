@@ -16,10 +16,10 @@ export enum AssetLedgerAbility {
  * 
  */
 export enum AssetLedgerCapability {
-  BURNABLE = 1,
-  MUTABLE = 2,
-  PAUSABLE = 3,
-  REVOKABLE = 4,
+  BURN = 1,
+  UPDATE_IMPRINT = 2,
+  TOGGLE_TRANSFER = 3,
+  REVOKE = 4,
 }
 
 /**

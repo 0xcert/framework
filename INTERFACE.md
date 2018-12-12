@@ -237,7 +237,7 @@ const mutation = await AssetLedger.deploy({
   symbol: 'CRT',
   capabilities: [
     AssetLedgerCapability.TOGGLE_TRANSFER,
-    AssetLedgerCapability.MUTABLE_INFO,
+    AssetLedgerCapability.UPDATE_IMPRINT_INFO,
     AssetLedgerCapability.REVOKE_TOKEN,
     AssetLedgerCapability.BURN_TOKEN,
   ],

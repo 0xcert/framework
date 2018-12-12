@@ -46,19 +46,19 @@ spec.test('returns ledger capabilities', async (ctx) => {
 
   ctx.deepEqual(
     await burnableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.BURNABLE],
+    [AssetLedgerCapability.BURN],
   );
   ctx.deepEqual(
     await mutableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.MUTABLE],
+    [AssetLedgerCapability.UPDATE_IMPRINT],
   );
   ctx.deepEqual(
     await pausableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.PAUSABLE],
+    [AssetLedgerCapability.TOGGLE_TRANSFER],
   );
   ctx.deepEqual(
     await revokableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.REVOKABLE],
+    [AssetLedgerCapability.REVOKE],
   );
 });
 
