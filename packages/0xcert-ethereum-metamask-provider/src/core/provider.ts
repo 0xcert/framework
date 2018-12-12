@@ -1,10 +1,13 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
- * 
+ * Metamask provider options interface.
  */
 export interface MetamaskProviderOptions {
   unsafeRecipientIds?: string[];
+  assetLedgerSource?: string;
+  valueLedgerSource?: string;
+  requiredConfirmations?: number;
 }
 
 /**

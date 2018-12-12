@@ -138,19 +138,20 @@ export class Mutation extends EventEmitter implements MutationBase {
       this.$status = MutationStatus.PENDING;
     }
 
-    return new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       if (!this.isResolved()) {
-        this.once(MutationEvent.RESOLVE, () => resolve(this));
+        this.once(MutationEvent.RESOLVE, () => resolve());
         this.once(MutationEvent.ERROR, (err) => reject(err));
       }
       else {
-        resolve(this);
+        resolve();
       }
-
       if (start) {
         this.loopUntilResolved();
       }
     });
+
+    return this;
   }
 
   /**
@@ -172,7 +173,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     if (!tx) {
       return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
     }
-    else if (!tx.to) {
+    else if (!tx.to || tx.to === '0x0') {
       tx.to = await this.getTransactionReceipt().then((r) => r.contractAddress);
     }
 
@@ -180,7 +181,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     this.$receiverId = normalizeAddress(tx.to);
     this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock));
 
-    if (this.confirmations >= 25) {
+    if (this.$confirmations >= this.$provider.requiredConfirmations) {
       this.$status = MutationStatus.RESOLVED;
       this.emit(MutationEvent.RESOLVE, this);
     }

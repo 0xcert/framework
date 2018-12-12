@@ -1134,7 +1134,7 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-S8aEliZeCMbW7UXShsBhC56zWaHCPCTZtY5QkjcdY/639VOVU/TQCNYGrTSWmwSdbiz/S3TLf3NUdLeCl7gWfA==",
+      "integrity": "sha512-qP20onm6sjwhxRrcBJ8MK3Kv+Fru83VQB/n3/5tnCitGm/hOwfjfnmg63qV7ezNZdWNa7ZMCbmZnMwS4SgWsng==",
       "requires": {
         "@specron/cli": "^0.5.0",
         "@specron/spec": "^0.5.0",
@@ -1183,11 +1183,10 @@
     },
     "@rush-temp/ethereum-http-provider": {
       "version": "file:projects/ethereum-http-provider.tgz",
-      "integrity": "sha512-TXC3v2j2wyzgUHtETUqSiWZBmF9vZPKzd0TvUZcsVRxmNE9gWcgJxCCuGw5dafLSGRcG/xzox38YdFijVoxevQ==",
+      "integrity": "sha512-bBTtkjMOGBtmu5QLJr5hlIb889pIMlf4OeCiOrh4DdWa8IJhmusFSf3nSAqygR4gL5b3WMmielLfAIF8RBsukg==",
       "requires": {
         "@specron/cli": "^0.5.0",
         "@specron/spec": "^0.5.0",
-        "node-fetch": "^2.3.0",
         "solc": "^0.5.1",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -1285,7 +1284,7 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-fQo1dO4g1J44HNiTVpsaXsw8OzHlEq4FmrpE6ih+JKzM7kZpd7TA//egGxCuSHXi2n9Wkbp5wMGYEsUdxB3UHQ==",
+      "integrity": "sha512-qZNQ/xi1V0AkkJKAlXLPtys1Gjzv0lcikO5S2qpTJYWG8XhQrCTAArGDUH1b0igHyxbcho/xqhxCLGreqeOHzg==",
       "requires": {
         "@specron/cli": "^0.5.0",
         "@specron/spec": "^0.5.0",
@@ -1340,10 +1339,11 @@
     },
     "@rush-temp/utils": {
       "version": "file:projects/utils.tgz",
-      "integrity": "sha512-Cqz0ofjOf2qdUmc15wOaSazhf1077bQDJoHtJ7Y1Yonxqtmym3NYpIGR6OYPzMOcvyzJfkha2Baata4728BQAg==",
+      "integrity": "sha512-I7KNK0+DJXZi6EYs2/h5716xrNGZRzyOgbUK1ZyTzSZwZGcsRUpHGPUOmVgFKFQkYtnTHzN1mBElfOix6+902g==",
       "requires": {
         "@specron/cli": "^0.5.0",
         "@specron/spec": "^0.5.0",
+        "node-fetch": "^2.3.0",
         "solc": "^0.5.1",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1",
@@ -1451,6 +1451,16 @@
       "integrity": "sha512-H1B/cDPYvy97n3jDd9X7Qr+CtINKqfvgx65v56SkTOuJnh8k989B7vvm6dFy5D8/m99T2qgSNqVogxOLPjX5xw==",
       "requires": {
         "ganache-cli": "6.1.8"
+      },
+      "dependencies": {
+        "ganache-cli": {
+          "version": "6.1.8",
+          "resolved": "https://registry.npmjs.org/ganache-cli/-/ganache-cli-6.1.8.tgz",
+          "integrity": "sha512-yXzteu4SIgUL31mnpm9j+x6dpHUw0p/nsRVkcySKq0w+1vDxH9jMErP1QhZAJuTVE6ni4nfvGSNkaQx5cD3jfg==",
+          "requires": {
+            "source-map-support": "^0.5.3"
+          }
+        }
       }
     },
     "@specron/spec": {
