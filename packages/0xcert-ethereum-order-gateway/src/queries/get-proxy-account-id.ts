@@ -14,13 +14,17 @@ const abi = gatewayAbi.find((a) => (
  * Returns proxy account ID used by this gateway.
  */
 export default async function(gateway: OrderGateway, proxyId: OrderGatewayProxy) {
-  const attrs = {
-    to: gateway.id,
-    data: encodeFunctionCall(abi, [proxyId]),
-  };
-  const res = await gateway.provider.post({
-    method: 'eth_call',
-    params: [attrs, 'latest'],
-  });
-  return decodeParameters(abi.outputs, res.result)[0];
+  try {
+    const attrs = {
+      to: gateway.id,
+      data: encodeFunctionCall(abi, [proxyId]),
+    };
+    const res = await gateway.provider.post({
+      method: 'eth_call',
+      params: [attrs, 'latest'],
+    });
+    return decodeParameters(abi.outputs, res.result)[0];
+  } catch (error) {
+    return null;
+  }
 }

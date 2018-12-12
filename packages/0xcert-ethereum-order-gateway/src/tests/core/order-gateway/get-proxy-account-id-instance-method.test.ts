@@ -8,7 +8,6 @@ import { OrderActionKind } from '@0xcert/scaffold';
 interface Data {
   protocol: Protocol;
   provider: GenericProvider;
-  gateway: OrderGateway;
 }
 
 const spec = new Spec<Data>();
@@ -36,17 +35,12 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.before(async (stage) => {
-  const protocol = stage.get('protocol')
-  const provider = stage.get('provider');
+spec.test('returns proxy account address', async (ctx) => {
+  const protocol = ctx.get('protocol')
+  const provider = ctx.get('provider');
   const id = protocol.orderGateway.instance.options.address;
 
-  stage.set('gateway', new OrderGateway(provider, id));
-});
-
-spec.test('returns proxy account address', async (ctx) => {
-  const protocol = ctx.get('protocol');
-  const gateway = ctx.get('gateway');
+  const gateway = new OrderGateway(provider, id);
 
   const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
   const nftokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_TRANSFER);
@@ -58,5 +52,17 @@ spec.test('returns proxy account address', async (ctx) => {
   ctx.is(nftokenSafeTransferProxy, protocol.nftokenSafeTransferProxy.instance.options.address);
   ctx.is(xcertMintProxy, protocol.xcertMintProxy.instance.options.address);
 });
+
+spec.test('returns null when calling getProxyAccountId on a contract that does not support it', async (ctx) => {
+  const protocol = ctx.get('protocol')
+  const provider = ctx.get('provider');
+  const id = protocol.erc20.instance.options.address;
+
+  const gateway = new OrderGateway(provider, id);
+
+  const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
+  ctx.is(tokenTransferProxy, null);
+});
+
 
 export default spec;
