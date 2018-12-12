@@ -35,9 +35,9 @@ spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
   const xcert = await ctx.deploy({ 
-    src: './build/pausable-xcert-mock.json',
-    contract: 'PausableXcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658']
+    src: './build/xcert-mock.json',
+    contract: 'XcertMock',
+    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbedb86fb']]
   });
 
   await xcert.instance.methods.assignAbilities(owner, [1,3]).send({ from: owner });
@@ -122,7 +122,7 @@ spec.test('throws when trying to transfer an Xcert when contract is paused', asy
 
   await xcert.instance.methods.setPause(true).send({ from: owner });
   await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, sara, id1).send({ from: bob }), '009001');
+  await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, sara, id1).send({ from: bob }), '007002');
 });
 
 spec.test('throws when trying to safe transfer an Xcert when contract is paused', async (ctx) => {
@@ -135,5 +135,5 @@ spec.test('throws when trying to safe transfer an Xcert when contract is paused'
 
   await xcert.instance.methods.setPause(true).send({ from: owner });
   await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '009001');
+  await ctx.reverts(() => xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '007002');
 });
