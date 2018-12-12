@@ -15,13 +15,17 @@ const abi = xcertAbi.find((a) => (
  * @param accountId Account id.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
-  const attrs = {
-    to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId]),
-  };
-  const res = await ledger.provider.post({
-    method: 'eth_call',
-    params: [attrs, 'latest'],
-  });
-  return decodeParameters(abi.outputs, res.result)[0];
+  try {
+    const attrs = {
+      to: ledger.id,
+      data: encodeFunctionCall(abi, [accountId]),
+    };
+    const res = await ledger.provider.post({
+      method: 'eth_call',
+      params: [attrs, 'latest'],
+    });
+    return decodeParameters(abi.outputs, res.result)[0];
+  } catch (error) {
+    return null;
+  }
 }

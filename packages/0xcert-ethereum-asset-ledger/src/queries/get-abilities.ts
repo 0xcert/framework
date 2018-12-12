@@ -36,5 +36,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort();
+  }).catch(() => {
+    return [];
   });
 }

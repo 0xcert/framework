@@ -33,5 +33,7 @@ export default async function(ledger: AssetLedger) {
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort() as AssetLedgerCapability[];
-  });
+  }).catch(() => {
+    return [];
+  }); 
 }

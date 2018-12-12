@@ -6,7 +6,6 @@ import { AssetLedger } from '../../../core/ledger';
 interface Data {
   protocol: Protocol;
   provider: GenericProvider;
-  ledger: AssetLedger;
   coinbase: string;
 }
 
@@ -33,21 +32,27 @@ spec.before(async (stage) => {
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-spec.before(async (stage) => {
-  const accounts = await stage.web3.eth.getAccounts();
-
-  stage.set('coinbase', accounts[0]);
-});
-
 spec.test('returns token approved account', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcert;
-  const ledger = ctx.get('ledger');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcert.instance.options.address;
   
+  const ledger = new AssetLedger(provider, ledgerId);
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
 
   const approvedAccount = await ledger.getApprovedAccount('1');
   ctx.is(approvedAccount, '0x0000000000000000000000000000000000000000');
+});
+
+spec.test('returns null calling a contract that does not have getApprovedAccount function', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
+  
+  const ledger = new AssetLedger(provider, ledgerId);
+
+  const approvedAccount = await ledger.getApprovedAccount('1');
+  ctx.is(approvedAccount, null);
 });
 
 export default spec;
