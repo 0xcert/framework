@@ -11,7 +11,8 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Gets all the asset ledger capabilities.
+ * Gets a list of all the asset ledger capabilities.
+ * @param ledger Asset ledger instance.
  */
 export default async function(ledger: AssetLedger) {
   return Promise.all(

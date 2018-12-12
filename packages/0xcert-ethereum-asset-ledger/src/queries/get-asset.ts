@@ -12,7 +12,9 @@ const abis = ['tokenURI', 'tokenImprint'].map((name) => {
 });
 
 /**
- * 
+ * Gets information(id, uri, imprint) about a specific asset.
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
  */
 export default async function(ledger: AssetLedger, assetId: string) {
   const data = await Promise.all(

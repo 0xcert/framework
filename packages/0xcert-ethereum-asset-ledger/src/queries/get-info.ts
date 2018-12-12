@@ -12,7 +12,8 @@ const abis = ['name', 'symbol', 'uriBase', 'schemaId', 'totalSupply'].map((name)
 });
 
 /**
- * 
+ * Gets information(name, symbol, uriBase, schemaId, supply) of the asset ledger.
+ * @param ledger Asset ledger instance.
  */
 export default async function(ledger: AssetLedger) {
   const info = await Promise.all(

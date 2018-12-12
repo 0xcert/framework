@@ -10,7 +10,8 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Tels if the transfer is enabled.
+ * Checks if the transfer is enabled.
+ * @param ledger Asset ledger instance.
  */
 export default async function(ledger: AssetLedger) {
   const attrs = {

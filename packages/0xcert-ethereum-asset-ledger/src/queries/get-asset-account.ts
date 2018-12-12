@@ -11,6 +11,8 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Gets the account that owns the specific asset.
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
  */
 export default async function(ledger: AssetLedger, assetId: string) {
   const attrs = {
