@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/webpack",
-  "version": "0.0.0-alpha5",
+  "version": "0.0.0-alpha6",
   "description": "0xcert webpack scripts.",
   "scripts": {
     "clean": "rm -Rf ../../dist",
@@ -9,12 +9,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/cert": "0.0.0-alpha5",
-    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha5",
-    "@0xcert/ethereum-http-provider": "0.0.0-alpha5",
-    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha5",
-    "@0xcert/ethereum-order-gateway": "0.0.0-alpha5",
-    "@0xcert/ethereum-value-ledger": "0.0.0-alpha5",
+    "@0xcert/cert": "0.0.0-alpha6",
+    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha6",
+    "@0xcert/ethereum-http-provider": "0.0.0-alpha6",
+    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha6",
+    "@0xcert/ethereum-order-gateway": "0.0.0-alpha6",
+    "@0xcert/ethereum-value-ledger": "0.0.0-alpha6",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }

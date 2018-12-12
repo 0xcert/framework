@@ -2,7 +2,7 @@ import { RpcResponse, SendOptions, SignMethod } from './types';
 import { parseError } from './errors';
 
 /**
- * 
+ * Configuration interface for generic provider.
  */
 export interface GenericProviderOptions {
   accountId?: string;
@@ -37,7 +37,7 @@ export class GenericProvider {
   }
 
   /**
-   * Sends a raw RPC request through the provider.
+   * Sends a raw request to the JSON RPC serveer.
    * @param options.method RPC procedure name.
    * @param options.params RPC procedure parameters.
    * @param options.id RPC request identifier.
@@ -45,79 +45,59 @@ export class GenericProvider {
    * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
    */
   public async post(options: SendOptions): Promise<RpcResponse> {
-    
-    // TODO: testi if this works if error throwing works on ropsten or do we need to check if the 
-    // resulting gas amount is the same as block gas amount => revert.
-    // if making a transaction where gas is not defined we calculate it using estimateGas.
-    if (options.method === 'eth_sendTransaction' && options.params.length > 0) {
-      if (typeof options.params[0].gas === 'undefined') {
-        options.method = 'eth_estimateGas';
-        const res = await new Promise<RpcResponse>((resolve, reject) => {
-          this.$client.send({
-            jsonrpc: '2.0',
-            id: this.getNextId(),
-            ...options,
-          }, (err, res) => {
-            if (err) {
-              return reject(err);
-            }
-            else if (res.error) {
-              return reject(res.error);
-            }
-            return resolve(res);
-          });
-        }).catch((err) => {
-          throw parseError(err);
-        });
+    const payload = { ...options };
 
-        // estimate gas is sometimes in accurate (depends on the node). So to be sure we have enough
-        // gas we multiply result with 1.2.
-        //options.params[0].gas = res.result;
-        options.params[0].gas = Math.ceil(res.result * 1.1).toString(16);
-        options.method = 'eth_sendTransaction';
+    // TODO: test if error throwing works on ropsten or do we need to check if
+    // the resulting gas amount is the same as block gas amount => revert.
+    if (payload.method === 'eth_sendTransaction' && payload.params.length) {
+
+      if (typeof payload.params[0].gas === 'undefined') {
+        const res = await this.request({
+          ...payload,
+          method: 'eth_estimateGas',
+        });
+        // estimate gas is sometimes inaccurate (depends on the node). So to be
+        // sure we have enough gas, we multiply result with a factor.
+        payload.params[0].gas = Math.ceil(res.result * 1.1).toString(16);
       }
 
-      if (typeof options.params[0].gasPrice === 'undefined') {
-        // get gas price
-        const res = await new Promise<RpcResponse>((resolve, reject) => {
-          this.$client.send({
-            jsonrpc: '2.0',
-            method: 'eth_gasPrice',
-            params: [],
-            id: this.getNextId(),
-          }, (err, res) => {
-            if (err) {
-              return reject(err);
-            }
-            else if (res.error) {
-              return reject(res.error);
-            }
-            return resolve(res);
-          });
-        }).catch((err) => {
-          throw parseError(err);
+      if (typeof payload.params[0].gasPrice === 'undefined') {
+        const res = await this.request({
+          ...payload,
+          method: 'eth_gasPrice',
+          params: [],
         });
-
         // TODO: get multiplyer from provider settings
-        const multiplyer = 1.1;
-        options.params[0].gasPrice = Math.ceil(res.result * multiplyer).toString(16);
+        payload.params[0].gasPrice = Math.ceil(res.result * 1.1).toString(16);
       }
     }
 
-    const requestIndex = options.id || this.getNextId();
+    return this.request(payload);
+  }
+
+  /**
+   * Sends a raw request to the JSON RPC serveer.
+   * @param options.method RPC procedure name.
+   * @param options.params RPC procedure parameters.
+   * @param options.id RPC request identifier.
+   * @param options.jsonrpc RPC protocol version.
+   * @see https://github.com/ethereum/wiki/wiki/JSON-RPC
+   */
+  protected async request(options: SendOptions) {
+    const payload = {
+      jsonrpc: '2.0',
+      id: options.id || this.getNextId(),
+    ...options,
+    };
     return new Promise<RpcResponse>((resolve, reject) => {
-      this.$client.send({
-        jsonrpc: '2.0',
-        id: requestIndex,
-        ...options,
-      }, (err, res) => {
+      this.$client.send(payload, (err, res) => {
         if (err) { // client error
           return reject(err);
         }
         else if (res.error) { // RPC error
           return reject(res.error);
         }
-        else if (res.id !== requestIndex) { // anomaly
+        else if (res.id !== payload.id) { // anomaly
           return reject('Invalid RPC id');
         }
         return resolve(res);
@@ -128,7 +108,7 @@ export class GenericProvider {
   }
 
   /**
-   * Returns the next unique instance `requestIndex`.
+   * Returns the next unique request number.
    */
   protected getNextId() {
     this.$id++;

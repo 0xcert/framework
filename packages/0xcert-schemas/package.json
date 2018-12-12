@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/schemas",
-  "version": "0.0.0-alpha5",
+  "version": "0.0.0-alpha6",
   "description": "0xcert conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

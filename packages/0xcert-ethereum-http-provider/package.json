@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-http-provider",
-  "version": "0.0.0-alpha5",
+  "version": "0.0.0-alpha6",
   "description": "HTTP provider for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "0.0.0-alpha5",
+    "@0xcert/ethereum-sandbox": "0.0.0-alpha6",
     "@specron/cli": "^0.5.0",
     "@specron/spec": "^0.5.0",
     "solc": "^0.5.1",
@@ -32,7 +32,7 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha5",
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha6",
     "node-fetch": "^2.3.0"
   }
 }
