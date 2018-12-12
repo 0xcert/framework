@@ -3,17 +3,14 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 
-interface Data {
+const spec = new Spec<{
   provider: GenericProvider;
   protocol: Protocol;
   coinbase: string;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -21,14 +18,12 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
   });
-
   stage.set('provider', provider);
 });
 
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
@@ -42,13 +37,9 @@ spec.test('returns asset info (xcert contract)', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').xcert.instance.options.address;
-  
   const ledger = new AssetLedger(provider, ledgerId);
-
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  
-  const asset = await ledger.getAsset('1');
-  ctx.deepEqual(asset, {
+  ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
     uri: 'http://0xcert.org/1',
     imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
@@ -60,18 +51,13 @@ spec.test('returns asset info (erc721 contract)', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc721.instance.options.address;
-  
   const ledger = new AssetLedger(provider, ledgerId);
-
-  await erc721.instance.methods.mint(coinbase, '1').send({ from: coinbase });
-  
-  const asset = await ledger.getAsset('1');
-  ctx.deepEqual(asset, {
+  await erc721.instance.methods.mint(coinbase, '1').send({ from: coinbase });  
+  ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
     uri: null,
     imprint: null,
   });
 });
-
 
 export default spec;

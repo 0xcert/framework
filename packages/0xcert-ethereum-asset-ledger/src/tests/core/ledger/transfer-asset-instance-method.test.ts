@@ -3,15 +3,13 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 
-interface Data {
+const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
   protocol: Protocol;
   coinbase: string;
   bob: string;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
@@ -24,14 +22,12 @@ spec.before(async (stage) => {
     accountId: await stage.web3.eth.getCoinbase(),
     unsafeRecipientIds: [stage.get('protocol').tokenTransferProxy.instance.options.address]
   });
-
   stage.set('provider', provider);
 });
 
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
@@ -46,16 +42,12 @@ spec.test('transfer asset', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-
   await ledger.transferAsset({
     receiverId: bob,
     id: '1',
   });
-
-  const asset1Owner = await xcert.instance.methods.ownerOf('1').call();
-  ctx.is(asset1Owner, bob);
+  ctx.is(await xcert.instance.methods.ownerOf('1').call(), bob);
 });
 
 spec.test('transfer asset to a contract', async (ctx) => {
@@ -63,16 +55,12 @@ spec.test('transfer asset to a contract', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
-
   await xcert.instance.methods.mint(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-
   await ledger.transferAsset({
     receiverId: nftokenReceiver,
     id: '2',
   });
-
-  const asset2Owner = await xcert.instance.methods.ownerOf('2').call();
-  ctx.is(asset2Owner, nftokenReceiver);
+  ctx.is(await xcert.instance.methods.ownerOf('2').call(), nftokenReceiver);
 });
 
 spec.test('transfer asset to a contract with data', async (ctx) => {
@@ -80,15 +68,11 @@ spec.test('transfer asset to a contract with data', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
-
   await xcert.instance.methods.mint(coinbase, '3', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-
   await ledger.transferAsset({
     receiverId: nftokenReceiver, id: '3', data: '0x01',
   });
-
-  const asset3Owner = await xcert.instance.methods.ownerOf('3').call();
-  ctx.is(asset3Owner, nftokenReceiver);
+  ctx.is(await xcert.instance.methods.ownerOf('3').call(), nftokenReceiver);
 });
 
 spec.test('fails when trying to transfer asset to a contract that does not implement receiver', async (ctx) => {
@@ -96,11 +80,10 @@ spec.test('fails when trying to transfer asset to a contract that does not imple
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const erc20 = ctx.get('protocol').erc20.instance.options.address;
-
   await xcert.instance.methods.mint(coinbase, '4', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-
   await ledger.transferAsset({
-    receiverId: erc20, id: '4',
+    receiverId: erc20,
+    id: '4',
   }).then(() => {
     ctx.fail();
   }).catch(() => {
@@ -113,15 +96,11 @@ spec.test('transfer asset contract that does not implement receiver but is marke
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const tokenTransferProxy = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-
   await xcert.instance.methods.mint(coinbase, '5', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-
   await ledger.transferAsset({
     receiverId: tokenTransferProxy, id: '5',
   });
-
-  const asset5Owner = await xcert.instance.methods.ownerOf('5').call();
-  ctx.is(asset5Owner, tokenTransferProxy);
+  ctx.is(await xcert.instance.methods.ownerOf('5').call(), tokenTransferProxy);
 });
 
 export default spec;
