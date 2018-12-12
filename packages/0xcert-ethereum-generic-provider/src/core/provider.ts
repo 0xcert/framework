@@ -38,7 +38,7 @@ export class GenericProvider {
     this.assetLedgerSource = options.assetLedgerSource || 'https://cdn.jsdelivr.net/gh/xpepermint/0xcert-contracts/asset-ledger.json',
     this.valueLedgerSource = options.valueLedgerSource || 'https://cdn.jsdelivr.net/gh/xpepermint/0xcert-contracts/value-ledger.json',
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
-    this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 21;
+    this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
