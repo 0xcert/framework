@@ -63,7 +63,7 @@ spec.test('mints an Xcert', async (ctx) => {
   const cat = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6'],
+    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6', []],
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
@@ -82,7 +82,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   const cat = await ctx.deploy({ 
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6'],
+    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6', []],
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
