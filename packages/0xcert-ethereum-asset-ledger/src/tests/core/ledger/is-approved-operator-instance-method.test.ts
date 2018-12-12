@@ -69,4 +69,14 @@ spec.test('checks if gateway proxy is operator', async (ctx) => {
   ctx.true(await ledger.isApprovedOperator(coinbase, gateway));
 });
 
+spec.test('return null when checking contract that does not support operators', async (ctx) => {
+  const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
+
+  const ledger = new AssetLedger(provider, ledgerId);
+  ctx.is(await ledger.isApprovedOperator(coinbase, bob), null);
+});
+
 export default spec;

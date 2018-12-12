@@ -12,6 +12,8 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Destroys an assets (removes it from blockchain, its history is still accessable).
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
  */
 export default async function(ledger: AssetLedger, assetId: string) {
   const attrs = {

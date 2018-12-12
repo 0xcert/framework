@@ -12,7 +12,10 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * Revokes abilities from account.
+ * Revokes(removes) abilities from account.
+ * @param ledger Asset ledger instance.
+ * @param accountId Address of the account for which abilities will be revoked.
+ * @param abilities List of the abilities.
  */
 export default async function(ledger: AssetLedger, accountId: string, abilities: AssetLedgerAbility[]) {
   const attrs = {

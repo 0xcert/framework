@@ -5,7 +5,6 @@ import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider;
-  ledger: AssetLedger;
   protocol: Protocol;
   coinbase: string;
 }
@@ -38,10 +37,13 @@ spec.before(async (stage) => {
   stage.set('coinbase', accounts[0]);
 });
 
-spec.test('returns asset info', async (ctx) => {
+spec.test('returns asset info (xcert contract)', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
-  const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcert.instance.options.address;
+  
+  const ledger = new AssetLedger(provider, ledgerId);
 
   await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   
@@ -52,5 +54,24 @@ spec.test('returns asset info', async (ctx) => {
     imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
   });
 });
+
+spec.test('returns asset info (erc721 contract)', async (ctx) => {
+  const erc721 = ctx.get('protocol').erc721;
+  const coinbase = ctx.get('coinbase');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721.instance.options.address;
+  
+  const ledger = new AssetLedger(provider, ledgerId);
+
+  await erc721.instance.methods.mint(coinbase, '1').send({ from: coinbase });
+  
+  const asset = await ledger.getAsset('1');
+  ctx.deepEqual(asset, {
+    id: '1',
+    uri: null,
+    imprint: null,
+  });
+});
+
 
 export default spec;

@@ -10,8 +10,11 @@ const abi = xcertAbi.find((a) => (
   a.name === 'updateTokenImprint' && a.type === 'function'
 ));
 
- /**
+/**
  * Updates asset imprint.
+ * @param ledger Asset ledger instance.
+ * @param assetId Asset id.
+ * @param imprint New imprint.
  */
 export default async function(ledger: AssetLedger, assetId: string, imprint: string) {
   const attrs = {

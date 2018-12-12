@@ -13,13 +13,17 @@ const abi = erc20Abi.find((a) => (
  * Gets the amount of assets the account owns.
  */
 export default async function(ledger: ValueLedger, accountId: string, spenderId: string) {
-  const attrs = {
-    to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId, spenderId]),
-  };
-  const res = await ledger.provider.post({
-    method: 'eth_call',
-    params: [attrs, 'latest'],
-  });
-  return decodeParameters(abi.outputs, res.result)[0];
+  try {
+    const attrs = {
+      to: ledger.id,
+      data: encodeFunctionCall(abi, [accountId, spenderId]),
+    };
+    const res = await ledger.provider.post({
+      method: 'eth_call',
+      params: [attrs, 'latest'],
+    });
+    return decodeParameters(abi.outputs, res.result)[0];
+  } catch (error) {
+    return null;
+  }
 }

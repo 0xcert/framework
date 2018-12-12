@@ -5,7 +5,6 @@ import { AssetLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider;
-  ledger: AssetLedger;
   protocol: Protocol;
 }
 
@@ -26,14 +25,14 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').xcert.instance.options.address;
-
-  stage.set('ledger', new AssetLedger(provider, ledgerId));
+  
 });
 
-spec.test('returns ledger info', async (ctx) => {
-  const ledger = ctx.get('ledger');
+spec.test('returns ledger info (xcert smart contract)', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').xcert.instance.options.address;
+
+  const ledger = new AssetLedger(provider, ledgerId);
   
   const info = await ledger.getInfo();
 
@@ -43,6 +42,22 @@ spec.test('returns ledger info', async (ctx) => {
     uriBase: 'http://0xcert.org/',
     schemaId: '0x0500000000000000000000000000000000000000000000000000000000000000',
     supply: '0',
+  });
+});
+
+spec.test('returns ledger info (erc721 metadata smart contract)', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721Metadata.instance.options.address;
+
+  const ledger = new AssetLedger(provider, ledgerId);
+  const info = await ledger.getInfo();
+
+  ctx.deepEqual(info, {
+    name: 'ERC721 Metadata',
+    symbol: 'ERC721Metadata',
+    uriBase: 'http://0xcert.org/',
+    schemaId: null,
+    supply: null,
   });
 });
 

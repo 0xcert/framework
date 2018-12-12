@@ -12,6 +12,9 @@ const abi = xcertAbi.find((a) => (
 
 /**
  * Approves an account for transfering a specific token.
+ * @param ledger Asset ledger instance.
+ * @param accountId Account address.
+ * @param assetId Token id.
  */
 export default async function(ledger: AssetLedger, accountId: string, assetId: string) {
   const attrs = {

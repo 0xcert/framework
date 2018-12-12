@@ -11,7 +11,9 @@ const abi = xcertAbi.find((a) => (
 ));
 
 /**
- * 
+ * Deploys a new asset ledger.
+ * @param provider Instance of the provider.
+ * @param param1 Data needed to deploy a new asset ledger.
  */
 export default async function(provider: GenericProvider, { source, name, symbol, uriBase, schemaId }: AssetLedgerDeployRecipe) {
   const attrs = {

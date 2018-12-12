@@ -5,7 +5,6 @@ import { ValueLedger } from '../../../core/ledger';
 
 interface Data {
   provider: GenericProvider
-  ledger: ValueLedger;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -33,15 +32,11 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.before(async (stage) => {
-  const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').erc20.instance.options.address;
-
-  stage.set('ledger', new ValueLedger(provider, ledgerId));
-});
-
 spec.test('returns account approved amount', async (ctx) => {
-  const ledger = ctx.get('ledger');
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
+
+  const ledger =  new ValueLedger(provider, ledgerId);
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
@@ -50,6 +45,18 @@ spec.test('returns account approved amount', async (ctx) => {
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
   const approvedValue = await ledger.getApprovedValue(coinbase, bob);
   ctx.is(approvedValue, approveAmount);
+});
+
+spec.test('returns null when calling getApprovedValue on contract that does not support it', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc721.instance.options.address;
+
+  const ledger =  new ValueLedger(provider, ledgerId);
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+
+  const approvedValue = await ledger.getApprovedValue(coinbase, bob);
+  ctx.is(approvedValue, null);
 });
 
 export default spec;
