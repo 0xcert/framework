@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-order-gateway",
   "entries": [
     {
-      "version": "0.0.0-alpha6",
-      "tag": "@0xcert/ethereum-order-gateway_v0.0.0-alpha6",
+      "version": "0.0.0-alpha7",
+      "tag": "@0xcert/ethereum-order-gateway_v0.0.0-alpha7",
       "date": "Thu, 22 Nov 2018 00:51:03 GMT",
       "comments": {}
     }
