@@ -96,6 +96,7 @@ export class GenericProvider {
     const payload = {
       jsonrpc: '2.0',
       id: options.id || this.getNextId(),
+      params: [],
     ...options,
     };
     return new Promise<RpcResponse>((resolve, reject) => {
