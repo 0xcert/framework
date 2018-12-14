@@ -1,7 +1,7 @@
 import { MutationBase } from "./misc";
 
 /**
- * 
+ * List of available abilities an account can have per asset ledger.
  */
 export enum AssetLedgerAbility {
   MANAGE_ABILITIES = 0,
@@ -13,7 +13,7 @@ export enum AssetLedgerAbility {
 }
 
 /**
- * 
+ * List of available asset ledger capabilities.
  */
 export enum AssetLedgerCapability {
   BURN = 1,
@@ -23,7 +23,7 @@ export enum AssetLedgerCapability {
 }
 
 /**
- * 
+ * Asset ledger method definitions.
  */
 export interface AssetLedgerBase {
   readonly id: string;
@@ -53,7 +53,7 @@ export interface AssetLedgerBase {
 }
 
 /**
- * 
+ * Asset ledger deploy data definition.
  */
 export interface AssetLedgerDeployRecipe {
   name: string;
@@ -64,7 +64,7 @@ export interface AssetLedgerDeployRecipe {
 }
 
 /**
- * 
+ * Asset data definition.
  */
 export interface AssetLedgerItem {
   id: string;
@@ -73,7 +73,7 @@ export interface AssetLedgerItem {
 }
 
 /**
- * 
+ * Asset ledger data definition.
  */
 export interface AssetLedgerInfo {
   name: string;
@@ -84,7 +84,7 @@ export interface AssetLedgerInfo {
 }
 
 /**
- * 
+ * Asset creation data definition.
  */
 export interface AssetLedgerItemRecipe {
   receiverId: string;
@@ -93,7 +93,7 @@ export interface AssetLedgerItemRecipe {
 }
 
 /**
- * 
+ * Asset transfer data definition.
  */
 export interface AssetLedgerTransferRecipe {
   receiverId: string;
@@ -102,14 +102,14 @@ export interface AssetLedgerTransferRecipe {
 }
 
 /**
- * 
+ * Asset update data definition.
  */
 export interface AssetLedgerObjectUpdateRecipe {
   imprint: string;
 }
 
 /**
- * 
+ * Asset ledger update data definition.
  */
 export interface AssetLedgerUpdateRecipe {
   uriBase: string;

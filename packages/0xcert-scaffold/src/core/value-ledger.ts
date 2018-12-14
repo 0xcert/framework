@@ -1,7 +1,7 @@
 import { MutationBase } from "./misc";
 
 /**
- * 
+ * Value ledger methods.
  */
 export interface ValueLedgerBase {
   readonly id: string;
@@ -12,7 +12,7 @@ export interface ValueLedgerBase {
 }
 
 /**
- * 
+ * Value ledger deploy data definition.
  */
 export interface ValueLedgerDeployRecipe {
   name: string;
@@ -22,7 +22,7 @@ export interface ValueLedgerDeployRecipe {
 }
 
 /**
- * 
+ * Value ledger information data definition.
  */
 export interface ValueLedgerInfo {
   name: string;
@@ -32,7 +32,7 @@ export interface ValueLedgerInfo {
 }
 
 /**
- * 
+ * Value transfer data definition.
  */
 export interface ValueLedgerTransferRecipe {
   senderId?: string;
