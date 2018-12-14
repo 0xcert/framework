@@ -1,5 +1,5 @@
 /**
- * 
+ * List of available order action kinds.
  */
 export enum OrderActionKind {
   CREATE_ASSET = 1,
@@ -14,7 +14,7 @@ export type OrderAction = OrderActionCreateAsset | OrderActionTransferAsset
   | OrderActionTransferValue;
 
 /**
- * 
+ * Order create asset data definitio.
  */
 export interface OrderActionCreateAsset {
   kind: OrderActionKind.CREATE_ASSET;
@@ -26,7 +26,7 @@ export interface OrderActionCreateAsset {
 }
 
 /**
- * 
+ * Order transfer asset data definition.
  */
 export interface OrderActionTransferAsset {
   kind: OrderActionKind.TRANSFER_ASSET;
@@ -37,7 +37,7 @@ export interface OrderActionTransferAsset {
 }
 
 /**
- * 
+ * Order transfer value data definition.
  */
 export interface OrderActionTransferValue {
   kind: OrderActionKind.TRANSFER_VALUE;
@@ -48,7 +48,7 @@ export interface OrderActionTransferValue {
 }
 
 /**
- * 
+ * Order definition.
  */
 export class Order {
   public makerId: string;

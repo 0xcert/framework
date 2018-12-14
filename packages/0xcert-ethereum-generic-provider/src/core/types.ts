@@ -1,5 +1,5 @@
 /**
- * 
+ * Signature kinds.
  */
 export enum SignMethod {
   ETH_SIGN = 0,
@@ -8,7 +8,7 @@ export enum SignMethod {
 }
 
 /**
- * 
+ * Mutation event kinds.
  */
 export enum MutationEvent {
   RESOLVE = 'resolve',
@@ -17,7 +17,7 @@ export enum MutationEvent {
 }
 
 /**
- * 
+ * Rpc response definition.
  */
 export interface RpcResponse {
   id: number;
@@ -26,7 +26,7 @@ export interface RpcResponse {
 }
 
 /**
- * 
+ * Send option definition.
  */
 export interface SendOptions {
   method: string;

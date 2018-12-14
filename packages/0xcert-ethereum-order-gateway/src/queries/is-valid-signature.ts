@@ -1,25 +1,30 @@
 import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
-import { OrderGatewayProxy } from '../core/types';
 import gatewayAbi from '../config/gateway-abi';
+import { Order } from '@0xcert/scaffold';
+import { createSignatureTuple, createOrderHash } from '../lib/order';
 
 /**
  * Smart contract method abi.
  */
 const abi = gatewayAbi.find((a) => (
-  a.name === 'idToProxy' && a.type === 'function'
+  a.name === 'isValidSignature' && a.type === 'function'
 ));
 
 /**
- * Returns proxy address based on id used by this gateway.
+ * Checks if signature is valid.
  * @param gateway Order gateway instance.
- * @param proxyId Proxy id.
+ * @param order Order data.
+ * @param claim Claim data.
  */
-export default async function(gateway: OrderGateway, proxyId: OrderGatewayProxy) {
+export default async function(gateway: OrderGateway, order: Order, claim: string) {
+  const orderHash = createOrderHash(gateway, order);
+  const signatureTuple = createSignatureTuple(claim);
+
   try {
     const attrs = {
       to: gateway.id,
-      data: encodeFunctionCall(abi, [proxyId]),
+      data: encodeFunctionCall(abi, [order.makerId, orderHash, signatureTuple]),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',

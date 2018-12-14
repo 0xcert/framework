@@ -2,7 +2,7 @@ import { Order } from "./order";
 import { MutationBase } from "./misc";
 
 /**
- * 
+ * Order gateway method definition.
  */
 export interface OrderGatewayBase {
   readonly id: string;

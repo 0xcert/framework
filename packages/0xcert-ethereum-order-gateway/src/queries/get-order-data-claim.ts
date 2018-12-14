@@ -1,25 +1,28 @@
 import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
-import { OrderGatewayProxy } from '../core/types';
 import gatewayAbi from '../config/gateway-abi';
+import { Order } from '@0xcert/scaffold';
+import { createRecipeTuple } from '../lib/order';
 
 /**
  * Smart contract method abi.
  */
 const abi = gatewayAbi.find((a) => (
-  a.name === 'idToProxy' && a.type === 'function'
+  a.name === 'getOrderDataClaim' && a.type === 'function'
 ));
 
 /**
- * Returns proxy address based on id used by this gateway.
+ * Creates hash from order data.
  * @param gateway Order gateway instance.
- * @param proxyId Proxy id.
+ * @param order Order data.
  */
-export default async function(gateway: OrderGateway, proxyId: OrderGatewayProxy) {
+export default async function(gateway: OrderGateway, order: Order) {
+  const orderHash = createRecipeTuple(gateway, order);
+
   try {
     const attrs = {
       to: gateway.id,
-      data: encodeFunctionCall(abi, [proxyId]),
+      data: encodeFunctionCall(abi, [orderHash]),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',
