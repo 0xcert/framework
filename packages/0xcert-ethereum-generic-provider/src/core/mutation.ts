@@ -4,7 +4,7 @@ import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-addr
 import { MutationEvent } from './types';
 
 /**
- * 
+ * Possible mutation statuses.
  */
 export enum MutationStatus {
   INITIALIZED = 0,
@@ -25,7 +25,9 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected $status: MutationStatus = MutationStatus.INITIALIZED;
 
   /**
-   * 
+   * Initialize mutation.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param id Smart contract address on which a mutation will be performed.
    */
   public constructor(provider: any, id: string) {
     super();
@@ -35,56 +37,56 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Gets smart contract address.
    */
   public get id() {
     return this.$id;
   }
 
   /**
-   * 
+   * Get provider intance.
    */
   public get provider() {
     return this.$provider;
   }
 
   /**
-   * 
+   * Gets the number of confirmations of mutation.
    */
   public get confirmations() {
     return this.$confirmations;
   }
 
   /**
-   * 
+   * Gets the sending address.
    */
   public get senderId() {
     return this.$senderId;
   }
 
   /**
-   * 
+   * Gets the receiving address.
    */
   public get receiverId() {
     return this.$receiverId;
   }
 
   /**
-   * 
+   * Checks if mutation in pending.
    */
   public isPending() {
     return this.$status === MutationStatus.PENDING;
   }
 
   /**
-   * 
+   * Checks if mutation is resolved.
    */
   public isResolved() {
     return this.$status === MutationStatus.RESOLVED;
   }
 
   /**
-   * 
+   * Event emmiter.
    */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
   public emit(event: MutationEvent.RESOLVE, mutation: Mutation);
@@ -94,7 +96,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Attaches on mutation events.
    */
   public on(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
   public on(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
@@ -104,7 +106,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Once handler.
    */
   public once(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
   public once(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
@@ -114,7 +116,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Dettaches from mutation events. 
    */
   public off(event: MutationEvent, handler?: () => any) {
     if (handler) {
@@ -126,7 +128,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Waits until mutation is resolved (mutation reaches the specified number of confirmations).
    */
   public async resolve() {
     const start = this.$status === MutationStatus.INITIALIZED;
@@ -166,7 +168,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Helper methods for waiting to resolve mutation.
    */
   protected async loopUntilResolved() {
     const tx = await this.getTransactionObject();
@@ -192,7 +194,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Gets transaction data.
    */
   protected async getTransactionObject() {
     const res = await this.$provider.post({
@@ -203,7 +205,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Gets transaction receipt.
    */
   protected async getTransactionReceipt() {
     const res = await this.$provider.post({
@@ -214,7 +216,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Gets the latest block number.
    */
   protected async getLastBlock() {
     const res = await this.$provider.post({
