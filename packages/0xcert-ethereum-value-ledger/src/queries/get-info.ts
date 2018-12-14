@@ -12,7 +12,8 @@ const abis = ['name', 'symbol', 'decimals', 'totalSupply'].map((name) => {
 });
 
 /**
- * 
+ * Gets information(name, symbol, decimals, totalSupply) about value ledger.
+ * @param ledger Value ledger instance.
  */
 export default async function(ledger: ValueLedger) {
   const info = await Promise.all(

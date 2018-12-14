@@ -4,7 +4,7 @@ import { ValueLedger } from '../core/ledger';
 import erc20Abi from '../config/erc20-abi';
 
 /**
- * Smart contract method abi.
+ * Smart contract approve abi.
  */
 const abi = erc20Abi.find((a) => (
   a.name === 'approve' && a.type === 'function'
@@ -12,6 +12,9 @@ const abi = erc20Abi.find((a) => (
 
 /**
  * Approves an account for transfering an amount of tokens.
+ * @param ledger Value ledger instance.
+ * @param accountId Account address.
+ * @param value Amount of tokens.
  */
 export default async function(ledger: ValueLedger, accountId: string, value: string) {
   const attrs = {

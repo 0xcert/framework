@@ -5,14 +5,16 @@ import { fetch } from '@0xcert/utils';
 import erc20Abi from '../config/erc20-abi';
 
 /**
- * Smart contract constructir abi.
+ * Smart contract constructor abi.
  */
 const abi = erc20Abi.find((a) => (
   a.type === 'constructor'
 ));
 
 /**
- * 
+ * Deploys a new value ledger.
+ * @param provider Instance of the provider.
+ * @param param1 Data needed to deploy a new value ledger.
  */
 export default async function(provider: GenericProvider, { name, symbol, decimals, supply }: ValueLedgerDeployRecipe) {
   const contract = await fetch(provider.valueLedgerSource).then((r) => r.json());
