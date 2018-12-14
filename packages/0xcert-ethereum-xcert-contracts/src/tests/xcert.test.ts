@@ -316,6 +316,7 @@ spec.test('corectly transfers xcert from approved address', async (ctx) => {
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
+  const zeroAddress = ctx.get('zeroAddress');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
@@ -326,7 +327,9 @@ spec.test('corectly transfers xcert from approved address', async (ctx) => {
   const bobBalance = await xcert.instance.methods.balanceOf(bob).call();
   const janeBalance = await xcert.instance.methods.balanceOf(jane).call();
   const ownerOfId1 =  await xcert.instance.methods.ownerOf(id1).call();
+  const isApproved = await xcert.instance.methods.getApproved(id1).call();
 
+  ctx.is(isApproved, zeroAddress);
   ctx.is(bobBalance, '0');
   ctx.is(janeBalance, '1');
   ctx.is(ownerOfId1, jane);
