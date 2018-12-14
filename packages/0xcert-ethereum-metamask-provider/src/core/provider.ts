@@ -27,14 +27,14 @@ export class MetamaskProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Gets an instance of metamask provider.
    */
   public static getInstance(): MetamaskProvider {
     return new MetamaskProvider();
   }
 
   /**
-   * 
+   * Checks if metamask is available.
    */
   public isSupported() {
     return (
@@ -44,7 +44,7 @@ export class MetamaskProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Checks if metamask is enabled.
    */
   public async isEnabled() {
     return (
@@ -55,7 +55,7 @@ export class MetamaskProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Enables metamask.
    */
   public async enable() {
     if (this.isSupported()) {
