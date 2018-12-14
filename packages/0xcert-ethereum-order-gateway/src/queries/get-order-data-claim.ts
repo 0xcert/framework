@@ -12,7 +12,9 @@ const abi = gatewayAbi.find((a) => (
 ));
 
 /**
- * Checks if signature is valid.
+ * Creates hash from order data.
+ * @param gateway Order gateway instance.
+ * @param order Order data.
  */
 export default async function(gateway: OrderGateway, order: Order) {
   const orderHash = createRecipeTuple(gateway, order);

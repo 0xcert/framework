@@ -1,5 +1,5 @@
 /**
- * 
+ * Order gateway proxy ids.
  */
 export enum OrderGatewayProxy {
   XCERT_MINT = 0,

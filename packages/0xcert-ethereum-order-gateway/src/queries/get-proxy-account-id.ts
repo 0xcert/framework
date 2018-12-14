@@ -11,7 +11,9 @@ const abi = gatewayAbi.find((a) => (
 ));
 
 /**
- * Returns proxy account ID used by this gateway.
+ * Returns proxy address based on id used by this gateway.
+ * @param gateway Order gateway instance.
+ * @param proxyId Proxy id.
  */
 export default async function(gateway: OrderGateway, proxyId: OrderGatewayProxy) {
   try {

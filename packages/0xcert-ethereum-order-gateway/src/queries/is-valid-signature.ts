@@ -13,6 +13,9 @@ const abi = gatewayAbi.find((a) => (
 
 /**
  * Checks if signature is valid.
+ * @param gateway Order gateway instance.
+ * @param order Order data.
+ * @param claim Claim data.
  */
 export default async function(gateway: OrderGateway, order: Order, claim: string) {
   const orderHash = createOrderHash(gateway, order);
