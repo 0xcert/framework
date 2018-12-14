@@ -132,8 +132,8 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Checks if a specific account is approved for a specific asset.
-   * @param accountId Id of the account.
    * @param assetId Id of the asset.
+   * @param accountId Id of the account.
    */
   public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {

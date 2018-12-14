@@ -39,7 +39,7 @@ spec.before(async (stage) => {
   await burnableXcert.instance.methods.mint(jane, '123', '0x0').send({ from: owner });
 });
 
-spec.test('correctly throws ZERO_ADDRESS error', async (ctx) => {
+spec.test('throws ZERO_ADDRESS error', async (ctx) => {
   const erc721 = ctx.get('protocol').erc721;
   const erc721Metadata = ctx.get('protocol').erc721Metadata;
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
@@ -61,7 +61,7 @@ spec.test('correctly throws ZERO_ADDRESS error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws INVALID_NFT error', async (ctx) => {
+spec.test('throws INVALID_NFT error', async (ctx) => {
   const erc721 = ctx.get('protocol').erc721;
   const erc721Metadata = ctx.get('protocol').erc721Metadata;
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
@@ -90,7 +90,7 @@ spec.test('correctly throws INVALID_NFT error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws NOT_AUTHORIZED error', async (ctx) => {
+spec.test('throws NOT_AUTHORIZED error', async (ctx) => {
   const erc721 = ctx.get('protocol').erc721;
   const erc721Metadata = ctx.get('protocol').erc721Metadata;
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
@@ -143,7 +143,7 @@ spec.test('correctly throws NOT_AUTHORIZED error', async (ctx) => {
 });
 
 // TODO: For some reason the revert happens on another level so is throws a general revert. 
-spec.test('correctly throws RECEIVER_DOES_NOT_SUPPORT_NFT error', async (ctx) => {
+spec.test('throws RECEIVER_DOES_NOT_SUPPORT_NFT error', async (ctx) => {
   const erc721 = ctx.get('protocol').erc721;
   const erc721Metadata = ctx.get('protocol').erc721Metadata;
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
@@ -166,7 +166,7 @@ spec.test('correctly throws RECEIVER_DOES_NOT_SUPPORT_NFT error', async (ctx) =>
   });
 });
 
-spec.test('correctly throws NFT_ALREADY_EXISTS error', async (ctx) => {
+spec.test('throws NFT_ALREADY_EXISTS error', async (ctx) => {
   const erc721 = ctx.get('protocol').erc721;
   const erc721Metadata = ctx.get('protocol').erc721Metadata;
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
@@ -189,7 +189,7 @@ spec.test('correctly throws NFT_ALREADY_EXISTS error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws INVALID_INDEX error', async (ctx) => {
+spec.test('throws INVALID_INDEX error', async (ctx) => {
   const erc721Enumerable = ctx.get('protocol').erc721Enumerable;
   const owner = ctx.get('owner');
   await erc721Enumerable.instance.methods.tokenByIndex(2).call()
@@ -204,7 +204,7 @@ spec.test('correctly throws INVALID_INDEX error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws TRANSFERS_PAUSED error', async (ctx) => {
+spec.test('throws TRANSFERS_PAUSED error', async (ctx) => {
   const pausableXcert = ctx.get('protocol').xcertPausable;
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -217,7 +217,7 @@ spec.test('correctly throws TRANSFERS_PAUSED error', async (ctx) => {
 });
 
 // TODO: Because revert is done with revert() not require() ganache does not throw message.
-spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
+spec.test('throws INVALID_SIGNATURE_KIND error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const signatureData = {
@@ -235,7 +235,7 @@ spec.test('correctly throws INVALID_SIGNATURE_KIND error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
+spec.test('throws INVALID_PROXY error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -281,7 +281,7 @@ spec.test('correctly throws INVALID_PROXY error', async (ctx) => {
 });
 
 
-spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
+spec.test('throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -328,7 +328,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_TAKER error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
+spec.test('throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -374,7 +374,7 @@ spec.test('correctly throws SENDER_NOT_TAKER_OR_MAKER error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
+spec.test('throws ORDER_EXPIRED error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -419,7 +419,7 @@ spec.test('correctly throws ORDER_EXPIRED error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
+spec.test('throws INVALID_SIGNATURE error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -466,7 +466,7 @@ spec.test('correctly throws INVALID_SIGNATURE error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
+spec.test('throws ORDER_CANCELED error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -511,7 +511,7 @@ spec.test('correctly throws ORDER_CANCELED error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) => {
+spec.test('throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -556,7 +556,7 @@ spec.test('correctly throws ORDER_CANNOT_BE_PERFORMED_TWICE error', async (ctx) 
   });
 });
 
-spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
+spec.test('throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -589,7 +589,7 @@ spec.test('correctly throws YOU_ARE_NOT_THE_MAKER error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
+spec.test('throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
   const orderGateway = ctx.get('protocol').orderGateway;
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -631,7 +631,7 @@ spec.test('correctly throws SIGNER_NOT_AUTHORIZED error', async (ctx) => {
   });
 });
 
-spec.test('correctly throws ONE_ZERO_ABILITY_HAS_TO_EXIST error', async (ctx) => {
+spec.test('throws ONE_ZERO_ABILITY_HAS_TO_EXIST error', async (ctx) => {
   const owner = ctx.get('owner');
   const xcert = ctx.get('protocol').xcert;
 

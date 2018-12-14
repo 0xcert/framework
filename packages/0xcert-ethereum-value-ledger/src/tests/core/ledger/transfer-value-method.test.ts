@@ -3,18 +3,15 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
-interface Data {
+const spec = new Spec<{
   protocol: Protocol;
   coinbase: string;
   bob: string;
   sara: string;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -30,19 +27,18 @@ spec.test('transfers value to another account', async (ctx) => {
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const amount = '5000000';
-
+  const provider = new GenericProvider({
+    client: ctx.web3,
+    accountId: coinbase,
+  });
   const ledger = new ValueLedger(
-    new GenericProvider({
-      client: ctx.web3,
-      accountId: coinbase,
-    }),
+    provider,
     ctx.get('protocol').erc20.instance.options.address
   );
   await ledger.transferValue({
     receiverId: bob,
     value: amount,
   });
-
   ctx.is(await token.instance.methods.balanceOf(bob).call(), amount);
 });
 
@@ -52,22 +48,20 @@ spec.test('transfers approved amount to another account', async (ctx) => {
   const sara = ctx.get('sara');
   const token = ctx.get('protocol').erc20;
   const approveAmount = '5000000';
-
-  await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
-
+  const provider = new GenericProvider({
+    client: ctx.web3,
+    accountId: bob,
+  });
   const ledger = new ValueLedger(
-    new GenericProvider({
-      client: ctx.web3,
-      accountId: bob,
-    }),
+    provider,
     ctx.get('protocol').erc20.instance.options.address
   );
+  await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
   await ledger.transferValue({
     senderId: coinbase,
     receiverId: sara,
     value: approveAmount,
   });
-
   ctx.is(await token.instance.methods.balanceOf(sara).call(), approveAmount);
 });
 

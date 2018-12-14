@@ -3,17 +3,14 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ValueLedger } from '../../../core/ledger';
 
-interface Data {
+const spec = new Spec<{
   provider: GenericProvider;
   protocol: Protocol;
   coinbase: string;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -21,7 +18,6 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
   });
-
   stage.set('provider', provider);
 });
 
@@ -34,9 +30,7 @@ spec.test('returns account balance', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc20.instance.options.address;
-
   const ledger =  new ValueLedger(provider, ledgerId);
-  
   const balance = await ledger.getBalance(coinbase);
   ctx.is(balance, '500000000');
 });
@@ -45,9 +39,7 @@ spec.test('returns null when getting account balance on contract that does not s
   const coinbase = ctx.get('coinbase');
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').nftokenReceiver.instance.options.address;
-
   const ledger =  new ValueLedger(provider, ledgerId);
-  
   const balance = await ledger.getBalance(coinbase);
   ctx.is(balance, null);
 });

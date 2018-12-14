@@ -1,24 +1,21 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { fetch } from '@0xcert/utils';
 
 /**
- * File universal fetch method.
- */
-const fetch = typeof window !== 'undefined'
-  ? window.fetch
-  : require('node-fetch');
-
-/**
- * 
+ * HTTP RPC client options interface.
  */
 export interface HttpProviderOptions {
   accountId?: string;
   cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached' | string;
   credentials?: 'include' | 'same-origin' | 'omit' | string;
-  headers?: {[key: string]: string},
+  headers?: {[key: string]: string};
   mode?: 'no-cors' | 'cors' | 'same-origin' | string;
   redirect?: 'manual' | 'follow' | 'error' | string;
-  signMethod?: SignMethod,
+  signMethod?: SignMethod;
   unsafeRecipientIds?: string[];
+  assetLedgerSource?: string;
+  valueLedgerSource?: string;
+  requiredConfirmations?: number;
   url: string;
 }
 
@@ -39,7 +36,8 @@ export class HttpProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Returns a new provider instance.
+   * @param options HTTP provider options.
    */
   public static getInstance(options: HttpProviderOptions): HttpProvider {
     return new HttpProvider(options);

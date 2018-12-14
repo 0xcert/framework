@@ -4,17 +4,14 @@ import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedger } from '../../../core/ledger';
 import { AssetLedgerCapability } from '@0xcert/scaffold';
 
-interface Data {
+const spec = new Spec<{
   coinbase: string;
   provider: GenericProvider;
   protocol: Protocol;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -22,13 +19,11 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
   });
-
   stage.set('provider', provider);
 });
 
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
-
   stage.set('coinbase', accounts[0]);
 });
 
@@ -38,12 +33,10 @@ spec.test('returns ledger capabilities', async (ctx) => {
   const mutableAssetLedgerId = ctx.get('protocol').xcertMutable.instance.options.address;
   const pausableAssetLedgerId = ctx.get('protocol').xcertPausable.instance.options.address;
   const revokableAssetLedgerId = ctx.get('protocol').xcertRevokable.instance.options.address;
-
   const burnableAssetLedger = new AssetLedger(provider, burnableAssetLedgerId);
   const mutableAssetLedger = new AssetLedger(provider, mutableAssetLedgerId);
   const pausableAssetLedger = new AssetLedger(provider, pausableAssetLedgerId);
   const revokableAssetLedger = new AssetLedger(provider, revokableAssetLedgerId);
-
   ctx.deepEqual(
     await burnableAssetLedger.getCapabilities(),
     [AssetLedgerCapability.BURN],
@@ -66,7 +59,6 @@ spec.test('returns empty ledger capabilities for erc721 smart contract', async (
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc721.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);
-
   ctx.deepEqual(
     await ledger.getCapabilities(), [],
   );

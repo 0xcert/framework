@@ -13,7 +13,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
+
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -27,6 +27,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
+    requiredConfirmations: 1,
   });
 
   stage.set('provider', provider);
@@ -38,27 +39,23 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   const bob = ctx.get('bob');
   const counters = { confirm: 0, resolve: 0 };
 
-  const { transactionHash } = await ctx.web3.eth.sendTransaction({
-    from: coinbase,
-    to: bob,
-    value: 100000,
-  });
-
+  const transactionHash = await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }).then((t) => t.transactionHash);
   const mutation = new Mutation(provider, transactionHash);
   mutation.on(MutationEvent.CONFIRM, () => counters.confirm++)
   mutation.on(MutationEvent.RESOLVE, () => counters.resolve++)
 
   mutation.resolve();
+  await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
   ctx.true(mutation.isPending());
   await mutation.resolve();
   ctx.true(mutation.isResolved());
 
-  ctx.true(mutation.confirmations >= 25);
-  ctx.true(counters.confirm >= 1);
+  ctx.is(counters.confirm, 1);
+  ctx.is(counters.resolve, 1);
+  ctx.is(mutation.confirmations, 1);
   ctx.is(mutation.id, transactionHash);
   ctx.is(mutation.senderId, coinbase.toLowerCase());
   ctx.is(mutation.receiverId, bob.toLowerCase());
-  ctx.is(counters.confirm, 1);
 });
 
 export default spec;

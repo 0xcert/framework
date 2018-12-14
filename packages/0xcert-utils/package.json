@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/utils",
-  "version": "0.0.0-alpha6",
+  "version": "0.0.0-alpha7",
   "description": "Ethereum utils for 0xcert protocol.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,8 +14,7 @@
       "port": 8515,
       "match": [
         "./src/tests/**/*.test.ts"
-      ],
-      "blockTime": 0.1
+      ]
     },
     "require": [
       "ts-node/register"
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@specron/cli": "^0.5.0",
     "@specron/spec": "^0.5.0",
+    "node-fetch": "^2.3.0",
     "solc": "^0.5.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
