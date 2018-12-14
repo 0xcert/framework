@@ -6,6 +6,8 @@ import claim from '../queries/claim';
 import getProxyAccountId from '../queries/get-proxy-account-id';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
+import isValidSignature from '../queries/is-valid-signature';
+import getOrderDataClaim from '../queries/get-order-data-claim';
 
 /**
  * 
@@ -71,4 +73,17 @@ export class OrderGateway implements OrderGatewayBase {
     return getProxyAccountId(this, proxyId);
   }
 
+  /**
+   * 
+   */
+  public async isValidSignature(order: Order, claim: string) {
+    return isValidSignature(this, order, claim);
+  }
+
+  /**
+   * 
+   */
+  public async getOrderDataClaim(order: Order) {
+    return getOrderDataClaim(this, order);
+  }
 }
