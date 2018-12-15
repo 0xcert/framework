@@ -26,7 +26,7 @@ spec.before(async (stage) => {
 spec.test('deploys new asset ledger', async (ctx) => {
   const provider = ctx.get('provider');
   const capabilities = [
-    AssetLedgerCapability.TOGGLE_TRANSFER,
+    AssetLedgerCapability.TOGGLE_TRANSFERS,
   ];
   const info = {
     name: 'Foo',

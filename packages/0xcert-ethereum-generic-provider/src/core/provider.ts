@@ -74,7 +74,6 @@ export class GenericProvider {
         const res = await this.request({
           ...payload,
           method: 'eth_gasPrice',
-          params: [],
         });
         // TODO: get multiplyer from provider settings
         payload.params[0].gasPrice = Math.ceil(res.result * 1.1).toString(16);

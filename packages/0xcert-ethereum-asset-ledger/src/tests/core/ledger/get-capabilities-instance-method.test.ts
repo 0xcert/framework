@@ -39,19 +39,19 @@ spec.test('returns ledger capabilities', async (ctx) => {
   const revokableAssetLedger = new AssetLedger(provider, revokableAssetLedgerId);
   ctx.deepEqual(
     await burnableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.BURN],
+    [AssetLedgerCapability.BURN_ASSET],
   );
   ctx.deepEqual(
     await mutableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.UPDATE_IMPRINT],
+    [AssetLedgerCapability.UPDATE_ASSET],
   );
   ctx.deepEqual(
     await pausableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.TOGGLE_TRANSFER],
+    [AssetLedgerCapability.TOGGLE_TRANSFERS],
   );
   ctx.deepEqual(
     await revokableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.REVOKE],
+    [AssetLedgerCapability.REVOKE_ASSET],
   );
 });
 

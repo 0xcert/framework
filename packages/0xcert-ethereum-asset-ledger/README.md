@@ -5,8 +5,8 @@ A list of all available methods.
 ### Mutations
 await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
-await ledger.enableTransfer();
-await ledger.disableTransfer();
+await ledger.enableTransfers();
+await ledger.disableTransfers();
 await ledger.approveAccount(assetId, takerId);
 await ledger.disapproveAccount(assetid);
 await ledger.createAsset({ accountId, assetId, imprint });

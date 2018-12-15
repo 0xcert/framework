@@ -41,10 +41,10 @@ spec.test('returns account abilities (xcert smart contract)', async (ctx) => {
   const abilities = await ledger.getAbilities(coinbase);
   ctx.deepEqual(abilities, [
     AssetLedgerAbility.MANAGE_ABILITIES,
-    AssetLedgerAbility.MINT_ASSET,
+    AssetLedgerAbility.CREATE_ASSET,
     AssetLedgerAbility.REVOKE_ASSET,
-    AssetLedgerAbility.PAUSE_TRANSFER,
-    AssetLedgerAbility.UPDATE_PROOF,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    AssetLedgerAbility.UPDATE_ASSET,
     AssetLedgerAbility.SIGN_MINT_CLAIM,
   ]);
 });

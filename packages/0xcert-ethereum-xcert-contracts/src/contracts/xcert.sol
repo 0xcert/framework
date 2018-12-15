@@ -17,24 +17,18 @@ contract Xcert is
 
   /**
    * @dev List of abilities (gathered from all extensions):
-   * 1 - Ability to mint new xcerts.
-   * 2 - Ability to revoke xcerts.
-   * 3 - Ability to pause xcert transfers.
-   * 4 - Ability to change xcert imprint.
-   * 5 - Ability to sign claims (valid signatures for minter).
-   * 6 - Ability to change URI base.
    */
-  uint8 constant ABILITY_TO_MINT_NEW_XCERTS = 1;
-  uint8 constant ABILITY_TO_REVOKE_XCERTS = 2;
-  uint8 constant ABILITY_TO_PAUSE_TRANSFERS = 3;
-  uint8 constant ABILITY_TO_CHANGE_PROOF = 4;
-  uint8 constant ABILITY_TO_CHANGE_URI_BASE = 6;
+  uint8 constant ABILITY_CREATE_ASSET = 1;
+  uint8 constant ABILITY_REVOKE_ASSET = 2;
+  uint8 constant ABILITY_TOGGLE_TRANSFERS = 3;
+  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 4;
+  uint8 constant ABILITY_UPDATE_URI_BASE = 6;
 
   /**
    * @dev Error constants.
    */
   string constant CAPABILITY_NOT_SUPPORTED = "007001";
-  string constant TRANSFERS_PAUSED = "007002";
+  string constant TRANSFERS_DISABLED = "007002";
   string constant NOT_VALID_XCERT = "007003";
   string constant NOT_OWNER_OR_OPERATOR = "007004";
 
@@ -97,7 +91,7 @@ contract Xcert is
     bytes32 _imprint
   )
     external
-    hasAbility(ABILITY_TO_MINT_NEW_XCERTS)
+    hasAbility(ABILITY_CREATE_ASSET)
   {
     super._mint(_to, _id);
     idToImprint[_id] = _imprint;
@@ -136,7 +130,7 @@ contract Xcert is
     string calldata _uriBase
   )
     external
-    hasAbility(ABILITY_TO_CHANGE_URI_BASE)
+    hasAbility(ABILITY_UPDATE_URI_BASE)
   {
     super._setUriBase(_uriBase);
   }
@@ -150,7 +144,7 @@ contract Xcert is
     uint256 _tokenId
   )
     external
-    hasAbility(ABILITY_TO_REVOKE_XCERTS)
+    hasAbility(ABILITY_REVOKE_ASSET)
   {
     require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
     super._burn(_tokenId);
@@ -165,7 +159,7 @@ contract Xcert is
     bool _isPaused
   )
     external
-    hasAbility(ABILITY_TO_PAUSE_TRANSFERS)
+    hasAbility(ABILITY_TOGGLE_TRANSFERS)
   {
     require(supportedInterfaces[0xbedb86fb], CAPABILITY_NOT_SUPPORTED);
     isPaused = _isPaused;
@@ -182,7 +176,7 @@ contract Xcert is
     bytes32 _imprint
   )
     external
-    hasAbility(ABILITY_TO_CHANGE_PROOF)
+    hasAbility(ABILITY_UPDATE_ASSET_IMPRINT)
   {
     require(supportedInterfaces[0xbda0e852], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
@@ -223,7 +217,7 @@ contract Xcert is
     internal
   {
     if(supportedInterfaces[0xbedb86fb])
-      require(!isPaused, TRANSFERS_PAUSED);
+      require(!isPaused, TRANSFERS_DISABLED);
     super._transferFrom(_from, _to, _tokenId);
   }
 }

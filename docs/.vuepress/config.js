@@ -32,7 +32,7 @@ module.exports = {
       {
         title: 'API',
         children: [
-          '/api/asset-design'
+          '/api'
         ]
       },
       {

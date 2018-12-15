@@ -1,14 +1,18 @@
 import { MutationBase } from "./misc";
+import { OrderGatewayBase } from "./order-gateway";
 
 /**
  * 
  */
 export interface ValueLedgerBase {
   readonly id: string;
+  approveValue(accountId: string | OrderGatewayBase, value: string): Promise<MutationBase>;
+  disapproveValue(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  getApprovedValue(accountId: string, spenderId: string): Promise<String>;
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
-  approveValue(accountId: string, value: string): Promise<MutationBase>;
-  disapproveValue(accountId: string): Promise<MutationBase>;
+  isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean>;
+  transferValue(data: ValueLedgerTransferRecipe): Promise<MutationBase>;    
 }
 
 /**

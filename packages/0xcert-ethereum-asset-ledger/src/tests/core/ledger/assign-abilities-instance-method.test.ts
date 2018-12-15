@@ -38,9 +38,9 @@ spec.before(async (stage) => {
 spec.test('assignes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
-  await ledger.assignAbilities(bob, [AssetLedgerAbility.MINT_ASSET]);
+  await ledger.assignAbilities(bob, [AssetLedgerAbility.CREATE_ASSET]);
   const abilities = await ledger.getAbilities(bob);
-  ctx.deepEqual(abilities, [AssetLedgerAbility.MINT_ASSET]);
+  ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET]);
 });
 
 export default spec;

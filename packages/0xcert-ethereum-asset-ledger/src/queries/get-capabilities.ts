@@ -17,10 +17,10 @@ const abi = xcertAbi.find((a) => (
  */
 export default async function(ledger: AssetLedger) {
   return Promise.all(
-    [ AssetLedgerCapability.BURN,
-      AssetLedgerCapability.REVOKE,
-      AssetLedgerCapability.TOGGLE_TRANSFER,
-      AssetLedgerCapability.UPDATE_IMPRINT,
+    [ AssetLedgerCapability.BURN_ASSET,
+      AssetLedgerCapability.REVOKE_ASSET,
+      AssetLedgerCapability.TOGGLE_TRANSFERS,
+      AssetLedgerCapability.UPDATE_ASSET,
     ].map(async (capability) => {
       const code = getInterfaceCode(capability);
       const attrs = {

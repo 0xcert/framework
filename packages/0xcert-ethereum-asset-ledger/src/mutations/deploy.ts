@@ -20,7 +20,7 @@ const abi = xcertAbi.find((a) => (
 export default async function(provider: GenericProvider, { name, symbol, uriBase, schemaId, capabilities }: AssetLedgerDeployRecipe) {
   const contract = await fetch(provider.assetLedgerSource).then((r) => r.json());
   const source = contract.AssetLedger.evm.bytecode.object;
-  const codes = capabilities.map((c) => getInterfaceCode(c));
+  const codes = (capabilities || []).map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
     data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,

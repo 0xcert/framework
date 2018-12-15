@@ -1,25 +1,26 @@
 import { MutationBase } from "./misc";
+import { OrderGatewayBase } from "./order-gateway";
 
 /**
  * 
  */
 export enum AssetLedgerAbility {
   MANAGE_ABILITIES = 0,
-  MINT_ASSET = 1,
+  CREATE_ASSET = 1,
   REVOKE_ASSET = 2,
-  PAUSE_TRANSFER = 3,
-  UPDATE_PROOF = 4,
-  SIGN_MINT_CLAIM = 5,
+  TOGGLE_TRANSFERS = 3,
+  UPDATE_ASSET = 4,
+  UPDATE_URI_BASE = 6,
 }
 
 /**
  * 
  */
 export enum AssetLedgerCapability {
-  BURN = 1,
-  UPDATE_IMPRINT = 2,
-  TOGGLE_TRANSFER = 3,
-  REVOKE = 4,
+  BURN_ASSET = 1,
+  UPDATE_ASSET = 2,
+  REVOKE_ASSET = 4,
+  TOGGLE_TRANSFERS = 3,
 }
 
 /**
@@ -27,29 +28,30 @@ export enum AssetLedgerCapability {
  */
 export interface AssetLedgerBase {
   readonly id: string;
-  getAbilities(accountId: string): Promise<AssetLedgerAbility[]>;
-  getApprovedAccount(assetId: string): Promise<string>;
-  getAssetAccount(assetId: string): Promise<string>;
-  getAsset(assetId: string): Promise<AssetLedgerItem>;
-  getBalance(accountId: string): Promise<string>;
-  getCapabilities(): Promise<AssetLedgerCapability[]>;
-  getInfo(): Promise<AssetLedgerInfo>;
-  isApprovedAccount(accountId: string, assetId: string): Promise<boolean>;
-  isTransferable(): Promise<boolean>;
-  isApprovedOperator(accountId: string, operatorId: string): Promise<boolean>;
-  approveAccount(accountId: string, tokenId: string): Promise<MutationBase>;
+  approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
   assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
   createAsset(recipe: AssetLedgerItemRecipe): Promise<MutationBase>;
   destroyAsset(assetId: string): Promise<MutationBase>;
+  disapproveAccount(assetId: string): Promise<MutationBase>;
+  disapproveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  disableTransfers(): Promise<MutationBase>;
+  enableTransfers(): Promise<MutationBase>;
+  getAbilities(accountId: string): Promise<AssetLedgerAbility[]>;
+  getApprovedAccount(assetId: string): Promise<string>;
+  getAsset(assetId: string): Promise<AssetLedgerItem>;
+  getAssetAccount(assetId: string): Promise<string>;
+  getBalance(accountId: string): Promise<string>;
+  getCapabilities(): Promise<AssetLedgerCapability[]>;
+  getInfo(): Promise<AssetLedgerInfo>;
+  isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean>;
+  isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean>;
+  isTransferable(): Promise<boolean>;
   revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
   revokeAsset(assetId: string): Promise<MutationBase>;
-  transferAsset(recipe: AssetLedgerTransferRecipe): Promise<MutationBase>;
-  enableTransfer(): Promise<MutationBase>;
-  disableTransfer(): Promise<MutationBase>;
-  updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<MutationBase>;
   update(recipe: AssetLedgerUpdateRecipe): Promise<MutationBase>;
-  approveOperator(accountId: string): Promise<MutationBase>;
-  disapproveOperator(accountId: string): Promise<MutationBase>;
+  updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<MutationBase>;
+  transferAsset(recipe: AssetLedgerTransferRecipe): Promise<MutationBase>;
 }
 
 /**
@@ -89,7 +91,7 @@ export interface AssetLedgerInfo {
 export interface AssetLedgerItemRecipe {
   receiverId: string;
   id: string;
-  imprint: string;
+  imprint?: string;
 }
 
 /**

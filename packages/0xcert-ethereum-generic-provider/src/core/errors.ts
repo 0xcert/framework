@@ -58,7 +58,7 @@ export function parseError(error: any) {
       return new ProviderError(ProviderIssue.INVALID_INDEX, error);
     }
     else if (stringError.indexOf('007002') > 0) {
-      return new ProviderError(ProviderIssue.TRANSFERS_PAUSED, error);
+      return new ProviderError(ProviderIssue.TRANSFERS_DISABLED, error);
     }
     else if (stringError.indexOf('012001') > 0) {
       return new ProviderError(ProviderIssue.COIN_TRANSFER_FAILED, error);

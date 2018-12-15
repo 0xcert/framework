@@ -204,7 +204,7 @@ spec.test('throws INVALID_INDEX error', async (ctx) => {
   });
 });
 
-spec.test('throws TRANSFERS_PAUSED error', async (ctx) => {
+spec.test('throws TRANSFERS_DISABLED error', async (ctx) => {
   const pausableXcert = ctx.get('protocol').xcertPausable;
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -212,7 +212,7 @@ spec.test('throws TRANSFERS_PAUSED error', async (ctx) => {
   await pausableXcert.instance.methods.transferFrom(jane, owner, '123').call({ from: jane })
   .then(() => { ctx.fail(); })
   .catch((e) => {
-    ctx.is(parseError(e).issue, ProviderIssue.TRANSFERS_PAUSED);
+    ctx.is(parseError(e).issue, ProviderIssue.TRANSFERS_DISABLED);
   });
 });
 

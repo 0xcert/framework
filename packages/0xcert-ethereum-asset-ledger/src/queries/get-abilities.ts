@@ -18,11 +18,11 @@ const abi = xcertAbi.find((a) => (
 export default async function(ledger: AssetLedger, accountId: string) {
   return await Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
-      AssetLedgerAbility.MINT_ASSET,
-      AssetLedgerAbility.PAUSE_TRANSFER,
+      AssetLedgerAbility.CREATE_ASSET,
+      AssetLedgerAbility.TOGGLE_TRANSFERS,
       AssetLedgerAbility.REVOKE_ASSET,
       AssetLedgerAbility.SIGN_MINT_CLAIM,
-      AssetLedgerAbility.UPDATE_PROOF,
+      AssetLedgerAbility.UPDATE_ASSET,
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,
