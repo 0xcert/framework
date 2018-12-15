@@ -6,14 +6,14 @@ import { AssetLedgerCapability } from "@0xcert/scaffold";
  */
 export function getInterfaceCode(capability: AssetLedgerCapability) {
   switch (capability) {
-    case AssetLedgerCapability.BURN:
+    case AssetLedgerCapability.BURN_ASSET:
       return '0x42966c68';
-    case AssetLedgerCapability.REVOKE:
+    case AssetLedgerCapability.REVOKE_ASSET:
       return '0x20c5429b';
-    case AssetLedgerCapability.TOGGLE_TRANSFER:
-      return '0xbedb86fb';
-    case AssetLedgerCapability.UPDATE_IMPRINT:
+    case AssetLedgerCapability.UPDATE_ASSET:
       return '0xbda0e852';
+    case AssetLedgerCapability.TOGGLE_TRANSFERS:
+      return '0xbedb86fb';
     default:
       return null;
   }

@@ -236,10 +236,10 @@ const mutation = await AssetLedger.deploy({
   name: 'ZeroCert',
   symbol: 'CRT',
   capabilities: [
-    AssetLedgerCapability.TOGGLE_TRANSFER,
-    AssetLedgerCapability.UPDATE_IMPRINT_INFO,
-    AssetLedgerCapability.REVOKE_TOKEN,
-    AssetLedgerCapability.BURN_TOKEN,
+    AssetLedgerCapability.TOGGLE_TRANSFERS,
+    AssetLedgerCapability.UPDATE_ASSET,
+    AssetLedgerCapability.REVOKE_ASSET,
+    AssetLedgerCapability.BURN_ASSET,
   ],
 });
 // OR
