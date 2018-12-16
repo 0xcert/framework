@@ -34,6 +34,8 @@ Error code list: https://docs.google.com/spreadsheets/d/1TKiFKO9oORTIrMyjC11oqca
 https://cdn.jsdelivr.net/gh/0xcert/ethereum-erc721/dist/<file-name>.min.js
 ```
 
+Note this URL above is not secure, it is for testing purposes only, for details see https://github.com/0xcert/framework/issues/180
+
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.md) for how to help out.
