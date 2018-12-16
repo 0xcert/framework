@@ -2,48 +2,50 @@ module.exports = {
   title: "0xcert Protocol",
   description: "Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.",
   head: [
-    ['link', {
-      rel: 'icon',
-      href: '/logo.png'
-    }]
+    ['link', { rel: 'icon', href: '/logo.png' }],
   ],
   themeConfig: {
     repo: '0xcert/framework',
+    displayAllHeaders: true,
     sidebar: [
       {
-        title: 'Introduction',
+        title: 'Overview',
         collapsable: false,
         children: [
-          ['/introduction/preface', 'Preface'],
-          ['/introduction/use-cases', 'Use cases'],
-          ['/introduction/queries-and-mutations', 'Queries and mutations'],
-        ]
+          ['/overview/introduction', 'Introduction'],
+          ['/overview/queries-and-mutations', 'Queries & Mutations'],
+          ['/overview/atomic-orders', 'Atomic Orders'],
+          ['/overview/providers', 'Providers'],
+          ['/overview/cryptocurrency', 'Cryptocurrency'],
+          ['/overview/assets', 'Assets'],
+          ['/overview/certification', 'Certification'],
+          ['/overview/support', 'Support'],
+        ],
       },
       {
-        title: 'Getting started',
+        title: 'Guide',
+        collapsable: false,
         children: [
-          '/getting-started/requirements',
-          '/getting-started/installation',
-          '/getting-started/creating-assets',
-          '/getting-started/atomic-swaps',
-          '/getting-started/deployment',
-        ]
+          ['/guide/getting-started', 'Getting started'],
+          ['/guide/using-providers', 'Using Providers'],
+          ['/guide/error-handling', 'Error Handling'],
+          ['/guide/certification', 'Certification'],
+          ['/guide/managing-assets', 'Managing Assets'],
+          ['/guide/value-transfer', 'Value Transfer'],
+          ['/guide/atomic-orders', 'Atomic Orders'],
+        ],
       },
       {
         title: 'API',
+        collapsable: false,
         children: [
-          '/api'
-        ]
+          ['/api/core', 'Core'],
+          ['/api/ethereum', 'Ethereum'],
+        ],
       },
-      {
-        title: 'Providers',
-        children: [
-          '/providers/ethereum'
-        ]
-      },
-    ]
+    ],
   },
   markdown: {
-    lineNumbers: true
-  }
+    lineNumbers: true,
+  },
 }
