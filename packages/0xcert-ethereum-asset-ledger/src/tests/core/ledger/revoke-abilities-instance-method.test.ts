@@ -38,8 +38,8 @@ spec.before(async (stage) => {
 spec.test('revokes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
-  await ledger.assignAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
-  await ledger.revokeAbilities(bob, [AssetLedgerAbility.SIGN_MINT_CLAIM]).then(() => ctx.sleep(200));
+  await ledger.assignAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
+  await ledger.revokeAbilities(bob, [AssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET]);
 });
