@@ -19,10 +19,10 @@ export default async function(ledger: AssetLedger, accountId: string) {
   return await Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
       AssetLedgerAbility.CREATE_ASSET,
-      AssetLedgerAbility.TOGGLE_TRANSFERS,
       AssetLedgerAbility.REVOKE_ASSET,
-      AssetLedgerAbility.SIGN_MINT_CLAIM,
+      AssetLedgerAbility.TOGGLE_TRANSFERS,
       AssetLedgerAbility.UPDATE_ASSET,
+      AssetLedgerAbility.UPDATE_URI_BASE,
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,
