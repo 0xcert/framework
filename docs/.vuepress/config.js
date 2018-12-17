@@ -11,7 +11,7 @@ module.exports = {
     displayAllHeaders: false,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
-    repoLabel: 'GitHub!',
+    repoLabel: 'GitHub',
     docsRepo: '0xcert/framework',
     docsDir: 'docs',
     docsBranch: 'master',
