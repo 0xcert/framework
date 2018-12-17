@@ -4,6 +4,8 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
+  ga: 'UA-114983924-2',
+  serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
@@ -15,9 +17,6 @@ module.exports = {
     docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Help us improve this page.',
-    serviceWorker: {
-      updatePopup: true
-    },
     sidebar: [
       {
         title: 'Overview',
