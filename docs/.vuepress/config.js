@@ -4,20 +4,19 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
+  ga: 'UA-114983924-2',
+  serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
-    repoLabel: 'GitHub!',
+    repoLabel: 'GitHub',
     docsRepo: '0xcert/framework',
     docsDir: 'docs',
     docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Help us improve this page.',
-    serviceWorker: {
-      updatePopup: true
-    },
     sidebar: [
       {
         title: 'Overview',
