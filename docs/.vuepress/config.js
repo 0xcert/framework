@@ -4,9 +4,15 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/logo.png' }],
   ],
+  base: '/0xcert/',
   themeConfig: {
+    lastUpdated: 'Last Updated',
     repo: '0xcert/framework',
-    displayAllHeaders: true,
+    displayAllHeaders: false,
+    nav: [
+      { text: 'Documentation', link: '/' },
+      { text: '0xcert Website', link: 'https://0xcert.org' },
+    ],
     sidebar: [
       {
         title: 'Overview',
@@ -53,6 +59,6 @@ module.exports = {
     ],
   },
   markdown: {
-    lineNumbers: true,
+    lineNumbers: false,
   },
 }
