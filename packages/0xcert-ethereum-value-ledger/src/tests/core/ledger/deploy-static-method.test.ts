@@ -32,7 +32,7 @@ spec.test('deploys new value ledger', async (ctx) => {
     supply: '100',
   };
   const ledger = await ValueLedger.deploy(provider, info).then((mutation) => {
-    return mutation.resolve();
+    return mutation.complete();
   }).then((mutation) => {
     return ValueLedger.getInstance(provider, mutation.receiverId);
   });

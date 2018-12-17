@@ -222,7 +222,7 @@ const recipe = {
 
 // perform the mutation
 const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
-    return mutation.resolve(); // wait until first confirmation
+    return mutation.complete(); // wait until first confirmation
 });
 ```
 
