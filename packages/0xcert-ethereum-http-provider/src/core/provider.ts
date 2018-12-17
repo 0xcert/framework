@@ -16,6 +16,7 @@ export interface HttpProviderOptions {
   assetLedgerSource?: string;
   valueLedgerSource?: string;
   requiredConfirmations?: number;
+  orderGatewayId?: string;
   url: string;
 }
 

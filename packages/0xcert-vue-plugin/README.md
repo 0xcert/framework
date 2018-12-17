@@ -14,7 +14,9 @@ import { ValueLedger } from '@0xcert/ethereum-value-ledger'
 import { OrderGateway } from '@0xcert/ethereum-order-gateway'
 
 Vue.use(Vue0xcert, {
-  provider: new MetamaskProvider(),
+  provider: new MetamaskProvider({
+    orderGatewayId: '0xf382cfa46f01d9b401d62432ad3797ee190cc97f',
+  }),
   modules: [
     { name: 'Cert', object: Cert },
     { name: 'AssetLedger', object: AssetLedger },

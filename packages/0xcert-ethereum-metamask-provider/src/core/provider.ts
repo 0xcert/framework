@@ -8,6 +8,7 @@ export interface MetamaskProviderOptions {
   assetLedgerSource?: string;
   valueLedgerSource?: string;
   requiredConfirmations?: number;
+  orderGatewayId?: string;
 }
 
 /**

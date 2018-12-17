@@ -12,6 +12,7 @@ export interface GenericProviderOptions {
   assetLedgerSource?: string;
   valueLedgerSource?: string;
   requiredConfirmations?: number;
+  orderGatewayId?: string;
 }
 
 /**
@@ -24,6 +25,7 @@ export class GenericProvider {
   public assetLedgerSource: string;
   public valueLedgerSource: string;
   public requiredConfirmations: number;
+  public orderGatewayId: string;
   protected $client: any;
   protected $id: number = 0;
 
@@ -39,6 +41,7 @@ export class GenericProvider {
     this.valueLedgerSource = options.valueLedgerSource || 'https://cdn.jsdelivr.net/gh/xpepermint/0xcert-contracts/value-ledger.json',
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
+    this.orderGatewayId = options.orderGatewayId;
     
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
