@@ -43,6 +43,13 @@ module.exports = {
           ['/api/ethereum', 'Ethereum'],
         ],
       },
+      {
+        title: 'Plugins',
+        collapsable: false,
+        children: [
+          ['/plugins/vuejs', 'VueJS'],
+        ],
+      },
     ],
   },
   markdown: {
