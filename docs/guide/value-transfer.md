@@ -50,7 +50,7 @@ const mutation = await ValueLedger.deploy(provider, {
     decimals: '18',
     supply: '500000000000000000000000000', // 500 mio
 }).then(() => {
-    return mutation.resolve();
+    return mutation.complete();
 });
 
 const valueLedgerId = mutation.receiverId;
@@ -76,7 +76,7 @@ const mutation = await valueLedger.transfer({
     receiverId: '0x',
     value: '100000000000000000000', // 100
 }).then((mutation) => {
-    return mutation.resolve();
+    return mutation.complete();
 });
 ```
 

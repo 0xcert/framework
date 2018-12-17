@@ -44,11 +44,11 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   mutation.on(MutationEvent.CONFIRM, () => counters.confirm++)
   mutation.on(MutationEvent.RESOLVE, () => counters.resolve++)
 
-  mutation.resolve();
+  mutation.complete();
   await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
   ctx.true(mutation.isPending());
-  await mutation.resolve();
-  ctx.true(mutation.isResolved());
+  await mutation.complete();
+  ctx.true(mutation.isCompleted());
 
   ctx.is(counters.confirm, 1);
   ctx.is(counters.resolve, 1);

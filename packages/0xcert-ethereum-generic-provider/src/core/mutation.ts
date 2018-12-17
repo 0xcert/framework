@@ -79,9 +79,9 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Checks if mutation is resolved.
+   * Checks if mutation has reached the required number of confirmation.
    */
-  public isResolved() {
+  public isCompleted() {
     return this.$status === MutationStatus.RESOLVED;
   }
 
@@ -130,10 +130,10 @@ export class Mutation extends EventEmitter implements MutationBase {
   /**
    * Waits until mutation is resolved (mutation reaches the specified number of confirmations).
    */
-  public async resolve() {
+  public async complete() {
     const start = this.$status === MutationStatus.INITIALIZED;
 
-    if (this.isResolved()) {
+    if (this.isCompleted()) {
       return this;
     }
     else {
@@ -141,7 +141,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     }
 
     await new Promise((resolve, reject) => {
-      if (!this.isResolved()) {
+      if (!this.isCompleted()) {
         this.once(MutationEvent.RESOLVE, () => resolve());
         this.once(MutationEvent.ERROR, (err) => reject(err));
       }

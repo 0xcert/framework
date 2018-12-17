@@ -83,7 +83,7 @@ const mutation = await AssetLedger.deploy(provider, {
     burnable: true,
     pausable: true,
 }).then(() => {
-    return mutation.resolve();
+    return mutation.complete();
 });
 
 const assetLedgerId = mutation.receiverId;
@@ -109,7 +109,7 @@ const mutation = await assetLedger.createAsset({
     receiverId: provider.accountId,
     id: '100',
 }).then((mutation) => {
-    return mutation.resolve();
+    return mutation.complete();
 });
 ```
 
@@ -120,7 +120,7 @@ const mutation = await assetLedger.transferAsset({
     receiverId: provider.accountId,
     id: '100',
 }).then((mutation) => {
-    return mutation.resolve();
+    return mutation.complete();
 });
 ```
 

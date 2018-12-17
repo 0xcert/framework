@@ -27,7 +27,7 @@ mutation.on(MutationEvent.SUCCESS, handler);
 mutation.on(MutationEvent.FAILURE, handler);
 mutation.on(MutationEvent.ERROR, handler);
 mutation.on(MutationEvent.CONFIRMATION, handler);
-mutation.resolve(); // promise which ends on SUCCESS
+mutation.complete(); // promise which ends on SUCCESS
 ```
 ```ts
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
