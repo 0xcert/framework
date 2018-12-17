@@ -1,19 +1,23 @@
 module.exports = {
-  title: "0xcert Protocol",
+  title: "0xcert Docs",
   description: "Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.",
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
-  base: '/0xcert/',
   themeConfig: {
-    logo: '/0xcert.png',
-    lastUpdated: 'Last Updated',
-    repo: '0xcert/framework',
+    logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
-    nav: [
-      { text: 'Documentation', link: '/' },
-      { text: '0xcert Website', link: 'https://0xcert.org' },
-    ],
+    lastUpdated: 'Last Updated', // string | boolean
+    repo: '0xcert/framework',
+    repoLabel: 'GitHub!',
+    docsRepo: '0xcert/framework',
+    docsDir: 'docs',
+    docsBranch: 'master',
+    editLinks: true,
+    editLinkText: 'Help us improve this page.',
+    serviceWorker: {
+      updatePopup: true
+    },
     sidebar: [
       {
         title: 'Overview',
