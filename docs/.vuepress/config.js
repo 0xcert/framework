@@ -2,10 +2,11 @@ module.exports = {
   title: "0xcert Protocol",
   description: "Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.",
   head: [
-    ['link', { rel: 'icon', href: '/logo.png' }],
+    ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
   base: '/0xcert/',
   themeConfig: {
+    logo: '/0xcert.png',
     lastUpdated: 'Last Updated',
     repo: '0xcert/framework',
     displayAllHeaders: false,
