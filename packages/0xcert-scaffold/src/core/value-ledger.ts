@@ -6,13 +6,13 @@ import { OrderGatewayBase } from "./order-gateway";
  */
 export interface ValueLedgerBase {
   readonly id: string;
-  approveValue(accountId: string | OrderGatewayBase, value: string): Promise<MutationBase>;
+  approveValue(value: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
   disapproveValue(accountId: string | OrderGatewayBase): Promise<MutationBase>;
   getApprovedValue(accountId: string, spenderId: string): Promise<String>;
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
   isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean>;
-  transferValue(data: ValueLedgerTransferRecipe): Promise<MutationBase>;    
+  transferValue(recipe: ValueLedgerTransferRecipe): Promise<MutationBase>;    
 }
 
 /**

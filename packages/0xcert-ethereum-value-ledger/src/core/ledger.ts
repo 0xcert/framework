@@ -99,7 +99,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  public async approveValue(accountId: string | OrderGatewayBase, value: string): Promise<Mutation> {
+  public async approveValue(value: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
@@ -119,12 +119,12 @@ export class ValueLedger implements ValueLedgerBase {
 
   /**
    * Transfer value to another account.
-   * @param data Data needed for the transfer.
+   * @param recipe Data needed for the transfer.
    */
-  public async transferValue(data: ValueLedgerTransferRecipe): Promise<Mutation> {
-    return data.senderId
-      ? transferFrom(this, data.senderId, data.receiverId, data.value)
-      : transfer(this, data.receiverId, data.value);
+  public async transferValue(recipe: ValueLedgerTransferRecipe): Promise<Mutation> {
+    return recipe.senderId
+      ? transferFrom(this, recipe.senderId, recipe.receiverId, recipe.value)
+      : transfer(this, recipe.receiverId, recipe.value);
   }
 
 }
