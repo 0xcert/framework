@@ -41,9 +41,9 @@ spec.test('returns if account has the approved amount', async (ctx) => {
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const approveAmount = '5000000000000000000';
-  ctx.is(await ledger.isApprovedValue(coinbase, bob, approveAmount), false);
+  ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), false);
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
-  ctx.is(await ledger.isApprovedValue(coinbase, bob, approveAmount), true);
+  ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), true);
 });
 
 export default spec;
