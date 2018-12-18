@@ -2,10 +2,10 @@ pragma solidity ^0.5.1;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
-import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-mint-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 
 /**
- * @dev Decentralize exchange, minting, updating and other actions for fundgible and non-fundgible 
+ * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible 
  * tokens powered by atomic swaps. 
  */
 contract OrderGateway is
@@ -56,7 +56,7 @@ contract OrderGateway is
    */
   enum ActionKind
   {
-    mint,
+    create,
     transfer
   }
 
@@ -340,14 +340,14 @@ contract OrderGateway is
         INVALID_PROXY
       );
 
-      if(_order.actions[i].kind == ActionKind.mint)
+      if(_order.actions[i].kind == ActionKind.create)
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, 5),
           SIGNER_NOT_AUTHORIZED
         );
         
-        XcertMintProxy(idToProxy[_order.actions[i].proxy]).mint(
+        XcertCreateProxy(idToProxy[_order.actions[i].proxy]).create(
           _order.actions[i].token,
           _order.actions[i].to,
           _order.actions[i].value,

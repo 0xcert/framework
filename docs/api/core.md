@@ -707,7 +707,7 @@ const mutation = await ledger.revokeAsset(assetId);
 
 **See also:**
 
-[destroyAsset](#burn-asset)
+[destroyAsset](#destroy-asset)
 
 ### update(recipe)
 
@@ -846,7 +846,7 @@ Ledger capabilities represent features of a smart contract.
 
 | Name | Value | Description
 |-|-|-
-| DESTROY_ASSET | 1 | Enables asset owners to burn their assets.
+| DESTROY_ASSET | 1 | Enables asset owners to destroy their assets.
 | UPDATE_ASSET | 2 | Enables ledger managers to update asset data.
 | REVOKE_ASSET | 4 | Enables ledger managers to revoke assets.
 | TOGGLE_TRANSFERS | 3 | Enables ledger managers to start and stop asset transfers.

@@ -3,7 +3,7 @@ const { NFTokenEnumerableMock } = require('@0xcert/ethereum-erc721-contracts/bui
 const { NFTokenMetadataMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-mock');
 const { NFTokenMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-mock');
 const { XcertMock } = require('@0xcert/ethereum-xcert-contracts/build/xcert-mock');
-const { XcertMintProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-mint-proxy');
+const { XcertCreateProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy');
 const { TokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy');
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
@@ -59,11 +59,11 @@ export const xcert = {
 };
 
 /**
- * Xcert mint proxy contract data.
+ * Xcert create proxy contract data.
  */
-export const xcertMintProxy = {
-  abi: XcertMintProxy.abi,
-  bytecode: XcertMintProxy.evm.bytecode.object,
+export const xcertCreateProxy = {
+  abi: XcertCreateProxy.abi,
+  bytecode: XcertCreateProxy.evm.bytecode.object,
 };
 
 /**

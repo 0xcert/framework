@@ -39,7 +39,7 @@ spec.beforeEach(async (ctx) => {
     args: ['cat', 'CAT','http://0xcert.org/'],
   });
   await cat.instance.methods
-    .mint(ctx.get('jane'), 1)
+    .create(ctx.get('jane'), 1)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,

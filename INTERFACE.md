@@ -51,7 +51,7 @@ await ledger.assignAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setEnabled(state);
 await ledger.transfer(to, assetid);
-await ledger.mint(assetId, imprint);
+await ledger.create(assetId, imprint);
 await ledger.approveAccount(tokenId, takerId); // ERC20 ERC721
 await ledger.isAprovedAccount(takerId, tokenId); // ERC20 ERC721
 await ledger.getAprovedAccount(tokenId); // ERC20 ERC721
@@ -226,7 +226,7 @@ import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 ```ts
 const provider = new MetamaskProvider({
   xcertTemplates: [
-    { path: 'http://localhost:4444/tpls/default0.json', burnable: true }
+    { path: 'http://localhost:4444/tpls/default0.json', destroyable: true }
     { path: 'http://localhost:4444/tpls/default1.json', mutable: true }
   ],
 });
@@ -246,7 +246,7 @@ const mutation = await AssetLedger.deploy({
 const mutation = await AssetLedger.deploy({
   name: 'ZeroCert',
   symbol: 'CRT',
-  burnable: true,
+  destroyable: true,
   mutable: true,
 });
 // OR

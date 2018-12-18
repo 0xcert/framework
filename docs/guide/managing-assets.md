@@ -80,7 +80,7 @@ const mutation = await AssetLedger.deploy(provider, {
     symbol: 'CERT',
     uriBase: 'http://domain.com',
     schemaId: '239423',
-    burnable: true,
+    destroyable: true,
     pausable: true,
 }).then(() => {
     return mutation.complete();

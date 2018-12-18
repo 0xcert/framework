@@ -42,7 +42,7 @@ spec.test('transfer asset', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
     receiverId: bob,
     id: '1',
@@ -55,7 +55,7 @@ spec.test('transfer asset to a contract', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
-  await xcert.instance.methods.mint(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '2', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
     receiverId: nftokenReceiver,
     id: '2',
@@ -68,7 +68,7 @@ spec.test('transfer asset to a contract with data', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const nftokenReceiver = ctx.get('protocol').nftokenReceiver.instance.options.address;
-  await xcert.instance.methods.mint(coinbase, '3', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '3', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
     receiverId: nftokenReceiver, id: '3', data: '0x01',
   });
@@ -80,7 +80,7 @@ spec.test('fails when trying to transfer asset to a contract that does not imple
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const erc20 = ctx.get('protocol').erc20.instance.options.address;
-  await xcert.instance.methods.mint(coinbase, '4', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '4', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
     receiverId: erc20,
     id: '4',
@@ -96,7 +96,7 @@ spec.test('transfer asset contract that does not implement receiver but is marke
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const tokenTransferProxy = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  await xcert.instance.methods.mint(coinbase, '5', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '5', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
     receiverId: tokenTransferProxy, id: '5',
   });

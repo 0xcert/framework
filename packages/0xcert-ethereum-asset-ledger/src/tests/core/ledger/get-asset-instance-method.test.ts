@@ -38,7 +38,7 @@ spec.test('returns asset info (xcert contract)', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').xcert.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
     uri: 'http://0xcert.org/1',
@@ -52,7 +52,7 @@ spec.test('returns asset info (erc721 contract)', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc721.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);
-  await erc721.instance.methods.mint(coinbase, '1').send({ from: coinbase });  
+  await erc721.instance.methods.create(coinbase, '1').send({ from: coinbase });  
   ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
     uri: null,

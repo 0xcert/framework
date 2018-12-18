@@ -29,16 +29,16 @@ spec.before(async (stage) => {
 
 spec.test('returns ledger capabilities', async (ctx) => {
   const provider = ctx.get('provider');
-  const burnableAssetLedgerId = ctx.get('protocol').xcertBurnable.instance.options.address;
+  const destroyableAssetLedgerId = ctx.get('protocol').xcertDestroyable.instance.options.address;
   const mutableAssetLedgerId = ctx.get('protocol').xcertMutable.instance.options.address;
   const pausableAssetLedgerId = ctx.get('protocol').xcertPausable.instance.options.address;
   const revokableAssetLedgerId = ctx.get('protocol').xcertRevokable.instance.options.address;
-  const burnableAssetLedger = new AssetLedger(provider, burnableAssetLedgerId);
+  const destroyableAssetLedger = new AssetLedger(provider, destroyableAssetLedgerId);
   const mutableAssetLedger = new AssetLedger(provider, mutableAssetLedgerId);
   const pausableAssetLedger = new AssetLedger(provider, pausableAssetLedgerId);
   const revokableAssetLedger = new AssetLedger(provider, revokableAssetLedgerId);
   ctx.deepEqual(
-    await burnableAssetLedger.getCapabilities(),
+    await destroyableAssetLedger.getCapabilities(),
     [AssetLedgerCapability.DESTROY_ASSET],
   );
   ctx.deepEqual(

@@ -30,31 +30,31 @@ contract NFTokenMetadataEnumerableMock is
   }
 
   /**
-   * @dev Mints a new NFT.
-   * @param _to The address that will own the minted NFT.
-   * @param _tokenId of the NFT to be minted by the msg.sender.
+   * @dev Creates a new NFT.
+   * @param _to The address that will own the created NFT.
+   * @param _tokenId of the NFT to be created by the msg.sender.
    */
-  function mint(
+  function create(
     address _to,
     uint256 _tokenId
   )
     external
     onlyOwner
   {
-    super._mint(_to, _tokenId);
+    super._create(_to, _tokenId);
   }
 
   /**
    * @dev Removes a NFT from owner.
    * @param _tokenId Which NFT we want to remove.
    */
-  function burn(
+  function destroy(
     uint256 _tokenId
   )
     external
     onlyOwner
   {
-    super._burn(_tokenId);
+    super._destroy(_tokenId);
   }
 
   /**

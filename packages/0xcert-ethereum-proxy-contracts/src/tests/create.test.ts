@@ -23,8 +23,8 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const xcertProxy = await ctx.deploy({
-    src: './build/xcert-mint-proxy.json',
-    contract: 'XcertMintProxy'
+    src: './build/xcert-create-proxy.json',
+    contract: 'XcertCreateProxy'
   });
   ctx.set('xcertProxy', xcertProxy);
 });
@@ -52,7 +52,7 @@ spec.test('removes authorized address', async (ctx) => {
   ctx.is(bobHasAbility1, false);
 });
 
-spec.test('mints an Xcert', async (ctx) => {
+spec.test('creates an Xcert', async (ctx) => {
   const xcertProxy = ctx.get('xcertProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -67,13 +67,13 @@ spec.test('mints an Xcert', async (ctx) => {
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
-  await xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, '0x0').send({ from: bob });
+  await xcertProxy.instance.methods.create(cat.receipt._address, jane, 1, '0x0').send({ from: bob });
 
   const newOwner = await cat.instance.methods.ownerOf(1).call();
   ctx.is(newOwner, jane);
 });
 
-spec.test('fails if mint is triggered by an unauthorized address', async (ctx) => {
+spec.test('fails if create is triggered by an unauthorized address', async (ctx) => {
   const xcertProxy = ctx.get('xcertProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -86,7 +86,7 @@ spec.test('fails if mint is triggered by an unauthorized address', async (ctx) =
   });
 
   await cat.instance.methods.assignAbilities(xcertProxy.receipt._address, [1]).send({ from: owner });
-  await ctx.reverts(() => xcertProxy.instance.methods.mint(cat.receipt._address, jane, 1, '0x0').send({ from: bob }), '017001');
+  await ctx.reverts(() => xcertProxy.instance.methods.create(cat.receipt._address, jane, 1, '0x0').send({ from: bob }), '017001');
 });
 
 export default spec;

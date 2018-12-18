@@ -17,7 +17,7 @@ interface Data {
   orderGateway?: any;
   tokenProxy?: any;
   nftProxy?: any;
-  mintProxy?: any;
+  CreateProxy?: any;
   cat?: any;
   dog?: any;
   fox?: any;
@@ -96,17 +96,17 @@ spec.beforeEach(async (ctx) => {
   });
   await dog.instance.methods.assignAbilities(owner, [1]).send();
   await dog.instance.methods
-    .mint(jane, 1, '0x0')
+    .create(jane, 1, '0x0')
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .mint(jane, 2, '0x0')
+    .create(jane, 2, '0x0')
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .mint(jane, 3, '0x0')
+    .create(jane, 3, '0x0')
     .send({
       from: owner,
     });
@@ -127,7 +127,7 @@ spec.beforeEach(async (ctx) => {
   });
   await fox.instance.methods.assignAbilities(owner, [1]).send();
   await fox.instance.methods
-  .mint(jane, 1, '0x0')
+  .create(jane, 1, '0x0')
   .send({
     from: owner,
   });
@@ -181,17 +181,17 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const mintProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/xcert-mint-proxy.json',
-    contract: 'XcertMintProxy',
+  const CreateProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
+    contract: 'XcertCreateProxy',
   });
-  ctx.set('mintProxy', mintProxy);
+  ctx.set('CreateProxy', CreateProxy);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const nftProxy = ctx.get('nftProxy');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
@@ -200,7 +200,7 @@ spec.beforeEach(async (ctx) => {
   await orderGateway.instance.methods.assignAbilities(owner, [1]).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(2, mintProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.setProxy(2, CreateProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
@@ -209,20 +209,20 @@ spec.beforeEach(async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   await tokenProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
   await nftProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
-  await mintProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
+  await CreateProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
 });
 /**
- * Perform mint.
+ * Perform create.
  */
 
-spec.spec('perform an atomic mint', perform);
+spec.spec('perform an atomic creation', perform);
 
 perform.test('Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
@@ -246,9 +246,9 @@ perform.test('Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -259,8 +259,8 @@ perform.test('Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -270,7 +270,7 @@ perform.test('Cat #1', async (ctx) => {
 perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -303,9 +303,9 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -316,9 +316,9 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -332,7 +332,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
   const bnb = ctx.get('bnb');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -374,9 +374,9 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -387,10 +387,10 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await bnb.instance.methods.approve(tokenProxy.receipt._address, 100).send({ from: jane });
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -405,7 +405,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
 
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const nftProxy = ctx.get('nftProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -455,9 +455,9 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -468,11 +468,11 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -490,7 +490,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
 
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const nftProxy = ctx.get('nftProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -561,9 +561,9 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -574,11 +574,11 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -602,7 +602,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
 
 perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const nftProxy = ctx.get('nftProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
@@ -662,9 +662,9 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -675,13 +675,13 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
   await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -702,7 +702,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
 
 perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const nftProxy = ctx.get('nftProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
@@ -755,9 +755,9 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -768,12 +768,12 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
   await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
-  const logs = await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Owner = await cat.instance.methods.ownerOf(1).call();
@@ -792,7 +792,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
 perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -826,9 +826,9 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -839,15 +839,15 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: sara }), '015003');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
 
-perform.test('fails when trying to perform already performed mint', async (ctx) => {
+perform.test('fails when trying to perform already performed creation', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -880,9 +880,9 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -893,16 +893,16 @@ perform.test('fails when trying to perform already performed mint', async (ctx) 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane }), '015008');
+  await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015008');
 });
 
 perform.test('fails when approved token value is not sufficient', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -935,9 +935,9 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -948,12 +948,12 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane }), '001003');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001003');
 });
 
-perform.test('fails when proxy does not have the mint rights', async (ctx) => {
+perform.test('fails when proxy does not have the create rights', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
   const tokenProxy = ctx.get('tokenProxy');
@@ -988,9 +988,9 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -1002,13 +1002,13 @@ perform.test('fails when proxy does not have the mint rights', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane }), '017001');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '017001');
 });
 
 perform.test('fails if current time is after expirationTimestamp', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1041,9 +1041,9 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() - 1000,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -1054,22 +1054,22 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane }), '015005');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015005');
 });
 
 
 /**
- * Cancel mint.
+ * Cancel creation.
  */
 
-spec.spec('cancel an atomic mint', cancel);
+spec.spec('cancel an atomic creation', cancel);
 
 cancel.test('succeeds', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1102,9 +1102,9 @@ cancel.test('succeeds', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -1115,11 +1115,11 @@ cancel.test('succeeds', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  const logs = await orderGateway.instance.methods.cancel(mintTuple).send({ from: owner });
+  const logs = await orderGateway.instance.methods.cancel(createTuple).send({ from: owner });
   ctx.not(logs.events.Cancel, undefined);
-  await ctx.reverts(() => orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane }), '015007');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015007');
 });
 
 cancel.test('fails when a third party tries to cancel it', async (ctx) => {
@@ -1156,15 +1156,15 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  await ctx.reverts(() => orderGateway.instance.methods.cancel(mintTuple).send({ from: jane }), '015009');
+  await ctx.reverts(() => orderGateway.instance.methods.cancel(createTuple).send({ from: jane }), '015009');
 });
 
-cancel.test('fails when trying to cancel an already performed mint', async (ctx) => {
+cancel.test('fails when trying to cancel an already performed creation', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const mintProxy = ctx.get('mintProxy');
+  const CreateProxy = ctx.get('CreateProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1197,9 +1197,9 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   }
-  const mintTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(orderData);
 
-  const claim = await orderGateway.instance.methods.getOrderDataClaim(mintTuple).call();
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
@@ -1210,8 +1210,8 @@ cancel.test('fails when trying to cancel an already performed mint', async (ctx)
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.assignAbilities(mintProxy.receipt._address, [1]).send({ from: owner });
+  await cat.instance.methods.assignAbilities(CreateProxy.receipt._address, [1]).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await orderGateway.instance.methods.perform(mintTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.cancel(mintTuple).send({ from: owner }), '015008');
+  await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  await ctx.reverts(() => orderGateway.instance.methods.cancel(createTuple).send({ from: owner }), '015008');
 });

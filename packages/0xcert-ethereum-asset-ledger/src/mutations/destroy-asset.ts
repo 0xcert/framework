@@ -7,7 +7,7 @@ import xcertAbi from '../config/xcert-abi';
  * Smart contract method abi.
  */
 const abi = xcertAbi.find((a) => (
-  a.name === 'burn' && a.type === 'function'
+  a.name === 'destroy' && a.type === 'function'
 ));
 
 /**

@@ -69,7 +69,7 @@ spec.test('transfers an NFT', async (ctx) => {
   });
 
   await cat.instance.methods
-    .mint(jane, 1)
+    .create(jane, 1)
     .send({
        from: owner ,
       gas: 4000000,
@@ -96,7 +96,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   });
 
   await cat.instance.methods
-    .mint(jane, 1)
+    .create(jane, 1)
     .send({
        from: owner ,
       gas: 4000000,
