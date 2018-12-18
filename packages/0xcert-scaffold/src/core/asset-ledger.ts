@@ -91,7 +91,7 @@ export interface AssetLedgerInfo {
 export interface AssetLedgerItemRecipe {
   receiverId: string;
   id: string;
-  imprint?: string;
+  imprint: string;
 }
 
 /**

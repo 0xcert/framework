@@ -11,7 +11,7 @@ export interface ValueLedgerBase {
   getApprovedValue(accountId: string, spenderId: string): Promise<String>;
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
-  isApprovedValue(accountId: string, spenderId: string, value: string): Promise<Boolean>;
+  isApprovedValue(value: string, accountId: string | OrderGatewayBase, spenderId: string): Promise<Boolean>;
   transferValue(recipe: ValueLedgerTransferRecipe): Promise<MutationBase>;    
 }
 

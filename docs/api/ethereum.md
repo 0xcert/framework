@@ -31,23 +31,69 @@ const provider = new MetamaskProvider();
 
 ### enable()
 
-TODO
+An `asynchronous` class instance `function` which authorizes the provider and connects it with the website.
+
+**Usage:**
+
+```ts
+// perform the query
+const provider = await provider.enable();
+```
 
 ### getInstance(options)
 
-TODO
+A static class `function` that returns a new instance of the MetamaskProvider class (allias for `new MetamaskProvider`).
+
+**Arguments**
+
+See the class [constructor](#metamask-provider) for details.
+
+**Usage**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+
+// create provider instance
+const provider = MetamaskProvider.getInstance();
+```
 
 ### isSupported()
 
-TODO
+A `synchronous` class instance `function` which returns `true` when the provider is supported by the environment.
+
+**Result:**
+
+A `boolean` which tells if the provider can be used.
+
+**Usage:**
+
+```ts
+// perform the query
+const isSupported = provider.isSupported();
+```
+
+**See also:**
+
+[isEnabled](#is-enabled)
 
 ### isEnabled()
 
-TODO
+A `synchronous` class instance `function` which returns `true` when the provider is authorized by the website.
 
-### post(options)
+**Result:**
 
-TODO
+A `boolean` which tells if the provider is enabled.
+
+**Usage:**
+
+```ts
+// perform the query
+const isEnabled = await provider.isEnabled();
+```
+
+**See also:**
+
+[enable](#enable), [isSupported](#is-supported)
 
 ## HTTP provider
 
@@ -93,12 +139,1439 @@ const provider = new HttpProvider({
 
 ### getInstance(options)
 
-TODO
+A static class `function` that returns a new instance of the HttpProvider class (allias for `new HttpProvider`).
+
+**Arguments**
+
+See the class [constructor](#http-provider) for details.
+
+**Usage**
+
+```ts
+import { HttpProvider } from '@0xcert/ethereum-http-provider';
+
+// create provider instance
+const provider = HttpProvider.getInstance();
+```
 
 ### isSupported()
 
-TODO
+A `synchronous` class instance `function` which returns `true` when the provider is supported by the environment.
 
-### post(options)
+**Result:**
 
-TODO
+A `boolean` which tells if the provider can be used.
+
+**Usage:**
+
+```ts
+// perform the query
+const isSupported = provider.isSupported();
+```
+
+## Asset Ledger
+
+Asset ledger represents ERC-721 related smart contract on the Ethereum blockchain.
+
+### AssetLedger(provider, ledgerId)
+
+A `class` which represents a smart contract on the Ethereum blockchain.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| provider | [required] An instance of a HTTP or MetaMask provider.
+
+**Usage:**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create ledger instance
+const ledger = new AssetLedger(provider, ledgerId);
+```
+
+### approveAccount(assetId, accountId)
+
+An `asynchronous` class instance `function` which approves a third party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner. Note that only one account can be approved at the same time thus running this function multiple times will override previously set data.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` representing the ID of an asset.
+| accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the OrderGateway class.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data 
+const assetId = '100';
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const mutation = await ledger.approveAccount(assetId, accountId);
+```
+
+**See also:**
+
+[disapproveAccount](#disapprove-account), [approveOperator](#approve-operator)
+
+### approveOperator(accountId)
+
+An `asynchronous` class instance `function` which approves third party `accountId` to take over the management of all the assets of the account that performed this mutation. Note that multiple operators can exist.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the OrderGateway class.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing an Ethereum account address of a receiver.
+| senderId | A `string` representing an Ethereum account address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data 
+const assetId = '100';
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const mutation = await ledger.approveOperator(accountId);
+```
+
+**See also:**
+
+[disapproveOperator](#disapprove-operator), [approveAccount](#approve-account)
+
+### assignAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which assignes management permissions for this ledger to a third party `accountId`. The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address that will get new management permissions on this ledger.
+| abilities | [required] A array of `integers` representing this ledger's smart contract abilities.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    AssetLedgerAbility.CREATE_ASSET,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform the mutation
+const mutation = await ledger.assignAbilities(accountId, abilities);
+```
+
+### createAsset(recipe)
+
+An `asynchronous` class instance `function` which creates a new asset on the Ethereum blockchain. The `CREATE_ASSET` ledger ability is needed to perform this function.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| recipe.id | [required] A `string` which represents a unique asset ID.
+| recipe.imprint | [required] A `string` which represents asset imprint generated by using `Cert` class.
+| recipe.receiverId | [required] A `string` representing Ethereum account address that will receive the new asset.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const asset = {
+    id: '100',
+    imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
+    receiverId: '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa',
+};
+
+// perform the mutation
+const mutation = await ledger.createAsset(asset);
+```
+
+**See also:**
+
+[Cert](#cert)
+
+### deploy(provider, recipe)
+
+An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. Note that all ledger abilities are automatically assigned to the account that performs this method.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| provider | [required] An instance of a HTTP or MetaMask provider.
+| recipe.name | [required] A `string` representing asset ledger name.
+| recipe.symbol | [required] A `string` representing asset ledger symbol.
+| recipe.uriBase | [required] A `string` representing base asset URI. 
+| recipe.schemaId | [required] A `string` representing data schema ID.
+| recipe.capabilities | A list of `integers` which represent ledger capabilities.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const capabilities = [
+    AssetLedgerCapability.TOGGLE_TRANSFERS,
+];
+const recipe = {
+    name: 'Math Course Certificate',
+    symbol: 'MCC',
+    uriBase: 'http://domain.com/assets/',
+    schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    capabilities,
+};
+
+// perform the mutation
+const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
+    return mutation.complete(); // wait until first confirmation
+});
+```
+
+### destroyAsset(assetId)
+
+An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. Note that the `DESTROY_ASSET` ledger capability is needed to perform this function. The function succeeds only when performed by the asset's owner.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` which represents the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const mutation = await ledger.destroyAsset(assetId);
+```
+
+**See also:**
+
+[revokeAsset](#revoke-asset)
+
+### disapproveAccount(assetId)
+
+An `asynchronous` class instance `function` which removes the ability of the currently set third party account to take over a specific `assetId`. Note that this function succeeds only when performed by the asset's owner.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` which represents the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const mutation = await ledger.disapproveAccount(assetId);
+```
+
+**See also:**
+
+[disapproveOperator](#disapprove-operator), [approveAccount](#approve-account)
+
+### disapproveOperator(accountId)
+
+An `asynchronous` class instance `function` which removes the third party `accountId` the ability of managing assets of the account that performed this mutation.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new Ethereum account address or an instance of the OrderGateway class.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const mutation = await ledger.disapproveOperator(accountId);
+```
+
+**See also:**
+
+[disapproveAccount](#disapprove-account), [approveOperator](#approve-operator)
+
+### disableTransfers()
+
+An `asynchronous` class instance `function` which disables all asset transfers. The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// perform the mutation
+const mutation = await ledger.disableTransfers();
+```
+
+**See also:**
+
+[enableTransfers](#enable-transfer)
+
+### enableTransfers()
+
+An `asynchronous` class instance `function` which enables all asset transfers. The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// perform the mutation
+const mutation = await ledger.enableTransfers();
+```
+
+**See also:**
+
+[disableTransfers](#disable-transfers)
+
+### getAbilities(accountId)
+
+An `asynchronous` class instance `function` which returns `accountId` abilities.
+
+**Result:**
+
+An `array` of `integer` numbers representing acount abilities.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the query
+const abilities = await ledger.getAbilities(accountId);
+```
+
+### getApprovedAccount(assetId)
+
+An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`. 
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` representing asset ID.
+
+**Result:**
+
+A `string` representing account ID.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const accountId = await ledger.getApprovedAccount(assetId);
+```
+
+**See also:**
+
+[approveAccount](#approve-account)
+
+### getAsset(assetId)
+
+An `asynchronous` class instance `function` which returns `assetId` data.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-
+| id | A `string` representing asset ID.
+| uri | A `string` representing asset URI which points to asset public metadata.
+| imprint | A `string` representing asset imprint.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const data = await ledger.getAsset(assetId);
+```
+
+### getAssetAccount(assetId)
+
+An `asynchronous` class instance `function` which returns an account ID that owns the `assetId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+A `string` which represents account ID.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const accountId = await ledger.getAssetAccount(assetId);
+```
+
+### getBalance(accountId)
+
+An `asynchronous` class instance `function` which returns the number of assets owned by `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+
+**Result:**
+
+An `integer` number representing the number of assets in the `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const balance = await ledger.getBalance(accountId);
+```
+
+### getCapabilities()
+
+An `asynchronous` class instance `function` which returns ledger's capabilities.
+
+**Result:**
+
+An `array` of `integer` numbers representing ledger capabilities.
+
+**Usage:**
+
+```ts
+// perform the query
+const capabilities = await ledger.getCapabilities();
+```
+
+### getInfo()
+
+An `asynchronous` class instance `function` that returns an object with general information about the ledger.
+
+**Result:**
+
+| Key | Description
+|-|-
+| name | A `string` which representsasset ledger's name.
+| symbol | A `string` which represents asset ledger's symbol.
+| uriBase | A `string` which represents base asset URI.
+| schemaId | A `string` which represents data schema ID.
+| supply | A big number `string` which represents the total number of issued assets.
+
+**Usage:**
+
+```ts
+// perform the query
+const info = await ledger.getInfo();
+```
+
+### getInstance(provider, ledgerId)
+
+A static class `function` that returns a new instance of the AssetLedger class (allias for `new AssetLedger`).
+
+**Arguments:**
+
+See the class [constructor](#asset-ledger) for details.
+
+**Usage:**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create ledger instance
+const ledger = AssetLedger.getInstance(provider, ledgerId);
+```
+
+### id
+
+A class instance `variable` holding the address of ledger's smart contract on the Ethereum blockchain.
+
+### isApprovedAccount(assetId, accountId)
+
+An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to take over the `assetId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address or an instance of the OrderGateway class.
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` is approved for `assetId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const assetId = '100';
+
+// perform the mutation
+const isApproved = await ledger.isApprovedAccount(assetId, accountId);
+```
+
+**See also:**
+
+[isApprovedOperator](#is-approved-operator), [approveAccount](#approve-account)
+
+### isApprovedOperator(accountId, operatorId)
+
+An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to manage any asset of the `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address that owns assets.
+| operatorId | [required] A `string` representing the thrid-party Ethereum account address or an instance of the OrderGateway class.
+
+**Result:**
+
+A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const operatorId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
+```
+
+**See also:**
+
+[isApprovedAccount](#is-approved-account), [approveAccount](#approve-account)
+
+### isTransferable()
+
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
+
+**Result:**
+
+A `boolean` which tells if ledger asset transfers are enabled.
+
+**Usage:**
+
+```ts
+// perform the mutation
+const isTransferable = await ledger.isTransferable();
+```
+
+**See also:**
+
+[enableTransfers](#enable-transfers)
+
+### revokeAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new Ethereum account address.
+| abilities | [required] An `array` of `integer` numbers representing ledger abilities.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    AssetLedgerAbility.CREATE_ASSET,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform the mutation
+const mutation = await ledger.revokeAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[assignAbilities](#assign-abilities)
+
+### revokeAsset(assetId)
+
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account but stays logged in the blockchain. Note that the `REVOKE_ASSET` ledger capability is needed to perform this function. The function is ment to be used by ledger owners to destroy assets of other accounts.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| assetId | [required] A `string` which represents the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const mutation = await ledger.revokeAsset(assetId);
+```
+
+**See also:**
+
+[destroyAsset](#destroy-asset)
+
+### update(recipe)
+
+An `asynchronous` class instance `function` which updates ledger data. Note that you need `UPDATE_URI_BASE` ledger capability to update ledger's `uriBase` property.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| recipe.uriBase | [required] A `string` which represents ledger URI base property.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    uriBase: 'http://swapmarket.com/',
+};
+
+// perform the mutation
+const mutation = await ledger.update(recipe);
+```
+
+**See also:**
+
+[updateAsset](#update-asset)
+
+### updateAsset(assetId, recipe)
+
+An `asynchronous` class instance `function` which updates `assetId` data. You need `UPDATE_ASSET_IMPRINT` ledger capability to update asset `imprint` property.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| recipe.imprint | [required] A `string` which represents asset imprint property.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
+};
+
+// perform the mutation
+const mutation = await ledger.update(recipe);
+```
+
+**See also:**
+
+[update](#update)
+
+### transferAsset(recipe)
+
+An `asynchronous` class instance `function` which transfers asset to another account.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| recipe.receiverId | [required] A `string` which represents account ID that will receive the asset.
+| recipe.id | [required] A `string` which represents asset ID.
+| recipe.data | A `string` which represents some arbitrary mutation note.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+    id: '100',
+};
+
+// perform the mutation
+const mutation = await ledger.transferAsset(recipe);
+```
+
+## Ledger Abilities
+
+Ledger abilities represent account-level permissions.
+
+**Options:**
+
+| Name | Value | Description
+|-|-|-
+| CREATE_ASSET | 1 | Allows an account to create a new asset.
+| MANAGE_ABILITIES | 0 | Allows an account to further assign abilities.
+| REVOKE_ASSET | 2 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 3 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 4 | Allows an account to update asset data.
+| UPDATE_URI_BASE | 6 | Allows an account to update asset ledger's base URI.
+
+**Usage:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+const abilities = [
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+```
+
+## Ledger Capabilities
+
+Ledger capabilities represent features of a smart contract.
+
+**Options:**
+
+| Name | Value | Description
+|-|-|-
+| DESTROY_ASSET | 1 | Enables asset owners to destroy their assets.
+| UPDATE_ASSET | 2 | Enables ledger managers to update asset data.
+| REVOKE_ASSET | 4 | Enables ledger managers to revoke assets.
+| TOGGLE_TRANSFERS | 3 | Enables ledger managers to start and stop asset transfers.
+
+**Usage:**
+
+```ts
+import { AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
+
+const capabilities = [
+    AssetLedgerCapability.TOGGLE_TRANSFERS,
+];
+```
+
+## Value Ledger
+
+Value ledger represents a ERC-20 related smart contract on the Ethereum blockchain.
+
+### ValueLedger(provider, ledgerId)
+
+A `class` which represents a smart contract on the Ethereum blockchain.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| ledgerId | [required] A string representing an address of the ERC-20 related smart contract on the Ethereum blockchain.
+| provider | [required] An instance of a HTTP or MetaMask provider.
+
+**Usage:**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { ValueLedger } from '@0xcert/ethereum-value-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create ledger instance
+const ledger = new ValueLedger(provider, ledgerId);
+```
+
+### approveValue(value, accountId)
+
+An `asynchronous` class instance `function` which approves a third party `accountId` to transfer a specific `value`. This function succeeds only when performed by the asset's owner. Multiple accounts can be approved for different values at the same time.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing an account address or an instance of the OrderGateway class.
+| value | [required] An `integer` number representing the approved amount.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data 
+const value = '1000000000000000000'; // 1 unit (18 decimals)
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const mutation = await ledger.approveValue(value, accountId);
+```
+
+**See also:**
+
+[disapproveValue](#disapprove-value)
+
+### deploy(provider, recipe)
+
+An `asynchronous` static class `function` which deploys a new value ledger to the Ethereum blockchain.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| provider | [required] An instance of a HTTP or MetaMask provider.
+| recipe.name | [required] A `string` representing value ledger name.
+| recipe.symbol | [required] A `string` representing value ledger symbol.
+| recipe.decimals | [required] A big number `string` representing the number of decimals.
+| recipe.supply | [required] A big number `string` representing the ledger total supply.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { ValueLedger } from '@0xcert/ethereum-value-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const recipe = {
+    name: 'Math Course Certificate',
+    symbol: 'MCC',
+    decimal: '18',
+    supply: '500000000000000000000', // 500 mio
+};
+
+// perform the mutation
+const mutation = await ValueLedger.deploy(provider, recipe).then((mutation) => {
+    return mutation.complete(); // wait until first confirmation
+});
+```
+
+### disapproveValue(accountId)
+
+An `asynchronous` class instance `function` which removes the ability of a third party account to transfer value. Note that this function succeeds only when performed by the value owner.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` which represents the accountId who will be disapproved.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const mutation = await ledger.disapproveValue(accountId);
+```
+
+**See also:**
+
+[approveValue](#approve-value)
+
+### getApprovedValue(accountId, spenderId)
+
+An `asynchronous` class instance `function` which returns the approved value that the `spenderId` is able to transfer for `accountId`. 
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` which represents the holder's account ID.
+| spenderId | [required] A `string` which represents the account ID of a spender.
+
+**Result:**
+
+A big number `string` representing the approved value.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const spenderId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const value = await ledger.getApprovedValue(accountId, spenderId);
+```
+
+**See also:**
+
+[approveValue](#approve-value)
+
+### getBalance(accountId)
+
+An `asynchronous` class instance `function` which returns the total posessed amount of the `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+
+**Result:**
+
+A big number `string` representing the total value of the `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const balance = await ledger.getBalance(accountId);
+```
+
+### getInfo()
+
+An `asynchronous` class instance `function` that returns an object with general information about the ledger.
+
+**Result:**
+
+| Key | Description
+|-|-
+| name | A `string` which representsasset ledger's name.
+| symbol | A `string` which represents asset ledger's symbol.
+| decimals | [required] A big number `string` representing the number of decimals.
+| supply | [required] A big number `string` representing the ledger total supply.
+
+**Usage:**
+
+```ts
+// perform the query
+const info = await ledger.getInfo();
+```
+
+### getInstance(provider, id)
+
+A static class `function` that returns a new instance of the ValueLedger class (allias for `new ValueLedger`).
+
+**Arguments**
+
+See the class [constructor](#value-ledger) for details.
+
+**Usage**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { ValueLedger } from '@0xcert/ethereum-value-ledger';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create ledger instance
+const ledger = ValueLedger.getInstance(provider, ledgerId);
+```
+
+### id
+
+A class instance `variable` holding the address of ledger's smart contract on the Ethereum blockchain.
+
+### isApprovedValue(value, accountId, spenderId)
+
+An `asynchronous` class instance `function` which returns `true` when the `spenderId` has the ability to transfer the `value` from an `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| accountId | [required] A `string` representing the Ethereum account address that owns the funds.
+| spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the OrderGateway class.
+| value | [required] A big number `string` representing the allowed amount to transfer.
+
+**Result:**
+
+A `boolean` which tells if the `spenderId` is approved to move `value` from `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const spenderId = '0xcc667f88e8821fb8d19f7e6240f44553ce3dbfdd';
+const value = '1000000000000000000';
+
+// perform the mutation
+const isApproved = await ledger.isApprovedAccount(value, accountId, spenderId);
+```
+
+**See also:**
+
+[approveValue](#approve-value)
+
+### transferValue(recipe)
+
+An `asynchronous` class instance `function` which transfers asset to another account.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| recipe.receiverId | [required] A `string` which represents account ID that will receive the value.
+| recipe.senderId | A `string` which represents account ID that will send the value. It defaults to provider's accountId.
+| recipe.value | [required] A big number `string` representing the transfered amount.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+    value: '1000000000000000000', // 1 unit (18 decimals)
+};
+
+// perform the mutation
+const mutation = await ledger.transferValue(recipe);
+```
+
+## Orders Gateway
+
+Order gateway allows for performing multiple actions in a one single atomic operation.
+
+### OrderGateway(provider, gatewayId)
+
+A `class` which represents a smart contract on the Ethereum blockchain.
+
+**Arguments**
+
+| Argument | Description
+|-|-
+| gatewayId | [required] A `string` representing an address of the 0xcert order gateway smart contract on the Ethereum blockchain.
+| provider | [required] An instance of a HTTP or MetaMask provider.
+
+**Usage**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const gatewayId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create ledger instance
+const gateway = new OrderGateway(provider, gatewayId);
+```
+
+### cancel(order)
+
+An `asynchronous` class instance `function` which marks the provided `order` as canceled. This prevents the `order` to be performed.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| order.actions | [required] An `array` of [action objects](#order-actions).
+| order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
+| order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.seed | [required] An `integer` number representing the unique order number.
+| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { OrderActionKind } from '@0xcert/ethereum-order-gateway';
+
+// arbitrary data
+const order = {
+    actions: [
+        {
+            kind: OrderActionKind.TRANSFER_ASSET,
+            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
+            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            assetId: '100',
+        },
+    ],
+    expiration: Date.now() + 60 * 60 * 24, // 1 day
+    seed: 12345,
+    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+};
+
+// perform the mutation
+const mutation = await gateway.cancel(order);
+```
+
+**See also:**
+
+[claim](#claim), [perform](#perform)
+
+### claim(order)
+
+An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. This operation must be executed by the maker of the order. 
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| order.actions | [required] An `array` of [action objects](#order-actions).
+| order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
+| order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.seed | [required] An `integer` number representing the unique order number.
+| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+
+**Result:**
+
+A `string` representing order signature. 
+
+**Usage:**
+
+```ts
+// arbitrary data
+const order = {
+    actions: [
+        {
+            kind: OrderActionKind.TRANSFER_ASSET,
+            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
+            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            assetId: '100',
+        },
+    ],
+    expiration: Date.now() + 60 * 60 * 24, // 1 day
+    seed: 12345,
+    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+};
+
+// perform the query
+const signature = await gateway.claim(order);
+```
+
+### getInstance(provider, id)
+
+A static class `function` that returns a new instance of the OrderGateway class (allias for `new OrderGateway`).
+
+**Arguments**
+
+See the class [constructor](#order-gateway) for details.
+
+**Usage**
+
+```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+
+// arbitrary data
+const provider = new MetamaskProvider();
+const gatewayId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create gateway instance
+const gateway = OrderGateway.getInstance(provider, gatewayId);
+```
+
+### id
+
+A class instance `variable` holding the address of gateway's smart contract on the Ethereum blockchain.
+
+### perform(order, signature)
+
+An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. This operation must be executed by the taker of the order. 
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| signature | [required] A `string` representing order signature created by the maker. 
+| order.actions | [required] An `array` of [action objects](#order-actions).
+| order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
+| order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.seed | [required] An `integer` number representing the unique order number.
+| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+
+**Result:**
+
+| Key | Description
+|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const signature = 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933';
+const order = {
+    actions: [
+        {
+            kind: OrderActionKind.TRANSFER_ASSET,
+            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
+            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            assetId: '100',
+        },
+    ],
+    expiration: Date.now() + 60 * 60 * 24, // 1 day
+    seed: 12345,
+    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+};
+
+// perform the query
+const mutation = await gateway.perform(order, signature);
+```
+
+**See also:**
+
+[cancel](#cancel)
+
+## Order Actions
+
+Order actions define the atomic operations of the order gateway.
+
+**Options:**
+
+| Name | Value | Description
+|-|-|-
+| CREATE_ASSET | 1 | Creates a new asset.
+| TRANSFER_ASSET | 2 | Transfer an asset.
+| TRANSFER_VALUE | 3 | Transfer a value.
+
+### Create Asset Action
+
+| Property | Description
+|-|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing receiver's address.
+| senderId | [required] A `string` representing sender's address.
+
+### Transfer Asset Action
+
+| Property | Description
+|-|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_ASSET`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing receiver's address.
+| senderId | [required] A `string` representing sender's address.
+
+### Transfer Value Action
+
+| Property | Description
+|-|-|-
+| kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_VALUE`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing receiver's address.
+| senderId | [required] A `string` representing sender's address.
+| value | [required] A big number `string` representing the transfered amount.
