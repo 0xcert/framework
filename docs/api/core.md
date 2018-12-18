@@ -228,7 +228,7 @@ const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
 
 ### destroyAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. Note that the `BURN_ASSET` ledger capability is needed to perform this function. The function succeeds only when performed by the asset's owner.
+An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. Note that the `DESTROY_ASSET` ledger capability is needed to perform this function. The function succeeds only when performed by the asset's owner.
 
 **Arguments:**
 
@@ -351,19 +351,157 @@ const mutation = await ledger.disableTransfers();
 
 ### enableTransfers()
 
+An `asynchronous` class instance `function` which enables all asset transfers. The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// perform the mutation
+const mutation = await ledger.enableTransfers();
+```
+
+**See also:**
+
+[disableTransfers](#disable-transfers)
+
 ### getAbilities(accountId)
+
+An `asynchronous` class instance `function` which returns `accountId` abilities.
+
+**Result:**
+
+An `array` of `integer` numbers representing acount abilities.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the query
+const abilities = await ledger.getAbilities(accountId);
+```
 
 ### getApprovedAccount(assetId)
 
-### getAsset(assetId: string)
+An `asynchronous` class instance `function` which returns an account ID of a third party which is able to taker over a specific `assetId`. 
 
-### getAssetAccount(assetId: string)
+**Arguments:**
 
-### getBalance(accountId: string)
+| Argument | Description
+|-|-|-
+| assetId | [required] A `string` representing asset ID.
+
+**Result:**
+
+A `string` representing account ID.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const accountId = await ledger.getApprovedAccount(assetId);
+```
+
+**See also:**
+
+[approveAccount](#approve-account)
+
+### getAsset(assetId)
+
+An `asynchronous` class instance `function` which returns `assetId` data.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| id | A `string` representing asset ID.
+| uri | A `string` representing asset URI which points to asset public metadata.
+| imprint | A `string` representing asset imprint.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const data = await ledger.getAsset(assetId);
+```
+
+### getAssetAccount(assetId)
+
+An `asynchronous` class instance `function` which returns an account ID that owns the `assetId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+A `string` which represents account ID.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const accountId = await ledger.getAssetAccount(assetId);
+```
+
+### getBalance(accountId)
+
+An `asynchronous` class instance `function` which returns the number of assets owned by `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+
+**Result:**
+
+An `integer` number representing the number of assets in the `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const balance = await ledger.getBalance(accountId);
+```
 
 ### getCapabilities()
 
-An `asynchronous` class instance `function` that returns a array of numbers representing ledger's capabilities.
+An `asynchronous` class instance `function` which returns ledger's capabilities.
+
+**Result:**
+
+An `array` of `integer` numbers representing ledger capabilities.
 
 **Usage:**
 
@@ -399,10 +537,7 @@ A static class `function` that returns a new instance of the AssetLedger class (
 
 **Arguments**
 
-| Argument | Description
-|-|-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum network.
-| provider | [required] An instance of a HTTP or MetaMask provider.
+See the class [constructor](#asset-ledger) for details.
 
 **Usage**
 
@@ -424,19 +559,259 @@ A class instance `variable` holding the address of ledger's smart contract on th
 
 ### isApprovedAccount(assetId, accountId)
 
+An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to take over the `assetId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| accountId | [required] A `string` representing the Ethereum account address or an instance of the OrderGateway class.
+| assetId | [required] A `string` representing the asset ID.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` is approved for `assetId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const assetId = '100';
+
+// perform the mutation
+const isApproved = await ledger.isApprovedAccount(assetId, accountId);
+```
+
+**See also:**
+
+[isApprovedOperator](#is-approved-operator), [approveAccount](#approve-account)
+
 ### isApprovedOperator(accountId, operatorId)
+
+An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to manage any asset of the `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| accountId | [required] A `string` representing the Ethereum account address that owns assets.
+| operatorId | [required] A `string` representing the thrid-party Ethereum account address or an instance of the OrderGateway class.
+
+**Result:**
+
+A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const operatorId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform the mutation
+const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
+```
+
+**See also:**
+
+[isApprovedAccount](#is-approved-account), [approveAccount](#approve-account)
 
 ### isTransferable()
 
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
+
+**Result:**
+
+A `boolean` which tells if ledger asset transfers are enabled.
+
+**Usage:**
+
+```ts
+// perform the mutation
+const isTransferable = await ledger.isTransferable();
+```
+
+**See also:**
+
+[enableTransfers](#enable-transfers)
+
 ### revokeAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| accountId | [required] A `string` representing the new Ethereum account address.
+| abilities | [required] An `array` of `integer` numbers representing ledger abilities.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    AssetLedgerAbility.CREATE_ASSET,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform the mutation
+const mutation = await ledger.revokeAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[assignAbilities](#assign-abilities)
 
 ### revokeAsset(assetId)
 
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account but stays logged in the blockchain. Note that the `REVOKE_ASSET` ledger capability is needed to perform this function. The function is ment to be used by ledger owners to destroy assets of other accounts.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| assetId | [required] A `string` which represents the asset ID.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const assetId = '100';
+
+// perform the mutation
+const mutation = await ledger.revokeAsset(assetId);
+```
+
+**See also:**
+
+[destroyAsset](#burn-asset)
+
 ### update(recipe)
+
+An `asynchronous` class instance `function` which updates ledger data. Note that you need `UPDATE_URI_BASE` ledger capability to update ledger's `uriBase` property.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| recipe.uriBase | [required] A `string` which represents ledger URI base property.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    uriBase: 'http://swapmarket.com/',
+};
+
+// perform the mutation
+const mutation = await ledger.update(recipe);
+```
+
+**See also:**
+
+[updateAsset](#update-asset)
 
 ### updateAsset(assetId, recipe)
 
+An `asynchronous` class instance `function` which updates `assetId` data. You need `UPDATE_ASSET_IMPRINT` ledger capability to update asset `imprint` property.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| recipe.imprint | [required] A `string` which represents asset imprint property.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
+};
+
+// perform the mutation
+const mutation = await ledger.update(recipe);
+```
+
+**See also:**
+
+[update](#update)
+
 ### transferAsset(recipe)
+
+An `asynchronous` class instance `function` which transfers asset to another account.
+
+**Arguments:**
+
+| Argument | Description
+|-|-|-
+| recipe.receiverId | [required] A `string` which represents account ID that will receive the asset.
+| recipe.id | [required] A `string` which represents asset ID.
+| recipe.data | A `string` which represents some arbitrary mutation note.
+
+**Result:**
+
+| Key | Description
+|-|-|-
+| confirmations | An `integer` representing Ethereum transaction confirmations.
+| id | A `string` representing the ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of a receiver.
+| senderId | A `string` representing Ethereum address of a sender.
+
+**Usage:**
+
+```ts
+// arbitrary data
+const recipe = {
+    receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+    id: '100',
+};
+
+// perform the mutation
+const mutation = await ledger.transferAsset(recipe);
+```
 
 ## Ledger Abilities
 
@@ -471,7 +846,7 @@ Ledger capabilities represent features of a smart contract.
 
 | Name | Value | Description
 |-|-|-
-| BURN_ASSET | 1 | Enables asset owners to burn their assets.
+| DESTROY_ASSET | 1 | Enables asset owners to burn their assets.
 | UPDATE_ASSET | 2 | Enables ledger managers to update asset data.
 | REVOKE_ASSET | 4 | Enables ledger managers to revoke assets.
 | TOGGLE_TRANSFERS | 3 | Enables ledger managers to start and stop asset transfers.

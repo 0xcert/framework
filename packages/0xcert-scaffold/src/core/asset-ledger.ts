@@ -17,7 +17,7 @@ export enum AssetLedgerAbility {
  * List of available asset ledger capabilities.
  */
 export enum AssetLedgerCapability {
-  BURN_ASSET = 1,
+  DESTROY_ASSET = 1,
   UPDATE_ASSET = 2,
   REVOKE_ASSET = 4,
   TOGGLE_TRANSFERS = 3,

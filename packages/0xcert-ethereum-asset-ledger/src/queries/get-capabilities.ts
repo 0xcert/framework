@@ -17,7 +17,7 @@ const abi = xcertAbi.find((a) => (
  */
 export default async function(ledger: AssetLedger) {
   return Promise.all(
-    [ AssetLedgerCapability.BURN_ASSET,
+    [ AssetLedgerCapability.DESTROY_ASSET,
       AssetLedgerCapability.REVOKE_ASSET,
       AssetLedgerCapability.TOGGLE_TRANSFERS,
       AssetLedgerCapability.UPDATE_ASSET,
