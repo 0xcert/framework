@@ -334,14 +334,14 @@ contract NFTokenEnumerable is
   }
 
     /**
-   * @dev Mints a new NFT.
+   * @dev Creates a new NFT.
    * @notice This is a private function which should be called from user-implemented external
-   * mint function. Its purpose is to show and properly initialize data structures when using this
+   * create function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
-   * @param _to The address that will own the minted NFT.
-   * @param _tokenId of the NFT to be minted by the msg.sender.
+   * @param _to The address that will own the created NFT.
+   * @param _tokenId of the NFT to be created by the msg.sender.
    */
-  function _mint(
+  function _create(
     address _to,
     uint256 _tokenId
   )
@@ -364,13 +364,13 @@ contract NFTokenEnumerable is
   }
 
   /**
-   * @dev Burns a NFT.
+   * @dev Destroys a NFT.
    * @notice This is a private function which should be called from user-implemented external
-   * burn function. Its purpose is to show and properly initialize data structures when using this
+   * destroy function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
-   * @param _tokenId ID of the NFT to be burned.
+   * @param _tokenId ID of the NFT to be destroyed.
    */
-  function _burn(
+  function _destroy(
     uint256 _tokenId
   )
     internal

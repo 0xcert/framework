@@ -45,12 +45,12 @@ spec.test('returns proxy account address', async (ctx) => {
   const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
   const nftokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_TRANSFER);
   const nftokenSafeTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER);
-  const xcertMintProxy = await gateway.getProxyAccountId(OrderGatewayProxy.XCERT_MINT);
+  const xcertCreateProxy = await gateway.getProxyAccountId(OrderGatewayProxy.XCERT_CREATE);
 
   ctx.is(tokenTransferProxy, protocol.tokenTransferProxy.instance.options.address);
   ctx.is(nftokenTransferProxy, protocol.nftokenTransferProxy.instance.options.address);
   ctx.is(nftokenSafeTransferProxy, protocol.nftokenSafeTransferProxy.instance.options.address);
-  ctx.is(xcertMintProxy, protocol.xcertMintProxy.instance.options.address);
+  ctx.is(xcertCreateProxy, protocol.xcertCreateProxy.instance.options.address);
 });
 
 spec.test('returns null when calling getProxyAccountId on a contract that does not support it', async (ctx) => {

@@ -19,7 +19,7 @@ contract Selector {
   {
     Xcert i;
     return (
-      i.mint.selector
+      i.create.selector
       ^ i.schemaId.selector
       ^ i.tokenImprint.selector
       ^ i.setUriBase.selector
@@ -30,15 +30,15 @@ contract Selector {
   }
 
   /**
-   * @dev Calculates and returns interface ID for the burnable Xcert smart contract.
+   * @dev Calculates and returns interface ID for the destroyable Xcert smart contract.
    */
-  function calculateBurnableXcertSelector()
+  function calculateDestroyableXcertSelector()
     external
     pure
     returns (bytes4)
   {
     Xcert i;
-    return i.burn.selector;
+    return i.destroy.selector;
   }
 
   /**

@@ -64,7 +64,7 @@ spec.test('sucesfully updates imprint', async (ctx) => {
   const imprint = ctx.get('imprint1');
   const newImprint = ctx.get('imprint2');
 
-  await xcert.instance.methods.mint(bob, id, imprint).send({ from: owner });
+  await xcert.instance.methods.create(bob, id, imprint).send({ from: owner });
   const logs = await xcert.instance.methods.updateTokenImprint(id, newImprint).send({ from: owner });
   ctx.not(logs.events.TokenImprintUpdate, undefined);
   const xcertId1Imprint = await xcert.instance.methods.tokenImprint(id).call();
@@ -80,7 +80,7 @@ spec.test('throws when a third party tries to update imprint', async (ctx) => {
   const imprint = ctx.get('imprint1');
   const newImprint = ctx.get('imprint2');
 
-  await xcert.instance.methods.mint(bob, id, imprint).send({ from: owner });
+  await xcert.instance.methods.create(bob, id, imprint).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, newImprint).send({ from: sara }));
 });
 

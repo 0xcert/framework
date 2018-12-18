@@ -52,16 +52,15 @@ spec.test('checks mutable Xcert selector', async (ctx) => {
   ctx.is(supports, true);
 });
 
-
-spec.test('checks burnable Xcert selector', async (ctx) => {
+spec.test('checks destroyable Xcert selector', async (ctx) => {
   const selector = ctx.get('selector');
   const xcert = await ctx.deploy({ 
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F','http://0xcert.org','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x42966c68']]
+    args: ['Foo','F','http://0xcert.org','0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x9d118770']]
   });
 
-  const bytes = await selector.instance.methods.calculateBurnableXcertSelector().call();
+  const bytes = await selector.instance.methods.calculateDestroyableXcertSelector().call();
   const supports = await xcert.instance.methods.supportsInterface(bytes).call();
   ctx.is(supports, true);
 });

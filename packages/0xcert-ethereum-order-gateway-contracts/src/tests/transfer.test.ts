@@ -70,25 +70,25 @@ spec.beforeEach(async (ctx) => {
     args: ['cat', 'CAT','http://0xcert.org/'],
   });
   await cat.instance.methods
-    .mint(ctx.get('jane'), 1)
+    .create(ctx.get('jane'), 1)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
     });
   await cat.instance.methods
-    .mint(ctx.get('jane'), 4)
+    .create(ctx.get('jane'), 4)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
     });
   await cat.instance.methods
-    .mint(ctx.get('bob'), 2)
+    .create(ctx.get('bob'), 2)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
     });
   await cat.instance.methods
-    .mint(ctx.get('bob'), 3)
+    .create(ctx.get('bob'), 3)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
@@ -107,7 +107,7 @@ spec.beforeEach(async (ctx) => {
     args: ['dog', 'DOG', 'http://0xcert.org/'],
   });
   await dog.instance.methods
-    .mint(ctx.get('jane'), 1)
+    .create(ctx.get('jane'), 1)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
@@ -126,7 +126,7 @@ spec.beforeEach(async (ctx) => {
     args: ['bee', 'BEE', 'http://0xcert.org/'],
   });
   await bee.instance.methods
-    .mint(ctx.get('bob'), 3)
+    .create(ctx.get('bob'), 3)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,
@@ -145,7 +145,7 @@ spec.beforeEach(async (ctx) => {
     args: ['fox', 'FOX', 'http://0xcert.org/'],
   });
   await fox.instance.methods
-    .mint(ctx.get('bob'), 1)
+    .create(ctx.get('bob'), 1)
     .send({
       from: ctx.get('owner'),
       gas: 4000000,

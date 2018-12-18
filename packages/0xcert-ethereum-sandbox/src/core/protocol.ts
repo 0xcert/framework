@@ -11,12 +11,12 @@ export class Protocol {
   public erc721Enumerable;
   public erc721Metadata;
   public erc721;
-  public xcertBurnable;
+  public xcertDestroyable;
   public xcertMutable;
   public xcertPausable;
   public xcertRevokable;
   public xcert;
-  public xcertMintProxy;
+  public xcertCreateProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
@@ -54,12 +54,12 @@ export class Protocol {
     this.erc721Enumerable = await this.deployErc721Enumerable(from);
     this.erc721Metadata = await this.deployErc721Metadata(from);
     this.erc721 = await this.deployErc721(from);
-    this.xcertBurnable = await this.deployXcertBurnable(from);
+    this.xcertDestroyable = await this.deployXcertDestroyable(from);
     this.xcertMutable = await this.deployXcertMutable(from);
     this.xcertPausable = await this.deployXcertPausable(from);
     this.xcertRevokable = await this.deployXcertRevokable(from);
     this.xcert = await this.deployXcert(from);
-    this.xcertMintProxy = await this.deployXcertMintProxy(from);
+    this.xcertCreateProxy = await this.deployXcertCreateProxy(from);
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
@@ -124,15 +124,15 @@ export class Protocol {
   }
 
   /**
-   * Deploys xcert contract with burn capability.
+   * Deploys xcert contract with destroy capability.
    * @param from Contract owner's address.
    */
-  protected async deployXcertBurnable(from: string) {
+  protected async deployXcertDestroyable(from: string) {
     const xcert = await deploy({
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Burnable Xcert', 'BurnableXcert', 'http://0xcert.org/', '0x1', ['0x42966c68']],
+      args: ['Destroyable Xcert', 'DestroyableXcert', 'http://0xcert.org/', '0x1', ['0x9d118770']],
       from,
     });
 
@@ -214,14 +214,14 @@ export class Protocol {
   }
 
   /**
-   * Deploys the xcert mint proxy contract.
+   * Deploys the xcert create proxy contract.
    * @param from Contract owner's address.
    */
-  protected async deployXcertMintProxy(from: string) {
+  protected async deployXcertCreateProxy(from: string) {
     return await deploy({
       web3: this.web3,
-      abi: contracts.xcertMintProxy.abi,
-      bytecode: contracts.xcertMintProxy.bytecode,
+      abi: contracts.xcertCreateProxy.abi,
+      bytecode: contracts.xcertCreateProxy.bytecode,
       from,
     });
   }
@@ -291,13 +291,13 @@ export class Protocol {
     });
 
     await orderGateway.instance.methods.assignAbilities(from, [1]).send({ from });
-    await orderGateway.instance.methods.setProxy(0, this.xcertMintProxy.receipt._address).send({ from });
+    await orderGateway.instance.methods.setProxy(0, this.xcertCreateProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(1, this.tokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(2, this.nftokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(3, this.nftokenSafeTransferProxy.receipt._address).send({ from });
     await this.tokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
     await this.nftokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
-    await this.xcertMintProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
+    await this.xcertCreateProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
     await this.nftokenSafeTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
 
     return orderGateway;

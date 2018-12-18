@@ -41,7 +41,7 @@ spec.test('revoke asset', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  await xcert.instance.methods.mint(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.revokeAsset('1');
   ctx.is(await xcert.instance.methods.balanceOf(bob).call(), '0');
 });

@@ -38,7 +38,7 @@ spec.test('update asset imprint', async (ctx) => {
   const xcert = ctx.get('protocol').xcertMutable;
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.updateAsset('1', {
     imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7',
   });

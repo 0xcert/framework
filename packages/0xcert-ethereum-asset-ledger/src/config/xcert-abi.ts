@@ -258,7 +258,7 @@ export default [
 				"type": "bytes32"
 			}
 		],
-		"name": "mint",
+		"name": "create",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -290,7 +290,7 @@ export default [
         "type": "uint256"
       }
     ],
-    "name": "burn",
+    "name": "destroy",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

@@ -43,14 +43,14 @@ spec.beforeEach(async (ctx) => {
   const xcert = await ctx.deploy({ 
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x42966c68']]
+    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x9d118770']]
   });
 
   await xcert.instance.methods.assignAbilities(owner, [1]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 
-spec.test('successfuly burns an xcert', async (ctx) => {
+spec.test('successfuly destroys an xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -59,9 +59,9 @@ spec.test('successfuly burns an xcert', async (ctx) => {
   const imprint1 = ctx.get('imprint1');
   const imprint2 = ctx.get('imprint2');
 
-  await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
-  await xcert.instance.methods.mint(bob, id2, imprint2).send({ from: owner });
-  const logs = await xcert.instance.methods.burn(id1).send({ from: bob });
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  await xcert.instance.methods.create(bob, id2, imprint2).send({ from: owner });
+  const logs = await xcert.instance.methods.destroy(id1).send({ from: bob });
   ctx.not(logs.events.Transfer, undefined);
 
   const balance = await xcert.instance.methods.balanceOf(bob).call();
@@ -78,7 +78,7 @@ spec.test('successfuly burns an xcert', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
-spec.test('successfuly burns an xcert from an operator', async (ctx) => {
+spec.test('successfuly destroys an xcert from an operator', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -86,26 +86,26 @@ spec.test('successfuly burns an xcert from an operator', async (ctx) => {
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await xcert.instance.methods.setApprovalForAll(sara, true).send({ from: bob });
   
-  const logs = await xcert.instance.methods.burn(id1).send({ from: sara });
+  const logs = await xcert.instance.methods.destroy(id1).send({ from: sara });
   ctx.not(logs.events.Transfer, undefined);
 });
 
-spec.test('throws when trying to burn an already burned xcert', async (ctx) => {
+spec.test('throws when trying to destroy an already destroyed xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
-  await xcert.instance.methods.burn(id1).send({ from: bob});
-  await ctx.reverts(() => xcert.instance.methods.burn(id1).send({ from: bob }), '006002');
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  await xcert.instance.methods.destroy(id1).send({ from: bob});
+  await ctx.reverts(() => xcert.instance.methods.destroy(id1).send({ from: bob }), '006002');
 });
 
-spec.test('throws when a third party tries to burn a xcert', async (ctx) => {
+spec.test('throws when a third party tries to destroy a xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -113,6 +113,6 @@ spec.test('throws when a third party tries to burn a xcert', async (ctx) => {
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  await xcert.instance.methods.mint(bob, id1, imprint1).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.burn(id1).send({ from: sara }, '008001'));
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  await ctx.reverts(() => xcert.instance.methods.destroy(id1).send({ from: sara }, '008001'));
 });

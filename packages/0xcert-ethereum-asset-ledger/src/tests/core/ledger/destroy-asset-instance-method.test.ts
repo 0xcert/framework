@@ -32,16 +32,16 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const provider = stage.get('provider');
-  const ledgerId = stage.get('protocol').xcertBurnable.instance.options.address;
+  const ledgerId = stage.get('protocol').xcertDestroyable.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
 spec.test('destoy asset', async (ctx) => {
-  const xcert = ctx.get('protocol').xcertBurnable;
+  const xcert = ctx.get('protocol').xcertDestroyable;
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
-  await xcert.instance.methods.mint(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(bob, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.destroyAsset('1');
   ctx.is(await xcert.instance.methods.balanceOf(bob).call(), '0');
 });

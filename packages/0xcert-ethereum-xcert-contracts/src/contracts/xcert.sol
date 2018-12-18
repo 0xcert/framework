@@ -76,16 +76,16 @@ contract Xcert is
   constructor()
     public
   {
-    supportedInterfaces[0xca12f2bf] = true; // Xcert
+    supportedInterfaces[0x64b450b5] = true; // Xcert
   }
 
   /**
-   * @dev Mints a new Xcert.
-   * @param _to The address that will own the minted Xcert.
-   * @param _id The Xcert to be minted by the msg.sender.
+   * @dev Creates a new Xcert.
+   * @param _to The address that will own the created Xcert.
+   * @param _id The Xcert to be created by the msg.sender.
    * @param _imprint Cryptographic asset imprint.
    */
-  function mint(
+  function create(
     address _to,
     uint256 _id,
     bytes32 _imprint
@@ -93,7 +93,7 @@ contract Xcert is
     external
     hasAbility(ABILITY_CREATE_ASSET)
   {
-    super._mint(_to, _id);
+    super._create(_to, _id);
     idToImprint[_id] = _imprint;
   }
 
@@ -138,7 +138,7 @@ contract Xcert is
   /**
    * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
    * address.
-   * @param _tokenId Id of the Xcert we want to burn.
+   * @param _tokenId Id of the Xcert we want to destroy.
    */
   function revoke(
     uint256 _tokenId
@@ -147,7 +147,7 @@ contract Xcert is
     hasAbility(ABILITY_REVOKE_ASSET)
   {
     require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
-    super._burn(_tokenId);
+    super._destroy(_tokenId);
     delete idToImprint[_tokenId];
   }
 
@@ -185,17 +185,17 @@ contract Xcert is
   }
 
   /**
-   * @dev Burns a specified Xcert. Reverts if not called from xcert owner or operator.
-   * @param _tokenId Id of the Xcert we want to burn.
+   * @dev Destroys a specified Xcert. Reverts if not called from xcert owner or operator.
+   * @param _tokenId Id of the Xcert we want to destroy.
    */
-  function burn(
+  function destroy(
     uint256 _tokenId
   )
     external
   {
-    require(supportedInterfaces[0x42966c68], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[0x9d118770], CAPABILITY_NOT_SUPPORTED);
     address tokenOwner = idToOwner[_tokenId];
-    super._burn(_tokenId);
+    super._destroy(_tokenId);
     require(
       tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
       NOT_OWNER_OR_OPERATOR

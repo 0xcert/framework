@@ -99,7 +99,7 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
   else {
-    return OrderGatewayProxy.XCERT_MINT;
+    return OrderGatewayProxy.XCERT_CREATE;
   }
 }
 

@@ -32,7 +32,7 @@ spec.test('returns account that owns the asset', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').xcert.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);
-  await xcert.instance.methods.mint(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   ctx.is(await ledger.getAssetAccount('1'), coinbase);
 });
 
