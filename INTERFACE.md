@@ -239,7 +239,7 @@ const mutation = await AssetLedger.deploy({
     AssetLedgerCapability.TOGGLE_TRANSFERS,
     AssetLedgerCapability.UPDATE_ASSET,
     AssetLedgerCapability.REVOKE_ASSET,
-    AssetLedgerCapability.BURN_ASSET,
+    AssetLedgerCapability.DESTROY_ASSET,
   ],
 });
 // OR

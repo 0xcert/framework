@@ -39,7 +39,7 @@ spec.test('returns ledger capabilities', async (ctx) => {
   const revokableAssetLedger = new AssetLedger(provider, revokableAssetLedgerId);
   ctx.deepEqual(
     await burnableAssetLedger.getCapabilities(),
-    [AssetLedgerCapability.BURN_ASSET],
+    [AssetLedgerCapability.DESTROY_ASSET],
   );
   ctx.deepEqual(
     await mutableAssetLedger.getCapabilities(),

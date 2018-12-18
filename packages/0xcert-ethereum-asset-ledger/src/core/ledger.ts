@@ -93,7 +93,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets the assets owner accountId.
+   * Gets the asset owner account ID.
    * @param assetId Id of the asset.
    */
   public async getAssetAccount(assetId: string): Promise<string> {

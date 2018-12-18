@@ -6,7 +6,7 @@ import { AssetLedgerCapability } from "@0xcert/scaffold";
  */
 export function getInterfaceCode(capability: AssetLedgerCapability) {
   switch (capability) {
-    case AssetLedgerCapability.BURN_ASSET:
+    case AssetLedgerCapability.DESTROY_ASSET:
       return '0x42966c68';
     case AssetLedgerCapability.REVOKE_ASSET:
       return '0x20c5429b';
