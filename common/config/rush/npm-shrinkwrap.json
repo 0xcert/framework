@@ -1342,10 +1342,11 @@
     },
     "@rush-temp/utils": {
       "version": "file:projects/utils.tgz",
-      "integrity": "sha512-HFGARjCo/CyhIA48V1HM9LuiUCtFfE4WuWMP+Q8FXQ9Vt2TZL/9srLBIxNubqpiCBhSVDZmofiw3eOuHJUJ4rw==",
+      "integrity": "sha512-JTFIRV6ZeTziReTxrr28WLhe371QMlAHuX5zSn5Xeycvi3FqOw7Z6Wq0p8FlK1OIrpNKWROONVd1M0je0+YVHw==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
+        "js-sha3": "0.8.0",
         "node-fetch": "^2.3.0",
         "solc": "^0.5.1",
         "ts-node": "^7.0.1",
@@ -2255,6 +2256,13 @@
       "integrity": "sha1-P/NKMAbvFcD7NWflQbkaI0ASPRE=",
       "requires": {
         "js-sha3": "^0.3.1"
+      },
+      "dependencies": {
+        "js-sha3": {
+          "version": "0.3.1",
+          "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.3.1.tgz",
+          "integrity": "sha1-hhIoAhQvCChQKg0d7h2V4lO7AkM="
+        }
       }
     },
     "browserify-sign": {
@@ -5732,9 +5740,9 @@
       "integrity": "sha512-PxfGzSs0ztShKrUYPIn5r0MtyAhYcCwmndozzpz8YObbPnD1jFxzlBGbRnX2mIu6Z13xN6+PTu05TQFnZFlzow=="
     },
     "js-sha3": {
-      "version": "0.3.1",
-      "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.3.1.tgz",
-      "integrity": "sha1-hhIoAhQvCChQKg0d7h2V4lO7AkM="
+      "version": "0.8.0",
+      "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.8.0.tgz",
+      "integrity": "sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q=="
     },
     "js-tokens": {
       "version": "4.0.0",

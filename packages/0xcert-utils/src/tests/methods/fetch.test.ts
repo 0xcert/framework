@@ -1,4 +1,4 @@
-import { Spec } from '@hayspec/spec';
+import { Spec } from '@specron/spec';
 import { fetch } from '../../methods/fetch';
 
 const spec = new Spec();
