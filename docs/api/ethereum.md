@@ -1,8 +1,8 @@
 # API
 
-## Metamask provider
+## MetaMask provider
 
-MetaMask provider is applied for in-browser use. The user should have the [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel with MetaMask, which further performs communication with the Ethereum blockchain.
+A MetaMask provider is applied for in-browser use. The user should have the [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel to MetaMask which further performs communication with the Ethereum blockchain.
 
 ### MetamaskProvider(options)
 
@@ -13,8 +13,8 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
-| options.requiredConfirmations | An `integer` which represents the number of confirmation needed for mutations to be considered as confirmed. It defaults to `1`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers.
+| options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered as confirmed. It defaults to `1`.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers (**tranfers?**).
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
 
 **Usage**
@@ -82,7 +82,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 **Result:**
 
-A `boolean` which tells if the provider is enabled.
+A `boolean` which tells if provider is enabled.
 
 **Usage:**
 
@@ -97,13 +97,13 @@ const isEnabled = await provider.isEnabled();
 
 ## HTTP provider
 
-HTTP provider uses HTTP in HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
+HTTP provider uses HTTP in (**and**?) HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 > Don't forger to manually unlock your account before performing a mutation.
 
 ### HttpProvider(options)
 
-A `class` providing the communication with the Ethereum blockchain using the HTTP/HTTPS protocol.
+A `class` providing communication with the Ethereum blockchain using the HTTP/HTTPS protocol.
 
 **Arguments**
 
@@ -117,8 +117,8 @@ A `class` providing the communication with the Ethereum blockchain using the HTT
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.requiredConfirmations | An `integer` which represents the number of confirmation needed for mutations to be considered as confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It default to `0`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers.
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers (**transfers?**)
 | options.url | [required] A `string` representing the URL to the Ethereum node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
 
@@ -200,13 +200,13 @@ const ledger = new AssetLedger(provider, ledgerId);
 
 ### approveAccount(assetId, accountId)
 
-An `asynchronous` class instance `function` which approves a third party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner. Note that only one account can be approved at the same time thus running this function multiple times will override previously set data.
+An `asynchronous` class instance `function` which approves a third-party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner. Note that only one account can be approved at the same time thus running this function multiple times will override previously set data.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` representing the ID of an asset.
+| assetId | [required] A `string` representing an ID of an asset.
 | accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the OrderGateway class.
 
 **Result:**
@@ -214,7 +214,7 @@ An `asynchronous` class instance `function` which approves a third party `accoun
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
+| id | A `string` representing an ID of the Ethereum transaction.
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
@@ -235,7 +235,7 @@ const mutation = await ledger.approveAccount(assetId, accountId);
 
 ### approveOperator(accountId)
 
-An `asynchronous` class instance `function` which approves third party `accountId` to take over the management of all the assets of the account that performed this mutation. Note that multiple operators can exist.
+An `asynchronous` class instance `function` which approves the third-party `accountId` to take over the management of all the assets of the account that performed this mutation. Note that multiple operators can exist.
 
 **Arguments:**
 
@@ -275,7 +275,7 @@ An `asynchronous` class instance `function` which assignes management permission
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the Ethereum account address that will get new management permissions on this ledger.
+| accountId | [required] A `string` representing an Ethereum account address that will get new management permissions on this ledger.
 | abilities | [required] A array of `integers` representing this ledger's smart contract abilities.
 
 **Result:**
@@ -283,9 +283,9 @@ An `asynchronous` class instance `function` which assignes management permission
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -313,16 +313,16 @@ An `asynchronous` class instance `function` which creates a new asset on the Eth
 |-|-
 | recipe.id | [required] A `string` which represents a unique asset ID.
 | recipe.imprint | [required] A `string` which represents asset imprint generated by using `Cert` class.
-| recipe.receiverId | [required] A `string` representing Ethereum account address that will receive the new asset.
+| recipe.receiverId | [required] A `string` representing an Ethereum account address that will receive the new asset.
 
 **Result:**
 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -362,9 +362,9 @@ An `asynchronous` static class `function` which deploys a new asset ledger to th
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -406,9 +406,9 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -426,7 +426,7 @@ const mutation = await ledger.destroyAsset(assetId);
 
 ### disapproveAccount(assetId)
 
-An `asynchronous` class instance `function` which removes the ability of the currently set third party account to take over a specific `assetId`. Note that this function succeeds only when performed by the asset's owner.
+An `asynchronous` class instance `function` which removes the ability of the currently set third-party account to take over a specific `assetId`. Note that this function succeeds only when performed by the asset's owner.
 
 **Arguments:**
 
@@ -439,9 +439,9 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -459,7 +459,7 @@ const mutation = await ledger.disapproveAccount(assetId);
 
 ### disapproveOperator(accountId)
 
-An `asynchronous` class instance `function` which removes the third party `accountId` the ability of managing assets of the account that performed this mutation.
+An `asynchronous` class instance `function` which removes the third-party `accountId` the ability of managing assets of the account that performed this mutation.
 
 **Arguments:**
 
@@ -472,9 +472,9 @@ An `asynchronous` class instance `function` which removes the third party `accou
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -499,9 +499,9 @@ An `asynchronous` class instance `function` which disables all asset transfers. 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -523,9 +523,9 @@ An `asynchronous` class instance `function` which enables all asset transfers. T
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -564,7 +564,7 @@ An `asynchronous` class instance `function` which returns an account ID of a thi
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` representing asset ID.
+| assetId | [required] A `string` representing an asset ID.
 
 **Result:**
 
@@ -624,7 +624,7 @@ An `asynchronous` class instance `function` which returns an account ID that own
 
 **Result:**
 
-A `string` which represents account ID.
+A `string` which represents an account ID.
 
 **Usage:**
 
@@ -731,7 +731,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Ethereum account address or an instance of the OrderGateway class.
-| assetId | [required] A `string` representing the asset ID.
+| assetId | [required] A `string` representing an asset ID.
 
 **Result:**
 
@@ -761,7 +761,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns assets.
-| operatorId | [required] A `string` representing the thrid-party Ethereum account address or an instance of the OrderGateway class.
+| operatorId | [required] A `string` representing a third-party Ethereum account address or an instance of the OrderGateway class.
 
 **Result:**
 
@@ -856,9 +856,9 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing Ethereum address of the receiver.
+| senderId | A `string` representing Ethereum address of the sender.
 
 **Usage:**
 
@@ -889,9 +889,9 @@ An `asynchronous` class instance `function` which updates ledger data. Note that
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -924,9 +924,9 @@ An `asynchronous` class instance `function` which updates `assetId` data. You ne
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -952,7 +952,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 | Argument | Description
 |-|-
-| recipe.receiverId | [required] A `string` which represents account ID that will receive the asset.
+| recipe.receiverId | [required] A `string` which represents the account ID that will receive the asset.
 | recipe.id | [required] A `string` which represents asset ID.
 | recipe.data | A `string` which represents some arbitrary mutation note.
 
@@ -961,9 +961,9 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -1005,7 +1005,7 @@ const abilities = [
 
 ## Ledger Capabilities
 
-Ledger capabilities represent features of a smart contract.
+Ledger capabilities represent the features of a smart contract.
 
 **Options:**
 
@@ -1028,7 +1028,7 @@ const capabilities = [
 
 ## Value Ledger
 
-Value ledger represents a ERC-20 related smart contract on the Ethereum blockchain.
+Value ledger represents an ERC-20 related smart contract on the Ethereum blockchain.
 
 ### ValueLedger(provider, ledgerId)
 
@@ -1057,7 +1057,7 @@ const ledger = new ValueLedger(provider, ledgerId);
 
 ### approveValue(value, accountId)
 
-An `asynchronous` class instance `function` which approves a third party `accountId` to transfer a specific `value`. This function succeeds only when performed by the asset's owner. Multiple accounts can be approved for different values at the same time.
+An `asynchronous` class instance `function` which approves a third-party `accountId` to transfer a specific `value`. This function succeeds only when performed by the asset's owner. Multiple accounts can be approved for different values at the same time.
 
 **Arguments:**
 
@@ -1071,9 +1071,9 @@ An `asynchronous` class instance `function` which approves a third party `accoun
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing the Ethereum address of a receiver.
+| senderId | A `string` representing the Ethereum address of a sender.
 
 **Usage:**
 
@@ -1102,14 +1102,14 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 | recipe.name | [required] A `string` representing value ledger name.
 | recipe.symbol | [required] A `string` representing value ledger symbol.
 | recipe.decimals | [required] A big number `string` representing the number of decimals.
-| recipe.supply | [required] A big number `string` representing the ledger total supply.
+| recipe.supply | [required] A big number `string` representing the total supply of a ledger.
 
 **Result:**
 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
+| id | A `string` representing an ID of the Ethereum transaction.
 | receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
 | senderId | A `string` representing Ethereum address of a sender.
 
@@ -1136,7 +1136,7 @@ const mutation = await ValueLedger.deploy(provider, recipe).then((mutation) => {
 
 ### disapproveValue(accountId)
 
-An `asynchronous` class instance `function` which removes the ability of a third party account to transfer value. Note that this function succeeds only when performed by the value owner.
+An `asynchronous` class instance `function` which removes the ability of a third-party account to transfer value. Note that this function succeeds only when performed by the value owner.
 
 **Arguments:**
 
@@ -1149,7 +1149,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
+| id | A `string` representing an ID of the Ethereum transactions.
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
@@ -1229,9 +1229,9 @@ An `asynchronous` class instance `function` that returns an object with general 
 
 | Key | Description
 |-|-
-| name | A `string` which representsasset ledger's name.
+| name | A `string` which represents an asset ledger's name.
 | symbol | A `string` which represents asset ledger's symbol.
-| decimals | [required] A big number `string` representing the number of decimals.
+| decimals | [required] A big number of `strings` representing the number of decimals.
 | supply | [required] A big number `string` representing the ledger total supply.
 
 **Usage:**
@@ -1277,7 +1277,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 |-|-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns the funds.
 | spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the OrderGateway class.
-| value | [required] A big number `string` representing the allowed amount to transfer.
+| value | [required] A big number `string` representing the amount allowed to transfer.
 
 **Result:**
 
@@ -1316,9 +1316,9 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+| id | A `string` representing an ID of the Ethereum transaction.
+| receiverId | A `string` representing an Ethereum address of the receiver.
+| senderId | A `string` representing an Ethereum address of the sender.
 
 **Usage:**
 
@@ -1374,14 +1374,14 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays for the gas cost.
 
 **Result:**
 
 | Key | Description
 |-|-
 | confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
+| id | A `string` representing an ID of the Ethereum transaction.
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
@@ -1424,7 +1424,7 @@ An `asynchronous` class instance `function` which cryptographically signes the p
 |-|-
 | order.actions | [required] An `array` of [action objects](#order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
-| order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
 | order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
@@ -1492,7 +1492,7 @@ An `asynchronous` class instance `function` which submits the `order` with  `sig
 | signature | [required] A `string` representing order signature created by the maker. 
 | order.actions | [required] An `array` of [action objects](#order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
-| order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
 | order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
