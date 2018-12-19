@@ -4,7 +4,7 @@
 
 A MetaMask provider is applied for in-browser use. The user should have the [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel to MetaMask which further performs communication with the Ethereum blockchain.
 
-### MetaMaskProvider(options)
+### MetamaskProvider(options)
 
 A `class` providing the communication with the Ethereum blockchain through [MetaMask](https://metamask.io/).
 
@@ -135,7 +135,7 @@ const provider = new HttpProvider({
 
 **See also:**
 
-[MetaMaskProvider](#metamask-provider)
+[MetamaskProvider](#metamask-provider)
 
 ### getInstance(options)
 
