@@ -6,9 +6,9 @@ This guide assumes intermediate level knowledge of JavaScript or TypeScript and 
 
 In order to expose the Framework in all its beauty, the code snippets in this document are written in TypeScript. This way, the developers using the Framework will find it more familiar and easier to work with.
 
-Requirements
-Node.js > v8.x
-NPM > v6.x
-Browser with ES6 support
+**Requirements:**
+* Node.js > v8.x
+* NPM > v6.x
+* Browser with ES6 support
 
-Before you start with any serious taska, you should understand the meaning and function of query, mutation, private key, etc.
+Before you start with any serious task, you should understand the meaning and function of query, mutation, private key, etc.
