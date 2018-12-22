@@ -66,7 +66,7 @@ export class Cert {
   }
 
   /**
-   * Returns `true` when all the property values of the provided `data` are 
+   * Returns an imprint when all the property values of the provided `data` are 
    * described with the `proofs`. Note that custom data properties will always
    * be ignored and will thus always pass.
    * @param data Complete data object.
