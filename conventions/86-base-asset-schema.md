@@ -1,6 +1,7 @@
 ---
-issue: 1
-title: Asset Metadata
+issue: 86
+title: Base asset schema
+id: 3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 0.0.0-alpha7
 category: conventions
@@ -10,7 +11,7 @@ created: 2018-11-07
 
 ## Simple Summary
 
-A digital asset JSON Schema definition.
+A base asset schema definition.
 
 ## About
 
@@ -18,13 +19,13 @@ A digital asset in the 0xcert protocol is defined in form of a specifically desi
 
 ## Specification
 
-The schema represents a technical specification of a particular digital asset, which explains the JSON data object structure and a detailed description of each data key. The naming of JSON properties follows the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format. The convention also expects the JSON keys to be defined in alphabetical order.
+The schema represents a technical specification of a particular digital asset, which explains the JSON data object structure and a detailed description of each data key. The naming of JSON properties should follow the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format. The convention also expects the JSON keys to be defined in alphabetical order.
 
 This schema follows [ERC721 Metadata JSON Schema](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md). Every asset convention should extend from this basic metadata schema.
 
 ```json
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "description": "An abstract digital asset schema.",
   "properties": {
     "$evidence": {
@@ -46,7 +47,7 @@ This schema follows [ERC721 Metadata JSON Schema](https://github.com/ethereum/EI
     "name": {
       "description": "A public property that holds a name of an asset. This property is required and is limited to 255 characters.",
       "type": "string"
-    },
+    }
   },
   "title": "Asset",
   "type": "object"
@@ -57,14 +58,10 @@ This schema follows [ERC721 Metadata JSON Schema](https://github.com/ethereum/EI
 
 ```json
 {
-  "$evidence": "http://...",
-  "$schema": "http://...",
-  "description": "...",
-  "image": "...",
-  "name": "..."
+  "$evidence": "https://troopersgame.com/dog/evidence",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "description": "A weapon for the Troopers game which can severely injure the enemy.",
+  "image": "https://troopersgame.com/dog.jpg",
+  "name": "Magic Sword"
 }
 ```
-
-## Copyright
-
-Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
