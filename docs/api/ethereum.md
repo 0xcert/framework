@@ -1,4 +1,4 @@
-# API
+# API / Ethereum
 
 ## MetaMask provider
 
@@ -33,7 +33,7 @@ const provider = new MetamaskProvider();
 
 An `asynchronous` class instance `function` which authorizes the provider and connects it with the website.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -65,7 +65,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 A `boolean` which tells if the provider can be used.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -84,7 +84,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 A `boolean` which tells if provider is enabled.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -162,7 +162,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 A `boolean` which tells if the provider can be used.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -184,7 +184,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 | ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
 | provider | [required] An instance of a HTTP or MetaMask provider.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -218,7 +218,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data 
@@ -252,7 +252,7 @@ An `asynchronous` class instance `function` which approves the third-party `acco
 | receiverId | A `string` representing an Ethereum account address of a receiver.
 | senderId | A `string` representing an Ethereum account address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data 
@@ -287,7 +287,7 @@ An `asynchronous` class instance `function` which assignes management permission
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
@@ -324,7 +324,7 @@ An `asynchronous` class instance `function` which creates a new asset on the Eth
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -366,7 +366,7 @@ An `asynchronous` static class `function` which deploys a new asset ledger to th
 | receiverId | A `string` representing the Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -410,7 +410,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -443,7 +443,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -476,7 +476,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -503,7 +503,7 @@ An `asynchronous` class instance `function` which disables all asset transfers. 
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the mutation
@@ -527,7 +527,7 @@ An `asynchronous` class instance `function` which enables all asset transfers. T
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the mutation
@@ -546,7 +546,7 @@ An `asynchronous` class instance `function` which returns `accountId` abilities.
 
 An `array` of `integer` numbers representing acount abilities.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -570,7 +570,7 @@ An `asynchronous` class instance `function` which returns an account ID of a thi
 
 A `string` representing account ID.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -602,7 +602,7 @@ An `asynchronous` class instance `function` which returns `assetId` data.
 | uri | A `string` representing asset URI which points to asset public metadata.
 | imprint | A `string` representing asset imprint.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -626,7 +626,7 @@ An `asynchronous` class instance `function` which returns an account ID that own
 
 A `string` which represents an account ID.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -650,7 +650,7 @@ An `asynchronous` class instance `function` which returns the number of assets o
 
 An `integer` number representing the number of assets in the `accountId`.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -668,7 +668,7 @@ An `asynchronous` class instance `function` which returns ledger's capabilities.
 
 An `array` of `integer` numbers representing ledger capabilities.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -689,7 +689,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 | schemaId | A `string` which represents data schema ID.
 | supply | A big number `string` which represents the total number of issued assets.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -704,7 +704,7 @@ A static class `function` that returns a new instance of the AssetLedger class (
 
 See the class [constructor](#asset-ledger) for details.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -737,7 +737,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 A `boolean` which tells if the `accountId` is approved for `assetId`.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -767,7 +767,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -790,7 +790,7 @@ An `asynchronous` class instance `function` which returns `true` if the asset tr
 
 A `boolean` which tells if ledger asset transfers are enabled.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the mutation
@@ -821,7 +821,7 @@ An `asynchronous` class instance `function` which removes `abilities` of an `acc
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
@@ -860,7 +860,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 | receiverId | A `string` representing Ethereum address of the receiver.
 | senderId | A `string` representing Ethereum address of the sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -893,7 +893,7 @@ An `asynchronous` class instance `function` which updates ledger data. Note that
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -928,7 +928,7 @@ An `asynchronous` class instance `function` which updates `assetId` data. You ne
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -965,7 +965,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -993,7 +993,7 @@ Ledger abilities represent account-level permissions.
 | UPDATE_ASSET | 4 | Allows an account to update asset data.
 | UPDATE_URI_BASE | 6 | Allows an account to update asset ledger's base URI.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
@@ -1016,7 +1016,7 @@ Ledger capabilities represent the features of a smart contract.
 | REVOKE_ASSET | 4 | Enables ledger managers to revoke assets.
 | TOGGLE_TRANSFERS | 3 | Enables ledger managers to start and stop asset transfers.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
@@ -1041,7 +1041,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 | ledgerId | [required] A string representing an address of the ERC-20 related smart contract on the Ethereum blockchain.
 | provider | [required] An instance of a HTTP or MetaMask provider.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -1075,7 +1075,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 | receiverId | A `string` representing the Ethereum address of a receiver.
 | senderId | A `string` representing the Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data 
@@ -1113,7 +1113,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 | receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -1153,7 +1153,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1182,7 +1182,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 
 A big number `string` representing the approved value.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1211,7 +1211,7 @@ An `asynchronous` class instance `function` which returns the total posessed amo
 
 A big number `string` representing the total value of the `accountId`.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1234,7 +1234,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 | decimals | [required] A big number of `strings` representing the number of decimals.
 | supply | [required] A big number `string` representing the ledger total supply.
 
-**Usage:**
+**Example:**
 
 ```ts
 // perform the query
@@ -1283,7 +1283,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 
 A `boolean` which tells if the `spenderId` is approved to move `value` from `accountId`.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1320,7 +1320,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 | receiverId | A `string` representing an Ethereum address of the receiver.
 | senderId | A `string` representing an Ethereum address of the sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1385,7 +1385,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 import { OrderActionKind } from '@0xcert/ethereum-order-gateway';
@@ -1432,7 +1432,7 @@ An `asynchronous` class instance `function` which cryptographically signes the p
 
 A `string` representing order signature. 
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data
@@ -1505,7 +1505,7 @@ An `asynchronous` class instance `function` which submits the `order` with  `sig
 | receiverId | A `string` representing Ethereum address of a receiver.
 | senderId | A `string` representing Ethereum address of a sender.
 
-**Usage:**
+**Example:**
 
 ```ts
 // arbitrary data

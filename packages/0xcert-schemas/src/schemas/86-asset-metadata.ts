@@ -1,7 +1,7 @@
 import erc721 from './erc721';
 
 export default {
-  $schema: 'http://json-schema.org/draft-07/schema#',
+  $schema: 'http://json-schema.org/draft-07/schema',
   description: 'An abstract digital asset schema.',
   properties: {
     $evidence: {

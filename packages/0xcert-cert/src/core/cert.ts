@@ -20,7 +20,7 @@ export class Cert {
 
   /**
    * Class constructor.
-   * @param merkle Instance of merkle proof.
+   * @param config Certificate configuration.
    */
   public constructor(config: CertConfig) {
     this.schema = config.schema;
@@ -31,6 +31,14 @@ export class Cert {
     });
   }
 
+  /**
+   * Returns a new instance of a Cert class.
+   * @param config Certificate configuration.
+   */
+  public static getInstance(config: CertConfig) {
+    return new Cert(config);
+  }
+  
   /**
    * Returns a complete list of proofs for the entiry data object.
    * @param data Complete data object.
