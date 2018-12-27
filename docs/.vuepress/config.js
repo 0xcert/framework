@@ -8,7 +8,7 @@ module.exports = {
   serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
-    displayAllHeaders: false,
+    displayAllHeaders: true,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
     repoLabel: 'GitHub',
