@@ -24,7 +24,7 @@ module.exports = {
         children: [
           ['/guide/introduction', 'Introduction'],
           ['/guide/getting-started', 'Getting started'],
-          ['/overview/queries-and-mutations', 'Queries & Mutations'],
+          ['/guide/queries-and-mutations', 'Queries & Mutations'],
           ['/guide/using-providers', 'Using Providers'],
           ['/overview/assets', 'Assets'],
           ['/guide/certification', 'Certification'],
