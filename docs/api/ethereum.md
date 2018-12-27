@@ -99,7 +99,9 @@ const isEnabled = await provider.isEnabled();
 
 HTTP provider uses HTTP in (**and**?) HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
-> Don't forger to manually unlock your account before performing a mutation.
+::: warning
+Don't forger to manually unlock your account before performing a mutation.
+:::
 
 ### HttpProvider(options)
 
