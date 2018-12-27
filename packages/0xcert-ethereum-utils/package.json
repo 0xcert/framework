@@ -25,12 +25,14 @@
     "@0xcert/ethereum-sandbox": "0.0.0-alpha7",
     "@specron/cli": "^0.5.1",
     "@specron/spec": "^0.5.1",
-    "solc": "^0.5.1",
+    "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
-    "web3": "^1.0.0-beta.36"
+    "web3": "^1.0.0-beta.36",
+    "@0xcert/utils": "0.0.0-alpha7"
   },
   "dependencies": {
-    "web3-eth-abi": "^1.0.0-beta.36"
+    "web3-eth-abi": "^1.0.0-beta.36", 
+    "ethers": "4.0.0-beta.1"
   }
 }
