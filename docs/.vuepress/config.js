@@ -8,7 +8,7 @@ module.exports = {
   serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
-    displayAllHeaders: true,
+    displayAllHeaders: false,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
     repoLabel: 'GitHub',
@@ -55,5 +55,8 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
+    extendMarkdown: md => {
+      md.use(require('markdown-it-container'))
+    }
   },
 }
