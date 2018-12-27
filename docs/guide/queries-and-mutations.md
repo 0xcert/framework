@@ -2,6 +2,8 @@
 
 Comunication with the blockchain is quite different than communication with any kind of other storage systems. For this reason, we will explain two different kinds of communication employed within the 0xcert Framework.
 
+## What is query?
+
 The process of reading a state from the underlying system is called a **query**. A query represents an instant request which is fast and usually free of charge, and usually does not need any kind of account information. A query reads data from the system and basically represents a `GET` operation.
 
 ```ts
@@ -15,9 +17,11 @@ const ledger = new AssetLedger(provider, ledgerId);
 const balance = await ledger.getBalance(accountId);
 ```
 
+## What is mutation?
+
 On the other hand, the 0xcert Framework performs **mutations** for any request that changes the state on the underlying system (e.g. smart contract on the blockchain). If a query represents a `GET` operation, then a mutation represents `POST`, `PUT`, and `DELETE` operations. The 0xcert Framework adopts the concept of confirmations common in the blockchain systems, therefore, changing anything on the blockchain needs to be confirmed by involved providers (miners). Usually, mutations need to be paid to involved parties supporting the system. The fee depends on the storage and computation power needed to process the mutation based on the traffic congestion of the network. Mutations must be performed from a user’s account, and the user has to confirm every mutation concerning their assets or values.
 
-```
+```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 
