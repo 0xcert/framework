@@ -2,7 +2,7 @@
 
 ## Asset Certificate
 
-Certification is the process of converting digital asset data into a cryptographic evidence. Asset certificate allows for creating and validating asset data. Each asset carries an imprint of a digital asset data object. It is a cryptographic hash which serves as a decentralized evidence of a digital asset.
+Certification is the process of converting digital asset data into a piece of cryptographic evidence. Asset Certificate allows for creating and validating asset data. Each asset carries an imprint of a digital asset data object. It is a cryptographic hash which serves as decentralized evidence of a digital asset.
 
 ### Cert(options)
 
@@ -13,7 +13,7 @@ A `class` which allows for creating and managing asset imprints and evidence obj
 | Argument | Description
 |-|-|-
 | schema | [required] An `object` representing the JSON-Schema definition.
-| hasher | An `asynchronous` or `synchronous` `function` which accepts a `string` value and converts it into a hash. By default a  value is converted into SHA256 hash.
+| hasher | An `asynchronous` or `synchronous` `function` which accepts a `string` value and converts it into a hash. By default, the value is converted into SHA256 hash.
 
 **Usage**
 
@@ -41,7 +41,7 @@ An `asynchronous` class instance `function` which returns an asset imprint when 
 | Argument | Description
 |-|-
 | data | [required] An `object` with asset data which follows class schema definition.
-| proofs | [required] An `array` of proof `objcts`.
+| proofs | [required] An `array` of proof `objects`.
 
 **Result:**
 
@@ -86,7 +86,7 @@ const imprint = await cert.calculate(data, proofs);
 
 ### disclose(data, paths)
 
-An `asynchronous` class instance `function` which generates the minimal list of proofs needed to verify the key `paths` of the provided `data` object. Use this function to prove the validity of only selected data keys to a third-party.
+An `asynchronous` class instance `function` which generates a minimal list of proofs needed to verify the key `paths` of the provided `data` object. Use this function to prove the validity of only selected data keys to a third-party.
 
 **Arguments:**
 
@@ -168,7 +168,7 @@ const proofs = await cert.notarize(data);
 
 ## Asset Proof
 
-Asset proof represents a unit of the evidence object and describes a single level JSON object. The proof is used to verify the existance of some arbitrary data in the original data object of an asset which the imprint represents.
+Asset Proof represents a unit of the evidence object and describes a single level JSON object. The proof is used to verify the existence of some arbitrary data in the original data object of an asset which the imprint represents.
 
 **Object:**
 
@@ -214,7 +214,7 @@ const proofs = [
 
 ## Asset Schema
 
-An asset is defined in form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to [RFC-7159](https://en.wikipedia.org/wiki/JSON) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. Each asset includes an URI which points to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset.
+An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to the [RFC-7159](https://en.wikipedia.org/wiki/JSON) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. Each asset includes a URI which points to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset.
 
 **Example:**
 
@@ -236,7 +236,7 @@ const schema = {
       type: 'string'
     },
     image: {
-      description: 'A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.',
+      description: 'A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and an aspect ratio between 1.91:1 and 4:5 inclusive.',
       type: 'string'
     },
     name: {
@@ -251,7 +251,7 @@ const schema = {
 
 **Schema ID:**
 
-The schema ID is a hash which uniquelly represents the data structure.
+The schema ID is a hash which uniquely represents the data structure.
 
 ```ts
 import { sha } from '@0xcert/utils';
@@ -261,7 +261,7 @@ const schemaId = await sha(256, JSON.stringify(schema));
 
 **Public Metadata:**
 
-Public metadata file must expose at least the keys defined by the [base asset schema](#asset-conventions).
+Public Metadata file must expose at least the keys defined by the [base asset schema](#asset-conventions).
 
 ```json
 {
@@ -275,7 +275,7 @@ Public metadata file must expose at least the keys defined by the [base asset sc
 
 **Public Evidence:**
 
-Public evidence is a notarized metadata object which proofs data validity of the public metadata.
+Public Evidence is a notarized metadata object which proofs data validity of the Public Metadata.
 
 ```json
 {
