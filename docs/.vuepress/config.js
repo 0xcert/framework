@@ -8,7 +8,7 @@ module.exports = {
   serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
-    displayAllHeaders: false,
+    displayAllHeaders: true,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
     repoLabel: 'GitHub',
@@ -19,30 +19,21 @@ module.exports = {
     editLinkText: 'Help us improve this page.',
     sidebar: [
       {
-        title: 'Overview',
-        collapsable: false,
-        children: [
-          ['/overview/introduction', 'Introduction'],
-          ['/overview/queries-and-mutations', 'Queries & Mutations'],
-          ['/overview/atomic-orders', 'Atomic Orders'],
-          ['/overview/providers', 'Providers'],
-          ['/overview/cryptocurrency', 'Cryptocurrency'],
-          ['/overview/assets', 'Assets'],
-          ['/overview/certification', 'Certification'],
-          ['/overview/support', 'Support'],
-        ],
-      },
-      {
         title: 'Guide',
         collapsable: false,
         children: [
+          ['/guide/introduction', 'Introduction'],
           ['/guide/getting-started', 'Getting started'],
+          ['/overview/queries-and-mutations', 'Queries & Mutations'],
           ['/guide/using-providers', 'Using Providers'],
-          ['/guide/error-handling', 'Error Handling'],
+          ['/overview/assets', 'Assets'],
           ['/guide/certification', 'Certification'],
-          ['/guide/managing-assets', 'Managing Assets'],
-          ['/guide/value-transfer', 'Value Transfer'],
-          ['/guide/atomic-orders', 'Atomic Orders'],
+          ['/guide/managing-assets', 'Asset Ledger'],
+          ['/overview/cryptocurrency', 'Cryptocurrency'],
+          ['/guide/value-transfer', 'Value Ledger'],
+          ['/overview/atomic-orders', 'Atomic Orders'],
+          ['/guide/atomic-orders', 'Order Gateway'],
+          ['/overview/support', 'Support'],
         ],
       },
       {
