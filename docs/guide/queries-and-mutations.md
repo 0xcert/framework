@@ -1,9 +1,40 @@
 # Queries & Mutations
 
-Comunication with the blockchain is quite different than communication with any kind of other storage system. For this reason, we will explain two different kinds of communication that are supported with the 0xcert framework.
+Comunication with the blockchain is quite different than communication with any kind of other storage systems. For this reason, we will explain two different kinds of communication employed within the 0xcert Framework.
 
-A reading state from the blockchain is called a `query`. A query is quick, free, does not need any kind of account information, and you only need a provider to connect to the blockchain node.
+The process of reading a state from the underlying system is called a **query**. A query represents an instant request which is fast and usually free of charge, and usually does not need any kind of account information. A query reads data from the system and basically represents a `GET` operation.
 
-The process of changing state on the blockchain called mutation is quite a different concept. Since changing anything on the blockchain needs to be confirmed by miners, that means the process is slow because a block with the data needs to be confirmed and every mutation has a fee that must be paid. That fee goes to the miners confirming the mutation. The fee depends on the storage/computing power needed to process the mutation and the current state of the blockchain (higher network traffic means higher fees or longer waiting time). Mutations have to be performed from a user’s wallet, meaning that the user has to confirm any mutation concerning his assets or values. This is primarily done with Metamask on the front end and by direct wallet connection on the backend.
+```ts
+import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
 
-Handling mutations (waiting for transaction to be created, handling rejections, changing fees to a stuck transation, node errors, etc.) is the hardest part of blockchain communication. Therefore, we worked hard on having our framework handle most of the hard stuff. The methods of handling different situations are configurable with a default (recommended) setting.
+// initialize a ledger
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const ledger = new AssetLedger(provider, ledgerId);
+
+// perform a query
+const balance = await ledger.getBalance(accountId);
+```
+
+On the other hand, the 0xcert Framework performs **mutations** for any request that changes the state on the underlying system (e.g. smart contract on the blockchain). If a query represents a `GET` operation, then a mutation represents `POST`, `PUT`, and `DELETE` operations. The 0xcert Framework adopts the concept of confirmations common in the blockchain systems, therefore, changing anything on the blockchain needs to be confirmed by involved providers (miners). Usually, mutations need to be paid to involved parties supporting the system. The fee depends on the storage and computation power needed to process the mutation based on the traffic congestion of the network. Mutations must be performed from a user’s account, and the user has to confirm every mutation concerning their assets or values.
+
+```
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
+import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
+
+// initialize a provider
+const provider = new MetamaskProvider();
+
+// initialize a ledger
+const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const ledger = new AssetLedger(provider, ledgerId);
+
+// enqueue mutation for processing
+const mutation = await ledger.enableTransfers().then((mutation) => {
+    // wait until confirmed
+    return mutation.complete();
+});
+```
+
+Mutations work by first sending a request to the system to be accepted to handling. Once the request is accepted, the response is sent in the form of mutation details which include a unique ID of the mutation. This ID can be used to track the state of mutation and its confirmation. Mutation with at least one confirmation can be considered completed.
+
+This is a general description of how mutations in the 0xcert Framework work. For specific details about how mutations work on the system of your choice, please consider its official documentation.

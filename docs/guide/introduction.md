@@ -32,8 +32,7 @@ The 0xcert Framework enables an effective and multi-function library for buildin
 
 * **Unified experience for decentralized and distributed systems:** The goal of the 0xcert Framework is to become blockchain/system-agnostic, without discriminating among different blockchains or other distributed systems. The whole API of the Framework is identical when used with the Ethereum blockchain or any other distributed system you choose for your application. The code of the API looks completely identical and provides the exact same functionality regardless of the blockchain or distributed system you employ. This enables you to easily and seamlessly switch between systems.
 
-* **Data conventions:** We have set up the rules for interoperability between applications built on top of the 0xcert Framework. They are of crucial importance for adoption among businesses. Each asset data object is defined and managed by conventions that provide a unifying layer to the systems, which in turn enables different applications to communicate amongst themselves.
-Suggestions for new conventions are always welcome and we invite anyone to support the development of the ecosystem. Simply open a new issue on GitHub and invite the interested audience to provide feedback and finally approve the new convention.
+* **Data conventions:** We have set up the rules for interoperability between applications built on top of the 0xcert Framework. They are of crucial importance for adoption among businesses. Each asset data object is defined and managed by conventions that provide a unifying layer to the systems, which in turn enables different applications to communicate amongst themselves. Suggestions for new conventions are always welcome and we invite anyone to support the development of the ecosystem. Simply open a new issue on GitHub and invite the interested audience to provide feedback and finally approve the new convention.
 
 ## Our vision
 
