@@ -7,19 +7,11 @@ We are using VuePress tool for building our documentation page. To install it, r
 $ npm i -g vuepress
 ```
 
-Files are built locally from .md files located in `/docs` folder and placed into `/docs/.vuepress/dist` folder. You build static files with: 
+Files are built locally from .md files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder. 
+
+To deploy the documentation, simply go to `/docs/.vuepress/` and run `deploy.sh` script.
 
 ```bash
-$ vuepress build docs
+$ cd /docs/.vuepress/
+$ ./deploy.sh
 ```
-
-Compiled `/docs/.vuepress/dist` folder is GIT submodule repository, so to publish the generated files, you have to add and commit files inside this folder and push it to it's repository. Since the entire /dist folder is rebuilded, .git folder gets deleted too. Therefore we need to re-init the git and force push to docs repository:
-
-```
-git init
-git add -A
-git commit -m 'Deploy documentation'
-git push -f git@github.com:0xcert/docs master
-```
-
-Make sure to `add`and `commit` the updates of the submodule also in the parent repo.

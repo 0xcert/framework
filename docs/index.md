@@ -1,3 +1,3 @@
 # 0xcert Framework
 
-TODO 2
+Introduction to 0xcert framework documentation.
