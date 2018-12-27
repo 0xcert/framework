@@ -8,7 +8,7 @@ module.exports = {
   serviceWorker: true,
   themeConfig: {
     logo: '/0xcert-logo.svg',
-    displayAllHeaders: false,
+    displayAllHeaders: true,
     lastUpdated: 'Last Updated', // string | boolean
     repo: '0xcert/framework',
     repoLabel: 'GitHub',
@@ -24,7 +24,7 @@ module.exports = {
         children: [
           ['/guide/introduction', 'Introduction'],
           ['/guide/getting-started', 'Getting started'],
-          ['/overview/queries-and-mutations', 'Queries & Mutations'],
+          ['/guide/queries-and-mutations', 'Queries & Mutations'],
           ['/guide/using-providers', 'Using Providers'],
           ['/overview/assets', 'Assets'],
           ['/guide/certification', 'Certification'],
