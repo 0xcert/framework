@@ -24,6 +24,6 @@ export default {
     'image',
     'name'
   ],
-  title: 'Asset',
+  title: 'Base Asset',
   type: 'object',
 }

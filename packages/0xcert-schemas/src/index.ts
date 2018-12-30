@@ -1,4 +1,4 @@
-export { default as assetMetadata86 } from './schemas/86-asset-metadata';
-export { default as assetEvidence87 } from './schemas/87-asset-evidence';
-export { default as cryptoCollectible88 } from './schemas/88-crypto-collectible';
-export { default as erc721 } from './schemas/erc721';
+export { default as SCHEMA_86 } from './schemas/86-base-asset';
+export { default as SCHEMA_87 } from './schemas/87-asset-evidence';
+export { default as SCHEMA_88 } from './schemas/88-crypto-collectible';
+export { default as SCHEMA_ERC721 } from './schemas/erc721';

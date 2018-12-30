@@ -1,4 +1,4 @@
-import assetMetadata from './86-asset-metadata';
+import assetMetadata from './86-base-asset';
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema',
