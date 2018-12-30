@@ -4,10 +4,10 @@ import * as conventions from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!conventions.SCHEMA_86);
-  ctx.true(!!conventions.SCHEMA_87);
-  ctx.true(!!conventions.SCHEMA_88);
-  ctx.true(!!conventions.SCHEMA_ERC721);
+  ctx.true(!!conventions.schema86);
+  ctx.true(!!conventions.schema87);
+  ctx.true(!!conventions.schema88);
+  ctx.true(!!conventions.schemaErc721);
 });
 
 export default spec;

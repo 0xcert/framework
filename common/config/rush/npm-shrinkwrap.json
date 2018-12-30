@@ -1127,7 +1127,17 @@
     },
     "@rush-temp/cert": {
       "version": "file:projects/cert.tgz",
-      "integrity": "sha512-X1zwK7C4k7Ey9U2rvsqFwkS+nO+EHvp6cRG41wpJ6PQQPzB/HHoMahHsgP9BWsk6YRP7Y5rPS4LuM+7PMvJ4kQ==",
+      "integrity": "sha512-6GZhXxMK23fUlEEzeDTlfWg1x7McRVPEyFFG0NVR9/Z6ePtFxaLCFGgKb3sKqCECKbI5RkHGxuIi5WuKDAHpEQ==",
+      "requires": {
+        "@hayspec/cli": "^0.8.3",
+        "@hayspec/spec": "^0.8.3",
+        "ts-node": "^7.0.1",
+        "typescript": "^3.1.1"
+      }
+    },
+    "@rush-temp/conventions": {
+      "version": "file:projects/conventions.tgz",
+      "integrity": "sha512-7tFGlbyWQ7pRZHaaXTZ2MvZQ3aTfQSING2DUEIkllV3Xf5XcOQjs+8XW1FdynLLEwjV7oTVNOdRErV5h8saSvg==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1326,16 +1336,6 @@
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
         "@types/node": "^10.12.10",
-        "ts-node": "^7.0.1",
-        "typescript": "^3.1.1"
-      }
-    },
-    "@rush-temp/schemas": {
-      "version": "file:projects/schemas.tgz",
-      "integrity": "sha512-rAztVYyJCvtwXVmpRuXu2ZttLwkn5beqhEQM3YdIlfKLk/+8dfar0KOAJgfNUb7L5yGyQ3CJUhbU28fmNAzFzA==",
-      "requires": {
-        "@hayspec/cli": "^0.8.3",
-        "@hayspec/spec": "^0.8.3",
         "ts-node": "^7.0.1",
         "typescript": "^3.1.1"
       }

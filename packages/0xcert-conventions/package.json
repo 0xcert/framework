@@ -1,5 +1,5 @@
 {
-  "name": "@0xcert/schemas",
+  "name": "@0xcert/conventions",
   "version": "0.0.0-alpha7",
   "description": "0xcert conventions.",
   "main": "./dist/index.js",
