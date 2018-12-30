@@ -1,32 +1,32 @@
-# Using Providers
+# Using providers
 
-The 0xcert Framework supports various providers that enable the communication with the Ethereum node and related services. Each provider operates on the same principles, but can also have its own special characteristics.
+As explained previously, the 0xcert Framework tends to be platform-agnostic, meaning that it is not created for merely one blockchain or one specific platform. Its aim is to provide a consistently optimal developing experience, regardless of the platform you employ.
 
-A popular front-end solution is [MetaMask](https://metamask.io/), a plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge to the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with your hardware wallet such as Ledger or Trezor.
+Each provider operates on the same principles, but can also have its own special characteristics. The current version of the Framework, however, only supports Ethereum blockchain. Soon, more platforms will be added.
 
-On back-end, you can use HTTP provider via the [Infura](https://infura.io) web service, which enables the access to the Ethereum blockchain through their API. Advanced operations require a set-up of a local Ethereum node like [Geth](https://github.com/ethereum/go-ethereum/wiki/geth) or [Parity](https://www.parity.io), which give you a full control over the communication layer, your accounts, and private keys.
+## Installation process
 
-### Metamask Provider
+The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide we will employ an example on the most common and straightforward blockchain provider called the [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
 
-MetaMask provider is applied for in-browser use. The user should have the [MetaMask](https://metamask.io) installed. The provider automatically establishes a communication channel with MetaMask, which further performs communication with the Ethereum blockchain through its own infrastructure.
+[MetaMask](https://metamask.io/) is a popular plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge from the browser to the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with hardware wallets such as [Ledger](https://www.ledger.com/) or [Trezor](https://trezor.io/).
 
-#### Installation
-
-We recommend that in your application you use the package as an NPM package.
+We recommend you employ the provider module as an NPM package in your application.
 
 ```shell
 $ npm i --save @0xcert/ethereum-metamask-provider
 ```
 
-We also host compiled and minimized JavaScript file which you can directly include in your website on our official GitHub repository. The package adds the content on the `window.$0xcert` variable. You can use [jsdelivr](https://www.jsdelivr.com) to access these files on your website.
+We also host a compiled and minimized JavaScript file which you can directly include in your website on our official GitHub repository. The package assigns the content to the `window.$0xcert` variable. You can employ the [jsdelivr](https://www.jsdelivr.com) service to access these files on your website.
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/0xcert/framework/dist/ethereum-metamask-provider.min.js" />
 ```
 
-#### Usage
+Please refer to the API section to learn more about other providers.
 
-You start by creating a new provider instance.
+## Usage overview
+
+To start the application, we have to first instantiate the [MetamaskProvider](/api) provider class. This is usually only needed once within the application.
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -34,10 +34,16 @@ import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 const provider = new MetamaskProvider();
 ```
 
-Before you start interacting with the Ethereum node, you should check if the account has been enabled.
+MetaMask needs to be authorized and unlocked in order to be used on the website. This is specific to this provider. Therefore, before you start interacting with the Ethereum node, you should check if the MetaMask account has been enabled. If not, we have to enable it, as shown in the example below.
 
 ```ts
 if (!provider.isEnabled()) {
     await provider.enable();
 }
 ```
+
+Now that we're connected to the Ethereum blockchain, we can now start performing `query` and `mutation` requests.
+
+::: tip
+To perform this deployment step, you'll need to pay some gas on the Ethereum network. You can get free Ether in your wallet on the Ropsten network via [this link](/link).
+:::
