@@ -33,6 +33,8 @@ To learn more about the 0xcert Framework, the Protocol, and news, please refer t
 * [The official 0xcert website](https://0xcert.org/),
 * [Our news blog](https://0xcert.org/news/).
 
+Note this URL above is not secure, it is for testing purposes only, for details see https://github.com/0xcert/framework/issues/180
+
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.md) for how to help out.
