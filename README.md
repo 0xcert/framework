@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/0xcert/framework/master/assets/cover.png" />
+<img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" />
 
 The 0xcert Framework is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
 
