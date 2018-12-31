@@ -17,6 +17,39 @@
       "./src/tests/**/*.test.ts"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xcert/framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xcert/framework/issues"
+  },
+  "homepage": "https://github.com/0xcert/framework#readme",
+  "keywords": [
+    "0xcert",
+    "framework",
+    "protocol",
+    "asset",
+    "value",
+    "values",
+    "currency",
+    "token",
+    "non-fungible",
+    "fungible",
+    "erc-721",
+    "erc-20",
+    "blockchain",
+    "javascript",
+    "typescript",
+    "nodejs",
+    "vuejs",
+    "nuxtjs",
+    "npm",
+    "libraries",
+    "smart-contract",
+    "ethereum",
+    "zxc"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@hayspec/cli": "^0.8.3",
