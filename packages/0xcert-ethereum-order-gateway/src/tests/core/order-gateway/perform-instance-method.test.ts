@@ -2,7 +2,7 @@ import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '../../../core/gateway';
+import { OrderGateway } from '../../..';
 
 interface Data {
   protocol: Protocol;
