@@ -1,23 +1,8 @@
 # Value Transfer
 
-Value is a representation of a cryptocurrency or fungible token (compliant with the ERC-20 standard on the Ethereum blockchain). So if you would like to operate with ZXC tokens you would encapsulate that as value.
+A value is a representation of a cryptocurrency. This is compliant with the ERC-20 standard of fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens you would encapsulate that as value.
 
-## What you can do with value
-
-### Transfer
-
-If you are the Owner of 5.000 ZXC token you can transfer these tokens to someone else. To be able to transfer the value, you need to know the recipient and the amount you would like to transfer to them.
-
-### Approve
-
-The Owner of tokens can approve someone else for a specific amount. That means he has the same control over that amount as the approved person would have. Transfer of these tokens is freely available so this permission should be used with caution. The Owner can approve/revoke approval at anytime.
-
-## Value Ledger
-
-- Value ledgerjem omogoca upravljanje z valutami.
-- gre za ERC-20 smart contract, deployan na ethereum networku.
-- Predstavljamo si ga lahko kot banko, ki hrani in omogoca upravljanje s tocno doloceno valuto.
-- Vse transakcije se belezijo v tej ala banki.
+Ko govorimo o currency, govorimo o value. Ta je shranjen v strukturi na storage, ki jo imenujemo Value Ledger. Value ledger na Ethereum blockchain predstavlja smart contract, ki sledi ERC-20 standardu. 0xcert framework temu sledi in doda se nekatere druge funkcije, ki so razvidne iz [API](/). 
 
 ### Installation
 
