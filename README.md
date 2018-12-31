@@ -1,24 +1,39 @@
-# 0xcert suite
+<img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" />
 
-## TODO
+The 0xcert Framework is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
 
-- [L,K,T] 0xcert/ethereum-utils complete refactoring - remove web3
-- [K] WsProvider for https://github.com/ethereum/go-ethereum/wiki/RPC-PUB-SUB (window.Websocket or require('ws')).
-- [K] AssetLedger, ValueLedger and OrderGateway subscribe to events (handle connetion lost)
-- [T] Trezor & EIP712 signature
+| Package | Version | Description
+|-|-|-
+| 0xcert-cert | [NPM] | TODO
+| 0xcert-conventions | [NPM] | TODO
+| 0xcert-ethereum-asset-ledger | [NPM] | TODO
+| 0xcert-ethereum-erc20-contracts | [NPM] | TODO
+| 0xcert-ethereum-erc721-contracts | [NPM] | TODO
+| 0xcert-ethereum-generic-provider | [NPM] | TODO
+| 0xcert-ethereum-http-provider | [NPM] | TODO
+| 0xcert-ethereum-metamask-provider | [NPM] | TODO
+| 0xcert-ethereum-order-gateway | [NPM] | TODO
+| 0xcert-ethereum-order-gateway-contracts | [NPM] | TODO
+| 0xcert-ethereum-proxy-contracts | [NPM] | TODO
+| 0xcert-ethereum-sandbox | [NPM] | TODO
+| 0xcert-ethereum-utils | [NPM] | TODO
+| 0xcert-ethereum-utils-contracts | [NPM] | TODO
+| 0xcert-ethereum-value-ledger | [NPM] | TODO
+| 0xcert-ethereum-xcert-contracts | [NPM] | TODO
+| 0xcert-merkle | [NPM] | TODO
+| 0xcert-scaffold | [NPM] | TODO
+| 0xcert-utils | [NPM] | TODO
+| 0xcert-vue-example | [NPM] | TODO
+| 0xcert-vue-plugin | [NPM] | TODO
+| 0xcert-webpack | [NPM] | TODO
 
-## Development
+To learn more about the 0xcert Framework, the Protocol, and news, please refer to:
+* [The 0xcert Framework documentation](https://docs.0xcert.org/).
+* [The 0xcert Framework repository](https://github.com/0xcert/framework/): please consider contributing to the open-source and free framework,
+* [The official 0xcert website](https://0xcert.org/),
+* [Our news blog](https://0xcert.org/news/).
 
-Repository management: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d
-Codecov integration: https://gist.github.com/xpepermint/34c1815c2c0eae7aebed58941b16094e
-Rush commands: https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d
-Error code list: https://docs.google.com/spreadsheets/d/1TKiFKO9oORTIrMyjC11oqcaWWpTUVli5o9tOTh5Toio/edit?usp=sharing
-
-## CDN hosting
-
-```
-https://cdn.jsdelivr.net/gh/0xcert/ethereum-erc721/dist/<file-name>.min.js
-```
+Note this URL above is not secure, it is for testing purposes only, for details see https://github.com/0xcert/framework/issues/180
 
 ## Contributing
 
@@ -27,8 +42,3 @@ See [CONTRIBUTING.md](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.m
 ## Licence
 
 See [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) for details.
-
-## CDN
-Once this repo is public we'll be able to use the compiled libraries through a CDN like this:
-* For `0xcert-main`: `https://cdn.jsdelivr.net/gh/0xcert/framework@[version]/dist/0xcert-main.js`,
-* For `0xcert-web3`: `https://cdn.jsdelivr.net/gh/0xcert/framework@[version]/dist/0xcert-web3.js`.
