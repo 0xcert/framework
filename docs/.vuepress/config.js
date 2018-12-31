@@ -31,8 +31,7 @@ module.exports = {
           ['/guide/asset-management', 'Asset management'],
           ['/guide/about-cryptocurrency', 'About cryptocurrency'],
           ['/guide/value-management', 'Value management'],
-          ['/guide/atomic-orders', 'Atomic Orders'],
-          ['/overview/support', 'Support'],
+          ['/guide/atomic-orders', 'Atomic orders'],
         ],
       },
       {
