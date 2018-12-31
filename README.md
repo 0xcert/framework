@@ -1,10 +1,10 @@
-<img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" />
+<img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" style="border: 1px solid #c0c0c0" />
 
 The 0xcert Framework is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
 
 | Package | Version | Description
 |-|-|-
-| 0xcert-cert | [NPM] | TODO
+| 0xcert-cert | [NPM] | Asset certification module.
 | 0xcert-conventions | [NPM] | TODO
 | 0xcert-ethereum-asset-ledger | [NPM] | TODO
 | 0xcert-ethereum-erc20-contracts | [NPM] | TODO
