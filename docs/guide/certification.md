@@ -4,7 +4,7 @@ Various industries follow different standards. A standard reflects a need for de
 
 The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines from the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured based on the definitions in a data scheme based on JSON-schema.
 
-SLIKA (X nestrukturiranih podatkov pride ven kot strukturiran podatek, ki ga razumejo vse aplikacije enako)
+![0xcert framework](../assets/scheme_3.svg)
 
 When talking about data conventions, for example, think about what Ruby on Rails did for Ruby. 0xcert is dealing with the application layer where developers need to act in a fast and agile way. To ensure interoperability among applications in the future, the assets follow specific conventions. These will prevent incompatibility on a higher level, which might happen if every NFT issuer deploys their own version of an industry standard. Having this level of standardization built on top of the strong ERC-721 standard prevents high-level fragmentation and safeguards long-term sustainability.
 
@@ -12,7 +12,8 @@ When talking about data conventions, for example, think about what Ruby on Rails
 
 When creating an asset, we start preparing a digital structure of data represented by the asset. During this process, we create a cryptographic imprint based on the asset data. Such `imprint` represents a cryptographic proof of the asset data and should thus be saved on a public blockchain or similar distributed systems so that third parties are able to use it as a public asset proof. Based on it, they can verify the proof of existence, authenticity, and ownership of these digital assets without a middleman involvement. The process of creating an asset imprint from the asset data is called certification.
 
-SLIKA (process certificiranja)
+![0xcert framework](../assets/certification.svg)
+
 
 The original data of an asset is usually known only to the issuer and the owner of an asset. Both can reveal a specific part of the data to a third person anytime, while a third party can verify such data based on a publicly available `imprint`. For this purpose, the issuer or the owner creates an evidence file that contains the revealed data and other proofs needed for a third party to calculate the `imprint` once more. If the calculated imprint matches the publicly available imprint, it means that the revealed data indeed exists in the original data object.
 

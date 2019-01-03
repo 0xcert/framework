@@ -2,6 +2,8 @@
 
 The 0xcert Framework is a JavaScript library that provides tools for building powerful decentralized applications (dapps).
 
+![0xcert framework](../assets/scheme_1.svg)
+
 ## What is 0xcert Framework?
 
 The 0xcert Framework enables management of **assets** and **values**.
@@ -10,7 +12,7 @@ The 0xcert Framework enables management of **assets** and **values**.
 
 Management of **values**, on the other hand, deals with cryptocurrency tokens that are  compliant with the ERC-20 standard. Values represent fungible tokens that share the same value as any other of their kind which makes them optimal to serve as a monetary value token.
 
-> SLIKA (splosna slika 0xcert frameworka, application developers se ukvarja samo z UI, vsa kompleksnost blockchaina je skrita in jo handle framework)
+![0xcert framework](../assets/scheme_2.svg)
 
 ## What does it solve?
 
@@ -30,7 +32,7 @@ The 0xcert Framework enables an effective and multi-function library for buildin
 
 * **Management of digital currency:** Besides non-fungible, unique assets, the Framework also supports the management of monetary value tokens or cryptocurrencies. They are handled through common functions known in blockchain operations, i.e. transfer and management of rights.
 
-* **Many-to-many atomic operations:** A single atomic transaction allows for creating and transferring tokens (both ERC-721 non-fungible tokens and ERC-20 fungible tokens) as many times as agreed, and among multiple participants involved. Many-to-many atomic operations allow multiple parties to participate simultaneously in a single transaction. This is one of the most potent and crucial features of the 0xcert Framework. 
+* **Many-to-many atomic orders:** A single atomic transaction allows for creating and transferring tokens (both ERC-721 non-fungible tokens and ERC-20 fungible tokens) as many times as agreed, and among multiple participants involved. Many-to-many atomic orders allow multiple parties to participate simultaneously in a single transaction. This is one of the most potent and crucial features of the 0xcert Framework. 
 
 * **Unified experience for decentralized and distributed systems:** The goal of the 0xcert Framework is to become blockchain/platform-agnostic, without discriminating among different blockchains or other distributed systems. The whole API of the Framework is identical when used with the Ethereum blockchain or any other distributed system you choose for your application. The code of the API looks completely identical and provides the exact same functionality regardless of the blockchain or distributed system you employ. This enables you to quickly and seamlessly switch between systems.
 
