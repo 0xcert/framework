@@ -8,7 +8,7 @@ import { createOrderHash } from '../lib/order';
  * @param order Order data.
  */
 export default async function(gateway: OrderGateway, order: Order) {
-  const message = createOrderHash(gateway, order);
+  const message = await createOrderHash(gateway, order);
   const res = await gateway.provider.post({
     method: 'eth_sign',
     params: [gateway.provider.accountId, message],
