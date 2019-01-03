@@ -32,7 +32,6 @@
     "@0xcert/utils": "0.0.0-alpha7"
   },
   "dependencies": {
-    "web3-eth-abi": "^1.0.0-beta.36", 
     "ethers": "4.0.0-beta.1"
   }
 }

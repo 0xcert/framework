@@ -1,2 +1,3 @@
 // TODO: Refactor all
-export { BN, soliditySha3 } from 'web3-utils';
+export { soliditySha3 } from 'web3-utils';
+export { BigNumber, bigNumberify } from 'ethers/utils/bignumber';
