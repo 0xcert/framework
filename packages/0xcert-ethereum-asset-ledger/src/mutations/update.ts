@@ -1,14 +1,9 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'setUriBase' && a.type === 'function'
-));
+const functionSignature = '0x27fc0cff';
+const inputTypes = ['string'];
 
 /**
  * Updates asset ledger uri base.
@@ -19,7 +14,7 @@ export default async function(ledger: AssetLedger, uriBase: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [uriBase]),
+    data: functionSignature + encodeParameters(inputTypes, [uriBase]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

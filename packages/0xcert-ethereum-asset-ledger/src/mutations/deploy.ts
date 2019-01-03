@@ -3,14 +3,8 @@ import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployRecipe } from '@0xcert/scaffold';
 import { fetch } from '@0xcert/utils';
 import { getInterfaceCode } from '../lib/capabilities';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract constructir abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.type === 'constructor'
-));
+const inputTypes = ['string', 'string', 'string', 'bytes32', 'bytes4[]'];
 
 /**
  * Deploys a new asset ledger.
@@ -23,7 +17,7 @@ export default async function(provider: GenericProvider, { name, symbol, uriBase
   const codes = (capabilities || []).map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(abi.inputs, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
+    data: `${source}${encodeParameters(inputTypes, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',

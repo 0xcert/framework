@@ -1,14 +1,10 @@
 import { AssetLedgerAbility } from "@0xcert/scaffold";
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'isAble' && a.type === 'function'
-));
+const functionSignature = '0x65521111';
+const inputTypes = ['address', 'uint8'];
+const outputTypes = ['bool'];
 
 /**
  * Gets an array of all abilities an account has.
@@ -26,13 +22,13 @@ export default async function(ledger: AssetLedger, accountId: string) {
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,
-        data: encodeFunctionCall(abi, [accountId, ability]),
+        data: functionSignature + encodeParameters(inputTypes, [accountId, ability]).substr(2),
       };
       const res = await ledger.provider.post({
         method: 'eth_call',
         params: [attrs, 'latest'],
       });
-      return decodeParameters(abi.outputs, res.result)[0] ? ability : -1;
+      return decodeParameters(outputTypes, res.result)[0] ? ability : -1;
     })
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort();
