@@ -19,30 +19,19 @@ module.exports = {
     editLinkText: 'Help us improve this page.',
     sidebar: [
       {
-        title: 'Overview',
-        collapsable: false,
-        children: [
-          ['/overview/introduction', 'Introduction'],
-          ['/overview/queries-and-mutations', 'Queries & Mutations'],
-          ['/overview/atomic-orders', 'Atomic Orders'],
-          ['/overview/providers', 'Providers'],
-          ['/overview/cryptocurrency', 'Cryptocurrency'],
-          ['/overview/assets', 'Assets'],
-          ['/overview/certification', 'Certification'],
-          ['/overview/support', 'Support'],
-        ],
-      },
-      {
         title: 'Guide',
         collapsable: false,
         children: [
+          ['/guide/introduction', 'Introduction'],
           ['/guide/getting-started', 'Getting started'],
-          ['/guide/using-providers', 'Using Providers'],
-          ['/guide/error-handling', 'Error Handling'],
+          ['/guide/communication', 'Communication'],
+          ['/guide/using-providers', 'Using providers'],
+          ['/guide/about-assets', 'About assets'],
           ['/guide/certification', 'Certification'],
-          ['/guide/managing-assets', 'Managing Assets'],
-          ['/guide/value-transfer', 'Value Transfer'],
-          ['/guide/atomic-orders', 'Atomic Orders'],
+          ['/guide/asset-management', 'Asset management'],
+          ['/guide/about-cryptocurrency', 'About cryptocurrency'],
+          ['/guide/value-management', 'Value management'],
+          ['/guide/atomic-orders', 'Atomic orders'],
         ],
       },
       {
@@ -64,5 +53,8 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
+    extendMarkdown: md => {
+      md.use(require('markdown-it-container'))
+    }
   },
 }

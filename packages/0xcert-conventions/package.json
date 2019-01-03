@@ -1,23 +1,20 @@
 {
-  "name": "@0xcert/ethereum-utils",
+  "name": "@0xcert/conventions",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum utils for 0xcert protocol.",
+  "description": "0xcert conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
-    "build": "npm run clean; npx tsc",
-    "test": "npx specron test"
+    "build": "npm run clean && npx tsc",
+    "test": "npx hayspec test"
   },
-  "specron": {
-    "test": {
-      "port": 8523,
-      "match": [
-        "./src/tests/**/*.test.ts"
-      ]
-    },
+  "hayspec": {
     "require": [
       "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
     ]
   },
   "repository": {
@@ -55,16 +52,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "0.0.0-alpha7",
-    "@specron/cli": "^0.5.1",
-    "@specron/spec": "^0.5.1",
-    "solc": "0.5.1",
+    "@hayspec/cli": "^0.8.3",
+    "@hayspec/spec": "^0.8.3",
     "ts-node": "^7.0.1",
-    "typescript": "^3.1.1",
-    "web3": "^1.0.0-beta.36",
-    "@0xcert/utils": "0.0.0-alpha7"
-  },
-  "dependencies": {
-    "ethers": "4.0.0-beta.1"
+    "typescript": "^3.1.1"
   }
 }

@@ -28,8 +28,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/schemas",
-      "projectFolder": "packages/0xcert-schemas",
+      "packageName": "@0xcert/conventions",
+      "projectFolder": "packages/0xcert-conventions",
       "versionPolicyName": "patchAll"
     },
     {

@@ -22,7 +22,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public constructor(provider: GenericProvider, id?: string) {
-    this.$id = normalizeAddress(id);
+    this.$id = normalizeAddress(id || provider.orderGatewayId);
     this.$provider = provider;
   }
 

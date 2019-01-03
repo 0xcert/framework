@@ -20,7 +20,7 @@ export class Cert {
 
   /**
    * Class constructor.
-   * @param merkle Instance of merkle proof.
+   * @param config Certificate configuration.
    */
   public constructor(config: CertConfig) {
     this.schema = config.schema;
@@ -31,6 +31,14 @@ export class Cert {
     });
   }
 
+  /**
+   * Returns a new instance of a Cert class.
+   * @param config Certificate configuration.
+   */
+  public static getInstance(config: CertConfig) {
+    return new Cert(config);
+  }
+  
   /**
    * Returns a complete list of proofs for the entiry data object.
    * @param data Complete data object.
@@ -66,7 +74,7 @@ export class Cert {
   }
 
   /**
-   * Returns `true` when all the property values of the provided `data` are 
+   * Returns an imprint when all the property values of the provided `data` are 
    * described with the `proofs`. Note that custom data properties will always
    * be ignored and will thus always pass.
    * @param data Complete data object.
