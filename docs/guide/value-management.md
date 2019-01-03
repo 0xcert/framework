@@ -1,32 +1,28 @@
-# Value Transfer
+# Value Management
 
-A value is a representation of a cryptocurrency. This is compliant with the ERC-20 standard of fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens you would encapsulate that as value.
+A value is a representation of a cryptocurrency. This is compliant with the ERC-20 standard for fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens, you would encapsulate that as a value.
 
-Ko govorimo o currency, govorimo o value. Ta je shranjen v strukturi na storage, ki jo imenujemo Value Ledger. Value ledger na Ethereum blockchain predstavlja smart contract, ki sledi ERC-20 standardu. 0xcert framework temu sledi in doda se nekatere druge funkcije, ki so razvidne iz [API](/). 
+When we talk about currency, we talk about value. A value is stored in the structure of a storage called Value Ledger. A Value ledger on the Ethereum blockchain represents a smart contract that complies with the ERC-20 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/). 
 
-### Installation
+## Installation
 
-We recommend that in your application you use the package as an NPM package.
+We recommend you employ the package as an NPM package in your application.
 
 ```shell
 $ npm i --save @0xcert/ethereum-value-ledger
 ```
 
-We also host compiled and minimized JavaScript file which you can directly include in your website on our official GitHub repository. The package adds the content on the `window.$0xcert` variable. You can use [jsdelivr](https://www.jsdelivr.com) to access these files on your website.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API] section to learn more about value ledger.
 
-```html
-<script src="https://cdn.jsdelivr.net/gh/0xcert/framework/dist/ethereum-value-ledger.min.js" />
-```
+## Usage overview
 
-### Usage
-
-Kot obicajno zacnemo z importanjem paketa.
+As usual, we begin by importing a module.
 
 ```ts
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 ```
 
-Dejmo najprej deployat nov value ledger to Ethereum blockchain. Ce se vam ne da tega delat, mate na voljo already deployed value ledger `XXX`.
+Let's first deploy a new value ledger to the Ethereum blockchain. If you would like to save some time, you can use the already deployed value ledger `XXX`.
 
 ```ts
 const mutation = await ValueLedger.deploy(provider, {
@@ -41,20 +37,20 @@ const mutation = await ValueLedger.deploy(provider, {
 const valueLedgerId = mutation.receiverId;
 ```
 
-Zdej ko smo ustvarili nov value ledger na networku, lahko nalozimo njegovo instanco.
+Now that we have created a new value ledger on the network, we can load its instance.
 
 ```ts
 const assetLedger = ValueLedger.getInstance(provider, valueLedgerId);
 ```
 
-Za zacetek preberimo podatke ledgerja.
+First, let's read the ledger data.
 
 ```ts
 const valueLedgerInfo = await valueLedger.getInfo();
 //=> { name, ... }
 ```
 
-Ker smo mi tisti, ki smo deployali value ledger na network, avtomaticno ownamo celoten ledger value supply. Na nasem racunu je torej celotna vrednost value ledgerja, s katero lahko prosto razpolagamo. Naprej poskrbimo, da imamo v Metamasku 2 racuna. Spodnji primer prikazuje, kako prenesemo 100 value to account with ID `0x` (spremenite ta ID na address svoje druge Ethereum denarnice).
+Since we are the ones to deploy the value ledger on the network, we automatically own the whole ledger value supply. In our account, we therefore have the total value of the value ledger, freely available for managing. First, we make sure that we have two MetaMask accounts open. The example below shows how to transfer a value of `100` to the account with `0x` ID (change this ID to the address of your second Ethereum wallet).
 
 ```ts
 const mutation = await valueLedger.transfer({
@@ -65,9 +61,11 @@ const mutation = await valueLedger.transfer({
 });
 ```
 
-Preveri, ce so sredstvar res v novi denarnici.
+Verify whether the amount has indeed been transferred to the new wallet.
 
 ```ts
 const balance = await valueLedger.getBalance('0x...');
 //=> 100000000000000000000
 ```
+
+For more details, please refer to the [API]() section.
