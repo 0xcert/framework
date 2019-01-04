@@ -1,15 +1,10 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 import { AssetLedgerAbility } from '@0xcert/scaffold';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'revokeAbilities' && a.type === 'function'
-));
+const functionSignature = '0x99841855';
+const inputTypes = ['address', 'uint8[]'];
 
 /**
  * Revokes(removes) abilities from account.
@@ -21,7 +16,7 @@ export default async function(ledger: AssetLedger, accountId: string, abilities:
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId, abilities]),
+    data: functionSignature + encodeParameters(inputTypes, [accountId, abilities]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

@@ -1,13 +1,9 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'isPaused' && a.type === 'function'
-));
+const functionSignature = '0xb187bd26';
+const inputTypes = [];
+const outputTypes = ['bool'];
 
 /**
  * Checks if the transfer is enabled.
@@ -17,13 +13,13 @@ export default async function(ledger: AssetLedger) {
   try {
     const attrs = {
       to: ledger.id,
-      data: encodeFunctionCall(abi, []),
+      data: functionSignature + encodeParameters(inputTypes, []).substr(2),
     };
     const res = await ledger.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return !decodeParameters(abi.outputs, res.result)[0]
+    return !decodeParameters(outputTypes, res.result)[0]
   } catch (error) {
     return null;
   }

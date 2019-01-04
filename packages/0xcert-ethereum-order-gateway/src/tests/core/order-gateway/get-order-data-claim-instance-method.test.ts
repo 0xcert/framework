@@ -71,7 +71,7 @@ spec.test('gets order data claim', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
 
   const orderGateway = new OrderGateway(provider, orderGatewayId);
-  const claim  = createOrderHash(orderGateway, order);
+  const claim = createOrderHash(orderGateway, order);
   ctx.is(await orderGateway.getOrderDataClaim(order), claim);
 });
 

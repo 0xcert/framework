@@ -1,10 +1,5 @@
-import * as jssha3 from 'js-sha3';
+import * as Hash from 'eth-lib/src/hash';
 
-/**
- * Converts a message into KECCAK hash.
- * @param bits Number of bits (224, 256, 384 or 512).
- * @param message Text message.
- */
-export function keccak(bits: number, message: string) {
-  return jssha3[`keccak_${bits}`](message);
+export function keccak256(input: any) {
+  return Hash.keccak256(input);
 }

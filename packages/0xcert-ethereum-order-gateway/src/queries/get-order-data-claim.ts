@@ -1,15 +1,11 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
-import gatewayAbi from '../config/gateway-abi';
 import { Order } from '@0xcert/scaffold';
 import { createRecipeTuple } from '../lib/order';
 
-/**
- * Smart contract method abi.
- */
-const abi = gatewayAbi.find((a) => (
-  a.name === 'getOrderDataClaim' && a.type === 'function'
-));
+const functionSignature = '0xd1c87f30';
+const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)'];
+const outputTypes = ['bytes32'];
 
 /**
  * Creates hash from order data.
@@ -17,18 +13,17 @@ const abi = gatewayAbi.find((a) => (
  * @param order Order data.
  */
 export default async function(gateway: OrderGateway, order: Order) {
-  const orderHash = createRecipeTuple(gateway, order);
-
+  const recipeTuple = createRecipeTuple(gateway, order);
   try {
     const attrs = {
       to: gateway.id,
-      data: encodeFunctionCall(abi, [orderHash]),
+      data: functionSignature + encodeParameters(inputTypes, [recipeTuple]).substr(2),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(abi.outputs, res.result)[0];
+    return decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
     return null;
   }

@@ -1,30 +1,11 @@
-// TODO: Refacto all !!!!!!!
+import { AbiCoder } from 'ethers/utils/abi-coder';
 
-import * as eth from 'web3-eth-abi';
+const coder = new AbiCoder();
 
-export function encodeFunctionCall(abi: any, data: any) {
-  return eth.encodeFunctionCall(abi, data);
+export function encodeParameters(types: any, values: any) {
+  return coder.encode(types, values);
 }
 
-export function encodeParameters(abi: any, data: any) {
-  return eth.encodeParameters(abi, data);
+export function decodeParameters(types: any, data: any) {
+  return coder.decode(types, data);
 }
-
-export function decodeParameters(abi: any, data: any) {
-  const output = eth.decodeParameters(abi, data);
-
-  // for (const i in abi) {
-  //   switch(abi[i].type) {
-  //     case 'uint256':
-  //       output[i] = new Big(output[i]);
-  //       break;
-  //   }
-  // }
-
-  return output;
-}
-
-export function decodeParameter(type: string, data: any) {
-  return eth.decodeParameter(type, data);
-}
-

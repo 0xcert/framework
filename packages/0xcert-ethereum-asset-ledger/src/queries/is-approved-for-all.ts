@@ -1,13 +1,9 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'isApprovedForAll' && a.type === 'function'
-));
+const functionSignature = '0xe985e9c5';
+const inputTypes = ['address', 'address'];
+const outputTypes = ['bool'];
 
 /**
  * Checks if an account is approved for controling all assets of another account.
@@ -19,13 +15,13 @@ export default async function(ledger: AssetLedger, accountId: string, operatorId
   try {
     const attrs = {
       to: ledger.id,
-      data: encodeFunctionCall(abi, [accountId, operatorId]),
+      data: functionSignature + encodeParameters(inputTypes, [accountId, operatorId]).substr(2),
     };
     const res = await ledger.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(abi.outputs, res.result)[0]
+    return decodeParameters(outputTypes, res.result)[0]
   } catch (error) {
     return null;
   }

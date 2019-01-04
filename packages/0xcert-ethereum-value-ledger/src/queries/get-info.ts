@@ -1,33 +1,45 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
-import erc20Abi from '../config/erc20-abi';
 
-/**
- * Smart contract method abi.
- */
-const abis = ['name', 'symbol', 'decimals', 'totalSupply'].map((name) => {  
-  return erc20Abi.find((a) => (
-    a.name === name && a.type === 'function'
-  ));
-});
-
+const functions = [
+  {
+    signature: '0x06fdde03',
+    inputTypes: [],
+    outputTypes: ['string']
+  },
+  {
+    signature: '0x95d89b41',
+    inputTypes: [],
+    outputTypes: ['string']
+  },
+  {
+    signature: '0x313ce567',
+    inputTypes: [],
+    outputTypes: ['uint8']
+  },
+  {
+    signature: '0x18160ddd',
+    inputTypes: [],
+    outputTypes: ['uint256']
+  }
+];
 /**
  * Gets information(name, symbol, decimals, totalSupply) about value ledger.
  * @param ledger Value ledger instance.
  */
 export default async function(ledger: ValueLedger) {
   const info = await Promise.all(
-    abis.map(async (abi) => {
+    functions.map(async (f) => {
       try {
         const attrs = {
           to: ledger.id,
-          data: encodeFunctionCall(abi, []),
+          data: f.signature + encodeParameters(f.inputTypes, []).substr(2),
         };
         const res = await ledger.provider.post({
           method: 'eth_call',
           params: [attrs, 'latest'],
         });
-        return decodeParameters(abi.outputs, res.result)[0];
+        return decodeParameters(f.outputTypes, res.result)[0].toString();
       } catch (error) {
         return null;
       }

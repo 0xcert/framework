@@ -1,15 +1,10 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerAbility } from "@0xcert/scaffold";
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'assignAbilities' && a.type === 'function'
-));
+const functionSignature = '0x78e57c1f';
+const inputTypes = ['address', 'uint8[]'];
 
 /**
  * Assigns abilities to an account.
@@ -21,7 +16,7 @@ export default async function(ledger: AssetLedger, accountId: string, abilities:
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId, abilities]),
+    data: functionSignature + encodeParameters(inputTypes, [accountId, abilities]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',
