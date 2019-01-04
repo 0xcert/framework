@@ -36,7 +36,7 @@ An `asynchronous` class instance `function` which authorizes the provider and co
 **Example:**
 
 ```ts
-// perform the query
+// perform mutation
 const provider = await provider.enable();
 ```
 
@@ -68,7 +68,7 @@ A `boolean` which tells if the provider can be used.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isSupported = provider.isSupported();
 ```
 
@@ -87,7 +87,7 @@ A `boolean` which tells if provider is enabled.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isEnabled = await provider.isEnabled();
 ```
 
@@ -100,7 +100,7 @@ const isEnabled = await provider.isEnabled();
 HTTP provider uses HTTP in (**and**?) HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 ::: warning
-Don't forger to manually unlock your account before performing a mutation.
+Don't forget to manually unlock your account before performing a mutation.
 :::
 
 ### HttpProvider(options)
@@ -167,7 +167,7 @@ A `boolean` which tells if the provider can be used.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isSupported = provider.isSupported();
 ```
 
@@ -227,7 +227,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveAccount(assetId, accountId);
 ```
 
@@ -261,7 +261,7 @@ An `asynchronous` class instance `function` which approves the third-party `acco
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveOperator(accountId);
 ```
 
@@ -301,7 +301,7 @@ const abilities = [
     AssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.assignAbilities(accountId, abilities);
 ```
 
@@ -336,7 +336,7 @@ const asset = {
     receiverId: '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.createAsset(asset);
 ```
 
@@ -380,14 +380,14 @@ const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
 ];
 const recipe = {
-    name: 'Math Course Certificate',
-    symbol: 'MCC',
+    name: 'Utility token',
+    symbol: 'UCC',
     uriBase: 'http://domain.com/assets/',
     schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
     capabilities,
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
     return mutation.complete(); // wait until first confirmation
 });
@@ -418,7 +418,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.destroyAsset(assetId);
 ```
 
@@ -451,7 +451,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveAccount(assetId);
 ```
 
@@ -484,7 +484,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveOperator(accountId);
 ```
 
@@ -508,7 +508,7 @@ An `asynchronous` class instance `function` which disables all asset transfers. 
 **Example:**
 
 ```ts
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disableTransfers();
 ```
 
@@ -532,7 +532,7 @@ An `asynchronous` class instance `function` which enables all asset transfers. T
 **Example:**
 
 ```ts
-// perform the mutation
+// perform mutation
 const mutation = await ledger.enableTransfers();
 ```
 
@@ -554,7 +554,7 @@ An `array` of `integer` numbers representing acount abilities.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the query
+// perform query
 const abilities = await ledger.getAbilities(accountId);
 ```
 
@@ -578,7 +578,7 @@ A `string` representing account ID.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const accountId = await ledger.getApprovedAccount(assetId);
 ```
 
@@ -610,7 +610,7 @@ An `asynchronous` class instance `function` which returns `assetId` data.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const data = await ledger.getAsset(assetId);
 ```
 
@@ -634,7 +634,7 @@ A `string` which represents an account ID.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const accountId = await ledger.getAssetAccount(assetId);
 ```
 
@@ -658,7 +658,7 @@ An `integer` number representing the number of assets in the `accountId`.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const balance = await ledger.getBalance(accountId);
 ```
 
@@ -673,7 +673,7 @@ An `array` of `integer` numbers representing ledger capabilities.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const capabilities = await ledger.getCapabilities();
 ```
 
@@ -694,7 +694,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const info = await ledger.getInfo();
 ```
 
@@ -746,7 +746,7 @@ A `boolean` which tells if the `accountId` is approved for `assetId`.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const isApproved = await ledger.isApprovedAccount(assetId, accountId);
 ```
 
@@ -776,7 +776,7 @@ A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const operatorId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 ```
 
@@ -786,7 +786,7 @@ const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 
 ### isTransferable()
 
-An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
 
 **Result:**
 
@@ -795,7 +795,7 @@ A `boolean` which tells if ledger asset transfers are enabled.
 **Example:**
 
 ```ts
-// perform the mutation
+// perform query
 const isTransferable = await ledger.isTransferable();
 ```
 
@@ -835,7 +835,7 @@ const abilities = [
     AssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.revokeAbilities(accountId, abilities);
 ```
 
@@ -868,7 +868,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.revokeAsset(assetId);
 ```
 
@@ -903,7 +903,7 @@ const recipe = {
     uriBase: 'http://swapmarket.com/',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.update(recipe);
 ```
 
@@ -938,7 +938,7 @@ const recipe = {
     imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.update(recipe);
 ```
 
@@ -976,7 +976,7 @@ const recipe = {
     id: '100',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.transferAsset(recipe);
 ```
 
@@ -1084,7 +1084,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 const value = '1000000000000000000'; // 1 unit (18 decimals)
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveValue(value, accountId);
 ```
 
@@ -1130,7 +1130,7 @@ const recipe = {
     supply: '500000000000000000000', // 500 mio
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ValueLedger.deploy(provider, recipe).then((mutation) => {
     return mutation.complete(); // wait until first confirmation
 });
@@ -1161,7 +1161,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveValue(accountId);
 ```
 
@@ -1191,7 +1191,7 @@ A big number `string` representing the approved value.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const spenderId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const value = await ledger.getApprovedValue(accountId, spenderId);
 ```
 
@@ -1219,7 +1219,7 @@ A big number `string` representing the total value of the `accountId`.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const balance = await ledger.getBalance(accountId);
 ```
 
@@ -1239,7 +1239,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const info = await ledger.getInfo();
 ```
 
@@ -1293,7 +1293,7 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const spenderId = '0xcc667f88e8821fb8d19f7e6240f44553ce3dbfdd';
 const value = '1000000000000000000';
 
-// perform the mutation
+// perform query
 const isApproved = await ledger.isApprovedAccount(value, accountId, spenderId);
 ```
 
@@ -1331,7 +1331,7 @@ const recipe = {
     value: '1000000000000000000', // 1 unit (18 decimals)
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.transferValue(recipe);
 ```
 
@@ -1408,7 +1408,7 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await gateway.cancel(order);
 ```
 
@@ -1453,7 +1453,7 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the query
+// perform query
 const signature = await gateway.claim(order);
 ```
 
@@ -1527,7 +1527,7 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the query
+// perform mutation
 const mutation = await gateway.perform(order, signature);
 ```
 
