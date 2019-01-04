@@ -14,7 +14,7 @@ const outputTypes = ['bool'];
  * @param claim Claim data.
  */
 export default async function(gateway: OrderGateway, order: Order, claim: string) {
-  const orderHash = await createOrderHash(gateway, order);
+  const orderHash = createOrderHash(gateway, order);
   const signatureTuple = createSignatureTuple(claim);
   try {
     const attrs = {
