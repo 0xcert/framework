@@ -17,6 +17,9 @@ module.exports = {
     docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Help us improve this page.',
+    serviceWorker: {
+      updatePopup: true
+    },
     sidebar: [
       {
         title: 'Guide',
