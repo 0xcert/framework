@@ -1,4 +1,4 @@
-import { MutationBase } from "./misc";
+import { MutationBase } from "./mutation";
 
 /**
  * List of available order action kinds.

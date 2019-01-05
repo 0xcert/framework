@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
-import { MutationBase } from '@0xcert/scaffold';
+import { MutationBase, MutationEvent } from '@0xcert/scaffold';
 import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-address';
-import { MutationEvent } from './types';
 
 /**
  * Possible mutation statuses.
@@ -9,7 +8,7 @@ import { MutationEvent } from './types';
 export enum MutationStatus {
   INITIALIZED = 0,
   PENDING = 1,
-  RESOLVED = 2,
+  COMPLETED = 2,
 }
 
 /**
@@ -82,37 +81,40 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Checks if mutation has reached the required number of confirmation.
    */
   public isCompleted() {
-    return this.$status === MutationStatus.RESOLVED;
+    return this.$status === MutationStatus.COMPLETED;
   }
 
   /**
    * Event emmiter.
    */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
-  public emit(event: MutationEvent.RESOLVE, mutation: Mutation);
+  public emit(event: MutationEvent.COMPLETE, mutation: Mutation);
   public emit(event: MutationEvent.ERROR, error: any);
   public emit(...args) {
-    return super.emit.call(this, ...args);
+    super.emit.call(this, ...args);
+    return this;
   }
 
   /**
    * Attaches on mutation events.
    */
   public on(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
-  public on(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
-  public on(event: MutationEvent.ERROR, handler: (e: any) => any);
+  public on(event: MutationEvent.COMPLETE, handler: (m: Mutation) => any);
+  public on(event: MutationEvent.ERROR, handler: (e: any, m: Mutation) => any);
   public on(...args) {
-    return super.on.call(this, ...args);
+    super.on.call(this, ...args);
+    return this;
   }
 
   /**
    * Once handler.
    */
   public once(event: MutationEvent.CONFIRM, handler: (m: Mutation) => any);
-  public once(event: MutationEvent.RESOLVE, handler: (m: Mutation) => any);
-  public once(event: MutationEvent.ERROR, handler: (e: any) => any);
+  public once(event: MutationEvent.COMPLETE, handler: (m: Mutation) => any);
+  public once(event: MutationEvent.ERROR, handler: (e: any, m: Mutation) => any);
   public once(...args) {
-    return super.once.call(this, ...args);
+    super.once.call(this, ...args);
+    return this;
   }
 
   /**
@@ -120,11 +122,12 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   public off(event: MutationEvent, handler?: () => any) {
     if (handler) {
-      return super.off(event, handler);
+      super.off(event, handler);
     }
     else {
-      return super.removeAllListeners(event);
+      super.removeAllListeners(event);
     }
+    return this;
   }
 
   /**
@@ -142,7 +145,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     await new Promise((resolve, reject) => {
       if (!this.isCompleted()) {
-        this.once(MutationEvent.RESOLVE, () => resolve());
+        this.once(MutationEvent.COMPLETE, () => resolve());
         this.once(MutationEvent.ERROR, (err) => reject(err));
       }
       else {
@@ -184,8 +187,8 @@ export class Mutation extends EventEmitter implements MutationBase {
     this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock));
 
     if (this.$confirmations >= this.$provider.requiredConfirmations) {
-      this.$status = MutationStatus.RESOLVED;
-      this.emit(MutationEvent.RESOLVE, this);
+      this.$status = MutationStatus.COMPLETED;
+      this.emit(MutationEvent.COMPLETE, this);
     }
     else {
       this.emit(MutationEvent.CONFIRM, this);
