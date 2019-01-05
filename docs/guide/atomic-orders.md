@@ -52,7 +52,7 @@ const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 
 Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/) section into our second MetaMask wallet, and we create a new asset with ID `200` and imprint created in the [Certification](/) section. 
 
-::: Warning
+::: warning
 For the purpose of simplicity of this guide, we will be both the maker and the taker of the order. For the `makerId` and `takerId`, we will employ our current MetaMask account.
 :::
 
