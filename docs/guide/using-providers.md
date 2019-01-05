@@ -38,14 +38,14 @@ if (!provider.isEnabled()) {
 
 Now that we're connected to the Ethereum blockchain, we can begin performing `query` and `mutation` requests.
 
-::: Tip
+::: tip
 When you connect to MetaMask `provider.accountId` represents your selected account.
 :::
 
-::: Tip
+::: tip
 Make sure your MetaMask is connected to the Ethereum Ropsten network.
 :::
 
-::: Tip
+::: tip
 To perform this deployment step, you'll need to pay some gas on the Ethereum network. You can get free Ether in your wallet on the Ropsten network via [this link](/link).
 :::

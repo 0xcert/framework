@@ -70,7 +70,7 @@ const mutation = await assetLedger.transferAsset({
 });
 ```
 
-::: Warning
+::: warning
 In the example above you are transfering the asset to yourself that is why the receiverId is your own accountId.
 ::: 
 
