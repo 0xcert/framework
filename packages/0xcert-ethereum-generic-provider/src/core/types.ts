@@ -8,15 +8,6 @@ export enum SignMethod {
 }
 
 /**
- * Mutation event kinds.
- */
-export enum MutationEvent {
-  RESOLVE = 'resolve',
-  ERROR = 'error',
-  CONFIRM = 'confirm',
-}
-
-/**
  * Rpc response definition.
  */
 export interface RpcResponse {

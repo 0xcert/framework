@@ -42,7 +42,7 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   const transactionHash = await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }).then((t) => t.transactionHash);
   const mutation = new Mutation(provider, transactionHash);
   mutation.on(MutationEvent.CONFIRM, () => counters.confirm++)
-  mutation.on(MutationEvent.RESOLVE, () => counters.resolve++)
+  mutation.on(MutationEvent.COMPLETE, () => counters.resolve++)
 
   mutation.complete();
   await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
