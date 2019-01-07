@@ -98,31 +98,6 @@ contract Xcert is
   }
 
   /**
-   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.
-   */
-  function schemaId()
-    external
-    view
-    returns (bytes32 _schemaId)
-  {
-    _schemaId = nftSchemaId;
-  }
-
-  /**
-   * @dev Returns imprint for Xcert.
-   * @param _tokenId Id of the Xcert.
-   */
-  function tokenImprint(
-    uint256 _tokenId
-  )
-    external
-    view
-    returns(bytes32)
-  {
-    return idToImprint[_tokenId];
-  }
-
-  /**
    * @dev Change URI base.
    * @param _uriBase New uriBase.
    */
@@ -204,6 +179,33 @@ contract Xcert is
   }
 
   /**
+   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.
+   * @return Schema id.
+   */
+  function schemaId()
+    external
+    view
+    returns (bytes32 _schemaId)
+  {
+    _schemaId = nftSchemaId;
+  }
+
+  /**
+   * @dev Returns imprint for Xcert.
+   * @param _tokenId Id of the Xcert.
+   * @return Token imprint.
+   */
+  function tokenImprint(
+    uint256 _tokenId
+  )
+    external
+    view
+    returns(bytes32 imprint)
+  {
+    imprint = idToImprint[_tokenId];
+  }
+
+  /**
    * @dev Helper methods that actually does the transfer.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
@@ -217,7 +219,9 @@ contract Xcert is
     internal
   {
     if(supportedInterfaces[0xbedb86fb])
+    {
       require(!isPaused, TRANSFERS_DISABLED);
+    }
     super._transferFrom(_from, _to, _tokenId);
   }
 }

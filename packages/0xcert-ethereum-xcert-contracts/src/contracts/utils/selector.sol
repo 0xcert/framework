@@ -7,7 +7,8 @@ import "../xcert.sol";
  * http://tiny.cc/uo23ty.
  * @notice See test folder for usage examples.
  */
-contract Selector {
+contract Selector
+{
 
   /**
    * @dev Calculates and returns interface ID for the Xcert smart contract.
@@ -76,4 +77,5 @@ contract Selector {
     Xcert i;
     return i.setPause.selector;
   }
+  
 }
