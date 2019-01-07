@@ -1,84 +1,112 @@
-pragma solidity ^0.5.1;
+pragma solidity 0.5.1;
 
 /**
- * @dev Math operations with safety checks that throw on error. This contract is based
- * on the source code at https://goo.gl/iyQsmU.
+ * @dev Math operations with safety checks that throw on error. This contract is based on the 
+ * source code at: 
+ * https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/math/SafeMath.sol.
  */
-library SafeMath {
+library SafeMath
+{
 
   /**
-   * @dev Multiplies two numbers, throws on overflow.
-   * @param _a Factor number.
-   * @param _b Factor number.
+   * @dev Multiplies two numbers, reverts on overflow.
+   * @param _factor1 Factor number.
+   * @param _factor2 Factor number.
+   * @return The product of the two factors.
    */
   function mul(
-    uint256 _a,
-    uint256 _b
+    uint256 _factor1,
+    uint256 _factor2
   )
     internal
     pure
-    returns (uint256)
+    returns (uint256 product)
   {
-    if (_a == 0) {
+    // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+    // benefit is lost if 'b' is also tested.
+    // See: https://github.com/OpenZeppelin/openzeppelin-solidity/pull/522
+    if (_factor1 == 0)
+    {
       return 0;
     }
-    uint256 c = _a * _b;
-    assert(c / _a == _b);
-    return c;
+
+    product = _factor1 * _factor2;
+    require(product / _factor1 == _factor2);
   }
 
   /**
-   * @dev Integer division of two numbers, truncating the quotient.
-   * @param _a Dividend number.
-   * @param _b Divisor number.
+   * @dev Integer division of two numbers, truncating the quotient, reverts on division by zero.
+   * @param _dividend Dividend number.
+   * @param _divisor Divisor number.
+   * @return The quotient.
    */
   function div(
-    uint256 _a,
-    uint256 _b
+    uint256 _dividend,
+    uint256 _divisor
   )
     internal
     pure
-    returns (uint256)
+    returns (uint256 quotient)
   {
-    uint256 c = _a / _b;
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
+    // Solidity automatically asserts when dividing by 0, using all gas.
+    require(_divisor > 0);
+    quotient = _dividend / _divisor;
+    // assert(_dividend == _divisor * quotient + _dividend % _divisor); // There is no case in which this doesn't hold.
   }
 
   /**
    * @dev Substracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
-   * @param _a Minuend number.
-   * @param _b Subtrahend number.
+   * @param _minuend Minuend number.
+   * @param _subtrahend Subtrahend number.
+   * @return Difference.
    */
   function sub(
-    uint256 _a,
-    uint256 _b
+    uint256 _minuend,
+    uint256 _subtrahend
   )
     internal
     pure
-    returns (uint256)
+    returns (uint256 difference)
   {
-    assert(_b <= _a);
-    return _a - _b;
+    require(_subtrahend <= _minuend);
+    difference = _minuend - _subtrahend;
   }
 
   /**
-   * @dev Adds two numbers, throws on overflow.
-   * @param _a Number.
-   * @param _b Number.
+   * @dev Adds two numbers, reverts on overflow.
+   * @param _addend1 Number.
+   * @param _addend2 Number.
+   * @return Sum.
    */
   function add(
-    uint256 _a,
-    uint256 _b
+    uint256 _addend1,
+    uint256 _addend2
   )
     internal
     pure
-    returns (uint256)
+    returns (uint256 sum)
   {
-    uint256 c = _a + _b;
-    assert(c >= _a);
-    return c;
+    sum = _addend1 + _addend2;
+    require(sum >= _addend1);
+  }
+
+  /**
+    * @dev Divides two numbers and returns the remainder (unsigned integer modulo), reverts when
+    * dividing by zero.
+    * @param _dividend Number.
+    * @param _divisor Number.
+    * @return Remainder.
+    */
+  function mod(
+    uint256 _dividend,
+    uint256 _divisor
+  )
+    internal
+    pure
+    returns (uint256 remainder) 
+  {
+    require(_divisor != 0);
+    remainder = _dividend % _divisor;
   }
 
 }

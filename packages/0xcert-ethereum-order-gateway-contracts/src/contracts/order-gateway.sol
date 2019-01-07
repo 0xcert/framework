@@ -11,6 +11,7 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 contract OrderGateway is
   Abilitable
 {
+
   /**
    * @dev List of abilities:
    * 1 - Ability to set proxies.
@@ -353,7 +354,8 @@ contract OrderGateway is
           _order.actions[i].value,
           _order.actions[i].param1
         );
-      } else if (_order.actions[i].kind == ActionKind.transfer)
+      } 
+      else if (_order.actions[i].kind == ActionKind.transfer)
       {
         address from = address(uint160(bytes20(_order.actions[i].param1)));
         require(
@@ -371,4 +373,5 @@ contract OrderGateway is
       }
     }
   }
+  
 }

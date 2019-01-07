@@ -126,6 +126,22 @@ contract Token is
   }
 
   /**
+   * @dev Returns the amount which _spender is still allowed to withdraw from _owner.
+   * @param _owner The address of the account owning tokens.
+   * @param _spender The address of the account able to transfer the tokens.
+   */
+  function allowance(
+    address _owner,
+    address _spender
+  )
+    external
+    view
+    returns (uint256 _remaining)
+  {
+    _remaining = allowed[_owner][_spender];
+  }
+
+  /**
    * @dev Transfers _value amount of tokens to address _to, and MUST fire the Transfer event. The
    * function SHOULD throw if the _from account balance does not have enough tokens to spend.
    * @param _to The address of the recipient.
@@ -166,22 +182,6 @@ contract Token is
 
     emit Approval(msg.sender, _spender, _value);
     _success = true;
-  }
-
-  /**
-   * @dev Returns the amount which _spender is still allowed to withdraw from _owner.
-   * @param _owner The address of the account owning tokens.
-   * @param _spender The address of the account able to transfer the tokens.
-   */
-  function allowance(
-    address _owner,
-    address _spender
-  )
-    external
-    view
-    returns (uint256 _remaining)
-  {
-    _remaining = allowed[_owner][_spender];
   }
 
   /**

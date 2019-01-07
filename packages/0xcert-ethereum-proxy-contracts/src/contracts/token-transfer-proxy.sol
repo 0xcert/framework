@@ -13,6 +13,7 @@ contract TokenTransferProxy is
   Proxy,
   Abilitable 
 {
+
   /**
    * @dev List of abilities:
    * 1 - Ability to execute transfer. 
@@ -45,4 +46,5 @@ contract TokenTransferProxy is
       TRANSFER_FAILED
     );
   }
+  
 }

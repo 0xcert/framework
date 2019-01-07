@@ -11,6 +11,7 @@ contract NFTokenMetadataEnumerableMock is
   NFTokenMetadataEnumerable,
   Claimable
 {
+  
   /**
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
@@ -69,4 +70,5 @@ contract NFTokenMetadataEnumerableMock is
   {
     super._setUriBase(_uriBase);
   }
+
 }

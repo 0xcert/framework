@@ -1,9 +1,11 @@
-pragma solidity ^0.5.1;
+pragma solidity 0.5.1;
 
 /**
- * @dev ERC-721 interface for accepting safe transfers. See https://goo.gl/pc9yoS.
+ * @dev ERC-721 interface for accepting safe transfers. 
+ * See https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md.
  */
-interface ERC721TokenReceiver {
+interface ERC721TokenReceiver
+{
 
   /**
    * @dev Handle the receipt of a NFT. The ERC721 smart contract calls this function on the
@@ -16,6 +18,7 @@ interface ERC721TokenReceiver {
    * @param _from The address which previously owned the token.
    * @param _tokenId The NFT identifier which is being transferred.
    * @param _data Additional data with no specified format.
+   * @return Returns `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`.
    */
   function onERC721Received(
     address _operator,
