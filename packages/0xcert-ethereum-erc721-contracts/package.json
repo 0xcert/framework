@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-erc721-contracts",
   "version": "0.0.0-alpha7",
-  "description": "Non-fungible token standard implementation for the 0xcert protocol.",
+  "description": "Smart contract implementation of the ERC-721 standard on the Ethereum blockchain.",
   "scripts": {
     "clean": "rm -Rf ./build",
     "build": "npm run clean && npx specron compile",

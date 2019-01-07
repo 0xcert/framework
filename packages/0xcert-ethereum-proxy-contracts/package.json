@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-proxy-contracts",
   "version": "0.0.0-alpha7",
-  "description": "Proxy implementation for 0xcert protocol. ",
+  "description": "Proxy smart contracts used by the order gateway when communicating with the Ethereum blockchain.",
   "scripts": {
     "clean": "rm -Rf ./dist",
     "build": "npm run clean && npx specron compile",

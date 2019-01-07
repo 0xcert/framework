@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-order-gateway",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum exchange for 0xcert protocol.",
+  "description": "Order gateway module for executing atomic operations on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

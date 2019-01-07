@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-asset-ledger",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum ledger for 0xcert protocol.",
+  "description": "Asset ledger module for asset management on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

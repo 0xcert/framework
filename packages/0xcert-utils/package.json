@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/utils",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum utils for 0xcert protocol.",
+  "description": "General utility module with common helper functions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
