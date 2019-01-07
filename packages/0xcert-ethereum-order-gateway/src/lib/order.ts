@@ -128,7 +128,7 @@ export function getActionValue(action: OrderAction) {
 
 
 /**
- *
+ * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
  */
 export function hexToBytes (hex: any) {
   hex = hex.toString(16).replace(/^0x/i,'');
@@ -142,6 +142,7 @@ export function hexToBytes (hex: any) {
 
 
 /**
+ * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
  * Should be called to pad string to expected length
  *
  * @method rightPad
@@ -160,12 +161,14 @@ export function rightPad(input: any, chars: number, sign?: string) {
 };
 
 /**
+ * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
  * Should be called to pad string to expected length
  *
  * @method leftPad
  * @param {String} string to be padded
  * @param {Number} chars that result string should have
  * @param {String} sign, by default 0
+ * @param {Boolean} prefix, by default calculated depending on input. 
  * @returns {String} left aligned string
  */
 export function leftPad(input: any, chars: number, sign?: string, prefix?: boolean) {
