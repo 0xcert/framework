@@ -174,8 +174,11 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    return assignAbilities(this, accountId, abilities);
+  public async assignAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+    }
+    return assignAbilities(this, accountId as string, abilities);
   }
 
   /**
