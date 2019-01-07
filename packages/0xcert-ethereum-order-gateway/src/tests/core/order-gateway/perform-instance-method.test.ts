@@ -56,10 +56,12 @@ spec.before(async (stage) => {
 
   const xcert = stage.get('protocol').xcert;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
+  const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
 
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: coinbase });
+  await xcert.instance.methods.assignAbilities(xcertCreateProxy, [1]).send({ from: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: bob });
 });
 
@@ -74,6 +76,14 @@ spec.before(async (stage) => {
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
+      {
+        kind: OrderActionKind.CREATE_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        receiverId: bob,
+        assetId: '102',
+        assetImprint: '0x0'
+      },
       {
         kind: OrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
@@ -117,6 +127,7 @@ spec.test('submits orderGateway order to the network which executes transfers', 
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
+  ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
 });
 
 export default spec;

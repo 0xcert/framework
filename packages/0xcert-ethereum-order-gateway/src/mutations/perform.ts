@@ -1,16 +1,11 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { Order } from '../../../0xcert-scaffold/dist';
 import { createRecipeTuple, createSignatureTuple } from '../lib/order';
-import gatewayAbi from '../config/gateway-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = gatewayAbi.find((a) => (
-  a.name === 'perform' && a.type === 'function'
-));
+const functionSignature = '0x8b1d8335';
+const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)', 'tuple(bytes32, bytes32, uint8, uint8)'];
 
 /**
  * Submits the provided order to the network.
@@ -24,7 +19,7 @@ export default async function(gateway: OrderGateway, order: Order, claim: string
   const attrs = {
     from: gateway.provider.accountId,
     to: gateway.id,
-    data: encodeFunctionCall(abi, [recipeTuple, signatureTuple]),
+    data: functionSignature + encodeParameters(inputTypes, [recipeTuple, signatureTuple]).substr(2),
   };
   const res = await gateway.provider.post({
     method: 'eth_sendTransaction',

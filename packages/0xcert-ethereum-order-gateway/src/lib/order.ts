@@ -1,6 +1,6 @@
 import { OrderAction, OrderActionKind, Order } from '@0xcert/scaffold';
-import { toInteger, toSeconds, toTuple } from '@0xcert/utils';
-import { soliditySha3 } from '@0xcert/ethereum-utils';
+import { toInteger, toSeconds, toTuple, keccak256 } from '@0xcert/utils';
+import { bigNumberify } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
 
@@ -8,27 +8,34 @@ import { OrderGatewayProxy } from '../core/types';
  * 
  */
 export function createOrderHash(gateway: OrderGateway, order: Order) {
-  let temp = '0x0';
+
+  let temp = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
   for (const action of order.actions) {
-    temp = soliditySha3(
-      { t: 'bytes32', v: temp },
-      { t: 'uint8', v: getActionKind(action) },
-      { t: 'uint32', v: getActionProxy(gateway, action) },
-      action.ledgerId,
-      { t: 'bytes32', v: getActionParam1(action) },
-      action.receiverId,
-      getActionValue(action),
+    temp = keccak256(
+      hexToBytes(
+        '0x'
+        + temp.substr(2)
+        + getActionKind(action)
+        + '0000000' + getActionProxy(gateway, action)
+        + action.ledgerId.substr(2)
+        + getActionParam1(action).substr(2)
+        + action.receiverId.substr(2)
+        + getActionValue(action).substr(2)
+      )
     );
   }
-  
-  return soliditySha3(
-    gateway.id,
-    order.makerId,
-    order.takerId,
-    temp,
-    toInteger(order.seed),
-    toSeconds(order.expiration)
+
+  return keccak256(
+    hexToBytes(
+      '0x'
+      + gateway.id.substr(2)
+      + order.makerId.substr(2)
+      + order.takerId.substr(2)
+      + temp.substr(2)
+      + leftPad(toInteger(order.seed), 64, "0", false)
+      + leftPad(toSeconds(order.expiration), 64, "0", false)
+    )
   );
 }
 
@@ -83,7 +90,7 @@ export function createSignatureTuple(claim: string) {
  * 
  */
 export function getActionKind(action: OrderAction) {
-  return action.kind === OrderActionKind.CREATE_ASSET ? 0 : 1;
+  return action.kind === OrderActionKind.CREATE_ASSET ? '00' : '01';
 }
 
 /**
@@ -108,13 +115,63 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
  */
 export function getActionParam1(action: OrderAction) {
   return action.kind === OrderActionKind.CREATE_ASSET
-    ? action['assetImprint']
-    : action.senderId;
+    ? rightPad(action['assetImprint'], 64)
+    : action.senderId + '000000000000000000000000';
 }
 
 /**
  * 
  */
 export function getActionValue(action: OrderAction) {
-  return action['assetId'] || action['value'];
+  return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, "0", true);
 }
+
+
+/**
+ *
+ */
+export function hexToBytes (hex: any) {
+  hex = hex.toString(16).replace(/^0x/i,'');
+  const bytes = [];
+
+  for (let c = 0; c < hex.length; c += 2)
+      bytes.push(parseInt(hex.substr(c, 2), 16));
+      
+  return bytes;
+};
+
+
+/**
+ * Should be called to pad string to expected length
+ *
+ * @method rightPad
+ * @param {String} string to be padded
+ * @param {Number} chars that result string should have
+ * @param {String} sign, by default 0
+ * @returns {String} right aligned string
+ */
+export function rightPad(input: any, chars: number, sign?: string) {
+  const hasPrefix = /^0x/i.test(input) || typeof input === 'number';
+  input = input.toString(16).replace(/^0x/i,'');
+
+  const padding = (chars - input.length + 1 >= 0) ? chars - input.length + 1 : 0;
+
+  return (hasPrefix ? '0x' : '') + input + (new Array(padding).join(sign ? sign : "0"));
+};
+
+/**
+ * Should be called to pad string to expected length
+ *
+ * @method leftPad
+ * @param {String} string to be padded
+ * @param {Number} chars that result string should have
+ * @param {String} sign, by default 0
+ * @returns {String} left aligned string
+ */
+export function leftPad(input: any, chars: number, sign?: string, prefix?: boolean) {
+  const hasPrefix = prefix === undefined ? /^0x/i.test(input) || typeof input === 'number' : prefix;
+  input = input.toString(16).replace(/^0x/i,'');
+  const padding = (chars - input.length + 1 >= 0) ? chars - input.length + 1 : 0;
+
+  return (hasPrefix ? '0x' : '') + new Array(padding).join(sign ? sign : "0") + input;
+};

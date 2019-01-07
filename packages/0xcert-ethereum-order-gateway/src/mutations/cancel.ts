@@ -1,16 +1,11 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { Order } from '../../../0xcert-scaffold/dist';
 import { createRecipeTuple } from '../lib/order';
-import gatewayAbi from '../config/gateway-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = gatewayAbi.find((a) => (
-  a.name === 'cancel' && a.type === 'function'
-));
+const functionSignature = '0x36d63aca';
+const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)'];
 
 /**
  * Cancels already submited order on the network.
@@ -22,7 +17,7 @@ export default async function(gateway: OrderGateway, order: Order) {
   const attrs = {
     from: gateway.provider.accountId,
     to: gateway.id,
-    data: encodeFunctionCall(abi, [recipeTuple]),
+    data: functionSignature + encodeParameters(inputTypes, [recipeTuple]).substr(2),
   };
   const res = await gateway.provider.post({
     method: 'eth_sendTransaction',

@@ -7,7 +7,11 @@ Communication with the blockchain and similar systems is quite different than co
 The process of reading a state from the underlying system is called a **query**. A query represents an instant request which is fast and usually free of charge, and typically does not need any kind of account information. A query reads data from the system and primarily represents a `GET` operation.
 
 ```ts
+import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger';
+
+// initialize a provider
+const provider = new MetamaskProvider();
 
 // initialize a ledger
 const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
@@ -36,13 +40,16 @@ const provider = new MetamaskProvider();
 const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const ledger = new AssetLedger(provider, ledgerId);
 
-// enqueue mutation for processing
-const mutation = await ledger.enableTransfers().then((mutation) => {
-    // wait until confirmed
-    return mutation.complete();
-});
+// mutation is transmited to the system
+const mutation = await ledger.enableTransfers();
+
+// awaiting for confirmation
+await mutation.complete();
+
 ```
 
-To perform a mutation, we first need to send a request to the system to be accepted for handling. Once such request is approved, the response is transmitted in the form of mutation details which include a unique ID of the mutation. We can use this ID to track the state of mutation and its confirmation. Mutation with at least one confirmation can be considered completed.
+To perform a mutation, we first need to send a request to the system to be accepted for handling. Once such request is approved, the response is transmitted in the form of mutation details which include a unique ID of the mutation. We can use this ID to track the state of mutation and its confirmation. Mutation with at least one confirmation can be considered completed(this is settable when creating provider).
+
+In the 0xcert framework, every mutation returns an instance of [Mutation class](Link to API). You do not need to wait for the mutation to complete unless you need the changes to be made on the asset ledger before doing the next operation. Every mutation has a unique ID and with it you can create an instance of `Mutation` anytime. 
 
 This is a general description of how mutations in the 0xcert Framework work. For specific details about how mutations work within the system of your choice, please refer to its official documentation.

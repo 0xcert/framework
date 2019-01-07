@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-erc20-contracts",
   "version": "0.0.0-alpha7",
-  "description": "Fungible token standard implementation for the 0xcert protocol..",
+  "description": "Smart contract implementation of the ERC-20 standard on the Ethereum blockchain.",
   "scripts": {
     "clean": "rm -Rf ./build",
     "build": "npm run clean && npx specron compile",
@@ -64,7 +64,7 @@
     "@0xcert/ethereum-utils-contracts": "0.0.0-alpha7",
     "@specron/cli": "^0.5.1",
     "@specron/spec": "^0.5.1",
-    "solc": "^0.5.1",
+    "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36"

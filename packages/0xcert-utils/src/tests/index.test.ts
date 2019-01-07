@@ -5,7 +5,7 @@ const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
   ctx.true(!!utils.sha);
-  ctx.true(!!utils.keccak);
+  ctx.true(!!utils.keccak256);
   ctx.true(!!utils.toFloat);
   ctx.true(!!utils.toInteger);
   ctx.true(!!utils.toSeconds);

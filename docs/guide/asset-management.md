@@ -70,6 +70,10 @@ const mutation = await assetLedger.transferAsset({
 });
 ```
 
+::: warning
+In the example above you are transfering the asset to yourself that is why the receiverId is your own accountId.
+::: 
+
 By now, the `100` token should appear in the new wallet. Let's verify this.
 
 ```ts

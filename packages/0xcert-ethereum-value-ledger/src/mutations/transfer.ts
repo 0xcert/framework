@@ -1,14 +1,9 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
-import erc20Abi from '../config/erc20-abi';
 
-/**
- * Smart contract transfer abi.
- */
-const abi = erc20Abi.find((a) => (
-  a.name === 'transfer' && a.type === 'function'
-));
+const functionSignature = '0xa9059cbb';
+const inputTypes = ['address', 'uint256'];
 
 /**
  * Transfers your tokens to another account.
@@ -20,7 +15,7 @@ export default async function(ledger: ValueLedger, receiverId: string, value: st
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [receiverId, value]),
+    data: functionSignature + encodeParameters(inputTypes, [receiverId, value]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

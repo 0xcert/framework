@@ -6,7 +6,7 @@ The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework i
 
 ![0xcert framework](../assets/scheme_3.svg)
 
-When talking about data conventions, for example, think about what Ruby on Rails did for Ruby. 0xcert is dealing with the application layer where developers need to act in a fast and agile way. To ensure interoperability among applications in the future, the assets follow specific conventions. These will prevent incompatibility on a higher level, which might happen if every NFT issuer deploys their own version of an industry standard. Having this level of standardization built on top of the strong ERC-721 standard prevents high-level fragmentation and safeguards long-term sustainability.
+0xcert is dealing with the application layer where developers need to act in a fast and agile way. To ensure interoperability among applications in the future, the assets follow specific conventions. These will prevent incompatibility on a higher level, which might happen if every NFT issuer deploys their own version of an industry standard. Having this level of standardization built on top of the strong ERC-721 standard prevents high-level fragmentation and safeguards long-term sustainability.
 
 ## Explaining the process
 

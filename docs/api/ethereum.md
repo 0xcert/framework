@@ -36,7 +36,7 @@ An `asynchronous` class instance `function` which authorizes the provider and co
 **Example:**
 
 ```ts
-// perform the query
+// perform mutation
 const provider = await provider.enable();
 ```
 
@@ -68,7 +68,7 @@ A `boolean` which tells if the provider can be used.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isSupported = provider.isSupported();
 ```
 
@@ -87,7 +87,7 @@ A `boolean` which tells if provider is enabled.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isEnabled = await provider.isEnabled();
 ```
 
@@ -100,7 +100,7 @@ const isEnabled = await provider.isEnabled();
 HTTP provider uses HTTP in (**and**?) HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 ::: warning
-Don't forger to manually unlock your account before performing a mutation.
+Don't forget to manually unlock your account before performing a mutation.
 :::
 
 ### HttpProvider(options)
@@ -167,11 +167,251 @@ A `boolean` which tells if the provider can be used.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const isSupported = provider.isSupported();
 ```
 
-## Asset Ledger
+## Mutation
+
+The 0xcert Framework performs mutations for any request that changes the state on the Ethereum blockchain.
+
+### Mutation(provider, mutationId)
+
+A `class` which handles transaction-related operations on the Ethereum blockchain.
+
+**Arguments**
+
+| Argument | Description
+|-|-|-
+| mutationId | [required] A `string` representing a hash string of an Ethereum transaction.
+| provider | [required] An instance of an HTTP or MetaMask provider.
+
+**Usage**
+
+```ts
+import { Mutation } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+// arbitrary data
+const mutationId = '0x767857798ea7c8d21ad72c4d7e054ed45ab5d177c06baa2183dbfc3b61926963';
+
+// create mutation instance
+const mutation = new Mutation(provider, mutationId);
+```
+
+### complete()
+
+An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations. Note that the number of required confirmations is configurable through the provider instance.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+// wait until confirmed
+await mutation.complate();
+```
+
+**See also:**
+
+[forget()](#forget)
+
+### confirmations
+
+A class instance `variable` holding an `integer` number of confirmations reached.
+
+### emit(event, error);
+
+A `synchronous` class instance `function` to manually trigger a mutation event.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
+| error | An instance of an `Error`. Applies only to the case when the `event` equals `ERROR`.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+mutation.emit(MutationEvent.ERROR, new Error('Unhandled error'));
+```
+
+### forget()
+
+A `synchronous` class instance `function` which stops listening for confirmations which causes the `complete()` function to resolve immediately.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+mutation.forget();
+```
+
+### id
+
+A class instance `variable` holding a `string` which represents a hash of an Ethereum transaction.
+
+### isCompleted()
+
+A `synchronous` class instance `function` which returns `true` when a mutation has reached the required number of confirmations.
+
+**Result:**
+
+A `boolean` telling if the mutation has been completed.
+
+**Example:**
+
+```ts
+mutation.isCompleted();
+```
+
+**See also:**
+
+[isPending](#is-pending)
+
+### isPending()
+
+A `synchronous` class instance `function` which returns `true` when a mutation is in the process of completion.
+
+**Result:**
+
+A `boolean` telling if the mutation is waiting to be confirmed.
+
+**Example:**
+
+```ts
+mutation.isPending();
+```
+
+**See also:**
+
+[isPending](#is-pending)
+
+### on(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+mutation.emit(MutationEvent.ERROR, new Error('Unhandled error'));
+```
+
+**See also:**
+
+[once](#on), [off](#off)
+
+### once(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emmitted.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
+| handler | A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
+```
+
+**See also:**
+
+[on](#on), [off](#off)
+
+### off(event, handler)
+
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emmitted.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
+| handler | A specific callback `function` of an event. If not provided, all handlers of the `event` are removed.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
+```
+
+**See also:**
+
+[on](#on), [once](#once)
+
+### receiverId
+
+A class instance `variable` holding a `string` which represents an Ethereum account address that plays the role of a receiver.
+
+::: tip
+When you are deploying a new ledger, this variable represents ledger ID and is `null` until a mutation is completed.
+:::
+
+### senderId
+
+A class instance `variable` holding a `string` which represents an Ethereum account address that plays the role of a sender.
+
+## Mutation events
+
+We can listen to different mutation events which are emitted by the mutation in the process of completion.
+
+**Options:**
+
+| Name | Value | Description
+|-|-|-
+| COMPLETE | complete | Triggered when a mutation reaches required confirmations.
+| CONFIRM | confirm | Triggered on each confirmation until the required confirmations are reached.
+| ERROR | error | Triggered on mutation error.
+
+**Example:**
+
+```ts
+mutation.on(MutationEvent.COMPLETE, () => {
+    console.log('Mutation has been completed!');
+});
+```
+
+## Asset ledger
 
 Asset ledger represents ERC-721 related smart contract on the Ethereum blockchain.
 
@@ -209,16 +449,11 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 | Argument | Description
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
-| accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the OrderGateway class.
+| accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the `OrderGateway` class.
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -227,7 +462,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveAccount(assetId, accountId);
 ```
 
@@ -243,16 +478,11 @@ An `asynchronous` class instance `function` which approves the third-party `acco
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the new owner's Ethereum account address or an instance of the OrderGateway class.
+| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing an Ethereum account address of a receiver.
-| senderId | A `string` representing an Ethereum account address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -261,7 +491,7 @@ An `asynchronous` class instance `function` which approves the third-party `acco
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveOperator(accountId);
 ```
 
@@ -277,17 +507,12 @@ An `asynchronous` class instance `function` which assignes management permission
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an Ethereum account address that will get new management permissions on this ledger.
+| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
 | abilities | [required] A array of `integers` representing this ledger's smart contract abilities.
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -301,7 +526,7 @@ const abilities = [
     AssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.assignAbilities(accountId, abilities);
 ```
 
@@ -319,12 +544,7 @@ An `asynchronous` class instance `function` which creates a new asset on the Eth
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -336,7 +556,7 @@ const asset = {
     receiverId: '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.createAsset(asset);
 ```
 
@@ -361,12 +581,7 @@ An `asynchronous` static class `function` which deploys a new asset ledger to th
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -380,14 +595,14 @@ const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
 ];
 const recipe = {
-    name: 'Math Course Certificate',
-    symbol: 'MCC',
+    name: 'Utility token',
+    symbol: 'UCC',
     uriBase: 'http://domain.com/assets/',
     schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
     capabilities,
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
     return mutation.complete(); // wait until first confirmation
 });
@@ -405,12 +620,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -418,7 +628,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.destroyAsset(assetId);
 ```
 
@@ -438,12 +648,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -451,7 +656,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveAccount(assetId);
 ```
 
@@ -467,16 +672,11 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the new Ethereum account address or an instance of the OrderGateway class.
+| accountId | [required] A `string` representing the new Ethereum account address or an instance of the `OrderGateway` class.
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -484,7 +684,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveOperator(accountId);
 ```
 
@@ -498,17 +698,12 @@ An `asynchronous` class instance `function` which disables all asset transfers. 
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
 ```ts
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disableTransfers();
 ```
 
@@ -522,17 +717,12 @@ An `asynchronous` class instance `function` which enables all asset transfers. T
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
 ```ts
-// perform the mutation
+// perform mutation
 const mutation = await ledger.enableTransfers();
 ```
 
@@ -554,7 +744,7 @@ An `array` of `integer` numbers representing acount abilities.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the query
+// perform query
 const abilities = await ledger.getAbilities(accountId);
 ```
 
@@ -578,7 +768,7 @@ A `string` representing account ID.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const accountId = await ledger.getApprovedAccount(assetId);
 ```
 
@@ -610,7 +800,7 @@ An `asynchronous` class instance `function` which returns `assetId` data.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const data = await ledger.getAsset(assetId);
 ```
 
@@ -634,7 +824,7 @@ A `string` which represents an account ID.
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const accountId = await ledger.getAssetAccount(assetId);
 ```
 
@@ -658,7 +848,7 @@ An `integer` number representing the number of assets in the `accountId`.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const balance = await ledger.getBalance(accountId);
 ```
 
@@ -673,7 +863,7 @@ An `array` of `integer` numbers representing ledger capabilities.
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const capabilities = await ledger.getCapabilities();
 ```
 
@@ -694,7 +884,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const info = await ledger.getInfo();
 ```
 
@@ -732,7 +922,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the Ethereum account address or an instance of the OrderGateway class.
+| accountId | [required] A `string` representing the Ethereum account address or an instance of the `OrderGateway` class.
 | assetId | [required] A `string` representing an asset ID.
 
 **Result:**
@@ -746,7 +936,7 @@ A `boolean` which tells if the `accountId` is approved for `assetId`.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const assetId = '100';
 
-// perform the mutation
+// perform query
 const isApproved = await ledger.isApprovedAccount(assetId, accountId);
 ```
 
@@ -763,7 +953,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns assets.
-| operatorId | [required] A `string` representing a third-party Ethereum account address or an instance of the OrderGateway class.
+| operatorId | [required] A `string` representing a third-party Ethereum account address or an instance of the `OrderGateway` class.
 
 **Result:**
 
@@ -776,7 +966,7 @@ A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const operatorId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 ```
 
@@ -786,7 +976,7 @@ const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 
 ### isTransferable()
 
-An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
 
 **Result:**
 
@@ -795,7 +985,7 @@ A `boolean` which tells if ledger asset transfers are enabled.
 **Example:**
 
 ```ts
-// perform the mutation
+// perform query
 const isTransferable = await ledger.isTransferable();
 ```
 
@@ -816,12 +1006,7 @@ An `asynchronous` class instance `function` which removes `abilities` of an `acc
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -835,7 +1020,7 @@ const abilities = [
     AssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.revokeAbilities(accountId, abilities);
 ```
 
@@ -855,12 +1040,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of the receiver.
-| senderId | A `string` representing Ethereum address of the sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -868,7 +1048,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 // arbitrary data
 const assetId = '100';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.revokeAsset(assetId);
 ```
 
@@ -888,12 +1068,7 @@ An `asynchronous` class instance `function` which updates ledger data. Note that
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -903,7 +1078,7 @@ const recipe = {
     uriBase: 'http://swapmarket.com/',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.update(recipe);
 ```
 
@@ -923,12 +1098,7 @@ An `asynchronous` class instance `function` which updates `assetId` data. You ne
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -938,7 +1108,7 @@ const recipe = {
     imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.update(recipe);
 ```
 
@@ -960,12 +1130,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -976,11 +1141,11 @@ const recipe = {
     id: '100',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.transferAsset(recipe);
 ```
 
-## Ledger Abilities
+## Ledger abilities
 
 Ledger abilities represent account-level permissions.
 
@@ -1005,7 +1170,7 @@ const abilities = [
 ];
 ```
 
-## Ledger Capabilities
+## Ledger capabilities
 
 Ledger capabilities represent the features of a smart contract.
 
@@ -1028,7 +1193,7 @@ const capabilities = [
 ];
 ```
 
-## Value Ledger
+## Value ledger
 
 Value ledger represents an ERC-20 related smart contract on the Ethereum blockchain.
 
@@ -1065,17 +1230,12 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an account address or an instance of the OrderGateway class.
+| accountId | [required] A `string` representing an account address or an instance of the `OrderGateway` class.
 | value | [required] An `integer` number representing the approved amount.
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing the Ethereum address of a receiver.
-| senderId | A `string` representing the Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1084,7 +1244,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 const value = '1000000000000000000'; // 1 unit (18 decimals)
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.approveValue(value, accountId);
 ```
 
@@ -1108,12 +1268,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver (you have to wait for the mutation to be confirmed).
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1130,7 +1285,7 @@ const recipe = {
     supply: '500000000000000000000', // 500 mio
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ValueLedger.deploy(provider, recipe).then((mutation) => {
     return mutation.complete(); // wait until first confirmation
 });
@@ -1148,12 +1303,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transactions.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1161,7 +1311,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.disapproveValue(accountId);
 ```
 
@@ -1191,7 +1341,7 @@ A big number `string` representing the approved value.
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const spenderId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const value = await ledger.getApprovedValue(accountId, spenderId);
 ```
 
@@ -1219,7 +1369,7 @@ A big number `string` representing the total value of the `accountId`.
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
-// perform the mutation
+// perform query
 const balance = await ledger.getBalance(accountId);
 ```
 
@@ -1239,7 +1389,7 @@ An `asynchronous` class instance `function` that returns an object with general 
 **Example:**
 
 ```ts
-// perform the query
+// perform query
 const info = await ledger.getInfo();
 ```
 
@@ -1278,7 +1428,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 | Argument | Description
 |-|-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns the funds.
-| spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the OrderGateway class.
+| spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the `OrderGateway` class.
 | value | [required] A big number `string` representing the amount allowed to transfer.
 
 **Result:**
@@ -1293,7 +1443,7 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const spenderId = '0xcc667f88e8821fb8d19f7e6240f44553ce3dbfdd';
 const value = '1000000000000000000';
 
-// perform the mutation
+// perform query
 const isApproved = await ledger.isApprovedAccount(value, accountId, spenderId);
 ```
 
@@ -1315,12 +1465,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing an Ethereum address of the receiver.
-| senderId | A `string` representing an Ethereum address of the sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1331,11 +1476,11 @@ const recipe = {
     value: '1000000000000000000', // 1 unit (18 decimals)
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await ledger.transferValue(recipe);
 ```
 
-## Orders Gateway
+## Orders gateway
 
 Order gateway allows for performing multiple actions in a one single atomic operation.
 
@@ -1380,12 +1525,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing an ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1408,7 +1548,7 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the mutation
+// perform mutation
 const mutation = await gateway.cancel(order);
 ```
 
@@ -1453,13 +1593,13 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the query
+// perform query
 const signature = await gateway.claim(order);
 ```
 
 ### getInstance(provider, id)
 
-A static class `function` that returns a new instance of the OrderGateway class (allias for `new OrderGateway`).
+A static class `function` that returns a new instance of the `OrderGateway` class (allias for `new OrderGateway`).
 
 **Arguments**
 
@@ -1500,12 +1640,7 @@ An `asynchronous` class instance `function` which submits the `order` with  `sig
 
 **Result:**
 
-| Key | Description
-|-|-
-| confirmations | An `integer` representing Ethereum transaction confirmations.
-| id | A `string` representing the ID of the Ethereum transaction.
-| receiverId | A `string` representing Ethereum address of a receiver.
-| senderId | A `string` representing Ethereum address of a sender.
+An instance of the same `Mutation` class.
 
 **Example:**
 
@@ -1527,7 +1662,7 @@ const order = {
     takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
-// perform the query
+// perform mutation
 const mutation = await gateway.perform(order, signature);
 ```
 
@@ -1535,7 +1670,7 @@ const mutation = await gateway.perform(order, signature);
 
 [cancel](#cancel)
 
-## Order Actions
+## Order actions
 
 Order actions define the atomic operations of the order gateway.
 
@@ -1547,7 +1682,7 @@ Order actions define the atomic operations of the order gateway.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
-### Create Asset Action
+### Create asset action
 
 | Property | Description
 |-|-|-
@@ -1558,7 +1693,7 @@ Order actions define the atomic operations of the order gateway.
 | receiverId | [required] A `string` representing receiver's address.
 | senderId | [required] A `string` representing sender's address.
 
-### Transfer Asset Action
+### Transfer asset action
 
 | Property | Description
 |-|-|-
@@ -1568,7 +1703,7 @@ Order actions define the atomic operations of the order gateway.
 | receiverId | [required] A `string` representing receiver's address.
 | senderId | [required] A `string` representing sender's address.
 
-### Transfer Value Action
+### Transfer value action
 
 | Property | Description
 |-|-|-

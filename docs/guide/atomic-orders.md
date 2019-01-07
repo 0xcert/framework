@@ -50,7 +50,11 @@ const orderGatewayId = '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa';
 const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 ```
 
-Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/) section into our second MetaMask wallet, and we create a new asset with ID `200` and imprint created in the [Certification](/) section. For the `makerId` and `takerId`, we will employ our current MetaMask account, since we are the one creating this order and will execute it using the same account.
+Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/) section into our second MetaMask wallet, and we create a new asset with ID `200` and imprint created in the [Certification](/) section. 
+
+::: warning
+For the purpose of simplicity of this guide, we will be both the maker and the taker of the order. For the `makerId` and `takerId`, we will employ our current MetaMask account.
+:::
 
 ```ts
 import { Order, OrderActionKind } from '@0xcert/ethereum-order-gateway';
@@ -90,10 +94,16 @@ const signedClaim = await orderGateway.claim(order);
 
 By calling the `claim` function, we sign the order. We need to send this signature to the taker, together with the `order` object via an arbitrary communication channel.
 
-All participants in the order must unlock the transferred assets and allow the OrderGateway to manage them. Make sure this step is done by every party that does a transfer within order operations. In the example below, we authorize the OrderGateway to transfer the asset with ID `100` to another address. The [API]() section contains information about how to authorize the order gateway for all the assets at the same time, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
+All participants in the order must unlock the transferred assets and allow the OrderGateway to manage them. Make sure this step is done by every party that does a transfer within order operations. In the example below, we authorize the OrderGateway to transfer the asset with ID `100` to another address and give it the ability to create assets. The [API]() section contains information about how to authorize the order gateway for all the assets at the same time, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
 
 ```ts
-const mutation = await assetLedger.approveAccount(orderGateway, '100').then((mutation) => {
+// approve account for transfering asset
+await assetLedger.approveAccount(orderGateway, '100').then((mutation) => {
+    return mutation.complete();
+});
+
+// assign ability to mint
+await assetLedger.assignAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```

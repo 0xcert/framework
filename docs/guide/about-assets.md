@@ -12,6 +12,8 @@ Within the realm of the blockchain and other distributed platforms, these assets
 
 A ledger represents a folder containing the assets of a specific issuer and related owners. Only the users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
 
+Explaining the concept is a challenge on its own. Let's try with an example. Your driving license is an asset. You own it, and that makes you the owner of your driving license. Generally speaking, driving licenses as documents are an asset ledger since they all contain the same set of data. The government issues your driving license which makes it the issuer.
+
 An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to the [RFC-7159](https://en.wikipedia.org/wiki/JSON) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. This schema represents data conventions and the structure of asset data.
 
 Therefore, within the 0xcert Framework, every asset is structured based on a particular schema. Some data of such block can be public, other data can be private. Asset data objects are stored in a centralized or decentralized database. The original data is always known to both the issuer and the owner of the asset, and the issuer is the one that creates an asset.

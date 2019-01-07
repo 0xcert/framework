@@ -1,13 +1,9 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
-import erc20Abi from '../config/erc20-abi';
 
-/**
- * Smart contract balanceOf abi.
- */
-const abi = erc20Abi.find((a) => (
-  a.name === 'balanceOf' && a.type === 'function'
-));
+const functionSignature = '0x70a08231';
+const inputTypes = ['address'];
+const outputTypes = ['uint256'];
 
 /**
  * Gets the amount of token an account owns.
@@ -18,13 +14,13 @@ export default async function(ledger: ValueLedger, accountId: string) {
   try {
     const attrs = {
       to: ledger.id,
-      data: encodeFunctionCall(abi, [accountId]),
+      data: functionSignature + encodeParameters(inputTypes, [accountId]).substr(2),
     };
     const res = await ledger.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(abi.outputs, res.result)[0];
+    return decodeParameters(outputTypes, res.result)[0].toString();
   } catch (error) {
     return null;
   }

@@ -1,15 +1,33 @@
-import { encodeFunctionCall, decodeParameters } from '@0xcert/ethereum-utils';
+import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abis = ['name', 'symbol', 'uriBase', 'schemaId', 'totalSupply'].map((name) => {  
-  return xcertAbi.find((a) => (
-    a.name === name && a.type === 'function'
-  ));
-});
+const functions = [
+  {
+    signature: '0x06fdde03',
+    inputTypes: [],
+    outputTypes: ['string']
+  },
+  {
+    signature: '0x95d89b41',
+    inputTypes: [],
+    outputTypes: ['string']
+  },
+  {
+    signature: '0xfbca0ce1',
+    inputTypes: [],
+    outputTypes: ['string']
+  },
+  {
+    signature: '0x075b1a09',
+    inputTypes: [],
+    outputTypes: ['bytes32']
+  },
+  {
+    signature: '0x18160ddd',
+    inputTypes: [],
+    outputTypes: ['uint256']
+  }
+];
 
 /**
  * Gets information(name, symbol, uriBase, schemaId, supply) of the asset ledger.
@@ -17,17 +35,17 @@ const abis = ['name', 'symbol', 'uriBase', 'schemaId', 'totalSupply'].map((name)
  */
 export default async function(ledger: AssetLedger) {
   const info = await Promise.all(
-    abis.map(async (abi) => {
+    functions.map(async (f) => {
       try {
         const attrs = {
           to: ledger.id,
-          data: encodeFunctionCall(abi, []),
+          data: f.signature + encodeParameters(f.inputTypes, []).substr(2),
         };
         const res = await ledger.provider.post({
           method: 'eth_call',
           params: [attrs, 'latest'],
         });
-        return decodeParameters(abi.outputs, res.result)[0];
+        return decodeParameters(f.outputTypes, res.result)[0].toString();
       } catch (error) {
         return null;
       }

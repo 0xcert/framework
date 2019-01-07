@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress, BN } from '@0xcert/ethereum-utils';
+import { normalizeAddress, bigNumberify } from '@0xcert/ethereum-utils';
 import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
   ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
 import deploy from '../mutations/deploy';
@@ -94,7 +94,7 @@ export class ValueLedger implements ValueLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
     const approved = await getAllowance(this, accountId, spenderId as string);
-    return new BN(approved).gte(new BN(value));
+    return bigNumberify(approved).gte(bigNumberify(value));
   }
 
   /**

@@ -26,8 +26,8 @@ Let's first deploy a new value ledger to the Ethereum blockchain. If you would l
 
 ```ts
 const mutation = await ValueLedger.deploy(provider, {
-    name: 'Certificate',
-    symbol: 'CERT',
+    name: 'Utility token',
+    symbol: 'UTT',
     decimals: '18',
     supply: '500000000000000000000000000', // 500 mio
 }).then(() => {

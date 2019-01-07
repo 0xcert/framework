@@ -1,14 +1,9 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'setApprovalForAll' && a.type === 'function'
-));
+const functionSignature = '0xa22cb465';
+const inputTypes = ['address', 'bool'];
 
 /**
  * Sets aproval for an account to have control over all assets.
@@ -20,7 +15,7 @@ export default async function(ledger: AssetLedger, accountId: string, approved: 
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [accountId, approved]),
+    data: functionSignature + encodeParameters(inputTypes, [accountId, approved]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

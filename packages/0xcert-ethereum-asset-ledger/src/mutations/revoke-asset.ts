@@ -1,14 +1,9 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeFunctionCall } from '@0xcert/ethereum-utils';
+import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import xcertAbi from '../config/xcert-abi';
 
-/**
- * Smart contract method abi.
- */
-const abi = xcertAbi.find((a) => (
-  a.name === 'revoke' && a.type === 'function'
-));
+const functionSignature = '0x20c5429b';
+const inputTypes = ['uint256'];
 
 /**
  * Destroys an asset the same way as destoryAsset does but only an account with revoke ability can
@@ -20,7 +15,7 @@ export default async function(ledger: AssetLedger, assetId: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: encodeFunctionCall(abi, [assetId]),
+    data: functionSignature + encodeParameters(inputTypes, [assetId]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',
