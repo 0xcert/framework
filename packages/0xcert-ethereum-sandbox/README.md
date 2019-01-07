@@ -1,15 +1,17 @@
-Standalone usage:
+<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
+
+> Test server for local running testing of modules on the Ethereum blockchain.
+
+You can use it as a standalone server.
 
 ```ts
 import { Sandbox } from '@0xcert/ethereum-sandbox';
 
 const sandbox = new Sandbox();
 await sandbox.listen();
-...
-await sandbox.close();
 ```
 
-Specron example:
+You can integrate it with Specron.
 
 ```ts
 import { Spec } from '@specron/spec';
@@ -24,7 +26,7 @@ spec.before(async (stage) => {
 export default spec;
 ```
 
-Hayspec example:
+You can integrate it with Hayspec.
 
 ```ts
 import { Spec } from '@hayspec/spec';
@@ -47,3 +49,7 @@ spec.after(async (stage) => {
 
 export default spec;
 ```
+
+The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
+
+This module is one of the bricks of the [0xcert Framework](https://docs.0xcert.org). It's written with [TypeScript](https://www.typescriptlang.org) and it's actively maintained. The source code is available on [GitHub](https://github.com/0xcert/framework) where you can also find our [issue tracker](https://github.com/0xcert/framework/issues).
