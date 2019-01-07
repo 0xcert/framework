@@ -29,6 +29,12 @@ contract NFTokenMetadata is
   string constant NFT_ALREADY_EXISTS = "004006";
 
   /**
+   * @dev Magic value of a smart contract that can recieve NFT.
+   * Equal to: bytes4(keccak256("onERC721Received(address,address,uint256,bytes)")).
+   */
+  bytes4 constant MAGIC_ON_ERC721_RECEIVED = 0x150b7a02;
+
+  /**
    * @dev A descriptive name for a collection of NFTs.
    */
   string internal nftName;
@@ -62,12 +68,6 @@ contract NFTokenMetadata is
    * @dev Mapping from owner address to mapping of operator addresses.
    */
   mapping (address => mapping (address => bool)) internal ownerToOperators;
-
-  /**
-   * @dev Magic value of a smart contract that can recieve NFT.
-   * Equal to: bytes4(keccak256("onERC721Received(address,address,uint256,bytes)")).
-   */
-  bytes4 constant MAGIC_ON_ERC721_RECEIVED = 0x150b7a02;
 
   /**
    * @dev Emits when ownership of any NFT changes by any mechanism. This event emits when NFTs are
@@ -121,38 +121,6 @@ contract NFTokenMetadata is
   {
     supportedInterfaces[0x80ac58cd] = true; // ERC721
     supportedInterfaces[0x5b5e139f] = true; // ERC721Metadata
-  }
-
-  /**
-   * @dev Returns the number of NFTs owned by `_owner`. NFTs assigned to the zero address are
-   * considered invalid, and this function throws for queries about the zero address.
-   * @param _owner Address for whom to query the balance.
-   */
-  function balanceOf(
-    address _owner
-  )
-    external
-    view
-    returns (uint256)
-  {
-    require(_owner != address(0), ZERO_ADDRESS);
-    return ownerToNFTokenCount[_owner];
-  }
-
-  /**
-   * @dev Returns the address of the owner of the NFT. NFTs assigned to zero address are considered
-   * invalid, and queries about them do throw.
-   * @param _tokenId The identifier for an NFT.
-   */
-  function ownerOf(
-    uint256 _tokenId
-  )
-    external
-    view
-    returns (address _owner)
-  {
-    _owner = idToOwner[_tokenId];
-    require(_owner != address(0), NOT_VALID_NFT);
   }
 
   /**
@@ -259,9 +227,44 @@ contract NFTokenMetadata is
   }
 
   /**
+   * @dev Returns the number of NFTs owned by `_owner`. NFTs assigned to the zero address are
+   * considered invalid, and this function throws for queries about the zero address.
+   * @param _owner Address for whom to query the balance.
+   * @return Balance of _owner.
+   */
+  function balanceOf(
+    address _owner
+  )
+    external
+    view
+    returns (uint256)
+  {
+    require(_owner != address(0), ZERO_ADDRESS);
+    return ownerToNFTokenCount[_owner];
+  }
+
+  /**
+   * @dev Returns the address of the owner of the NFT. NFTs assigned to zero address are considered
+   * invalid, and queries about them do throw.
+   * @param _tokenId The identifier for an NFT.
+   * @return Address of _tokenId owner.
+   */
+  function ownerOf(
+    uint256 _tokenId
+  )
+    external
+    view
+    returns (address _owner)
+  {
+    _owner = idToOwner[_tokenId];
+    require(_owner != address(0), NOT_VALID_NFT);
+  }
+
+  /**
    * @dev Get the approved address for a single NFT.
    * @notice Throws if `_tokenId` is not a valid NFT.
    * @param _tokenId ID of the NFT to query the approval of.
+   * @return Address that _tokenId is approved for. 
    */
   function getApproved(
     uint256 _tokenId
@@ -278,6 +281,7 @@ contract NFTokenMetadata is
    * @dev Checks if `_operator` is an approved operator for `_owner`.
    * @param _owner The address that owns the NFTs.
    * @param _operator The address that acts on behalf of the owner.
+   * @return True if approved for all, false otherwise.
    */
   function isApprovedForAll(
     address _owner,
@@ -292,6 +296,7 @@ contract NFTokenMetadata is
 
   /**
    * @dev Returns a descriptive name for a collection of NFTs.
+   * @return Representing name. 
    */
   function name()
     external
@@ -303,6 +308,7 @@ contract NFTokenMetadata is
 
   /**
    * @dev Returns an abbreviated name for NFTs.
+   * @return Representing symbol. 
    */
   function symbol()
     external
@@ -317,6 +323,7 @@ contract NFTokenMetadata is
    * @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC 3986. The URI may point
    * to a JSON file that conforms to the "ERC721 Metadata JSON Schema".
    * @param _tokenId Id for which we want URI.
+   * @return URI of _tokenId.
    */
   function tokenURI(
     uint256 _tokenId
@@ -460,7 +467,8 @@ contract NFTokenMetadata is
   )
     internal
   {
-    if (_to.isContract()) {
+    if (_to.isContract())
+    {
       require(
         ERC721TokenReceiver(_to)
           .onERC721Received(msg.sender, _from, _tokenId, _data) == MAGIC_ON_ERC721_RECEIVED,
@@ -473,28 +481,34 @@ contract NFTokenMetadata is
 
   /**
    * @dev Helper function that changes uint to string representation.
+   * @return String representation.
    */
   function _uint2str(
     uint256 _i
   ) 
     internal
     pure
-    returns (string memory)
+    returns (string memory str)
   {
-    if (_i == 0) return "0";
+    if (_i == 0)
+    {
+      return "0";
+    }
     uint256 j = _i;
     uint256 length;
-    while (j != 0){
+    while (j != 0)
+    {
       length++;
       j /= 10;
     }
     bytes memory bstr = new bytes(length);
     uint256 k = length - 1;
     j = _i;
-    while (j != 0){
+    while (j != 0)
+    {
       bstr[k--] = byte(uint8(48 + j % 10));
       j /= 10;
     }
-    return string(bstr);
+    str = string(bstr);
   }
 }

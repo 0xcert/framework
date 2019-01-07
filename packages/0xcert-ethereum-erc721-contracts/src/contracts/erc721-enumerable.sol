@@ -1,14 +1,16 @@
-pragma solidity ^0.5.1;
+pragma solidity 0.5.1;
 
 /**
  * @dev Optional enumeration extension for ERC-721 non-fungible token standard.
- * See https://goo.gl/pc9yoS.
+ * See https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md.
  */
-interface ERC721Enumerable {
+interface ERC721Enumerable
+{
 
   /**
    * @dev Returns a count of valid NFTs tracked by this contract, where each one of them has an
    * assigned and queryable owner not equal to the zero address.
+   * @return Total supply of NFTs.
    */
   function totalSupply()
     external
@@ -18,6 +20,7 @@ interface ERC721Enumerable {
   /**
    * @dev Returns the token identifier for the `_index`th NFT. Sort order is not specified.
    * @param _index A counter less than `totalSupply()`.
+   * @return Token id.
    */
   function tokenByIndex(
     uint256 _index
@@ -32,6 +35,7 @@ interface ERC721Enumerable {
    * representing invalid NFTs.
    * @param _owner An address where we are interested in NFTs owned by them.
    * @param _index A counter less than `balanceOf(_owner)`.
+   * @return Token id.
    */
   function tokenOfOwnerByIndex(
     address _owner,
