@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-value-ledger",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum ledger for 0xcert protocol.",
+  "description": "Value ledger module for currency management on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

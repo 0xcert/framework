@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-order-gateway-contracts",
   "version": "0.0.0-alpha7",
-  "description": "Decentralized exchange implementation for 0xcert protocol",
+  "description": "Smart contracts used by the order gateway on the Ethereum blockchain.",
   "scripts": {
     "clean": "rm -Rf ./dist",
     "build": "npm run clean && npx specron compile",

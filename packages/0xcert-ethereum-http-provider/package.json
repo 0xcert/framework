@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-http-provider",
   "version": "0.0.0-alpha7",
-  "description": "HTTP provider for 0xcert protocol.",
+  "description": "Implementation of HTTP communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

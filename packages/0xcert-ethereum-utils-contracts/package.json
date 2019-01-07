@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-utils-contracts",
-  "description": "Common utilities.",
+  "description": "General utility module with helper smart contracts.",
   "version": "0.0.0-alpha7",
   "scripts": {
     "clean": "rm -Rf ./build",

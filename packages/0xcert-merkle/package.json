@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/merkle",
   "version": "0.0.0-alpha7",
-  "description": "Merkle tree management tool.",
+  "description": "Implementation of basic functions of binary Merkle tree.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

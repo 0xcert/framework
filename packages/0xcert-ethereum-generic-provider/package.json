@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-generic-provider",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum ledger for 0xcert protocol.",
+  "description": "Basic implementation of communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

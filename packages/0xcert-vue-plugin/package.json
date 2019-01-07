@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/vue-plugin",
   "version": "0.0.0-alpha7",
-  "description": "Ethereum certification for 0xcert protocol.",
+  "description": "Implementation of VueJS plug-in.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

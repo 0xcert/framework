@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-sandbox",
   "version": "0.0.0-alpha7",
-  "description": "Web3 provider sandbox environment",
+  "description": "Test server for local running testing of modules on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

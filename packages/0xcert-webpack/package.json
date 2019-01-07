@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/webpack",
   "version": "0.0.0-alpha7",
-  "description": "0xcert webpack scripts.",
+  "description": "Module for package building and minification.",
   "scripts": {
     "clean": "rm -Rf ../../dist",
     "build": "npm run clean; npx webpack",
