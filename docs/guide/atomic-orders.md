@@ -8,6 +8,8 @@ Atomic order is a way of creating an atomic swap within the 0xcert framework. It
 
 Atomic swap operation is always an order between a maker and a taker side, and multiple parties can represent either side. A maker is the one who creates an order, signs it and sends it to the taker, who in turn executes the order and pays the execution fee.
 
+![Atomic swap](../assets/atomic-swap.svg)
+
 Multiple actions can be performed in such a manner. For now, you can transfer assets, transfer values, and create new assets. Using atomic orders provides multiple advantages apart from trustlessness and safety. With them, you can delegate paying storage fees to another user as well as delegate the time when a mutation should be made.
 
 The 0xcert Framework provides automatization to ensure that a specific agreement between multiple parties is reached. There are only two possible endpoints for an atomic swap:
