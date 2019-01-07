@@ -4,9 +4,9 @@ This guide walks you through the main features of the 0xcert Framework. It gives
 
 ## How to proceed?
 
-To expose the Framework in all its beauty, the code snippets in this document are written in TypeScript. This way, the developers using the Framework will find it more familiar and more comfortable to work with.
+To expose the Framework in all its beauty, the code snippets in this document are written in TypeScript. This way, developers using the Framework will find it more familiar and more comfortable to work with.
 
-The examples in this guide are written for the Ethereum blockchain. This, however, is not an obstacle when applying this guide to be used with any other system since the 0xcert Framework is platform-agnostic and uses the same interface for all the underlying systems.
+The examples in this guide are written for the Ethereum blockchain. This, however, is not an obstacle when applying this guide to any other system since the 0xcert Framework is platform-agnostic and uses the same interface for all the underlying systems.
 
 ## Requirements
 

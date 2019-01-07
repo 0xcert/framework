@@ -1,8 +1,8 @@
 # Certification
 
-Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular process or for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
+Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular process or for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
-The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines from the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured based on the definitions in a data scheme based on JSON-schema.
+The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a JSON-schema.
 
 ![0xcert framework](../assets/scheme_3.svg)
 
@@ -27,7 +27,8 @@ We recommend you employ the certification module as an NPM package in your appli
 $ npm i --save @0xcert/cert
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that you can directly include in your website. Please refer to the API section to learn more about certification.
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](https://docs.0xcert.org/api/core.html) section to learn more about certification.
 
 ## Usage overview
 
@@ -45,7 +46,7 @@ const data = {
 } as Object88;
 ```
 
-In the 0xcert Framework, the whole complexity of certification is packed into the `Cert` class, therefore, we create a new instance of that class with the appropriate JSON Schema definition for our data object.
+In the 0xcert Framework, the whole complexity of certification is packed into the `Cert` class. Therefore, we create a new instance of that class with the appropriate JSON Schema definition for our data object.
 
 ```ts
 import { Cert } from '@0xcert/cert';
@@ -58,7 +59,7 @@ const cert = new Cert({
 
 In the previous section, we mentioned that each asset also holds its URI, pointing to the asset's publicly available metadata. We should put metadata and other public files to a publicly available HTTP location. We can either establish an HTTP server ourselves, or we can host the file through services like Amazon and Google.
 
-At this point, we first have to decide which data we want to expose publicly and which we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers. Based on the data object above we create a JSON object that will be published publicly.
+At this point, we first have to decide which data we want to expose publicly and which do we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers. Based on the data object above, we create a JSON object that will be published publicly.
 
 ```json
 {
@@ -69,7 +70,7 @@ At this point, we first have to decide which data we want to expose publicly and
 }
 ```
 
-We should thus publish this structure on a publicly accessible HTTP location. Along with the metadata file, we usually publish the evidence file, too, that proves data validity of this publicly published JSON file.
+We should thus publish this structure on a publicly accessible HTTP location. Along with the metadata file, we usually publish the evidence file, too, which proves the data validity of this publicly published JSON file.
 
 The example above already assumes that we host the evidence file on the location `https://troopersgame.com/dog/evidence` which means that we should publish the appropriate content there (we thus change this location to match its true location). We create the evidence data using the `disclose` method where we list the JSON data paths that we want to expose.
 
@@ -127,6 +128,6 @@ const imprint = await cert.imprint(data);
 
 This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum chain in one of the following sections where we'll show how to handle asset ledgers.
 
-Let's further discuss the concept of revealing the data to third parties. This works in the same way as we created the evidence file for publicly published metadata JSON file. When we want to reveal a private `name` data to a third person, we would also employ the `disclose` function to create the evidence data, send it to a third person via arbitrary communication channel allowing them to calculate the `imprint` of the original data object based on the revealed data and received evidence data. If the calculated imprint matches the one that is publicly available on the blockchain, the data will count as valid.
+Let's further discuss the concept of revealing the data to third parties. This works in the same way as we created the evidence file for the published metadata JSON file. When we want to reveal a private `name` data to a third person, we would also employ the `disclose` function to create the evidence data, send it to a third person via arbitrary communication channel which would allow them to calculate the `imprint` of the original data object based on the revealed data and the received evidence data. If the calculated imprint matches the one that is publicly available on the blockchain, the data will count as valid.
 
-Certification offers some additional possibilities. For more details, please refer to the [API]() section.
+Certification offers some additional possibilities. For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
