@@ -8,13 +8,18 @@ import "./ownable.sol";
  * at goo.gl/CfEAkv and upgrades Ownable contracts with additional claim step which makes ownership
  * transfers less prone to errors.
  */
-contract Claimable is Ownable {
+contract Claimable is
+  Ownable
+{
 
   /**
    * @dev Error constants.
    */
   string constant NOT_PENDING_OWNER = "019001";
 
+  /**
+   * @dev Address of pending owner or zero address if there is no pending owner.
+   */
   address public pendingOwner;
 
   /**
@@ -55,4 +60,5 @@ contract Claimable is Ownable {
     pendingOwner = address(0);
     emit OwnershipTransferred(previousOwner, owner);
   }
+  
 }

@@ -13,6 +13,7 @@ contract NFTokenTransferProxy is
   Proxy,
   Abilitable 
 {
+
   /**
    * @dev List of abilities:
    * 1 - Ability to execute transfer. 
@@ -37,4 +38,5 @@ contract NFTokenTransferProxy is
   {
     ERC721(_target).transferFrom(_a, _b, _c);
   }
+  
 }

@@ -33,4 +33,5 @@ contract XcertMock is Xcert {
       supportedInterfaces[_capabilities[i]] = true;
     }
   }
+  
 }

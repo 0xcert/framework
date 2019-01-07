@@ -13,6 +13,7 @@ contract NFTokenSafeTransferProxy is
   Proxy,
   Abilitable 
 {
+
   /**
    * @dev List of abilities:
    * 1 - Ability to execute. 
@@ -37,4 +38,5 @@ contract NFTokenSafeTransferProxy is
   {
     ERC721(_target).safeTransferFrom(_a, _b, _c);
   }
+  
 }

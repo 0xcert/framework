@@ -10,6 +10,7 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol
 contract XcertCreateProxy is 
   Abilitable 
 {
+
   /**
    * @dev List of abilities:
    * 1 - Ability to execute create. 
@@ -34,4 +35,5 @@ contract XcertCreateProxy is
   {
     Xcert(_xcert).create(_to, _id, _imprint);
   }
+  
 }

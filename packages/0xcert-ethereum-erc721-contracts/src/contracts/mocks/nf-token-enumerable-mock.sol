@@ -10,6 +10,7 @@ contract NFTokenEnumerableMock is
   NFTokenEnumerable,
   Claimable
 {
+
   /**
    * @dev Creates a new NFT.
    * @param _to The address that will own the created NFT.
@@ -37,4 +38,5 @@ contract NFTokenEnumerableMock is
   {
     super._destroy(_tokenId);
   }
+  
 }

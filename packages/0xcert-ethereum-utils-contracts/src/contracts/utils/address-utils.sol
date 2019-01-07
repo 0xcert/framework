@@ -1,20 +1,22 @@
-pragma solidity ^0.5.1;
+pragma solidity 0.5.1;
 
 /**
  * @dev Utility library of inline functions on addresses.
  */
-library AddressUtils {
+library AddressUtils
+{
 
   /**
    * @dev Returns whether the target address is a contract.
    * @param _addr Address to check.
+   * @return True if _addr is a contract, false if not.
    */
   function isContract(
     address _addr
   )
     internal
     view
-    returns (bool)
+    returns (bool addressCheck)
   {
     uint256 size;
 
@@ -25,8 +27,8 @@ library AddressUtils {
      * TODO: Check this again before the Serenity release, because all addresses will be
      * contracts then.
      */
-    assembly { size := extcodesize(_addr) } // solium-disable-line security/no-inline-assembly
-    return size > 0;
+    assembly { size := extcodesize(_addr) } // solhint-disable-line
+    addressCheck = size > 0;
   }
 
 }

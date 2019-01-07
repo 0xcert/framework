@@ -10,6 +10,7 @@ contract NFTokenMetadataMock is
   NFTokenMetadata,
   Claimable
 {
+
   /**
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
@@ -68,4 +69,5 @@ contract NFTokenMetadataMock is
   {
     super._setUriBase(_uriBase);
   }
+  
 }

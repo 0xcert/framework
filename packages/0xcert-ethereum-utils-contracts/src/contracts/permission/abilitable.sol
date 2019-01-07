@@ -4,7 +4,8 @@ import "../math/safe-math.sol";
 /**
  * @dev Contract for setting abilities.
  */
-contract Abilitable {
+contract Abilitable
+{
 
   using SafeMath for uint;
 
@@ -15,13 +16,16 @@ contract Abilitable {
   string constant ONE_ZERO_ABILITY_HAS_TO_EXIST = "017002";
 
   /**
-   * @dev Maps address to ability id.
-   * Id 0 is a reserved ability. It is an ability to assign or revoke abilities. 
+   * @dev Id 0 is a reserved ability. It is an ability to assign or revoke abilities. 
    * There can be minimum of 1 address with 0 id ability.
    * Other ability id are determined by implementing contract.
    */
-  mapping(address => mapping(uint8 => bool)) private addressToAbility;
   uint8 constant ABILITY_TO_MANAGE_ABILITIES = 0;
+
+  /**
+   * @dev Maps address to ability id.
+   */
+  mapping(address => mapping(uint8 => bool)) private addressToAbility;
 
   /**
    * @dev Count of zero ability addresses.
@@ -135,4 +139,5 @@ contract Abilitable {
   {
     return addressToAbility[_target][_ability];
   }
+  
 }
