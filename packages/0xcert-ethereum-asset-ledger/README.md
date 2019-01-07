@@ -1,36 +1,7 @@
-```ts
-## Available methods
-A list of all available methods.
+<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
 
-### Mutations
-await ledger.assignAbilities(accountId, abilities);
-await ledger.revokeAbilities(accountId, abilities);
-await ledger.enableTransfers();
-await ledger.disableTransfers();
-await ledger.approveAccount(assetId, takerId);
-await ledger.disapproveAccount(assetid);
-await ledger.createAsset({ accountId, assetId, imprint });
-await ledger.updateAsset(assetId, { imprint });
-await ledger.destroyAsset(assetId);
-await ledger.revokeAsset(assetId);
-await ledger.update({ uriBase });
-await ledger.approveOperator(accountId); 
-await ledger.disapproveOperator(accountId); 
+> Asset ledger module for asset management on the Ethereum blockchain.
 
-### Queries
-await ledger.getAbilities(accountId);
-await ledger.getCapabilities();
-await ledger.getInfo();
-await ledger.getSupply();
-await ledger.isTranserable();
-await ledger.isApprovedAccount(assetId, takerId); 
-await ledger.getApprovedAccount(assetId);
-await ledger.getBalance(accountId);
-await ledger.getAssetAccount(assetId);
-await ledger.getAsset(assetId); // imprint, uri, assetId
-await ledger.isApprovedOperator(accountId, operatorId);
+The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
 
-```
-
-# TODO
-- deploy contract - kako prebrati `ledgerId` ko je contract zdeployan
+This module is one of the bricks of the [0xcert Framework](https://docs.0xcert.org). It's written with [TypeScript](https://www.typescriptlang.org) and it's actively maintained. The source code is available on [GitHub](https://github.com/0xcert/framework) where you can also find our [issue tracker](https://github.com/0xcert/framework/issues).
