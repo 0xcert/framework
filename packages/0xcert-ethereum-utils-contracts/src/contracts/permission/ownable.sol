@@ -5,7 +5,8 @@ pragma solidity ^0.5.1;
  * simplifies the implementation of user permissions. This contract is based on the source code
  * at https://goo.gl/n2ZGVt.
  */
-contract Ownable {
+contract Ownable
+{
   
   /**
    * @dev Error constants.
@@ -13,6 +14,9 @@ contract Ownable {
   string constant NOT_OWNER = "018001";
   string constant ZERO_ADDRESS = "018002";
 
+  /**
+   * @dev Address of the owner. 
+   */
   address public owner;
 
   /**
@@ -37,7 +41,8 @@ contract Ownable {
   /**
    * @dev Throws if called by any account other than the owner.
    */
-  modifier onlyOwner() {
+  modifier onlyOwner()
+  {
     require(msg.sender == owner, NOT_OWNER);
     _;
   }
@@ -56,4 +61,5 @@ contract Ownable {
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }
+  
 }
