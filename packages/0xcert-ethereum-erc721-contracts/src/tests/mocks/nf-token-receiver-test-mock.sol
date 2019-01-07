@@ -5,6 +5,7 @@ import "../../contracts/erc721-token-receiver.sol";
 contract NFTokenReceiverTestMock is
   ERC721TokenReceiver
 {
+
   function onERC721Received(
     address _operator,
     address _from,
@@ -20,4 +21,5 @@ contract NFTokenReceiverTestMock is
     _data;
     return 0x150b7a02;
   }
+  
 }

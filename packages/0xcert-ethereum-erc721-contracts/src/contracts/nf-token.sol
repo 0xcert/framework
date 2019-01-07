@@ -398,4 +398,5 @@ contract NFToken is
 
     _transferFrom(_from, _to, _tokenId);
   }
+  
 }

@@ -5,6 +5,7 @@ import "../../contracts/mocks/nf-token-metadata-enumerable-mock.sol";
 contract NFTokenMetadataEnumerableTestMock is
   NFTokenMetadataEnumerableMock
 {
+
   constructor(
     string memory _name,
     string memory _symbol,
@@ -54,4 +55,5 @@ contract NFTokenMetadataEnumerableTestMock is
   {
     return idToIndex[_tokenId];
   }
+  
 }

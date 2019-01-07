@@ -507,4 +507,5 @@ contract NFTokenEnumerable is
 
     _transferFrom(_from, _to, _tokenId);
   }
+  
 }

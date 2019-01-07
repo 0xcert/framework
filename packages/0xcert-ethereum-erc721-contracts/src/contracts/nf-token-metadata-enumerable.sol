@@ -620,4 +620,5 @@ contract NFTokenMetadataEnumerable is
     }
     str = string(bstr);
   }
+  
 }
