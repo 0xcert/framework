@@ -142,7 +142,7 @@ const imprint = await cert.imprint(data);
 
 ### notarize(data)
 
-An `asynchronous` class instance `function` which generates a full list of proofs needed to verify any key of the provided `data` object. 
+An `asynchronous` class instance `function` which generates a full list of proofs needed to verify any key of the provided `data` object.
 
 **Arguments:**
 
@@ -214,7 +214,7 @@ const proofs = [
 
 ## Asset Schema
 
-An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to the [RFC-7159](https://en.wikipedia.org/wiki/JSON) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. Each asset includes a URI which points to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset.
+An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to the [RFC-7159](https://tools.ietf.org/html/rfc7159) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. Each asset includes a URI which points to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset.
 
 **Example:**
 
@@ -261,7 +261,7 @@ const schemaId = await sha(256, JSON.stringify(schema));
 
 **Public Metadata:**
 
-Public Metadata file must expose at least the keys defined by the [base asset schema](#asset-conventions).
+Public Metadata file must expose at least the keys defined by the [base asset schema](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md).
 
 ```json
 {
@@ -356,8 +356,8 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 | Issue | Description
 |-|-|-
-| [86](https://github.com/0xcert/framework/blob/master/conventions/86-asset-metadata.md) | Basic asset data schema.
-| [87](https://github.com/0xcert/framework/blob/master/conventions/87-asset-evidence.md) | Asset evidence data schema.
-| [88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible.md) | Schema describing digital collectible item.
+| [86](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) | Basic asset data schema.
+| [87](https://github.com/0xcert/framework/blob/master/conventions/87-asset-evidence-schema.md) | Asset evidence data schema.
+| [88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible-schema.md) | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).

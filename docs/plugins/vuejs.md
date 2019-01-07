@@ -1,4 +1,4 @@
-# VueJS Plugin
+# VueJS Plug-in
 
 Create a new file `./plugins/0xcert.js` with the code below.
 
@@ -22,7 +22,7 @@ Vue.use(Vue0xcert, {
 })
 ```
 
-Register the plugin inside the `nuxt.config.js` file.
+Register the plug-in inside the `nuxt.config.js` file.
 
 ```ts
 export default {
@@ -32,7 +32,7 @@ export default {
 }
 ```
 
-The plugin gives you access the 0xcert VueJS client.
+The plug-in gives you access to the 0xcert VueJS client.
 
 ```ts
 const client = this.$0xcert; // 0xcert client

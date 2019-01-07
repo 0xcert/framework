@@ -13,8 +13,8 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
-| options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered as confirmed. It defaults to `1`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers (**tranfers?**).
+| options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
 
 **Usage**
@@ -42,7 +42,7 @@ const provider = await provider.enable();
 
 ### getInstance(options)
 
-A static class `function` that returns a new instance of the MetamaskProvider class (allias for `new MetamaskProvider`).
+A static class `function` that returns a new instance of the MetamaskProvider class (alias for `new MetamaskProvider`).
 
 **Arguments**
 
@@ -97,7 +97,7 @@ const isEnabled = await provider.isEnabled();
 
 ## HTTP provider
 
-HTTP provider uses HTTP in (**and**?) HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -118,9 +118,9 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
-| options.requiredConfirmations | An `integer` which represents the number of confirmation needed for mutations to be considered as confirmed. It defaults to `1`.
+| options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 stransfers (**transfers?**)
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Ethereum node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
 
@@ -141,7 +141,7 @@ const provider = new HttpProvider({
 
 ### getInstance(options)
 
-A static class `function` that returns a new instance of the HttpProvider class (allias for `new HttpProvider`).
+A static class `function` that returns a new instance of the HttpProvider class (alias for `new HttpProvider`).
 
 **Arguments**
 
@@ -323,11 +323,11 @@ mutation.emit(MutationEvent.ERROR, new Error('Unhandled error'));
 
 **See also:**
 
-[once](#on), [off](#off)
+[once](#once), [off](#off)
 
 ### once(event, handler);
 
-A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emmitted.
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emitted.
 
 **Arguments:**
 
@@ -354,7 +354,7 @@ mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
 
 ### off(event, handler)
 
-A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emmitted.
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emitted.
 
 **Arguments:**
 
@@ -384,7 +384,7 @@ mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
 A class instance `variable` holding a `string` which represents an Ethereum account address that plays the role of a receiver.
 
 ::: tip
-When you are deploying a new ledger, this variable represents ledger ID and is `null` until a mutation is completed.
+When you are deploying a new ledger, this variable represents the ledger ID and is `null` until a mutation is completed.
 :::
 
 ### senderId
@@ -424,7 +424,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 | Argument | Description
 |-|-
 | ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
-| provider | [required] An instance of a HTTP or MetaMask provider.
+| provider | [required] An instance of an HTTP or MetaMask provider.
 
 **Example:**
 
@@ -458,7 +458,7 @@ An instance of the same `Mutation` class.
 **Example:**
 
 ```ts
-// arbitrary data 
+// arbitrary data
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
@@ -487,7 +487,7 @@ An instance of the same `Mutation` class.
 **Example:**
 
 ```ts
-// arbitrary data 
+// arbitrary data
 const assetId = '100';
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
@@ -508,7 +508,7 @@ An `asynchronous` class instance `function` which assignes management permission
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
-| abilities | [required] A array of `integers` representing this ledger's smart contract abilities.
+| abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
 
 **Result:**
 
@@ -538,8 +538,8 @@ An `asynchronous` class instance `function` which creates a new asset on the Eth
 
 | Argument | Description
 |-|-
-| recipe.id | [required] A `string` which represents a unique asset ID.
-| recipe.imprint | [required] A `string` which represents asset imprint generated by using `Cert` class.
+| recipe.id | [required] A `string` representing a unique asset ID.
+| recipe.imprint | [required] A `string` representing asset imprint generated by using `Cert` class.
 | recipe.receiverId | [required] A `string` representing an Ethereum account address that will receive the new asset.
 
 **Result:**
@@ -572,10 +572,10 @@ An `asynchronous` static class `function` which deploys a new asset ledger to th
 
 | Argument | Description
 |-|-
-| provider | [required] An instance of a HTTP or MetaMask provider.
+| provider | [required] An instance of an HTTP or MetaMask provider.
 | recipe.name | [required] A `string` representing asset ledger name.
 | recipe.symbol | [required] A `string` representing asset ledger symbol.
-| recipe.uriBase | [required] A `string` representing base asset URI. 
+| recipe.uriBase | [required] A `string` representing base asset URI.
 | recipe.schemaId | [required] A `string` representing data schema ID.
 | recipe.capabilities | A list of `integers` which represent ledger capabilities.
 
@@ -616,7 +616,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` which represents the asset ID.
+| assetId | [required] A `string` representing the asset ID.
 
 **Result:**
 
@@ -644,7 +644,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` which represents the asset ID.
+| assetId | [required] A `string` representing the asset ID.
 
 **Result:**
 
@@ -750,7 +750,7 @@ const abilities = await ledger.getAbilities(accountId);
 
 ### getApprovedAccount(assetId)
 
-An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`. 
+An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`.
 
 **Arguments:**
 
@@ -875,11 +875,11 @@ An `asynchronous` class instance `function` that returns an object with general 
 
 | Key | Description
 |-|-
-| name | A `string` which representsasset ledger's name.
-| symbol | A `string` which represents asset ledger's symbol.
-| uriBase | A `string` which represents base asset URI.
-| schemaId | A `string` which represents data schema ID.
-| supply | A big number `string` which represents the total number of issued assets.
+| name | A `string` representing asset ledger name.
+| symbol | A `string` representing asset ledger symbol.
+| uriBase | A `string` representing base asset URI.
+| schemaId | A `string` representing data schema ID.
+| supply | A big number `string` representing the total number of issued assets.
 
 **Example:**
 
@@ -890,7 +890,7 @@ const info = await ledger.getInfo();
 
 ### getInstance(provider, ledgerId)
 
-A static class `function` that returns a new instance of the AssetLedger class (allias for `new AssetLedger`).
+A static class `function` that returns a new instance of the AssetLedger class (alias for `new AssetLedger`).
 
 **Arguments:**
 
@@ -1036,7 +1036,7 @@ An `asynchronous` class instance `function` which destroys a specific `assetId` 
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` which represents the asset ID.
+| assetId | [required] A `string` representing the asset ID.
 
 **Result:**
 
@@ -1064,7 +1064,7 @@ An `asynchronous` class instance `function` which updates ledger data. Note that
 
 | Argument | Description
 |-|-
-| recipe.uriBase | [required] A `string` which represents ledger URI base property.
+| recipe.uriBase | [required] A `string` representing ledger URI base property.
 
 **Result:**
 
@@ -1094,7 +1094,7 @@ An `asynchronous` class instance `function` which updates `assetId` data. You ne
 
 | Argument | Description
 |-|-
-| recipe.imprint | [required] A `string` which represents asset imprint property.
+| recipe.imprint | [required] A `string` representing asset imprint property.
 
 **Result:**
 
@@ -1124,9 +1124,9 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 | Argument | Description
 |-|-
-| recipe.receiverId | [required] A `string` which represents the account ID that will receive the asset.
-| recipe.id | [required] A `string` which represents asset ID.
-| recipe.data | A `string` which represents some arbitrary mutation note.
+| recipe.receiverId | [required] A `string` representing the account ID that will receive the asset.
+| recipe.id | [required] A `string` representing asset ID.
+| recipe.data | A `string` representing some arbitrary mutation note.
 
 **Result:**
 
@@ -1206,7 +1206,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 | Argument | Description
 |-|-
 | ledgerId | [required] A string representing an address of the ERC-20 related smart contract on the Ethereum blockchain.
-| provider | [required] An instance of a HTTP or MetaMask provider.
+| provider | [required] An instance of an HTTP or MetaMask provider.
 
 **Example:**
 
@@ -1240,7 +1240,7 @@ An instance of the same `Mutation` class.
 **Example:**
 
 ```ts
-// arbitrary data 
+// arbitrary data
 const value = '1000000000000000000'; // 1 unit (18 decimals)
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
@@ -1260,7 +1260,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 | Argument | Description
 |-|-
-| provider | [required] An instance of a HTTP or MetaMask provider.
+| provider | [required] An instance of an HTTP or MetaMask provider.
 | recipe.name | [required] A `string` representing value ledger name.
 | recipe.symbol | [required] A `string` representing value ledger symbol.
 | recipe.decimals | [required] A big number `string` representing the number of decimals.
@@ -1299,7 +1299,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` which represents the accountId who will be disapproved.
+| accountId | [required] A `string` representing the accountId who will be disapproved.
 
 **Result:**
 
@@ -1321,14 +1321,14 @@ const mutation = await ledger.disapproveValue(accountId);
 
 ### getApprovedValue(accountId, spenderId)
 
-An `asynchronous` class instance `function` which returns the approved value that the `spenderId` is able to transfer for `accountId`. 
+An `asynchronous` class instance `function` which returns the approved value that the `spenderId` is able to transfer for `accountId`.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` which represents the holder's account ID.
-| spenderId | [required] A `string` which represents the account ID of a spender.
+| accountId | [required] A `string` representing the holder's account ID.
+| spenderId | [required] A `string` representing the account ID of a spender.
 
 **Result:**
 
@@ -1381,8 +1381,8 @@ An `asynchronous` class instance `function` that returns an object with general 
 
 | Key | Description
 |-|-
-| name | A `string` which represents an asset ledger's name.
-| symbol | A `string` which represents asset ledger's symbol.
+| name | A `string` representing an asset ledger name.
+| symbol | A `string` representing an asset ledger symbol.
 | decimals | [required] A big number of `strings` representing the number of decimals.
 | supply | [required] A big number `string` representing the ledger total supply.
 
@@ -1395,7 +1395,7 @@ const info = await ledger.getInfo();
 
 ### getInstance(provider, id)
 
-A static class `function` that returns a new instance of the ValueLedger class (allias for `new ValueLedger`).
+A static class `function` that returns a new instance of the ValueLedger class (alias for `new ValueLedger`).
 
 **Arguments**
 
@@ -1459,9 +1459,9 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 | Argument | Description
 |-|-
-| recipe.receiverId | [required] A `string` which represents account ID that will receive the value.
-| recipe.senderId | A `string` which represents account ID that will send the value. It defaults to provider's accountId.
-| recipe.value | [required] A big number `string` representing the transfered amount.
+| recipe.receiverId | [required] A `string` representing account ID that will receive the value.
+| recipe.senderId | A `string` representing account ID that will send the value. It defaults to provider's accountId.
+| recipe.value | [required] A big number `string` representing the transferred amount.
 
 **Result:**
 
@@ -1482,7 +1482,7 @@ const mutation = await ledger.transferValue(recipe);
 
 ## Orders gateway
 
-Order gateway allows for performing multiple actions in a one single atomic operation.
+Order gateway allows for performing multiple actions in one single atomic operation.
 
 ### OrderGateway(provider, gatewayId)
 
@@ -1493,7 +1493,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 | Argument | Description
 |-|-
 | gatewayId | [required] A `string` representing an address of the 0xcert order gateway smart contract on the Ethereum blockchain.
-| provider | [required] An instance of a HTTP or MetaMask provider.
+| provider | [required] An instance of an HTTP or MetaMask provider.
 
 **Usage**
 
@@ -1558,7 +1558,7 @@ const mutation = await gateway.cancel(order);
 
 ### claim(order)
 
-An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. This operation must be executed by the maker of the order. 
+An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. This operation must be executed by the maker of the order.
 
 **Arguments:**
 
@@ -1572,7 +1572,7 @@ An `asynchronous` class instance `function` which cryptographically signes the p
 
 **Result:**
 
-A `string` representing order signature. 
+A `string` representing order signature.
 
 **Example:**
 
@@ -1599,7 +1599,7 @@ const signature = await gateway.claim(order);
 
 ### getInstance(provider, id)
 
-A static class `function` that returns a new instance of the `OrderGateway` class (allias for `new OrderGateway`).
+A static class `function` that returns a new instance of the `OrderGateway` class (alias for `new OrderGateway`).
 
 **Arguments**
 
@@ -1625,13 +1625,13 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 ### perform(order, signature)
 
-An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. This operation must be executed by the taker of the order. 
+An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. This operation must be executed by the taker of the order.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| signature | [required] A `string` representing order signature created by the maker. 
+| signature | [required] A `string` representing order signature created by the maker.
 | order.actions | [required] An `array` of [action objects](#order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
@@ -1678,7 +1678,7 @@ Order actions define the atomic operations of the order gateway.
 
 | Name | Value | Description
 |-|-|-
-| CREATE_ASSET | 1 | Creates a new asset.
+| CREATE_ASSET | 1 | Create a new asset.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
@@ -1711,4 +1711,4 @@ Order actions define the atomic operations of the order gateway.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | [required] A `string` representing receiver's address.
 | senderId | [required] A `string` representing sender's address.
-| value | [required] A big number `string` representing the transfered amount.
+| value | [required] A big number `string` representing the transferred amount.
