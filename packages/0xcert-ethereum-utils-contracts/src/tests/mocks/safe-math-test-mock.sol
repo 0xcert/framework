@@ -32,4 +32,22 @@ contract SafeMathTestMock {
     result = SafeMath.add(_a, _b);
   }
 
+  function div(
+    uint256 _dividend,
+    uint256 _divisor
+  )
+    public
+  {
+    result = SafeMath.div(_dividend, _divisor);
+  }
+
+  function mod(
+    uint256 _dividend,
+    uint256 _divisor
+  )
+    public
+  {
+    result = SafeMath.mod(_dividend, _divisor);
+  }
+
 }
