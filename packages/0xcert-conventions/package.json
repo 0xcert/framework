@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/conventions",
-  "version": "0.0.0-alpha7",
+  "version": "0.0.0-alpha8",
   "description": "Module with implementation of all confirmed conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

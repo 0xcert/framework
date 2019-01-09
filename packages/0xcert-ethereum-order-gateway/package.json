@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-order-gateway",
-  "version": "0.0.0-alpha7",
+  "version": "0.0.0-alpha8",
   "description": "Order gateway module for executing atomic operations on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -55,7 +55,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "0.0.0-alpha7",
+    "@0xcert/ethereum-sandbox": "0.0.0-alpha8",
     "@specron/cli": "^0.5.1",
     "@specron/spec": "^0.5.1",
     "solc": "0.5.1",
@@ -64,9 +64,9 @@
     "web3": "^1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "0.0.0-alpha7",
-    "@0xcert/ethereum-utils": "0.0.0-alpha7",
-    "@0xcert/scaffold": "0.0.0-alpha7",
-    "@0xcert/utils": "0.0.0-alpha7"
+    "@0xcert/ethereum-generic-provider": "0.0.0-alpha8",
+    "@0xcert/ethereum-utils": "0.0.0-alpha8",
+    "@0xcert/scaffold": "0.0.0-alpha8",
+    "@0xcert/utils": "0.0.0-alpha8"
   }
 }

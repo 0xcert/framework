@@ -8,12 +8,12 @@
     "dev": "npx nuxt"
   },
   "dependencies": {
-    "@0xcert/cert": "0.0.0-alpha7",
-    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha7",
-    "@0xcert/ethereum-order-gateway": "0.0.0-alpha7",
-    "@0xcert/ethereum-value-ledger": "0.0.0-alpha7",
-    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha7",
-    "@0xcert/vue-plugin": "0.0.0-alpha7",
+    "@0xcert/cert": "0.0.0-alpha8",
+    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha8",
+    "@0xcert/ethereum-order-gateway": "0.0.0-alpha8",
+    "@0xcert/ethereum-value-ledger": "0.0.0-alpha8",
+    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha8",
+    "@0xcert/vue-plugin": "0.0.0-alpha8",
     "nuxt": "^2.3.1"
   }
 }
