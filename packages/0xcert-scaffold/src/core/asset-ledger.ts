@@ -10,6 +10,7 @@ export enum AssetLedgerAbility {
   REVOKE_ASSET = 2,
   TOGGLE_TRANSFERS = 3,
   UPDATE_ASSET = 4,
+  ALLOW_CREATE_ASSET = 5,
   UPDATE_URI_BASE = 6,
 }
 

@@ -18,6 +18,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
       AssetLedgerAbility.REVOKE_ASSET,
       AssetLedgerAbility.TOGGLE_TRANSFERS,
       AssetLedgerAbility.UPDATE_ASSET,
+      AssetLedgerAbility.ALLOW_CREATE_ASSET,
       AssetLedgerAbility.UPDATE_URI_BASE,
     ].map(async (ability) => {
       const attrs = {

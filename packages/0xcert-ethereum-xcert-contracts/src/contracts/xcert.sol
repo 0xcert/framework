@@ -1,4 +1,4 @@
-pragma solidity ^0.5.1;
+pragma solidity 0.5.1;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
@@ -22,6 +22,8 @@ contract Xcert is
   uint8 constant ABILITY_REVOKE_ASSET = 2;
   uint8 constant ABILITY_TOGGLE_TRANSFERS = 3;
   uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 4;
+  /// ALLOW_CREATE_ASSET = 5 - A specific ability that is bounded to atomic orders.
+  /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
   uint8 constant ABILITY_UPDATE_URI_BASE = 6;
 
   /**

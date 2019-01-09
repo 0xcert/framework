@@ -22,7 +22,7 @@ As usual, we begin by importing a module.
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 ```
 
-Let's first deploy a new value ledger to the Ethereum blockchain. If you would like to save some time, you can use the already deployed value ledger `XXX`.
+Let's first deploy a new value ledger to the Ethereum blockchain. 
 
 ```ts
 const mutation = await ValueLedger.deploy(provider, {

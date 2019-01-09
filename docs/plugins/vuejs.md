@@ -21,6 +21,7 @@ Vue.use(Vue0xcert, {
   ],
 })
 ```
+## Nuxt.js implementation
 
 Register the plug-in inside the `nuxt.config.js` file.
 

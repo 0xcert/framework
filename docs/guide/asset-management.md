@@ -1,6 +1,6 @@
 # Asset management
 
-Each asset always belongs to the structure within a storage called the Asset Ledger. As discussed in one of the previous sections, a ledger represents a folder containing the assets of a specific issuer and related owners. Only users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
+Each asset always belongs to the structure within a storage called the Asset Ledger. As discussed in one of the previous [sections](https://docs.0xcert.org/guide/about-assets.html#explaining-the-concept), a ledger represents a folder containing the assets of a specific issuer and related owners. Only users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
 
 On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](https://docs.0xcert.org/api/core.html) section.
 
@@ -16,7 +16,7 @@ On our official [GitHub repository](https://github.com/0xcert/framework), we als
 
 ## Usage overview
 
-First, you need to deploy a new asset ledger to the Ethereum blockchain. If you want to save time doing it, you can leverage an already deployed asset ledger, available on the Ropsten network with an ID `XXX`. In this case, make sure your MetaMask is indeed connected to the Ropsten network for the purpose of this test.
+First, you need to deploy a new asset ledger to the Ethereum blockchain. 
 
 ```ts
 const mutation = await AssetLedger.deploy(provider, {
@@ -49,12 +49,12 @@ const assetLedgerInfo = await assetLedger.getInfo();
 
 This query should respond with similar information to the one we defined when we deployed a new asset ledger. At the beginning of this section, we explained the asset ledger as a book or folder of ownership records. The items contained in this book are called `Assets`.
 
-It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our main account marked with `receiverId`. We use the imprint from the previous section where we went through the process of asset certification.
+It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our main account marked with `receiverId`. We use the imprint from the previous [section](https://docs.0xcert.org/guide/certification.html#usage-overview) where we went through the process of asset certification.
 
 ```ts
 const mutation = await assetLedger.createAsset({
   id: '100',
-  imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
+  imprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b',
   receiverId: '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa',
 }).then((mutation) => {
     return mutation.complete();
