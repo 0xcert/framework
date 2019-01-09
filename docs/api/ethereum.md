@@ -78,7 +78,7 @@ const isSupported = provider.isSupported();
 
 ### isEnabled()
 
-A `synchronous` class instance `function` which returns `true` when the provider is authorized by the website.
+A `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
 
 **Result:**
 
@@ -200,7 +200,11 @@ const mutation = new Mutation(provider, mutationId);
 
 ### complete()
 
-An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations. Note that the number of required confirmations is configurable through the provider instance.
+An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations. 
+
+::: tip
+Number of required confirmations is configurable through the provider instance.
+:::
 
 **Result:**
 
@@ -210,7 +214,7 @@ An instance of the same `Mutation` class.
 
 ```ts
 // wait until confirmed
-await mutation.complate();
+await mutation.complete();
 ```
 
 **See also:**
@@ -219,7 +223,7 @@ await mutation.complate();
 
 ### confirmations
 
-A class instance `variable` holding an `integer` number of confirmations reached.
+A class instance `variable` holding an `integer` number of confirmations reached. Default is `0`.
 
 ### emit(event, error);
 
@@ -264,7 +268,7 @@ A class instance `variable` holding a `string` which represents a hash of an Eth
 
 ### isCompleted()
 
-A `synchronous` class instance `function` which returns `true` when a mutation has reached the required number of confirmations.
+A `synchronous` class instance `function` which returns `true` if a mutation has reached the required number of confirmations.
 
 **Result:**
 
@@ -442,7 +446,11 @@ const ledger = new AssetLedger(provider, ledgerId);
 
 ### approveAccount(assetId, accountId)
 
-An `asynchronous` class instance `function` which approves a third-party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner. Note that only one account can be approved at the same time thus running this function multiple times will override previously set data.
+An `asynchronous` class instance `function` which approves a third-party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner.
+
+::: tip
+Only one account per `assetId` can be approved at the same time thus running this function multiple times will override previously set data.
+:::
 
 **Arguments:**
 
@@ -472,7 +480,11 @@ const mutation = await ledger.approveAccount(assetId, accountId);
 
 ### approveOperator(accountId)
 
-An `asynchronous` class instance `function` which approves the third-party `accountId` to take over the management of all the assets of the account that performed this mutation. Note that multiple operators can exist.
+An `asynchronous` class instance `function` which approves the third-party `accountId` to take over the management of all the assets of the account that performed this mutation.
+
+::: tip
+Multiple operators can exist.
+:::
 
 **Arguments:**
 
@@ -501,7 +513,11 @@ const mutation = await ledger.approveOperator(accountId);
 
 ### assignAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which assignes management permissions for this ledger to a third party `accountId`. The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+An `asynchronous` class instance `function` which assignes management permissions for this ledger to a third party `accountId`. 
+
+::: warning
+The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+:::
 
 **Arguments:**
 
@@ -532,7 +548,11 @@ const mutation = await ledger.assignAbilities(accountId, abilities);
 
 ### createAsset(recipe)
 
-An `asynchronous` class instance `function` which creates a new asset on the Ethereum blockchain. The `CREATE_ASSET` ledger ability is needed to perform this function.
+An `asynchronous` class instance `function` which creates a new asset on the Ethereum blockchain.
+
+::: warning
+The `CREATE_ASSET` ledger ability is needed to perform this function.
+:::
 
 **Arguments:**
 
@@ -566,7 +586,11 @@ const mutation = await ledger.createAsset(asset);
 
 ### deploy(provider, recipe)
 
-An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. Note that all ledger abilities are automatically assigned to the account that performs this method.
+An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. 
+
+::: tip
+All ledger abilities are automatically assigned to the account that performs this method.
+:::
 
 **Arguments:**
 
@@ -610,7 +634,11 @@ const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
 
 ### destroyAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. Note that the `DESTROY_ASSET` ledger capability is needed to perform this function. The function succeeds only when performed by the asset's owner.
+An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. The function succeeds only when performed by the asset's owner.
+
+::: warning
+The `DESTROY_ASSET` ledger capability is needed to perform this function.
+:::
 
 **Arguments:**
 
@@ -638,7 +666,7 @@ const mutation = await ledger.destroyAsset(assetId);
 
 ### disapproveAccount(assetId)
 
-An `asynchronous` class instance `function` which removes the ability of the currently set third-party account to take over a specific `assetId`. Note that this function succeeds only when performed by the asset's owner.
+An `asynchronous` class instance `function` which removes the ability of the currently set third-party account to take over a specific `assetId`. This function succeeds only when performed by the asset's owner.
 
 **Arguments:**
 
@@ -694,7 +722,11 @@ const mutation = await ledger.disapproveOperator(accountId);
 
 ### disableTransfers()
 
-An `asynchronous` class instance `function` which disables all asset transfers. The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+An `asynchronous` class instance `function` which disables all asset transfers. 
+
+::: warning
+The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+:::
 
 **Result:**
 
@@ -713,7 +745,11 @@ const mutation = await ledger.disableTransfers();
 
 ### enableTransfers()
 
-An `asynchronous` class instance `function` which enables all asset transfers. The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+An `asynchronous` class instance `function` which enables all asset transfers. 
+
+::: warning
+The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
+:::
 
 **Result:**
 
@@ -976,7 +1012,11 @@ const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 
 ### isTransferable()
 
-An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. 
+
+::: warning
+The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
+:::
 
 **Result:**
 
@@ -995,7 +1035,11 @@ const isTransferable = await ledger.isTransferable();
 
 ### revokeAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. 
+
+::: warning
+The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+:::
 
 **Arguments:**
 
@@ -1030,7 +1074,11 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 ### revokeAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account but stays logged in the blockchain. Note that the `REVOKE_ASSET` ledger capability is needed to perform this function. The function is ment to be used by ledger owners to destroy assets of other accounts.
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account but stays logged in the blockchain. The function is ment to be used by ledger owners to destroy assets of other accounts.
+
+::: warning
+The `REVOKE_ASSET` ledger capability is needed to perform this function.
+:::
 
 **Arguments:**
 
@@ -1058,7 +1106,11 @@ const mutation = await ledger.revokeAsset(assetId);
 
 ### update(recipe)
 
-An `asynchronous` class instance `function` which updates ledger data. Note that you need `UPDATE_URI_BASE` ledger capability to update ledger's `uriBase` property.
+An `asynchronous` class instance `function` which updates ledger data. 
+
+::: warning
+You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
+:::
 
 **Arguments:**
 
@@ -1088,7 +1140,11 @@ const mutation = await ledger.update(recipe);
 
 ### updateAsset(assetId, recipe)
 
-An `asynchronous` class instance `function` which updates `assetId` data. You need `UPDATE_ASSET_IMPRINT` ledger capability to update asset `imprint` property.
+An `asynchronous` class instance `function` which updates `assetId` data. 
+
+::: warning
+You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger ability to update asset `imprint` property.
+:::
 
 **Arguments:**
 
@@ -1153,6 +1209,7 @@ Ledger abilities represent account-level permissions.
 
 | Name | Value | Description
 |-|-|-
+| ALLOW_CREATE_ASSET | 5 | This is a specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway` the order maker has to have this ability.
 | CREATE_ASSET | 1 | Allows an account to create a new asset.
 | MANAGE_ABILITIES | 0 | Allows an account to further assign abilities.
 | REVOKE_ASSET | 2 | Allows management accounts to revoke assets.
@@ -1381,8 +1438,8 @@ An `asynchronous` class instance `function` that returns an object with general 
 
 | Key | Description
 |-|-
-| name | A `string` representing an asset ledger name.
-| symbol | A `string` representing an asset ledger symbol.
+| name | A `string` representing value ledger name.
+| symbol | A `string` representing value ledger symbol.
 | decimals | [required] A big number of `strings` representing the number of decimals.
 | supply | [required] A big number `string` representing the ledger total supply.
 
@@ -1558,7 +1615,11 @@ const mutation = await gateway.cancel(order);
 
 ### claim(order)
 
-An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. This operation must be executed by the maker of the order.
+An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. 
+
+::: warning
+This operation must be executed by the maker of the order.
+:::
 
 **Arguments:**
 
@@ -1625,7 +1686,11 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 ### perform(order, signature)
 
-An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. This operation must be executed by the taker of the order.
+An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. 
+
+::: warning
+This operation must be executed by the taker of the order.
+:::
 
 **Arguments:**
 
@@ -1712,3 +1777,19 @@ Order actions define the atomic operations of the order gateway.
 | receiverId | [required] A `string` representing receiver's address.
 | senderId | [required] A `string` representing sender's address.
 | value | [required] A big number `string` representing the transferred amount.
+
+## Public addresses
+
+### Mainnet
+
+Coming soon.
+
+### Ropsten
+
+| Contract | Address
+|-|-|-
+| OrderGateway | [0xf02b2e925a1006c313e1af344821c67382777fc8](https://ropsten.etherscan.io/address/0xf02b2e925a1006c313e1af344821c67382777fc8)
+| TokenTransferProxy | [0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565](https://ropsten.etherscan.io/address/0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565)
+| NFTokenTransferProxy | [0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455](https://ropsten.etherscan.io/address/0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455)
+| NFTokenSafeTransferProxy | [0x998bd212c21558dbdcf27e990d78400b9b26276d](https://ropsten.etherscan.io/address/0x998bd212c21558dbdcf27e990d78400b9b26276d)
+| XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
