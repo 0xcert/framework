@@ -1209,7 +1209,7 @@ Ledger abilities represent account-level permissions.
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 5 | This is a specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway` the order maker has to have this ability.
+| ALLOW_CREATE_ASSET | 5 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 1 | Allows an account to create a new asset.
 | MANAGE_ABILITIES | 0 | Allows an account to further assign abilities.
 | REVOKE_ASSET | 2 | Allows management accounts to revoke assets.
