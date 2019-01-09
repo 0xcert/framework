@@ -39,16 +39,16 @@ To demonstrate the greatness of atomic swap operations, we will transfer an alre
 
 These guidelines assume that you have followed the complete guide and taken all the steps from both [Certification](https://docs.0xcert.org/guide/certification.html) and [Asset management](https://docs.0xcert.org/guide/asset-management.html) sections, where we created a new asset with the ID `100`. For the purpose of this guide, make sure you have opened two MetaMask accounts. In this example, we'll name the second account as `0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa`, you may change this value if you find it more appropriate.
 
-As usual, we first import a module into the application. This time, we import the OrderGateway class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
+As usual, we first import a module into the application. This time, we import the `OrderGateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
 
 ```ts
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 ```
 
-Then, we create a new instance of the OrderGateway class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
+Then, we create a new instance of the `OrderGateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
 
 ```ts
-const orderGatewayId = '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa';
+const orderGatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
 const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 ```
 
@@ -96,7 +96,7 @@ const signedClaim = await orderGateway.claim(order);
 
 By calling the `claim` function, we sign the order. We need to send this signature to the taker, together with the `order` object via an arbitrary communication channel.
 
-All participants in the order must unlock the transferred assets and allow the OrderGateway to manage them. Make sure this step is done by every party that does a transfer within order operations. In the example below, we authorize the OrderGateway to transfer the asset with ID `100` to another address and give it the ability to create assets.
+All participants in the order must unlock the transferred assets and allow the `OrderGateway` to manage them. Make sure this step is done by every party that does a transfer within order operations. In the example below, we authorize the `OrderGateway` to transfer the asset with ID `100` to another address and give it the ability to create assets.
 
 The [API](https://docs.0xcert.org/api/core.html#asset-proof) section contains information about how to authorize the order gateway for all the assets at the same time, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
 
@@ -123,7 +123,11 @@ const mutation = await orderGateway.perform(order, signedClaim).then((mutation) 
 By now, the asset with ID `100` should be present in our new wallet, while the main wallet should be left with the new asset with ID `200`.
 
 ```ts
-// TODO
+const owner100Id = await assetLedger.getAssetAccount('100');
+//=> 0x...
+
+const owner200Id = await assetLedger.getAssetAccount('200');
+//=> 0x...
 ```
 
 To learn more about atomic operations, please refer to the [API](https://docs.0xcert.org/api/core.html#asset-proof) section.
