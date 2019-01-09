@@ -34,7 +34,7 @@ const cert = new Cert({ schema });
 
 ### calculate(data, proofs)
 
-An `asynchronous` class instance `function` which returns an asset imprint when all the provided `data` are included in the evidence and are thus correctly described by the provided `proofs`. Note that custom data properties that are not described by the class schema will always be ignored and will thus always pass.
+An `asynchronous` class instance `function` which returns an asset imprint when all the provided `data` is included in the evidence and are thus correctly described by the provided `proofs`. Note that custom data properties that are not described by the class schema will always be ignored and will thus always pass.
 
 **Arguments:**
 
