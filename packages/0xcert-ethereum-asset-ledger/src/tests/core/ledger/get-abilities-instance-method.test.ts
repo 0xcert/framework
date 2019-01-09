@@ -45,6 +45,7 @@ spec.test('returns account abilities (xcert smart contract)', async (ctx) => {
     AssetLedgerAbility.REVOKE_ASSET,
     AssetLedgerAbility.TOGGLE_TRANSFERS,
     AssetLedgerAbility.UPDATE_ASSET,
+    AssetLedgerAbility.ALLOW_CREATE_ASSET,
     AssetLedgerAbility.UPDATE_URI_BASE,
   ]);
 });
