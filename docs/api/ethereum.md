@@ -1549,7 +1549,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 
 | Argument | Description
 |-|-
-| gatewayId | [required] A `string` representing an address of the 0xcert order gateway smart contract on the Ethereum blockchain.
+| gatewayId | [required] A `string` representing an address of the [0xcert order gateway smart contract](#public-addresses) on the Ethereum blockchain.
 | provider | [required] An instance of an HTTP or MetaMask provider.
 
 **Usage**
@@ -1560,7 +1560,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();
-const gatewayId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const gatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
 
 // create ledger instance
 const gateway = new OrderGateway(provider, gatewayId);
