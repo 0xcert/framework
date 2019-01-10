@@ -17,7 +17,7 @@ export default async function(provider: GenericProvider, { name, symbol, uriBase
   const codes = (capabilities || []).map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(inputTypes, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
+    data: `0x${source}${encodeParameters(inputTypes, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
