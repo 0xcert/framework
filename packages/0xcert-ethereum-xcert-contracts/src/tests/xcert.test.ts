@@ -44,7 +44,6 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
   const xcert = await ctx.deploy({ 
     src: './build/xcert-mock.json',
@@ -52,7 +51,6 @@ spec.beforeEach(async (ctx) => {
     args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []]
   });
 
-  await xcert.instance.methods.assignAbilities(owner, [1]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 
@@ -526,7 +524,6 @@ spec.test('succesfully changes URI base', async (ctx) => {
   let uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, uriBase+id1);
 
-  await xcert.instance.methods.assignAbilities(owner, [6]).send({ from: owner });
   await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, newUriBase+id1);
@@ -545,7 +542,6 @@ spec.test('return empty thing if URI base is empty', async (ctx) => {
   let uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, uriBase+id1);
 
-  await xcert.instance.methods.assignAbilities(owner, [6]).send({ from: owner });
   await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, '');
@@ -644,7 +640,6 @@ spec.test('throws when trying to use revoke capability', async (ctx) => {
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  await xcert.instance.methods.assignAbilities(owner, [2]).send({ from: owner });
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: owner }), '007001');
 });
@@ -653,7 +648,6 @@ spec.test('throws when trying to use pause capability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
 
-  await xcert.instance.methods.assignAbilities(owner, [3]).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.setPause(true).send({ from: owner }), '007001');
 });
 
@@ -665,7 +659,6 @@ spec.test('throws when trying to use mutable capability', async (ctx) => {
   const imprint1 = ctx.get('imprint1');
   const newImprint = ctx.get('imprint2');
 
-  await xcert.instance.methods.assignAbilities(owner, [4]).send({ from: owner });
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id1, newImprint).send({ from: owner }), '007001');
 });
