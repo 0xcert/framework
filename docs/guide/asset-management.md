@@ -16,7 +16,13 @@ On our official [GitHub repository](https://github.com/0xcert/framework), we als
 
 ## Usage overview
 
-First, you need to deploy a new asset ledger to the Ethereum blockchain. 
+We begin by importing the modules.
+
+```ts
+import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
+```
+
+Then, lets deploy a new asset ledger to the Ethereum blockchain. 
 
 ```ts
 const mutation = await AssetLedger.deploy(provider, {
