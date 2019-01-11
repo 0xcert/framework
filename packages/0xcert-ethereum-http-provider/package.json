@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -Rf ./dist",
     "build": "npm run clean; npx tsc",
-    "test": "npx specron test"
+    "test": "npx nyc npx specron test"
   },
   "specron": {
     "test": {
@@ -18,6 +18,17 @@
     },
     "require": [
       "ts-node/register"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
     ]
   },
   "repository": {
@@ -58,6 +69,7 @@
     "@0xcert/ethereum-sandbox": "0.0.0-alpha9",
     "@specron/cli": "^0.5.1",
     "@specron/spec": "^0.5.1",
+    "nyc": "^13.1.0",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
