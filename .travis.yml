@@ -10,7 +10,7 @@ script:
   - npm install -g @microsoft/rush
   # testing
   - rush update --full
-  - rush rebuild
+  - rush rebuild --verbose
   - rush test --verbose
 after_success:
   # code coverage & codecov upload
