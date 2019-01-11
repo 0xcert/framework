@@ -64,7 +64,7 @@ const imprint = await cert.imprint(data);
 // => aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b
 ```
 
-This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum chain in one of the following sections where we'll show how to handle asset ledgers.
+This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum blockchain in one of the following sections where we'll show how to handle asset ledgers.
 
 In the previous [section](https://docs.0xcert.org/guide/about-assets.html#explaining-the-concept), we mentioned that each asset also holds its URI, pointing to the asset's publicly available metadata. We should put metadata and other public files to a publicly available HTTP location. We can either establish an HTTP server ourselves, or we can host the file through services like Amazon and Google.
 

@@ -22,7 +22,7 @@ We begin by importing the modules.
 import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
 ```
 
-Then, lets deploy a new asset ledger to the Ethereum blockchain. 
+Now, lets deploy a new asset ledger to the Ethereum blockchain. 
 
 ```ts
 const mutation = await AssetLedger.deploy(provider, {

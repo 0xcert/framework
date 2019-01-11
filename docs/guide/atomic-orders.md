@@ -78,7 +78,7 @@ const order = {
             senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '200',
-            assetImprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b', // we will use the same imprint we generated in the certification step
+            assetImprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b', // imprint generated in the certification step
         },
     ],
     seed: Date.now(), // unique order identification
