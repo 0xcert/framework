@@ -90,17 +90,17 @@ export function createSignatureTuple(claim: string) {
  * 
  */
 export function getActionKind(action: OrderAction) {
-  return action.kind === OrderActionKind.CREATE_ASSET ? '00' : '01';
+  return action.kind == OrderActionKind.CREATE_ASSET ? '00' : '01';
 }
 
 /**
  * 
  */
 export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
-  if (action.kind === OrderActionKind.TRANSFER_VALUE) {
+  if (action.kind == OrderActionKind.TRANSFER_VALUE) {
     return OrderGatewayProxy.TOKEN_TRANSFER;
   }
-  else if (action.kind === OrderActionKind.TRANSFER_ASSET) {
+  else if (action.kind == OrderActionKind.TRANSFER_ASSET) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
       ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
@@ -114,8 +114,8 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
  * 
  */
 export function getActionParam1(action: OrderAction) {
-  return action.kind === OrderActionKind.CREATE_ASSET
-    ? rightPad(action['assetImprint'], 64)
+  return action.kind == OrderActionKind.CREATE_ASSET
+    ? rightPad('0x' + action['assetImprint'], 64)
     : action.senderId + '000000000000000000000000';
 }
 
