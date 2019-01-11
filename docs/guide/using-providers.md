@@ -31,7 +31,7 @@ const provider = new MetamaskProvider();
 MetaMask needs to be authorized and unlocked to be used on the website. This is specific to this provider. Therefore, before you start interacting with the Ethereum node, you should check whether the MetaMask account has been enabled. If not, you have to enable it, as shown in the example below.
 
 ```ts
-if (!provider.isEnabled()) {
+if (!await provider.isEnabled()) {
     await provider.enable();
 }
 ```

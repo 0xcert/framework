@@ -136,8 +136,6 @@ export class Protocol {
       from,
     });
 
-    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
-
     return xcert;
   }
 
@@ -153,8 +151,6 @@ export class Protocol {
       args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2', ['0xbda0e852']],
       from,
     });
-
-    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
 
     return xcert;
   }
@@ -190,8 +186,6 @@ export class Protocol {
       from,
     });
 
-    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
-
     return xcert;
   }
 
@@ -207,8 +201,6 @@ export class Protocol {
       args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5', []],
       from,
     });
-
-    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
 
     return xcert;
   }

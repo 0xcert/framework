@@ -188,7 +188,7 @@ export class AssetLedger implements AssetLedgerBase {
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
     // TODO(Kristjan): imprint input validation that it is a hex of length 64.
     const imprint = recipe.imprint || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-    return createAsset(this, recipe.receiverId, recipe.id, imprint);
+    return createAsset(this, recipe.receiverId, recipe.id, '0x' + imprint);
   }
 
   /**

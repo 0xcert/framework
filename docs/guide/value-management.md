@@ -16,7 +16,7 @@ On our official [GitHub repository](https://github.com/0xcert/framework), we als
 
 ## Usage overview
 
-As usual, we begin by importing a module.
+As usual, we begin by importing the module.
 
 ```ts
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
@@ -30,7 +30,7 @@ const mutation = await ValueLedger.deploy(provider, {
     symbol: 'UTT',
     decimals: '18',
     supply: '500000000000000000000000000', // 500 mio
-}).then(() => {
+}).then((mutation) => {
     return mutation.complete();
 });
 
@@ -40,7 +40,7 @@ const valueLedgerId = mutation.receiverId;
 Now that we have created a new value ledger on the network, we can load its instance.
 
 ```ts
-const assetLedger = ValueLedger.getInstance(provider, valueLedgerId);
+const valueLedger = ValueLedger.getInstance(provider, valueLedgerId);
 ```
 
 First, let's read the ledger data.
@@ -55,7 +55,7 @@ Since we are the ones to deploy the value ledger on the network, we automaticall
 First, we make sure that we have two MetaMask accounts open. The example below shows how to transfer a value of `100` to the account with `0x` ID (change this ID to the address of your second Ethereum wallet).
 
 ```ts
-const mutation = await valueLedger.transfer({
+const mutation = await valueLedger.transferValue({
     receiverId: '0x',
     value: '100000000000000000000', // 100
 }).then((mutation) => {

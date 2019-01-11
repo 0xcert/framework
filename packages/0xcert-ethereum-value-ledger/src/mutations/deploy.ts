@@ -15,7 +15,7 @@ export default async function(provider: GenericProvider, { name, symbol, decimal
   const source = contract.ValueLedger.evm.bytecode.object;
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
+    data: `0x${source}${encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
