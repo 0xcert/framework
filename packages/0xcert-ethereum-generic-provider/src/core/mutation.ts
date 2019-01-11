@@ -31,7 +31,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   public constructor(provider: any, id: string) {
     super();
 
-    this.$id = normalizeAddress(id);
+    this.$id = id;
     this.$provider = provider;
   }
 
