@@ -57,9 +57,18 @@ const cert = new Cert({
 });
 ```
 
+We can now create a cryptographic proof for our crypto collectible that we will need in the following sections of this guide.
+
+```ts
+const imprint = await cert.imprint(data);
+// => aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b
+```
+
+This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum chain in one of the following sections where we'll show how to handle asset ledgers.
+
 In the previous [section](https://docs.0xcert.org/guide/about-assets.html#explaining-the-concept), we mentioned that each asset also holds its URI, pointing to the asset's publicly available metadata. We should put metadata and other public files to a publicly available HTTP location. We can either establish an HTTP server ourselves, or we can host the file through services like Amazon and Google.
 
-At this point, we first have to decide which data we want to expose publicly and which do we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers. Based on the data object above, we create a JSON object that will be published publicly.
+At this point, we have to decide which data we want to expose publicly and which do we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers. Based on the data object above, we create a JSON object that will be published publicly.
 
 ```json
 {
@@ -75,7 +84,7 @@ We should thus publish this structure on a publicly accessible HTTP location. Al
 The example above already assumes that we host the evidence file on the location `https://troopersgame.com/dog/evidence` which means that we should publish the appropriate content there (we thus change this location to match its true location). We create the evidence data using the `disclose` method where we list the JSON data paths that we want to expose.
 
 ```ts
-const evidence = await cert.disclose(exampleData, [
+const evidence = await cert.disclose(data, [
     ['description'],
     ['image'],
 ]);
@@ -119,15 +128,6 @@ The content that is obtained with the function above can now be published on the
 }
 ```
 
-We can now create a cryptographic proof for our crypto collectible that we will need in the following sections of this guide.
-
-```ts
-const imprint = await cert.imprint(data);
-// => aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b
-```
-
-This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum chain in one of the following sections where we'll show how to handle asset ledgers.
-
-Let's further discuss the concept of revealing the data to third parties. This works in the same way as we created the evidence file for the published metadata JSON file. When we want to reveal a private `name` data to a third person, we would also employ the `disclose` function to create the evidence data, send it to a third person via arbitrary communication channel which would allow them to calculate the `imprint` of the original data object based on the revealed data and the received evidence data. If the calculated imprint matches the one that is publicly available on the blockchain, the data will count as valid.
+Finally, let's discuss the concept of revealing data to third parties. This works in the same way as we created the evidence file for the published metadata JSON file. When we want to reveal a private `name` data to a third person, we would also employ the `disclose` function to create the evidence data, send it to a third person via arbitrary communication channel which would allow them to calculate the `imprint` of the original data object based on the revealed data and the received evidence data. If the calculated imprint matches the one that is publicly available on the blockchain, the data will count as valid.
 
 Certification offers some additional possibilities. For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
