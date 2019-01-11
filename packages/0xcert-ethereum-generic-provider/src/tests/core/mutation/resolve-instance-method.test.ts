@@ -54,8 +54,8 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   ctx.is(counters.resolve, 1);
   ctx.is(mutation.confirmations, 1);
   ctx.is(mutation.id, transactionHash);
-  ctx.is(mutation.senderId, coinbase.toLowerCase());
-  ctx.is(mutation.receiverId, bob.toLowerCase());
+  ctx.is(mutation.senderId, coinbase);
+  ctx.is(mutation.receiverId, bob);
 });
 
 export default spec;
