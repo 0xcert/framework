@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/webpack",
-  "version": "0.0.0-alpha8",
+  "version": "0.0.0-alpha9",
   "description": "Module for package building and minification.",
   "scripts": {
     "clean": "rm -Rf ../../dist",
@@ -9,12 +9,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/cert": "0.0.0-alpha8",
-    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha8",
-    "@0xcert/ethereum-http-provider": "0.0.0-alpha8",
-    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha8",
-    "@0xcert/ethereum-order-gateway": "0.0.0-alpha8",
-    "@0xcert/ethereum-value-ledger": "0.0.0-alpha8",
+    "@0xcert/cert": "0.0.0-alpha9",
+    "@0xcert/ethereum-asset-ledger": "0.0.0-alpha9",
+    "@0xcert/ethereum-http-provider": "0.0.0-alpha9",
+    "@0xcert/ethereum-metamask-provider": "0.0.0-alpha9",
+    "@0xcert/ethereum-order-gateway": "0.0.0-alpha9",
+    "@0xcert/ethereum-value-ledger": "0.0.0-alpha9",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }
