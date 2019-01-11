@@ -15,6 +15,6 @@ $ npm dev docs
 Files are built locally from .md files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder. To deploy the documentation, simply go to `/docs/.vuepress/` and run `deploy.sh` script.
 
 ```bash
-$ cd /docs/.vuepress/
+$ cd ./docs/.vuepress/
 $ ./deploy.sh
 ```
