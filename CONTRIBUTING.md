@@ -43,7 +43,8 @@ $ rush check
 Publish to NPM.
 
 ```
+$ cp ./packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./docs/.vuepress/public/
+$ cp ./packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./docs/.vuepress/public/
 $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
 ```
-
