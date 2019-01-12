@@ -55,19 +55,23 @@ const assetLedgerInfo = await assetLedger.getInfo();
 
 This query should respond with similar information to the one we defined when we deployed a new asset ledger. At the beginning of this section, we explained the asset ledger as a book or folder of ownership records. The items contained in this book are called `Assets`.
 
-It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our main account marked with `receiverId`. We use the imprint from the previous [section](https://docs.0xcert.org/guide/certification.html#usage-overview) where we went through the process of asset certification.
+It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our selected MetaMask account marked with `receiverId`. We use the imprint from the previous [section](https://docs.0xcert.org/guide/certification.html#usage-overview) where we went through the process of asset certification.
 
 ```ts
 const mutation = await assetLedger.createAsset({
   id: '100',
   imprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b',
-  receiverId: '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa',
+  receiverId: provider.accountId,
 }).then((mutation) => {
     return mutation.complete();
 });
 ```
 
-Now that we became a proud owner of a new asset, we will try to transfer it to another wallet. For that, we create a new account in MetaMask and insert the wallet address as `receiverId` in the code snippet below. As an Owner of an asset, you can transfer your ownership to someone else. This action cannot be reverted, and once it is done, you lose all rights to that asset. The only way to get that asset back is for the new owner to send it back to you.
+::: tip
+The `provider.accountId` is your currently selected MetaMask account. If you want someone else to be the receiver, enter their address.
+:::
+
+Now that we became a proud owner of a new asset, we will try to transfer it to another wallet. As an Owner of an asset, you can transfer your ownership to someone else. This action cannot be reverted, and once it is done, you lose all rights to that asset. The only way to get that asset back is for the new owner to send it back to you.
 
 ```ts
 const mutation = await assetLedger.transferAsset({
@@ -79,7 +83,7 @@ const mutation = await assetLedger.transferAsset({
 ```
 
 ::: warning
-In the example above, you are transfering the asset to yourself. The receiverId is therefore your own accountId.
+In the example above, you are transfering the asset to yourself. The `receiverId` is therefore your own accountId. If you want to transfer the asset to someone else, enter their wallet address as `receiverId`.
 :::
 
 By now, the `100` token should appear in the new wallet. Let's verify this.
