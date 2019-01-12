@@ -69,4 +69,4 @@ To learn more about the 0xcert Framework, the -xcert Protocol, and the news abou
 
 ---
 
-Now, let's see how this works using our framework. In this guide, we will create a simple use case demonstrating the management of assets and values. Let' [get it started](https://docs.0xcert.org/guide/getting-started.html).
+Now, let's see how this works using our framework. In this guide, we will create a simple use case demonstrating the management of assets and values. Let' [get it started](/guide/getting-started.html).

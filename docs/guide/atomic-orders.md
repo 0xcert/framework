@@ -31,13 +31,13 @@ We recommend you employ the package as an NPM package in your application.
 $ npm i --save @0xcert/ethereum-order-gateway
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](https://docs.0xcert.org/api/core.html) section to learn more about order gateway.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about order gateway.
 
 ## Usage overview
 
 To demonstrate the greatness of atomic swap operations, we will transfer an already existent asset to a new wallet, and create a new asset and send it to our main wallet, all within a single mutation. First, we have to prepare the state that will allow us to execute our plan.
 
-These guidelines assume that you have followed the complete guide and taken all the steps from both [Certification](https://docs.0xcert.org/guide/certification.html) and [Asset management](https://docs.0xcert.org/guide/asset-management.html) sections, where we created a new asset with the ID `100`. For the purpose of this guide, make sure you have opened two MetaMask accounts. In this example, we'll name the second account as `0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa`, you may change this value if you find it more appropriate.
+These guidelines assume that you have followed the complete guide and taken all the steps from both [Certification](/guide/certification.html) and [Asset management](/guide/asset-management.html) sections, where we created a new asset with the ID `100`. For the purpose of this guide, make sure you have opened two MetaMask accounts. In this example, we'll name the second account as `0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa`, you may change this value if you find it more appropriate.
 
 As usual, we first import a module into the application. This time, we import the `OrderGateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
 
@@ -52,7 +52,7 @@ const orderGatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
 const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 ```
 
-Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](https://docs.0xcert.org/guide/asset-management.html) section into our second MetaMask wallet. In the second action, we create a new asset with ID `200` and imprint created in the [Certification](https://docs.0xcert.org/guide/certification.html) section.
+Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/guide/asset-management.html) section into our second MetaMask wallet. In the second action, we create a new asset with ID `200` and imprint created in the [Certification](/guide/certification.html) section.
 
 ::: warning
 For the purpose of simplicity of this guide, we will be both the maker and the taker of the order. For the `makerId` and `takerId`, we will employ our current MetaMask account.
@@ -98,7 +98,7 @@ By calling the `claim` function, we sign the order. We need to send this signatu
 
 All participants in the order must unlock the transferred assets and allow the `OrderGateway` to manage them. Make sure this step is done by every party that does a transfer within order operations. In the example below, we authorize the `OrderGateway` to transfer the asset with ID `100` to another address and give it the ability to create assets.
 
-The [API](https://docs.0xcert.org/api/core.html#asset-proof) section contains information about how to authorize the order gateway for all the assets at the same time, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
+The [API](/api/core.html#asset-proof) section contains information about how to authorize the order gateway for all the assets at the same time, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
 
 ```ts
 // approve account for transfering asset
@@ -134,8 +134,8 @@ const owner200Id = await assetLedger.getAssetAccount('200');
 //=> 0x...
 ```
 
-To learn more about atomic operations, please refer to the [API](https://docs.0xcert.org/api/ethereum.html#orders-gateway) section.
+To learn more about atomic operations, please refer to the [API](/api/ethereum.html#orders-gateway) section.
 
 ---
 
-We have now come to the end of our basic guide. Hopefully, you have grasped the basic concepts of the framework, for further information, you may check how the features work in the [API section](https://docs.0xcert.org/api/core.html).
+We have now come to the end of our basic guide. Hopefully, you have grasped the basic concepts of the framework, for further information, you may check how the features work in the [API section](/api/core.html).

@@ -2,7 +2,7 @@
 
 A value is a representation of a cryptocurrency. It is compliant with the ERC-20 standard for fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens, you would encapsulate that as a value.
 
-When we talk about currency, we talk about value. A value is stored in the structure of a storage called Value Ledger. A Value ledger on the Ethereum blockchain represents a smart contract that complies with the ERC-20 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](https://docs.0xcert.org/api/core.html) section.
+When we talk about currency, we talk about value. A value is stored in the structure of a storage called Value Ledger. A Value ledger on the Ethereum blockchain represents a smart contract that complies with the ERC-20 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
 ## Installation
 
@@ -12,7 +12,7 @@ We recommend you employ the package as an NPM package in your application.
 $ npm i --save @0xcert/ethereum-value-ledger
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](https://docs.0xcert.org/api/core.html) section to learn more about value ledger.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about value ledger.
 
 ## Usage overview
 
@@ -70,8 +70,8 @@ const balance = await valueLedger.getBalance('0x...');
 //=> 100000000000000000000
 ```
 
-For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
+For more details, please refer to the [API](/api/core.html) section.
 
 ---
 
-We have now gained a clear understanding of assets and values. Next, we proceed to [swapping them among owners in a decentralized manner](https://docs.0xcert.org/guide/atomic-orders.html).
+We have now gained a clear understanding of assets and values. Next, we proceed to [swapping them among owners in a decentralized manner](/guide/atomic-orders.html).
