@@ -56,10 +56,10 @@ await mutation.complete();
 
 To perform a mutation, first we need to send a request to the system that would accept it for handling. Once such request is approved, the response is transmitted in the form of mutation details which include a unique ID of the mutation. We can use this ID to track the state of mutation and its confirmation. Mutation with at least one confirmation can be considered completed (this is settable when creating a provider).
 
-In the 0xcert Framework, every mutation returns an instance of [Mutation class](https://docs.0xcert.org/api/core.html). You do not need to wait for the mutation to complete unless you need the changes to be made on the asset ledger before doing the next operation. Every mutation has a unique ID and with it you can create an instance of `Mutation` anytime.
+In the 0xcert Framework, every mutation returns an instance of [Mutation class](/api/core.html). You do not need to wait for the mutation to complete unless you need the changes to be made on the asset ledger before doing the next operation. Every mutation has a unique ID and with it you can create an instance of `Mutation` anytime.
 
 This is a general description of how mutations in the 0xcert Framework work. For specific details about how mutations work within the system of your choice, please refer to system's official documentation.
 
 ---
 
-To see how communication works on the blockchain and how to connect to it, let's move to the [next section](https://docs.0xcert.org/guide/using-providers.html#installation-process).
+To see how communication works on the blockchain and how to connect to it, let's move to the [next section](/guide/using-providers.html#installation-process).

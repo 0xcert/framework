@@ -56,8 +56,12 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
-    extendMarkdown: md => {
+    extendMarkdown: (md) => {
       md.use(require('markdown-it-container'))
-    }
+    },
+    externalLinks: {
+      target: '_self',
+      rel: 'noopener noreferrer alternate',
+    },
   },
 }
