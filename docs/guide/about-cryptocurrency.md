@@ -5,3 +5,7 @@ Cryptocurrency is a product of cryptographic operations and mechanisms, and repr
 Apart from the largest cryptocurrencies on the market today like Bitcoin, Ethereum, Litecoin, etc., the majority of tokens that are traded on cryptocurrency exchanges are of the ERC-20 type. The ERC-20 is an Ethereum protocol standard that defines specific rules for fungible tokens (i. e., tokens that all hold the same value) issued on the Ethereum blockchain. These tokens leverage the Ethereum network instead of using their own blockchain and are mostly utility tokens.
 
 Utility tokens differ from security tokens in a way they generate their value. Utility tokens serve as a paying mechanism and provide access to a digital product – usually their native decentralized application – in a similar way as coupons work for physical products, for payments or transfer of a particular value. On the other hand, security tokens are valued by an external tradable asset which makes them subject to government securities and laws, and serve as an investment, much like shares of companys stocks.
+
+---
+
+Let's start [working with cryptocurrencies](https://docs.0xcert.org/guide/value-management.html).

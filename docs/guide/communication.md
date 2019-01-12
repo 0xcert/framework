@@ -59,3 +59,7 @@ To perform a mutation, first we need to send a request to the system that would 
 In the 0xcert Framework, every mutation returns an instance of [Mutation class](https://docs.0xcert.org/api/core.html). You do not need to wait for the mutation to complete unless you need the changes to be made on the asset ledger before doing the next operation. Every mutation has a unique ID and with it you can create an instance of `Mutation` anytime.
 
 This is a general description of how mutations in the 0xcert Framework work. For specific details about how mutations work within the system of your choice, please refer to system's official documentation.
+
+---
+
+To see how communication works on the blockchain and how to connect to it, let's move to the [next section](https://docs.0xcert.org/guide/using-providers.html#installation-process).

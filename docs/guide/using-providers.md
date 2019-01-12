@@ -49,3 +49,7 @@ Make sure your MetaMask is connected to the Ethereum Ropsten network.
 ::: tip
 To perform this deployment step, you'll need to pay some gas on the Ethereum network. You can get free Ether into your wallet on the Ropsten network via [this link](https://faucet.ropsten.be/).
 :::
+
+---
+
+Our connection to the blockchain is now successfully established. Next off, we will learn about [assets and how to use them](https://docs.0xcert.org/guide/about-assets.html#assets-are-non-fungible) within our framework.

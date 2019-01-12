@@ -66,3 +66,7 @@ To learn more about the 0xcert Framework, the -xcert Protocol, and the news abou
 * The 0xcert official [website](https://0xcert.org),
 * The 0xcert [GitHub Repository](https://github.com/0xcert/framework): please consider contributing to the open-source and free framework,
 * Our [News Blog](https://0xcert.org/news).
+
+---
+
+Now, let's see how this works using our framework. In this guide, we will create a simple use case demonstrating the management of assets and values. Let' [get it started](https://docs.0xcert.org/guide/getting-started.html).

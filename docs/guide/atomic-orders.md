@@ -113,7 +113,7 @@ await assetLedger.assignAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET
 ```
 
 ::: tip
-Don't forget to create an instance of `assetLedger` and to import `AssetLedgerAbility`. 
+Don't forget to create an instance of `assetLedger` and to import `AssetLedgerAbility`.
 :::
 
 The following step is done only by the taker, the one that executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both the maker and the taker, since we are present on both sides.
@@ -135,3 +135,7 @@ const owner200Id = await assetLedger.getAssetAccount('200');
 ```
 
 To learn more about atomic operations, please refer to the [API](https://docs.0xcert.org/api/ethereum.html#orders-gateway) section.
+
+---
+
+We have now come to the end of our basic guide. Hopefully, you have grasped the basic concepts of the framework, for further information, you may check how the features work in the [API section](https://docs.0xcert.org/api/core.html).

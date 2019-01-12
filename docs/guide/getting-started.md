@@ -17,3 +17,7 @@ First, make sure you use the latest software.
 * Browser with ES6 support
 
 This guide assumes intermediate level knowledge of TypeScript and at least a basic understanding of the difference between currencies and assets. Basic comprehension of blockchain technology and framework systems is welcome but not required.
+
+---
+
+In the following chapter, we will learn how our framework [communicates with the blockchain](https://docs.0xcert.org/guide/communication.html).
