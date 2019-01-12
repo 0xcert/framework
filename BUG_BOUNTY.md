@@ -8,7 +8,7 @@
 
 [![0xcert](https://img.shields.io/badge/0xcert-10.000.000%20ZXC-red.svg)](https://0xcert.org)
 
-Become a sponsor and be listed here as a contributor to the bug bounty fund: `XXX`.
+Become a sponsor and be listed here as a contributor to the bug bounty fund: `0x991b4c8b8BE23F27B83C3F2a272129b172EcbA9e`.
 
 ## Scope of this bounty program
 

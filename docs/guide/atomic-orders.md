@@ -78,7 +78,7 @@ const order = {
             senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '200',
-            assetImprint,
+            assetImprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b', // imprint generated in the certification step
         },
     ],
     seed: Date.now(), // unique order identification
@@ -102,7 +102,7 @@ The [API](https://docs.0xcert.org/api/core.html#asset-proof) section contains in
 
 ```ts
 // approve account for transfering asset
-await assetLedger.approveAccount(orderGateway, '100').then((mutation) => {
+await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
     return mutation.complete();
 });
 
@@ -111,6 +111,10 @@ await assetLedger.assignAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET
     return mutation.complete();
 });
 ```
+
+::: tip
+Don't forget to create an instance of `assetLedger` and to import `AssetLedgerAbility`. 
+:::
 
 The following step is done only by the taker, the one that executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both the maker and the taker, since we are present on both sides.
 
@@ -130,4 +134,4 @@ const owner200Id = await assetLedger.getAssetAccount('200');
 //=> 0x...
 ```
 
-To learn more about atomic operations, please refer to the [API](https://docs.0xcert.org/api/core.html#asset-proof) section.
+To learn more about atomic operations, please refer to the [API](https://docs.0xcert.org/api/ethereum.html#orders-gateway) section.

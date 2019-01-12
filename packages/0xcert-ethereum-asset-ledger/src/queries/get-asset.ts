@@ -40,6 +40,6 @@ export default async function(ledger: AssetLedger, assetId: string) {
   return {
     id: assetId,
     uri: data[0],
-    imprint: data[1],
+    imprint: data[1] ? data[1].substr(2) : data[1],
   };
 }

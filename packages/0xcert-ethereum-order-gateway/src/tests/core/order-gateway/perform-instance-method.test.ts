@@ -82,7 +82,7 @@ spec.before(async (stage) => {
         senderId: coinbase,
         receiverId: bob,
         assetId: '102',
-        assetImprint: '0x0'
+        assetImprint: '0'
       },
       {
         kind: OrderActionKind.TRANSFER_ASSET,

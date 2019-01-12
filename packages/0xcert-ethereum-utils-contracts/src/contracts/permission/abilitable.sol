@@ -26,7 +26,7 @@ contract Abilitable
   /**
    * @dev Maps address to ability id.
    */
-  mapping(address => mapping(uint8 => bool)) private addressToAbility;
+  mapping(address => mapping(uint8 => bool)) internal addressToAbility;
 
   /**
    * @dev Count of zero ability addresses.

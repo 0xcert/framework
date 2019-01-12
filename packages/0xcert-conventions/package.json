@@ -1,13 +1,13 @@
 {
   "name": "@0xcert/conventions",
-  "version": "0.0.0-alpha8",
+  "version": "0.0.0-alpha9",
   "description": "Module with implementation of all confirmed conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -Rf ./dist",
     "build": "npm run clean && npx tsc",
-    "test": "npx hayspec test"
+    "test": "npx nyc npx hayspec test"
   },
   "hayspec": {
     "require": [
@@ -15,6 +15,17 @@
     ],
     "match": [
       "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
     ]
   },
   "repository": {

@@ -31,7 +31,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   public constructor(provider: any, id: string) {
     super();
 
-    this.$id = normalizeAddress(id);
+    this.$id = id;
     this.$provider = provider;
   }
 
@@ -179,19 +179,25 @@ export class Mutation extends EventEmitter implements MutationBase {
       return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
     }
     else if (!tx.to || tx.to === '0x0') {
-      tx.to = await this.getTransactionReceipt().then((r) => r.contractAddress);
+      tx.to = await this.getTransactionReceipt().then((r) => r ? r.contractAddress : null);
     }
+    if (tx.to) {
+      this.$senderId = normalizeAddress(tx.from);
+      this.$receiverId = normalizeAddress(tx.to);
+      this.$confirmations = await this.getLastBlock()
+        .then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock))
+        .then((num) => num < 0 ? 0 : num); // -1 when pending transaction is moved to the next block.
 
-    this.$senderId = normalizeAddress(tx.from);
-    this.$receiverId = normalizeAddress(tx.to);
-    this.$confirmations = await this.getLastBlock().then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock));
-
-    if (this.$confirmations >= this.$provider.requiredConfirmations) {
-      this.$status = MutationStatus.COMPLETED;
-      this.emit(MutationEvent.COMPLETE, this);
+      if (this.$confirmations >= this.$provider.requiredConfirmations) {
+        this.$status = MutationStatus.COMPLETED;
+        this.emit(MutationEvent.COMPLETE, this);
+      }
+      else {
+        this.emit(MutationEvent.CONFIRM, this);
+        this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
+      }
     }
     else {
-      this.emit(MutationEvent.CONFIRM, this);
       this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
     }
   }

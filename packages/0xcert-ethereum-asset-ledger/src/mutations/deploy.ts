@@ -13,11 +13,11 @@ const inputTypes = ['string', 'string', 'string', 'bytes32', 'bytes4[]'];
  */
 export default async function(provider: GenericProvider, { name, symbol, uriBase, schemaId, capabilities }: AssetLedgerDeployRecipe) {
   const contract = await fetch(provider.assetLedgerSource).then((r) => r.json());
-  const source = contract.AssetLedger.evm.bytecode.object;
+  const source = contract.XcertMock.evm.bytecode.object;
   const codes = (capabilities || []).map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(inputTypes, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
+    data: `0x${source}${encodeParameters(inputTypes, [name, symbol, uriBase, schemaId, codes]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',

@@ -12,10 +12,10 @@ const inputTypes = ['string', 'string', 'uint8', 'uint256'];
  */
 export default async function(provider: GenericProvider, { name, symbol, decimals, supply }: ValueLedgerDeployRecipe) {
   const contract = await fetch(provider.valueLedgerSource).then((r) => r.json());
-  const source = contract.ValueLedger.evm.bytecode.object;
+  const source = contract.TokenMock.evm.bytecode.object;
   const attrs = {
     from: provider.accountId,
-    data: `${source}${encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
+    data: `0x${source}${encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
