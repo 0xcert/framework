@@ -22,7 +22,7 @@ We begin by importing the modules.
 import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
 ```
 
-Now, lets deploy a new asset ledger to the Ethereum blockchain. 
+Now, lets deploy a new asset ledger to the Ethereum blockchain.
 
 ```ts
 const mutation = await AssetLedger.deploy(provider, {
@@ -94,3 +94,7 @@ const ownerId = await assetLedger.getAssetAccount('100');
 ```
 
 For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
+
+---
+
+The 0xcert Framework covers not only assets, but also cryptocurrencies or values. Let's dive into [values on the blockchain](https://docs.0xcert.org/guide/about-cryptocurrency.html).

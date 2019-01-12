@@ -131,3 +131,7 @@ The content that is obtained with the function above can now be published on the
 Finally, let's discuss the concept of revealing data to third parties. This works in the same way as we created the evidence file for the published metadata JSON file. When we want to reveal a private `name` data to a third person, we would also employ the `disclose` function to create the evidence data, send it to a third person via arbitrary communication channel which would allow them to calculate the `imprint` of the original data object based on the revealed data and the received evidence data. If the calculated imprint matches the one that is publicly available on the blockchain, the data will count as valid.
 
 Certification offers some additional possibilities. For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
+
+---
+
+Next, we proceed to [creating our assets](https://docs.0xcert.org/guide/asset-management.html#installation).

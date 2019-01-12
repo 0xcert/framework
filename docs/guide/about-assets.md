@@ -23,3 +23,7 @@ Every asset is stored on the platform as an ERC-721 non-fungible token (NFT). Th
 Every asset is identified by an ID that uniquely describes an asset within a ledger. Every asset also has its own cryptographical proof. This proof is called an `imprint` and is created from the original asset data object. The imprint is stored together with an asset ID within a non-fungible token. The issuer and the owner can reveal certain data from the block to third parties. Thus, a non-fungible token serves as a publicly available proof that allows for third-party verification of data validity. This concept is further described in the [Certification](https://docs.0xcert.org/guide/certification.html) section.
 
 Apart from the imprint, every asset includes a URI which points to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset. This information is meant for public listing on different online services.
+
+---
+
+Now that we learned what assets are let's see how we can [certify and validate](https://docs.0xcert.org/guide/certification.html) them.
