@@ -22,7 +22,7 @@ As usual, we begin by importing the module.
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 ```
 
-Let's first deploy a new value ledger to the Ethereum blockchain. 
+Let's first deploy a new value ledger to the Ethereum blockchain.
 
 ```ts
 const mutation = await ValueLedger.deploy(provider, {
@@ -71,3 +71,7 @@ const balance = await valueLedger.getBalance('0x...');
 ```
 
 For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
+
+---
+
+We have now gained a clear understanding of assets and values. Next, we proceed to [swapping them among owners in a decentralized manner](https://docs.0xcert.org/guide/atomic-orders.html).
