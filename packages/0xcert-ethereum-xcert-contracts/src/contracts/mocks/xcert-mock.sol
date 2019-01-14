@@ -5,7 +5,7 @@ import "../xcert.sol";
 /**
  * @dev This is an example implementation of the Xcert smart contract.
  */
-contract XcertMock is Xcert {
+contract XcertMock is XcertToken {
 
   /**
    * @dev Contract constructor.
