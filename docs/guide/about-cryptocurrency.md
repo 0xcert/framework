@@ -8,4 +8,4 @@ Utility tokens differ from security tokens in a way they generate their value. U
 
 ---
 
-Let's start [working with cryptocurrencies](https://docs.0xcert.org/guide/value-management.html).
+Let's start [working with cryptocurrencies](/guide/value-management.html).

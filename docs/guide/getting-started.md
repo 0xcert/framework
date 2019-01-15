@@ -20,4 +20,4 @@ This guide assumes intermediate level knowledge of TypeScript and at least a bas
 
 ---
 
-In the following chapter, we will learn how our framework [communicates with the blockchain](https://docs.0xcert.org/guide/communication.html).
+In the following chapter, we will learn how our framework [communicates with the blockchain](/guide/communication.html).

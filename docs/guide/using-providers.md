@@ -16,11 +16,11 @@ We recommend you employ the provider module as an NPM package in your applicatio
 $ npm i --save @0xcert/ethereum-metamask-provider
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](https://docs.0xcert.org/api/core.html) section to learn more about other providers.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about other providers.
 
 ## Usage overview
 
-To start developing the application, we have to first instantiate the [MetamaskProvider](https://docs.0xcert.org/api/core.html) provider class. This is usually only needed once within the application.
+To start developing the application, we have to first instantiate the [MetamaskProvider](/api/core.html) provider class. This is usually only needed once within the application.
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
@@ -52,4 +52,4 @@ To perform this deployment step, you'll need to pay some gas on the Ethereum net
 
 ---
 
-Our connection to the blockchain is now successfully established. Next off, we will learn about [assets and how to use them](https://docs.0xcert.org/guide/about-assets.html#assets-are-non-fungible) within our framework.
+Our connection to the blockchain is now successfully established. Next off, we will learn about [assets and how to use them](/guide/about-assets.html#assets-are-non-fungible) within our framework.

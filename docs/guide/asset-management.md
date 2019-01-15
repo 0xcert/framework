@@ -1,8 +1,8 @@
 # Asset management
 
-Each asset always belongs to the structure within a storage called the Asset Ledger. As discussed in one of the previous [sections](https://docs.0xcert.org/guide/about-assets.html#explaining-the-concept), a ledger represents a folder containing the assets of a specific issuer and related owners. Only users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
+Each asset always belongs to the structure within a storage called the Asset Ledger. As discussed in one of the previous [sections](/guide/about-assets.html#explaining-the-concept), a ledger represents a folder containing the assets of a specific issuer and related owners. Only users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
 
-On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](https://docs.0xcert.org/api/core.html) section.
+On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
 ## Installation
 
@@ -12,7 +12,7 @@ We recommend you employ the asset ledger module as an NPM package in your applic
 $ npm i --save @0xcert/ethereum-asset-ledger
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](https://docs.0xcert.org/api/core.html) section to learn more about asset ledger.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ## Usage overview
 
@@ -55,7 +55,7 @@ const assetLedgerInfo = await assetLedger.getInfo();
 
 This query should respond with similar information to the one we defined when we deployed a new asset ledger. At the beginning of this section, we explained the asset ledger as a book or folder of ownership records. The items contained in this book are called `Assets`.
 
-It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our selected MetaMask account marked with `receiverId`. We use the imprint from the previous [section](https://docs.0xcert.org/guide/certification.html#usage-overview) where we went through the process of asset certification.
+It's time to create a new asset to which we determine its unique ID `100`. In the example below, we can create a new asset and send it to our selected MetaMask account marked with `receiverId`. We use the imprint from the previous [section](/guide/certification.html#usage-overview) where we went through the process of asset certification.
 
 ```ts
 const mutation = await assetLedger.createAsset({
@@ -93,8 +93,8 @@ const ownerId = await assetLedger.getAssetAccount('100');
 //=> 0x...
 ```
 
-For more details, please refer to the [API](https://docs.0xcert.org/api/core.html) section.
+For more details, please refer to the [API](/api/core.html) section.
 
 ---
 
-The 0xcert Framework covers not only assets, but also cryptocurrencies or values. Let's dive into [values on the blockchain](https://docs.0xcert.org/guide/about-cryptocurrency.html).
+The 0xcert Framework covers not only assets, but also cryptocurrencies or values. Let's dive into [values on the blockchain](/guide/about-cryptocurrency.html).
