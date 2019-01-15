@@ -9,6 +9,7 @@ const spec = new Spec<{
   protocol: Protocol;
   coinbase: string;
   bob: string;
+  jane: string;
 }>();
 
 spec.before(async (stage) => {
@@ -35,6 +36,7 @@ spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
   stage.set('coinbase', accounts[0]);
   stage.set('bob', accounts[1]);
+  stage.set('jane', accounts[2]);
 });
 
 spec.test('transfer asset', async (ctx) => {
@@ -91,16 +93,49 @@ spec.test('fails when trying to transfer asset to a contract that does not imple
   });
 });
 
-spec.test('transfer asset contract that does not implement receiver but is marked as unsafe', async (ctx) => {
+spec.test('transfer to asset contract that does not implement receiver but is marked as unsafe', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const tokenTransferProxy = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   await xcert.instance.methods.create(coinbase, '5', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
   await ledger.transferAsset({
-    receiverId: tokenTransferProxy, id: '5',
+    receiverId: tokenTransferProxy,
+    id: '5',
   });
   ctx.is(await xcert.instance.methods.ownerOf('5').call(), tokenTransferProxy);
+});
+
+spec.test('transfer approved asset', async (ctx) => {
+  const xcert = ctx.get('protocol').xcert;
+  const ledger = ctx.get('ledger');
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const jane = ctx.get('jane');
+  await xcert.instance.methods.create(bob, '6', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.approve(coinbase, '6').send({ from: bob });
+  await ledger.transferAsset({
+    senderId: bob,
+    receiverId: jane,
+    id: '6',
+  });
+  ctx.is(await xcert.instance.methods.ownerOf('6').call(), jane);
+});
+
+spec.test('transfer to approved asset contract that does not implement receiver but is marked as unsafe', async (ctx) => {
+  const xcert = ctx.get('protocol').xcert;
+  const ledger = ctx.get('ledger');
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const tokenTransferProxy = ctx.get('protocol').tokenTransferProxy.instance.options.address;
+  await xcert.instance.methods.create(bob, '7', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
+  await xcert.instance.methods.approve(coinbase, '7').send({ from: bob });
+  await ledger.transferAsset({
+    senderId: bob,
+    receiverId: tokenTransferProxy,
+    id: '7',
+  });
+  ctx.is(await xcert.instance.methods.ownerOf('7').call(), tokenTransferProxy);
 });
 
 export default spec;

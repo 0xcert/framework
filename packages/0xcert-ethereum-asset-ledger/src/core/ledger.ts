@@ -224,9 +224,12 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data needed for the transfer.
    */
   public async transferAsset(recipe: AssetLedgerTransferRecipe): Promise<Mutation> {
+    if (!recipe.senderId) {
+      recipe.senderId = this.provider.accountId;
+    }
     return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
-      ? transfer(this, recipe.receiverId, recipe.id)
-      : safeTransfer(this, recipe.receiverId, recipe.id, recipe.data);
+      ? transfer(this, recipe.senderId, recipe.receiverId, recipe.id)
+      : safeTransfer(this, recipe.senderId, recipe.receiverId, recipe.id, recipe.data);
   }
 
   /**
