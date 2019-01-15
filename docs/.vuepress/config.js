@@ -20,6 +20,9 @@ module.exports = {
     serviceWorker: {
       updatePopup: true
     },
+    nav: [
+      { text: '0xcert Home', link: 'https://0xcert.org' },
+    ],
     sidebar: [
       {
         title: 'Guide',
