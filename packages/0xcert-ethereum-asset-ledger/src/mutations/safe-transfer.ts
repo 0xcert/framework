@@ -2,8 +2,6 @@ import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
-const inputTypes = ['address', 'address', 'uint256'];
-
 /**
  * Transfers asset from one account to another while checking if receiving account can actually 
  * receive the asset (it fails if receiver is a smart contract that does not implement 
@@ -16,16 +14,16 @@ const inputTypes = ['address', 'address', 'uint256'];
  */
 export default async function(ledger: AssetLedger, senderId: string,  receiverId: string, id: string, receiverData?: string) {
   const functionSignature = typeof receiverData !== 'undefined' ? '0xb88d4fde' : '0x42842e0e';
-  const functionInputTypes = [...inputTypes];
+  const inputTypes = ['address', 'address', 'uint256'];
   if(typeof receiverData !== 'undefined') {
-    functionInputTypes.push('bytes');
+    inputTypes.push('bytes');
   }
   const data = [senderId, receiverId, id, receiverData]
     .filter((a) => typeof a !== 'undefined');
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: functionSignature + encodeParameters(functionInputTypes, data).substr(2),
+    data: functionSignature + encodeParameters(inputTypes, data).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',
