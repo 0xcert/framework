@@ -44,7 +44,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.assignAbilities(owner, [1]).send();
+  await orderGateway.instance.methods.assignAbilities(owner, 2).send();
   ctx.set('orderGateway', orderGateway);
 });
 
