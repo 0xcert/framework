@@ -52,7 +52,6 @@ spec.beforeEach(async (ctx) => {
     args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']]
   });
 
-  await xcert.instance.methods.assignAbilities(owner, [1,4]).send({ from: owner });
   ctx.set('xcert', xcert);
 });
 

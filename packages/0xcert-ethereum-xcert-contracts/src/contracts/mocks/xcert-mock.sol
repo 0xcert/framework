@@ -32,12 +32,7 @@ contract XcertMock is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender][1] = true;
-    addressToAbility[msg.sender][2] = true;
-    addressToAbility[msg.sender][3] = true;
-    addressToAbility[msg.sender][4] = true;
-    addressToAbility[msg.sender][5] = true;
-    addressToAbility[msg.sender][6] = true;
+    addressToAbility[msg.sender] = 127;
   }
   
 }
