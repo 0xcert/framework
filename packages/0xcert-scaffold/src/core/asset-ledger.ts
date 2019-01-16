@@ -99,6 +99,7 @@ export interface AssetLedgerItemRecipe {
  * Asset transfer data definition.
  */
 export interface AssetLedgerTransferRecipe {
+  senderId?: string;
   receiverId: string;
   id: string;
   data?: string;

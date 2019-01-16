@@ -1180,6 +1180,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 | Argument | Description
 |-|-
+| recipe.senderId | A `string` representing the account ID that will send the asset. Defaults to account that is making the mutation.
 | recipe.receiverId | [required] A `string` representing the account ID that will receive the asset.
 | recipe.id | [required] A `string` representing asset ID.
 | recipe.data | A `string` representing some arbitrary mutation note.

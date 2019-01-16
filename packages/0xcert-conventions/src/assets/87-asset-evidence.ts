@@ -21,7 +21,8 @@ export interface Object87 {
  */
 export const schema87 = {
   $schema: 'http://json-schema.org/draft-07/schema',
-  definitions: {
+  description: 'Asset evidence schema.',
+  properties: {
     $schema: {
       description: 'A path to JSON Schema definition file.',
       type: 'string',
@@ -77,5 +78,6 @@ export const schema87 = {
       type: 'array',
     },
   },
+  title: 'Asset evidence',
   type: 'object',
 };
