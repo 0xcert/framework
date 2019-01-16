@@ -1,3 +1,4 @@
+import { ProviderBase } from '@0xcert/scaffold';
 import { RpcResponse, SendOptions, SignMethod } from './types';
 import { parseError } from './errors';
 
@@ -18,7 +19,7 @@ export interface GenericProviderOptions {
 /**
  * Ethereum RPC client.
  */
-export class GenericProvider {
+export class GenericProvider implements ProviderBase {
   public accountId: string;
   public signMethod: SignMethod;
   public unsafeRecipientIds: string[];
