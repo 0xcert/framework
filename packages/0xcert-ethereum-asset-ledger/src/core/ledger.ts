@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { normalizeAddress, bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
@@ -178,7 +178,12 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
-    return assignAbilities(this, accountId as string, abilities);
+    
+    let bitAbilities = bigNumberify(0);
+    abilities.forEach(ability => {
+      bitAbilities = bitAbilities.add(ability);
+    }); 
+    return assignAbilities(this, accountId as string, bitAbilities.toString());
   }
 
   /**
@@ -208,7 +213,12 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
-    return revokeAbilities(this, accountId as string, abilities);
+
+    let bitAbilities = bigNumberify(0);
+    abilities.forEach(ability => {
+      bitAbilities = bitAbilities.add(ability);
+    }); 
+    return revokeAbilities(this, accountId as string, bitAbilities);
   }
 
   /**
