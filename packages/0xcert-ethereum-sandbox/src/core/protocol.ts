@@ -168,8 +168,6 @@ export class Protocol {
       from,
     });
 
-    await xcert.instance.methods.assignAbilities(from, [1, 2, 3, 4, 5, 6]).send({ from });
-
     return xcert;
   }
 
@@ -282,15 +280,15 @@ export class Protocol {
       from,
     });
 
-    await orderGateway.instance.methods.assignAbilities(from, [1]).send({ from });
+    await orderGateway.instance.methods.assignAbilities(from, 2).send({ from });
     await orderGateway.instance.methods.setProxy(0, this.xcertCreateProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(1, this.tokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(2, this.nftokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.setProxy(3, this.nftokenSafeTransferProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
-    await this.nftokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
-    await this.xcertCreateProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
-    await this.nftokenSafeTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from });
+    await this.tokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, 2).send({ from });
+    await this.nftokenTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, 2).send({ from });
+    await this.xcertCreateProxy.instance.methods.assignAbilities(orderGateway.receipt._address, 2).send({ from });
+    await this.nftokenSafeTransferProxy.instance.methods.assignAbilities(orderGateway.receipt._address, 2).send({ from });
 
     return orderGateway;
   }
