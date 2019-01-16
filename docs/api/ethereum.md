@@ -1203,19 +1203,19 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions.
+Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n. 
 
 **Options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 5 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
-| CREATE_ASSET | 1 | Allows an account to create a new asset.
-| MANAGE_ABILITIES | 0 | Allows an account to further assign abilities.
-| REVOKE_ASSET | 2 | Allows management accounts to revoke assets.
-| TOGGLE_TRANSFERS | 3 | Allows an account to stop and start asset transfers.
-| UPDATE_ASSET | 4 | Allows an account to update asset data.
-| UPDATE_URI_BASE | 6 | Allows an account to update asset ledger's base URI.
+| ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
+| CREATE_ASSET | 2 | Allows an account to create a new asset.
+| MANAGE_ABILITIES | 1 | Allows an account to further assign abilities.
+| REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 16 | Allows an account to update asset data.
+| UPDATE_URI_BASE | 64 | Allows an account to update asset ledger's base URI.
 
 **Example:**
 
