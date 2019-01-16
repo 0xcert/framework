@@ -11,11 +11,11 @@ const inputTypes = ['address', 'address', 'uint256'];
  * @param receiverId Address that will receive the asset.
  * @param id Asset id.
  */
-export default async function(ledger: AssetLedger, receiverId: string, id: string) {
+export default async function(ledger: AssetLedger, senderId: string, receiverId: string, id: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: functionSignature + encodeParameters(inputTypes, [ledger.provider.accountId, receiverId, id]).substr(2),
+    data: functionSignature + encodeParameters(inputTypes, [senderId, receiverId, id]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

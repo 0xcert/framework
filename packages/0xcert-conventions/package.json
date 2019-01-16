@@ -65,6 +65,7 @@
   "devDependencies": {
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
+    "ajv": "^6.7.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   }
