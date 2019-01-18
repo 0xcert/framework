@@ -28,13 +28,13 @@ contract XcertToken is
   /**
    * @dev List of abilities (gathered from all extensions):
    */
-  uint8 constant ABILITY_CREATE_ASSET = 1;
-  uint8 constant ABILITY_REVOKE_ASSET = 2;
-  uint8 constant ABILITY_TOGGLE_TRANSFERS = 3;
-  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 4;
-  /// ALLOW_CREATE_ASSET = 5 - A specific ability that is bounded to atomic orders.
+  uint8 constant ABILITY_CREATE_ASSET = 2;
+  uint8 constant ABILITY_REVOKE_ASSET = 4;
+  uint8 constant ABILITY_TOGGLE_TRANSFERS = 8;
+  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 16;
+  /// ALLOW_CREATE_ASSET = 32 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
-  uint8 constant ABILITY_UPDATE_URI_BASE = 6;
+  uint8 constant ABILITY_UPDATE_URI_BASE = 64;
 
   /**
    * @dev Error constants.
@@ -103,7 +103,7 @@ contract XcertToken is
     bytes32 _imprint
   )
     external
-    hasAbility(ABILITY_CREATE_ASSET)
+    hasAbilities(ABILITY_CREATE_ASSET)
   {
     super._create(_to, _id);
     idToImprint[_id] = _imprint;
@@ -117,7 +117,7 @@ contract XcertToken is
     string calldata _uriBase
   )
     external
-    hasAbility(ABILITY_UPDATE_URI_BASE)
+    hasAbilities(ABILITY_UPDATE_URI_BASE)
   {
     super._setUriBase(_uriBase);
   }
@@ -131,7 +131,7 @@ contract XcertToken is
     uint256 _tokenId
   )
     external
-    hasAbility(ABILITY_REVOKE_ASSET)
+    hasAbilities(ABILITY_REVOKE_ASSET)
   {
     require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
     super._destroy(_tokenId);
@@ -146,7 +146,7 @@ contract XcertToken is
     bool _isPaused
   )
     external
-    hasAbility(ABILITY_TOGGLE_TRANSFERS)
+    hasAbilities(ABILITY_TOGGLE_TRANSFERS)
   {
     require(supportedInterfaces[0xbedb86fb], CAPABILITY_NOT_SUPPORTED);
     isPaused = _isPaused;
@@ -163,7 +163,7 @@ contract XcertToken is
     bytes32 _imprint
   )
     external
-    hasAbility(ABILITY_UPDATE_ASSET_IMPRINT)
+    hasAbilities(ABILITY_UPDATE_ASSET_IMPRINT)
   {
     require(supportedInterfaces[0xbda0e852], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);

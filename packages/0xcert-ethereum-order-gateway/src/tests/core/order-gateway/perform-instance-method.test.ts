@@ -61,7 +61,7 @@ spec.before(async (stage) => {
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: coinbase });
-  await xcert.instance.methods.assignAbilities(xcertCreateProxy, [1]).send({ from: coinbase });
+  await xcert.instance.methods.assignAbilities(xcertCreateProxy, 2).send({ from: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: bob });
 });
 
