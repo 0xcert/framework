@@ -7,14 +7,14 @@ import "../math/safe-math.sol";
  * @dev For optimization purposes the abilities are represented as a bitfield. Maximum number of
  * abilities is therefore 256. This is an example(for simplicity is made for max 8 abilities) of how
  * this works. 
- * 00000001 Ability 1 - number representation 1
- * 00000010 Ability 2 - number representation 2
- * 00000100 Ability 3 - number representation 4
- * 00001000 Ability 4 - number representation 8
- * 00010000 Ability 5 - number representation 16
+ * 00000001 Ability A - number representation 1
+ * 00000010 Ability B - number representation 2
+ * 00000100 Ability C - number representation 4
+ * 00001000 Ability D - number representation 8
+ * 00010000 Ability E - number representation 16
  * etc ... 
- * To grant abilities 2 and 3 we would need a bitfield of 00000110 which is represented by number 6
- * in other words the sum od ability 2 and 3. The same concept works for revoking abilities and 
+ * To grant abilities B and C we would need a bitfield of 00000110 which is represented by number 6
+ * in other words the sum od ability B and C. The same concept works for revoking abilities and 
  * checking if someone has multiple abilities.
  * By default abilities are set to 00000000 which means there are no abilities.  
  */
