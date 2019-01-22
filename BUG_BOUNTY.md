@@ -19,7 +19,7 @@ Help us find any problems with the [0xcert Framework](https://docs.0xcert.org). 
 - Issues that have already been published here or are already disclosed to the 0xcert team are not eligible for rewards (a corollary, the 0xcert team members are ineligible for rewards).
 - Social engineering, XKCD#538 attacks, bringing down Mainnet/Infura, and other issues that are beyond the realm of the Framework are not in scope and will NOT be paid a reward.
 - Source code of all the packages, readme files, and documentation of the Framework are in scope.
-- Only the latest released master branch of the source code is in scope.
+- Only the latest released version of each package in this Frameworkare in scope.
 - [GitHub Issues](https://github.com/0xcert/framework/issues) is the only way to report issues and request rewards.
 - The 0xcert team has complete and final judgment on the acceptability of bug reports.
 - This program is governed under the laws of the Republic of Slovenia, if there is a party that we are unable to pay due to trade embargoes or other restrictions, then we won't pay. But we are happy to cooperate by making alternate arrangements.
