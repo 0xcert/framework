@@ -48,6 +48,16 @@ const perform = new Spec<Data>();
 const cancel = new Spec<CancelData>();
 const fail = new Spec<Data>();
 
+/**
+ * Order gateway ability constants.
+ */
+const ABILITY_TO_SET_PROXIES = 2;
+
+/**
+ * Proxy ability constants.
+ */
+const ABILITY_TO_EXECUTE = 2;
+
 export default spec;
 
 spec.beforeEach(async (ctx) => {
@@ -237,7 +247,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.grantAbilities(owner, 2).send();
+  await orderGateway.instance.methods.grantAbilities(owner, ABILITY_TO_SET_PROXIES).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
@@ -248,8 +258,8 @@ spec.beforeEach(async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from: owner });
-  await nftProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, ABILITY_TO_EXECUTE).send({ from: owner });
+  await nftProxy.instance.methods.grantAbilities(orderGateway.receipt._address, ABILITY_TO_EXECUTE).send({ from: owner });
 });
 
 /**

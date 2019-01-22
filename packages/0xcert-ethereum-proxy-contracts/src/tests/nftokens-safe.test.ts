@@ -13,6 +13,7 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
+const ABILITY_TO_EXECUTE = 2;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -34,23 +35,23 @@ spec.test('adds authorized address', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  const logs = await nftProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
   ctx.not(logs.events.GrantAbilities, undefined);
 
-  const bobHasAbility1 = await nftProxy.instance.methods.isAble(bob, 2).call();
-  ctx.is(bobHasAbility1, true);
+  const bobHasAbilityToExecute = await nftProxy.instance.methods.isAble(bob, ABILITY_TO_EXECUTE).call();
+  ctx.is(bobHasAbilityToExecute, true);
 });
 
 spec.test('removes authorized address', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
-  const logs = await nftProxy.instance.methods.revokeAbilities(bob, 2).send({ from: owner });
+  await nftProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
+  const logs = await nftProxy.instance.methods.revokeAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
   ctx.not(logs.events.RevokeAbilities, undefined);
 
-  const bobHasAbility1 = await nftProxy.instance.methods.isAble(bob, 2).call();
-  ctx.is(bobHasAbility1, false);
+  const bobHasAbilityToExecute = await nftProxy.instance.methods.isAble(bob, ABILITY_TO_EXECUTE).call();
+  ctx.is(bobHasAbilityToExecute, false);
 });
 
 spec.test('transfers an NFT', async (ctx) => {
@@ -112,7 +113,7 @@ spec.test('fails when transfering to a contract without receiver', async (ctx) =
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  await nftProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
 
   const cat = await ctx.deploy({ 
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',

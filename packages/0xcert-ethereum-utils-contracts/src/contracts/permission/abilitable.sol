@@ -106,7 +106,7 @@ contract Abilitable
   {
     addressToAbility[_target] |= _abilities;
 
-    if((_abilities & 1) == 1)
+    if((_abilities & ABILITY_TO_MANAGE_ABILITIES) == ABILITY_TO_MANAGE_ABILITIES)
     {
       zeroAbilityCount = zeroAbilityCount.add(1);
     }

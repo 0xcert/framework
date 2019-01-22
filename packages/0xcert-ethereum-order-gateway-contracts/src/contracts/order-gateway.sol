@@ -19,6 +19,11 @@ contract OrderGateway is
   uint8 constant ABILITY_TO_SET_PROXIES = 2;
 
   /**
+   * @dev Xcert abilities.
+   */
+  uint8 constant ABILITY_ALLOW_CREATE_ASSET = 32;
+
+  /**
    * @dev Error constants.
    */
   string constant INVALID_SIGNATURE_KIND = "015001";
@@ -344,7 +349,7 @@ contract OrderGateway is
       if(_order.actions[i].kind == ActionKind.create)
       {
         require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, 32),
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
           SIGNER_NOT_AUTHORIZED
         );
         

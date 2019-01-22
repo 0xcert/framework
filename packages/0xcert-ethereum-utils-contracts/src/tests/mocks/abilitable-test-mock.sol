@@ -5,21 +5,24 @@ import "../../contracts/permission/abilitable.sol";
 contract AbilitableTestMock is
   Abilitable
 {
-  function ability1()
+  uint8 constant ABILITY_A = 1;
+  uint8 constant ABILITY_B = 2;
+
+  function abilityA()
     external
     view
-    hasAbilities(1)
+    hasAbilities(ABILITY_A)
     returns (string memory)
   {
-    return "1";
+    return "A";
   }
 
-  function ability2()
+  function abilityB()
     external
     view
-    hasAbilities(2)
+    hasAbilities(ABILITY_B)
     returns (string memory)
   {
-    return "2";
+    return "B";
   }
 }

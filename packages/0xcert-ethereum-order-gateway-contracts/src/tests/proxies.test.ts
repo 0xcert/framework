@@ -15,6 +15,11 @@ interface Data {
 
 const spec = new Spec<Data>();
 
+/**
+ * Order gateway ability constants.
+ */
+const ABILITY_TO_SET_PROXIES = 2;
+
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
   ctx.set('owner', accounts[0]);
@@ -44,7 +49,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.grantAbilities(owner, 2).send();
+  await orderGateway.instance.methods.grantAbilities(owner, ABILITY_TO_SET_PROXIES).send();
   ctx.set('orderGateway', orderGateway);
 });
 
