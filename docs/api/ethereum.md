@@ -511,41 +511,6 @@ const mutation = await ledger.approveOperator(accountId);
 
 [disapproveOperator](#disapprove-operator), [approveAccount](#approve-account)
 
-### assignAbilities(accountId, abilities)
-
-An `asynchronous` class instance `function` which assignes management permissions for this ledger to a third party `accountId`. 
-
-::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
-:::
-
-**Arguments:**
-
-| Argument | Description
-|-|-
-| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
-| abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
-
-**Result:**
-
-An instance of the same `Mutation` class.
-
-**Example:**
-
-```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
-
-// arbitrary data
-const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
-const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
-];
-
-// perform mutation
-const mutation = await ledger.assignAbilities(accountId, abilities);
-```
-
 ### createAsset(recipe)
 
 An `asynchronous` class instance `function` which creates a new asset on the Ethereum blockchain.
@@ -589,7 +554,7 @@ const mutation = await ledger.createAsset(asset);
 An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. 
 
 ::: tip
-All ledger abilities are automatically assigned to the account that performs this method.
+All ledger abilities are automatically granted to the account that performs this method.
 :::
 
 **Arguments:**
@@ -950,6 +915,46 @@ const ledger = AssetLedger.getInstance(provider, ledgerId);
 
 A class instance `variable` holding the address of ledger's smart contract on the Ethereum blockchain.
 
+### grantAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`. 
+
+::: warning
+The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
+| abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    AssetLedgerAbility.CREATE_ASSET,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform mutation
+const mutation = await ledger.grantAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[revokeAbilities](#revoke-abilities)
+
+
 ### isApprovedAccount(assetId, accountId)
 
 An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to take over the `assetId`.
@@ -1070,7 +1075,7 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 **See also:**
 
-[assignAbilities](#assign-abilities)
+[grantAbilities](#grant-abilities)
 
 ### revokeAsset(assetId)
 
@@ -1212,7 +1217,7 @@ Ledger abilities represent account-level permissions. For optimization reasons a
 |-|-|-
 | ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 2 | Allows an account to create a new asset.
-| MANAGE_ABILITIES | 1 | Allows an account to further assign abilities.
+| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
 | UPDATE_ASSET | 16 | Allows an account to update asset data.

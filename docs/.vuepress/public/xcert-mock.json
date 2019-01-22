@@ -305,7 +305,7 @@
             "type": "uint8[]"
           }
         ],
-        "name": "assignAbilities",
+        "name": "grantAbilities",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
@@ -692,7 +692,7 @@
             "_tokenId": "ID of the token to be approved."
           }
         },
-        "assignAbilities(address,uint8[])": {
+        "grantAbilities(address,uint8[])": {
           "details": "Assigns specific abilities to specified address.",
           "params": {
             "_abilities": "List of ability IDs.",
@@ -897,7 +897,7 @@
         },
         "external": {
           "approve(address,uint256)": "infinite",
-          "assignAbilities(address,uint8[])": "infinite",
+          "grantAbilities(address,uint8[])": "infinite",
           "balanceOf(address)": "infinite",
           "create(address,uint256,bytes32)": "infinite",
           "destroy(uint256)": "infinite",
@@ -67982,7 +67982,7 @@
       },
       "methodIdentifiers": {
         "approve(address,uint256)": "095ea7b3",
-        "assignAbilities(address,uint8[])": "78e57c1f",
+        "grantAbilities(address,uint8[])": "78e57c1f",
         "balanceOf(address)": "70a08231",
         "create(address,uint256,bytes32)": "b0e329e4",
         "destroy(uint256)": "9d118770",
@@ -68323,7 +68323,7 @@
                 "type": "uint8[]"
               }
             ],
-            "name": "assignAbilities",
+            "name": "grantAbilities",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
@@ -68710,7 +68710,7 @@
                 "_tokenId": "ID of the token to be approved."
               }
             },
-            "assignAbilities(address,uint8[])": {
+            "grantAbilities(address,uint8[])": {
               "details": "Assigns specific abilities to specified address.",
               "params": {
                 "_abilities": "List of ability IDs.",

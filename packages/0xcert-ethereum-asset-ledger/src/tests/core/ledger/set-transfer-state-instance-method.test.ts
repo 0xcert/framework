@@ -28,7 +28,7 @@ spec.before(async (stage) => {
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-spec.test('assignes ledger abilities for an account', async (ctx) => {
+spec.test('grants ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   ctx.true(await ledger.isTransferable());
   await ledger.disableTransfers().then(() => ctx.sleep(200));

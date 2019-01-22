@@ -13,7 +13,7 @@ import "../math/safe-math.sol";
  * 00001000 Ability 4 - number representation 8
  * 00010000 Ability 5 - number representation 16
  * etc ... 
- * To assign abilities 2 and 3 we would need a bitfield of 00000110 which is represented by number 6
+ * To grant abilities 2 and 3 we would need a bitfield of 00000110 which is represented by number 6
  * in other words the sum od ability 2 and 3. The same concept works for revoking abilities and 
  * checking if someone has multiple abilities.
  * By default abilities are set to 00000000 which means there are no abilities.  
@@ -30,7 +30,7 @@ contract Abilitable
   string constant INVALID_INPUT = "017003";
 
   /**
-   * @dev Ability 1 is a reserved ability. It is an ability to assign or revoke abilities. 
+   * @dev Ability 1 is a reserved ability. It is an ability to grant or revoke abilities. 
    * There can be minimum of 1 address with ability 1.
    * Other abilities are determined by implementing contract.
    */
@@ -47,11 +47,11 @@ contract Abilitable
   uint256 private zeroAbilityCount;
 
   /**
-   * @dev Emits when an address is assigned an ability.
-   * @param _target Address to which we are assigning ability.
-   * @param _abilities Number representing bitfield of abilities we are assigning.
+   * @dev Emits when an address is granted an ability.
+   * @param _target Address to which we are granting abilities.
+   * @param _abilities Number representing bitfield of abilities we are granting.
    */
-  event AssignAbilities(
+  event GrantAbilities(
     address indexed _target,
     uint256 indexed _abilities
   );
@@ -89,15 +89,15 @@ contract Abilitable
   {
     addressToAbility[msg.sender] = ABILITY_TO_MANAGE_ABILITIES;
     zeroAbilityCount = 1;
-    emit AssignAbilities(msg.sender, ABILITY_TO_MANAGE_ABILITIES);
+    emit GrantAbilities(msg.sender, ABILITY_TO_MANAGE_ABILITIES);
   }
 
   /**
-   * @dev Assigns specific abilities to specified address.
-   * @param _target Address to assign abilities to.
-   * @param _abilities Number representing bitfield of abilities we are assigning.
+   * @dev Grants specific abilities to specified address.
+   * @param _target Address to grant abilities to.
+   * @param _abilities Number representing bitfield of abilities we are granting.
    */
-  function assignAbilities(
+  function grantAbilities(
     address _target,
     uint256 _abilities
   )
@@ -110,7 +110,7 @@ contract Abilitable
     {
       zeroAbilityCount = zeroAbilityCount.add(1);
     }
-    emit AssignAbilities(_target, _abilities);
+    emit GrantAbilities(_target, _abilities);
   }
 
   /**

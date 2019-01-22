@@ -122,24 +122,24 @@ spec.test('throws when trying to create an xcert to zero address', async (ctx) =
   await ctx.reverts(() => xcert.instance.methods.create(zeroAddress, id, imprint).send({ from: owner }), '006001');
 });
 
-spec.test('corectly assigns create ability', async (ctx) => {
+spec.test('corectly grants create ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
  
-  const logs =  await xcert.instance.methods.assignAbilities(bob, 2).send({ from: owner });
-  ctx.not(logs.events.AssignAbilities, undefined);
+  const logs =  await xcert.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  ctx.not(logs.events.GrantAbilities, undefined);
 
   const bobHasAbility1 = await xcert.instance.methods.isAble(bob, 2).call();
   ctx.is(bobHasAbility1, true);
 });
 
-spec.test('throws when a third party tries to assign create ability', async (ctx) => {
+spec.test('throws when a third party tries to grants create ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
 
-  await ctx.reverts(() => xcert.instance.methods.assignAbilities(bob, 2).send({ from: sara }));
+  await ctx.reverts(() => xcert.instance.methods.grantAbilities(bob, 2).send({ from: sara }));
 });
 
 spec.test('correctly creates an xcert from an address with create ability', async (ctx) => {
@@ -150,7 +150,7 @@ spec.test('correctly creates an xcert from an address with create ability', asyn
   const id = ctx.get('id1');
   const imprint = ctx.get('imprint1');
 
-  await xcert.instance.methods.assignAbilities(bob, 2).send({ from: owner });
+  await xcert.instance.methods.grantAbilities(bob, 2).send({ from: owner });
   await xcert.instance.methods.create(sara, id, imprint).send({ from: bob });
   const saraXcertCount = await xcert.instance.methods.balanceOf(sara).call();
   ctx.is(saraXcertCount, '1');
@@ -164,7 +164,7 @@ spec.test('throws trying to create from address which authorization got revoked'
   const id = ctx.get('id1');
   const imprint = ctx.get('imprint1');
 
-  await xcert.instance.methods.assignAbilities(bob, 2).send({ from: owner });
+  await xcert.instance.methods.grantAbilities(bob, 2).send({ from: owner });
   await xcert.instance.methods.revokeAbilities(bob, 2).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.create(sara, id, imprint).send({ from: bob }), '017001');
 });

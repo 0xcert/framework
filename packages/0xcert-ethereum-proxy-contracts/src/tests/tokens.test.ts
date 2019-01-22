@@ -32,8 +32,8 @@ spec.test('adds authorized address', async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await tokenProxy.instance.methods.assignAbilities(bob, 2).send({ from: owner });
-  ctx.not(logs.events.AssignAbilities, undefined);
+  const logs = await tokenProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  ctx.not(logs.events.GrantAbilities, undefined);
 
   const bobHasAbility1 = await tokenProxy.instance.methods.isAble(bob, 2).call();
   ctx.is(bobHasAbility1, true);
@@ -43,7 +43,7 @@ spec.test('removes authorized address', async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await tokenProxy.instance.methods.assignAbilities(bob, 2).send({from: owner});
+  await tokenProxy.instance.methods.grantAbilities(bob, 2).send({from: owner});
   const logs = await tokenProxy.instance.methods.revokeAbilities(bob, 2).send({ from: owner });
   ctx.not(logs.events.RevokeAbilities, undefined);
 
@@ -57,7 +57,7 @@ spec.test('transfers tokens', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await tokenProxy.instance.methods.assignAbilities(bob, 2).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
 
   const token = await ctx.deploy({ 
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',

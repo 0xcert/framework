@@ -107,7 +107,7 @@ await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
 });
 
 // assign ability to mint
-await assetLedger.assignAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
+await assetLedger.grantAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```
