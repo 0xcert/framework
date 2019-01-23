@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-utils",
-  "version": "0.0.0-alpha9",
+  "version": "0.0.0-alpha10",
   "description": "General Ethereum utility module with helper functions for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -66,7 +66,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "0.0.0-alpha9",
+    "@0xcert/ethereum-sandbox": "0.0.0-alpha10",
     "@specron/cli": "^0.5.1",
     "@specron/spec": "^0.5.1",
     "nyc": "^13.1.0",
@@ -74,7 +74,7 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36",
-    "@0xcert/utils": "0.0.0-alpha9"
+    "@0xcert/utils": "0.0.0-alpha10"
   },
   "dependencies": {
     "ethers": "4.0.0-beta.1"
