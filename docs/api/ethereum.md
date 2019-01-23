@@ -97,7 +97,7 @@ const isEnabled = await provider.isEnabled();
 
 ## HTTP provider
 
-HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions. 
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -131,9 +131,13 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 
 const provider = new HttpProvider({
     accountId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-    url: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
+    url: 'https://connection-to-ethereum-rpc-node/',
 });
 ```
+
+::: warning
+Please note, when using [Infura](https://infura.io/) only queries are supported.
+:::
 
 **See also:**
 
