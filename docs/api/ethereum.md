@@ -1570,7 +1570,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();
-const gatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
+const gatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 
 // create ledger instance
 const gateway = new OrderGateway(provider, gatewayId);
@@ -1798,8 +1798,8 @@ Coming soon.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xf02b2e925a1006c313e1af344821c67382777fc8](https://ropsten.etherscan.io/address/0xf02b2e925a1006c313e1af344821c67382777fc8)
-| TokenTransferProxy | [0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565](https://ropsten.etherscan.io/address/0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565)
-| NFTokenTransferProxy | [0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455](https://ropsten.etherscan.io/address/0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455)
-| NFTokenSafeTransferProxy | [0x998bd212c21558dbdcf27e990d78400b9b26276d](https://ropsten.etherscan.io/address/0x998bd212c21558dbdcf27e990d78400b9b26276d)
+| OrderGateway | [0x073d230a53bffc8295d9a5247296213298e3fbcf](https://ropsten.etherscan.io/address/0x073d230a53bffc8295d9a5247296213298e3fbcf)
+| TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
