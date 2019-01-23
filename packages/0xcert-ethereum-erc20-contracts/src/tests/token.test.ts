@@ -42,6 +42,20 @@ spec.beforeEach(async (ctx) => {
   ctx.set('totalSupply', new BN('300000000000000000000000000'));
 });
 
+spec.test('correctly checks all the supported interfaces', async (ctx) => {
+  const token = ctx.get('token');
+  const tokenInterface = await token.instance.methods.supportsInterface('0x36372b07').call();
+  const tokenNameInterface = await token.instance.methods.supportsInterface('0x06fdde03').call();
+  const tokenSymbolInterface = await token.instance.methods.supportsInterface('0x95d89b41').call();
+  const tokenDecimalsInterface = await token.instance.methods.supportsInterface('0x313ce567').call();
+  const tokenNoneExistingInterface = await token.instance.methods.supportsInterface('0x19be5360').call();
+  ctx.is(tokenInterface, true);
+  ctx.is(tokenNameInterface, true);
+  ctx.is(tokenSymbolInterface, true);
+  ctx.is(tokenDecimalsInterface, true);
+  ctx.is(tokenNoneExistingInterface, false);
+});
+
 spec.test('has correct totalSupply after construction', async (ctx) => {
   const token = ctx.get('token');
   const actualSupply = await token.instance.methods.totalSupply().call();
