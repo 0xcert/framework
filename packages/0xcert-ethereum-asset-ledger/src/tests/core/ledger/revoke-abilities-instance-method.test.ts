@@ -42,7 +42,7 @@ spec.before(async (stage) => {
 spec.test('revokes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
-  await ledger.assignAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
+  await ledger.grantAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
   await ledger.revokeAbilities(bob, [AssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET]);
@@ -52,7 +52,7 @@ spec.test('revokes ledger abilities for an order gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
-  await ledger.assignAbilities(gateway, [AssetLedgerAbility.CREATE_ASSET]);
+  await ledger.grantAbilities(gateway, [AssetLedgerAbility.CREATE_ASSET]);
   await ledger.revokeAbilities(gateway, [AssetLedgerAbility.CREATE_ASSET]).then(() => ctx.sleep(200));
   const abilities = await ledger.getAbilities(proxyId);
   ctx.deepEqual(abilities, []);

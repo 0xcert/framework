@@ -16,9 +16,9 @@ contract NFTokenSafeTransferProxy is
 
   /**
    * @dev List of abilities:
-   * 1 - Ability to execute. 
+   * 2 - Ability to execute. 
    */
-  uint8 constant ABILITY_TO_EXECUTE = 1;
+  uint8 constant ABILITY_TO_EXECUTE = 2;
 
   /**
    * @dev Transfers a NFT.
@@ -34,7 +34,7 @@ contract NFTokenSafeTransferProxy is
     uint256 _c
   )
     external
-    hasAbility(ABILITY_TO_EXECUTE)
+    hasAbilities(ABILITY_TO_EXECUTE)
   {
     ERC721(_target).safeTransferFrom(_a, _b, _c);
   }

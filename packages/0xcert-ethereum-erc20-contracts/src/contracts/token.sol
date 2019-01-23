@@ -1,14 +1,18 @@
 pragma solidity 0.5.1;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
+import "@0xcert/ethereum-utils-contracts/src/contracts/utils/supports-interface.sol";
 import "./erc20.sol";
 
 /**
  * @title ERC20 standard token implementation.
- * @dev Standard ERC20 token. This contract follows the implementation at https://goo.gl/mLbAPJ.
+ * @dev This interface uses the official ERC-20 specification from
+ * https://eips.ethereum.org/EIPS/eip-20 and also implements every optional 
+ * function.
  */
 contract Token is
-  ERC20
+  ERC20,
+  SupportsInterface
 {
   using SafeMath for uint256;
 
@@ -66,6 +70,18 @@ contract Token is
     address indexed _spender,
     uint256 _value
   );
+
+  /**
+   * @dev Contract constructor.
+   */
+  constructor()
+    public
+  {
+    supportedInterfaces[0x36372b07] = true; // ERC20
+    supportedInterfaces[0x06fdde03] = true; // ERC20 name
+    supportedInterfaces[0x95d89b41] = true; // ERC20 symbol
+    supportedInterfaces[0x313ce567] = true; // ERC20 decimals
+  }
 
   /**
    * @dev Returns the name of the token.

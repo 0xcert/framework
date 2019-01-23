@@ -10,6 +10,12 @@ interface Data {
   bob?: string;
   jane?: string;
   sara?: string;
+  abilityManageAbilities?: number;
+  abilityB?: number;
+  abilityC?: number;
+  abilityT?: number;
+  abilityManageAbilitiesCT?: number;
+  abilityManageAbilitiesBCT?: number;
 }
 
 /**
@@ -19,6 +25,22 @@ interface Data {
 const spec = new Spec<Data>();
 
 export default spec;
+
+spec.before(async (ctx) => {
+  const abilityManageAbilities = 1;
+  const abilityB = 2;
+  const abilityC = 4;
+  const abilityT = 1048576;
+  const abilityManageAbilitiesCT = abilityManageAbilities + abilityC + abilityT;
+  const abilityManageAbilitiesBCT = abilityManageAbilities + abilityB + abilityC + abilityT;
+
+  ctx.set('abilityManageAbilities', abilityManageAbilities);
+  ctx.set('abilityB', abilityB);
+  ctx.set('abilityC', abilityC);
+  ctx.set('abilityT', abilityT);
+  ctx.set('abilityManageAbilitiesCT', abilityManageAbilitiesCT);
+  ctx.set('abilityManageAbilitiesBCT', abilityManageAbilitiesBCT);
+});
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -36,141 +58,139 @@ spec.beforeEach(async (ctx) => {
   ctx.set('abilitable', abilitable);
 });
 
-spec.test('check if sender address has zero ability', async (ctx) => {
+spec.test('check if sender address has ability to manage abilities', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const ownerHasAbility0 = await abilitable.instance.methods.isAble(owner, 0).call();
-  ctx.is(ownerHasAbility0, true);
-  const bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, false);
+  const abilityManageAbilities = ctx.get('abilityManageAbilities');
+  const ownerHasAbilityA = await abilitable.instance.methods.isAble(owner, abilityManageAbilities).call();
+  ctx.is(ownerHasAbilityA, true);
+  const bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, false);
 });
 
-spec.test('successfuly assigns an ability', async (ctx) => {
+spec.test('successfuly grants an ability', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+  const abilityManageAbilities = ctx.get('abilityManageAbilities');
 
-  let bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, false);
-  await ctx.reverts(() => abilitable.instance.methods.ability1().call({ from: bob }), '017001');
+  let bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, false);
+  await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
 
-  const logs = await abilitable.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
-  ctx.not(logs.events.AssignAbility, undefined);
+  const logs = await abilitable.instance.methods.grantAbilities(bob, abilityManageAbilities).send({ from: owner });
+  ctx.not(logs.events.GrantAbilities, undefined);
 
-  bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, true);
-  await abilitable.instance.methods.ability1().call({ from: bob });
+  bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, true);
+  await abilitable.instance.methods.abilityA().call({ from: bob });
 });
 
-spec.test('successfuly assigns zero ability', async (ctx) => {
+spec.test('successfuly grants ability to manage abilities', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
+  const abilityManageAbilities = ctx.get('abilityManageAbilities');
 
-  let bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, false);
-  await ctx.reverts(() => abilitable.instance.methods.assignAbilities(jane, [0]).send({ from: bob }), '017001');
+  let bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, false);
+  await ctx.reverts(() => abilitable.instance.methods.grantAbilities(jane, abilityManageAbilities).send({ from: bob }), '017001');
 
-  const logs = await abilitable.instance.methods.assignAbilities(bob, [0]).send({ from: owner });
-  ctx.not(logs.events.AssignAbility, undefined);
+  const logs = await abilitable.instance.methods.grantAbilities(bob, abilityManageAbilities).send({ from: owner });
+  ctx.not(logs.events.GrantAbilities, undefined);
 
-  bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, true);
+  bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, true);
 });
 
-spec.test('successfuly assigns multiple abilities', async (ctx) => {
+spec.test('successfuly grants multiple abilities', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+  const abilityManageAbilitiesBCT = ctx.get('abilityManageAbilitiesBCT');
 
-  let bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, false);
-  let bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, false);
-  let bobHasAbility2 = await abilitable.instance.methods.isAble(bob, 2).call();
-  ctx.is(bobHasAbility2, false);
-  let bobHasAbility60 = await abilitable.instance.methods.isAble(bob, 60).call();
-  ctx.is(bobHasAbility60, false);
-  await ctx.reverts(() => abilitable.instance.methods.ability1().call({ from: bob }), '017001');
-  await ctx.reverts(() => abilitable.instance.methods.ability2().call({ from: bob }), '017001');
+  /// We will check if bob has abilities A,B,C and T. 
+  /// Which are represented by numbers: 1,2,4 and 1048576. We check this with the sum: 1048583
 
-  const logs = await abilitable.instance.methods.assignAbilities(bob, [0,1,2,60]).send({ from: owner });
-  ctx.is(logs.events.AssignAbility.length, 4);
+  let bobHasAbilities = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesBCT).call();
+  ctx.is(bobHasAbilities, false);
+  await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
+  await ctx.reverts(() => abilitable.instance.methods.abilityB().call({ from: bob }), '017001');
 
-  bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, true);
-  bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, true);
-  bobHasAbility2 = await abilitable.instance.methods.isAble(bob, 2).call();
-  ctx.is(bobHasAbility2, true);
-  bobHasAbility60 = await abilitable.instance.methods.isAble(bob, 60).call();
-  ctx.is(bobHasAbility60, true);
-  await abilitable.instance.methods.ability1().call({ from: bob });
-  await abilitable.instance.methods.ability2().call({ from: bob });
+  const logs = await abilitable.instance.methods.grantAbilities(bob, abilityManageAbilitiesBCT).send({ from: owner });
+  ctx.not(logs.events.GrantAbilities, undefined);
+
+  bobHasAbilities = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesBCT).call();
+  ctx.is(bobHasAbilities, true);
+  await abilitable.instance.methods.abilityA().call({ from: bob });
+  await abilitable.instance.methods.abilityB().call({ from: bob });
 });
 
 spec.test('successfuly revokes an ability', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+  const abilityManageAbilities = ctx.get('abilityManageAbilities');
 
-  await abilitable.instance.methods.assignAbilities(bob, [1]).send({ from: owner });
-  const logs = await abilitable.instance.methods.revokeAbilities(bob, [1]).send({ from: owner });
-  ctx.not(logs.events.RevokeAbility, undefined);
+  await abilitable.instance.methods.grantAbilities(bob, abilityManageAbilities).send({ from: owner });
+  const logs = await abilitable.instance.methods.revokeAbilities(bob, abilityManageAbilities).send({ from: owner });
+  ctx.not(logs.events.RevokeAbilities, undefined);
 
-  const bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, false);
-  await ctx.reverts(() => abilitable.instance.methods.ability1().call({ from: bob }), '017001');
+  const bobHasAbilityA = await abilitable.instance.methods.isAble(bob, abilityManageAbilities).call();
+  ctx.is(bobHasAbilityA, false);
+  await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
 });
 
-spec.test('successfuly revokes zero ability', async (ctx) => {
+spec.test('successfuly revokes ability to manage abilities', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await abilitable.instance.methods.assignAbilities(bob, [0]).send({ from: owner });
-  const logs = await abilitable.instance.methods.revokeAbilities(bob, [0]).send({ from: owner });
-  ctx.not(logs.events.RevokeAbility, undefined);
+  await abilitable.instance.methods.grantAbilities(bob, 1).send({ from: owner });
+  const logs = await abilitable.instance.methods.revokeAbilities(bob, 1).send({ from: owner });
+  ctx.not(logs.events.RevokeAbilities, undefined);
 
-  let bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, false);
-  await ctx.reverts(() => abilitable.instance.methods.assignAbilities(jane, [0]).send({ from: bob }), '017001');
+  let bobHasAbilityA = await abilitable.instance.methods.isAble(bob, 1).call();
+  ctx.is(bobHasAbilityA, false);
+  await ctx.reverts(() => abilitable.instance.methods.grantAbilities(jane, 1).send({ from: bob }), '017001');
 });
 
 spec.test('successfuly revokes multiple abilities', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+  const abilityManageAbilitiesBCT = ctx.get('abilityManageAbilitiesBCT');
+  const abilityManageAbilitiesCT = ctx.get('abilityManageAbilitiesCT');
+  const abilityB = ctx.get('abilityB');
 
-  await abilitable.instance.methods.assignAbilities(bob, [0,1,2,60]).send({ from: owner });
-  const logs = await abilitable.instance.methods.revokeAbilities(bob, [0,2,60]).send({ from: owner });
-  ctx.is(logs.events.RevokeAbility.length, 3);
+  // Abilities A,B,C,T
+  await abilitable.instance.methods.grantAbilities(bob, abilityManageAbilitiesBCT).send({ from: owner });
+  // Abilities A,C,T
+  const logs = await abilitable.instance.methods.revokeAbilities(bob, abilityManageAbilitiesCT).send({ from: owner });
+  ctx.not(logs.events.RevokeAbilities, undefined);
 
-  const bobHasAbility0 = await abilitable.instance.methods.isAble(bob, 0).call();
-  ctx.is(bobHasAbility0, false);
-  const bobHasAbility1 = await abilitable.instance.methods.isAble(bob, 1).call();
-  ctx.is(bobHasAbility1, true);
-  const bobHasAbility2 = await abilitable.instance.methods.isAble(bob, 2).call();
-  ctx.is(bobHasAbility2, false);
-  const bobHasAbility60 = await abilitable.instance.methods.isAble(bob, 60).call();
-  ctx.is(bobHasAbility60, false);
-  await abilitable.instance.methods.ability1().call({ from: bob });
-  await ctx.reverts(() => abilitable.instance.methods.ability2().call({ from: bob }), '017001');
+  const bobHasAbilityB = await abilitable.instance.methods.isAble(bob, abilityB).call();
+  ctx.is(bobHasAbilityB, true);
+  const bobHasAbilityA_C_T = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesCT).call();
+  ctx.is(bobHasAbilityA_C_T, false);
+  await abilitable.instance.methods.abilityB().call({ from: bob });
+  await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
 });
 
-spec.test('throws when trying to revoke zero ability when only one account has a zero ability', async (ctx) => {
+spec.test('throws when trying to revoke ability a when only one account has ability to manage abilities', async (ctx) => {
+  const abilitable = ctx.get('abilitable');
+  const owner = ctx.get('owner');
+  const abilityManageAbilities = ctx.get('abilityManageAbilities');
+
+  await ctx.reverts(() => abilitable.instance.methods.revokeAbilities(owner, abilityManageAbilities).send({ from: owner }), '017002');
+});
+
+spec.test('throws when trying to check ability 0', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
 
-  await ctx.reverts(() => abilitable.instance.methods.revokeAbilities(owner, [0]).send({ from: owner }), '017002');
-});
-
-spec.test('throws when trying to assing ability array that overflows', async (ctx) => {
-  const abilitable = ctx.get('abilitable');
-  const owner = ctx.get('owner');
-  const array = Array.from({ length: 256 }, (v, i) => i);
-  await ctx.throws(() => abilitable.instance.methods.assignAbilities(owner, array).send({ from: owner }));
+  await ctx.reverts(() => abilitable.instance.methods.isAble(owner, 0).call(), '017003');
 });

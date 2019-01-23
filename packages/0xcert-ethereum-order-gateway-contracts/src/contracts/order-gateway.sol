@@ -16,7 +16,12 @@ contract OrderGateway is
    * @dev List of abilities:
    * 1 - Ability to set proxies.
    */
-  uint8 constant ABILITY_TO_SET_PROXIES = 1;
+  uint8 constant ABILITY_TO_SET_PROXIES = 2;
+
+  /**
+   * @dev Xcert abilities.
+   */
+  uint8 constant ABILITY_ALLOW_CREATE_ASSET = 32;
 
   /**
    * @dev Error constants.
@@ -164,7 +169,7 @@ contract OrderGateway is
     address _proxy
   )
     external
-    hasAbility(ABILITY_TO_SET_PROXIES)
+    hasAbilities(ABILITY_TO_SET_PROXIES)
   {
     idToProxy[_id] = _proxy;
     emit ProxyChange(_id, _proxy);
@@ -344,7 +349,7 @@ contract OrderGateway is
       if(_order.actions[i].kind == ActionKind.create)
       {
         require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, 5),
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
           SIGNER_NOT_AUTHORIZED
         );
         

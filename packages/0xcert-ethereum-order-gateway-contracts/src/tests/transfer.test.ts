@@ -1,5 +1,7 @@
 import { Spec } from '@specron/spec';
 import * as common from './helpers/common';
+import { OrderGatewayAbilities } from '../core/types';
+import { TokenTransferProxyAbilities, NFTokenSafeTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 
 /**
  * Test definition.
@@ -16,7 +18,7 @@ import * as common from './helpers/common';
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
-  nftProxy?: any;
+  nftSafeProxy?: any;
   cat?: any;
   dog?: any;
   fox?: any;
@@ -222,34 +224,34 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const nftProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy.json',
-    contract: 'NFTokenTransferProxy',
+  const nftSafeProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
+    contract: 'NFTokenSafeTransferProxy',
   });
-  ctx.set('nftProxy', nftProxy);
+  ctx.set('nftSafeProxy', nftSafeProxy);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.assignAbilities(owner, [1]).send();
+  await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  await tokenProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
-  await nftProxy.instance.methods.assignAbilities(orderGateway.receipt._address, [1]).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
+  await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
 });
 
 /**
@@ -266,7 +268,7 @@ perform.spec('between ERC721s', erc721s);
 
 erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -309,8 +311,8 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   ctx.not(logs.events.Perform, undefined);
 
@@ -322,7 +324,7 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
 
 erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -372,9 +374,9 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 4).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 4).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   ctx.not(logs.events.Perform, undefined);
 
@@ -388,7 +390,7 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
 
 erc721s.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -449,10 +451,10 @@ erc721s.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: bob });
-  await bee.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await fox.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: bob });
+  await bee.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob, gas: 6000000 });
   ctx.not(logs.events.Perform, undefined);
 
@@ -623,7 +625,7 @@ perform.spec('between ERC721s and ERC20s', erc721sErc20s);
 
 erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -668,7 +670,7 @@ erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await omg.instance.methods.approve(tokenProxy.receipt._address, omgAmount).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   ctx.not(logs.events.Perform, undefined);
@@ -681,7 +683,7 @@ erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
 
 erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -772,11 +774,11 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmount).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: bob });
-  await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: bob });
+  await fox.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: bob });
   await omg.instance.methods.approve(tokenProxy.receipt._address, omgAmount).send({ from: bob });
   await gnt.instance.methods.approve(tokenProxy.receipt._address, gntAmount).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
@@ -800,7 +802,7 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
 
 erc721sErc20s.test('Cat #1, Dog #1 <=> Cat #3, Fox #1 => 40 ZXC', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -872,11 +874,11 @@ erc721sErc20s.test('Cat #1, Dog #1 <=> Cat #3, Fox #1 => 40 ZXC', async (ctx) =>
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmount).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: bob });
-  await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: bob });
+  await fox.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: bob });
   const logs = await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   ctx.not(logs.events.Perform, undefined);
 
@@ -900,7 +902,7 @@ spec.spec('cancel an atomic swap', cancel);
 
 cancel.beforeEach(async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -942,8 +944,8 @@ cancel.beforeEach(async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
 
   ctx.set('signatureTuple', signatureDataTuple);
   ctx.set('dataTuple', orderDataTuple);
@@ -988,7 +990,7 @@ spec.spec('fail an atomic swap', fail);
 
 fail.test('when proxy not allowed to transfer nft', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -1030,13 +1032,13 @@ fail.test('when proxy not allowed to transfer nft', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '006004');
 });
 
 fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -1081,14 +1083,14 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await omg.instance.methods.approve(tokenProxy.receipt._address, omgAmount - 1000).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '001003');
 });
 
 fail.test('when _to address is not the one performing the transfer', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
   const bob = ctx.get('bob');
@@ -1131,14 +1133,14 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
 
 fail.test('when current time is after expirationTimestamp', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -1180,14 +1182,14 @@ fail.test('when current time is after expirationTimestamp', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015005');
 });
 
 fail.test('when signature is invalid', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -1231,14 +1233,14 @@ fail.test('when signature is invalid', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await ctx.reverts(() =>orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015006');
 });
 
 fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
@@ -1280,15 +1282,15 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015008');
 });
 
 fail.test('when trying to transfer third party assets', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');
@@ -1331,7 +1333,7 @@ fail.test('when trying to transfer third party assets', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.setApprovalForAll(nftProxy.receipt._address, true).send({ from: jane });
-  await cat.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: bob });
+  await cat.instance.methods.setApprovalForAll(nftSafeProxy.receipt._address, true).send({ from: jane });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015004');
 });

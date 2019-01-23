@@ -48,7 +48,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 Then, we create a new instance of the `OrderGateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
 
 ```ts
-const orderGatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
+const orderGatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 ```
 
@@ -107,7 +107,7 @@ await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
 });
 
 // assign ability to mint
-await assetLedger.assignAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
+await assetLedger.grantAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```

@@ -1,18 +1,17 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { AssetLedgerAbility } from "@0xcert/scaffold";
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
-const functionSignature = '0x78e57c1f';
-const inputTypes = ['address', 'uint8[]'];
+const functionSignature = '0x0ab319e8';
+const inputTypes = ['address', 'uint256'];
 
 /**
  * Assigns abilities to an account.
  * @param ledger Asset ledger instance.
  * @param accountId Account address.
- * @param abilities List of abilities.
+ * @param abilities Abilities as number representing bitfield.
  */
-export default async function(ledger: AssetLedger, accountId: string, abilities: AssetLedgerAbility[]) {
+export default async function(ledger: AssetLedger, accountId: string, abilities: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,

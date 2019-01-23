@@ -2,8 +2,8 @@ import { AssetLedgerAbility } from "@0xcert/scaffold";
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
-const functionSignature = '0x65521111';
-const inputTypes = ['address', 'uint8'];
+const functionSignature = '0xba00a330';
+const inputTypes = ['address', 'uint256'];
 const outputTypes = ['bool'];
 
 /**
@@ -32,7 +32,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
       return decodeParameters(outputTypes, res.result)[0] ? ability : -1;
     })
   ).then((abilities) => {
-    return abilities.filter((a) => a !== -1).sort();
+    return abilities.filter((a) => a !== -1).sort((a, b) => a - b);
   }).catch(() => {
     return [];
   });

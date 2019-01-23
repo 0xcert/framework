@@ -5,13 +5,13 @@ import { OrderGatewayBase } from "./order-gateway";
  * List of available abilities an account can have per asset ledger.
  */
 export enum AssetLedgerAbility {
-  MANAGE_ABILITIES = 0,
-  CREATE_ASSET = 1,
-  REVOKE_ASSET = 2,
-  TOGGLE_TRANSFERS = 3,
-  UPDATE_ASSET = 4,
-  ALLOW_CREATE_ASSET = 5,
-  UPDATE_URI_BASE = 6,
+  MANAGE_ABILITIES = 1,
+  CREATE_ASSET = 2,
+  REVOKE_ASSET = 4,
+  TOGGLE_TRANSFERS = 8,
+  UPDATE_ASSET = 16,
+  ALLOW_CREATE_ASSET = 32,
+  UPDATE_URI_BASE = 64,
 }
 
 /**
@@ -31,7 +31,7 @@ export interface AssetLedgerBase {
   readonly id: string;
   approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
   approveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
-  assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
+  grantAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
   createAsset(recipe: AssetLedgerItemRecipe): Promise<MutationBase>;
   destroyAsset(assetId: string): Promise<MutationBase>;
   disapproveAccount(assetId: string): Promise<MutationBase>;

@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { normalizeAddress, bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
   AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
   AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
@@ -14,7 +14,7 @@ import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
-import assignAbilities from '../mutations/assign-abilities';
+import grantAbilities from '../mutations/grant-abilities';
 import createAsset from '../mutations/create-asset';
 import destroyAsset from '../mutations/destroy-asset';
 import revokeAbilities from '../mutations/revoke-abilities';
@@ -170,15 +170,20 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gives an account abilities.
+   * Grants abilities of an account.
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async assignAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async grantAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
-    return assignAbilities(this, accountId as string, abilities);
+    
+    let bitAbilities = bigNumberify(0);
+    abilities.forEach(ability => {
+      bitAbilities = bitAbilities.add(ability);
+    }); 
+    return grantAbilities(this, accountId as string, bitAbilities.toString());
   }
 
   /**
@@ -208,7 +213,12 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
-    return revokeAbilities(this, accountId as string, abilities);
+
+    let bitAbilities = bigNumberify(0);
+    abilities.forEach(ability => {
+      bitAbilities = bitAbilities.add(ability);
+    }); 
+    return revokeAbilities(this, accountId as string, bitAbilities);
   }
 
   /**

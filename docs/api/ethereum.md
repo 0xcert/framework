@@ -97,7 +97,7 @@ const isEnabled = await provider.isEnabled();
 
 ## HTTP provider
 
-HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions. 
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -131,9 +131,13 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 
 const provider = new HttpProvider({
     accountId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-    url: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
+    url: 'https://connection-to-ethereum-rpc-node/',
 });
 ```
+
+::: warning
+Please note, when using [Infura](https://infura.io/) only queries are supported.
+:::
 
 **See also:**
 
@@ -511,41 +515,6 @@ const mutation = await ledger.approveOperator(accountId);
 
 [disapproveOperator](#disapprove-operator), [approveAccount](#approve-account)
 
-### assignAbilities(accountId, abilities)
-
-An `asynchronous` class instance `function` which assignes management permissions for this ledger to a third party `accountId`. 
-
-::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
-:::
-
-**Arguments:**
-
-| Argument | Description
-|-|-
-| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
-| abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
-
-**Result:**
-
-An instance of the same `Mutation` class.
-
-**Example:**
-
-```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
-
-// arbitrary data
-const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
-const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
-];
-
-// perform mutation
-const mutation = await ledger.assignAbilities(accountId, abilities);
-```
-
 ### createAsset(recipe)
 
 An `asynchronous` class instance `function` which creates a new asset on the Ethereum blockchain.
@@ -589,7 +558,7 @@ const mutation = await ledger.createAsset(asset);
 An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. 
 
 ::: tip
-All ledger abilities are automatically assigned to the account that performs this method.
+All ledger abilities are automatically granted to the account that performs this method.
 :::
 
 **Arguments:**
@@ -619,10 +588,10 @@ const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
 ];
 const recipe = {
-    name: 'Utility token',
-    symbol: 'UCC',
+    name: 'Math Course Certificate',
+    symbol: 'MCC',
     uriBase: 'http://domain.com/assets/',
-    schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
     capabilities,
 };
 
@@ -950,6 +919,46 @@ const ledger = AssetLedger.getInstance(provider, ledgerId);
 
 A class instance `variable` holding the address of ledger's smart contract on the Ethereum blockchain.
 
+### grantAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`. 
+
+::: warning
+The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing an Ethereum account address or an instance of the `OrderGateway` class that will receive new management permissions on this ledger.
+| abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
+
+**Result:**
+
+An instance of the same `Mutation` class.
+
+**Example:**
+
+```ts
+import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    AssetLedgerAbility.CREATE_ASSET,
+    AssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform mutation
+const mutation = await ledger.grantAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[revokeAbilities](#revoke-abilities)
+
+
 ### isApprovedAccount(assetId, accountId)
 
 An `asynchronous` class instance `function` which returns `true` when the `accountId` has the ability to take over the `assetId`.
@@ -1070,7 +1079,7 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 **See also:**
 
-[assignAbilities](#assign-abilities)
+[grantAbilities](#grant-abilities)
 
 ### revokeAsset(assetId)
 
@@ -1204,19 +1213,19 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions.
+Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n. 
 
 **Options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 5 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
-| CREATE_ASSET | 1 | Allows an account to create a new asset.
-| MANAGE_ABILITIES | 0 | Allows an account to further assign abilities.
-| REVOKE_ASSET | 2 | Allows management accounts to revoke assets.
-| TOGGLE_TRANSFERS | 3 | Allows an account to stop and start asset transfers.
-| UPDATE_ASSET | 4 | Allows an account to update asset data.
-| UPDATE_URI_BASE | 6 | Allows an account to update asset ledger's base URI.
+| ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
+| CREATE_ASSET | 2 | Allows an account to create a new asset.
+| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+| REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 16 | Allows an account to update asset data.
+| UPDATE_URI_BASE | 64 | Allows an account to update asset ledger's base URI.
 
 **Example:**
 
@@ -1337,8 +1346,8 @@ import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 // arbitrary data
 const provider = new MetamaskProvider();
 const recipe = {
-    name: 'Math Course Certificate',
-    symbol: 'MCC',
+    name: 'Utility token',
+    symbol: 'UCC',
     decimal: '18',
     supply: '500000000000000000000', // 500 mio
 };
@@ -1561,7 +1570,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();
-const gatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
+const gatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 
 // create ledger instance
 const gateway = new OrderGateway(provider, gatewayId);
@@ -1789,8 +1798,8 @@ Coming soon.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xf02b2e925a1006c313e1af344821c67382777fc8](https://ropsten.etherscan.io/address/0xf02b2e925a1006c313e1af344821c67382777fc8)
-| TokenTransferProxy | [0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565](https://ropsten.etherscan.io/address/0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565)
-| NFTokenTransferProxy | [0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455](https://ropsten.etherscan.io/address/0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455)
-| NFTokenSafeTransferProxy | [0x998bd212c21558dbdcf27e990d78400b9b26276d](https://ropsten.etherscan.io/address/0x998bd212c21558dbdcf27e990d78400b9b26276d)
+| OrderGateway | [0x073d230a53bffc8295d9a5247296213298e3fbcf](https://ropsten.etherscan.io/address/0x073d230a53bffc8295d9a5247296213298e3fbcf)
+| TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)

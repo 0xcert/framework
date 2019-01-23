@@ -3,11 +3,22 @@ pragma solidity 0.5.1;
 import "../math/safe-math.sol";
 
 /**
- * @dev Contract for setting abilities.
+ * @title Contract for setting abilities.
+ * @dev For optimization purposes the abilities are represented as a bitfield. Maximum number of
+ * abilities is therefore 256. This is an example(for simplicity is made for max 8 abilities) of how
+ * this works. 
+ * 00000001 Ability A - number representation 1
+ * 00000010 Ability B - number representation 2
+ * 00000100 Ability C - number representation 4
+ * 00001000 Ability D - number representation 8
+ * 00010000 Ability E - number representation 16
+ * etc ... 
+ * To grant abilities B and C, we would need a bitfield of 00000110 which is represented by number
+ * 6, in other words, the sum of abilities B and C. The same concept works for revoking abilities
+ * and checking if someone has multiple abilities.
  */
 contract Abilitable
 {
-
   using SafeMath for uint;
 
   /**
@@ -15,18 +26,19 @@ contract Abilitable
    */
   string constant NOT_AUTHORIZED = "017001";
   string constant ONE_ZERO_ABILITY_HAS_TO_EXIST = "017002";
+  string constant INVALID_INPUT = "017003";
 
   /**
-   * @dev Id 0 is a reserved ability. It is an ability to assign or revoke abilities. 
-   * There can be minimum of 1 address with 0 id ability.
-   * Other ability id are determined by implementing contract.
+   * @dev Ability 1 is a reserved ability. It is an ability to grant or revoke abilities. 
+   * There can be minimum of 1 address with ability 1.
+   * Other abilities are determined by implementing contract.
    */
-  uint8 constant ABILITY_TO_MANAGE_ABILITIES = 0;
+  uint8 constant ABILITY_TO_MANAGE_ABILITIES = 1;
 
   /**
-   * @dev Maps address to ability id.
+   * @dev Maps address to ability ids.
    */
-  mapping(address => mapping(uint8 => bool)) internal addressToAbility;
+  mapping(address => uint256) public addressToAbility;
 
   /**
    * @dev Count of zero ability addresses.
@@ -34,111 +46,108 @@ contract Abilitable
   uint256 private zeroAbilityCount;
 
   /**
-   * @dev Emits when an address is assigned an ability.
-   * @param _target Address to which we are assigning ability.
-   * @param _ability Id of ability.
+   * @dev Emits when an address is granted an ability.
+   * @param _target Address to which we are granting abilities.
+   * @param _abilities Number representing bitfield of abilities we are granting.
    */
-  event AssignAbility(
+  event GrantAbilities(
     address indexed _target,
-    uint8 indexed _ability
+    uint256 indexed _abilities
   );
 
   /**
    * @dev Emits when an address gets an ability revoked.
    * @param _target Address of which we are revoking an ability.
-   * @param _ability Id of ability.
+   * @param _abilities Number representing bitfield of abilities we are revoking.
    */
-  event RevokeAbility(
+  event RevokeAbilities(
     address indexed _target,
-    uint8 indexed _ability
+    uint256 indexed _abilities
   );
 
   /**
-   * @dev Guarantees that msg.sender has a certain ability.
+   * @dev Guarantees that msg.sender has certain abilities.
    */
-  modifier hasAbility(
-    uint8 _ability
+  modifier hasAbilities(
+    uint256 _abilities
   ) 
   {
-    require(addressToAbility[msg.sender][_ability], NOT_AUTHORIZED);
+    require(
+      _abilities > 0 && (addressToAbility[msg.sender] & _abilities) == _abilities,
+      NOT_AUTHORIZED
+    );
     _;
   }
 
   /**
    * @dev Contract constructor.
-   * Sets zero ability to the sender account.
+   * Sets ABILITY_TO_MANAGE_ABILITIES ability to the sender account.
    */
   constructor()
     public
   {
-    addressToAbility[msg.sender][0] = true;
+    addressToAbility[msg.sender] = ABILITY_TO_MANAGE_ABILITIES;
     zeroAbilityCount = 1;
-    emit AssignAbility(msg.sender, 0);
+    emit GrantAbilities(msg.sender, ABILITY_TO_MANAGE_ABILITIES);
   }
 
   /**
-   * @dev Assigns specific abilities to specified address.
-   * @param _target Address to assign abilities to.
-   * @param _abilities List of ability IDs.
+   * @dev Grants specific abilities to specified address.
+   * @param _target Address to grant abilities to.
+   * @param _abilities Number representing bitfield of abilities we are granting.
    */
-  function assignAbilities(
+  function grantAbilities(
     address _target,
-    uint8[] memory _abilities
+    uint256 _abilities
   )
-    public
-    hasAbility(ABILITY_TO_MANAGE_ABILITIES)
+    external
+    hasAbilities(ABILITY_TO_MANAGE_ABILITIES)
   {
-    for(uint8 i; i<_abilities.length; i++)
-    {
-      if(_abilities[i] == 0)
-      {
-        zeroAbilityCount = zeroAbilityCount.add(1);
-      }
+    addressToAbility[_target] |= _abilities;
 
-      addressToAbility[_target][_abilities[i]] = true;
-      emit AssignAbility(_target, _abilities[i]);
+    if((_abilities & ABILITY_TO_MANAGE_ABILITIES) == ABILITY_TO_MANAGE_ABILITIES)
+    {
+      zeroAbilityCount = zeroAbilityCount.add(1);
     }
+    emit GrantAbilities(_target, _abilities);
   }
 
   /**
    * @dev Assigns specific abilities to specified address.
    * @param _target Address of which we revoke abilites.
-   * @param _abilities List of ability IDs.
+   * @param _abilities Number representing bitfield of abilities we are revoking.
    */
   function revokeAbilities(
     address _target,
-    uint8[] memory _abilities
+    uint256 _abilities
   )
-    public
-    hasAbility(ABILITY_TO_MANAGE_ABILITIES)
+    external
+    hasAbilities(ABILITY_TO_MANAGE_ABILITIES)
   {
-    for(uint8 i; i<_abilities.length; i++)
+    addressToAbility[_target] &= ~_abilities;
+    if((_abilities & 1) == 1)
     {
-      if(_abilities[i] == 0 )
-      {
-        require(zeroAbilityCount > 1, ONE_ZERO_ABILITY_HAS_TO_EXIST);
-        zeroAbilityCount--;
-      }
-
-      addressToAbility[_target][_abilities[i]] = false;
-      emit RevokeAbility(_target, _abilities[i]);
+      require(zeroAbilityCount > 1, ONE_ZERO_ABILITY_HAS_TO_EXIST);
+      zeroAbilityCount--;
     }
+    emit RevokeAbilities(_target, _abilities);
   }
 
   /**
-   * @dev Check if an address has a specific ability.
-   * @param _target Address for which we want to check if it has a specific ability.
-   * @param _ability Id of ability.
+   * @dev Check if an address has a specific ability. Throws if checking for 0.
+   * @param _target Address for which we want to check if it has a specific abilities.
+   * @param _abilities Number representing bitfield of abilities we are checking.
    */
   function isAble(
     address _target,
-    uint8 _ability
+    uint256 _abilities
   )
-    public
+    external
     view
     returns (bool)
   {
-    return addressToAbility[_target][_ability];
+    require(_abilities > 0, INVALID_INPUT);
+    return (addressToAbility[_target] & _abilities) == _abilities;
   }
   
 }
