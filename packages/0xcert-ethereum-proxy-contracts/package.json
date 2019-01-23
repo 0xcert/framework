@@ -3,8 +3,8 @@
   "version": "0.0.0-alpha9",
   "description": "Proxy smart contracts used by the order gateway when communicating with the Ethereum blockchain.",
   "scripts": {
-    "clean": "rm -Rf ./dist",
-    "build": "npm run clean && npx specron compile",
+    "clean": "rm -Rf ./build && rm -Rf ./dist",
+    "build": "npm run clean && npx specron compile && npx tsc",
     "sandbox": "npx specron sandbox",
     "prepare": "npm run build",
     "test": "rm -rf build && npx specron compile && npx specron test"

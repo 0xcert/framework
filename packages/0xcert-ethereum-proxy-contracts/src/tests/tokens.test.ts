@@ -1,4 +1,5 @@
 import { Spec } from '@specron/spec';
+import { TokenTransferProxyAbilities } from '../core/types';
 
 /**
  * Spec context interfaces.
@@ -12,8 +13,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-const ABILITY_TO_EXECUTE = 2;
-
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -34,10 +33,10 @@ spec.test('adds authorized address', async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const logs = await tokenProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
+  const logs = await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
   ctx.not(logs.events.GrantAbilities, undefined);
 
-  const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, ABILITY_TO_EXECUTE).call();
+  const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, TokenTransferProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
 });
 
@@ -45,11 +44,11 @@ spec.test('removes authorized address', async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  await tokenProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({from: owner});
-  const logs = await tokenProxy.instance.methods.revokeAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({from: owner});
+  const logs = await tokenProxy.instance.methods.revokeAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
   ctx.not(logs.events.RevokeAbilities, undefined);
 
-  const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, ABILITY_TO_EXECUTE).call();
+  const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, TokenTransferProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);
 });
 
@@ -59,7 +58,7 @@ spec.test('transfers tokens', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  await tokenProxy.instance.methods.grantAbilities(bob, ABILITY_TO_EXECUTE).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
 
   const token = await ctx.deploy({ 
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
