@@ -1,5 +1,8 @@
 import { Spec } from '@specron/spec';
 import * as common from './helpers/common';
+import { OrderGatewayAbilities } from '../core/types';
+import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
+import { XcertCreateProxyAbilities, TokenTransferProxyAbilities, NFTokenSafeTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 
 /**
  * Test definition.
@@ -16,7 +19,7 @@ import * as common from './helpers/common';
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
-  nftProxy?: any;
+  nftSafeProxy?: any;
   CreateProxy?: any;
   cat?: any;
   dog?: any;
@@ -38,7 +41,6 @@ interface Data {
   imprint3?: string;
 }
 
-
 /**
  * Spec stack instances.
  */
@@ -46,21 +48,6 @@ interface Data {
 const spec = new Spec<Data>();
 const perform = new Spec<Data>();
 const cancel = new Spec<Data>();
-
-/**
- * Order gateway ability constants.
- */
-const ABILITY_TO_SET_PROXIES = 2;
-
-/**
- * Proxy ability constants.
- */
-const ABILITY_TO_EXECUTE = 2;
-
-/**
- * Xcert ability constants.
- */
-const ABILITY_CREATE_ASSET = 2;
 
 export default spec;
 
@@ -184,11 +171,11 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const nftProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy.json',
-    contract: 'NFTokenTransferProxy',
+  const nftSafeProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
+    contract: 'NFTokenSafeTransferProxy',
   });
-  ctx.set('nftProxy', nftProxy);
+  ctx.set('nftSafeProxy', nftSafeProxy);
 });
 
 spec.beforeEach(async (ctx) => {
@@ -201,30 +188,31 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const createProxy = ctx.get('CreateProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.grantAbilities(owner, ABILITY_TO_SET_PROXIES).send();
+  await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(1, nftProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.setProxy(2, createProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
   const createProxy = ctx.get('CreateProxy');
-  await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, ABILITY_TO_EXECUTE).send({ from: owner });
-  await nftProxy.instance.methods.grantAbilities(orderGateway.receipt._address, ABILITY_TO_EXECUTE).send({ from: owner });
-  await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, ABILITY_TO_EXECUTE).send({ from: owner });
+  await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
+  await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
+  await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
+
 /**
  * Perform create.
  */
@@ -270,7 +258,7 @@ perform.test('Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
@@ -327,7 +315,7 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
@@ -398,7 +386,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await bnb.instance.methods.approve(tokenProxy.receipt._address, 100).send({ from: jane });
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
@@ -417,7 +405,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const createProxy = ctx.get('CreateProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
@@ -479,10 +467,10 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: jane });
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
@@ -502,7 +490,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const createProxy = ctx.get('CreateProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
   const owner = ctx.get('owner');
@@ -585,10 +573,10 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: jane });
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
@@ -614,7 +602,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
 perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const createProxy = ctx.get('CreateProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
   const jane = ctx.get('jane');
@@ -686,10 +674,10 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 2).send({ from: jane });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 3).send({ from: jane });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
@@ -714,7 +702,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
 perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const createProxy = ctx.get('CreateProxy');
-  const nftProxy = ctx.get('nftProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
   const jane = ctx.get('jane');
@@ -779,9 +767,9 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
-  await dog.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
-  await fox.instance.methods.approve(nftProxy.receipt._address, 1).send({ from: jane });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  await fox.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
@@ -850,7 +838,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
@@ -904,7 +892,7 @@ perform.test('fails when trying to perform already performed creation', async (c
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015008');
@@ -959,7 +947,7 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001003');
 });
@@ -1065,7 +1053,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015005');
 });
@@ -1120,7 +1108,7 @@ perform.test('fails if maker does not have asset creating ability', async (ctx) 
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await cat.instance.methods.revokeAbilities(owner, 32).send({ from: owner });
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
 });
@@ -1180,7 +1168,7 @@ cancel.test('succeeds', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   const logs = await orderGateway.instance.methods.cancel(createTuple).send({ from: owner });
   ctx.not(logs.events.Cancel, undefined);
@@ -1275,7 +1263,7 @@ cancel.test('fails when trying to cancel an already performed creation', async (
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, ABILITY_CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.cancel(createTuple).send({ from: owner }), '015008');
