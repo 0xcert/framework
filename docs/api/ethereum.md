@@ -584,10 +584,10 @@ const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
 ];
 const recipe = {
-    name: 'Utility token',
-    symbol: 'UCC',
+    name: 'Math Course Certificate',
+    symbol: 'MCC',
     uriBase: 'http://domain.com/assets/',
-    schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
     capabilities,
 };
 
@@ -1342,8 +1342,8 @@ import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 // arbitrary data
 const provider = new MetamaskProvider();
 const recipe = {
-    name: 'Math Course Certificate',
-    symbol: 'MCC',
+    name: 'Utility token',
+    symbol: 'UCC',
     decimal: '18',
     supply: '500000000000000000000', // 500 mio
 };
