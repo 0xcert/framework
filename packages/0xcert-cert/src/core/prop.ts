@@ -1,7 +1,7 @@
 import { MerkleValue } from '@0xcert/merkle';
 
 /**
- * 
+ *
  */
 export interface PropProof {
   path: PropPath;
@@ -10,12 +10,12 @@ export interface PropProof {
 }
 
 /**
- * 
+ *
  */
 export interface PropValue extends MerkleValue {}
 
 /**
- * 
+ *
  */
 export interface PropNode {
   index: number;
@@ -23,11 +23,11 @@ export interface PropNode {
 }
 
 /**
- * 
+ *
  */
 export type PropPath = PropKey[];
 
 /**
- * 
+ *
  */
 export type PropKey = string | number;

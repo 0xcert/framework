@@ -1,10 +1,10 @@
-import { sha } from '@0xcert/utils';
 import { Merkle, MerkleHasher } from '@0xcert/merkle';
-import { toString, stepPaths, cloneObject, readPath } from '../utils/data';
-import { PropProof, PropPath } from './prop';
+import { sha } from '@0xcert/utils';
+import { cloneObject, readPath, stepPaths, toString } from '../utils/data';
+import { PropPath, PropProof } from './prop';
 
 /**
- * 
+ *
  */
 export interface CertConfig {
   schema: any;
@@ -12,11 +12,19 @@ export interface CertConfig {
 }
 
 /**
- * 
+ * Main certification class.
  */
 export class Cert {
   protected schema: any;
   protected merkle: Merkle;
+
+  /**
+   * Returns a new instance of a Cert class.
+   * @param config Certificate configuration.
+   */
+  public static getInstance(config: CertConfig): Cert {
+    return new Cert(config);
+  }
 
   /**
    * Class constructor.
@@ -26,19 +34,11 @@ export class Cert {
     this.schema = config.schema;
 
     this.merkle = new Merkle({
-      hasher: (v) => sha(256, toString(v)),
+      hasher: (v: any) => sha(256, toString(v)),
       ...config,
     });
   }
 
-  /**
-   * Returns a new instance of a Cert class.
-   * @param config Certificate configuration.
-   */
-  public static getInstance(config: CertConfig) {
-    return new Cert(config);
-  }
-  
   /**
    * Returns a complete list of proofs for the entiry data object.
    * @param data Complete data object.
@@ -48,7 +48,7 @@ export class Cert {
     const compoundProps = await this.buildCompoundProps(schemaProps);
     const schemaProofs = await this.buildProofs(compoundProps);
 
-    return schemaProofs.map((proof) => ({
+    return schemaProofs.map((proof: PropProof) => ({
       path: proof.path,
       nodes: proof.nodes,
       values: proof.values,
@@ -66,7 +66,7 @@ export class Cert {
     const compoundProps = await this.buildCompoundProps(schemaProps);
     const schemaProofs = await this.buildProofs(compoundProps, paths);
 
-    return schemaProofs.map((proof) => ({
+    return schemaProofs.map((proof: PropProof) => ({
       path: proof.path,
       nodes: proof.nodes,
       values: proof.values,
@@ -74,7 +74,7 @@ export class Cert {
   }
 
   /**
-   * Returns an imprint when all the property values of the provided `data` are 
+   * Returns an imprint when all the property values of the provided `data` are
    * described with the `proofs`. Note that custom data properties will always
    * be ignored and will thus always pass.
    * @param data Complete data object.
@@ -84,12 +84,10 @@ export class Cert {
     try {
       if (this.checkDataInclusion(data, proofs)) {
         return this.imprintProofs(proofs);
-      }
-      else {
+      } else {
         return null;
       }
-    }
-    catch (e) {
+    } catch (e) {
       return null;
     }
   }
@@ -99,30 +97,34 @@ export class Cert {
    * @param proofs Data evidence proofs.
    */
   public async imprint(data: any): Promise<string> {
-    return this.notarize(data).then((n) => n[0].nodes[0].hash);
+    return this.notarize(data)
+      .then((n: PropProof[]) => n[0].nodes[0].hash);
   }
 
   /**
    * Converts data object to a list of property values. The list will include
-   * only properties defined by the schema but will not include compound 
+   * only properties defined by the schema but will not include compound
    * properties.
    * @param data Arbitrary data object.
    * @param schema Used for recursive processing.
    * @param prepend Used for recursive processing.
    */
-  protected buildSchemaProps(data, schema = this.schema, prepend = []) {
+  protected buildSchemaProps(data: any, schema = this.schema, prepend = []): any {
     if (schema.type === 'array') {
-      return (data || []).map((v, i) => {
-        return this.buildSchemaProps(v, schema.items, [...prepend, i]);
-      }).reduce((a, b) => a.concat(b), [])
-    }
-    else if (schema.type === 'object') {
-      return Object.keys(schema.properties).sort().map((key) => {
-        const prop = this.buildSchemaProps((data || {})[key], schema.properties[key], [...prepend, key]);
-        return ['object', 'array'].indexOf(schema.properties[key].type) === -1 ? [prop] : prop;
-      }).reduce((a, b) => a.concat(b), [])
-    }
-    else {
+      return (data || [])
+        .map((v, i) => {
+          return this.buildSchemaProps(v, schema.items, [...prepend, i]);
+        })
+        .reduce((a, b) => a.concat(b), []);
+    } else if (schema.type === 'object') {
+      return Object.keys(schema.properties)
+        .sort()
+        .map((key: string) => {
+          const prop = this.buildSchemaProps((data || {})[key], schema.properties[key], [...prepend, key]);
+          return ['object', 'array'].indexOf(schema.properties[key].type) === -1 ? [prop] : prop;
+        })
+        .reduce((a, b) => a.concat(b), []);
+    } else {
       return {
         path: prepend,
         value: data,
@@ -134,22 +136,22 @@ export class Cert {
 
   /**
    * Upgrades the provided list of data properties with properties of type array
-   * and object. These parents have value that equals the root merkle hash of 
+   * and object. These parents have value that equals the root merkle hash of
    * the subordinated object.
    * @param props Data properties.
    */
-  protected async buildCompoundProps(props) {
+  protected async buildCompoundProps(props): Promise<any> {
     props = [...props];
 
     const groupsByName = this.buildPropGroups(props);
     const groups = Object.keys(groupsByName).sort((a, b) => a > b ? -1 : 1)
-      .filter((g) => g !== '');
+      .filter((g: string) => g !== '');
 
     for (const group of groups) {
       const path = groupsByName[group];
-      const values = [...props.filter((i) => i.group === group)]
+      const values = [...props.filter((i: any) => i.group === group)]
         .sort((a, b) => a.key > b.key ? 1 : -1)
-        .map((i) => i.value);
+        .map((i: any) => i.value);
 
       const proofs = await this.merkle.notarize(values);
       props.push({
@@ -170,24 +172,27 @@ export class Cert {
    * @param props List of schema properties.
    * @param paths Required propertiy paths.
    */
-  protected async buildProofs(props, paths = null) {
-    const keys = paths ? stepPaths(paths).map((p) => p.join('.')) : null;
+  protected async buildProofs(props, paths = null): Promise<any> {
+    const keys = paths ? stepPaths(paths).map((p: any) => p.join('.')) : null;
 
     const groups = {};
-    props.forEach((p) => groups[p.group] = p.path.slice(0, -1));
-    
+    props.forEach((p: any) => groups[p.group] = p.path.slice(0, -1));
+
     return Promise.all(
-      Object.keys(groups).map(async (group) => {
-        const values = props.filter((p) => p.group === group).map((p) => p.value);
-        
+      Object.keys(groups).map(async (group: any) => {
+        const values = props
+          .filter((p: any) => p.group === group)
+          .map((p: any) => p.value);
+
         let evidence = await this.merkle.notarize(values);
         if (keys) {
-          const expose = props.filter((p) => p.group === group)
+          const expose = props
+            .filter((p: any) => p.group === group)
             .map((p, i) => keys.indexOf(p.key) === -1 ? -1 : i)
-            .filter((i) => i !== -1);
+            .filter((i: any) => i !== -1);
 
           evidence = await this.merkle.disclose(evidence, expose);
-        } 
+        }
 
         if (!keys || keys.indexOf(groups[group].join('.')) !== -1) {
           return {
@@ -198,14 +203,14 @@ export class Cert {
             group: groups[group].slice(0, -1).join('.'),
           };
         }
-      })
-    ).then((r) => {
-      return r.filter((v) => !!v);
+      }),
+    ).then((r: any) => {
+      return r.filter((v: any) => !!v);
     });
   }
 
   /**
-   * Returns `true` when all the property values of the provided `data` are 
+   * Returns `true` when all the property values of the provided `data` are
    * described with the `proofs`. Note that custom data properties (including
    * defined fields of undefined value) will always be ignored and will thus
    * always pass.
@@ -215,7 +220,7 @@ export class Cert {
   protected checkDataInclusion(data: any, proofs: PropProof[]): boolean {
     const schemaProps = this.buildSchemaProps(data);
 
-    proofs = cloneObject(proofs).map((p) => ({
+    proofs = cloneObject(proofs).map((p: any) => ({
       key: p.path.join('.'),
       group: p.path.slice(0, -1).join('.'),
       ...p,
@@ -229,13 +234,13 @@ export class Cert {
       }
 
       const proofGroup = prop.path.slice(0, -1).join('.');
-      const proof = proofs.find((p) => p['key'] === proofGroup);
+      const proof = proofs.find((p: any) => p['key'] === proofGroup);
       if (!proof) {
         return false;
       }
 
       const dataIndex = this.getPathIndexes(prop.path).pop();
-      const proofValue = proof.values.find((v) => v.index === dataIndex);
+      const proofValue = proof.values.find((v: any) => v.index === dataIndex);
       if (proofValue.value !== dataValue) {
         return false;
       }
@@ -243,7 +248,7 @@ export class Cert {
 
     return true;
   }
-  
+
   /**
    * Calculates merkle tree root node from the provided proofs.
    * @param proofs Data evidence proofs.
@@ -253,7 +258,7 @@ export class Cert {
       return this.getEmptyImprint();
     }
 
-    proofs = cloneObject(proofs).map((prop) => ({
+    proofs = cloneObject(proofs).map((prop: any) => ({
       key: prop.path.join('.'),
       group: prop.path.slice(0, -1).join('.'),
       ...prop,
@@ -268,7 +273,7 @@ export class Cert {
 
       const groupKey = proof.path.slice(0, -1).join('.');
       const groupIndex = this.getPathIndexes(proof.path).slice(-1).pop();
-      const groupProof = proofs.find((p) => p['key'] === groupKey);
+      const groupProof = proofs.find((p: any) => p['key'] === groupKey);
       if (groupProof) {
         groupProof.values.unshift({ // adds posible duplicate thus use `unshift`
           index: groupIndex,
@@ -277,16 +282,15 @@ export class Cert {
       }
     }
 
-    const root = proofs.find((f) => f['key'] === '');
+    const root = proofs.find((f: any) => f['key'] === '');
     if (root) {
-      return root.nodes.find((n) => n.index === 0).hash;
-    }
-    else {
+      return root.nodes.find((n: any) => n.index === 0).hash;
+    } else {
       return this.getEmptyImprint();
     }
   }
 
-    /**
+  /**
    * Returns an index of a property based on the schema object definition.
    * @param path Property path.
    */
@@ -298,14 +302,12 @@ export class Cert {
       if (schema.type === 'array') {
         indexes.push(key);
         schema = schema.items;
-      }
-      else if (schema.type === 'object') {
+      } else if (schema.type === 'object') {
         indexes.push(
-          Object.keys(schema.properties).sort().indexOf(key as string)
+          Object.keys(schema.properties).sort().indexOf(key as string),
         );
         schema = schema.properties[key];
-      }
-      else {
+      } else {
         indexes.push(undefined);
       }
     }
@@ -314,10 +316,10 @@ export class Cert {
   }
 
   /**
-   * 
+   *
    */
-  protected async getEmptyImprint() {
-    return this.merkle.notarize([]).then((e) => e.nodes[0].hash);
+  protected async getEmptyImprint(): Promise<any> {
+    return this.merkle.notarize([]).then((e: any) => e.nodes[0].hash);
   }
 
   /**
@@ -325,16 +327,16 @@ export class Cert {
    * represents group path.
    * @param props List of properties.
    */
-  protected buildPropGroups(props) {
+  protected buildPropGroups(props): any {
     const groups = {};
-    
-    props.map((p) => {
-      let path = [];
-      return p.path.map((v) => {
+
+    props.map((p: any) => {
+      const path = [];
+      return p.path.map((v: any) => {
         path.push(v);
         return [...path];
       });
-    }).reduce((a, b) => a.concat(b), []).forEach((p) => {
+    }).reduce((a, b) => a.concat(b), []).forEach((p: any) => {
       return groups[p.slice(0, -1).join('.')] = p.slice(0, -1);
     });
 
