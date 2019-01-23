@@ -47,7 +47,7 @@ await ledger.getCapabilities();
 await ledger.getInfo();
 await ledger.getSupply();
 await ledger.isEnabled();
-await ledger.assignAbilities(accountId, abilities);
+await ledger.grantAbilities(accountId, abilities);
 await ledger.revokeAbilities(accountId, abilities);
 await ledger.setEnabled(state);
 await ledger.transfer(to, assetid);

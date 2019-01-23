@@ -39,20 +39,20 @@ spec.before(async (stage) => {
   stage.set('bob', accounts[1]);
 });
 
-spec.test('assignes ledger abilities for an account', async (ctx) => {
+spec.test('grants ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
-  await ledger.assignAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.TOGGLE_TRANSFERS]);
+  await ledger.grantAbilities(bob, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.TOGGLE_TRANSFERS]);
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.TOGGLE_TRANSFERS]);
 });
 
 
-spec.test('assignes ledger abilities to an order gateway', async (ctx) => {
+spec.test('grants ledger abilities to an order gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
-  await ledger.assignAbilities(gateway, [AssetLedgerAbility.CREATE_ASSET]);
+  await ledger.grantAbilities(gateway, [AssetLedgerAbility.CREATE_ASSET]);
   const abilities = await ledger.getAbilities(proxyId);
   ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET]);
 });

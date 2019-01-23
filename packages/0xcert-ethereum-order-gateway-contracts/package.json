@@ -3,8 +3,8 @@
   "version": "0.0.0-alpha9",
   "description": "Smart contracts used by the order gateway on the Ethereum blockchain.",
   "scripts": {
-    "clean": "rm -Rf ./dist",
-    "build": "npm run clean && npx specron compile",
+    "clean": "rm -Rf ./build && rm -Rf ./dist",
+    "build": "npm run clean && npx specron compile && npx tsc",
     "sandbox": "npx specron sandbox",
     "test": "rm -rf build && npx specron compile && npx specron test"
   },

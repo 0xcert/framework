@@ -1,4 +1,5 @@
 import { Spec } from '@specron/spec';
+import { OrderGatewayAbilities } from '../core/types';
 
 /**
  * Spec context interfaces.
@@ -44,7 +45,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/order-gateway.json',
     contract: 'OrderGateway',
   });
-  await orderGateway.instance.methods.assignAbilities(owner, 2).send();
+  await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   ctx.set('orderGateway', orderGateway);
 });
 

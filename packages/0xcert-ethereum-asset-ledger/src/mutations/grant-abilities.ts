@@ -2,7 +2,7 @@ import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
-const functionSignature = '0xf85aa211';
+const functionSignature = '0x0ab319e8';
 const inputTypes = ['address', 'uint256'];
 
 /**

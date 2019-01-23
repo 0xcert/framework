@@ -14,7 +14,7 @@ import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
 import isEnabled from '../queries/is-enabled';
 import approveAccount from '../mutations/approve-account';
-import assignAbilities from '../mutations/assign-abilities';
+import grantAbilities from '../mutations/grant-abilities';
 import createAsset from '../mutations/create-asset';
 import destroyAsset from '../mutations/destroy-asset';
 import revokeAbilities from '../mutations/revoke-abilities';
@@ -170,11 +170,11 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gives an account abilities.
+   * Grants abilities of an account.
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async assignAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async grantAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
@@ -183,7 +183,7 @@ export class AssetLedger implements AssetLedgerBase {
     abilities.forEach(ability => {
       bitAbilities = bitAbilities.add(ability);
     }); 
-    return assignAbilities(this, accountId as string, bitAbilities.toString());
+    return grantAbilities(this, accountId as string, bitAbilities.toString());
   }
 
   /**

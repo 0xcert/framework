@@ -31,7 +31,7 @@ export interface AssetLedgerBase {
   readonly id: string;
   approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
   approveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
-  assignAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
+  grantAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<MutationBase>;
   createAsset(recipe: AssetLedgerItemRecipe): Promise<MutationBase>;
   destroyAsset(assetId: string): Promise<MutationBase>;
   disapproveAccount(assetId: string): Promise<MutationBase>;
