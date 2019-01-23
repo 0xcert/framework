@@ -13,10 +13,9 @@ import "../math/safe-math.sol";
  * 00001000 Ability D - number representation 8
  * 00010000 Ability E - number representation 16
  * etc ... 
- * To grant abilities B and C we would need a bitfield of 00000110 which is represented by number 6
- * in other words the sum od ability B and C. The same concept works for revoking abilities and 
- * checking if someone has multiple abilities.
- * By default abilities are set to 00000000 which means there are no abilities.  
+ * To grant abilities B and C, we would need a bitfield of 00000110 which is represented by number
+ * 6, in other words, the sum of abilities B and C. The same concept works for revoking abilities
+ * and checking if someone has multiple abilities.
  */
 contract Abilitable
 {

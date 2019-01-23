@@ -135,7 +135,7 @@ spec.test('corectly grants create ability', async (ctx) => {
   ctx.is(bobHasAbility1, true);
 });
 
-spec.test('throws when a third party tries to grants create ability', async (ctx) => {
+spec.test('throws when a third party tries to grant create ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
   const sara = ctx.get('sara');

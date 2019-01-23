@@ -170,7 +170,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Grants an account abilities.
+   * Grants abilities of an account.
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
