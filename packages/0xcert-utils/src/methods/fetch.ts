@@ -4,9 +4,8 @@
  */
 export async function fetch(path, options?) {
   if (typeof window !== 'undefined') {
-    return window.fetch(path, options)
-  }
-  else {
+    return window.fetch(path, options);
+  } else {
     return require('node-fetch')(path, options);
   }
 }
