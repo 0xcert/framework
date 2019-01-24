@@ -136,7 +136,7 @@ const provider = new HttpProvider({
 ```
 
 ::: warning
-Please note, when using [Infura](https://infura.io/) only queries are supported.
+Please note, when using [Infura](https://infura.io/), only queries are supported.
 :::
 
 **See also:**
