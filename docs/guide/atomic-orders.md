@@ -23,6 +23,10 @@ Atomic swaps are performed through the Order Gateway structure which is permanen
 
 While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on the storage. This makes every single step of the operation trackable and verifiable.
 
+::: card Learn by example
+Click [here](https://stackblitz.com/edit/atomic-order-example) to check the live example for this section.
+:::
+
 ## Installation
 
 We recommend you employ the package as an NPM package in your application.
@@ -48,7 +52,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 Then, we create a new instance of the `OrderGateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
 
 ```ts
-const orderGatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
+const orderGatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
 ```
 

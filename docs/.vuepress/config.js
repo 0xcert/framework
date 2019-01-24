@@ -20,6 +20,9 @@ module.exports = {
     serviceWorker: {
       updatePopup: true
     },
+    nav: [
+      { text: '0xcert Home', link: 'https://0xcert.org' },
+    ],
     sidebar: [
       {
         title: 'Guide',
@@ -56,8 +59,20 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
-    extendMarkdown: (md) => {
-      md.use(require('markdown-it-container'))
+    config: md => {
+      md.use(require("markdown-it-container"), "card", {
+        validate: function (params) {
+          return params.trim().match(/^card\s+(.*)$/);
+        },
+
+        render: function (tokens, idx) {
+          let title = tokens[idx].info.trim().match(/^card\s+(.*)$/);
+
+          return tokens[idx].nesting === 1 ? 
+            '<div class="card custom-block"><p class="custom-block-title">' + md.utils.escapeHtml(title[1]) + "</p>\n"
+            : '</div>\n';
+        }
+      });
     },
     externalLinks: {
       target: '_self',

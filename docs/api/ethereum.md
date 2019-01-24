@@ -97,7 +97,7 @@ const isEnabled = await provider.isEnabled();
 
 ## HTTP provider
 
-HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions. 
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -131,9 +131,13 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 
 const provider = new HttpProvider({
     accountId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-    url: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
+    url: 'https://connection-to-ethereum-rpc-node/',
 });
 ```
+
+::: warning
+Please note, when using [Infura](https://infura.io/), only queries are supported.
+:::
 
 **See also:**
 
@@ -584,10 +588,10 @@ const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
 ];
 const recipe = {
-    name: 'Utility token',
-    symbol: 'UCC',
+    name: 'Math Course Certificate',
+    symbol: 'MCC',
     uriBase: 'http://domain.com/assets/',
-    schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
     capabilities,
 };
 
@@ -1342,8 +1346,8 @@ import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 // arbitrary data
 const provider = new MetamaskProvider();
 const recipe = {
-    name: 'Math Course Certificate',
-    symbol: 'MCC',
+    name: 'Utility token',
+    symbol: 'UCC',
     decimal: '18',
     supply: '500000000000000000000', // 500 mio
 };
@@ -1566,7 +1570,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();
-const gatewayId = '0xf02b2e925a1006c313e1af344821c67382777fc8';
+const gatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 
 // create ledger instance
 const gateway = new OrderGateway(provider, gatewayId);
@@ -1794,8 +1798,18 @@ Coming soon.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xf02b2e925a1006c313e1af344821c67382777fc8](https://ropsten.etherscan.io/address/0xf02b2e925a1006c313e1af344821c67382777fc8)
-| TokenTransferProxy | [0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565](https://ropsten.etherscan.io/address/0xc4a170d2d50092c4fd14c9dc19a96c8f7dd36565)
-| NFTokenTransferProxy | [0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455](https://ropsten.etherscan.io/address/0x741c4dad9034577bc0ba9ab0cd5c3d5e270a4455)
-| NFTokenSafeTransferProxy | [0x998bd212c21558dbdcf27e990d78400b9b26276d](https://ropsten.etherscan.io/address/0x998bd212c21558dbdcf27e990d78400b9b26276d)
+| OrderGateway | [0x073d230a53bffc8295d9a5247296213298e3fbcf](https://ropsten.etherscan.io/address/0x073d230a53bffc8295d9a5247296213298e3fbcf)
+| TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
+
+### Rinkeby
+
+| Contract | Address
+|-|-|-
+| OrderGateway | [0x0827696c1a5ecea8a7f5bad02df93aad6516f41d](https://ropsten.etherscan.io/address/0x0827696c1a5ecea8a7f5bad02df93aad6516f41d)
+| TokenTransferProxy | [0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d](https://ropsten.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
+| NFTokenTransferProxy | [0x0a02d630669c75d5e162aec89e6adccf8ec1b475](https://ropsten.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
+| NFTokenSafeTransferProxy | [0x15731d295aee0b1631995ab19e350e0edc5691f6](https://ropsten.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
+| XcertCreateProxy | [0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79](https://ropsten.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)

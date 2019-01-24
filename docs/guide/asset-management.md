@@ -4,6 +4,10 @@ Each asset always belongs to the structure within a storage called the Asset Led
 
 On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
+::: card Learn by example
+Click [here](https://stackblitz.com/edit/asset-management-example) to check the live example for this section.
+:::
+
 ## Installation
 
 We recommend you employ the asset ledger module as an NPM package in your application.
@@ -29,7 +33,7 @@ const mutation = await AssetLedger.deploy(provider, {
   name: 'Math Course Certificate',
   symbol: 'MCC',
   uriBase: 'https://0xcert.org/assets/',
-  schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+  schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
   capabilities: [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
   ],

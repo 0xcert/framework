@@ -354,10 +354,10 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 **Asset Conventions:**
 
-| Issue | Description
-|-|-|-
-| [86](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) | Basic asset data schema.
-| [87](https://github.com/0xcert/framework/blob/master/conventions/87-asset-evidence-schema.md) | Asset evidence data schema.
-| [88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible-schema.md) | Schema describing digital collectible item.
+| Issue | Id | Description
+|-|-|-|-
+| [86](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) | 0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d | Basic asset data schema.
+| [87](https://github.com/0xcert/framework/blob/master/conventions/87-asset-evidence-schema.md) | 0x331b2de5f698fe579b1c7e735e8dfb96f98026a54ea1a17bae1e292932818df8 | Asset evidence data schema.
+| [88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible-schema.md) | 0xa4cf0407b223849773430feaf0949827373c40feb3258d82dd605ed41c5e9a2c | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).
