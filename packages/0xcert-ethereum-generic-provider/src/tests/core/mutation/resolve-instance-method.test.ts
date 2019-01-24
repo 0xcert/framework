@@ -1,9 +1,9 @@
-import { Spec } from '@specron/spec';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Mutation, MutationEvent, GenericProvider } from '../../..';
+import { Spec } from '@specron/spec';
+import { GenericProvider, Mutation, MutationEvent } from '../../..';
 
 interface Data {
-  provider: GenericProvider
+  provider: GenericProvider;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -41,8 +41,8 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
 
   const transactionHash = await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }).then((t) => t.transactionHash);
   const mutation = new Mutation(provider, transactionHash);
-  mutation.on(MutationEvent.CONFIRM, () => counters.confirm++)
-  mutation.on(MutationEvent.COMPLETE, () => counters.resolve++)
+  mutation.on(MutationEvent.CONFIRM, () => counters.confirm++);
+  mutation.on(MutationEvent.COMPLETE, () => counters.resolve++);
 
   mutation.complete();
   await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
