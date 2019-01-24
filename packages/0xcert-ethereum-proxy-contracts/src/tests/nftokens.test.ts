@@ -63,7 +63,7 @@ spec.test('transfers an NFT', async (ctx) => {
 
   await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
 
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['cat', 'CAT', 'http://0xcert.org/'],
@@ -72,7 +72,7 @@ spec.test('transfers an NFT', async (ctx) => {
   await cat.instance.methods
     .create(jane, 1)
     .send({
-       from: owner ,
+      from: owner,
       gas: 4000000,
     });
 
@@ -90,16 +90,16 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
 
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT','http://0xcert.org/'],
+    args: ['cat', 'CAT', 'http://0xcert.org/'],
   });
 
   await cat.instance.methods
     .create(jane, 1)
     .send({
-       from: owner ,
+      from: owner,
       gas: 4000000,
     });
 

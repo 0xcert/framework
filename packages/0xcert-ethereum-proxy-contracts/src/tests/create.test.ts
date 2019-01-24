@@ -1,6 +1,6 @@
+import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { XcertCreateProxyAbilities } from '../core/types';
-import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 
 /**
  * Spec context interfaces.
@@ -26,7 +26,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const xcertProxy = await ctx.deploy({
     src: './build/xcert-create-proxy.json',
-    contract: 'XcertCreateProxy'
+    contract: 'XcertCreateProxy',
   });
   ctx.set('xcertProxy', xcertProxy);
 });
@@ -62,10 +62,10 @@ spec.test('creates an Xcert', async (ctx) => {
 
   await xcertProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6', []],
+    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
   });
 
   await cat.instance.methods.grantAbilities(xcertProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
@@ -81,10 +81,10 @@ spec.test('fails if create is triggered by an unauthorized address', async (ctx)
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT','http://0xcert.org/','0xa65de9e6', []],
+    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
   });
 
   await cat.instance.methods.grantAbilities(xcertProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
