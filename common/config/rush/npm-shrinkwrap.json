@@ -1191,11 +1191,12 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-De/ZitnGDXiM347swdsah3tgkSDGArkISRFbGCfzCOQnApmsSVX2BFibalbCnJBKoKGL7VgG/oXbFmiHkdY/7Q==",
+      "integrity": "sha512-Rt7Rw1VHh9PR06EFV0LXOfbvzMdu25yHPhNNyb/NsSHSPkidlot0TL+DK+2pfsWmo+VOaAeSikXviUxghZb9jA==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
         "@types/node": "^10.12.10",
+        "events": "^3.0.0",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
@@ -3834,9 +3835,9 @@
       "integrity": "sha1-R3hr2qCHyvext15zq8XH1UAVjNA="
     },
     "events": {
-      "version": "1.1.1",
-      "resolved": "http://registry.npmjs.org/events/-/events-1.1.1.tgz",
-      "integrity": "sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ="
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/events/-/events-3.0.0.tgz",
+      "integrity": "sha512-Dc381HFWJzEOhQ+d8pkNon++bk9h6cdAoAj4iE6Q4y6xgTzySWXlKn05/TVNpjnfRqi/X0EpJEJohPjNI3zpVA=="
     },
     "evp_bytestokey": {
       "version": "1.0.3",
@@ -6451,6 +6452,11 @@
             "ieee754": "^1.1.4",
             "isarray": "^1.0.0"
           }
+        },
+        "events": {
+          "version": "1.1.1",
+          "resolved": "https://registry.npmjs.org/events/-/events-1.1.1.tgz",
+          "integrity": "sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ="
         },
         "process": {
           "version": "0.11.10",

@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "@0xcert/ethereum-utils": "1.0.0-rc1",
-    "@0xcert/scaffold": "1.0.0-rc1"
+    "@0xcert/scaffold": "1.0.0-rc1",
+    "events": "^3.0.0"
   }
 }
