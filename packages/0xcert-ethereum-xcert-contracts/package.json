@@ -3,10 +3,11 @@
   "description": "Smart contracts used by the Asset ledger on the Ethereum blockchain.",
   "version": "0.0.0-alpha10",
   "scripts": {
-    "clean": "rm -Rf ./build && rm -Rf ./dist",
     "build": "npm run clean && npx specron compile && npx tsc",
+    "clean": "rm -Rf ./build",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
     "sandbox": "npx specron sandbox",
-    "test": "rm -rf build && npx specron compile && npx specron test"
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
   },
   "specron": {
     "compiler": {
@@ -66,6 +67,7 @@
     "@specron/spec": "^0.5.1",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36"
   }

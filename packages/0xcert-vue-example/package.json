@@ -4,8 +4,8 @@
   "description": "VueJS plug-in example for NuxtJS.",
   "scripts": {
     "build": "",
-    "test": "",
-    "dev": "npx nuxt"
+    "dev": "npx nuxt",
+    "test": ""
   },
   "dependencies": {
     "@0xcert/cert": "0.0.0-alpha10",

@@ -5,10 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "clean": "rm -Rf ./dist",
     "build": "npm run clean && npx tsc",
+    "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "prepare": "npm run build",
     "test": "npx nyc npx hayspec test"
   },
   "hayspec": {

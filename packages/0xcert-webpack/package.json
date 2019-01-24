@@ -3,8 +3,8 @@
   "version": "0.0.0-alpha10",
   "description": "Module for package building and minification.",
   "scripts": {
+    "build": "npm run clean && npx webpack",
     "clean": "rm -Rf ../../dist",
-    "build": "npm run clean; npx webpack",
     "test": ""
   },
   "license": "MIT",
