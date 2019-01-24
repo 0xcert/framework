@@ -4,6 +4,10 @@ Each asset always belongs to the structure within a storage called the Asset Led
 
 On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
+::: learn
+Click [here](https://stackblitz.com/edit/asset-management-example) to check the live example for this section.
+:::
+
 ## Installation
 
 We recommend you employ the asset ledger module as an NPM package in your application.

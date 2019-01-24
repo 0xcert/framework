@@ -23,6 +23,10 @@ Atomic swaps are performed through the Order Gateway structure which is permanen
 
 While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on the storage. This makes every single step of the operation trackable and verifiable.
 
+::: learn
+Click [here](https://stackblitz.com/edit/atomic-order-example) to check the live example for this section.
+:::
+
 ## Installation
 
 We recommend you employ the package as an NPM package in your application.
