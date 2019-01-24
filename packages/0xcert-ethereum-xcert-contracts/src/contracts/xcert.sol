@@ -191,7 +191,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.
+   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
    * @return Schema id.
    */
   function schemaId()

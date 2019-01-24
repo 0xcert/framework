@@ -722,7 +722,7 @@
           "details": "Contract constructor.",
           "params": {
             "_name": "A descriptive name for a collection of NFTs.",
-            "_schemaId": "A bytes32 of keccak256 of json schema representing 0xcert protocol convention.",
+            "_schemaId": "A bytes32 of keccak256 of json schema representing 0xcert Protocol convention.",
             "_symbol": "An abbreviated name for NFT.",
             "_uriBase": "Base of uri for token metadata uris."
           }
@@ -812,7 +812,7 @@
           }
         },
         "schemaId()": {
-          "details": "Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.",
+          "details": "Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.",
           "return": "Schema id."
         },
         "setApprovalForAll(address,bool)": {
@@ -65417,7 +65417,7 @@
               "details": "Contract constructor.",
               "params": {
                 "_name": "A descriptive name for a collection of NFTs.",
-                "_schemaId": "A bytes32 of keccak256 of json schema representing 0xcert protocol convention.",
+                "_schemaId": "A bytes32 of keccak256 of json schema representing 0xcert Protocol convention.",
                 "_symbol": "An abbreviated name for NFT.",
                 "_uriBase": "Base of uri for token metadata uris."
               }
@@ -65507,7 +65507,7 @@
               }
             },
             "schemaId()": {
-              "details": "Returns a bytes4 of keccak256 of json schema representing 0xcert protocol convention.",
+              "details": "Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.",
               "return": "Schema id."
             },
             "setApprovalForAll(address,bool)": {
