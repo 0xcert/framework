@@ -136,7 +136,7 @@ const provider = new HttpProvider({
 ```
 
 ::: warning
-Please note, when using [Infura](https://infura.io/) only queries are supported.
+Please note, when using [Infura](https://infura.io/), only queries are supported.
 :::
 
 **See also:**
@@ -1803,3 +1803,13 @@ Coming soon.
 | NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
 | NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
+
+### Rinkeby
+
+| Contract | Address
+|-|-|-
+| OrderGateway | [0x0827696c1a5ecea8a7f5bad02df93aad6516f41d](https://ropsten.etherscan.io/address/0x0827696c1a5ecea8a7f5bad02df93aad6516f41d)
+| TokenTransferProxy | [0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d](https://ropsten.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
+| NFTokenTransferProxy | [0x0a02d630669c75d5e162aec89e6adccf8ec1b475](https://ropsten.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
+| NFTokenSafeTransferProxy | [0x15731d295aee0b1631995ab19e350e0edc5691f6](https://ropsten.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
+| XcertCreateProxy | [0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79](https://ropsten.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)

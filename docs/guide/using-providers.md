@@ -4,7 +4,11 @@ As explained previously, the 0xcert Framework tends to be platform-agnostic, mea
 
 Each provider operates on the same principles, but can also have its own distinctive characteristics. The current version of the Framework, however, only supports the Ethereum blockchain. Soon, more platforms will be added.
 
-Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about providers please read the [API](/api/ethereum.html#api-ethereum).
+Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about providers please refer to the [API](/api/ethereum.html#api-ethereum).
+
+::: card Learn by example
+Click [here](https://stackblitz.com/edit/using-providers-example) to check the live example for this section.
+:::
 
 ## Installation process
 
