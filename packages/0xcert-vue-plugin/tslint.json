@@ -18,7 +18,6 @@
       "variables-before-functions"
     ],
     "adjacent-overload-signatures": true,
-    "unified-signatures": true,
     "prefer-function-over-method": [
       true,
       "allow-public",
@@ -45,17 +44,10 @@
       false,
       "multiline"
     ],
-    "no-unnecessary-callback-wrapper": true,
     "unnecessary-bind": true,
     "no-return-await": true,
     "prefer-const": true,
     "no-var-keyword": true,
-    "no-shadowed-variable": [
-      true,
-      {
-        "temporalDeadZone": false
-      }
-    ],
     "one-variable-per-declaration": [
       true,
       "ignore-for-loop"
@@ -88,12 +80,9 @@
       true,
       "rxjs/Rx"
     ],
-    "no-require-imports": true,
-    "no-default-import": true,
     "no-reference": true,
     "typedef": [
       true,
-      "call-signature",
       "property-declaration"
     ],
     "no-inferrable-types": true,
@@ -111,10 +100,6 @@
     ],
     "prefer-template": true,
     "no-invalid-template-strings": true,
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
     "increment-decrement": [
       true,
       "allow-post"
@@ -139,10 +124,6 @@
     "cyclomatic-complexity": [
       true,
       20
-    ],
-    "max-file-line-count": [
-      true,
-      1000
     ],
     "indent": [
       true,
@@ -234,12 +215,6 @@
       true,
       "never-prefix"
     ],
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "ban-keywords"
-    ],
     "comment-type": [
       true,
       "singleline",
@@ -270,7 +245,6 @@
     "no-namespace": true,
     "no-internal-module": true,
     "number-literal-format": true,
-    "radix": true,
     "no-unused-expression": [
       true,
       "allow-fast-null-checks"
