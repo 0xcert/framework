@@ -1,6 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -33,7 +33,7 @@ spec.test('transfers value to another account', async (ctx) => {
   });
   const ledger = new ValueLedger(
     provider,
-    ctx.get('protocol').erc20.instance.options.address
+    ctx.get('protocol').erc20.instance.options.address,
   );
   await ledger.transferValue({
     receiverId: bob,
@@ -54,7 +54,7 @@ spec.test('transfers approved amount to another account', async (ctx) => {
   });
   const ledger = new ValueLedger(
     provider,
-    ctx.get('protocol').erc20.instance.options.address
+    ctx.get('protocol').erc20.instance.options.address,
   );
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
   await ledger.transferValue({

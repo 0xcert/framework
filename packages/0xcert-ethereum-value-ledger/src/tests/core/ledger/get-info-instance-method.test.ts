@@ -1,6 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -26,13 +26,12 @@ spec.test('returns ledger info', async (ctx) => {
   const ledger =  new ValueLedger(provider, ledgerId);
   const info = await ledger.getInfo();
   ctx.deepEqual(info, {
-    name: "ERC20",
-    symbol: "ERC20",
+    name: 'ERC20',
+    symbol: 'ERC20',
     decimals: '18',
     supply: '500000000',
   });
 });
-
 
 spec.test('returns ledger info for contract that does not fully support it', async (ctx) => {
   const provider = ctx.get('provider');

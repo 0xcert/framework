@@ -1,7 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { AssetLedgerCapability } from "@0xcert/scaffold";
+import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -36,7 +35,7 @@ spec.test('deploys new value ledger', async (ctx) => {
   }).then((mutation) => {
     return ValueLedger.getInstance(provider, mutation.receiverId);
   });
-  ctx.deepEqual(await ledger.getInfo(), info)
+  ctx.deepEqual(await ledger.getInfo(), info);
 });
 
 export default spec;

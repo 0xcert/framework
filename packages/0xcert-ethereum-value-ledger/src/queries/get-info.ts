@@ -1,28 +1,29 @@
-import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
 
 const functions = [
   {
     signature: '0x06fdde03',
     inputTypes: [],
-    outputTypes: ['string']
+    outputTypes: ['string'],
   },
   {
     signature: '0x95d89b41',
     inputTypes: [],
-    outputTypes: ['string']
+    outputTypes: ['string'],
   },
   {
     signature: '0x313ce567',
     inputTypes: [],
-    outputTypes: ['uint8']
+    outputTypes: ['uint8'],
   },
   {
     signature: '0x18160ddd',
     inputTypes: [],
-    outputTypes: ['uint256']
-  }
+    outputTypes: ['uint256'],
+  },
 ];
+
 /**
  * Gets information(name, symbol, decimals, totalSupply) about value ledger.
  * @param ledger Value ledger instance.
@@ -43,7 +44,7 @@ export default async function(ledger: ValueLedger) {
       } catch (error) {
         return null;
       }
-    })
+    }),
   );
   return {
     name: info[0],
