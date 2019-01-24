@@ -1,7 +1,7 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -51,7 +51,7 @@ spec.test('checks if account is approved', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
-  ctx.false(await ledger.isApprovedAccount('1', bob, ));
+  ctx.false(await ledger.isApprovedAccount('1', bob));
   await ledger.approveAccount('1', bob);
   ctx.true(await ledger.isApprovedAccount('1', bob));
   await ledger.approveAccount('1', coinbase);

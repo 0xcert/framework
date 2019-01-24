@@ -1,5 +1,5 @@
-import { MutationBase } from "./mutation";
-import { OrderGatewayBase } from "./order-gateway";
+import { MutationBase } from './mutation';
+import { OrderGatewayBase } from './order-gateway';
 
 /**
  * Value ledger methods.
@@ -12,7 +12,7 @@ export interface ValueLedgerBase {
   getBalance(accountId: string): Promise<string>;
   getInfo(): Promise<ValueLedgerInfo>;
   isApprovedValue(value: string, accountId: string | OrderGatewayBase, spenderId: string): Promise<Boolean>;
-  transferValue(recipe: ValueLedgerTransferRecipe): Promise<MutationBase>;    
+  transferValue(recipe: ValueLedgerTransferRecipe): Promise<MutationBase>;
 }
 
 /**
@@ -43,4 +43,3 @@ export interface ValueLedgerTransferRecipe {
   receiverId: string;
   value: string;
 }
-

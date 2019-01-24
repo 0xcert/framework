@@ -3,11 +3,11 @@
   "version": "0.0.0-alpha10",
   "description": "Smart contract implementation of the ERC-721 standard on the Ethereum blockchain.",
   "scripts": {
+    "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
-    "build": "npm run clean && npx specron compile",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
     "sandbox": "npx specron sandbox",
-    "prepare": "npm run build",
-    "test": "npx specron compile && npx specron test"
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
   },
   "specron": {
     "compiler": {
@@ -66,6 +66,7 @@
     "@specron/spec": "^0.5.1",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
     "typescript": "^3.1.1",
     "web3": "^1.0.0-beta.36"
   }

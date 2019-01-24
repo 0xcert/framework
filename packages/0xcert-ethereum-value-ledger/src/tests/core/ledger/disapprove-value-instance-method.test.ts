@@ -1,7 +1,7 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -27,7 +27,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
-    accountId: stage.get('coinbase')
+    accountId: stage.get('coinbase'),
   });
   stage.set('provider', provider);
 });
@@ -45,7 +45,7 @@ spec.test('disapproves account for value transfer', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
-  const value = '300000000000000000000000'; 
+  const value = '300000000000000000000000';
   await token.instance.methods.approve(bob, value).send({ from: coinbase });
   await ledger.disapproveValue(bob);
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), '0');

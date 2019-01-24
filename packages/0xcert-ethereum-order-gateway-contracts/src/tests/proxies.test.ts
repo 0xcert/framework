@@ -26,7 +26,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
-    contract: 'TokenTransferProxy'
+    contract: 'TokenTransferProxy',
   });
   ctx.set('tokenProxy', tokenProxy);
 });

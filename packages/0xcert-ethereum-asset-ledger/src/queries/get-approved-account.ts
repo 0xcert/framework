@@ -1,4 +1,4 @@
-import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
 const functionSignature = '0x081812fc';

@@ -1,7 +1,7 @@
-import { Spec } from '@specron/spec';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
-import { GenericProvider } from '@0xcert/ethereum-generic-provider';
+import { Spec } from '@specron/spec';
 import { OrderGateway } from '../../../core/gateway';
 
 interface Data {
@@ -21,7 +21,6 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -93,7 +92,7 @@ spec.before(async (stage) => {
         assetId: '101',
       },
     ],
-  }
+  };
 
   stage.set('order', order);
 });
@@ -103,7 +102,7 @@ spec.before(async (stage) => {
   const provider = stage.get('makerGenericProvider');
   const orderGateway = new OrderGateway(provider, orderGatewayId);
   const order = stage.get('order');
-  
+
   stage.set('claim', await orderGateway.claim(order));
 });
 

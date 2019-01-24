@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 export interface ProviderBase {
   accountId: string;
@@ -16,15 +16,15 @@ export enum ProviderIssue {
  * Handled system error.
  */
 export class ProviderError extends Error {
-  readonly issue: ProviderIssue;
-  readonly original: any;
+  public issue: ProviderIssue;
+  public original: any;
 
   /**
    * Class constructor.
    * @param issue Issue identification.
    * @param details Original error object.
    */
-  constructor(issue: ProviderIssue, original?: any) {
+  public constructor(issue: ProviderIssue, original?: any) {
     super();
 
     this.name = 'ProviderError';

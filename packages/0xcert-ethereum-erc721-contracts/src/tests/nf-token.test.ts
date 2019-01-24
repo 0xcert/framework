@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   nfToken?: any;
   owner?: string;
@@ -15,13 +11,7 @@ interface Data {
   id2?: string;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -38,7 +28,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const nfToken = await ctx.deploy({ 
+  const nfToken = await ctx.deploy({
     src: './build/nf-token-mock.json',
     contract: 'NFTokenMock',
   });
@@ -137,8 +127,8 @@ spec.test('correctly approves account', async (ctx) => {
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   const logs = await nftoken.instance.methods.approve(sara, id1).send({ from: bob });
   ctx.not(logs.events.Approval, undefined);
-  
-  const address = await nftoken.instance.methods.getApproved(id1).call();;
+
+  const address = await nftoken.instance.methods.getApproved(id1).call();
   ctx.is(address, sara);
 });
 
@@ -153,7 +143,7 @@ spec.test('correctly cancels approval', async (ctx) => {
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   await nftoken.instance.methods.approve(sara, id1).send({ from: bob });
   await nftoken.instance.methods.approve(zeroAddress, id1).send({ from: bob });
-  
+
   const address = await nftoken.instance.methods.getApproved(id1).call();
   ctx.is(address, zeroAddress);
 });
@@ -161,7 +151,7 @@ spec.test('correctly cancels approval', async (ctx) => {
 spec.test('throws when trying to get approval of non-existing NFT id', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const id1 = ctx.get('id1');
-  
+
   await ctx.reverts(() => nftoken.instance.methods.getApproved(id1).call(), '003002');
 });
 
@@ -337,7 +327,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -360,7 +350,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -399,3 +389,5 @@ spec.test('throws when trying to destroy non existant NFT', async (ctx) => {
 
   await ctx.reverts(() => nftoken.instance.methods.destroy(id1).send({ from: owner }), '003002');
 });
+
+export default spec;

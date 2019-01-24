@@ -1,31 +1,31 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress, bigNumberify } from '@0xcert/ethereum-utils';
-import { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility,
-  AssetLedgerItem, AssetLedgerCapability, AssetLedgerInfo, AssetLedgerItemRecipe,
-  AssetLedgerTransferRecipe, AssetLedgerObjectUpdateRecipe,
-  AssetLedgerUpdateRecipe, OrderGatewayBase} from "@0xcert/scaffold";
+import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
+import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
+  AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
+  AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
+  AssetLedgerUpdateRecipe, OrderGatewayBase } from '@0xcert/scaffold';
+import approveAccount from '../mutations/approve-account';
+import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
+import destroyAsset from '../mutations/destroy-asset';
+import grantAbilities from '../mutations/grant-abilities';
+import revokeAbilities from '../mutations/revoke-abilities';
+import revokeAsset from '../mutations/revoke-asset';
+import safeTransfer from '../mutations/safe-transfer';
+import setApprovalForAll from '../mutations/set-approval-for-all';
+import setEnabled from '../mutations/set-enabled';
+import transfer from '../mutations/transfer';
+import update from '../mutations/update';
+import updateAsset from '../mutations/update-asset';
 import getAbilities from '../queries/get-abilities';
 import getApprovedAccount from '../queries/get-approved-account';
-import getAssetAccount from '../queries/get-asset-account';
 import getAsset from '../queries/get-asset';
+import getAssetAccount from '../queries/get-asset-account';
 import getBalance from '../queries/get-balance';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
-import isEnabled from '../queries/is-enabled';
-import approveAccount from '../mutations/approve-account';
-import grantAbilities from '../mutations/grant-abilities';
-import createAsset from '../mutations/create-asset';
-import destroyAsset from '../mutations/destroy-asset';
-import revokeAbilities from '../mutations/revoke-abilities';
-import revokeAsset from '../mutations/revoke-asset';
-import setEnabled from '../mutations/set-enabled';
-import safeTransfer from '../mutations/safe-transfer';
-import transfer from '../mutations/transfer';
-import updateAsset from '../mutations/update-asset';
-import update from '../mutations/update';
-import setApprovalForAll from '../mutations/set-approval-for-all';
 import isApprovedForAll from '../queries/is-approved-for-all';
+import isEnabled from '../queries/is-enabled';
 
 /**
  * Ethereum asset ledger implementation.
@@ -35,31 +35,7 @@ export class AssetLedger implements AssetLedgerBase {
   protected $provider: GenericProvider;
 
   /**
-   * Initialize asset ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc721/xcert smart contract.
-   */
-  public constructor(provider: GenericProvider, id: string) {
-    this.$id = normalizeAddress(id);
-    this.$provider = provider;
-  }
-
-  /**
-   * Gets the address of the smart contract that represents this asset ledger.
-   */
-  public get id() {
-    return this.$id;
-  }
-
-  /**
-   * Gets the provider that is used to comunicate with blockchain.
-   */
-  public get provider() {
-    return this.$provider;
-  }
-
-  /**
-   * Deploys a new smart contract representing asset ledger to the blockchain. 
+   * Deploys a new smart contract representing asset ledger to the blockchain.
    * @param provider Provider class with which we comunicate with blockchain.
    * @param recipe Data needed to deploy a new asset ledger.
    */
@@ -74,6 +50,30 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
     return new AssetLedger(provider, id);
+  }
+
+  /**
+   * Initialize asset ledger.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param id Address of the erc721/xcert smart contract.
+   */
+  public constructor(provider: GenericProvider, id: string) {
+    this.$id = normalizeAddress(id);
+    this.$provider = provider;
+  }
+
+  /**
+   * Gets the address of the smart contract that represents this asset ledger.
+   */
+  public get id(): string {
+    return this.$id;
+  }
+
+  /**
+   * Gets the provider that is used to comunicate with blockchain.
+   */
+  public get provider(): GenericProvider {
+    return this.$provider;
   }
 
   /**
@@ -117,7 +117,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets a list of all asset ledger capabilities(options). 
+   * Gets a list of all asset ledger capabilities(options).
    */
   public async getCapabilities(): Promise<AssetLedgerCapability[]> {
     return getCapabilities(this);
@@ -178,11 +178,11 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
-    
+
     let bitAbilities = bigNumberify(0);
-    abilities.forEach(ability => {
+    abilities.forEach((ability) => {
       bitAbilities = bitAbilities.add(ability);
-    }); 
+    });
     return grantAbilities(this, accountId as string, bitAbilities.toString());
   }
 
@@ -193,7 +193,7 @@ export class AssetLedger implements AssetLedgerBase {
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
     // TODO(Kristjan): imprint input validation that it is a hex of length 64.
     const imprint = recipe.imprint || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-    return createAsset(this, recipe.receiverId, recipe.id, '0x' + imprint);
+    return createAsset(this, recipe.receiverId, recipe.id, `0x${imprint}`);
   }
 
   /**
@@ -215,9 +215,9 @@ export class AssetLedger implements AssetLedgerBase {
     }
 
     let bitAbilities = bigNumberify(0);
-    abilities.forEach(ability => {
+    abilities.forEach((ability) => {
       bitAbilities = bitAbilities.add(ability);
-    }); 
+    });
     return revokeAbilities(this, accountId as string, bitAbilities);
   }
 
@@ -311,10 +311,10 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Helper function that gets the right proxy id depending on the asset.
    */
-  protected getProxyId() {
+  protected getProxyId(): number {
     return this.provider.unsafeRecipientIds.indexOf(this.id) === -1
       ? 3 // OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : 2 // OrderGatewayProxy.NFTOKEN_TRANSFER;
+      : 2; // OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
 
 }

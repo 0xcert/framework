@@ -215,12 +215,6 @@
       true,
       "never-prefix"
     ],
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "ban-keywords"
-    ],
     "comment-type": [
       true,
       "singleline",

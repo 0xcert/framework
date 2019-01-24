@@ -1,9 +1,9 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { Protocol } from '@0xcert/ethereum-sandbox';
-import { AssetLedger } from '../../../core/ledger';
-import { AssetLedgerAbility } from '@0xcert/scaffold';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { AssetLedgerAbility } from '@0xcert/scaffold';
+import { Spec } from '@specron/spec';
+import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
   provider: GenericProvider;

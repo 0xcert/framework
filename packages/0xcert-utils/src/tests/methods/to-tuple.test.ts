@@ -5,8 +5,8 @@ const spec = new Spec();
 
 spec.test('transforms an object to tuple', (ctx) => {
   const res = toTuple({
-    foo: "FOO",
-    bar: ["BAR1", "BAR2"],
+    foo: 'FOO',
+    bar: ['BAR1', 'BAR2'],
     baz: {
       bazfoo: [1, 2],
       bazbar: 'BAZBAR',
@@ -19,8 +19,8 @@ spec.test('transforms an object to tuple', (ctx) => {
     ],
   });
   ctx.deepEqual(res, [
-    "FOO",
-    ["BAR1", "BAR2"],
+    'FOO',
+    ['BAR1', 'BAR2'],
     [[1, 2], 'BAZBAR'],
     [[[1, 2], 'BAZBAR']],
   ]);

@@ -4,7 +4,7 @@
 export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
 
 /**
- * 
+ *
  */
 export interface MerkleValue {
   index: number;
@@ -12,7 +12,7 @@ export interface MerkleValue {
 }
 
 /**
- * 
+ *
  */
 export interface MerkleHash {
   index: number;
@@ -20,7 +20,7 @@ export interface MerkleHash {
 }
 
 /**
- * 
+ *
  */
 export interface MerkleRecipe {
   values: MerkleValue[];
@@ -41,7 +41,7 @@ export class Merkle {
   protected $options: MerkleOptions;
 
   /**
-   * 
+   *
    */
   public constructor(options?: MerkleOptions) {
     this.$options = {
@@ -54,7 +54,7 @@ export class Merkle {
    * Returns a complete evidence data object.
    * @param data List of arbitrary values.
    */
-  public async notarize(data: (string|number|boolean)[]) {
+  public async notarize(data: (string | number | boolean)[]) {
     const values = [...data];
     const nodes = [await this.$options.hasher('')];
 
@@ -62,11 +62,11 @@ export class Merkle {
       const right = nodes[0];
       const value = values[i];
       nodes.unshift(
-        await this.$options.hasher(value)
+        await this.$options.hasher(value),
       );
       const left = nodes[0];
       nodes.unshift(
-        await this.$options.hasher(`${left}${right}`)
+        await this.$options.hasher(`${left}${right}`),
       );
     }
 
@@ -86,18 +86,17 @@ export class Merkle {
     const size = Math.max(...expose.map((i) => i + 1), 0);
     const values = [];
     const nodes = [
-      recipe.nodes.find((n) => n.index === size * 2)
+      recipe.nodes.find((n) => n.index === size * 2),
     ];
 
     for (let i = size - 1; i >= 0; i--) {
       if (expose.indexOf(i) !== -1) {
         values.unshift(
-          recipe.values.find((n) => n.index === i)
+          recipe.values.find((n) => n.index === i),
         );
-      }
-      else {
+      } else {
         nodes.unshift(
-          recipe.nodes.find((n) => n.index === i * 2 + 1)
+          recipe.nodes.find((n) => n.index === i * 2 + 1),
         );
       }
     }
@@ -115,14 +114,14 @@ export class Merkle {
         evidence.values.map(async (v) => ({
           index: v.index * 2 + 1,
           hash: await this.$options.hasher(v.value),
-          value: v.value
-        }))
+          value: v.value,
+        })),
       ),
       ...evidence.nodes,
     ];
     const size = Math.max(...nodes.map((n) => n.index + 1), 0);
 
-    for (let i = size - 1; i >= 0; i-=2) {
+    for (let i = size - 1; i >= 0; i -= 2) {
       const right = nodes.find((n) => n.index === i);
       const left = nodes.find((n) => n.index === i - 1);
 

@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   nfToken?: any;
   owner?: string;
@@ -16,13 +12,7 @@ interface Data {
   uriBase?: string;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -41,10 +31,10 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const uriBase = ctx.get('uriBase');
-  const nfToken = await ctx.deploy({ 
+  const nfToken = await ctx.deploy({
     src: './build/nf-token-metadata-mock.json',
     contract: 'NFTokenMetadataMock',
-    args: ['Foo','F', uriBase]
+    args: ['Foo', 'F', uriBase],
   });
   ctx.set('nfToken', nfToken);
 });
@@ -103,7 +93,7 @@ spec.test('throws when trying to create 2 NFTs with the same ids', async (ctx) =
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  
+
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   await ctx.reverts(() => nftoken.instance.methods.create(bob, id1).send({ from: owner }), '004006');
 });
@@ -113,7 +103,7 @@ spec.test('throws when trying to create NFT to 0x0 address', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
   const id1 = ctx.get('id1');
-  
+
   await ctx.reverts(() => nftoken.instance.methods.create(zeroAddress, id1).send({ from: owner }), '004001');
 });
 
@@ -145,8 +135,8 @@ spec.test('correctly approves account', async (ctx) => {
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   const logs = await nftoken.instance.methods.approve(sara, id1).send({ from: bob });
   ctx.not(logs.events.Approval, undefined);
-  
-  const address = await nftoken.instance.methods.getApproved(id1).call();;
+
+  const address = await nftoken.instance.methods.getApproved(id1).call();
   ctx.is(address, sara);
 });
 
@@ -161,7 +151,7 @@ spec.test('correctly cancels approval', async (ctx) => {
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   await nftoken.instance.methods.approve(sara, id1).send({ from: bob });
   await nftoken.instance.methods.approve(zeroAddress, id1).send({ from: bob });
-  
+
   const address = await nftoken.instance.methods.getApproved(id1).call();
   ctx.is(address, zeroAddress);
 });
@@ -169,7 +159,7 @@ spec.test('correctly cancels approval', async (ctx) => {
 spec.test('throws when trying to get approval of non-existing NFT id', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const id1 = ctx.get('id1');
-  
+
   await ctx.reverts(() => nftoken.instance.methods.getApproved(id1).call(), '004002');
 });
 
@@ -345,7 +335,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -368,7 +358,7 @@ spec.test('corectly safe transfers NFT from owner to smart contract that can rec
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: './build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -389,14 +379,14 @@ spec.test('returns the correct issuer name', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const name = await nftoken.instance.methods.name().call();
 
-  ctx.is(name, "Foo");
+  ctx.is(name, 'Foo');
 });
 
 spec.test('returns the correct issuer symbol', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const symbol = await nftoken.instance.methods.symbol().call();
 
-  ctx.is(symbol, "F");
+  ctx.is(symbol, 'F');
 });
 
 spec.test('return the correct URI', async (ctx) => {
@@ -409,16 +399,16 @@ spec.test('return the correct URI', async (ctx) => {
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await nftoken.instance.methods.create(bob, id2).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id2).call();
-  ctx.is(uri, uriBase+id2);
+  ctx.is(uri, uriBase + id2);
 
   const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
   await nftoken.instance.methods.create(bob, bigId).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(bigId).call();
-  ctx.is(uri, uriBase+bigId);
+  ctx.is(uri, uriBase + bigId);
 });
 
 spec.test('succesfully changes URI base', async (ctx) => {
@@ -431,11 +421,11 @@ spec.test('succesfully changes URI base', async (ctx) => {
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await nftoken.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, newUriBase+id1);
+  ctx.is(uri, newUriBase + id1);
 });
 
 spec.test('return empty thing if URI base is empty', async (ctx) => {
@@ -448,7 +438,7 @@ spec.test('return empty thing if URI base is empty', async (ctx) => {
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await nftoken.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id1).call();
@@ -484,3 +474,5 @@ spec.test('throws when trying to destroy non existant NFT', async (ctx) => {
 
   await ctx.reverts(() => nftoken.instance.methods.destroy(id1).send({ from: owner }), '004002');
 });
+
+export default spec;

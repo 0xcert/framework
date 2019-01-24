@@ -33,10 +33,10 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT','http://0xcert.org/'],
+    args: ['cat', 'CAT', 'http://0xcert.org/'],
   });
   await cat.instance.methods
     .create(ctx.get('jane'), 1)
@@ -55,7 +55,6 @@ spec.beforeEach(async (ctx) => {
   ctx.set('orderGateway', orderGateway);
 });
 
-
 spec.beforeEach(async (ctx) => {
   const action = {
     kind: 1,
@@ -69,7 +68,7 @@ spec.beforeEach(async (ctx) => {
     maker: ctx.get('jane'),
     taker: ctx.get('sara'),
     actions: [action],
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderGateway = ctx.get('orderGateway');

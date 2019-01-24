@@ -1,6 +1,6 @@
 import { Spec } from '@hayspec/spec';
-import { Sandbox } from '../../core/sandbox';
 import * as request from 'supertest';
+import { Sandbox } from '../../core/sandbox';
 
 const spec = new Spec();
 const sandbox = new Sandbox();

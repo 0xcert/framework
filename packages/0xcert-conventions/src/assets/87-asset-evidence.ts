@@ -14,7 +14,7 @@ export interface Object87 {
       value: string;
     }[];
   }[];
-};
+}
 
 /**
  * Asset evidence JSON Schema.
@@ -30,7 +30,7 @@ export const schema87 = {
     data: {
       description: 'Asset data evidence.',
       items: {
-      	type: 'object',
+        type: 'object',
         properties: {
           nodes: {
             description: 'A list of binary tree hash values.',

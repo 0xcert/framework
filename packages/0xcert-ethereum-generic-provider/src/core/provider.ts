@@ -1,6 +1,6 @@
 import { ProviderBase } from '@0xcert/scaffold';
-import { RpcResponse, SendOptions, SignMethod } from './types';
 import { parseError } from './errors';
+import { RpcResponse, SendOptions, SignMethod } from './types';
 
 /**
  * Configuration interface for generic provider.
@@ -28,7 +28,7 @@ export class GenericProvider implements ProviderBase {
   public requiredConfirmations: number;
   public orderGatewayId: string;
   protected $client: any;
-  protected $id: number = 0;
+  protected $id = 0;
 
   /**
    * Class constructor.
@@ -38,12 +38,12 @@ export class GenericProvider implements ProviderBase {
   public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
     this.unsafeRecipientIds = options.unsafeRecipientIds || [];
-    this.assetLedgerSource = options.assetLedgerSource || 'https://docs.0xcert.org/xcert-mock.json',
-    this.valueLedgerSource = options.valueLedgerSource || 'https://docs.0xcert.org/token-mock.json',
+    this.assetLedgerSource = options.assetLedgerSource || 'https://docs.0xcert.org/xcert-mock.json';
+    this.valueLedgerSource = options.valueLedgerSource || 'https://docs.0xcert.org/token-mock.json';
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.orderGatewayId = options.orderGatewayId;
-    
+
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
@@ -101,17 +101,15 @@ export class GenericProvider implements ProviderBase {
       jsonrpc: '2.0',
       id: options.id || this.getNextId(),
       params: [],
-    ...options,
+      ...options,
     };
     return new Promise<RpcResponse>((resolve, reject) => {
       this.$client.send(payload, (err, res) => {
         if (err) { // client error
           return reject(err);
-        }
-        else if (res.error) { // RPC error
+        } else if (res.error) { // RPC error
           return reject(res.error);
-        }
-        else if (res.id !== payload.id) { // anomaly
+        } else if (res.id !== payload.id) { // anomaly
           return reject('Invalid RPC id');
         }
         return resolve(res);

@@ -1,5 +1,5 @@
 /**
- * 
+ * JSON Schema example.
  */
 export const exampleSchema = {
   type: 'object',
@@ -53,7 +53,7 @@ export const exampleSchema = {
 };
 
 /**
- * 
+ * Data for example schema.
  */
 export const exampleData = {
   books: [

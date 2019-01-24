@@ -1,6 +1,6 @@
-import { EventEmitter } from 'events';
-import { MutationBase, MutationEvent } from '@0xcert/scaffold';
 import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-address';
+import { MutationBase, MutationEvent } from '@0xcert/scaffold';
+import { EventEmitter } from 'events';
 
 /**
  * Possible mutation statuses.
@@ -12,11 +12,11 @@ export enum MutationStatus {
 }
 
 /**
- * 
+ * Ethreum transaction mutation.
  */
 export class Mutation extends EventEmitter implements MutationBase {
   protected $id: string;
-  protected $confirmations: number = 0;
+  protected $confirmations = 0;
   protected $senderId: string;
   protected $receiverId: string;
   protected $provider: any;
@@ -118,13 +118,12 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Dettaches from mutation events. 
+   * Dettaches from mutation events.
    */
   public off(event: MutationEvent, handler?: () => any) {
     if (handler) {
       super.off(event, handler);
-    }
-    else {
+    } else {
       super.removeAllListeners(event);
     }
     return this;
@@ -138,8 +137,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     if (this.isCompleted()) {
       return this;
-    }
-    else {
+    } else {
       this.$status = MutationStatus.PENDING;
     }
 
@@ -147,8 +145,7 @@ export class Mutation extends EventEmitter implements MutationBase {
       if (!this.isCompleted()) {
         this.once(MutationEvent.COMPLETE, () => resolve());
         this.once(MutationEvent.ERROR, (err) => reject(err));
-      }
-      else {
+      } else {
         resolve();
       }
       if (start) {
@@ -160,7 +157,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * 
+   * Stops listening for confirmations.
    */
   public forget() {
     if (this.$timer) {
@@ -177,8 +174,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     const tx = await this.getTransactionObject();
     if (!tx) {
       return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
-    }
-    else if (!tx.to || tx.to === '0x0') {
+    } else if (!tx.to || tx.to === '0x0') {
       tx.to = await this.getTransactionReceipt().then((r) => r ? r.contractAddress : null);
     }
     if (tx.to) {
@@ -191,13 +187,11 @@ export class Mutation extends EventEmitter implements MutationBase {
       if (this.$confirmations >= this.$provider.requiredConfirmations) {
         this.$status = MutationStatus.COMPLETED;
         this.emit(MutationEvent.COMPLETE, this);
-      }
-      else {
+      } else {
         this.emit(MutationEvent.CONFIRM, this);
         this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
       }
-    }
-    else {
+    } else {
       this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
     }
   }

@@ -27,6 +27,14 @@ export class HttpProvider extends GenericProvider {
   protected $options: HttpProviderOptions;
 
   /**
+   * Returns a new provider instance.
+   * @param options HTTP provider options.
+   */
+  public static getInstance(options: HttpProviderOptions): HttpProvider {
+    return new HttpProvider(options);
+  }
+
+  /**
    * Class constructor.
    */
   public constructor(options: HttpProviderOptions) {
@@ -37,22 +45,14 @@ export class HttpProvider extends GenericProvider {
   }
 
   /**
-   * Returns a new provider instance.
-   * @param options HTTP provider options.
-   */
-  public static getInstance(options: HttpProviderOptions): HttpProvider {
-    return new HttpProvider(options);
-  }
-
-  /**
-   * 
+   *
    */
   public isSupported() {
     return !!this.$client.fetch;
   }
 
   /**
-   * 
+   *
    */
   public send(data: any, callback: (err, data) => any) {
 
@@ -67,8 +67,8 @@ export class HttpProvider extends GenericProvider {
       body: JSON.stringify(data),
     }).then((res) => {
       return res.json();
-    }).then((data) => {
-      return callback(null, data);
+    }).then((res) => {
+      return callback(null, res);
     }).catch((err) => {
       return callback(err, null);
     });

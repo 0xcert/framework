@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   xcert?: any;
   owner?: string;
@@ -21,8 +17,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -46,10 +40,10 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
-  const xcert = await ctx.deploy({ 
+  const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']]
+    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']],
   });
 
   ctx.set('xcert', xcert);
@@ -91,3 +85,5 @@ spec.test('throws when trying to update xcert that does not exist', async (ctx) 
 
   await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, imprint).send({ from: owner }), '007003');
 });
+
+export default spec;

@@ -1,13 +1,13 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { OrderGatewayBase, Order } from '@0xcert/scaffold';
 import { normalizeAddress } from '@0xcert/ethereum-utils';
-import { OrderGatewayProxy } from './types';
-import claim from '../queries/claim';
-import getProxyAccountId from '../queries/get-proxy-account-id';
+import { Order, OrderGatewayBase } from '@0xcert/scaffold';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
-import isValidSignature from '../queries/is-valid-signature';
+import claim from '../queries/claim';
 import getOrderDataClaim from '../queries/get-order-data-claim';
+import getProxyAccountId from '../queries/get-proxy-account-id';
+import isValidSignature from '../queries/is-valid-signature';
+import { OrderGatewayProxy } from './types';
 
 /**
  * Ethereum order gateway implementation.
@@ -17,6 +17,15 @@ export class OrderGateway implements OrderGatewayBase {
   protected $provider: GenericProvider;
 
   /**
+   * Gets an instance of order gateway.
+   * @param provider  Provider class with which we comunicate with blockchain.
+   * @param id Address of the order gateway smart contract.
+   */
+  public static getInstance(provider: GenericProvider, id?: string): OrderGateway {
+    return new OrderGateway(provider, id);
+  }
+
+  /**
    * Initialize order gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
    * @param id Address of the order gateway smart contract.
@@ -24,15 +33,6 @@ export class OrderGateway implements OrderGatewayBase {
   public constructor(provider: GenericProvider, id?: string) {
     this.$id = normalizeAddress(id || provider.orderGatewayId);
     this.$provider = provider;
-  }
-
-  /**
-   * Gets an instance of order gateway.
-   * @param provider  Provider class with which we comunicate with blockchain.
-   * @param id Address of the order gateway smart contract.
-   */
-  public static getInstance(provider: GenericProvider, id?: string): OrderGateway {
-    return new OrderGateway(provider, id);
   }
 
   /**
@@ -92,7 +92,7 @@ export class OrderGateway implements OrderGatewayBase {
   }
 
   /**
-   * Generates hash from order. 
+   * Generates hash from order.
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {

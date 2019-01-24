@@ -1,5 +1,5 @@
-import { AssetLedgerAbility } from "@0xcert/scaffold";
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
+import { AssetLedgerAbility } from '@0xcert/scaffold';
 import { AssetLedger } from '../core/ledger';
 
 const functionSignature = '0xba00a330';
@@ -12,7 +12,7 @@ const outputTypes = ['bool'];
  * @param accountId Account id.
  */
 export default async function(ledger: AssetLedger, accountId: string) {
-  return await Promise.all(
+  return Promise.all(
     [ AssetLedgerAbility.MANAGE_ABILITIES,
       AssetLedgerAbility.CREATE_ASSET,
       AssetLedgerAbility.REVOKE_ASSET,
@@ -30,7 +30,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
         params: [attrs, 'latest'],
       });
       return decodeParameters(outputTypes, res.result)[0] ? ability : -1;
-    })
+    }),
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort((a, b) => a - b);
   }).catch(() => {

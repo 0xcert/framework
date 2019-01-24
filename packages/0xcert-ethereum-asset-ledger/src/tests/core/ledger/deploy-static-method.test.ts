@@ -1,7 +1,7 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { AssetLedgerCapability } from "@0xcert/scaffold";
+import { AssetLedgerCapability } from '@0xcert/scaffold';
+import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -39,7 +39,7 @@ spec.test('deploys new asset ledger', async (ctx) => {
   }).then((mutation) => {
     return AssetLedger.getInstance(provider, mutation.receiverId);
   });
-  ctx.deepEqual(await ledger.getInfo(), { ...info, supply: '0' })
+  ctx.deepEqual(await ledger.getInfo(), { ...info, supply: '0' });
   ctx.deepEqual(await ledger.getCapabilities(), capabilities);
 });
 

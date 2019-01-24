@@ -9,7 +9,7 @@ export interface Object88 extends Object86 {
   description: string;
   image: string;
   name: string;
-};
+}
 
 /**
  * Crypto collectible asset data object JSON Schema.

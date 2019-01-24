@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   abilitable?: any;
   owner?: string;
@@ -18,13 +14,7 @@ interface Data {
   abilityManageAbilitiesBCT?: number;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.before(async (ctx) => {
   const abilityManageAbilities = 1;
@@ -51,7 +41,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const abilitable = await ctx.deploy({ 
+  const abilitable = await ctx.deploy({
     src: './build/abilitable-test-mock.json',
     contract: 'AbilitableTestMock',
   });
@@ -111,8 +101,8 @@ spec.test('successfuly grants multiple abilities', async (ctx) => {
   const bob = ctx.get('bob');
   const abilityManageAbilitiesBCT = ctx.get('abilityManageAbilitiesBCT');
 
-  /// We will check if bob has abilities A,B,C and T. 
-  /// Which are represented by numbers: 1,2,4 and 1048576. We check this with the sum: 1048583
+  // We will check if bob has abilities A,B,C and T.
+  // Which are represented by numbers: 1,2,4 and 1048576. We check this with the sum: 1048583
 
   let bobHasAbilities = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesBCT).call();
   ctx.is(bobHasAbilities, false);
@@ -153,7 +143,7 @@ spec.test('successfuly revokes ability to manage abilities', async (ctx) => {
   const logs = await abilitable.instance.methods.revokeAbilities(bob, 1).send({ from: owner });
   ctx.not(logs.events.RevokeAbilities, undefined);
 
-  let bobHasAbilityA = await abilitable.instance.methods.isAble(bob, 1).call();
+  const bobHasAbilityA = await abilitable.instance.methods.isAble(bob, 1).call();
   ctx.is(bobHasAbilityA, false);
   await ctx.reverts(() => abilitable.instance.methods.grantAbilities(jane, 1).send({ from: bob }), '017001');
 });
@@ -174,8 +164,8 @@ spec.test('successfuly revokes multiple abilities', async (ctx) => {
 
   const bobHasAbilityB = await abilitable.instance.methods.isAble(bob, abilityB).call();
   ctx.is(bobHasAbilityB, true);
-  const bobHasAbilityA_C_T = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesCT).call();
-  ctx.is(bobHasAbilityA_C_T, false);
+  const bobHasAbilityACT = await abilitable.instance.methods.isAble(bob, abilityManageAbilitiesCT).call();
+  ctx.is(bobHasAbilityACT, false);
   await abilitable.instance.methods.abilityB().call({ from: bob });
   await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
 });
@@ -194,3 +184,5 @@ spec.test('throws when trying to check ability 0', async (ctx) => {
 
   await ctx.reverts(() => abilitable.instance.methods.isAble(owner, 0).call(), '017003');
 });
+
+export default spec;

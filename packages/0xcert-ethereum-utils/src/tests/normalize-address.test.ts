@@ -12,5 +12,3 @@ spec.test('normalize address', (ctx) => {
 });
 
 export default spec;
-
-

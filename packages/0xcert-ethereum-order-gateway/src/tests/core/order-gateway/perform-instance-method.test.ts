@@ -1,7 +1,7 @@
-import { Spec } from '@specron/spec';
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Order, OrderActionKind } from '@0xcert/scaffold';
-import { GenericProvider } from '@0xcert/ethereum-generic-provider';
+import { Spec } from '@specron/spec';
 import { OrderGateway } from '../../..';
 
 interface Data {
@@ -20,7 +20,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
+
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -37,11 +37,11 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const makerGenericProvider = new GenericProvider({ 
+  const makerGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
   });
-  const takerGenericProvider = new GenericProvider({ 
+  const takerGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
   });
@@ -82,7 +82,7 @@ spec.before(async (stage) => {
         senderId: coinbase,
         receiverId: bob,
         assetId: '102',
-        assetImprint: '0'
+        assetImprint: '0',
       },
       {
         kind: OrderActionKind.TRANSFER_ASSET,
@@ -109,7 +109,7 @@ spec.before(async (stage) => {
   const provider = stage.get('makerGenericProvider');
   const orderGateway = new OrderGateway(provider, orderGatewayId);
   const order = stage.get('order');
-  
+
   stage.set('claim', await orderGateway.claim(order));
 });
 

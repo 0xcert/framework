@@ -24,7 +24,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: './build/token-transfer-proxy.json',
-    contract: 'TokenTransferProxy'
+    contract: 'TokenTransferProxy',
   });
   ctx.set('tokenProxy', tokenProxy);
 });
@@ -60,7 +60,7 @@ spec.test('transfers tokens', async (ctx) => {
 
   await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
 
-  const token = await ctx.deploy({ 
+  const token = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
@@ -70,7 +70,7 @@ spec.test('transfers tokens', async (ctx) => {
   await tokenProxy.instance.methods.execute(token.receipt._address, owner, jane, 1000).send({ from: bob });
 
   const balance = await token.instance.methods.balanceOf(jane).call();
-  ctx.is(balance, "1000");
+  ctx.is(balance, '1000');
 });
 
 spec.test('fails if transfer is triggered by an unauthorized address', async (ctx) => {
@@ -79,7 +79,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  const token = await ctx.deploy({ 
+  const token = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],

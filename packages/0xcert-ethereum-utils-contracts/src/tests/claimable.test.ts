@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   claimable?: any;
   owner?: string;
@@ -12,13 +8,7 @@ interface Data {
   zeroAddress?: string;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -29,7 +19,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const claimable = await ctx.deploy({ 
+  const claimable = await ctx.deploy({
     src: './build/claimable.json',
     contract: 'Claimable',
   });
@@ -55,7 +45,7 @@ spec.test('resets a pending owner', async (ctx) => {
   await claimable.instance.methods.transferOwnership(bob).send();
   let pendingOwner = await claimable.instance.methods.pendingOwner().call();
   ctx.is(pendingOwner, bob);
-  
+
   await claimable.instance.methods.transferOwnership(jane).send();
   pendingOwner = await claimable.instance.methods.pendingOwner().call();
   ctx.is(pendingOwner, jane);
@@ -66,9 +56,9 @@ spec.test('prevents non-owners from transfering', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  let contractOwner = await claimable.instance.methods.owner().call();
+  const contractOwner = await claimable.instance.methods.owner().call();
   ctx.not(contractOwner, bob);
-  
+
   await ctx.reverts(() => claimable.instance.methods.transferOwnership(jane).send({ from: bob }), '018001');
 });
 
@@ -77,9 +67,9 @@ spec.test('prevents non-owners from transfering', async (ctx) => {
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
 
-  let contractOwner = await claimable.instance.methods.owner().call();
+  const contractOwner = await claimable.instance.methods.owner().call();
   ctx.not(contractOwner, bob);
-  
+
   await ctx.reverts(() => claimable.instance.methods.transferOwnership(jane).send({ from: bob }), '018001');
 });
 
@@ -106,3 +96,5 @@ spec.test('prevents non-approved accounts from claimng', async (ctx) => {
   await claimable.instance.methods.transferOwnership(bob).send();
   await ctx.reverts(() => claimable.instance.methods.claimOwnership().send({ from: jane }), '019001');
 });
+
+export default spec;

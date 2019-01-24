@@ -1,6 +1,6 @@
-import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
-import { OrderGateway } from '../core/gateway';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { Order } from '@0xcert/scaffold';
+import { OrderGateway } from '../core/gateway';
 import { createRecipeTuple } from '../lib/order';
 
 const functionSignature = '0xd1c87f30';

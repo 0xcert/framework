@@ -1,14 +1,14 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress, bigNumberify } from '@0xcert/ethereum-utils';
-import { ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
-  ValueLedgerTransferRecipe, OrderGatewayBase } from "@0xcert/scaffold";
-import deploy from '../mutations/deploy';
-import getBalance from '../queries/get-balance';
-import getInfo from '../queries/get-info';
+import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
+import { OrderGatewayBase, ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
+  ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
-import getAllowance from '../queries/get-allowance';
+import deploy from '../mutations/deploy';
 import transfer from '../mutations/transfer';
 import transferFrom from '../mutations/transfer-from';
+import getAllowance from '../queries/get-allowance';
+import getBalance from '../queries/get-balance';
+import getInfo from '../queries/get-info';
 
 /**
  * Ethereum value ledger implementation.
@@ -16,6 +16,24 @@ import transferFrom from '../mutations/transfer-from';
 export class ValueLedger implements ValueLedgerBase {
   protected $id: string;
   protected $provider: GenericProvider;
+
+  /**
+   * Deploys a new smart contract representing value ledger to the blockchain.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param recipe Data needed to deploy a new value ledger.
+   */
+  public static async deploy(provider: GenericProvider, recipe: ValueLedgerDeployRecipe) {
+    return deploy(provider, recipe);
+  }
+
+  /**
+   * Gets an instance of already deployed value ledger.
+   * @param provider Provider class with which we comunicate with blockchain.
+   * @param id Address of the erc20 smart contract.
+   */
+  public static getInstance(provider: GenericProvider, id: string): ValueLedger {
+    return new ValueLedger(provider, id);
+  }
 
   /**
    * Initialize value ledger.
@@ -42,24 +60,6 @@ export class ValueLedger implements ValueLedgerBase {
   }
 
   /**
-   * Deploys a new smart contract representing value ledger to the blockchain. 
-   * @param provider Provider class with which we comunicate with blockchain.
-   * @param recipe Data needed to deploy a new value ledger.
-   */
-  public static async deploy(provider: GenericProvider, recipe: ValueLedgerDeployRecipe): Promise<Mutation> {
-    return deploy(provider, recipe);
-  }
-
-  /**
-   * Gets an instance of already deployed value ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc20 smart contract.
-   */
-  public static getInstance(provider: GenericProvider, id: string): ValueLedger {
-    return new ValueLedger(provider, id);
-  }
-
-  /**
    * Gets the amount of value that another account id approved for.
    * @param accountId Account id.
    * @param spenderId Account if of the spender.
@@ -75,7 +75,7 @@ export class ValueLedger implements ValueLedgerBase {
   public async getBalance(accountId: string): Promise<string> {
     return getBalance(this, accountId);
   }
-  
+
   /**
    * Gets information(name, symbol, total supply, decimals) about the value ledger.
    */

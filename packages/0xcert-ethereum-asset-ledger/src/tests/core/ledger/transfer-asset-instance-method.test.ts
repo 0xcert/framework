@@ -1,6 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -21,7 +21,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
-    unsafeRecipientIds: [stage.get('protocol').tokenTransferProxy.instance.options.address]
+    unsafeRecipientIds: [stage.get('protocol').tokenTransferProxy.instance.options.address],
   });
   stage.set('provider', provider);
 });

@@ -1,23 +1,13 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   safeMath?: any;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
 
-export default spec;
-
 spec.beforeEach(async (ctx) => {
-  const safeMath = await ctx.deploy({ 
+  const safeMath = await ctx.deploy({
     src: './build/safe-math-test-mock.json',
     contract: 'SafeMathTestMock',
   });
@@ -85,3 +75,5 @@ spec.test('reverts on modulo by 0', async (ctx) => {
   const b = 0;
   await ctx.reverts(() => safeMath.instance.methods.mod(a, b).send(), '008003');
 });
+
+export default spec;

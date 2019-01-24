@@ -1,6 +1,6 @@
 import { Spec } from '@hayspec/spec';
 import { Cert } from '../../../core/cert';
-import { exampleSchema, exampleData } from '../helpers/schema';
+import { exampleData, exampleSchema } from '../helpers/schema';
 
 const spec = new Spec();
 
