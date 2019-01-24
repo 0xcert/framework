@@ -2,7 +2,7 @@
   .custom-block-title
     font-weight 600
     margin-bottom -0.4rem
-  &.tip, &.warning, &.danger
+  &.tip, &.warning, &.danger, &.card
     padding .1rem 1.5rem
     border-left-width .5rem
     border-left-style solid
@@ -24,5 +24,12 @@
     color darken(red, 70%)
     .custom-block-title
       color darken(red, 40%)
+    a
+      color $textColor
+  &.card
+    background-color #F0F6FB
+    border-color #275F94
+    .custom-block-title
+      color $textColor
     a
       color $textColor

@@ -199,7 +199,6 @@ th, td
     .custom-layout
       padding-top 0
 
-
 .homepage .page
   text-align center
 
@@ -229,32 +228,35 @@ th, td
     margin-bottom: 2rem;
     font-size: 21px;
 
-  .products
+  .features
+    border-bottom: 1px solid #dfe2e5
+    padding: 2rem 0
     list-style: none
-    display: flex
+    text-align: left
+
+    li
+      padding: 1rem
+
+    a
+      display block
+      margin-top: 10px;
+
+    @media (min-width: ($MQMobile + 1px))
+      display: flex
+
+  .products
+    padding: 0
+    list-style: none
     margin: 4rem 0 0
     justify-content: space-between
     align-items: center
 
+    li
+      padding-right: 1rem
+      padding-bottom: 1rem
 
-  table
-    border-top: 1px solid #dfe2e5
-    border-bottom: 1px solid #dfe2e5
-    padding: 2rem 0
-
-    td, th, tr
-      border: none
-      text-align left
-      border: none
-
-    td a
-      display block
-      margin-top: 10px;
-
-    td, th
-      width: 33%
-      vertical-align top
-    
+    @media (min-width: ($MQMobile + 1px))
+      display: flex
       
 @media (min-width: ($MQMobile + 1px))
   .theme-container.no-sidebar
