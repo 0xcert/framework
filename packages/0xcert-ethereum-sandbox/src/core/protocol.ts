@@ -74,7 +74,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployErc20(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.erc20.abi,
       bytecode: contracts.erc20.bytecode,
@@ -88,7 +88,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployErc721Enumerable(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.erc721Enumerable.abi,
       bytecode: contracts.erc721Enumerable.bytecode,
@@ -101,7 +101,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployErc721Metadata(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.erc721Metadata.abi,
       bytecode: contracts.erc721Metadata.bytecode,
@@ -115,7 +115,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployErc721(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.erc721.abi,
       bytecode: contracts.erc721.bytecode,
@@ -208,7 +208,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployXcertCreateProxy(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.xcertCreateProxy.abi,
       bytecode: contracts.xcertCreateProxy.bytecode,
@@ -221,7 +221,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployTokenTransferProxy(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.tokenTransferProxy.abi,
       bytecode: contracts.tokenTransferProxy.bytecode,
@@ -234,7 +234,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployNFTokenTransferProxy(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.nftokenTransferProxy.abi,
       bytecode: contracts.nftokenTransferProxy.bytecode,
@@ -247,7 +247,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployNFTokenSafeTransferProxy(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.nftokenSafeTransferProxy.abi,
       bytecode: contracts.nftokenSafeTransferProxy.bytecode,
@@ -260,7 +260,7 @@ export class Protocol {
    * @param from Contract owner's address.
    */
   protected async deployNFTokenReceiver(from: string) {
-    return await deploy({
+    return deploy({
       web3: this.web3,
       abi: contracts.erc721receiver.abi,
       bytecode: contracts.erc721receiver.bytecode,

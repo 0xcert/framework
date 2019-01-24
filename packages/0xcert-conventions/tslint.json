@@ -80,7 +80,6 @@
       true,
       "rxjs/Rx"
     ],
-    "no-require-imports": true,
     "no-reference": true,
     "typedef": [
       true,
