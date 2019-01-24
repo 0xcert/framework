@@ -6,7 +6,7 @@ export interface ObjectErc721 {
   image?: string;
   name?: string;
   [key: string]: any;
-};
+}
 
 /**
  * ERC-721 unique asset JSON Schema.
