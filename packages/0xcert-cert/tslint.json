@@ -45,7 +45,6 @@
       false,
       "multiline"
     ],
-    "no-unnecessary-callback-wrapper": true,
     "unnecessary-bind": true,
     "no-return-await": true,
     "prefer-const": true,
@@ -89,11 +88,9 @@
       "rxjs/Rx"
     ],
     "no-require-imports": true,
-    "no-default-import": true,
     "no-reference": true,
     "typedef": [
       true,
-      "call-signature",
       "property-declaration"
     ],
     "no-inferrable-types": true,

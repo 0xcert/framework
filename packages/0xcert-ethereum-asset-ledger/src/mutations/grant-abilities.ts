@@ -20,6 +20,6 @@ export default async function(ledger: AssetLedger, accountId: string, abilities:
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',
     params: [attrs],
-  })
+  });
   return new Mutation(ledger.provider, res.result);
 }

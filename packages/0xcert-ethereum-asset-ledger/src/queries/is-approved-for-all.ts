@@ -21,7 +21,7 @@ export default async function(ledger: AssetLedger, accountId: string, operatorId
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(outputTypes, res.result)[0]
+    return decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
     return null;
   }

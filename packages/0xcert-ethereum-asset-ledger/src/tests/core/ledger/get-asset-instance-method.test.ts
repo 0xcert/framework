@@ -1,6 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -52,7 +52,7 @@ spec.test('returns asset info (erc721 contract)', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc721.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);
-  await erc721.instance.methods.create(coinbase, '1').send({ from: coinbase });  
+  await erc721.instance.methods.create(coinbase, '1').send({ from: coinbase });
   ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
     uri: null,

@@ -1,17 +1,17 @@
-import { encodeParameters, decodeParameters } from '@0xcert/ethereum-utils';
+import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
 const functions = [
   {
     signature: '0xc87b56dd',
     inputTypes: ['uint256'],
-    outputTypes: ['string']
+    outputTypes: ['string'],
   },
   {
     signature: '0x70c31afc',
     inputTypes: ['uint256'],
-    outputTypes: ['bytes32']
-  }
+    outputTypes: ['bytes32'],
+  },
 ];
 
 /**
@@ -35,7 +35,7 @@ export default async function(ledger: AssetLedger, assetId: string) {
       } catch (error) {
         return null;
       }
-    })
+    }),
   );
   return {
     id: assetId,

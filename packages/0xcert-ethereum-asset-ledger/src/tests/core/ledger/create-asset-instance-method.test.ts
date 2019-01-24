@@ -1,6 +1,6 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
+import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -39,9 +39,9 @@ spec.test('create a new asset', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
   await ledger.createAsset({
-    receiverId: bob, 
+    receiverId: bob,
     id: '1',
-    imprint: '973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9'
+    imprint: '973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
   });
   ctx.is(await xcert.instance.methods.ownerOf('1').call(), bob);
 });

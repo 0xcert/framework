@@ -6,7 +6,7 @@ const spec = new Spec();
 spec.test('exposes objects', (ctx) => {
   ctx.true(!!ledger.AssetLedger);
   ctx.true(!!ledger.AssetLedgerAbility);
-  ctx.true(!!ledger.AssetLedgerCapability);  
+  ctx.true(!!ledger.AssetLedgerCapability);
 });
 
 export default spec;

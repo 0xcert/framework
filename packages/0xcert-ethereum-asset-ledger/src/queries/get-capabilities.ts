@@ -1,5 +1,5 @@
-import { AssetLedgerCapability } from "@0xcert/scaffold";
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
+import { AssetLedgerCapability } from '@0xcert/scaffold';
 import { AssetLedger } from '../core/ledger';
 import { getInterfaceCode } from '../lib/capabilities';
 
@@ -28,10 +28,10 @@ export default async function(ledger: AssetLedger) {
         params: [attrs, 'latest'],
       });
       return decodeParameters(outputTypes, res.result)[0] ? capability : -1;
-    })
+    }),
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort() as AssetLedgerCapability[];
   }).catch(() => {
     return [];
-  }); 
+  });
 }

@@ -1,9 +1,9 @@
-import { Spec } from '@specron/spec';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { Protocol } from '@0xcert/ethereum-sandbox';
-import { AssetLedger } from '../../../core/ledger';
-import { AssetLedgerAbility } from '@0xcert/scaffold';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { Protocol } from '@0xcert/ethereum-sandbox';
+import { AssetLedgerAbility } from '@0xcert/scaffold';
+import { Spec } from '@specron/spec';
+import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
   provider: GenericProvider;
@@ -46,7 +46,6 @@ spec.test('grants ledger abilities for an account', async (ctx) => {
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [AssetLedgerAbility.CREATE_ASSET, AssetLedgerAbility.TOGGLE_TRANSFERS]);
 });
-
 
 spec.test('grants ledger abilities to an order gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
