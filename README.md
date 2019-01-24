@@ -1,6 +1,6 @@
 <img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" />
 
-[![Build Status](https://travis-ci.org/0xcert/framework.svg?branch=master)](https://travis-ci.org/0xcert/framework)&nbsp;[![codecov](https://codecov.io/gh/0xcert/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/0xcert/framework)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-pending-2930e8.svg)](https://github.com/0xcert/framework/blob/master/BUG_BOUNTY.md)
+[![Build Status](https://travis-ci.org/0xcert/framework.svg?branch=master)](https://travis-ci.org/0xcert/framework)&nbsp;[![codecov](https://codecov.io/gh/0xcert/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/0xcert/framework)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-pending-2930e8.svg)](https://github.com/0xcert/framework/blob/master/BUG_BOUNTY.md)&nbsp;[![Join the chat at https://gitter.im/0xcert/framework](https://badges.gitter.im/0xcert/framework.svg)](https://gitter.im/0xcert/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The 0xcert Framework is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
 
