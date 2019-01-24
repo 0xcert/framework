@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   ownable?: any;
   owner?: string;
@@ -12,13 +8,7 @@ interface Data {
   zeroAddress?: string;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -29,7 +19,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const ownable = await ctx.deploy({ 
+  const ownable = await ctx.deploy({
     src: './build/ownable.json',
     contract: 'Ownable',
   });
@@ -69,3 +59,5 @@ spec.test('guards ownership against stuck state', async (ctx) => {
 
   await ctx.reverts(() => ownable.instance.methods.transferOwnership(zeroAddress).send({ from: originalOwner }), '018002');
 });
+
+export default spec;
