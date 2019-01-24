@@ -1,7 +1,7 @@
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
-import { OrderGateway } from '../core/gateway';
 import { Order } from '@0xcert/scaffold';
-import { createSignatureTuple, createOrderHash } from '../lib/order';
+import { OrderGateway } from '../core/gateway';
+import { createOrderHash, createSignatureTuple } from '../lib/order';
 
 const functionSignature = '0x8fa76d8d';
 const inputTypes = ['address', 'bytes32', 'tuple(bytes32, bytes32, uint8, uint8)'];

@@ -1,7 +1,7 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { encodeParameters } from '@0xcert/ethereum-utils';
-import { OrderGateway } from '../core/gateway';
 import { Order } from '../../../0xcert-scaffold/dist';
+import { OrderGateway } from '../core/gateway';
 import { createRecipeTuple, createSignatureTuple } from '../lib/order';
 
 const functionSignature = '0x8b1d8335';

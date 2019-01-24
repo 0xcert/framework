@@ -48,12 +48,6 @@
     "no-return-await": true,
     "prefer-const": true,
     "no-var-keyword": true,
-    "no-shadowed-variable": [
-      true,
-      {
-        "temporalDeadZone": false
-      }
-    ],
     "one-variable-per-declaration": [
       true,
       "ignore-for-loop"
@@ -107,10 +101,6 @@
     ],
     "prefer-template": true,
     "no-invalid-template-strings": true,
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
     "increment-decrement": [
       true,
       "allow-post"

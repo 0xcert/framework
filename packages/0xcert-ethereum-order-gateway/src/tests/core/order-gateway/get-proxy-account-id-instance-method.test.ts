@@ -1,9 +1,8 @@
-import { Spec } from '@specron/spec';
-import { Protocol } from '@0xcert/ethereum-sandbox';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '../../..';
-import { OrderGatewayProxy } from '../../..';
+import { Protocol } from '@0xcert/ethereum-sandbox';
 import { OrderActionKind } from '@0xcert/scaffold';
+import { Spec } from '@specron/spec';
+import { OrderGateway, OrderGatewayProxy } from '../../..';
 
 interface Data {
   protocol: Protocol;
@@ -14,7 +13,7 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-  
+
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -28,7 +27,7 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const provider = new GenericProvider({ 
+  const provider = new GenericProvider({
     client: stage.web3,
   });
 
@@ -36,7 +35,7 @@ spec.before(async (stage) => {
 });
 
 spec.test('returns proxy account address', async (ctx) => {
-  const protocol = ctx.get('protocol')
+  const protocol = ctx.get('protocol');
   const provider = ctx.get('provider');
   const id = protocol.orderGateway.instance.options.address;
 
@@ -54,7 +53,7 @@ spec.test('returns proxy account address', async (ctx) => {
 });
 
 spec.test('returns null when calling getProxyAccountId on a contract that does not support it', async (ctx) => {
-  const protocol = ctx.get('protocol')
+  const protocol = ctx.get('protocol');
   const provider = ctx.get('provider');
   const id = protocol.erc20.instance.options.address;
 
@@ -63,6 +62,5 @@ spec.test('returns null when calling getProxyAccountId on a contract that does n
   const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
   ctx.is(tokenTransferProxy, null);
 });
-
 
 export default spec;

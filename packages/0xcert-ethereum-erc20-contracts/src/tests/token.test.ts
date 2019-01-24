@@ -1,7 +1,4 @@
 import { Spec } from '@specron/spec';
-/**
- * Spec context interfaces.
- */
 
 interface Data {
   token?: any;
@@ -12,10 +9,6 @@ interface Data {
   decimalsMul?: any;
   totalSupply?: any;
 }
-
-/**
- * Spec stack instances.
- */
 
 const spec = new Spec<Data>();
 
@@ -28,7 +21,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const token = await ctx.deploy({ 
+  const token = await ctx.deploy({
     src: './build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],

@@ -17,6 +17,13 @@ export interface MetamaskProviderOptions {
 export class MetamaskProvider extends GenericProvider {
 
   /**
+   * Gets an instance of metamask provider.
+   */
+  public static getInstance(): MetamaskProvider {
+    return new MetamaskProvider();
+  }
+
+  /**
    * Class constructor.
    */
   public constructor(options?: MetamaskProviderOptions) {
@@ -25,13 +32,6 @@ export class MetamaskProvider extends GenericProvider {
       client: typeof window !== 'undefined' ? window['ethereum'] : null,
       signMethod: SignMethod.EIP712,
     });
-  }
-
-  /**
-   * Gets an instance of metamask provider.
-   */
-  public static getInstance(): MetamaskProvider {
-    return new MetamaskProvider();
   }
 
   /**
@@ -64,5 +64,5 @@ export class MetamaskProvider extends GenericProvider {
     }
     return this;
   }
-  
+
 }
