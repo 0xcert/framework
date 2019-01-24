@@ -126,10 +126,6 @@
       true,
       20
     ],
-    "max-file-line-count": [
-      true,
-      1000
-    ],
     "indent": [
       true,
       "spaces",

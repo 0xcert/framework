@@ -1,26 +1,21 @@
-import { Spec } from '@specron/spec';
-import * as common from './helpers/common';
-import { OrderGatewayAbilities } from '../core/types';
+import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities,
+  XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
-import { XcertCreateProxyAbilities, TokenTransferProxyAbilities, NFTokenSafeTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { Spec } from '@specron/spec';
+import { OrderGatewayAbilities } from '../core/types';
+import * as common from './helpers/common';
 
 /**
  * Test definition.
- * 
  * ERC20: ZXC, BNB, OMG, BAT, GNT
  * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
- */
-
-
-/**
- * Spec context interfaces.
  */
 
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
   nftSafeProxy?: any;
-  CreateProxy?: any;
+  createProxy?: any;
   cat?: any;
   dog?: any;
   fox?: any;
@@ -41,15 +36,9 @@ interface Data {
   imprint3?: string;
 }
 
-/**
- * Spec stack instances.
- */
-
 const spec = new Spec<Data>();
 const perform = new Spec<Data>();
 const cancel = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -58,7 +47,6 @@ spec.beforeEach(async (ctx) => {
   ctx.set('jane', accounts[2]);
   ctx.set('sara', accounts[3]);
 });
-
 
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '1');
@@ -69,12 +57,11 @@ spec.beforeEach(async (ctx) => {
   ctx.set('imprint3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
 });
 
-
 /**
  * Cat
  */
 spec.beforeEach(async (ctx) => {
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
@@ -89,7 +76,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
-  const dog = await ctx.deploy({ 
+  const dog = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6', []],
@@ -119,7 +106,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
-  const fox = await ctx.deploy({ 
+  const fox = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6', []],
@@ -142,7 +129,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane
+    from: jane,
   });
   ctx.set('zxc', zxc);
 });
@@ -157,7 +144,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane
+    from: jane,
   });
   ctx.set('bnb', bnb);
 });
@@ -165,7 +152,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
-    contract: 'TokenTransferProxy'
+    contract: 'TokenTransferProxy',
   });
   ctx.set('tokenProxy', tokenProxy);
 });
@@ -179,17 +166,17 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const CreateProxy = await ctx.deploy({
+  const createProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
-    contract: 'XcertCreateProxy',
+    contract: 'XcertcreateProxy',
   });
-  ctx.set('CreateProxy', CreateProxy);
+  ctx.set('createProxy', createProxy);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
@@ -207,7 +194,7 @@ spec.beforeEach(async (ctx) => {
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
   await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
   await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
@@ -221,7 +208,7 @@ spec.spec('perform an atomic creation', perform);
 
 perform.test('Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
@@ -236,7 +223,7 @@ perform.test('Cat #1', async (ctx) => {
       param1: imprint,
       to: jane,
       value: id,
-    }
+    },
   ];
   const orderData = {
     from: owner,
@@ -244,7 +231,7 @@ perform.test('Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -269,7 +256,7 @@ perform.test('Cat #1', async (ctx) => {
 perform.test('5000 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -301,7 +288,7 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -324,14 +311,14 @@ perform.test('5000 ZXC => Cat #1', async (ctx) => {
   ctx.is(cat1Owner, jane);
 
   const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
-  ctx.is(ownerZxcBalance, "5000");
+  ctx.is(ownerZxcBalance, '5000');
 });
 
 perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
   const bnb = ctx.get('bnb');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -372,7 +359,7 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -396,15 +383,15 @@ perform.test('5000 ZXC, 100 BNB => Cat #1', async (ctx) => {
   ctx.is(cat1Owner, jane);
 
   const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
-  ctx.is(ownerZxcBalance, "5000");
+  ctx.is(ownerZxcBalance, '5000');
 
   const saraBnbBalance = await bnb.instance.methods.balanceOf(sara).call();
-  ctx.is(saraBnbBalance, "100");
+  ctx.is(saraBnbBalance, '100');
 });
 
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -422,7 +409,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -430,7 +417,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
       to: owner,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -438,7 +425,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
       to: owner,
       value: 2,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -453,7 +440,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -482,14 +469,14 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1', async (ctx) => {
 
   const dog2Owner = await dog.instance.methods.ownerOf(2).call();
   ctx.is(dog2Owner, owner);
-  
+
   const dog3Owner = await dog.instance.methods.ownerOf(3).call();
   ctx.is(dog3Owner, owner);
 });
 
 perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -528,7 +515,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
       to: sara,
       value: id3,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -536,7 +523,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
       to: owner,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -544,7 +531,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
       to: owner,
       value: 2,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -559,7 +546,7 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -594,14 +581,14 @@ perform.test('Dog #1, Dog #2, Dog #3 => Cat #1 Cat #2 Cat #3', async (ctx) => {
 
   const dog2Owner = await dog.instance.methods.ownerOf(2).call();
   ctx.is(dog2Owner, owner);
-  
+
   const dog3Owner = await dog.instance.methods.ownerOf(3).call();
   ctx.is(dog3Owner, owner);
 });
 
 perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
@@ -621,7 +608,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -629,7 +616,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
       to: owner,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -637,7 +624,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
       to: owner,
       value: 2,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -645,7 +632,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
       to: owner,
       value: 3,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -660,7 +647,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -679,7 +666,7 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
   await dog.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: jane });
   await dog.instance.methods.approve(nftSafeProxy.receipt._address, 3).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  
+
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
@@ -691,17 +678,17 @@ perform.test('Dog #1, Dog #2, Dog #3, 10 ZXC => Cat #1', async (ctx) => {
 
   const dog2Owner = await dog.instance.methods.ownerOf(2).call();
   ctx.is(dog2Owner, owner);
-  
+
   const dog3Owner = await dog.instance.methods.ownerOf(3).call();
   ctx.is(dog3Owner, owner);
 
   const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
-  ctx.is(ownerZxcBalance, "10");
+  ctx.is(ownerZxcBalance, '10');
 });
 
 perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const zxc = ctx.get('zxc');
@@ -722,7 +709,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: dog.receipt._address,
@@ -730,7 +717,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
       to: owner,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: fox.receipt._address,
@@ -738,7 +725,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
       to: owner,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -753,7 +740,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -771,7 +758,7 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await fox.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  
+
   const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
@@ -785,13 +772,13 @@ perform.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   ctx.is(fox1Owner, owner);
 
   const ownerZxcBalance = await zxc.instance.methods.balanceOf(owner).call();
-  ctx.is(ownerZxcBalance, "10");
+  ctx.is(ownerZxcBalance, '10');
 });
 
 perform.test('fails if msg.sender is not the receiver', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
@@ -809,7 +796,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -824,7 +811,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -846,7 +833,7 @@ perform.test('fails if msg.sender is not the receiver', async (ctx) => {
 perform.test('fails when trying to perform already performed creation', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -863,7 +850,7 @@ perform.test('fails when trying to perform already performed creation', async (c
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -878,7 +865,7 @@ perform.test('fails when trying to perform already performed creation', async (c
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -901,7 +888,7 @@ perform.test('fails when trying to perform already performed creation', async (c
 perform.test('fails when approved token value is not sufficient', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -918,7 +905,7 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -933,7 +920,7 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -971,7 +958,7 @@ perform.test('fails when proxy does not have the create rights', async (ctx) => 
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -986,7 +973,7 @@ perform.test('fails when proxy does not have the create rights', async (ctx) => 
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -1007,7 +994,7 @@ perform.test('fails when proxy does not have the create rights', async (ctx) => 
 perform.test('fails if current time is after expirationTimestamp', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1024,7 +1011,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -1039,7 +1026,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() - 1000,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -1061,7 +1048,7 @@ perform.test('fails if current time is after expirationTimestamp', async (ctx) =
 perform.test('fails if maker does not have asset creating ability', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1078,7 +1065,7 @@ perform.test('fails if maker does not have asset creating ability', async (ctx) 
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -1093,7 +1080,7 @@ perform.test('fails if maker does not have asset creating ability', async (ctx) 
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -1122,7 +1109,7 @@ spec.spec('cancel an atomic creation', cancel);
 cancel.test('succeeds', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1139,7 +1126,7 @@ cancel.test('succeeds', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -1154,7 +1141,7 @@ cancel.test('succeeds', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -1193,7 +1180,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -1208,7 +1195,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   await ctx.reverts(() => orderGateway.instance.methods.cancel(createTuple).send({ from: jane }), '015009');
@@ -1217,7 +1204,7 @@ cancel.test('fails when a third party tries to cancel it', async (ctx) => {
 cancel.test('fails when trying to cancel an already performed creation', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('CreateProxy');
+  const createProxy = ctx.get('createProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
@@ -1234,7 +1221,7 @@ cancel.test('fails when trying to cancel an already performed creation', async (
       to: jane,
       value: id,
     },
-    { 
+    {
       kind: 1,
       proxy: 0,
       token: zxc.receipt._address,
@@ -1249,7 +1236,7 @@ cancel.test('fails when trying to cancel an already performed creation', async (
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
-  }
+  };
   const createTuple = ctx.tuple(orderData);
 
   const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
@@ -1268,3 +1255,5 @@ cancel.test('fails when trying to cancel an already performed creation', async (
   await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.cancel(createTuple).send({ from: owner }), '015008');
 });
+
+export default spec;

@@ -1,15 +1,14 @@
+import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { Spec } from '@specron/spec';
-import * as common from './helpers/common';
 import { OrderGatewayAbilities } from '../core/types';
-import { TokenTransferProxyAbilities, NFTokenSafeTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import * as common from './helpers/common';
 
 /**
  * Test definition.
- * 
+ *
  * ERC20: ZXC, BNB, OMG, BAT, GNT
  * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
  */
-
 
 /**
  * Spec context interfaces.
@@ -50,8 +49,6 @@ const perform = new Spec<Data>();
 const cancel = new Spec<CancelData>();
 const fail = new Spec<Data>();
 
-export default spec;
-
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
   ctx.set('owner', accounts[0]);
@@ -66,10 +63,10 @@ spec.beforeEach(async (ctx) => {
  * Bob owns: #2, #3
  */
 spec.beforeEach(async (ctx) => {
-  const cat = await ctx.deploy({ 
+  const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT','http://0xcert.org/'],
+    args: ['cat', 'CAT', 'http://0xcert.org/'],
   });
   await cat.instance.methods
     .create(ctx.get('jane'), 1)
@@ -103,7 +100,7 @@ spec.beforeEach(async (ctx) => {
  * Jane owns: #1
  */
 spec.beforeEach(async (ctx) => {
-  const dog = await ctx.deploy({ 
+  const dog = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['dog', 'DOG', 'http://0xcert.org/'],
@@ -122,7 +119,7 @@ spec.beforeEach(async (ctx) => {
  * Bob owns: #3
  */
 spec.beforeEach(async (ctx) => {
-  const bee = await ctx.deploy({ 
+  const bee = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['bee', 'BEE', 'http://0xcert.org/'],
@@ -141,7 +138,7 @@ spec.beforeEach(async (ctx) => {
  * Bob owns: #1
  */
 spec.beforeEach(async (ctx) => {
-  const fox = await ctx.deploy({ 
+  const fox = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
     args: ['fox', 'FOX', 'http://0xcert.org/'],
@@ -165,7 +162,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane
+    from: jane,
   });
   ctx.set('zxc', zxc);
 });
@@ -180,7 +177,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane
+    from: jane,
   });
   ctx.set('bnb', bnb);
 });
@@ -195,7 +192,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob
+    from: bob,
   });
   ctx.set('gnt', gnt);
 });
@@ -210,7 +207,7 @@ spec.beforeEach(async (ctx) => {
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob
+    from: bob,
   });
   ctx.set('omg', omg);
 });
@@ -218,7 +215,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
-    contract: 'TokenTransferProxy'
+    contract: 'TokenTransferProxy',
   });
   ctx.set('tokenProxy', tokenProxy);
 });
@@ -282,7 +279,7 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
       to: bob,
       value: 1,
     },
-    { 
+    {
       kind: 1,
       proxy: 1,
       token: cat.receipt._address,
@@ -296,7 +293,7 @@ erc721s.test('Cat #1 <=> Cat #2', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -345,7 +342,7 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
       from: jane,
       to: bob,
       value: 4,
-    }, 
+    },
     {
       kind: 1,
       proxy: 1,
@@ -359,7 +356,7 @@ erc721s.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -436,7 +433,7 @@ erc721s.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -506,7 +503,7 @@ erc20s.test('3000 ZXC <=> 50000 GNT', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -584,7 +581,7 @@ erc20s.test('500 ZXC, 1 BNB <=> 30 GNT, 5 OMG', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -620,7 +617,6 @@ erc20s.test('500 ZXC, 1 BNB <=> 30 GNT, 5 OMG', async (ctx) => {
  * ERC721s and ERC20s.
  */
 
-
 perform.spec('between ERC721s and ERC20s', erc721sErc20s);
 
 erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
@@ -655,7 +651,7 @@ erc721sErc20s.test('Cat #1  <=>  5000 OMG', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -759,7 +755,7 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -790,7 +786,7 @@ erc721sErc20s.test('Cat #1, Dog #1, 3 ZXC <=> Cat #3, Fox #1, 30 OMG, 5000 GNT',
   const fox1Owner = await fox.instance.methods.ownerOf(1).call();
   const janeOmgAmount = await omg.instance.methods.balanceOf(jane).call();
   const janeGntAmount = await gnt.instance.methods.balanceOf(jane).call();
-  const bobZxcAmount = await zxc.instance.methods.balanceOf(bob).call();+
+  const bobZxcAmount = await zxc.instance.methods.balanceOf(bob).call();
   ctx.is(cat1Owner, bob);
   ctx.is(dog1Owner, bob);
   ctx.is(cat3Owner, jane);
@@ -859,7 +855,7 @@ erc721sErc20s.test('Cat #1, Dog #1 <=> Cat #3, Fox #1 => 40 ZXC', async (ctx) =>
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -929,7 +925,7 @@ cancel.beforeEach(async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -1017,7 +1013,7 @@ fail.test('when proxy not allowed to transfer nft', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -1068,7 +1064,7 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -1118,7 +1114,7 @@ fail.test('when _to address is not the one performing the transfer', async (ctx)
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -1167,7 +1163,7 @@ fail.test('when current time is after expirationTimestamp', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() - 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
@@ -1216,14 +1212,14 @@ fail.test('when signature is invalid', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   let orderDataTuple = ctx.tuple(orderData);
   const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
   orderData.actions[0].kind = 0;
   orderDataTuple = ctx.tuple(orderData);
-  
+
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -1235,7 +1231,7 @@ fail.test('when signature is invalid', async (ctx) => {
 
   await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
-  await ctx.reverts(() =>orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015006');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015006');
 });
 
 fail.test('when trying to perform an already perfomed swap', async (ctx) => {
@@ -1267,12 +1263,12 @@ fail.test('when trying to perform an already perfomed swap', async (ctx) => {
     maker: jane,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
   const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
-  
+
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -1318,12 +1314,12 @@ fail.test('when trying to transfer third party assets', async (ctx) => {
     maker: sara,
     taker: bob,
     actions,
-    seed: common.getCurrentTime(), 
+    seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
   };
   const orderDataTuple = ctx.tuple(orderData);
   const claim = await orderGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
-  
+
   const signature = await ctx.web3.eth.sign(claim, sara);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -1337,3 +1333,5 @@ fail.test('when trying to transfer third party assets', async (ctx) => {
   await cat.instance.methods.approve(nftSafeProxy.receipt._address, 2).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015004');
 });
+
+export default spec;
