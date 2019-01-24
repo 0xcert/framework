@@ -1,5 +1,5 @@
-import { Spec } from '@hayspec/spec';
 import { sha } from '@0xcert/utils';
+import { Spec } from '@hayspec/spec';
 import { Merkle } from '../../..';
 
 interface Data {
