@@ -4,7 +4,7 @@ A value is a representation of a cryptocurrency. It is compliant with the ERC-20
 
 When we talk about currency, we talk about value. A value is stored in the structure of a storage called Value Ledger. A Value ledger on the Ethereum blockchain represents a smart contract that complies with the ERC-20 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
-::: learn
+::: card Learn by example
 Click [here](https://stackblitz.com/edit/value-management-example) to check the live example for this section.
 :::
 

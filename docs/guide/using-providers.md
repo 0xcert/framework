@@ -6,7 +6,7 @@ Each provider operates on the same principles, but can also have its own distinc
 
 Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about providers please refer to the [API](/api/ethereum.html#api-ethereum).
 
-::: learn
+::: card Learn by example
 Click [here](https://stackblitz.com/edit/using-providers-example) to check the live example for this section.
 :::
 

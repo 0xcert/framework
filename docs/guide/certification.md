@@ -19,7 +19,7 @@ The original data of an asset is usually known only to the issuer and the owner 
 
 The process of certification is based on the [Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree) concept, a well-known mechanism in the world of cryptography. To create a cryptographic hash string, the 0xcert Framework employs the [sha256](https://en.wikipedia.org/wiki/SHA-2) algorithm. Within the framework, this complexity is hidden from the developer's interaction and available via simple functions provided by the API.
 
-::: learn
+::: card Learn by example
 Click [here](https://stackblitz.com/edit/certification-example) to check the live example for this section.
 :::
 
