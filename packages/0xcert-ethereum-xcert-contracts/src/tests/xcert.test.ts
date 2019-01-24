@@ -1,10 +1,6 @@
 import { Spec } from '@specron/spec';
 import { XcertAbilities } from '../core/types';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   xcert?: any;
   owner?: string;
@@ -22,8 +18,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -46,10 +40,10 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const uriBase = ctx.get('uriBase');
-  const xcert = await ctx.deploy({ 
+  const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []]
+    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []],
   });
 
   ctx.set('xcert', xcert);
@@ -67,7 +61,7 @@ spec.test('correctly checks all the supported interfaces', async (ctx) => {
   const nftokenMetadataInterface = await xcert.instance.methods.supportsInterface('0x5b5e139f').call();
   const nftokenMetadataEnumerableInterface = await xcert.instance.methods.supportsInterface('0x780e9d63').call();
   const nonExistingInterface = await xcert.instance.methods.supportsInterface('0xa40e9c95').call();
-  ctx.is(nftokenInterface, true)
+  ctx.is(nftokenInterface, true);
   ctx.is(nftokenMetadataInterface, true);
   ctx.is(nftokenMetadataEnumerableInterface, true);
   ctx.is(nonExistingInterface, false);
@@ -127,7 +121,7 @@ spec.test('corectly grants create ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
- 
+
   const logs =  await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
   ctx.not(logs.events.GrantAbilities, undefined);
 
@@ -182,7 +176,7 @@ spec.test('finds the correct amount of xcerts owned by account', async (ctx) => 
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
-  
+
   const imprint = ctx.get('imprint1');
   const id2 = ctx.get('id2');
   const imprint2 = ctx.get('imprint2');
@@ -217,8 +211,8 @@ spec.test('correctly approves account', async (ctx) => {
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   const logs = await xcert.instance.methods.approve(sara, id1).send({ from: bob });
   ctx.not(logs.events.Approval, undefined);
-  
-  const address = await xcert.instance.methods.getApproved(id1).call();;
+
+  const address = await xcert.instance.methods.getApproved(id1).call();
   ctx.is(address, sara);
 });
 
@@ -234,7 +228,7 @@ spec.test('correctly cancels approval', async (ctx) => {
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await xcert.instance.methods.approve(sara, id1).send({ from: bob });
   await xcert.instance.methods.approve(zeroAddress, id1).send({ from: bob });
-  
+
   const address = await xcert.instance.methods.getApproved(id1).call();
   ctx.is(address, zeroAddress);
 });
@@ -242,7 +236,7 @@ spec.test('correctly cancels approval', async (ctx) => {
 spec.test('throws when trying to get approval of non-existing xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const id1 = ctx.get('id1');
-  
+
   await ctx.reverts(() => xcert.instance.methods.getApproved(id1).call(), '006002');
 });
 
@@ -433,7 +427,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -457,7 +451,7 @@ spec.test('corectly safe transfers xcert from owner to smart contract that can r
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
 
-  const tokenReceiver = await ctx.deploy({ 
+  const tokenReceiver = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-receiver-test-mock.json',
     contract: 'NFTokenReceiverTestMock',
   });
@@ -478,14 +472,14 @@ spec.test('returns the correct issuer name', async (ctx) => {
   const xcert = ctx.get('xcert');
   const name = await xcert.instance.methods.name().call();
 
-  ctx.is(name, "Foo");
+  ctx.is(name, 'Foo');
 });
 
 spec.test('returns the correct issuer symbol', async (ctx) => {
   const xcert = ctx.get('xcert');
   const symbol = await xcert.instance.methods.symbol().call();
 
-  ctx.is(symbol, "F");
+  ctx.is(symbol, 'F');
 });
 spec.test('return the correct URI', async (ctx) => {
   const xcert = ctx.get('xcert');
@@ -500,16 +494,16 @@ spec.test('return the correct URI', async (ctx) => {
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await xcert.instance.methods.create(bob, id2, imprint2).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id2).call();
-  ctx.is(uri, uriBase+id2);
+  ctx.is(uri, uriBase + id2);
 
   const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
   await xcert.instance.methods.create(bob, bigId, imprint3).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(bigId).call();
-  ctx.is(uri, uriBase+bigId);
+  ctx.is(uri, uriBase + bigId);
 });
 
 spec.test('succesfully changes URI base', async (ctx) => {
@@ -523,11 +517,11 @@ spec.test('succesfully changes URI base', async (ctx) => {
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, newUriBase+id1);
+  ctx.is(uri, newUriBase + id1);
 });
 
 spec.test('return empty thing if URI base is empty', async (ctx) => {
@@ -541,7 +535,7 @@ spec.test('return empty thing if URI base is empty', async (ctx) => {
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase+id1);
+  ctx.is(uri, uriBase + id1);
 
   await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
@@ -574,7 +568,7 @@ spec.test('returns the correct token by index', async (ctx) => {
   const tokenIndex0 = await xcert.instance.methods.tokenByIndex(0).call();
   const tokenIndex1 = await xcert.instance.methods.tokenByIndex(1).call();
   const tokenIndex2 = await xcert.instance.methods.tokenByIndex(2).call();
-  
+
   ctx.is(tokenIndex0, id1);
   ctx.is(tokenIndex1, id2);
   ctx.is(tokenIndex2, id3);
@@ -674,3 +668,5 @@ spec.test('throws when trying to use destroy capability', async (ctx) => {
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.destroy(id1).send({ from: bob }), '007001');
 });
+
+export default spec;

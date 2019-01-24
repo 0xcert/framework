@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   xcert?: any;
   owner?: string;
@@ -15,8 +11,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -34,10 +28,10 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
-  const xcert = await ctx.deploy({ 
+  const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbedb86fb']]
+    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbedb86fb']],
   });
 
   ctx.set('xcert', xcert);
@@ -52,12 +46,12 @@ spec.test('successfuly changes paused state', async (ctx) => {
 
   const logs = await xcert.instance.methods.setPause(true).send({ from: owner });
   ctx.not(logs.events.IsPaused, undefined);
-    
+
   pauseState = await xcert.instance.methods.isPaused().call();
   ctx.is(pauseState, true);
 
   await xcert.instance.methods.setPause(false).send({ from: owner });
-    
+
   pauseState = await xcert.instance.methods.isPaused().call();
   ctx.is(pauseState, false);
 });
@@ -136,3 +130,5 @@ spec.test('throws when trying to safe transfer an Xcert when contract is paused'
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.safeTransferFrom(bob, sara, id1).send({ from: bob }), '007002');
 });
+
+export default spec;

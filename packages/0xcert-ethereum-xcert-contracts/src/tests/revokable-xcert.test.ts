@@ -1,9 +1,5 @@
 import { Spec } from '@specron/spec';
 
-/**
- * Spec context interfaces.
- */
-
 interface Data {
   xcert?: any;
   owner?: string;
@@ -21,8 +17,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-
-export default spec;
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -46,10 +40,10 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
-  const xcert = await ctx.deploy({ 
+  const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo','F',uriBase,'0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x20c5429b']]
+    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x20c5429b']],
   });
 
   ctx.set('xcert', xcert);
@@ -72,7 +66,7 @@ spec.test('successfuly revokes an xcert', async (ctx) => {
   const balance = await xcert.instance.methods.balanceOf(bob).call();
   ctx.is(balance, '1');
   await ctx.reverts(() => xcert.instance.methods.ownerOf(id1).call(), '006002');
-   
+
   const tokenIndex0 = await xcert.instance.methods.tokenByIndex(0).call();
   ctx.is(tokenIndex0, id2);
 
@@ -105,3 +99,5 @@ spec.test('throws when a third party tries to revoke a xcert', async (ctx) => {
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: bob }));
 });
+
+export default spec;
