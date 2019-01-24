@@ -1,4 +1,4 @@
-import { MutationBase } from "./mutation";
+import { MutationBase } from './mutation';
 
 /**
  * List of available order action kinds.
@@ -20,7 +20,7 @@ export interface OrderGatewayBase {
 }
 
 /**
- * 
+ *
  */
 export type OrderAction = OrderActionCreateAsset | OrderActionTransferAsset
   | OrderActionTransferValue;

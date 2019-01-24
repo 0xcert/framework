@@ -1,5 +1,5 @@
-import { MutationBase } from "./mutation";
-import { OrderGatewayBase } from "./order-gateway";
+import { MutationBase } from './mutation';
+import { OrderGatewayBase } from './order-gateway';
 
 /**
  * List of available abilities an account can have per asset ledger.
