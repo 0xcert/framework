@@ -32,7 +32,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/scaffold | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fscaffold.svg)](https://badge.fury.io/js/%400xcert%2Fscaffold) | Overarching module with types, enums, and interfaces for easier development of interoperable modules.
 | 0xcert/utils | [![NPM Version](https://badge.fury.io/js/@0xcert%2Futils.svg)](https://badge.fury.io/js/%400xcert%2Futils) | General utility module with common helper functions.
 | 0xcert/vue-example | - | VueJS plug-in example for NuxtJS.
-| 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
+| 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) [![Join the chat at https://gitter.im/0xcert-framework/community](https://badges.gitter.im/0xcert-framework/community.svg)](https://gitter.im/0xcert-framework/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) | Implementation of VueJS plug-in.
 | 0xcert/webpack | - | Module for package building and minification.
 
 See [CONTRIBUTING](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.md) to learn how to contribute to the project and [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) to learn about the terms of use.
