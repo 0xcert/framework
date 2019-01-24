@@ -1127,7 +1127,7 @@
     },
     "@rush-temp/cert": {
       "version": "file:projects/cert.tgz",
-      "integrity": "sha512-mS+d3PjB+2cDI+tXXDZ2VUSR8ds9pZthuXRHA7pZFbQf2YFZPsv1mbUFYd+94BYZ3XFuUFoIcVH27srR/ZXRFw==",
+      "integrity": "sha512-4OteySwlHaNzK4sopjLWKUUMugLr9ftaiRIChIl1yf9M4guErIdJqM4AqCEyVnaUcnzc+BEGM5dLlGSjl2hDRA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1151,7 +1151,7 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-SVKLz/tyhebgMYKkRjamQRBz2ZJr5BmwqbPj6zH9Iit3mf6oRrY9c6T4Jjc6HEhBAYGTsWo69CHx8kojTwuyug==",
+      "integrity": "sha512-HFxsjsB5pU+WnQm6cti2of38iHrFTVElRn7bUZ5eppz/pkDP2KSAf9uPNb3mIroxwT5FgyT9VDLf/jgKMWVjOw==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1165,7 +1165,7 @@
     },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
-      "integrity": "sha512-MDXTnfKaCbTuxHS2GONHPz3BIvteipQfCsesol0rpozglOnW8KPm6q1ngxLYSjvs8QpvGvdEJ7cltxMZ/x+72w==",
+      "integrity": "sha512-tod9OMlfy/iqQzWlnM0YNCMlFxep2mrivZwYcGLYAqEoq1b3zntbHWUW22S2sxd+sMASQ8MjWEFMx+a9AU3jBw==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1178,7 +1178,7 @@
     },
     "@rush-temp/ethereum-erc721-contracts": {
       "version": "file:projects/ethereum-erc721-contracts.tgz",
-      "integrity": "sha512-wU8Iql6lKFTtwc1lrbP2Ig7Flv1Sffl3bAsmuZfHtpwhfg3JDy6jCh7/ZA+Xc1evMY+C72VaauTRYyZfRk1XBw==",
+      "integrity": "sha512-zmR1DSy/jpqftRbSJxLPXLfK6PkKqhHhyXtc1soiXZN1uVJqKRxZtYZ00b1IQGTL2EWAjAfW7JeenKivgj66uw==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1191,7 +1191,7 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-etl3EgtJl6qhakU/AF6jqLbfuwG3LrXmnTNYO9t8cRjwp5G447kwwpKXsRuMnJh+c551whVK+DMMHrcUOA9toA==",
+      "integrity": "sha512-gbf1LO2kArzk4PrePbMYbjcayVtwDvEFUh3FUltsDsWAU/gVwMvmnq5rbeXUcaAKlrLZn0TRX7uNXy8yf2rqYg==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1206,7 +1206,7 @@
     },
     "@rush-temp/ethereum-http-provider": {
       "version": "file:projects/ethereum-http-provider.tgz",
-      "integrity": "sha512-212xLv3b1BUCYkTaqy/nC9kl6OS1vOn12FEnVCF4s/nHOeg9VeJyysRBaRSl42Rvb2/ej78odjlOsU2jdax5Eg==",
+      "integrity": "sha512-GMClXG4E2L4Rk27DxCiuSOMx+xIhZR64xJHd5dXKN+FyDwRLSRmbkM4lcQdYsrZlfF4VzW37UEBX35cvL0qFFw==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1220,7 +1220,7 @@
     },
     "@rush-temp/ethereum-metamask-provider": {
       "version": "file:projects/ethereum-metamask-provider.tgz",
-      "integrity": "sha512-Rh7oMFiNvnW7ae7R1FEL7upc8eHtKcFJfRXgWcwKwx3UgpMXe1edtsLmhLtzB3CWXu1xrkIMzWTBgrlnmmNVtg==",
+      "integrity": "sha512-3ounV/zPhQAGapeXAvGGTyr9V8AhZrlD4p+vdSyxitkHSGZwF1VAbcXuLiB8qiEOCGuwQNFOlewnEmKeKijEYQ==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1234,7 +1234,7 @@
     },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
-      "integrity": "sha512-r+OAZ5oxTZ0OscZ9arCV6kuW3oHoeCdnAjTwbfVrMDSPkkIl0TMmmPU0CqOaslgw9PjFk6C50dn9uUjCJHjeXw==",
+      "integrity": "sha512-WG/oUQfjeiNNuq1SDNOImuSEXwvRhCcH7xse4rKvQ+m6ArJw/A7cLB79Tdv7+j8j9ckMUh68p5T4NoHY1Ty/GQ==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1248,7 +1248,7 @@
     },
     "@rush-temp/ethereum-order-gateway-contracts": {
       "version": "file:projects/ethereum-order-gateway-contracts.tgz",
-      "integrity": "sha512-oNt0glyTkcz+j/NMSu3omHpVkUVr94F01/3Uds0YNOsEYqzoqplVHY3yHfUgrCTFLxoeL9x2j7CudigccBvFNg==",
+      "integrity": "sha512-ez8tUfNCtfis+EDGpJm8H9MolzQrtumSZ6OKOffcetnzfkLoVYfAToUTQ7On6lUdZCzbWgJWf3c3DO96nEWTsA==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1261,7 +1261,7 @@
     },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
-      "integrity": "sha512-kHESr0or2xfSPDvDuGAFF6RBAwFcJnaA/PcyM86eyJKeqYMluNzh5i+xNVmaKErHRGz08LyM1xoKvhNANGuR9Q==",
+      "integrity": "sha512-wSp0BdpI3pedqsWKyrP5auqCFlGj9oCLJTscE0OS6TjeDKC50e3b/iMJgb95U9Zqly/OfsWIlaXz7M2J/LF4EQ==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1274,7 +1274,7 @@
     },
     "@rush-temp/ethereum-sandbox": {
       "version": "file:projects/ethereum-sandbox.tgz",
-      "integrity": "sha512-G5l+YJPP2IbktDZuZmEFySJ857pRiSMuuTocuTLKlmM1BkslnrY7FJpjFGyw5Jd1KFyzKqvDFYy5uVsRDup4xw==",
+      "integrity": "sha512-fPyerVLdPNpp4VLgUMMKXGb/HcRANyKhzZ53RAeOV1eggNuyKuL56F7jUHIEet68nvEVS35pomQxQsqW30BM3Q==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1290,7 +1290,7 @@
     },
     "@rush-temp/ethereum-utils": {
       "version": "file:projects/ethereum-utils.tgz",
-      "integrity": "sha512-2OzBlFEvXRUCufc5yKYFZXfFHngpJWCibk6Ei0wUnECybAD3Edqr18cq1R1F99Jk3gf3Jb4XNHIANXwjy8BT2Q==",
+      "integrity": "sha512-gR9mIsIxzI722sTSDCFysYRvN4X3mQxp/2TPpAzTq1akpsIzJC6cji/NT6LRDtUusteYtXQ8L6qqS0KJEOSBvA==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1318,7 +1318,7 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-LssBymuZKs5NuJbkrI8mpAMjVL+e3TGX3EWPXZ1nKqVLE7L6ybRCXQEqVV7nsjm/2Ytsv0DcPnk0dgG21rQU3g==",
+      "integrity": "sha512-fVhVtokIENBgL8bP/8s+772dANW87DYMynDSvOVcb5Zl3yTjt3Oaj0wDhiY2oYEI61nEXX2i2JhZ3aEswnRuwQ==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1332,7 +1332,7 @@
     },
     "@rush-temp/ethereum-xcert-contracts": {
       "version": "file:projects/ethereum-xcert-contracts.tgz",
-      "integrity": "sha512-OP1vp1PZNRwGIK4cXjNSqjGaZCQ4BloiFFDZUB1uNfYM/tGoD7Aexw4pwezioW+ovJqZqsKsBNTZ7I1PS3oI6w==",
+      "integrity": "sha512-EDvNRzCCz5GKm2jZT5hkoQhLUJI2Tg52WyhzwQqZhmLXYEd7MfQppw30dNnV6KeBIKZeZiTRi0BL+ctsASaVKA==",
       "requires": {
         "@specron/cli": "^0.5.1",
         "@specron/spec": "^0.5.1",
@@ -1345,7 +1345,7 @@
     },
     "@rush-temp/merkle": {
       "version": "file:projects/merkle.tgz",
-      "integrity": "sha512-nQJDDCCziR5ZoqsB9hG7HBt/jW1VhrMqcUosp4auJCZN3hRIVyNcDbljQdYx2KpIcf/dlDX/w22tteVERnMpIA==",
+      "integrity": "sha512-lPVcn4d8Z1KNsbqPctLzC3YdW89ewS29UbuSt7WvIltms1hSfwrz7myn0KAKHFzFyF1sK8/xM5q64kbKuELBdw==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1386,14 +1386,14 @@
     },
     "@rush-temp/vue-example": {
       "version": "file:projects/vue-example.tgz",
-      "integrity": "sha512-iNEUs32/VOiTPxxkbBIfuP/nycdAw1R4jTWOxUFbuo886eV11C3OhPMhDFwX9EhGS5FwmvArfO8F/gFjNVQCRg==",
+      "integrity": "sha512-WxhjeKigHFzZkgz3QVWH0JvWz3lAL7R2Yf+zM0EgcmQkvDdupiSU8B6/9noHPFHOoTZCEualKZyIXleepH9hKA==",
       "requires": {
         "nuxt": "^2.3.1"
       }
     },
     "@rush-temp/vue-plugin": {
       "version": "file:projects/vue-plugin.tgz",
-      "integrity": "sha512-6KlOE2PIfSxuI02FPAt1HXChmGUracnAtG00aDyRAUV4nb/tIZtDKyr7tO4HcqQB5eVSy2Tt9NVuIKxk/W1Tbg==",
+      "integrity": "sha512-FOxbrXiAyp/IBeE/2u6O6CYS7/fM50ogmVByQoksU6n9qd8nDZMQuzSy6L476C5AVEazG0XoCapK12uAav8ZWA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1405,7 +1405,7 @@
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-aiTG2mzMflpW63LsY51+l50Hzxuyxubd8QqP3IiLyZi773UzXdFc4ClWaXMFcnj5Eg84OEnJUtVkXUOx8f+LsA==",
+      "integrity": "sha512-7oco7efjXa1EiW6DX8X11l2ZzxUeE+52sNE9TgYxvEZr/vsKGfeQ3rKuf5JDVn/7GGPiZZ+TnnHyo3DMRN4Rcw==",
       "requires": {
         "webpack": "^4.25.0",
         "webpack-cli": "^3.1.2"

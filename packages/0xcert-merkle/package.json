@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/merkle",
-  "version": "0.0.0-alpha10",
+  "version": "0.0.0-rc1",
   "description": "Implementation of basic functions of binary Merkle tree.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,7 +64,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/utils": "0.0.0-alpha10",
+    "@0xcert/utils": "0.0.0-rc1",
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
     "nyc": "^13.1.0",

@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-utils-contracts",
   "description": "General utility module with helper smart contracts.",
-  "version": "0.0.0-alpha10",
+  "version": "0.0.0-rc1",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
