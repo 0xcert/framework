@@ -168,7 +168,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const createProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
-    contract: 'XcertcreateProxy',
+    contract: 'XcertCreateProxy',
   });
   ctx.set('createProxy', createProxy);
 });
