@@ -2,7 +2,7 @@
 
 Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular process or for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
-The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
+The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
 
 ![0xcert framework](../assets/scheme_3.svg)
 
