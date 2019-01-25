@@ -1,6 +1,6 @@
 # Value Management
 
-A value is a representation of a cryptocurrency. It is compliant with the ERC-20 standard for fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens, you would encapsulate that as a value.
+A value is a representation of a cryptocurrency. It is compliant with the [ERC-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md) standard for fungible tokens on the Ethereum blockchain. If you would like to operate with ZXC tokens, you would encapsulate that as a value.
 
 When we talk about currency, we talk about value. A value is stored in the structure of a storage called Value Ledger. A Value ledger on the Ethereum blockchain represents a smart contract that complies with the ERC-20 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
