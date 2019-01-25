@@ -8,9 +8,9 @@ The 0xcert Framework is a JavaScript library that provides tools for building po
 
 The 0xcert Framework enables management of **assets** and **values**.
 
-**Assets** are non-fungible tokens (NFTs), compliant with the Ethereum's ERC-721 standard. Assets can represent a unique, either digital or real-life item with its unique metadata stored as a data imprint on a distributed ledger.
+**Assets** are non-fungible tokens (NFTs), compliant with the Ethereum's [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. Assets can represent a unique, either digital or real-life item with its unique metadata stored as a data imprint on a distributed ledger.
 
-Management of **values**, on the other hand, deals with cryptocurrency tokens that are  compliant with the ERC-20 standard. Values represent fungible tokens that share the same value as any other of their kind which makes them optimal to serve as a monetary value token.
+Management of **values**, on the other hand, deals with cryptocurrency tokens that are  compliant with the [ERC-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md) standard. Values represent fungible tokens that share the same value as any other of their kind which makes them optimal to serve as a monetary value token.
 
 ![0xcert framework](../assets/scheme_2.svg)
 
