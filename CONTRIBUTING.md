@@ -48,3 +48,24 @@ $ cp ./packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./docs/.vu
 $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
 ```
+
+# 0xcet documentation
+
+We are using VuePress for building the documentation pages. Start by installing the dependencies.
+
+```
+$ npm i -g vuepress
+```
+
+Then run the VuePress server in development mode.
+
+```
+$ npm dev docs
+```
+
+Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder. To deploy the documentation, simply go to `/docs/.vuepress/` and run `deploy.sh` script.
+
+```
+$ cd ./docs/.vuepress/
+$ ./deploy.sh
+```
