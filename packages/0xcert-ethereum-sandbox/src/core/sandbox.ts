@@ -1,5 +1,5 @@
 import * as ganache from 'ganache-cli';
-import Web3 from 'web3';
+import * as Web3 from 'web3';
 import { Protocol } from './protocol';
 
 /**

@@ -76,7 +76,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
-    "web3": "1.0.0-beta.38"
+    "web3": "1.0.0-beta.36"
   },
   "dependencies": {
     "@0xcert/ethereum-utils": "1.0.0-rc1",

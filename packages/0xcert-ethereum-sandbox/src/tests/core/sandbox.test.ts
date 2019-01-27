@@ -39,10 +39,9 @@ spec.test('deploys protocol contracts', async (ctx) => {
 spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {
   let count = 0;
   await new Promise((resolve) => {
-    sandbox.web3.eth.subscribe('newBlockHeaders').then((subscription) => {
-      subscription.on('data', () => count++);
-      setTimeout(() => resolve(), 4800);
-    });
+    const subscription = sandbox.web3.eth.subscribe('newBlockHeaders');
+    subscription.on('data', () => count++);
+    setTimeout(() => resolve(), 4800);
   });
   ctx.is(count, 4);
 });

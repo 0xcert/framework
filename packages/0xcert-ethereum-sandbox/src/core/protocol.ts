@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import * as Web3 from 'web3';
 import * as contracts from '../config/contracts';
 import { deploy } from '../lib/deploy';
 
