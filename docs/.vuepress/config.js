@@ -1,6 +1,6 @@
 module.exports = {
-  title: "0xcert Docs",
-  description: "Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.",
+  title: '0xcert Docs',
+  description: 'Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.',
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
@@ -18,7 +18,7 @@ module.exports = {
     editLinks: true,
     editLinkText: 'Help us improve this page.',
     serviceWorker: {
-      updatePopup: true
+      updatePopup: true,
     },
     nav: [
       { text: '0xcert Home', link: 'https://0xcert.org' },
@@ -59,19 +59,17 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
-    config: md => {
-      md.use(require("markdown-it-container"), "card", {
+    config(md) {
+      md.use(require('markdown-it-container'), 'card', {
         validate: function (params) {
           return params.trim().match(/^card\s+(.*)$/);
         },
-
         render: function (tokens, idx) {
           let title = tokens[idx].info.trim().match(/^card\s+(.*)$/);
-
           return tokens[idx].nesting === 1 ? 
             '<div class="card custom-block"><p class="custom-block-title">' + md.utils.escapeHtml(title[1]) + "</p>\n"
             : '</div>\n';
-        }
+        },
       });
     },
     externalLinks: {
@@ -79,4 +77,4 @@ module.exports = {
       rel: 'noopener noreferrer alternate',
     },
   },
-}
+};
