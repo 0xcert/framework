@@ -23,6 +23,14 @@ The process of certification is based on the [Merkle Tree](https://en.wikipedia.
 Click [here](https://stackblitz.com/edit/certification-example) to check the live example for this section.
 :::
 
+## Conventions
+
+Conventions are data models that allow your application to interoperate with other applications using the 0xcert Framework. Additionally, conventions enable imprints, a tamper-evident system for assuring data consistency in which some of the data can be public and some can be private.
+
+Conventions that are approved and represent best practices in industry can be found in [this package](https://github.com/0xcert/framework/tree/master/conventions) on GitHub. These conventions are public. You can use these public conventions as-is, derive your own more specific versions of these public conventions or create your own conventions from scratch.
+
+Please see the [base asset schema](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) as an example of the convention format. Also, every convention must adopt this base asset schema.
+
 ## Installation
 
 We recommend you employ the certification module as an NPM package in your application.
