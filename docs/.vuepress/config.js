@@ -1,6 +1,6 @@
 module.exports = {
-  title: "0xcert Docs",
-  description: "Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.",
+  title: '0xcert Docs',
+  description: 'Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.',
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
@@ -60,7 +60,7 @@ module.exports = {
   markdown: {
     lineNumbers: false,
     config: md => {
-      md.use(require("markdown-it-container"), "card", {
+      md.use(require('markdown-it-container'), 'card', {
         validate: function (params) {
           return params.trim().match(/^card\s+(.*)$/);
         },
