@@ -1151,50 +1151,50 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-ruQk3ZfvrVfolH4AY7pWtIbQUuC3QmF6mQk4GTgJWapxHTGCRKDWu9m0dpp8I524wPQXi/f0CC8VPS/P/oBw0w==",
+      "integrity": "sha512-Q7Hnu386rsNJOtJnYcOsYAAdFi/ri7bMI7PqzL0JBpQ7LF9Qbt/7teiSUXbQuDukHs++O0Dw+Bt8ouREZFBdTA==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
-      "integrity": "sha512-AdmUPe2Pmok0sRVJv2aCExZeW5eRoWWEKQNWhsYFaY1cfJeN+1oXiahnnJr0QzupVxtQz6Aj0UCkZS1gLTjoxg==",
+      "integrity": "sha512-KiegsPIL8f7N8NyR3MuhneYG8QohgSjl7tWs/FX77AQEosilODjfqJTonXn9r72xh/CCb1Weuy0/v7nbKHnUkg==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-erc721-contracts": {
       "version": "file:projects/ethereum-erc721-contracts.tgz",
-      "integrity": "sha512-K3d5zhNXMRMIwN1PxvEGDlU5THAS2RFJSTGB+j43MiyCHVYE37AM8oZCp/cXFJHJM0k9Wbw+Dgy9ln0rv0s96A==",
+      "integrity": "sha512-bu7LjP+NA49co94eCd/H8DbY/IdO9f9JmKwkB0guhP/sgQSBzZs/iQqd2moLjor/yFwR7geU1QcN7cdxzqzFBw==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-Rt7Rw1VHh9PR06EFV0LXOfbvzMdu25yHPhNNyb/NsSHSPkidlot0TL+DK+2pfsWmo+VOaAeSikXviUxghZb9jA==",
+      "integrity": "sha512-zSzuVA77lozaFpNrKgUuG6ah7c9tGabq1m0NKoKMOjDdD2V/m75gFtvSTb3VJcDiVb1cNGWpBu8+0fZoP48d3A==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "@types/node": "^10.12.10",
         "events": "^3.0.0",
         "nyc": "^13.1.0",
@@ -1202,80 +1202,80 @@
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-http-provider": {
       "version": "file:projects/ethereum-http-provider.tgz",
-      "integrity": "sha512-MtBRsFWmY6B5+9onw7amMGFE7MVfnBxAQmxOdOD8Rx3jQf0Zec35iqMgncicGgmBb7dqVzzkfUBCpRNWwKYzeQ==",
+      "integrity": "sha512-GnULWVaWMkRNl3LmwtaU1bvutpmenje+hfPn9vQRSniO1Cquk8Bezescp4h96x8YWWpL7QlhgfwBI69volkHDA==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-metamask-provider": {
       "version": "file:projects/ethereum-metamask-provider.tgz",
-      "integrity": "sha512-FN8G8izNEdlSE+Y1GhuD+cZweWXMOZ5rZngzlYiQrPRbVkSXLZHl14//7H9jeDT6E3U329j6k2B4RFBpiciikw==",
+      "integrity": "sha512-/hN0wARd0yXuc7KqrO3Eo12g+g9oxjMoczsvIafR+KFY/myq/Aygky3OkgrKnGlZMGwL3bWHuthJcuQz2azCCA==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
-      "integrity": "sha512-MLEwxnzdcgPKK4M0o5958A0t7t9vY7EUieS2poaczhU9fbL6jXYFxNum1o+Bb3rmIIxRO1S0bFG6Z9vXAWNuPA==",
+      "integrity": "sha512-CUBZLnW31zr7ESYzZo1vgVj5wceuCuXpxgLxS1UOYT1vrY+QJJfEAiQnhhOwMW2ylFnn4sfcaxzdLkMGR+GTFw==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-order-gateway-contracts": {
       "version": "file:projects/ethereum-order-gateway-contracts.tgz",
-      "integrity": "sha512-zHBfm+tXh4xVZShyzFK8GwWxGT4zqh9PpnnpoFAIMbEFFZ9q9Xc2jo57nTf8iWvWAsvQk/FnOJclj/m3iXebfA==",
+      "integrity": "sha512-3Xeml//XovgHKQVCfq+15hhuEYnTkznTJMyR8ogNzB5bLCBeJGwC6vTqqnwyc3dIpqE6yv+DzXrupDTqlQtx5w==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
-      "integrity": "sha512-zB7fvTDXcUPrMw9I9Rz6rovJXU2SR6Kldy1UeMQQhSUUdw/m0XV1bWenDShyMY5u4fCI+JYPQqvI2eCcxD/pow==",
+      "integrity": "sha512-hJlamf2krXtTXyXT9jClIbWLNPY6cghf/rkqq7Aub7ty2zOtuq3GusdljsF7BXiDx4gcLaQ73AVL73lTauX6rw==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-sandbox": {
       "version": "file:projects/ethereum-sandbox.tgz",
-      "integrity": "sha512-N6RkyK0An91kwhgy2vBW9JnvWm1pCsHP4uvtDHWheYJ6ylV+6BuHSp+x6ZN2Z/8iKI5EA0O6jhqfKKnRFZMVWg==",
+      "integrity": "sha512-28lgrze4d9Cp/gobu362AnKg9uJUITci+/zXMDgWV60qGO5w043wqYUbKl3bkwAOI98nYkyA0ody0eQmSCbg7Q==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1286,62 +1286,62 @@
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-utils": {
       "version": "file:projects/ethereum-utils.tgz",
-      "integrity": "sha512-G8ixWszYAZWznyz5xFx7bFQ8LeGUNjfsrG5v4pEDsfvThQD3AjX7v4RIRWzXrqCPNNgkuhc5LrhygOJvJ89TkQ==",
+      "integrity": "sha512-Rur/5fX0FU7dBNdu2MDWirea8cWyzrvtEUY2beRNpBTWO9I6ZD6ivNBtOCY9uny7eGKHvnZfPoNTv0SqlFXnpw==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "ethers": "4.0.0-beta.1",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-utils-contracts": {
       "version": "file:projects/ethereum-utils-contracts.tgz",
-      "integrity": "sha512-bq2MUPgn/BwdWZYGtYGHJDHPQX2tkSOiJ5H0LsJ3GzPKvmmMy5mo+fmUjhs8VN45HYZZfEdsocKUB78XSMyIMA==",
+      "integrity": "sha512-gInkEQS3nEkjZLAEQkJz7v3OsG2Cqn32tgK2uK4wV3cuFpkgsKdq8EOoCdCr2I+3b6zw3GAWJLlghFPEbONh4Q==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-FjaXgCG9OTufnDirZ3HbehWYnQecf5vFDAX9bS2dGcKdq8t+Pgi+Stx4gvYix3Dc6ppbz8uS7y0ZB/bYBwgVSQ==",
+      "integrity": "sha512-uomIwJ8z4e33CRpt62HtvpfoGNqFhTsLBA6ArZf4GeBQgARnZTLA++apW+KU4lWbUKb5yGIzp71+S226O2wEMw==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "nyc": "^13.1.0",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/ethereum-xcert-contracts": {
       "version": "file:projects/ethereum-xcert-contracts.tgz",
-      "integrity": "sha512-iSFl1Weymo+MbejP5aOYCpsIVHEYnZ1RNhl7g6j3inmEoROH/Nf6qLqFJoIrY8e9LxHr6fXgoY8m2006RkMIWg==",
+      "integrity": "sha512-6ZwMXKIVMVeEN0WOBHCRcNcjrfW467UQbnNpYdanb77Opn5Ezd0oHjmFn8PRP6KZkggObww/zQ50AeXmVLli5Q==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/merkle": {
@@ -1371,10 +1371,10 @@
     },
     "@rush-temp/utils": {
       "version": "file:projects/utils.tgz",
-      "integrity": "sha512-yDQEqbKPyaceVvvExPYKp3n/ioo7skcbjvfTcCW/bLCQwMXUAkJtqcBa3wLa/RrtWJ8XOyAHPCY4ZsmyIOylgg==",
+      "integrity": "sha512-cn4/pHyqRwPAumVyjzIkPfvWVQnVc1OChQnszEPv3An0n9g7ixSLe3uvo3uldLgIcl9x8WvpGaBfVQo8W5yC3A==",
       "requires": {
-        "@specron/cli": "^0.5.1",
-        "@specron/spec": "^0.5.1",
+        "@specron/cli": "^0.5.2",
+        "@specron/spec": "^0.5.2",
         "eth-lib": "0.1.27",
         "node-fetch": "^2.3.0",
         "nyc": "^13.1.0",
@@ -1382,7 +1382,7 @@
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
         "typescript": "^3.1.1",
-        "web3": "^1.0.0-beta.36"
+        "web3": "1.0.0-beta.36"
       }
     },
     "@rush-temp/vue-example": {
@@ -1413,9 +1413,9 @@
       }
     },
     "@specron/cli": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.5.1.tgz",
-      "integrity": "sha512-VE7A8dSxa0T2rP+R7TI7PHFADdMAwspj8usVKkYjUTlVZDPm7hBiHRxlmVMGRKFqwN4wQRsLEJPLI3hvIdB4iQ==",
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.5.2.tgz",
+      "integrity": "sha512-YGz9knsNacZgLNMurDFJcwVUwCl4Z8i4nhXH2e4+thIcljQtCrDWJiD4d4wa5xbRXYmcQr/IZtuPqTOzOimvMg==",
       "requires": {
         "@hayspec/reporter": "^0.8.3",
         "@specron/compiler": "^0.5.1",
@@ -1427,9 +1427,9 @@
       }
     },
     "@specron/compiler": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.5.1.tgz",
-      "integrity": "sha512-6qPJXeSlRjvc8r1PLpOvGpd1Ch3YSbXXuFkWFEpSGOVEyFDwbW2MwbBb94432B1fWN2Wyatvrhr+GDVhhPMz2g==",
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.5.2.tgz",
+      "integrity": "sha512-pKaqeA8t3q9FHDy5Il9Jfdb83vbWAC3mDuu0U9jxmcvcNs1KXNCrs91+MJ05MrSGnhI/KSiRtLRV9qwZPPaBqA==",
       "requires": {
         "@hayspec/reporter": "^0.8.3",
         "fast-glob": "^2.2.4",
@@ -1437,25 +1437,25 @@
       }
     },
     "@specron/init": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.5.1.tgz",
-      "integrity": "sha512-eoP50l6cxxq0v8qZZJMzU3lYukL3mpzRWL7x7QF/USRZ2JHruSCDGMskLmXF4JynwX24oyyd1AxdOK2Wq4YXHQ==",
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.5.2.tgz",
+      "integrity": "sha512-MMX4DAi/7fMuffkt4+JY+Fl8KiBB8tg39U/NyPYHaPg/lBnMLFEv0A5rAwY1a7J1vn+78cC/VqA1EwEyDzB+5w==",
       "requires": {
         "fs-extra": "^7.0.1"
       }
     },
     "@specron/sandbox": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.5.1.tgz",
-      "integrity": "sha512-maARn6xwLrdEKKQOXoxGm28TrmLG5teEi50QJ/q0+DUud+D+ggsXsztEyJSTbPyEPELzdK2x/otoF0CgckcTbw==",
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.5.2.tgz",
+      "integrity": "sha512-CiWp5yiNoneG50Wnr5GK2A92vP96cpZzM7ubR2K9jwFipOo0MCA+Ev2ga/Tbc7+3meySp6RN8gYarCN3Z7e9Gg==",
       "requires": {
         "ganache-cli": "6.1.8"
       }
     },
     "@specron/spec": {
-      "version": "0.5.1",
-      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.5.1.tgz",
-      "integrity": "sha512-cCwxM1Cwh4N/NDGIYjOSeVNN4OHPhir1i4AVMa/5L0tXJ52YXXB2yDmkOy5oVDxXJpzLPIXkOWBnLMjDYxsmsg==",
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.5.2.tgz",
+      "integrity": "sha512-8QfTyPdfs6lnDvMApnVvFnSRzU9vfae1eKiwVJmtzDsnBPhdwLNC9XfeFCJEw841mYwiON9K6BBVIttaFxWzVA==",
       "requires": {
         "@hayspec/reporter": "^0.8.3",
         "@hayspec/runner": "^0.8.3",
@@ -2128,7 +2128,7 @@
     },
     "bl": {
       "version": "1.2.2",
-      "resolved": "http://registry.npmjs.org/bl/-/bl-1.2.2.tgz",
+      "resolved": "https://registry.npmjs.org/bl/-/bl-1.2.2.tgz",
       "integrity": "sha512-e8tQYnZodmebYDWGH7KMRvtzKXaJHx3BbilrgZCfvyLUYdKpK1t5PSPmpkny/SgiTSCnjfLW7v5rlONXVFkQEA==",
       "requires": {
         "readable-stream": "^2.3.5",
@@ -2726,7 +2726,7 @@
     },
     "commander": {
       "version": "2.8.1",
-      "resolved": "http://registry.npmjs.org/commander/-/commander-2.8.1.tgz",
+      "resolved": "https://registry.npmjs.org/commander/-/commander-2.8.1.tgz",
       "integrity": "sha1-Br42f+v9oMMwqh4qBy09yXYkJdQ=",
       "requires": {
         "graceful-readlink": ">= 1.0.0"
@@ -3354,12 +3354,12 @@
       "dependencies": {
         "file-type": {
           "version": "3.9.0",
-          "resolved": "http://registry.npmjs.org/file-type/-/file-type-3.9.0.tgz",
+          "resolved": "https://registry.npmjs.org/file-type/-/file-type-3.9.0.tgz",
           "integrity": "sha1-JXoHg4TR24CHvESdEH1SpSZyuek="
         },
         "get-stream": {
           "version": "2.3.1",
-          "resolved": "http://registry.npmjs.org/get-stream/-/get-stream-2.3.1.tgz",
+          "resolved": "https://registry.npmjs.org/get-stream/-/get-stream-2.3.1.tgz",
           "integrity": "sha1-Xzj5PzRgCWZu4BUKBUFn+Rvdld4=",
           "requires": {
             "object-assign": "^4.0.1",
@@ -3736,13 +3736,6 @@
       "requires": {
         "idna-uts46-hx": "^2.3.1",
         "js-sha3": "^0.5.7"
-      },
-      "dependencies": {
-        "js-sha3": {
-          "version": "0.5.7",
-          "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.5.7.tgz",
-          "integrity": "sha1-DU/9gALVMzqrr0oj7tL2N0yfKOc="
-        }
       }
     },
     "eth-lib": {
@@ -4313,7 +4306,7 @@
         },
         "jsonfile": {
           "version": "2.4.0",
-          "resolved": "http://registry.npmjs.org/jsonfile/-/jsonfile-2.4.0.tgz",
+          "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-2.4.0.tgz",
           "integrity": "sha1-NzaitCi4e72gzIO1P6PWM6NcKug=",
           "requires": {
             "graceful-fs": "^4.1.6"
@@ -5771,6 +5764,11 @@
       "version": "1.1.4",
       "resolved": "https://registry.npmjs.org/js-levenshtein/-/js-levenshtein-1.1.4.tgz",
       "integrity": "sha512-PxfGzSs0ztShKrUYPIn5r0MtyAhYcCwmndozzpz8YObbPnD1jFxzlBGbRnX2mIu6Z13xN6+PTu05TQFnZFlzow=="
+    },
+    "js-sha3": {
+      "version": "0.5.7",
+      "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.5.7.tgz",
+      "integrity": "sha1-DU/9gALVMzqrr0oj7tL2N0yfKOc="
     },
     "js-tokens": {
       "version": "4.0.0",
@@ -10299,7 +10297,7 @@
         },
         "jsonfile": {
           "version": "2.4.0",
-          "resolved": "http://registry.npmjs.org/jsonfile/-/jsonfile-2.4.0.tgz",
+          "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-2.4.0.tgz",
           "integrity": "sha1-NzaitCi4e72gzIO1P6PWM6NcKug=",
           "requires": {
             "graceful-fs": "^4.1.6"
@@ -10314,7 +10312,7 @@
     },
     "tar": {
       "version": "2.2.1",
-      "resolved": "http://registry.npmjs.org/tar/-/tar-2.2.1.tgz",
+      "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz",
       "integrity": "sha1-jk0qJWwOIYXGsYrWlK7JaLg8sdE=",
       "requires": {
         "block-stream": "*",
@@ -10350,7 +10348,7 @@
       "dependencies": {
         "bluebird": {
           "version": "2.11.0",
-          "resolved": "http://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz",
           "integrity": "sha1-U0uQM8AiyVecVro7Plpcqvu2UOE="
         }
       }
@@ -10767,7 +10765,7 @@
         },
         "buffer": {
           "version": "3.6.0",
-          "resolved": "http://registry.npmjs.org/buffer/-/buffer-3.6.0.tgz",
+          "resolved": "https://registry.npmjs.org/buffer/-/buffer-3.6.0.tgz",
           "integrity": "sha1-pyyTb3e5a/UvX357RnGAYoVR3vs=",
           "requires": {
             "base64-js": "0.0.8",
@@ -10779,7 +10777,7 @@
     },
     "underscore": {
       "version": "1.8.3",
-      "resolved": "http://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz",
       "integrity": "sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI="
     },
     "unicode-canonical-property-names-ecmascript": {
@@ -11015,7 +11013,7 @@
     },
     "utf8": {
       "version": "2.1.1",
-      "resolved": "http://registry.npmjs.org/utf8/-/utf8-2.1.1.tgz",
+      "resolved": "https://registry.npmjs.org/utf8/-/utf8-2.1.1.tgz",
       "integrity": "sha1-LgHbAvfY0JRPdxBPFgnrDDBM92g="
     },
     "util": {
@@ -11372,7 +11370,7 @@
         },
         "uuid": {
           "version": "2.0.1",
-          "resolved": "http://registry.npmjs.org/uuid/-/uuid-2.0.1.tgz",
+          "resolved": "https://registry.npmjs.org/uuid/-/uuid-2.0.1.tgz",
           "integrity": "sha1-wqMN7bPlNdcsz4LjQ5QaULqFM6w="
         }
       }

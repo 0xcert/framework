@@ -2,7 +2,7 @@
 
 Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular process or for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
-The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
+The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has given us a powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
 
 ![0xcert framework](../assets/scheme_3.svg)
 
@@ -14,22 +14,21 @@ When creating an asset, we start preparing a digital structure of data represent
 
 ![0xcert framework](../assets/certification.svg)
 
-
 The original data of an asset is usually known only to the issuer and the owner of an asset. Both can reveal a specific part of the data to a third person anytime, while a third party can verify such data based on a publicly available `imprint`. For this purpose, the issuer or the owner creates an evidence file that contains the revealed data and other proofs needed for a third party to calculate the `imprint` once more. If the calculated imprint matches the publicly available imprint, it means that the revealed data indeed exists in the original data object.
 
 The process of certification is based on the [Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree) concept, a well-known mechanism in the world of cryptography. To create a cryptographic hash string, the 0xcert Framework employs the [sha256](https://en.wikipedia.org/wiki/SHA-2) algorithm. Within the framework, this complexity is hidden from the developer's interaction and available via simple functions provided by the API.
 
-::: card Learn by example
-Click [here](https://stackblitz.com/edit/certification-example) to check the live example for this section.
-:::
-
 ## Conventions
 
-Conventions are data models that allow your application to interoperate with other applications using the 0xcert Framework. Additionally, conventions enable imprints, a tamper-evident system for assuring data consistency in which some of the data can be public and some can be private.
+As explained earlier, the 0xcert Framework provides data models that allow your application to interoperate with other applications using the 0xcert Framework. Additionally, conventions enable imprints, a tamper-evident system for assuring data consistency in which some of the data can be public and some can be private.
 
 Conventions that are approved and represent best practices in industry can be found in [this package](https://github.com/0xcert/framework/tree/master/conventions) on GitHub. These conventions are public. You can use these public conventions as-is, derive your own more specific versions of these public conventions or create your own conventions from scratch.
 
 Please see the [base asset schema](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) as an example of the convention format. Also, every convention must adopt this base asset schema.
+
+::: card Learn by example
+Click [here](https://stackblitz.com/edit/certification-example) to check the live example for this section.
+:::
 
 ## Installation
 
@@ -38,7 +37,6 @@ We recommend you employ the certification module as an NPM package in your appli
 ```shell
 $ npm i --save @0xcert/cert
 ```
-
 
 On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about certification.
 
