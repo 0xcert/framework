@@ -2,7 +2,7 @@
 
 Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular process or for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
-The ERC-721 has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
+The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has given us an incredibly powerful standard. The 0xcert Framework is an opinionated framework that apart from the general development guidelines of the standard also provides a scaffold for defining conventions above the data objects. Each asset within the 0xcert Framework represents a JSON data object, structured on the definitions in a data scheme based on a [JSON-schema](https://json-schema.org/).
 
 ![0xcert framework](../assets/scheme_3.svg)
 
@@ -22,6 +22,14 @@ The process of certification is based on the [Merkle Tree](https://en.wikipedia.
 ::: card Learn by example
 Click [here](https://stackblitz.com/edit/certification-example) to check the live example for this section.
 :::
+
+## Conventions
+
+Conventions are data models that allow your application to interoperate with other applications using the 0xcert Framework. Additionally, conventions enable imprints, a tamper-evident system for assuring data consistency in which some of the data can be public and some can be private.
+
+Conventions that are approved and represent best practices in industry can be found in [this package](https://github.com/0xcert/framework/tree/master/conventions) on GitHub. These conventions are public. You can use these public conventions as-is, derive your own more specific versions of these public conventions or create your own conventions from scratch.
+
+Please see the [base asset schema](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) as an example of the convention format. Also, every convention must adopt this base asset schema.
 
 ## Installation
 

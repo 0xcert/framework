@@ -4,7 +4,28 @@ The 0xcert Framework is a mono repository with all framework related packages st
 
 ## Development
 
-We use [RushJS](https://rushjs.io) to manage this repository. Some quick notes on how to manage the repository are documented [here](https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d).
+We use [RushJS](https://rushjs.io) to manage this repository. Some quick notes on how to manage the repository are documented [here](https://gist.github.com/xpepermint/eecfc6ad6cd7c9f5dcda381aa255738d). But here is a quick start to run the test suite if you have just cloned this repository and never used RushJS before. Expect to spend 10 minutes building and running this test suite for the first time. Subsequently testing any code will take approximately 3 minutes and the full test suite must be run (even during development) for any change in any package.
+
+**Install dependencies** -- You only need to run this once.
+
+```sh
+npm install -g @microsoft/rush
+```
+
+**Update packages** -- Run this if you add/remove packages from this repository.
+
+```sh
+rush update --full
+```
+
+**Rebuild and test** -- Do this each time you make changes to the code
+
+```sh
+rush rebuild --verbose
+rush test --verbose
+```
+
+The above notes will help you decide which commands to run during development on your own machine. But for any commits and pull requests in this repository, the entire test suite will be run using continuous integration.
 
 ## Issues
 
@@ -18,31 +39,11 @@ Always fork the repo and create your branch from master. If you've added code th
 
 Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines).
 
-## Repository management
+## Release process
 
-Install dependencies.
+The release manager will publish packages to NPM using these commands.
 
-```
-npm install -g @microsoft/rush
-```
-
-Update packages, rebuild and test.
-
-```
-$ rush update --full
-$ rush rebuild
-$ rush text
-```
-
-Check dependencies of each package.
-
-```
-$ rush check
-```
-
-Publish to NPM.
-
-```
+```sh
 $ cp ./packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./docs/.vuepress/public/
 $ cp ./packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./docs/.vuepress/public/
 $ rush version --bump --override-bump minor

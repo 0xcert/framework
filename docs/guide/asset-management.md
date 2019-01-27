@@ -2,7 +2,7 @@
 
 Each asset always belongs to the structure within a storage called the Asset Ledger. As discussed in one of the previous [sections](/guide/about-assets.html#explaining-the-concept), a ledger represents a folder containing the assets of a specific issuer and related owners. Only users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
 
-On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the ERC-721 standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
+On the Ethereum blockchain, an asset ledger represents a smart contract that complies with the [ERC-721 standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. The 0xcert Framework follows this standard and adds some extra functions visible in the [API](/api/core.html) section.
 
 ::: card Learn by example
 Click [here](https://stackblitz.com/edit/asset-management-example) to check the live example for this section.

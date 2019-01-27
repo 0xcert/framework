@@ -12,7 +12,7 @@ contract XcertMock is XcertToken {
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFT.
    * @param _uriBase Base of uri for token metadata uris.
-   * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert protocol
+   * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
    * convention.
    */
   constructor(
