@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-order-gateway-contracts",
   "entries": [
     {
-      "version": "1.0.0-rc1",
-      "tag": "@0xcert/ethereum-order-gateway-contracts_v1.0.0-rc1",
+      "version": "1.0.0-rc2",
+      "tag": "@0xcert/ethereum-order-gateway-contracts_v1.0.0-rc2",
       "date": "Thu, 22 Nov 2018 00:51:03 GMT",
       "comments": {}
     }
