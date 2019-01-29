@@ -5,7 +5,7 @@ import { Object86, schema86 } from './86-base-asset';
  */
 export interface Object88 extends Object86 {
   $evidence?: string;
-  $schema?: string;
+  $schema: string;
   description: string;
   image: string;
   name: string;
@@ -22,4 +22,5 @@ export const schema88 = {
   },
   title: 'Crypto Collectible',
   type: 'object',
+  required: ['$schema'],
 };

@@ -39,7 +39,7 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
   "description": "An abstract digital asset schema.",
   "properties": {
     "$evidence": {
-      "description": "A URI ponit to the evidence JSON with data needed to certify this asset.",
+      "description": "A URI pointing to the evidence JSON with data needed to certify this asset.",
       "type": "string",
     },
     "$schema": {
