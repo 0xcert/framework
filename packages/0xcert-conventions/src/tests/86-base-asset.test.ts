@@ -23,6 +23,13 @@ spec.test('Validates data', (ctx) => {
     'name': 12,
   };
   ctx.false(validate(data2));
+  const data3 = {
+    '$evidence': 'https://troopersgame.com/dog/evidence',
+    'description': 'A weapon for the Troopers game which can severely injure the enemy.',
+    'image': 'https://troopersgame.com/dog.jpg',
+    'name': 'Troopers game',
+  };
+  ctx.false(validate(data3));
 });
 
 export default spec;
