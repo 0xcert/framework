@@ -9,7 +9,7 @@ pageClass: homepage
     The 0xcert Framework is a JavaScript library that provides <strong>a complete set of tools</strong> for building powerful decentralized applications (dapps). 
   </p>
   <p>
-    It enables management, digital representation and ownership verification of <strong>unique assets </strong> such as certificates, artworks and collectibles.
+    It enables management, digital representation, and ownership verification of <strong>unique assets </strong> such as certificates, artworks, and collectibles.
   </p>
 </div>
 
