@@ -6,17 +6,17 @@
 
 <style lang="stylus" scoped>
 .logos
-  margin-top: auto
-  margin-bottom: 2rem
+  margin-bottom 2rem
+  margin-top auto
   li
-    margin-left: 1.5rem
-    margin-bottom: 0.5rem
+    margin-left 1.5rem
+    margin-bottom 0.5rem
     a
-      color: #2c3e50
-      font-weight: 400
+      color #2c3e50
+      font-weight 400
   .icon 
-    padding-left: 35px
-    background-repeat: no-repeat
+    padding-left 35px
+    background-repeat no-repeat
   .xcert
     background-image: url('./assets/icon_0xcert.svg')
   .validator
