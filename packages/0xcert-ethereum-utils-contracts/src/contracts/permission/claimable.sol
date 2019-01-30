@@ -4,9 +4,8 @@ import "./ownable.sol";
 
 /**
  * @dev The contract has an owner address, and provides basic authorization control whitch
- * simplifies the implementation of user permissions. This contract is based on the source code
- * at goo.gl/CfEAkv and upgrades Ownable contracts with additional claim step which makes ownership
- * transfers less prone to errors.
+ * simplifies the implementation of user permissions. This contract upgrades Ownable contracts with
+ * additional claim step which makes ownership transfers less prone to errors.
  */
 contract Claimable is
   Ownable
