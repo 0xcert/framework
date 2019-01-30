@@ -1,4 +1,4 @@
-import { Spec } from '@specron/spec';
+import { Spec } from '@hayspec/spec';
 import { normalizeAddress } from '../lib/normalize-address';
 
 const spec = new Spec();
