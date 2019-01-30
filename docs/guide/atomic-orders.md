@@ -110,12 +110,12 @@ The [API](/api/core.html#asset-proof) section contains information about how to 
 
 ```ts
 // approve account for transfering asset
-await assetLedger.approveAccount('100', orderGatewayInstance).then((mutation) => {
+await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
     return mutation.complete();
 });
 
 // assign ability to mint
-await assetLedger.grantAbilities(orderGatewayInstance, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
+await assetLedger.grantAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```
