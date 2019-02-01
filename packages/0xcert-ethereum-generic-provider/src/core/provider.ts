@@ -71,7 +71,7 @@ export class GenericProvider implements ProviderBase {
         });
         // estimate gas is sometimes inaccurate (depends on the node). So to be
         // sure we have enough gas, we multiply result with a factor.
-        payload.params[0].gas = '0x' + Math.ceil(res.result * 1.1).toString(16);
+        payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
       }
 
       if (typeof payload.params[0].gasPrice === 'undefined') {
@@ -81,7 +81,7 @@ export class GenericProvider implements ProviderBase {
           params: [],
         });
         // TODO: get multiplyer from provider settings
-        payload.params[0].gasPrice = '0x' + Math.ceil(res.result * 1.1).toString(16);
+        payload.params[0].gasPrice = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
       }
     }
 
