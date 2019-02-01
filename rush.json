@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.5.1",
-  "npmVersion": "6.4.1",
+  "rushVersion": "5.5.4",
+  "npmVersion": "6.7.0",
   "nodeSupportedVersionRange": ">=11.0.0",
   "gitPolicy": {},
   "repository": {},

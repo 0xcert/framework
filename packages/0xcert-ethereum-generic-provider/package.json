@@ -69,8 +69,8 @@
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "1.0.0-rc2",
     "@types/node": "^10.12.10",
-    "@specron/cli": "^0.5.2",
-    "@specron/spec": "^0.5.2",
+    "@specron/cli": "^0.5.3",
+    "@specron/spec": "^0.5.3",
     "nyc": "^13.1.0",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
