@@ -61,8 +61,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "^0.5.2",
-    "@specron/spec": "^0.5.2",
+    "@specron/cli": "^0.5.3",
+    "@specron/spec": "^0.5.3",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
