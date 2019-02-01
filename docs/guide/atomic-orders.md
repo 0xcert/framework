@@ -23,6 +23,10 @@ Atomic swaps are performed through the Order Gateway structure which is permanen
 
 While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on the storage. This makes every single step of the operation trackable and verifiable.
 
+::: card More about atomic swaps
+For more information on the actual process of atomic operation, please check [this article](https://0xcert.org/news/dex-series-7-atomic-swaps/).
+:::
+
 ::: card Learn by example
 Click [here](https://stackblitz.com/edit/atomic-order-example) to check the live example for this section.
 :::
@@ -115,9 +119,12 @@ await assetLedger.grantAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]
     return mutation.complete();
 });
 ```
-
 ::: tip
 Don't forget to create an instance of `assetLedger` and to import `AssetLedgerAbility`.
+:::
+
+::: card Why instance of `OrderGateway`?
+Order gateway is comprised of multiple smart contracts. To save you from having to know the exact addresses, we handle all of this under the hood, but the instance of `OrderGateway` is required so that we know how to handle it. You can also do this manually by finding the exact proxy contracts for the order gateway, but we recommend using order gateway instance and let the framework handle that for you.
 :::
 
 The following step is done only by the taker, the one that executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both the maker and the taker, since we are present on both sides.

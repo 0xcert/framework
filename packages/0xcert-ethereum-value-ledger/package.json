@@ -8,7 +8,7 @@
     "build": "npm run clean && npx tsc",
     "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "test": "npx nyc npx specron test"
+    "test": "npm run lint && npx nyc npx specron test"
   },
   "specron": {
     "test": {
