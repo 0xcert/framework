@@ -4,8 +4,17 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
-  ga: 'UA-114983924-2',
-  serviceWorker: true,
+  plugins: [
+    '@vuepress/pwa', {
+      serviceWorker: true,
+      updatePopup: true
+    },
+    '@vuepress/google-analytics', {
+      ga: 'UA-114983924-2'
+    },
+    '@vuepress/last-updated'
+  ],
+  
   themeConfig: {
     logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
@@ -59,18 +68,23 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
-    config(md) {
-      md.use(require('markdown-it-container'), 'card', {
+    extendMarkdown: md => {
+      md.use(require('markdown-it-container'), 
+      'card', {
         validate: function (params) {
           return params.trim().match(/^card\s+(.*)$/);
         },
+
         render: function (tokens, idx) {
-          let title = tokens[idx].info.trim().match(/^card\s+(.*)$/);
-          return tokens[idx].nesting === 1 ? 
-            '<div class="card custom-block"><p class="custom-block-title">' + md.utils.escapeHtml(title[1]) + "</p>\n"
-            : '</div>\n';
-        },
-      });
+          var m = tokens[idx].info.trim().match(/^card\s+(.*)$/);
+
+          if (tokens[idx].nesting === 1) {
+            return '<div class="card custom-block"><p class="custom-block-title">' + md.utils.escapeHtml(m[1]) + '</p>\n';
+          } else {
+            return '</div>\n';
+          }
+        }
+      })
     },
     externalLinks: {
       target: '_self',
