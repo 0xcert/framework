@@ -1,4 +1,5 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, SignMethod, ProviderError, ProviderIssue } from '@0xcert/ethereum-generic-provider';
+// import { ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { fetch } from '@0xcert/utils';
 
 /**
@@ -55,9 +56,8 @@ export class HttpProvider extends GenericProvider {
    *
    */
   public send(data: any, callback: (err, data) => any) {
-
     const { url, ...options } = {
-      url: 'http://localhost:8545',
+      url: 'http://localhost:8524',
       ...this.$options,
     };
 
@@ -65,6 +65,7 @@ export class HttpProvider extends GenericProvider {
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
     }).then((res) => {
       return res.json();
     }).then((res) => {
@@ -74,4 +75,21 @@ export class HttpProvider extends GenericProvider {
     });
   }
 
+  /**
+   * 
+   */
+  public async unlockAccount(address: string, passphrase: string, duration?: number) {
+    if (duration === undefined) {
+      duration = 300
+    }
+
+    await this.post({
+      method: 'personal_unlockAccount',
+      params: [address, passphrase, duration],
+    }).then((res) => {
+      return res.result
+    }).catch((err) => {
+      throw new ProviderError(ProviderIssue.GENERAL, err)
+    });
+  }
 }
