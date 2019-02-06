@@ -3690,10 +3690,22 @@
       "resolved": "https://registry.npmjs.org/duplexify/-/duplexify-3.7.1.tgz",
       "integrity": "sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==",
       "requires": {
-        "end-of-stream": "^1.0.0",
-        "inherits": "^2.0.1",
-        "readable-stream": "^2.0.0",
+        "end-of-stream": "^1.4.1",
+        "inherits": "^2.0.3",
+        "readable-stream": "^3.1.1",
         "stream-shift": "^1.0.0"
+      },
+      "dependencies": {
+        "readable-stream": {
+          "version": "3.1.1",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.1.1.tgz",
+          "integrity": "sha512-DkN66hPyqDhnIQ6Jcsvx9bFjhw214O4poMBcIMgPVpQvNy9a0e0Uhg5SqySyDKAmUlwt8LonTBz1ezOnM8pUdA==",
+          "requires": {
+            "inherits": "^2.0.3",
+            "string_decoder": "^1.1.1",
+            "util-deprecate": "^1.0.1"
+          }
+        }
       }
     },
     "ecc-jsbn": {
