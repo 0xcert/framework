@@ -5,16 +5,15 @@ import { AssetLedgerCapability } from '@0xcert/scaffold';
  * @param capability Capability code.
  */
 export function getInterfaceCode(capability: AssetLedgerCapability): string {
-  switch (capability) {
-    case AssetLedgerCapability.DESTROY_ASSET:
-      return '0x9d118770';
-    case AssetLedgerCapability.REVOKE_ASSET:
-      return '0x20c5429b';
-    case AssetLedgerCapability.UPDATE_ASSET:
+    if (capability == AssetLedgerCapability.DESTROY_ASSET) {
+        return '0x9d118770';
+    } else if (capability == AssetLedgerCapability.REVOKE_ASSET) {
+        return '0x20c5429b';
+    } else if (capability == AssetLedgerCapability.UPDATE_ASSET) {
       return '0xbda0e852';
-    case AssetLedgerCapability.TOGGLE_TRANSFERS:
-      return '0xbedb86fb';
-    default:
-      return null;
-  }
+    }  else if (capability == AssetLedgerCapability.TOGGLE_TRANSFERS) {
+        return '0xbedb86fb';
+    } else {
+        return null;
+    }
 }
