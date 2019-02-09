@@ -1,6 +1,6 @@
 /**
- * Converts float number to integer.
+ * Converts numeric values to integer.
  */
-export function toInteger(val: number) {
+export function toInteger(val: number | string) {
   return parseInt(`${val}`) || 0;
 }
