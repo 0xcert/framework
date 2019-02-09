@@ -45,7 +45,7 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
                   "type": "string"
                 }
               },
-              "type": "object",
+              "type": "object"
             },
             "type": "array"
           },
