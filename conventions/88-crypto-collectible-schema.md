@@ -23,7 +23,7 @@ This convention represents a digital asset that represents a crypto-collectible.
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "allOf": [
-    { "$ref": "#/schemas/asset-metadata" }
+    { "$ref": "#/asset-metadata" }
   ],
   "description": "A digital assets that have a unique combination of different properties.",
   "title": "Crypto Collectible Asset",

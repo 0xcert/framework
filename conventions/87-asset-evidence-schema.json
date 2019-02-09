@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "$schema": {
+      "description": "A path to JSON Schema definition file.",
+      "type": "string"
+    },
+    "data": {
+      "description": "Asset data evidence.",
+      "items": {
+      	"type": "object",
+        "properties": {
+          "nodes": {
+            "description": "A list of binary tree hash values.",
+            "items": {
+              "properties": {
+                "index": {
+                  "description": "A number representing the hash index in a binary tree.",
+                  "type": "integer"
+                },
+                "hash": {
+                  "description": "A string representing the hash value in a binary tree.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "path": {
+            "description": "A list of keys representing the JSON path.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "values": {
+            "description": "A list of binary tree values.",
+            "items": {
+              "properties": {
+                "index": {
+                  "description": "A number representing the value index in a binary tree.",
+                  "type": "integer"
+                },
+                "value": {
+                  "description": "A string representing the value in a binary tree.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        }
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}
