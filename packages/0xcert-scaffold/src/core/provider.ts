@@ -1,5 +1,5 @@
 /**
- *
+ * A provider is a connection to a blockchain or other database store.
  */
 export interface ProviderBase {
   accountId: string;
