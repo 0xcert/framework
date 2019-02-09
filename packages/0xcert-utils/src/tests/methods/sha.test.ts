@@ -1,4 +1,4 @@
-import { Spec } from '@specron/spec';
+import { Spec } from '@hayspec/spec';
 import { sha } from '../../methods/sha';
 
 const spec = new Spec();

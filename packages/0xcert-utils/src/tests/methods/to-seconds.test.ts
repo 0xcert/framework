@@ -1,4 +1,4 @@
-import { Spec } from '@specron/spec';
+import { Spec } from '@hayspec/spec';
 import { toSeconds } from '../..';
 
 const spec = new Spec();

@@ -68,7 +68,7 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "1.0.0-rc3",
-    "@types/node": "^10.12.10",
+    "@types/node": "^10.12.24",
     "@specron/cli": "^0.5.3",
     "@specron/spec": "^0.5.3",
     "nyc": "^13.1.0",
