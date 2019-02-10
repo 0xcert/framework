@@ -168,7 +168,7 @@ export class Cert {
   /**
    * Calculates evidence object for each property and returns a list of proofs.
    * When providing the `paths` only the proofs needed for the required
-   * propertoes are included in the result.
+   * properties are included in the result.
    * @param props List of schema properties.
    * @param paths Required propertiy paths.
    */
