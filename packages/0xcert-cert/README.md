@@ -13,7 +13,7 @@ const cert = new Cert({ schema: { ...} });
 const imprints = await cert.notarize(data);
 
 // Expose selected data keys (returns imprints and exposed values from which an imprint can be calculated).
-const imprints = await cert.disclose(exampleData, [ ...paths... ]);
+const imprints = await cert.disclose(data, [ ...paths... ]);
 
 // Verify data object against imprints generated with function `disclose` (if object is valid, an imprint is the right root hash).
 const imprint = await cert.calculate(data, imprints);
