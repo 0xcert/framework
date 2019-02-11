@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
-import { OrderGatewayBase, ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
-  ValueLedgerTransferRecipe, ProviderError, ProviderIssue } from '@0xcert/scaffold';
+import { OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase, ValueLedgerDeployRecipe,
+  ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
 import transfer from '../mutations/transfer';
