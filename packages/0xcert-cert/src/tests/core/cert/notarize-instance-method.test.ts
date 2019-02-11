@@ -4,12 +4,12 @@ import { exampleData, exampleSchema } from '../helpers/schema';
 
 const spec = new Spec();
 
-spec.test('returns proofs for a complete a complete schema', async (ctx) => {
+spec.test('returns recipes for a complete a complete schema', async (ctx) => {
   const cert = new Cert({
     schema: exampleSchema,
   });
-  const proofs = await cert.notarize(exampleData);
-  ctx.deepEqual(proofs, [
+  const recipes = await cert.notarize(exampleData);
+  ctx.deepEqual(recipes, [
     {
       path: [],
       values: [
