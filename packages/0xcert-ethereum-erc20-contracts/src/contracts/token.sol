@@ -20,8 +20,7 @@ contract Token is
    * @dev Error constants.
    */
   string constant NOT_ENOUGH_BALANCE = "001001";
-  string constant ALLOWANCE_ALREADY_SET = "001002";
-  string constant NOT_ENOUGH_ALLOWANCE = "001003";
+  string constant NOT_ENOUGH_ALLOWANCE = "001002";
 
   /**
    * Token name.
@@ -159,7 +158,8 @@ contract Token is
 
   /**
    * @dev Transfers _value amount of tokens to address _to, and MUST fire the Transfer event. The
-   * function SHOULD throw if the _from account balance does not have enough tokens to spend.
+   * function SHOULD throw if the message caller's account balance does not have enough tokens to
+   * spend.
    * @param _to The address of the recipient.
    * @param _value The amount of token to be transferred.
    */
@@ -182,6 +182,12 @@ contract Token is
   /**
    * @dev Allows _spender to withdraw from your account multiple times, up to the _value amount. If
    * this function is called again it overwrites the current allowance with _value.
+   * @notice To prevent attack vectors like the one described here: 
+   * https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit and
+   * discussed here: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729, clients
+   * SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0
+   * before setting it to another value for the same spender. THOUGH The contract itself shouldn’t
+   * enforce it, to allow backwards compatibility with contracts deployed before.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
    */
@@ -192,8 +198,6 @@ contract Token is
     public
     returns (bool _success)
   {
-    require((_value == 0) || (allowed[msg.sender][_spender] == 0), ALLOWANCE_ALREADY_SET);
-
     allowed[msg.sender][_spender] = _value;
 
     emit Approval(msg.sender, _spender, _value);
