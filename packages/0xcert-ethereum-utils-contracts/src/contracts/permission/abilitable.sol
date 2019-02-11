@@ -72,8 +72,9 @@ contract Abilitable
     uint256 _abilities
   ) 
   {
+    require(_abilities > 0, INVALID_INPUT);
     require(
-      _abilities > 0 && (addressToAbility[msg.sender] & _abilities) == _abilities,
+      (addressToAbility[msg.sender] & _abilities) == _abilities,
       NOT_AUTHORIZED
     );
     _;
@@ -113,7 +114,7 @@ contract Abilitable
   }
 
   /**
-   * @dev Assigns specific abilities to specified address.
+   * @dev Unassigns specific abilities from specified address.
    * @param _target Address of which we revoke abilites.
    * @param _abilities Number representing bitfield of abilities we are revoking.
    */
