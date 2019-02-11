@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
-import { OrderGatewayBase, ValueLedgerBase, ValueLedgerDeployRecipe, ValueLedgerInfo,
-  ValueLedgerTransferRecipe } from '@0xcert/scaffold';
+import { OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase, ValueLedgerDeployRecipe,
+  ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
 import transfer from '../mutations/transfer';
@@ -106,6 +106,12 @@ export class ValueLedger implements ValueLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
+
+    const approvedValue = await this.getApprovedValue(this.provider.accountId, accountId as string);
+    if (!bigNumberify(value).isZero() && !bigNumberify(approvedValue).isZero()) {
+      throw new ProviderError(ProviderIssue.GENERAL, 'First set approval to 0. ERC20 token potential attack.');
+    }
+
     return approveAccount(this, accountId as string, value);
   }
 
