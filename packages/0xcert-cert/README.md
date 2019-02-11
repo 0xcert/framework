@@ -7,16 +7,16 @@
 const data = { ... };
 
 // Define certificate with JSON schema definition.
-const cert = new Cert({ schema: { ...} });
+const cert = new Cert({ schema: { ... } });
 
-// Notarize data object (returns all imprints for whole data object).
-const imprints = await cert.notarize(data);
+// Notarize data object (returns all recipes for all data keys).
+const recipes = await cert.notarize(data);
 
-// Expose selected data keys (returns imprints and exposed values from which an imprint can be calculated).
-const imprints = await cert.disclose(data, [ ...paths... ]);
+// Expose selected data keys (returns recipes and exposed values from which an imprint can be calculated).
+const recipes = await cert.disclose(data, [ ...paths ]);
 
-// Verify data object against imprints generated with function `disclose` (if object is valid, an imprint is the right root hash).
-const imprint = await cert.calculate(data, imprints);
+// Verify data object against recipes generated with function `disclose` (if object is valid, an imprint is the root hash).
+const imprint = await cert.calculate(data, recipes);
 
 // Generate root hash from complete data object.
 const imprint = await cert.imprint(data);

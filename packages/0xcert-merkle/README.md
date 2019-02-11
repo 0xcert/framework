@@ -25,7 +25,7 @@ A       |
             D       empty
 ```
 
-A user defines an array of values `['A', 'B', 'C', 'D']`. These values can be hached into an `imprint`, which is a root tree hash. A user can expose selected values to a third-party by providing the evidence file which consists of `values` and `nodes`. This file holds enough information for a third-party to recreate an imprint.
+A user defines an array of values `['A', 'B', 'C', 'D']`. These values can be hashed into an `imprint`, which is a merkle root tree hash. A user can expose selected values to a third-party by providing the evidence file which includes a recipe of `values` and `nodes`. This file holds enough information for a third-party to recreate the imprint.
 
 ```js
 import { sha } from '@0xcert/utils'; 
@@ -36,9 +36,9 @@ const merkle = new Merkle({
 });
 const values = ['A', 'B', 'C', 'D', 'E'];
 const expose = [2, 3];
-const recipe = await merkle.notarize(values);
-const evidence = await merkle.disclose(recipe, expose);
-const imprint = await merkle.imprint(evidence);
+const fullRecipe = await merkle.notarize(values);
+const minRecipe = await merkle.disclose(fullRecipe, expose);
+const imprint = await merkle.imprint(minRecipe);
 ```
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
