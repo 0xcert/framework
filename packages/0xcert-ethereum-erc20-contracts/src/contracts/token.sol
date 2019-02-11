@@ -159,7 +159,8 @@ contract Token is
 
   /**
    * @dev Transfers _value amount of tokens to address _to, and MUST fire the Transfer event. The
-   * function SHOULD throw if the _from account balance does not have enough tokens to spend.
+   * function SHOULD throw if the message caller's account balance does not have enough tokens to
+   * spend.
    * @param _to The address of the recipient.
    * @param _value The amount of token to be transferred.
    */
