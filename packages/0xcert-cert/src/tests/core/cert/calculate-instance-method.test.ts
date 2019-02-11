@@ -57,4 +57,19 @@ spec.test('fails when data includes more data then exposed', async (ctx) => {
   ctx.is(imprint, null);
 });
 
+spec.test('pass on custom properties not defined by schema', async (ctx) => {
+  const cert = new Cert({
+    schema: exampleSchema,
+  });
+  const recipes = await cert.disclose(exampleData, [
+    ['name'],
+  ]);
+  const data = {
+    name: 'B',
+    custom: [{ title: 'B0' }],
+  };
+  const imprint = await cert.calculate(data, recipes);
+  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+});
+
 export default spec;
