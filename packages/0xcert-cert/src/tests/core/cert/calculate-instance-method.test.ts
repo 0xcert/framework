@@ -41,7 +41,7 @@ spec.test('validates selected paths', async (ctx) => {
   ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
 });
 
-spec.test('fails when data includes more data then expesed', async (ctx) => {
+spec.test('fails when data includes more data then exposed', async (ctx) => {
   const cert = new Cert({
     schema: exampleSchema,
   });
