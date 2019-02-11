@@ -183,21 +183,21 @@ export class Cert {
           .filter((p: any) => p.group === group)
           .map((p: any) => p.value);
 
-        let evidence = await this.merkle.notarize(values);
+        let recipes = await this.merkle.notarize(values);
         if (keys) {
           const expose = props
             .filter((p: any) => p.group === group)
             .map((p, i) => keys.indexOf(p.key) === -1 ? -1 : i)
             .filter((i: any) => i !== -1);
 
-          evidence = await this.merkle.disclose(evidence, expose);
+          recipes = await this.merkle.disclose(recipes, expose);
         }
 
         if (!keys || keys.indexOf(groups[group].join('.')) !== -1) {
           return {
             path: groups[group],
-            values: evidence.values,
-            nodes: evidence.nodes,
+            values: recipes.values,
+            nodes: recipes.nodes,
             key: groups[group].join('.'),
             group: groups[group].slice(0, -1).join('.'),
           };

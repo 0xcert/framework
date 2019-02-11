@@ -10,7 +10,7 @@ spec.before(async (ctx) => {
   ctx.set('merkle', new Merkle({ hasher: (v) => sha(256, v) }));
 });
 
-spec.test('recreate from from empty array', async (ctx) => {
+spec.test('recreate from empty array', async (ctx) => {
   const values = [];
   const expose = [];
   const fullRecipe = await ctx.get('merkle').notarize(values);
@@ -19,7 +19,7 @@ spec.test('recreate from from empty array', async (ctx) => {
   ctx.is(imprint, fullRecipe.nodes[0].hash);
 });
 
-spec.test('recreate from from A, B, C, D with exposed indexes 1, 2', async (ctx) => {
+spec.test('recreate from A, B, C, D with exposed indexes 1, 2', async (ctx) => {
   const values = ['A', 'B', 'C', 'D'];
   const expose = [0, 2];
   const fullRecipe = await ctx.get('merkle').notarize(values);
