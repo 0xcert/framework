@@ -1,10 +1,10 @@
 /**
- * Merkle tree node definition.
+ * Merkle tree hash function interface.
  */
 export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
 
 /**
- *
+ * Merkle value interface.
  */
 export interface MerkleValue {
   index: number;
@@ -12,23 +12,23 @@ export interface MerkleValue {
 }
 
 /**
- *
+ * Merkle node interface.
  */
-export interface MerkleHash {
+export interface MerkleNode {
   index: number;
   hash: string;
 }
 
 /**
- *
+ * Merkle recipe interface with information for rebuilding merkle root.
  */
 export interface MerkleRecipe {
   values: MerkleValue[];
-  nodes: MerkleHash[];
+  nodes: MerkleNode[];
 }
 
 /**
- * Merkle tree configuration.
+ * Merkle tree options interface.
  */
 export interface MerkleOptions {
   hasher?: MerkleHasher;
@@ -41,7 +41,8 @@ export class Merkle {
   protected $options: MerkleOptions;
 
   /**
-   *
+   * Class constructor.
+   * @param options Configuration options.
    */
   public constructor(options?: MerkleOptions) {
     this.$options = {
@@ -51,10 +52,10 @@ export class Merkle {
   }
 
   /**
-   * Returns a complete evidence data object.
+   * Returns a complete merkle recipe object with all merkle values and nodes.
    * @param data List of arbitrary values.
    */
-  public async notarize(data: (string | number | boolean)[]) {
+  public async notarize(data: (string | number | boolean)[]): Promise<MerkleRecipe> {
     const values = [...data];
     const nodes = [await this.$options.hasher('')];
 
@@ -77,9 +78,11 @@ export class Merkle {
   }
 
   /**
-   * Returns evidence data object that includes only data for exposed values
-   * from which we can recreate the imprint.
-   * @param recipe Object returned by notarize()
+   * Returns partial recipe object that includes only data for exposed values
+   * from which we can still recreate the imprint. This method expects a
+   * complete recipe (returned by the notarize function) then deletes nodes and
+   * values that are not needed to recalculate the merkle root (imprint).
+   * @param recipe A complete data recipe.
    * @param expose Value indexes to expose.
    */
   public async disclose(recipe: MerkleRecipe, expose: number[]) {
@@ -105,19 +108,19 @@ export class Merkle {
   }
 
   /**
-   * Returns the root merkle tree hash built from the evidence object.
-   * @param evidence Object returned by disclose()
+   * Returns the root merkle tree hash built from the provided recipe object.
+   * @param recipe Recipe object with nodes and values.
    */
-  public async imprint(evidence: MerkleRecipe) {
+  public async imprint(recipe: MerkleRecipe) {
     const nodes = [
       ...await Promise.all(
-        evidence.values.map(async (v) => ({
+        recipe.values.map(async (v) => ({
           index: v.index * 2 + 1,
           hash: await this.$options.hasher(v.value),
           value: v.value,
         })),
       ),
-      ...evidence.nodes,
+      ...recipe.nodes,
     ];
     const size = Math.max(...nodes.map((n) => n.index + 1), 0);
 
