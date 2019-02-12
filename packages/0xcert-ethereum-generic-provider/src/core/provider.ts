@@ -1,3 +1,4 @@
+import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { ProviderBase } from '@0xcert/scaffold';
 import { parseError } from './errors';
 import { RpcResponse, SendOptions, SignMethod } from './types';
@@ -20,13 +21,13 @@ export interface GenericProviderOptions {
  * Ethereum RPC client.
  */
 export class GenericProvider implements ProviderBase {
-  public accountId: string;
   public signMethod: SignMethod;
-  public unsafeRecipientIds: string[];
   public assetLedgerSource: string;
   public valueLedgerSource: string;
   public requiredConfirmations: number;
-  public orderGatewayId: string;
+  public _orderGatewayId: string;
+  protected _accountId: string;
+  protected _unsafeRecipientIds: string[];
   protected $client: any;
   protected $id = 0;
 
@@ -37,16 +38,58 @@ export class GenericProvider implements ProviderBase {
    */
   public constructor(options: GenericProviderOptions) {
     this.accountId = options.accountId;
-    this.unsafeRecipientIds = options.unsafeRecipientIds || [];
+    this.orderGatewayId = options.orderGatewayId;
+    this.unsafeRecipientIds = options.unsafeRecipientIds;
     this.assetLedgerSource = options.assetLedgerSource || 'https://docs.0xcert.org/xcert-mock.json';
     this.valueLedgerSource = options.valueLedgerSource || 'https://docs.0xcert.org/token-mock.json';
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
-    this.orderGatewayId = options.orderGatewayId;
 
     this.$client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
+  }
+
+  /**
+   * Returns account ID (address).
+   */
+  public get accountId() {
+    return this._accountId || null;
+  }
+
+  /**
+   * Sets and normalizes account ID.
+   */
+  public set accountId(id: string) {
+    this._accountId = normalizeAddress(id);
+  }
+
+  /**
+   * Returns unsafe recipient IDs (addresses).
+   */
+  public get unsafeRecipientIds() {
+    return this._unsafeRecipientIds || [];
+  }
+
+  /**
+   * Sets and normalizes unsafe recipient IDs.
+   */
+  public set unsafeRecipientIds(ids: string[]) {
+    this._unsafeRecipientIds = (ids || []).map((id) => normalizeAddress(id));
+  }
+
+  /**
+   * Returns order gateway ID (address).
+   */
+  public get orderGatewayId(): string {
+    return this._orderGatewayId || null;
+  }
+
+  /**
+   * Sets and normalizes account ID.
+   */
+  public set orderGatewayId(id: string) {
+    this._orderGatewayId = normalizeAddress(id);
   }
 
   /**
