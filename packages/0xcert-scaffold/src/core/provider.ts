@@ -9,7 +9,7 @@ export interface ProviderBase {
  * Provider events.
  */
 export enum ProviderEvent {
-  ACCOUNT_CHANGE = 'accountsChanged',
+  ACCOUNT_CHANGE = 'accountChanged',
   NETWORK_CHANGE = 'networkChanged',
 }
 
