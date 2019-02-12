@@ -8,7 +8,7 @@ import { OrderGateway } from '@0xcert/ethereum-order-gateway'
 
 const provider = new MetamaskProvider()
 provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
-  location.reload()
+  if (provider.accountId) location.reload()
 })
 provider.on(ProviderEvent.NETWORK_CHANGE, (netId) => {
   location.reload()
