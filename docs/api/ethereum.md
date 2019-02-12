@@ -29,6 +29,10 @@ const provider = new MetamaskProvider();
 
 [HttpProvider](#http-provider)
 
+### accountId
+
+A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
+
 ### enable()
 
 An `asynchronous` class instance `function` which authorizes the provider and connects it with the website.
@@ -55,6 +59,21 @@ import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 
 // create provider instance
 const provider = MetamaskProvider.getInstance();
+```
+
+### getNetworkVesion()
+
+An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+
+**Result:**
+
+A `string` representing Ethereum network version.
+
+**Example:**
+
+```ts
+// perform query
+const version = await provider.getNetworkVesion();
 ```
 
 ### isSupported()
@@ -158,6 +177,21 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 
 // create provider instance
 const provider = HttpProvider.getInstance();
+```
+
+### getNetworkVesion()
+
+An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+
+**Result:**
+
+A `string` representing Ethereum network version.
+
+**Example:**
+
+```ts
+// perform query
+const version = await provider.getNetworkVesion();
 ```
 
 ### isSupported()
@@ -741,7 +775,7 @@ An `asynchronous` class instance `function` which returns `accountId` abilities.
 
 **Result:**
 
-An `array` of `integer` numbers representing acount abilities.
+An `array` of `integer` numbers representing account abilities.
 
 **Example:**
 

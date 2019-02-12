@@ -27,7 +27,6 @@ spec.before(async (stage) => {
     client: stage.web3,
     requiredConfirmations: 1,
   });
-
   stage.set('provider', provider);
 });
 
