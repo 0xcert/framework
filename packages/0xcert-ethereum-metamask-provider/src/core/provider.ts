@@ -1,4 +1,4 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
  * Metamask provider options interface.
@@ -35,10 +35,10 @@ export class MetamaskProvider extends GenericProvider {
 
     if (this.isSupported()) {
       window['ethereum'].on('accountsChanged', (accounts) => {
-        this.emit('accountsChanged', accounts);
+        this.accountId = accounts[0];
       });
       window['ethereum'].on('networkChanged', (netId) => {
-        this.emit('networkChanged', netId);
+        this.emit(ProviderEvent.NETWORK_CHANGE, netId);
       });
     }
   }
