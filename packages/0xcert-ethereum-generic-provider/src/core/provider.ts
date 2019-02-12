@@ -95,6 +95,58 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this._orderGatewayId = normalizeAddress(id);
   }
 
+
+
+
+
+
+
+
+  /**
+   * Emits provider event.
+   */
+  public emit(event: ProviderEvent.ACCOUNT_CHANGE, accountId: string);
+  public emit(event: ProviderEvent.NETWORK_CHANGE, networkVersion: string);
+  public emit(...args) {
+    super.emit.call(this, ...args);
+    return this;
+  }
+
+  /**
+   * Attaches on provider events.
+   */
+  public on(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
+  public on(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public on(...args) {
+    super.on.call(this, ...args);
+    return this;
+  }
+
+  /**
+   * Once handler.
+   */
+  public once(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
+  public once(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public once(...args) {
+    super.once.call(this, ...args);
+    return this;
+  }
+
+  /**
+   * Dettaches from provider events.
+   */
+  public off(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
+  public off(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public off(event: ProviderEvent);
+  public off(event, handler?) {
+    if (handler) {
+      super.off(event, handler);
+    } else {
+      super.removeAllListeners(event);
+    }
+    return this;
+  }
+
   /**
    * Returns current network type (e.g. '3' for ropsten).
    */
