@@ -63,8 +63,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set accountId(id: string) {
+    this.emit(ProviderEvent.ACCOUNT_CHANGE, id); // must be before the new account is set
     this._accountId = normalizeAddress(id);
-    this.emit(ProviderEvent.ACCOUNT_CHANGE, id);
   }
 
   /**
