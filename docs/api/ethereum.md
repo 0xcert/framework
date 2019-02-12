@@ -33,6 +33,29 @@ const provider = new MetamaskProvider();
 
 A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
 
+### emit(event, ...options);
+
+A `synchronous` class instance `function` to manually trigger a provider event.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| options | [required] Pass a valid account ID for `ACCOUNT_CHANGE` event and a valid network version for `NETWORK_CHANGE` event.
+
+**Result:**
+
+An instance of the same provider class.
+
+**Example:**
+
+```ts
+import { AccountEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+mutation.emit(AccountEvent.NETWORK_CHANGE, '3');
+```
+
 ### enable()
 
 An `asynchronous` class instance `function` which authorizes the provider and connects it with the website.
@@ -113,6 +136,91 @@ const isEnabled = await provider.isEnabled();
 **See also:**
 
 [enable](#enable), [isSupported](#is-supported)
+
+### on(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+
+**Result:**
+
+An instance of the same provider class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
+
+provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
+  console.log('Network has changed', networkVersion);
+});
+```
+
+**See also:**
+
+[once](#once), [off](#off)
+
+### once(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emitted.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+
+**Result:**
+
+An instance of the same provider class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-metamask-provider';
+
+provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
+  console.log('Network has changed', networkVersion);
+});
+```
+
+**See also:**
+
+[on](#on), [off](#off)
+
+### off(event, handler)
+
+A `synchronous` class instance `function` which removes an existing event handler.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | A specific callback `function` of an event. If not provided, all handlers of the `event` are removed.
+
+**Result:**
+
+An instance of the same provider  class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-metamask-provider';
+
+provider.off(ProviderEvent.NETWORK_CHANGE);
+```
+
+**See also:**
+
+[on](#on), [once](#once)
 
 ## HTTP provider
 
@@ -209,6 +317,113 @@ A `boolean` which tells if the provider can be used.
 const isSupported = provider.isSupported();
 ```
 
+### on(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+
+**Result:**
+
+An instance of the same provider class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-http-provider';
+
+provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
+  console.log('Account has changed', accountId);
+});
+```
+
+**See also:**
+
+[once](#once), [off](#off)
+
+### once(event, handler);
+
+A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emitted.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+
+**Result:**
+
+An instance of the same provider class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-http-provider';
+
+provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
+  console.log('Account has changed', accountId);
+});
+```
+
+**See also:**
+
+[on](#on), [off](#off)
+
+### off(event, handler)
+
+A `synchronous` class instance `function` which removes an existing event handler.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
+| handler | A specific callback `function` of an event. If not provided, all handlers of the `event` are removed.
+
+**Result:**
+
+An instance of the same provider  class.
+
+**Example:**
+
+```ts
+import { ProviderEvent } from '@0xcert/ethereum-http-provider';
+
+provider.off(ProviderEvent.NETWORK_CHANGE);
+```
+
+**See also:**
+
+[on](#on), [once](#once)
+
+## Provider events
+
+We can listen to different provider events. Note that not all the providers are able to emit all the events listed here.
+
+**Options:**
+
+| Name | Value | Description
+|-|-|-
+| ACCOUNT_CHANGE | accountChange | Triggered when an `accountId` is changed.
+| NETWORK_CHANGE | networkChange | Triggered when network version is changed.
+
+**Example:**
+
+```ts
+provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
+    console.log('Account has changed', accountId);
+});
+provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
+    console.log('Network has changed', networkVersion);
+});
+```
+
 ## Mutation
 
 The 0xcert Framework performs mutations for any request that changes the state on the Ethereum blockchain.
@@ -246,7 +461,7 @@ Number of required confirmations is configurable through the provider instance.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -263,7 +478,7 @@ await mutation.complete();
 
 A class instance `variable` holding an `integer` number of confirmations reached. Default is `0`.
 
-### emit(event, error);
+### emit(event, options);
 
 A `synchronous` class instance `function` to manually trigger a mutation event.
 
@@ -272,11 +487,11 @@ A `synchronous` class instance `function` to manually trigger a mutation event.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
-| error | An instance of an `Error`. Applies only to the case when the `event` equals `ERROR`.
+| options | For `ERROR` event, an instance of an `Error` must be provided.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -292,7 +507,7 @@ A `synchronous` class instance `function` which stops listening for confirmation
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -353,14 +568,16 @@ A `synchronous` class instance `function` which attaches a new event handler.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
 ```ts
 import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
 
-mutation.emit(MutationEvent.ERROR, new Error('Unhandled error'));
+mutation.on(MutationEvent.COMPLETE, () => {
+    console.log('Mutation has been completed!');
+});
 ```
 
 **See also:**
@@ -380,14 +597,16 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
 ```ts
 import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
 
-mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
+mutation.once(MutationEvent.COMPLETE, () => {
+    console.log('Mutation has been completed!');
+});
 ```
 
 **See also:**
@@ -396,7 +615,7 @@ mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
 
 ### off(event, handler)
 
-A `synchronous` class instance `function` which attaches a new event handler. The event is automatically removed once the first `event` is emitted.
+A `synchronous` class instance `function` which removes an existing event.
 
 **Arguments:**
 
@@ -407,14 +626,14 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
 ```ts
 import { MutationEvent } from '@0xcert/ethereum-metamask-provider'; // or HTTP provider
 
-mutation.once(MutationEvent.ERROR, new Error('Unhandled error'));
+mutation.off(MutationEvent.ERROR);
 ```
 
 **See also:**
@@ -499,7 +718,7 @@ Only one account per `assetId` can be approved at the same time thus running thi
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -532,7 +751,7 @@ Multiple operators can exist.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -567,7 +786,7 @@ The `CREATE_ASSET` ledger ability is needed to perform this function.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -608,7 +827,7 @@ All ledger abilities are automatically granted to the account that performs this
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -651,7 +870,7 @@ The `DESTROY_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -679,7 +898,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -707,7 +926,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -733,7 +952,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -756,7 +975,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -970,7 +1189,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1093,7 +1312,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1131,7 +1350,7 @@ The `REVOKE_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1163,7 +1382,7 @@ You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1197,7 +1416,7 @@ You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger abil
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1230,7 +1449,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1336,7 +1555,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1369,7 +1588,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1404,7 +1623,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1566,7 +1785,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1626,7 +1845,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
@@ -1749,7 +1968,7 @@ This operation must be executed by the taker of the order.
 
 **Result:**
 
-An instance of the same `Mutation` class.
+An instance of the asame mutation class.
 
 **Example:**
 
