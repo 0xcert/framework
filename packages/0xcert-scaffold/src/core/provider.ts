@@ -6,6 +6,14 @@ export interface ProviderBase {
 }
 
 /**
+ * Provider events.
+ */
+export enum ProviderEvent {
+  ACCOUNT_CHANGE = 'accountsChanged',
+  NETWORK_CHANGE = 'networkChanged',
+}
+
+/**
  * Error codes.
  */
 export enum ProviderIssue {
