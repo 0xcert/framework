@@ -35,6 +35,13 @@ export class MetamaskProvider extends GenericProvider {
   }
 
   /**
+   * Returns network type (e.g. ropsten).
+   */
+  public networkId(): string {
+    return this.isSupported() ? window['ethereum']['networkVersion'] : null;
+  }
+
+  /**
    * Checks if metamask is available.
    */
   public isSupported() {

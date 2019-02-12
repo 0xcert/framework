@@ -1,5 +1,6 @@
 import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { ProviderBase } from '@0xcert/scaffold';
+import { EventEmitter } from 'events';
 import { parseError } from './errors';
 import { RpcResponse, SendOptions, SignMethod } from './types';
 
@@ -20,12 +21,12 @@ export interface GenericProviderOptions {
 /**
  * Ethereum RPC client.
  */
-export class GenericProvider implements ProviderBase {
+export class GenericProvider extends EventEmitter implements ProviderBase {
   public signMethod: SignMethod;
   public assetLedgerSource: string;
   public valueLedgerSource: string;
   public requiredConfirmations: number;
-  public _orderGatewayId: string;
+  protected _orderGatewayId: string;
   protected _accountId: string;
   protected _unsafeRecipientIds: string[];
   protected $client: any;
@@ -37,6 +38,7 @@ export class GenericProvider implements ProviderBase {
    * @param options.accountId Coinbase address.
    */
   public constructor(options: GenericProviderOptions) {
+    super();
     this.accountId = options.accountId;
     this.orderGatewayId = options.orderGatewayId;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
@@ -90,6 +92,17 @@ export class GenericProvider implements ProviderBase {
    */
   public set orderGatewayId(id: string) {
     this._orderGatewayId = normalizeAddress(id);
+  }
+
+  /**
+   * Returns current network type (e.g. '3' for ropsten).
+   */
+  public async getNetworkVesion(): Promise<string> {
+    const res = await this.post({
+      method: 'net_version',
+      params: [],
+    });
+    return res.result;
   }
 
   /**

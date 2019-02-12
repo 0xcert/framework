@@ -14,13 +14,8 @@ spec.before(async (stage) => {
 
 spec.test('returns block data', async (ctx) => {
   const provider = ctx.get('provider');
-
-  const res = await provider.post({
-    method: 'web3_clientVersion',
-    params: [],
-  });
-
-  ctx.is(res.result.indexOf('EthereumJS'), 0);
+  const version = await provider.getNetworkVesion();
+  ctx.true(parseInt(version) > 2);
 });
 
 export default spec;
