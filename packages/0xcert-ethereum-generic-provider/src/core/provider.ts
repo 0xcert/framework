@@ -95,13 +95,6 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this._orderGatewayId = normalizeAddress(id);
   }
 
-
-
-
-
-
-
-
   /**
    * Emits provider event.
    */
