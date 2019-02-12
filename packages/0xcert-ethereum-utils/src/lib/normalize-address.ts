@@ -5,5 +5,5 @@ import { getAddress } from 'ethers/utils/address';
  * @see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
  */
 export function normalizeAddress(address: string): string {
-  return getAddress(address);
+  return address ? getAddress(address) : null;
 }
