@@ -1,5 +1,5 @@
 import { normalizeAddress } from '@0xcert/ethereum-utils';
-import { ProviderBase } from '@0xcert/scaffold';
+import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
 import { RpcResponse, SendOptions, SignMethod } from './types';
@@ -64,6 +64,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    */
   public set accountId(id: string) {
     this._accountId = normalizeAddress(id);
+    this.emit(ProviderEvent.ACCOUNT_CHANGE, id);
   }
 
   /**
