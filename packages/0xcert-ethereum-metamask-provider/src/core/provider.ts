@@ -32,6 +32,15 @@ export class MetamaskProvider extends GenericProvider {
       client: typeof window !== 'undefined' ? window['ethereum'] : null,
       signMethod: SignMethod.EIP712,
     });
+
+    if (this.isSupported()) {
+      window['ethereum'].on('accountsChanged', (accounts) => {
+        this.emit('accountsChanged', accounts);
+      });
+      window['ethereum'].on('networkChanged', (netId) => {
+        this.emit('networkChanged', netId);
+      });
+    }
   }
 
   /**
