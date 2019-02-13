@@ -121,6 +121,7 @@ export class HttpProvider extends GenericProvider {
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
     }).then((res) => {
       return res.json();
     }).then((res) => {
