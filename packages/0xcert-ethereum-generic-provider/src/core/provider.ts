@@ -53,31 +53,16 @@ export interface GenericProviderOptions {
 /**
  * Ethereum RPC client.
  */
-<<<<<<< HEAD
-export class GenericProvider implements ProviderBase {
-
-  /**
-   * Default account from which all mutations are made.
-   */
-  public accountId: string;
+export class GenericProvider extends EventEmitter implements ProviderBase {
 
   /**
    * Type of signature that will be used in making claims etc. 
    */
   public signMethod: SignMethod;
 
-  /**
-   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
-   */
-  public unsafeRecipientIds: string[];
-
-  /**
+   /**
    * Source where assetLedger compiled smart contract is located.
    */
-=======
-export class GenericProvider extends EventEmitter implements ProviderBase {
-  public signMethod: SignMethod;
->>>>>>> 0038092634488e1887330b3d703f6453ca23585a
   public assetLedgerSource: string;
 
   /**
@@ -89,21 +74,25 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
    */
   public requiredConfirmations: number;
-<<<<<<< HEAD
 
   /**
    * Id (address) of order gateway.
    */
-  public orderGatewayId: string;
+  protected _orderGatewayId: string;
+
+  /**
+   * Default account from which all mutations are made.
+   */
+  protected _accountId: string;
+
+  /**
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
+   */
+  protected _unsafeRecipientIds: string[];
 
   /**
    * RPC client instance (e.g. window.ethereum).
    */
-=======
-  protected _orderGatewayId: string;
-  protected _accountId: string;
-  protected _unsafeRecipientIds: string[];
->>>>>>> 0038092634488e1887330b3d703f6453ca23585a
   protected $client: any;
 
   /**
