@@ -8,13 +8,45 @@ import { RpcResponse, SendOptions, SignMethod } from './types';
  * Configuration interface for generic provider.
  */
 export interface GenericProviderOptions {
+
+  /**
+   * Default account from which all mutations are made.
+   */
   accountId?: string;
+
+  /**
+   * RPC client instance (e.g. window.ethereum).
+   */
   client?: any;
+
+  /**
+   * Type of signature that will be used in making claims etc.
+   */
   signMethod?: SignMethod;
+
+  /**
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
+   */
   unsafeRecipientIds?: string[];
+
+  /**
+   * Source where assetLedger compiled smart contract is located.
+   */
   assetLedgerSource?: string;
+
+  /**
+   * Source where valueLedger compiled smart contract is located.
+   */
   valueLedgerSource?: string;
+
+  /**
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   */
   requiredConfirmations?: number;
+
+  /**
+   * Id (address) of order gateway.
+   */
   orderGatewayId?: string;
 }
 
@@ -22,14 +54,50 @@ export interface GenericProviderOptions {
  * Ethereum RPC client.
  */
 export class GenericProvider extends EventEmitter implements ProviderBase {
+
+  /**
+   * Type of signature that will be used in making claims etc.
+   */
   public signMethod: SignMethod;
+
+  /**
+   * Source where assetLedger compiled smart contract is located.
+   */
   public assetLedgerSource: string;
+
+  /**
+   * Source where valueLedger compiled smart contract is located.
+   */
   public valueLedgerSource: string;
+
+  /**
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   */
   public requiredConfirmations: number;
+
+  /**
+   * Id (address) of order gateway.
+   */
   protected _orderGatewayId: string;
+
+  /**
+   * Default account from which all mutations are made.
+   */
   protected _accountId: string;
+
+  /**
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
+   */
   protected _unsafeRecipientIds: string[];
+
+  /**
+   * RPC client instance (e.g. window.ethereum).
+   */
   protected $client: any;
+
+  /**
+   * Unique request number.
+   */
   protected $id = 0;
 
   /**
