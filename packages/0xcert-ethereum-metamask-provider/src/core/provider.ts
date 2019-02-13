@@ -6,6 +6,11 @@ import { GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-gen
 export interface MetamaskProviderOptions {
 
   /**
+   * Type of signature that will be used in making claims etc.
+   */
+  signMethod?: SignMethod;
+
+  /**
    * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
    */
   unsafeRecipientIds?: string[];
