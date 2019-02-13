@@ -148,28 +148,28 @@ export interface OrderActionTransferValue {
  */
 export class Order {
 
-  /** 
+  /**
    * Address of the order maker.
-   */ 
+   */
   public makerId: string;
 
-  /** 
+  /**
    * Address of the order taker.
-   */ 
+   */
   public takerId: string;
 
   /**
    * Array of actions that will execute in this order.
-   */ 
+   */
   public actions: OrderAction[];
 
-  /** 
+  /**
    * Nonce for hash generation - usually current timestamp.
-   */ 
+   */
   public seed: number;
 
-  /** 
+  /**
    * Timestamp of order expiration.
-   */ 
+   */
   public expiration: number;
 }

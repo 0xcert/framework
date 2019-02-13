@@ -25,7 +25,7 @@ export enum ProviderIssue {
  */
 export class ProviderError extends Error {
 
-  /** 
+  /**
    * Specific kind of error.
    */
   public issue: ProviderIssue;

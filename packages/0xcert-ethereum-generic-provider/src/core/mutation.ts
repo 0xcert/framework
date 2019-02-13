@@ -38,7 +38,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
   /**
    * Provider instance.
-   */  
+   */
   protected $provider: any;
 
   /**

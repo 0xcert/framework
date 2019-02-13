@@ -20,7 +20,7 @@ export interface GenericProviderOptions {
   client?: any;
 
   /**
-   * Type of signature that will be used in making claims etc. 
+   * Type of signature that will be used in making claims etc.
    */
   signMethod?: SignMethod;
 
@@ -56,11 +56,11 @@ export interface GenericProviderOptions {
 export class GenericProvider extends EventEmitter implements ProviderBase {
 
   /**
-   * Type of signature that will be used in making claims etc. 
+   * Type of signature that will be used in making claims etc.
    */
   public signMethod: SignMethod;
 
-   /**
+  /**
    * Source where assetLedger compiled smart contract is located.
    */
   public assetLedgerSource: string;

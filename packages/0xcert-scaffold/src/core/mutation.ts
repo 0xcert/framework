@@ -68,7 +68,7 @@ export interface MutationBase {
    */
   off(event: MutationEvent, handler?: () => any): this;
 
-   /**
+  /**
    * Waits until mutation is resolved (mutation reaches the specified number of confirmations).
    */
   complete(): Promise<this>;

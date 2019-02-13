@@ -71,7 +71,7 @@ export function createRecipeTuple(gateway: OrderGateway, order: Order) {
 }
 
 /**
- * Flattens and reshapes signature input data into a tuple. 
+ * Flattens and reshapes signature input data into a tuple.
  * @param claim String representing a signed claim.
  */
 export function createSignatureTuple(claim: string) {

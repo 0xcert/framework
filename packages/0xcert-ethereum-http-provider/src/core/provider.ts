@@ -37,7 +37,7 @@ export interface HttpProviderOptions {
   redirect?: 'manual' | 'follow' | 'error' | string;
 
   /**
-   * Type of signature that will be used in making claims etc. 
+   * Type of signature that will be used in making claims etc.
    */
   signMethod?: SignMethod;
 
@@ -78,7 +78,7 @@ export interface HttpProviderOptions {
 export class HttpProvider extends GenericProvider {
 
   /**
-   * Default options set from constructor. 
+   * Default options set from constructor.
    */
   protected $options: HttpProviderOptions;
 
