@@ -12,15 +12,10 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.test('returns block data', async (ctx) => {
+spec.test('normalizes ID when set', async (ctx) => {
   const provider = ctx.get('provider');
-
-  const res = await provider.post({
-    method: 'web3_clientVersion',
-    params: [],
-  });
-
-  ctx.is(res.result.indexOf('EthereumJS'), 0);
+  provider.orderGatewayId = '0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa';
+  ctx.is(provider.orderGatewayId, '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa');
 });
 
 export default spec;

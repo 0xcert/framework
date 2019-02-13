@@ -113,7 +113,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Event emmiter.
+   * Emits mutation event.
    */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
   public emit(event: MutationEvent.COMPLETE, mutation: Mutation);
@@ -148,7 +148,9 @@ export class Mutation extends EventEmitter implements MutationBase {
   /**
    * Dettaches from mutation events.
    */
-  public off(event: MutationEvent, handler?: () => any) {
+  public off(event: MutationEvent.ERROR, handler: (e: any, m: Mutation) => any);
+  public off(event: MutationEvent);
+  public off(event, handler?) {
     if (handler) {
       super.off(event, handler);
     } else {
