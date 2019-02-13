@@ -4,6 +4,7 @@ import { GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-gen
  * Metamask provider options interface.
  */
 export interface MetamaskProviderOptions {
+  signMethod?: SignMethod;
   unsafeRecipientIds?: string[];
   assetLedgerSource?: string;
   valueLedgerSource?: string;
