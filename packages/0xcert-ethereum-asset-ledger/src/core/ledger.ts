@@ -31,7 +31,15 @@ import isEnabled from '../queries/is-enabled';
  * Ethereum asset ledger implementation.
  */
 export class AssetLedger implements AssetLedgerBase {
+
+  /**
+   * AssetLedger Id. Address pointing at the smartcontract.
+   */
   protected $id: string;
+
+  /**
+   * Provider instance.
+   */
   protected $provider: GenericProvider;
 
   /**

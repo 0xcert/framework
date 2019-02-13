@@ -13,7 +13,15 @@ import { OrderGatewayProxy } from './types';
  * Ethereum order gateway implementation.
  */
 export class OrderGateway implements OrderGatewayBase {
+
+  /**
+   * Address of the smart contract that represents this order gateway.
+   */
   protected $id: string;
+
+  /**
+   * Provider instance.
+   */
   protected $provider: GenericProvider;
 
   /**

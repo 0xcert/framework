@@ -4,10 +4,30 @@ import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
  * Metamask provider options interface.
  */
 export interface MetamaskProviderOptions {
+  
+  /**
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
+   */
   unsafeRecipientIds?: string[];
+
+  /**
+   * Source where assetLedger compiled smart contract is located.
+   */
   assetLedgerSource?: string;
+
+  /**
+   * Source where valueLedger compiled smart contract is located.
+   */
   valueLedgerSource?: string;
+
+  /**
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   */
   requiredConfirmations?: number;
+
+  /**
+   * Id (address) of order gateway.
+   */
   orderGatewayId?: string;
 }
 

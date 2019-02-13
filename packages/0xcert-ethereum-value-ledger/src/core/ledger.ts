@@ -14,7 +14,15 @@ import getInfo from '../queries/get-info';
  * Ethereum value ledger implementation.
  */
 export class ValueLedger implements ValueLedgerBase {
+
+  /**
+   * Value ledger Id. Address pointing at the smartcontract.
+   */
   protected $id: string;
+
+  /**
+   * Provider instance.
+   */
   protected $provider: GenericProvider;
 
   /**

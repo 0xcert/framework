@@ -5,7 +5,9 @@ import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
 
 /**
- *
+ * Generates order hash from input data.
+ * @param gateway OrderGateway instance.
+ * @param order Order instance.
  */
 export function createOrderHash(gateway: OrderGateway, order: Order) {
 
@@ -40,7 +42,9 @@ export function createOrderHash(gateway: OrderGateway, order: Order) {
 }
 
 /**
- *
+ * Flattens and reshapes order input data into a tuple.
+ * @param gateway OrderGateway instance.
+ * @param order Order instance.
  */
 export function createRecipeTuple(gateway: OrderGateway, order: Order) {
 
@@ -67,7 +71,8 @@ export function createRecipeTuple(gateway: OrderGateway, order: Order) {
 }
 
 /**
- *
+ * Flattens and reshapes signature input data into a tuple. 
+ * @param claim String representing a signed claim.
  */
 export function createSignatureTuple(claim: string) {
   const [kind, signature] = claim.split(':');
@@ -87,14 +92,17 @@ export function createSignatureTuple(claim: string) {
 }
 
 /**
- *
+ * Generates smart contract data for action kind.
+ * @param action OrderAction instance.
  */
 export function getActionKind(action: OrderAction) {
   return action.kind == OrderActionKind.CREATE_ASSET ? '00' : '01';
 }
 
 /**
- *
+ * Gets the correct proxy for the specified action.
+ * @param gateway OrderGateway instance.
+ * @param action OrderAction instance.
  */
 export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
   if (action.kind == OrderActionKind.TRANSFER_VALUE) {
@@ -109,7 +117,8 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
 }
 
 /**
- *
+ * Generates smart contract data for param 1.
+ * @param action OrderAction instance.
  */
 export function getActionParam1(action: OrderAction) {
   return action.kind == OrderActionKind.CREATE_ASSET
@@ -118,7 +127,8 @@ export function getActionParam1(action: OrderAction) {
 }
 
 /**
- *
+ * Generates smart contract data for value.
+ * @param action OrderAction instance.
  */
 export function getActionValue(action: OrderAction) {
   return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
