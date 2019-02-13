@@ -2,14 +2,12 @@ import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { GenericProvider, Mutation, MutationEvent } from '../../..';
 
-interface Data {
+const spec = new Spec<{
   provider: GenericProvider;
   protocol: Protocol;
   coinbase: string;
   bob: string;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
@@ -29,7 +27,6 @@ spec.before(async (stage) => {
     client: stage.web3,
     requiredConfirmations: 1,
   });
-
   stage.set('provider', provider);
 });
 

@@ -936,7 +936,7 @@ perform.test('fails when approved token value is not sufficient', async (ctx) =>
 
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001003');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001002');
 });
 
 perform.test('fails when proxy does not have the create rights', async (ctx) => {

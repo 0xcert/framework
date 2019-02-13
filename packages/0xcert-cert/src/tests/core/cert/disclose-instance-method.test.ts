@@ -4,15 +4,15 @@ import { exampleData, exampleSchema } from '../helpers/schema';
 
 const spec = new Spec();
 
-spec.test('returns proofs from exposed paths `name`', async (ctx) => {
+spec.test('returns recipes from exposed paths `name`', async (ctx) => {
   const cert = new Cert({
     schema: exampleSchema,
   });
-  const proofs = await cert.disclose(exampleData, [
+  const recipes = await cert.disclose(exampleData, [
     [''],
     ['name'],
   ]);
-  ctx.deepEqual(proofs, [
+  ctx.deepEqual(recipes, [
     {
       path: [],
       values: [
@@ -28,14 +28,14 @@ spec.test('returns proofs from exposed paths `name`', async (ctx) => {
   ]);
 });
 
-spec.test('returns proofs from exposed paths `event.organizer.name`', async (ctx) => {
+spec.test('returns recipes from exposed paths `event.organizer.name`', async (ctx) => {
   const cert = new Cert({
     schema: exampleSchema,
   });
-  const proofs = await cert.disclose(exampleData, [
+  const recipes = await cert.disclose(exampleData, [
     ['event', 'organizer', 'name'],
   ]);
-  ctx.deepEqual(proofs, [
+  ctx.deepEqual(recipes, [
     {
       path: [],
       values: [

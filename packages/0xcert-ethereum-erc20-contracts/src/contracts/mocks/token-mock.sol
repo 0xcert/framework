@@ -21,5 +21,6 @@ contract TokenMock is
     tokenDecimals = _decimals;
     tokenTotalSupply = _supply;
     balances[msg.sender] = tokenTotalSupply;
+    emit Transfer(address(0), msg.sender, tokenTotalSupply);
   }
 }

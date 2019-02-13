@@ -3,7 +3,7 @@ issue: 87
 title: Asset evidence schema
 id: 331b2de5f698fe579b1c7e735e8dfb96f98026a54ea1a17bae1e292932818df8
 author: Kristijan Sedlak <kristijan@0xcert.org>
-version: 1.0.0-rc3
+version: 1.0.0-rc5
 category: conventions
 status: Draft
 created: 2018-11-07
@@ -45,7 +45,7 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
                   "type": "string"
                 }
               },
-              "type": "object",
+              "type": "object"
             },
             "type": "array"
           },

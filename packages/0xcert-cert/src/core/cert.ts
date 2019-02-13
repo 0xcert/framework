@@ -1,10 +1,10 @@
 import { Merkle, MerkleHasher } from '@0xcert/merkle';
 import { sha } from '@0xcert/utils';
 import { cloneObject, readPath, stepPaths, toString } from '../utils/data';
-import { PropPath, PropProof } from './prop';
+import { PropPath, PropRecipe } from './prop';
 
 /**
- *
+ * Certification class configuration interface.
  */
 export interface CertConfig {
   schema: any;
@@ -40,50 +40,49 @@ export class Cert {
   }
 
   /**
-   * Returns a complete list of proofs for the entiry data object.
+   * Returns a complete list of recipes for the entiry data object.
    * @param data Complete data object.
    */
-  public async notarize(data: any): Promise<PropProof[]> {
+  public async notarize(data: any): Promise<PropRecipe[]> {
     const schemaProps = this.buildSchemaProps(data);
     const compoundProps = await this.buildCompoundProps(schemaProps);
-    const schemaProofs = await this.buildProofs(compoundProps);
+    const schemaRecipes = await this.buildRecipes(compoundProps);
 
-    return schemaProofs.map((proof: PropProof) => ({
-      path: proof.path,
-      nodes: proof.nodes,
-      values: proof.values,
+    return schemaRecipes.map((recipe: PropRecipe) => ({
+      path: recipe.path,
+      nodes: recipe.nodes,
+      values: recipe.values,
     }));
   }
 
   /**
-   * Returns the minimal list of proofs needed to verify the provided data
-   * object.
+   * Returns the minimal list of recipes needed to verify the provided data.
    * @param data Complete data object.
    * @param paths Property paths to be disclosed to a user.
    */
-  public async disclose(data: any, paths: PropPath[]): Promise<PropProof[]> {
+  public async disclose(data: any, paths: PropPath[]): Promise<PropRecipe[]> {
     const schemaProps = this.buildSchemaProps(data);
     const compoundProps = await this.buildCompoundProps(schemaProps);
-    const schemaProofs = await this.buildProofs(compoundProps, paths);
+    const schemaRecipes = await this.buildRecipes(compoundProps, paths);
 
-    return schemaProofs.map((proof: PropProof) => ({
-      path: proof.path,
-      nodes: proof.nodes,
-      values: proof.values,
+    return schemaRecipes.map((recipe: PropRecipe) => ({
+      path: recipe.path,
+      nodes: recipe.nodes,
+      values: recipe.values,
     }));
   }
 
   /**
    * Returns an imprint when all the property values of the provided `data` are
-   * described with the `proofs`. Note that custom data properties will always
+   * described with the `recipes`. Note that custom data properties will always
    * be ignored and will thus always pass.
    * @param data Complete data object.
-   * @param proofs Data evidence proofs.
+   * @param recipes Data object recipes.
    */
-  public async calculate(data: any, proofs: PropProof[]): Promise<string> {
+  public async calculate(data: any, recipes: PropRecipe[]): Promise<string> {
     try {
-      if (this.checkDataInclusion(data, proofs)) {
-        return this.imprintProofs(proofs);
+      if (this.checkDataInclusion(data, recipes)) {
+        return this.imprintRecipes(recipes);
       } else {
         return null;
       }
@@ -94,11 +93,11 @@ export class Cert {
 
   /**
    * Calculates merkle tree root node for the provided `data`.
-   * @param proofs Data evidence proofs.
+   * @param data Complete data object.
    */
   public async imprint(data: any): Promise<string> {
     return this.notarize(data)
-      .then((n: PropProof[]) => n[0].nodes[0].hash);
+      .then((n: PropRecipe[]) => n[0].nodes[0].hash);
   }
 
   /**
@@ -153,10 +152,10 @@ export class Cert {
         .sort((a, b) => a.key > b.key ? 1 : -1)
         .map((i: any) => i.value);
 
-      const proofs = await this.merkle.notarize(values);
+      const recipes = await this.merkle.notarize(values);
       props.push({
         path,
-        value: proofs.nodes[0].hash,
+        value: recipes.nodes[0].hash,
         key: path.join('.'),
         group: path.slice(0, -1).join('.'),
       });
@@ -166,13 +165,13 @@ export class Cert {
   }
 
   /**
-   * Calculates evidence object for each property and returns a list of proofs.
-   * When providing the `paths` only the proofs needed for the required
-   * propertoes are included in the result.
+   * Calculates and returns recipes build for each data property. When providing
+   * the `paths` only the recipes and recipe data needed for the required
+   * properties are included in the result.
    * @param props List of schema properties.
    * @param paths Required propertiy paths.
    */
-  protected async buildProofs(props, paths = null): Promise<any> {
+  protected async buildRecipes(props, paths = null): Promise<any> {
     const keys = paths ? stepPaths(paths).map((p: any) => p.join('.')) : null;
 
     const groups = {};
@@ -184,21 +183,21 @@ export class Cert {
           .filter((p: any) => p.group === group)
           .map((p: any) => p.value);
 
-        let evidence = await this.merkle.notarize(values);
+        let recipes = await this.merkle.notarize(values);
         if (keys) {
           const expose = props
             .filter((p: any) => p.group === group)
             .map((p, i) => keys.indexOf(p.key) === -1 ? -1 : i)
             .filter((i: any) => i !== -1);
 
-          evidence = await this.merkle.disclose(evidence, expose);
+          recipes = await this.merkle.disclose(recipes, expose);
         }
 
         if (!keys || keys.indexOf(groups[group].join('.')) !== -1) {
           return {
             path: groups[group],
-            values: evidence.values,
-            nodes: evidence.nodes,
+            values: recipes.values,
+            nodes: recipes.nodes,
             key: groups[group].join('.'),
             group: groups[group].slice(0, -1).join('.'),
           };
@@ -211,16 +210,16 @@ export class Cert {
 
   /**
    * Returns `true` when all the property values of the provided `data` are
-   * described with the `proofs`. Note that custom data properties (including
+   * described with the `recipes`. Note that custom data properties (including
    * defined fields of undefined value) will always be ignored and will thus
    * always pass.
    * @param data Complete data object.
-   * @param proofs Data evidence proofs.
+   * @param recipes Data recipes.
    */
-  protected checkDataInclusion(data: any, proofs: PropProof[]): boolean {
+  protected checkDataInclusion(data: any, recipes: PropRecipe[]): boolean {
     const schemaProps = this.buildSchemaProps(data);
 
-    proofs = cloneObject(proofs).map((p: any) => ({
+    recipes = cloneObject(recipes).map((p: any) => ({
       key: p.path.join('.'),
       group: p.path.slice(0, -1).join('.'),
       ...p,
@@ -233,15 +232,15 @@ export class Cert {
         continue;
       }
 
-      const proofGroup = prop.path.slice(0, -1).join('.');
-      const proof = proofs.find((p: any) => p['key'] === proofGroup);
-      if (!proof) {
+      const recipeGroup = prop.path.slice(0, -1).join('.');
+      const recipe = recipes.find((p: any) => p['key'] === recipeGroup);
+      if (!recipe) {
         return false;
       }
 
       const dataIndex = this.getPathIndexes(prop.path).pop();
-      const proofValue = proof.values.find((v: any) => v.index === dataIndex);
-      if (proofValue.value !== dataValue) {
+      const recipeValue = recipe.values.find((v: any) => v.index === dataIndex);
+      if (recipeValue.value !== dataValue) {
         return false;
       }
     }
@@ -250,41 +249,41 @@ export class Cert {
   }
 
   /**
-   * Calculates merkle tree root node from the provided proofs.
-   * @param proofs Data evidence proofs.
+   * Calculates merkle tree root node from the provided recipes.
+   * @param recipes Data recipes.
    */
-  protected async imprintProofs(proofs: PropProof[]): Promise<string> {
-    if (proofs.length === 0) {
+  protected async imprintRecipes(recipes: PropRecipe[]): Promise<string> {
+    if (recipes.length === 0) {
       return this.getEmptyImprint();
     }
 
-    proofs = cloneObject(proofs).map((prop: any) => ({
+    recipes = cloneObject(recipes).map((prop: any) => ({
       key: prop.path.join('.'),
       group: prop.path.slice(0, -1).join('.'),
       ...prop,
     })).sort((a, b) => a.path.length > b.path.length ? -1 : 1);
 
-    for (const proof of proofs) {
-      const imprint = await this.merkle.imprint(proof).catch(() => '');
-      proof.nodes.unshift({
+    for (const recipe of recipes) {
+      const imprint = await this.merkle.imprint(recipe).catch(() => '');
+      recipe.nodes.unshift({
         index: 0,
         hash: imprint,
       });
 
-      const groupKey = proof.path.slice(0, -1).join('.');
-      const groupIndex = this.getPathIndexes(proof.path).slice(-1).pop();
-      const groupProof = proofs.find((p: any) => p['key'] === groupKey);
-      if (groupProof) {
-        groupProof.values.unshift({ // adds posible duplicate thus use `unshift`
+      const groupKey = recipe.path.slice(0, -1).join('.');
+      const groupIndex = this.getPathIndexes(recipe.path).slice(-1).pop();
+      const groupRecipe = recipes.find((p: any) => p['key'] === groupKey);
+      if (groupRecipe) {
+        groupRecipe.values.unshift({ // adds posible duplicate thus use `unshift`
           index: groupIndex,
           value: imprint,
         });
       }
     }
 
-    const root = proofs.find((f: any) => f['key'] === '');
-    if (root) {
-      return root.nodes.find((n: any) => n.index === 0).hash;
+    const rootRecipe = recipes.find((f: any) => f['key'] === '');
+    if (rootRecipe) {
+      return rootRecipe.nodes.find((n: any) => n.index === 0).hash;
     } else {
       return this.getEmptyImprint();
     }
@@ -316,7 +315,7 @@ export class Cert {
   }
 
   /**
-   *
+   * Returns a hash of an empty value.
    */
   protected async getEmptyImprint(): Promise<any> {
     return this.merkle.notarize([]).then((e: any) => e.nodes[0].hash);

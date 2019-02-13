@@ -3,7 +3,7 @@ issue: 88
 title: Crypto Collectible Asset
 id: a4cf0407b223849773430feaf0949827373c40feb3258d82dd605ed41c5e9a2c
 author: Kristijan Sedlak <kristijan@0xcert.org>
-version: 1.0.0-rc3
+version: 1.0.0-rc5
 category: conventions
 status: Draft
 created: 2018-11-07
@@ -23,7 +23,7 @@ This convention represents a digital asset that represents a crypto-collectible.
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "allOf": [
-    { "$ref": "#/schemas/asset-metadata" }
+    { "$ref": "#/asset-metadata" }
   ],
   "description": "A digital assets that have a unique combination of different properties.",
   "title": "Crypto Collectible Asset",

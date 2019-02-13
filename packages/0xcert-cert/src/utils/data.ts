@@ -2,7 +2,7 @@
  * Converts any value to string.
  * @param val Arbitrary value.
  */
-export function toString(val): string {
+export function toString(val: any): string {
   try {
     return typeof val === 'undefined' || val === null ? '' : `${val}`;
   } catch (e) {
@@ -44,7 +44,7 @@ export function stepPaths(paths: ((string | number)[])[]): any[] {
  * @param path Property path.
  * @param json Arbitrary data object.
  */
-export function readPath(path, json): any {
+export function readPath(path: any, json: any): any {
   try {
     if (!Array.isArray(path)) {
       return undefined;

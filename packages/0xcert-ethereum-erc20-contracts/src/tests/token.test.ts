@@ -139,18 +139,6 @@ spec.test('emits Approval event after approval', async (ctx) => {
   ctx.not(logs.events.Approval, undefined);
 });
 
-spec.test('reverts if owner wants to reset allowance before setting it to 0 first', async (ctx) => {
-  const token = ctx.get('token');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  const decimalsMul = ctx.get('decimalsMul');
-  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
-  const newTokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('50'));
-
-  await token.instance.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
-  await ctx.reverts(() => token.instance.methods.approve(bob, newTokenAmount.toString()).send({ from: owner }), '001002');
-});
-
 spec.test('successfully resets allowance', async (ctx) => {
   const token = ctx.get('token');
   const owner = ctx.get('owner');
@@ -211,7 +199,7 @@ spec.test('throws when trying to transferFrom more than allowed amount', async (
   const tokenAmountAllowed = decimalsMul.mul(new ctx.web3.utils.BN('99'));
 
   await token.instance.methods.approve(bob, tokenAmountAllowed.toString()).send({ from: owner });
-  await ctx.reverts(() => token.instance.methods.transferFrom(owner, sara, tokenAmount.toString()).send({ from: bob }), '001003');
+  await ctx.reverts(() => token.instance.methods.transferFrom(owner, sara, tokenAmount.toString()).send({ from: bob }), '001002');
 });
 
 spec.test('throws an error when trying to transferFrom more than _from has', async (ctx) => {

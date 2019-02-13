@@ -25,4 +25,13 @@ contract AbilitableTestMock is
   {
     return "B";
   }
+
+  function abilityX(uint8 _ability)
+    external
+    view
+    hasAbilities(_ability)
+    returns (string memory)
+  {
+    return "X";
+  }
 }
