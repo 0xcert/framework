@@ -27,12 +27,12 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected $confirmations = 0;
 
   /**
-   * Id(address) of the sender.
+   * Id (address) of the sender.
    */
   protected $senderId: string;
 
   /**
-   * Id(address) of the receiver.
+   * Id (address) of the receiver.
    */
   protected $receiverId: string;
 

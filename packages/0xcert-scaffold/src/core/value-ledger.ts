@@ -115,12 +115,12 @@ export interface ValueLedgerInfo {
 export interface ValueLedgerTransferRecipe {
 
   /**
-   * Id(address) of the sender.
+   * Id (address) of the sender.
    */
   senderId?: string;
 
   /**
-   * Id(address) of the receiver.
+   * Id (address) of the receiver.
    */
   receiverId: string;
 
