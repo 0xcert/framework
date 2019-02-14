@@ -236,15 +236,6 @@
     ],
     "no-redundant-jsdoc": true,
     "ban-ts-ignore": true,
-    "no-console": [
-      true,
-      "log",
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
     "no-debugger": true,
     "no-eval": true,
     "no-string-throw": true,

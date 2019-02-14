@@ -1,13 +1,38 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
  * Metamask provider options interface.
  */
 export interface MetamaskProviderOptions {
+
+  /**
+   * Type of signature that will be used in making claims etc.
+   */
+  signMethod?: SignMethod;
+
+  /**
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
+   */
   unsafeRecipientIds?: string[];
+
+  /**
+   * Source where assetLedger compiled smart contract is located.
+   */
   assetLedgerSource?: string;
+
+  /**
+   * Source where valueLedger compiled smart contract is located.
+   */
   valueLedgerSource?: string;
+
+  /**
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   */
   requiredConfirmations?: number;
+
+  /**
+   * Id (address) of order gateway.
+   */
   orderGatewayId?: string;
 }
 
@@ -32,6 +57,15 @@ export class MetamaskProvider extends GenericProvider {
       client: typeof window !== 'undefined' ? window['ethereum'] : null,
       signMethod: SignMethod.EIP712,
     });
+
+    if (this.isSupported()) {
+      window['ethereum'].on('accountsChanged', (accounts) => {
+        this.accountId = accounts[0];
+      });
+      window['ethereum'].on('networkChanged', (netId) => {
+        this.emit(ProviderEvent.NETWORK_CHANGE, netId);
+      });
+    }
   }
 
   /**

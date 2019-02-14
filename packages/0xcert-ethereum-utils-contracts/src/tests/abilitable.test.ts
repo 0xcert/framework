@@ -185,4 +185,12 @@ spec.test('throws when trying to check ability 0', async (ctx) => {
   await ctx.reverts(() => abilitable.instance.methods.isAble(owner, 0).call(), '017003');
 });
 
+spec.test('throws when trying to use modifier for ability 0', async (ctx) => {
+  const abilitable = ctx.get('abilitable');
+
+  const x = await abilitable.instance.methods.abilityX(1).call();
+  ctx.is(x, 'X');
+  await ctx.reverts(() => abilitable.instance.methods.abilityX(0).call(), '017003');
+});
+
 export default spec;

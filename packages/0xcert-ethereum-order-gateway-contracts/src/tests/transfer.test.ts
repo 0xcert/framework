@@ -1081,7 +1081,7 @@ fail.test('when proxy has unsofficient allowence for a token', async (ctx) => {
 
   await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
   await omg.instance.methods.approve(tokenProxy.receipt._address, omgAmount - 1000).send({ from: bob });
-  await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '001003');
+  await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '001002');
 });
 
 fail.test('when _to address is not the one performing the transfer', async (ctx) => {

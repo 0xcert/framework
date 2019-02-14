@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/utils",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc5",
   "description": "General utility module with common helper functions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,17 +8,14 @@
     "build": "npm run clean && npx tsc",
     "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "test": "npm run lint && npx nyc npx specron test"
+    "test": "npm run lint && npx nyc npx hayspec test"
   },
-  "specron": {
-    "test": {
-      "port": 8515,
-      "match": [
-        "./src/tests/**/*.test.ts"
-      ]
-    },
+  "hayspec": {
     "require": [
       "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
     ]
   },
   "nyc": {
@@ -67,14 +64,13 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "^0.5.3",
-    "@specron/spec": "^0.5.3",
+    "@hayspec/cli": "^0.8.3",
+    "@hayspec/spec": "^0.8.3",
+    "@types/node": "10.12.24",
     "nyc": "^13.1.0",
-    "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
-    "typescript": "^3.1.1",
-    "web3": "1.0.0-beta.36"
+    "typescript": "^3.1.1"
   },
   "dependencies": {
     "eth-lib": "0.1.27",

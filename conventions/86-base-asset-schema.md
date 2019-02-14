@@ -3,7 +3,7 @@ issue: 86
 title: Base asset schema
 id: 3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d
 author: Kristijan Sedlak <kristijan@0xcert.org>, William Entriken <github.com@phor.net>
-version: 1.0.0-rc3
+version: 1.0.0-rc5
 category: conventions
 status: Draft
 created: 2018-11-07
@@ -39,8 +39,8 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
   "description": "An abstract digital asset schema.",
   "properties": {
     "$evidence": {
-      "description": "A URI ponit to the evidence JSON with data needed to certify this asset.",
-      "type": "string",
+      "description": "A URI points to the evidence JSON with data needed to certify this asset.",
+      "type": "string"
     },
     "$schema": {
       "description": "A path to JSON Schema definition file.",

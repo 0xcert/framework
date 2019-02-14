@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-generic-provider",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc5",
   "description": "Basic implementation of communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -67,10 +67,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "1.0.0-rc3",
-    "@types/node": "^10.12.10",
-    "@specron/cli": "^0.5.3",
-    "@specron/spec": "^0.5.3",
+    "@0xcert/ethereum-sandbox": "1.0.0-rc5",
+    "@types/node": "^10.12.24",
+    "@specron/cli": "^0.5.4",
+    "@specron/spec": "^0.5.4",
     "nyc": "^13.1.0",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
@@ -79,8 +79,8 @@
     "web3": "1.0.0-beta.36"
   },
   "dependencies": {
-    "@0xcert/ethereum-utils": "1.0.0-rc3",
-    "@0xcert/scaffold": "1.0.0-rc3",
+    "@0xcert/ethereum-utils": "1.0.0-rc5",
+    "@0xcert/scaffold": "1.0.0-rc5",
     "events": "^3.0.0"
   }
 }

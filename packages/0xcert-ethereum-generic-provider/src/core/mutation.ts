@@ -15,12 +15,40 @@ export enum MutationStatus {
  * Ethreum transaction mutation.
  */
 export class Mutation extends EventEmitter implements MutationBase {
+
+  /**
+   * Mutation Id (transaction hash).
+   */
   protected $id: string;
+
+  /**
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   */
   protected $confirmations = 0;
+
+  /**
+   * Id (address) of the sender.
+   */
   protected $senderId: string;
+
+  /**
+   * Id (address) of the receiver.
+   */
   protected $receiverId: string;
+
+  /**
+   * Provider instance.
+   */
   protected $provider: any;
+
+  /**
+   * Timer for checking confirmations.
+   */
   protected $timer: any = null;
+
+  /**
+   * Current mutation status.
+   */
   protected $status: MutationStatus = MutationStatus.INITIALIZED;
 
   /**
@@ -85,7 +113,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Event emmiter.
+   * Emits mutation event.
    */
   public emit(event: MutationEvent.CONFIRM, mutation: Mutation);
   public emit(event: MutationEvent.COMPLETE, mutation: Mutation);
@@ -120,7 +148,9 @@ export class Mutation extends EventEmitter implements MutationBase {
   /**
    * Dettaches from mutation events.
    */
-  public off(event: MutationEvent, handler?: () => any) {
+  public off(event: MutationEvent.ERROR, handler: (e: any, m: Mutation) => any);
+  public off(event: MutationEvent);
+  public off(event, handler?) {
     if (handler) {
       super.off(event, handler);
     } else {

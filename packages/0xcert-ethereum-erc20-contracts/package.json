@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-erc20-contracts",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc5",
   "description": "Smart contract implementation of the ERC-20 standard on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -61,9 +61,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "1.0.0-rc3",
-    "@specron/cli": "^0.5.3",
-    "@specron/spec": "^0.5.3",
+    "@0xcert/ethereum-utils-contracts": "1.0.0-rc5",
+    "@specron/cli": "^0.5.4",
+    "@specron/spec": "^0.5.4",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",

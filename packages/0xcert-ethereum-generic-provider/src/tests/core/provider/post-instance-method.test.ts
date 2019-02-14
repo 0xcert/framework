@@ -1,17 +1,14 @@
 import { Spec } from '@specron/spec';
 import { GenericProvider } from '../../..';
 
-interface Data {
+const spec = new Spec<{
   provider: GenericProvider;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
   });
-
   stage.set('provider', provider);
 });
 

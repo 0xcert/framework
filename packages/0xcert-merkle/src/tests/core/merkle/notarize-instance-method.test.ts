@@ -2,11 +2,9 @@ import { sha } from '@0xcert/utils';
 import { Spec } from '@hayspec/spec';
 import { Merkle } from '../../..';
 
-interface Data {
+const spec = new Spec<{
   merkle: Merkle;
-}
-
-const spec = new Spec<Data>();
+}>();
 
 spec.before(async (ctx) => {
   ctx.set('merkle', new Merkle({ hasher: (v) => sha(256, v) }));
@@ -14,8 +12,8 @@ spec.before(async (ctx) => {
 
 spec.test('empty array', async (ctx) => {
   const values = [];
-  const evidence = await ctx.get('merkle').notarize(values);
-  ctx.deepEqual(evidence, {
+  const recipe = await ctx.get('merkle').notarize(values);
+  ctx.deepEqual(recipe, {
     values: [],
     nodes: [
       { index: 0, hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
@@ -25,8 +23,8 @@ spec.test('empty array', async (ctx) => {
 
 spec.test('array with element A', async (ctx) => {
   const values = ['A'];
-  const evidence = await ctx.get('merkle').notarize(values);
-  ctx.deepEqual(evidence, {
+  const recipe = await ctx.get('merkle').notarize(values);
+  ctx.deepEqual(recipe, {
     values: [
       { index: 0, value: 'A' },
     ],
@@ -38,10 +36,10 @@ spec.test('array with element A', async (ctx) => {
   });
 });
 
-spec.test('builds evidence for values A,B,C,D', async (ctx) => {
+spec.test('builds recipe for values A,B,C,D', async (ctx) => {
   const values = ['A', 'B', 'C', 'D'];
-  const evidence = await ctx.get('merkle').notarize(values);
-  ctx.deepEqual(evidence, {
+  const recipe = await ctx.get('merkle').notarize(values);
+  ctx.deepEqual(recipe, {
     values: [
       { index: 0, value: 'A' },
       { index: 1, value: 'B' },

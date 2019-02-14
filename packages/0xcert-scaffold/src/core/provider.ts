@@ -1,8 +1,16 @@
 /**
- *
+ * A provider is a connection to a blockchain or other database store.
  */
 export interface ProviderBase {
   accountId: string;
+}
+
+/**
+ * Provider events.
+ */
+export enum ProviderEvent {
+  ACCOUNT_CHANGE = 'accountChanged',
+  NETWORK_CHANGE = 'networkChanged',
 }
 
 /**
@@ -16,7 +24,15 @@ export enum ProviderIssue {
  * Handled system error.
  */
 export class ProviderError extends Error {
+
+  /**
+   * Specific kind of error.
+   */
   public issue: ProviderIssue;
+
+  /**
+   * Original error report.
+   */
   public original: any;
 
   /**
