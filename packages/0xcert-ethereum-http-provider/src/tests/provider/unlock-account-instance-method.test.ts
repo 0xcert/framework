@@ -2,7 +2,7 @@ import { Spec } from '@specron/spec';
 import { HttpProvider } from '../..';
 
 const spec = new Spec<{
-  provider: HttpProvider; 
+  provider: HttpProvider;
   bob: string;
 }>();
 
@@ -15,13 +15,15 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
-  
   stage.set('bob', accounts[0]);
 });
 
 spec.test('unlocks account', async (ctx) => {
-  console.log(ctx.get('bob'))
   await ctx.get('provider').unlockAccount(ctx.get('bob'), 'pass', 3600);
+});
+
+spec.test('unlocks account no duration', async (ctx) => {
+  await ctx.get('provider').unlockAccount(ctx.get('bob'), 'pass');
 });
 
 export default spec;

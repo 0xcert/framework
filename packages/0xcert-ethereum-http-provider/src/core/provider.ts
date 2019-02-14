@@ -1,5 +1,4 @@
-import { GenericProvider, SignMethod, ProviderError, ProviderIssue } from '@0xcert/ethereum-generic-provider';
-// import { ProviderError, ProviderIssue } from '@0xcert/scaffold';
+import { GenericProvider, ProviderError, ProviderIssue, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { fetch } from '@0xcert/utils';
 
 /**
@@ -132,20 +131,23 @@ export class HttpProvider extends GenericProvider {
   }
 
   /**
-   * 
+   * Unlock the specified address for a period of time
+   * @param address to be unlocked
+   * @param passphrase for the address
+   * @param duration defined in seconds
    */
   public async unlockAccount(address: string, passphrase: string, duration?: number) {
     if (duration === undefined) {
-      duration = 300
+      duration = 300;
     }
 
     await this.post({
       method: 'personal_unlockAccount',
       params: [address, passphrase, duration],
     }).then((res) => {
-      return res.result
+      return res.result;
     }).catch((err) => {
-      throw new ProviderError(ProviderIssue.GENERAL, err)
+      throw new ProviderError(ProviderIssue.GENERAL, err);
     });
   }
 }
