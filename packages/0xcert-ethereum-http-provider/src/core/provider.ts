@@ -112,7 +112,7 @@ export class HttpProvider extends GenericProvider {
    */
   public send(data: any, callback: (err, data) => any) {
     const { url, ...options } = {
-      url: 'http://localhost:8524',
+      url: 'http://localhost:8545',
       ...this.$options,
     };
 
