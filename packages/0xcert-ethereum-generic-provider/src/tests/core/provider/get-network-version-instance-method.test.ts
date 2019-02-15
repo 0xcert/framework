@@ -14,7 +14,7 @@ spec.before(async (stage) => {
 
 spec.test('returns block data', async (ctx) => {
   const provider = ctx.get('provider');
-  const version = await provider.getNetworkVesion();
+  const version = await provider.getNetworkVersion();
   ctx.true(parseInt(version) > 2);
 });
 

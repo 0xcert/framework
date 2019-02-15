@@ -211,7 +211,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * Returns current network type (e.g. '3' for ropsten).
    */
-  public async getNetworkVesion(): Promise<string> {
+  public async getNetworkVersion(): Promise<string> {
     const res = await this.post({
       method: 'net_version',
       params: [],
