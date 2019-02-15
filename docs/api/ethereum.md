@@ -2046,7 +2046,13 @@ Order actions define the atomic operations of the order gateway.
 
 ### Mainnet
 
-Coming soon.
+| Contract | Address
+|-|-|-
+| OrderGateway | [0xabd785db74609461ec10d023625d3e09a16746d0](https://ropsten.etherscan.io/address/0xabd785db74609461ec10d023625d3e09a16746d0)
+| TokenTransferProxy | [0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c](https://ropsten.etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
+| NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://ropsten.etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
+| NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://ropsten.etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
+| XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://ropsten.etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
 
 ### Ropsten
 
