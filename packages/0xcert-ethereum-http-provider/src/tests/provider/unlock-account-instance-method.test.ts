@@ -26,4 +26,8 @@ spec.test('unlocks account no duration', async (ctx) => {
   await ctx.get('provider').unlockAccount(ctx.get('bob'), 'pass');
 });
 
+spec.test('unlocks account not found', async (ctx) => {
+  await ctx.throws(() => ctx.get('provider').unlockAccount('0x0', 'pass'));
+});
+
 export default spec;
