@@ -14,7 +14,7 @@ contract OrderGateway is
 
   /**
    * @dev List of abilities:
-   * 1 - Ability to set proxies.
+   * 2 - Ability to set proxies.
    */
   uint8 constant ABILITY_TO_SET_PROXIES = 2;
 
