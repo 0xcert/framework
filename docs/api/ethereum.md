@@ -85,7 +85,7 @@ import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 const provider = MetamaskProvider.getInstance();
 ```
 
-### getNetworkVesion()
+### getNetworkVersion()
 
 An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
@@ -97,7 +97,7 @@ A `string` representing Ethereum network version.
 
 ```ts
 // perform query
-const version = await provider.getNetworkVesion();
+const version = await provider.getNetworkVersion();
 ```
 
 ### isSupported()
@@ -288,7 +288,7 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 const provider = HttpProvider.getInstance();
 ```
 
-### getNetworkVesion()
+### getNetworkVersion()
 
 An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
@@ -300,7 +300,7 @@ A `string` representing Ethereum network version.
 
 ```ts
 // perform query
-const version = await provider.getNetworkVesion();
+const version = await provider.getNetworkVersion();
 ```
 
 ### isSupported()

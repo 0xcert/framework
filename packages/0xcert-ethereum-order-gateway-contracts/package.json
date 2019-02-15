@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-order-gateway-contracts",
-  "version": "1.0.0-rc6",
+  "version": "1.0.0-rc7",
   "description": "Smart contracts used by the order gateway on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -61,11 +61,11 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "1.0.0-rc6",
-    "@0xcert/ethereum-erc20-contracts": "1.0.0-rc6",
-    "@0xcert/ethereum-erc721-contracts": "1.0.0-rc6",
-    "@0xcert/ethereum-xcert-contracts": "1.0.0-rc6",
-    "@0xcert/ethereum-proxy-contracts": "1.0.0-rc6",
+    "@0xcert/ethereum-utils-contracts": "1.0.0-rc7",
+    "@0xcert/ethereum-erc20-contracts": "1.0.0-rc7",
+    "@0xcert/ethereum-erc721-contracts": "1.0.0-rc7",
+    "@0xcert/ethereum-xcert-contracts": "1.0.0-rc7",
+    "@0xcert/ethereum-proxy-contracts": "1.0.0-rc7",
     "@specron/cli": "^0.5.4",
     "@specron/spec": "^0.5.4",
     "solc": "0.5.1",
