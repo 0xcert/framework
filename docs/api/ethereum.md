@@ -165,7 +165,7 @@ provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once (event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -194,7 +194,7 @@ provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -221,11 +221,11 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ## HTTP provider
 
-HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions. 
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -345,7 +345,7 @@ provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once (event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -374,7 +374,7 @@ provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -401,7 +401,7 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ## Provider events
 
@@ -454,7 +454,7 @@ const mutation = new Mutation(provider, mutationId);
 
 ### complete()
 
-An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations. 
+An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations.
 
 ::: tip
 Number of required confirmations is configurable through the provider instance.
@@ -569,7 +569,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -583,7 +583,7 @@ mutation.on(MutationEvent.COMPLETE, () => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once(event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -612,7 +612,7 @@ mutation.once(MutationEvent.COMPLETE, () => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -639,7 +639,7 @@ mutation.off(MutationEvent.ERROR);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ### receiverId
 
@@ -809,7 +809,7 @@ const mutation = await ledger.createAsset(asset);
 
 ### deploy(provider, recipe)
 
-An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. 
+An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain.
 
 ::: tip
 All ledger abilities are automatically granted to the account that performs this method.
@@ -945,7 +945,7 @@ const mutation = await ledger.disapproveOperator(accountId);
 
 ### disableTransfers()
 
-An `asynchronous` class instance `function` which disables all asset transfers. 
+An `asynchronous` class instance `function` which disables all asset transfers.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
@@ -968,7 +968,7 @@ const mutation = await ledger.disableTransfers();
 
 ### enableTransfers()
 
-An `asynchronous` class instance `function` which enables all asset transfers. 
+An `asynchronous` class instance `function` which enables all asset transfers.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
@@ -1175,7 +1175,7 @@ A class instance `variable` holding the address of ledger's smart contract on th
 
 ### grantAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`. 
+An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`.
 
 ::: warning
 The `MANAGE_ABILITIES` ledger ability is required to perform this function.
@@ -1275,7 +1275,7 @@ const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 
 ### isTransferable()
 
-An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. 
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
@@ -1298,7 +1298,7 @@ const isTransferable = await ledger.isTransferable();
 
 ### revokeAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. 
+An `asynchronous` class instance `function` which removes `abilities` of an `accountId`.
 
 ::: warning
 The `MANAGE_ABILITIES` ledger ability is required to perform this function.
@@ -1369,7 +1369,7 @@ const mutation = await ledger.revokeAsset(assetId);
 
 ### update(recipe)
 
-An `asynchronous` class instance `function` which updates ledger data. 
+An `asynchronous` class instance `function` which updates ledger data.
 
 ::: warning
 You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
@@ -1403,7 +1403,7 @@ const mutation = await ledger.update(recipe);
 
 ### updateAsset(assetId, recipe)
 
-An `asynchronous` class instance `function` which updates `assetId` data. 
+An `asynchronous` class instance `function` which updates `assetId` data.
 
 ::: warning
 You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger ability to update asset `imprint` property.
@@ -1467,7 +1467,7 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n. 
+Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
 
 **Options:**
 
@@ -1879,7 +1879,7 @@ const mutation = await gateway.cancel(order);
 
 ### claim(order)
 
-An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. 
+An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature.
 
 ::: warning
 This operation must be executed by the maker of the order.
@@ -1950,7 +1950,7 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 ### perform(order, signature)
 
-An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. 
+An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker.
 
 ::: warning
 This operation must be executed by the taker of the order.
