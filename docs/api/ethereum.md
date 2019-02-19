@@ -1649,7 +1649,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender.
+| spenderId | [required] A `string` representing the account ID of a spender or an instance of the `OrderGateway` class.
 
 **Result:**
 
