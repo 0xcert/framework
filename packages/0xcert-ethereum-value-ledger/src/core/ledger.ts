@@ -18,12 +18,12 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * Value ledger Id. Address pointing at the smartcontract.
    */
-  protected $id: string;
+  protected _id: string;
 
   /**
    * Provider instance.
    */
-  protected $provider: GenericProvider;
+  protected _provider: GenericProvider;
 
   /**
    * Deploys a new smart contract representing value ledger to the blockchain.
@@ -49,22 +49,22 @@ export class ValueLedger implements ValueLedgerBase {
    * @param id Address of the erc20 smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
-    this.$id = normalizeAddress(id);
-    this.$provider = provider;
+    this._id = normalizeAddress(id);
+    this._provider = provider;
   }
 
   /**
    * Gets the address of the smart contract that represents this value ledger.
    */
   public get id() {
-    return this.$id;
+    return this._id;
   }
 
   /**
    * Gets the provider that is used to comunicate with blockchain.
    */
   public get provider() {
-    return this.$provider;
+    return this._provider;
   }
 
   /**

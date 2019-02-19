@@ -93,12 +93,12 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * RPC client instance (e.g. window.ethereum).
    */
-  protected $client: any;
+  protected _client: any;
 
   /**
    * Unique request number.
    */
-  protected $id = 0;
+  protected _id = 0;
 
   /**
    * Class constructor.
@@ -115,7 +115,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
 
-    this.$client = options.client && options.client.currentProvider
+    this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
   }
@@ -274,7 +274,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
       ...options,
     };
     return new Promise<RpcResponse>((resolve, reject) => {
-      this.$client.send(payload, (err, res) => {
+      this._client.send(payload, (err, res) => {
         if (err) { // client error
           return reject(err);
         } else if (res.error) { // RPC error
@@ -293,8 +293,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Returns the next unique request number.
    */
   protected getNextId() {
-    this.$id++;
-    return this.$id;
+    this._id++;
+    return this._id;
   }
 
 }

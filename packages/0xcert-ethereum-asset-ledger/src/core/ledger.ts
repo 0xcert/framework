@@ -35,12 +35,12 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * AssetLedger Id. Address pointing at the smartcontract.
    */
-  protected $id: string;
+  protected _id: string;
 
   /**
    * Provider instance.
    */
-  protected $provider: GenericProvider;
+  protected _provider: GenericProvider;
 
   /**
    * Deploys a new smart contract representing asset ledger to the blockchain.
@@ -66,22 +66,22 @@ export class AssetLedger implements AssetLedgerBase {
    * @param id Address of the erc721/xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
-    this.$id = normalizeAddress(id);
-    this.$provider = provider;
+    this._id = normalizeAddress(id);
+    this._provider = provider;
   }
 
   /**
    * Gets the address of the smart contract that represents this asset ledger.
    */
   public get id(): string {
-    return this.$id;
+    return this._id;
   }
 
   /**
    * Gets the provider that is used to comunicate with blockchain.
    */
   public get provider(): GenericProvider {
-    return this.$provider;
+    return this._provider;
   }
 
   /**

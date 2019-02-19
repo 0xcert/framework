@@ -8,7 +8,7 @@ const spec = new Spec();
 spec.test('Validates data', (ctx) => {
   const validate = ajv.compile(schema87);
   const data: Object87 = {
-    '$schema': 'http://json-schema.org/draft-07/schema',
+    '_schema': 'http://json-schema.org/draft-07/schema',
     'data': [
       {
         'path': [],
@@ -42,7 +42,7 @@ spec.test('Validates data', (ctx) => {
   ctx.true(validate(data));
 
   const data2 = {
-    '$schema': 'http://json-schema.org/draft-07/schema',
+    '_schema': 'http://json-schema.org/draft-07/schema',
     'data': [
       {
         'path': [],

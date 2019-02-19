@@ -2,7 +2,7 @@
  * Asset evidence object interface.
  */
 export interface Object87 {
-  $schema?: string;
+  _schema?: string;
   data: {
     nodes: {
       index: number;
@@ -20,10 +20,10 @@ export interface Object87 {
  * Asset evidence JSON Schema.
  */
 export const schema87 = {
-  $schema: 'http://json-schema.org/draft-07/schema',
+  _schema: 'http://json-schema.org/draft-07/schema',
   description: 'Asset evidence schema.',
   properties: {
-    $schema: {
+    _schema: {
       description: 'A path to JSON Schema definition file.',
       type: 'string',
     },
