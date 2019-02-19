@@ -36,3 +36,40 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/webpack | - | Module for package building and minification.
 
 See [CONTRIBUTING](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.md) to learn how to contribute to the project and [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) to learn about the terms of use.
+
+# TODO
+
+- Fix metamask events (implement the same logic as in swapmarket)
+- Create scaffold for storage
+
+```ts
+const mongo = new MongoClient();
+const record = await mongo.create({
+  firstName: 'John',
+  lastname: 'Smith',
+});
+```
+
+```ts
+const cert = new Cert();
+const recipes = await cert.notarize(record);
+const evidence = await cert.disclose(recipes, [
+  ['firstName'],
+]])
+const metadata = await cert.metadata(record, evidence);
+```
+
+```ts
+const ipfsStore = new IPFSStore();
+await ipfsStore.saveMetadata(metadata);
+await ipfsStore.saveEvidence(evidence);
+```
+
+```ts
+const assetLedger = new AssetLedger(stage);
+assetLedger.createAsset({
+  receiverId: string;
+  id: string;
+  imprint: string;
+});
+```
