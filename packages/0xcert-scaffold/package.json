@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/scaffold",
-  "version": "1.0.0-rc7",
+  "version": "1.0.0-rc8",
   "description": "Overarching module with types, enums, and interfaces for easier development of interoperable modules.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
