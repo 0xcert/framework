@@ -464,7 +464,7 @@ Number of required confirmations is configurable through the provider instance.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -494,7 +494,7 @@ A `synchronous` class instance `function` to manually trigger a mutation event.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -510,7 +510,7 @@ A `synchronous` class instance `function` which stops listening for confirmation
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -600,7 +600,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -629,7 +629,7 @@ A `synchronous` class instance `function` which removes an existing event.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -721,7 +721,7 @@ Only one account per `assetId` can be approved at the same time thus running thi
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -754,7 +754,7 @@ Multiple operators can exist.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -789,7 +789,7 @@ The `CREATE_ASSET` ledger ability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -830,7 +830,7 @@ All ledger abilities are automatically granted to the account that performs this
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -873,7 +873,7 @@ The `DESTROY_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -901,7 +901,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -929,7 +929,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -955,7 +955,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -978,7 +978,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1192,7 +1192,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1315,7 +1315,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1353,7 +1353,7 @@ The `REVOKE_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1385,7 +1385,7 @@ You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1415,22 +1415,24 @@ You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger abil
 
 | Argument | Description
 |-|-
+| assetId | [required] A `string` representing an ID of an asset.
 | recipe.imprint | [required] A `string` representing asset imprint property.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
 ```ts
 // arbitrary data
+const assetId = '100';
 const recipe = {
     imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
 };
 
 // perform mutation
-const mutation = await ledger.update(recipe);
+const mutation = await ledger.updateAsset(assetId, recipe);
 ```
 
 **See also:**
@@ -1452,7 +1454,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1558,7 +1560,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1591,7 +1593,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1626,7 +1628,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1788,7 +1790,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1848,7 +1850,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1971,7 +1973,7 @@ This operation must be executed by the taker of the order.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
