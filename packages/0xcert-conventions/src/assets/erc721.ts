@@ -18,7 +18,7 @@ export interface ObjectErc721 {
  * ERC-721 unique asset JSON Schema.
  */
 export const schemaErc721 = {
-  _schema: 'http://json-schema.org/draft-07/schema',
+  $schema: 'http://json-schema.org/draft-07/schema',
   description: 'An abstract digital asset schema.',
   properties: {
     description: {

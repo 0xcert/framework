@@ -4,8 +4,8 @@ import { Object86, schema86 } from './86-base-asset';
  * Crypto collectible asset data object interface.
  */
 export interface Object88 extends Object86 {
-  _evidence?: string;
-  _schema?: string;
+  $evidence?: string;
+  $schema?: string;
   description: string;
   image: string;
   name: string;
@@ -15,7 +15,7 @@ export interface Object88 extends Object86 {
  * Crypto collectible asset data object JSON Schema.
  */
 export const schema88 = {
-  _schema: 'http://json-schema.org/draft-07/schema',
+  $schema: 'http://json-schema.org/draft-07/schema',
   description: 'An abstract digital asset schema.',
   properties: {
     ...schema86.properties,
