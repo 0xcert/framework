@@ -72,8 +72,11 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param spenderId Account if of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string): Promise<String> {
-    return getAllowance(this, accountId, spenderId);
+  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase): Promise<String> {
+    if (typeof spenderId !== 'string') {
+      spenderId = await (spenderId as any).getProxyAccountId(1);
+    }
+    return getAllowance(this, accountId, spenderId as string);
   }
 
   /**
