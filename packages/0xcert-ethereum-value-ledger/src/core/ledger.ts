@@ -98,8 +98,8 @@ export class ValueLedger implements ValueLedgerBase {
    * @param value Value amount we are checking against.
    */
   public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase): Promise<Boolean> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
+    if (typeof spenderId !== 'string') {
+      spenderId = await (spenderId as any).getProxyAccountId(1);
     }
     const approved = await getAllowance(this, accountId, spenderId as string);
     return bigNumberify(approved).gte(bigNumberify(value));
