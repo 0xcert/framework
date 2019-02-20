@@ -38,14 +38,14 @@ export interface MerkleOptions {
  * Merkle tree class.
  */
 export class Merkle {
-  protected $options: MerkleOptions;
+  protected _options: MerkleOptions;
 
   /**
    * Class constructor.
    * @param options Configuration options.
    */
   public constructor(options?: MerkleOptions) {
-    this.$options = {
+    this._options = {
       hasher: (v) => v,
       ...options,
     };
@@ -57,17 +57,17 @@ export class Merkle {
    */
   public async notarize(data: (string | number | boolean)[]): Promise<MerkleRecipe> {
     const values = [...data];
-    const nodes = [await this.$options.hasher('')];
+    const nodes = [await this._options.hasher('')];
 
     for (let i = values.length - 1; i >= 0; i--) {
       const right = nodes[0];
       const value = values[i];
       nodes.unshift(
-        await this.$options.hasher(value),
+        await this._options.hasher(value),
       );
       const left = nodes[0];
       nodes.unshift(
-        await this.$options.hasher(`${left}${right}`),
+        await this._options.hasher(`${left}${right}`),
       );
     }
 
@@ -116,7 +116,7 @@ export class Merkle {
       ...await Promise.all(
         recipe.values.map(async (v) => ({
           index: v.index * 2 + 1,
-          hash: await this.$options.hasher(v.value),
+          hash: await this._options.hasher(v.value),
           value: v.value,
         })),
       ),
@@ -131,7 +131,7 @@ export class Merkle {
       if (right && left) {
         nodes.unshift({
           index: i - 2,
-          hash: await this.$options.hasher(`${left.hash}${right.hash}`),
+          hash: await this._options.hasher(`${left.hash}${right.hash}`),
         });
       }
     }

@@ -80,7 +80,7 @@ export class HttpProvider extends GenericProvider {
   /**
    * Default options set from constructor.
    */
-  protected $options: HttpProviderOptions;
+  protected _options: HttpProviderOptions;
 
   /**
    * Returns a new provider instance.
@@ -96,15 +96,15 @@ export class HttpProvider extends GenericProvider {
   public constructor(options: HttpProviderOptions) {
     super(options);
 
-    this.$options = options;
-    this.$client = this;
+    this._options = options;
+    this._client = this;
   }
 
   /**
    * Is provider supported.
    */
   public isSupported() {
-    return !!this.$client.fetch;
+    return !!this._client.fetch;
   }
 
   /**
@@ -114,7 +114,7 @@ export class HttpProvider extends GenericProvider {
 
     const { url, ...options } = {
       url: 'http://localhost:8545',
-      ...this.$options,
+      ...this._options,
     };
 
     return fetch(url, {
