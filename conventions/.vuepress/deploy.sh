@@ -1,8 +1,8 @@
 
 set -e
 cd ../..
-vuepress build docs
-cd docs/.vuepress/dist
+vuepress build conventions
+cd conventions/.vuepress/dist
 echo 'conventions.0xcert.org' > CNAME
 git init
 git add -A
