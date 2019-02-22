@@ -17,12 +17,12 @@ export class OrderGateway implements OrderGatewayBase {
   /**
    * Address of the smart contract that represents this order gateway.
    */
-  protected $id: string;
+  protected _id: string;
 
   /**
    * Provider instance.
    */
-  protected $provider: GenericProvider;
+  protected _provider: GenericProvider;
 
   /**
    * Gets an instance of order gateway.
@@ -39,22 +39,22 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public constructor(provider: GenericProvider, id?: string) {
-    this.$id = normalizeAddress(id || provider.orderGatewayId);
-    this.$provider = provider;
+    this._id = normalizeAddress(id || provider.orderGatewayId);
+    this._provider = provider;
   }
 
   /**
    * Gets the address of the smart contract that represents this order gateway.
    */
   public get id() {
-    return this.$id;
+    return this._id;
   }
 
   /**
    * Gets the provider that is used to comunicate with blockchain.
    */
   public get provider() {
-    return this.$provider;
+    return this._provider;
   }
 
   /**

@@ -18,12 +18,12 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * Value ledger Id. Address pointing at the smartcontract.
    */
-  protected $id: string;
+  protected _id: string;
 
   /**
    * Provider instance.
    */
-  protected $provider: GenericProvider;
+  protected _provider: GenericProvider;
 
   /**
    * Deploys a new smart contract representing value ledger to the blockchain.
@@ -49,22 +49,22 @@ export class ValueLedger implements ValueLedgerBase {
    * @param id Address of the erc20 smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
-    this.$id = normalizeAddress(id);
-    this.$provider = provider;
+    this._id = normalizeAddress(id);
+    this._provider = provider;
   }
 
   /**
    * Gets the address of the smart contract that represents this value ledger.
    */
   public get id() {
-    return this.$id;
+    return this._id;
   }
 
   /**
    * Gets the provider that is used to comunicate with blockchain.
    */
   public get provider() {
-    return this.$provider;
+    return this._provider;
   }
 
   /**
@@ -72,8 +72,11 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param spenderId Account if of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string): Promise<String> {
-    return getAllowance(this, accountId, spenderId);
+  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase): Promise<String> {
+    if (typeof spenderId !== 'string') {
+      spenderId = await (spenderId as any).getProxyAccountId(1);
+    }
+    return getAllowance(this, accountId, spenderId as string);
   }
 
   /**
@@ -98,8 +101,8 @@ export class ValueLedger implements ValueLedgerBase {
    * @param value Value amount we are checking against.
    */
   public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase): Promise<Boolean> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
+    if (typeof spenderId !== 'string') {
+      spenderId = await (spenderId as any).getProxyAccountId(1);
     }
     const approved = await getAllowance(this, accountId, spenderId as string);
     return bigNumberify(approved).gte(bigNumberify(value));

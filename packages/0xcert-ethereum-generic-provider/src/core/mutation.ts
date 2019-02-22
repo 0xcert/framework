@@ -19,37 +19,37 @@ export class Mutation extends EventEmitter implements MutationBase {
   /**
    * Mutation Id (transaction hash).
    */
-  protected $id: string;
+  protected _id: string;
 
   /**
    * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
    */
-  protected $confirmations = 0;
+  protected _confirmations = 0;
 
   /**
    * Id (address) of the sender.
    */
-  protected $senderId: string;
+  protected _senderId: string;
 
   /**
    * Id (address) of the receiver.
    */
-  protected $receiverId: string;
+  protected _receiverId: string;
 
   /**
    * Provider instance.
    */
-  protected $provider: any;
+  protected _provider: any;
 
   /**
    * Timer for checking confirmations.
    */
-  protected $timer: any = null;
+  protected _timer: any = null;
 
   /**
    * Current mutation status.
    */
-  protected $status: MutationStatus = MutationStatus.INITIALIZED;
+  protected _status: MutationStatus = MutationStatus.INITIALIZED;
 
   /**
    * Initialize mutation.
@@ -59,57 +59,57 @@ export class Mutation extends EventEmitter implements MutationBase {
   public constructor(provider: any, id: string) {
     super();
 
-    this.$id = id;
-    this.$provider = provider;
+    this._id = id;
+    this._provider = provider;
   }
 
   /**
    * Gets smart contract address.
    */
   public get id() {
-    return this.$id;
+    return this._id;
   }
 
   /**
    * Get provider intance.
    */
   public get provider() {
-    return this.$provider;
+    return this._provider;
   }
 
   /**
    * Gets the number of confirmations of mutation.
    */
   public get confirmations() {
-    return this.$confirmations;
+    return this._confirmations;
   }
 
   /**
    * Gets the sending address.
    */
   public get senderId() {
-    return this.$senderId;
+    return this._senderId;
   }
 
   /**
    * Gets the receiving address.
    */
   public get receiverId() {
-    return this.$receiverId;
+    return this._receiverId;
   }
 
   /**
    * Checks if mutation in pending.
    */
   public isPending() {
-    return this.$status === MutationStatus.PENDING;
+    return this._status === MutationStatus.PENDING;
   }
 
   /**
    * Checks if mutation has reached the required number of confirmation.
    */
   public isCompleted() {
-    return this.$status === MutationStatus.COMPLETED;
+    return this._status === MutationStatus.COMPLETED;
   }
 
   /**
@@ -163,12 +163,12 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Waits until mutation is resolved (mutation reaches the specified number of confirmations).
    */
   public async complete() {
-    const start = this.$status === MutationStatus.INITIALIZED;
+    const start = this._status === MutationStatus.INITIALIZED;
 
     if (this.isCompleted()) {
       return this;
     } else {
-      this.$status = MutationStatus.PENDING;
+      this._status = MutationStatus.PENDING;
     }
 
     await new Promise((resolve, reject) => {
@@ -190,8 +190,8 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Stops listening for confirmations.
    */
   public forget() {
-    if (this.$timer) {
-      clearTimeout(this.$timer);
+    if (this._timer) {
+      clearTimeout(this._timer);
     }
 
     return this;
@@ -208,21 +208,21 @@ export class Mutation extends EventEmitter implements MutationBase {
       tx.to = await this.getTransactionReceipt().then((r) => r ? r.contractAddress : null);
     }
     if (tx.to) {
-      this.$senderId = normalizeAddress(tx.from);
-      this.$receiverId = normalizeAddress(tx.to);
-      this.$confirmations = await this.getLastBlock()
+      this._senderId = normalizeAddress(tx.from);
+      this._receiverId = normalizeAddress(tx.to);
+      this._confirmations = await this.getLastBlock()
         .then((lastBlock) => lastBlock - parseInt(tx.blockNumber || lastBlock))
         .then((num) => num < 0 ? 0 : num); // -1 when pending transaction is moved to the next block.
 
-      if (this.$confirmations >= this.$provider.requiredConfirmations) {
-        this.$status = MutationStatus.COMPLETED;
+      if (this._confirmations >= this._provider.requiredConfirmations) {
+        this._status = MutationStatus.COMPLETED;
         this.emit(MutationEvent.COMPLETE, this);
       } else {
         this.emit(MutationEvent.CONFIRM, this);
-        this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
+        this._timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
       }
     } else {
-      this.$timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
+      this._timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
     }
   }
 
@@ -230,7 +230,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Gets transaction data.
    */
   protected async getTransactionObject() {
-    const res = await this.$provider.post({
+    const res = await this._provider.post({
       method: 'eth_getTransactionByHash',
       params: [this.id],
     });
@@ -241,7 +241,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Gets transaction receipt.
    */
   protected async getTransactionReceipt() {
-    const res = await this.$provider.post({
+    const res = await this._provider.post({
       method: 'eth_getTransactionReceipt',
       params: [this.id],
     });
@@ -252,7 +252,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    * Gets the latest block number.
    */
   protected async getLastBlock() {
-    const res = await this.$provider.post({
+    const res = await this._provider.post({
       method: 'eth_blockNumber',
     });
     return parseInt(res.result);

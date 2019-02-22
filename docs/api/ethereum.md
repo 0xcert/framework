@@ -13,6 +13,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
+| options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
@@ -85,7 +86,7 @@ import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
 const provider = MetamaskProvider.getInstance();
 ```
 
-### getNetworkVesion()
+### getNetworkVersion()
 
 An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
@@ -97,7 +98,7 @@ A `string` representing Ethereum network version.
 
 ```ts
 // perform query
-const version = await provider.getNetworkVesion();
+const version = await provider.getNetworkVersion();
 ```
 
 ### isSupported()
@@ -165,7 +166,7 @@ provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once (event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -194,7 +195,7 @@ provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -221,11 +222,11 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ## HTTP provider
 
-HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions. 
+HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
 
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
@@ -245,6 +246,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
@@ -288,7 +290,7 @@ import { HttpProvider } from '@0xcert/ethereum-http-provider';
 const provider = HttpProvider.getInstance();
 ```
 
-### getNetworkVesion()
+### getNetworkVersion()
 
 An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
@@ -300,7 +302,7 @@ A `string` representing Ethereum network version.
 
 ```ts
 // perform query
-const version = await provider.getNetworkVesion();
+const version = await provider.getNetworkVersion();
 ```
 
 ### isSupported()
@@ -345,7 +347,7 @@ provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once (event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -374,7 +376,7 @@ provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -401,7 +403,7 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ## Provider events
 
@@ -454,7 +456,7 @@ const mutation = new Mutation(provider, mutationId);
 
 ### complete()
 
-An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations. 
+An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations.
 
 ::: tip
 Number of required confirmations is configurable through the provider instance.
@@ -462,7 +464,7 @@ Number of required confirmations is configurable through the provider instance.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -492,7 +494,7 @@ A `synchronous` class instance `function` to manually trigger a mutation event.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -508,7 +510,7 @@ A `synchronous` class instance `function` which stops listening for confirmation
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -569,7 +571,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -583,7 +585,7 @@ mutation.on(MutationEvent.COMPLETE, () => {
 
 **See also:**
 
-[once](#once), [off](#off)
+[once(event, handler)](#once-event-handler), [off (event, handler)](#off-event-handler)
 
 ### once(event, handler);
 
@@ -598,7 +600,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -612,7 +614,7 @@ mutation.once(MutationEvent.COMPLETE, () => {
 
 **See also:**
 
-[on](#on), [off](#off)
+[on (event, handler)](#on-event-handler), [off (event, handler)](#off-event-handler)
 
 ### off(event, handler)
 
@@ -627,7 +629,7 @@ A `synchronous` class instance `function` which removes an existing event.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -639,7 +641,7 @@ mutation.off(MutationEvent.ERROR);
 
 **See also:**
 
-[on](#on), [once](#once)
+[on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
 ### receiverId
 
@@ -719,7 +721,7 @@ Only one account per `assetId` can be approved at the same time thus running thi
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -752,7 +754,7 @@ Multiple operators can exist.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -787,7 +789,7 @@ The `CREATE_ASSET` ledger ability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -809,7 +811,7 @@ const mutation = await ledger.createAsset(asset);
 
 ### deploy(provider, recipe)
 
-An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain. 
+An `asynchronous` static class `function` which deploys a new asset ledger to the Ethereum blockchain.
 
 ::: tip
 All ledger abilities are automatically granted to the account that performs this method.
@@ -828,7 +830,7 @@ All ledger abilities are automatically granted to the account that performs this
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -871,7 +873,7 @@ The `DESTROY_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -899,7 +901,7 @@ An `asynchronous` class instance `function` which removes the ability of the cur
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -927,7 +929,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -945,7 +947,7 @@ const mutation = await ledger.disapproveOperator(accountId);
 
 ### disableTransfers()
 
-An `asynchronous` class instance `function` which disables all asset transfers. 
+An `asynchronous` class instance `function` which disables all asset transfers.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
@@ -953,7 +955,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -968,7 +970,7 @@ const mutation = await ledger.disableTransfers();
 
 ### enableTransfers()
 
-An `asynchronous` class instance `function` which enables all asset transfers. 
+An `asynchronous` class instance `function` which enables all asset transfers.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability are required to perform this function.
@@ -976,7 +978,7 @@ The `TOGGLE_TRANSFERS` ledger ability and `TOGGLE_TRANSFERS` ledger capability a
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1175,7 +1177,7 @@ A class instance `variable` holding the address of ledger's smart contract on th
 
 ### grantAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`. 
+An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`.
 
 ::: warning
 The `MANAGE_ABILITIES` ledger ability is required to perform this function.
@@ -1190,7 +1192,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1275,7 +1277,7 @@ const isOperator = await ledger.isApprovedOperator(accountId, operatorId);
 
 ### isTransferable()
 
-An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled. 
+An `asynchronous` class instance `function` which returns `true` if the asset transfer feature on this ledger is enabled.
 
 ::: warning
 The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
@@ -1298,7 +1300,7 @@ const isTransferable = await ledger.isTransferable();
 
 ### revokeAbilities(accountId, abilities)
 
-An `asynchronous` class instance `function` which removes `abilities` of an `accountId`. 
+An `asynchronous` class instance `function` which removes `abilities` of an `accountId`.
 
 ::: warning
 The `MANAGE_ABILITIES` ledger ability is required to perform this function.
@@ -1313,7 +1315,7 @@ The `MANAGE_ABILITIES` ledger ability is required to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1351,7 +1353,7 @@ The `REVOKE_ASSET` ledger capability is needed to perform this function.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1369,7 +1371,7 @@ const mutation = await ledger.revokeAsset(assetId);
 
 ### update(recipe)
 
-An `asynchronous` class instance `function` which updates ledger data. 
+An `asynchronous` class instance `function` which updates ledger data.
 
 ::: warning
 You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
@@ -1383,7 +1385,7 @@ You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriBase` property.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1403,7 +1405,7 @@ const mutation = await ledger.update(recipe);
 
 ### updateAsset(assetId, recipe)
 
-An `asynchronous` class instance `function` which updates `assetId` data. 
+An `asynchronous` class instance `function` which updates `assetId` data.
 
 ::: warning
 You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger ability to update asset `imprint` property.
@@ -1413,22 +1415,24 @@ You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger abil
 
 | Argument | Description
 |-|-
+| assetId | [required] A `string` representing an ID of an asset.
 | recipe.imprint | [required] A `string` representing asset imprint property.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
 ```ts
 // arbitrary data
+const assetId = '100';
 const recipe = {
     imprint: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb',
 };
 
 // perform mutation
-const mutation = await ledger.update(recipe);
+const mutation = await ledger.updateAsset(assetId, recipe);
 ```
 
 **See also:**
@@ -1450,7 +1454,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1467,7 +1471,7 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n. 
+Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
 
 **Options:**
 
@@ -1556,7 +1560,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1589,7 +1593,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1624,7 +1628,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1649,7 +1653,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender.
+| spenderId | [required] A `string` representing the account ID of a spender or an instance of the `OrderGateway` class.
 
 **Result:**
 
@@ -1786,7 +1790,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1846,7 +1850,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -1879,7 +1883,7 @@ const mutation = await gateway.cancel(order);
 
 ### claim(order)
 
-An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature. 
+An `asynchronous` class instance `function` which cryptographically signes the provided `order` and returns a signature.
 
 ::: warning
 This operation must be executed by the maker of the order.
@@ -1950,7 +1954,7 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 ### perform(order, signature)
 
-An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker. 
+An `asynchronous` class instance `function` which submits the `order` with  `signature` from the maker.
 
 ::: warning
 This operation must be executed by the taker of the order.
@@ -1969,7 +1973,7 @@ This operation must be executed by the taker of the order.
 
 **Result:**
 
-An instance of the asame mutation class.
+An instance of the same mutation class.
 
 **Example:**
 
@@ -2046,7 +2050,13 @@ Order actions define the atomic operations of the order gateway.
 
 ### Mainnet
 
-Coming soon.
+| Contract | Address
+|-|-|-
+| OrderGateway | [0xabd785db74609461ec10d023625d3e09a16746d0](https://ropsten.etherscan.io/address/0xabd785db74609461ec10d023625d3e09a16746d0)
+| TokenTransferProxy | [0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c](https://ropsten.etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
+| NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://ropsten.etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
+| NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://ropsten.etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
+| XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://ropsten.etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
 
 ### Ropsten
 
