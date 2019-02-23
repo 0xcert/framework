@@ -1,0 +1,13 @@
+{
+  "name": "@0xcert/conventions-ui",
+  "private": true,
+  "scripts": {
+    "build": "vuepress build ..",
+    "dev": "vuepress dev ..",
+    "deploy": "./deploy.sh"
+  },
+  "dependencies": {
+    "markdown-it-container": "^2.0.0",
+    "vuepress": "^0.14.9"
+  }
+}
