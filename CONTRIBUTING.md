@@ -52,21 +52,46 @@ $ rush publish --publish --include-all
 
 # 0xcet documentation
 
-We are using VuePress for building the documentation pages. Start by installing the dependencies.
+We are using VuePress for building the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
+
+First, navigate to the root directory and install dependencies.
 
 ```
-$ npm i -g vuepress
+$ cd /docs/.vuepress
+$ npm i
 ```
 
-Then run the VuePress server in development mode.
+You can start VuePress in development mode.
 
 ```
-$ npm dev docs
+$ npm run dev
 ```
 
-Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder. To deploy the documentation, simply go to `/docs/.vuepress/` and run `deploy.sh` script.
+You can build and deploy the documentation to the servr.
 
 ```
-$ cd ./docs/.vuepress/
-$ ./deploy.sh
+$ npm run deploy
+```
+
+# 0xcet conventions
+
+We are using VuePress for building the conventions pages. Files are built locally from `.md` files located in `/conventions` folder and generated into a `/convntions/.vuepress/dist` folder.
+
+First, navigate to the root directory and install dependencies.
+
+```
+$ cd /conventions/.vuepress
+$ npm i
+```
+
+You can start VuePress in development mode.
+
+```
+$ npm run dev
+```
+
+You can build and deploy the conventions to the servr.
+
+```
+$ npm run deploy
 ```
