@@ -1165,7 +1165,7 @@
     },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
-      "integrity": "sha512-oddC+SJtQnrf3rQyVZHsbW9DQwxtq8ZyUya+/MudYyQFA48VVgQTL+keA3/uVSCE9DWbvfaj6OudZz5d4e0i5Q==",
+      "integrity": "sha512-aNfaiBtEBEIT5j53b7I5ZDojQZ6ZOhZFizlTbZcp2G4e8t4M7UWRwWh8pLnT8oX1G8zaA2AHrBc1Q1JsGi1AvA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1409,7 +1409,7 @@
     },
     "@rush-temp/vue-example": {
       "version": "file:projects/vue-example.tgz",
-      "integrity": "sha512-KJQegC0JOh2ujGn3neDSbH9BDrFF1EPEsnJZLcHihdEvYy3DONutyh2QvRwkFNmdIhkoDlMxAUBPlhcB3vRaiw==",
+      "integrity": "sha512-k3Ir/mxwG/KpxdzeDca4xQLjSNXSY+6Q3T7kv1kaeNrHgLZ8bG8WB+EmQVmWbRMwLdyxs+yY6oLLUWOMKtEuUA==",
       "requires": {
         "nuxt": "^2.3.1"
       }
