@@ -20,6 +20,7 @@ export const schema88 = {
   properties: {
     ...schema86.properties,
   },
+  required: ['$schema'],
   title: 'Crypto Collectible',
   type: 'object',
 };

@@ -83,6 +83,7 @@ export const schema87 = {
       type: 'array',
     },
   },
+  required: ['$schema'],
   title: 'Asset evidence',
   type: 'object',
 };

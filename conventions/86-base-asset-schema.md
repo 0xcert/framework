@@ -39,7 +39,7 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
   "description": "An abstract digital asset schema.",
   "properties": {
     "$evidence": {
-      "description": "A URI points to the evidence JSON with data needed to certify this asset.",
+      "description": "A URI pointing to the evidence JSON with data needed to certify this asset.",
       "type": "string"
     },
     "$schema": {
@@ -75,20 +75,10 @@ A more human-friendly description of this above specification follows. This is p
 
 ## Examples
 
-Minimal example
-
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/0xcert/framework/master/conventions/86-base-asset-schema.md",
-}
-```
-
-Typical example
-
-```json
-{
-  "$evidence": "https://troopersgame.com/dog/evidence",
-  "$schema": "https://raw.githubusercontent.com/0xcert/framework/master/conventions/86-base-asset-schema.md",
+  "$evidence": "https://troopersgame.com/dog/evidence.json",
+  "$schema": "https://conventions.0xcert.org/86-base-asset-schema.json",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg",
   "name": "Magic Sword"

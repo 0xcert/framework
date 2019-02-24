@@ -26,7 +26,8 @@ This convention represents a digital asset that represents a crypto-collectible.
     { "$ref": "#/asset-metadata" }
   ],
   "description": "A digital assets that have a unique combination of different properties.",
-  "title": "Crypto Collectible Asset",
+  "required": ["$schema"],
+  "title": "Crypto collectible asset",
   "type": "object"
 }
 ```
@@ -35,8 +36,8 @@ This convention represents a digital asset that represents a crypto-collectible.
 
 ```json
 {
-  "$evidence": "https://troopersgame.com/dog/evidence",
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$evidence": "https://troopersgame.com/dog/evidence.json",
+  "$schema": "https://conventions.0xcert.org/88-crypto-collectible-schema.json",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg",
   "name": "Magic Sword"

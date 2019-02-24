@@ -60,5 +60,7 @@
       "type": "array"
     }
   },
-  "type": "object"
+  "title": "Asset evidence",
+  "type": "object",
+  "required": ["$schema"]
 }

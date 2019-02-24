@@ -28,6 +28,7 @@ export const schema86 = {
     },
     ...schemaErc721.properties,
   },
+  required: ['$schema'],
   title: 'Base Asset',
   type: 'object',
 };
