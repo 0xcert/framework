@@ -1,4 +1,5 @@
-
+cp ../../packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./public
+cp ../../packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./public
 set -e
 cd ../..
 vuepress build conventions
