@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/cert",
-  "version": "1.0.0-rc8",
+  "version": "1.0.0-rc9",
   "description": "Asset certification module for 0xcert Framework.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,8 +72,8 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/utils": "1.0.0-rc8",
-    "@0xcert/merkle": "1.0.0-rc8",
-    "@0xcert/conventions": "1.0.0-rc8"
+    "@0xcert/utils": "1.0.0-rc9",
+    "@0xcert/merkle": "1.0.0-rc9",
+    "@0xcert/conventions": "1.0.0-rc9"
   }
 }
