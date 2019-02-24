@@ -13,7 +13,8 @@ A `class` which allows for creating and managing asset imprints and evidence obj
 | Argument | Description
 |-|-
 | schema | [required] An `object` representing the JSON-Schema definition.
-| hasher | An `asynchronous` or `synchronous` `function` which accepts a `string` value and converts it into a hash. By default, the value is converted into SHA256 hash.
+| hasher | An `asynchronous` or `synchronous` `function` which accepts a value, path and merkle tree position and returns value hash. By default, the value is converted into SHA256 hash.
+| noncer | An `asynchronous` or `synchronous` `function` which accepts value path and returns a nonce. By default, the value path is  converted into SHA256 hash.
 
 **Usage**
 
@@ -57,21 +58,22 @@ const proofs = [
     nodes: [
       {
         index: 0,
-        hash: '89517c7ea48fd5075ef08dfac95517ae0f9b73d04f0cd0c17a4b9ee15ec52c5e',
+        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
       },
       {
         index: 1,
-        hash: 'a8cfcd74832004951b4408cdb0a5dbcd8c7e52d43f7fe244bf720582e05241da',
+        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
       },
       {
         index: 2,
-        hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
       },
     ],
     values: [
       {
         index: 0,
-        value: "John",
+        value: 'John',
+        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
       },
     ],
   },
@@ -181,6 +183,7 @@ Asset Proof represents a unit of the evidence object and describes a single leve
 | values | An `array` of binary tree values.
 | values.$.index | An `integer` number representing the value index in a binary tree.
 | values.$.value | A `string` representing a value in a binary tree.
+| values.$.nonce | A `string` representing a secret for calculating merkle leaf.
 
 **Example:**
 
@@ -191,21 +194,22 @@ const proofs = [
     nodes: [
       {
         index: 0,
-        hash: '89517c7ea48fd5075ef08dfac95517ae0f9b73d04f0cd0c17a4b9ee15ec52c5e',
+        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
       },
       {
         index: 1,
-        hash: 'a8cfcd74832004951b4408cdb0a5dbcd8c7e52d43f7fe244bf720582e05241da',
+        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
       },
       {
         index: 2,
-        hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
       },
     ],
     values: [
       {
         index: 0,
-        value: "John",
+        value: 'John',
+        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
       },
     ],
   },
@@ -256,7 +260,8 @@ The schema ID is a hash which uniquely represents the data structure.
 ```ts
 import { sha } from '@0xcert/utils';
 
-const schemaId = await sha(256, JSON.stringify(schema));
+const hash = await sha(256, JSON.stringify(schema));
+const schemaId = `0x${hash}`;
 ```
 
 **Public Metadata:**
@@ -275,89 +280,51 @@ Public Metadata file must expose at least the keys defined by the [base asset sc
 
 **Public Evidence:**
 
-Public Evidence is a notarized metadata object which proofs data validity of the Public Metadata.
+Public Evidence is a notarized metadata object which proofs data validity of the Public Metadata. The example below proofs `description` and `image` keys.
 
 ```json
 {
-    "path": [],
-    "nodes": [
-      {
-        "index": 0,
-        "hash": "4810089a5685d9d005e1974b7b63e9d72107fedbd572c1dcd9cacdf77d26b6a1"
-      },
-      {
-        "index": 1,
-        "hash": "ad372c5ae525ff99fcdccffb92bad284414f0bd63c2c100c7e37d49d2a7044a5"
-      },
-      {
-        "index": 2,
-        "hash": "7e0ba8110ded7f470cf305ba84654c572326162c182c48ee49e19c986d91baba"
-      },
-      {
-        "index": 3,
-        "hash": "8a956a16769ec6008f55137c1ea19bfe64e0daef24cc531dbf5a70c3035a9277"
-      },
-      {
-        "index": 4,
-        "hash": "6c72bafb40b70773206890cd498b3e16feb244bde7dfc2a7eae0e80867f9cf1b"
-      },
-      {
-        "index": 5,
-        "hash": "1db479926d68a501aaabc3d9052f2369b40987395bed099796182667ab55e3f0"
-      },
-      {
-        "index": 6,
-        "hash": "a7650a807781364e91c86ddad3b491c943a64623a0bbfe39dc338412d2745750"
-      },
-      {
-        "index": 7,
-        "hash": "9f13cdc116bec37ff2ce3b52f5e8d75458b7b21b621b997f5cc1c5dc9755e3d5"
-      },
-      {
-        "index": 8,
-        "hash": "fe57a125a8377ddd78ac9e8000b3cc7bf695601d1c194192e12cac46e3005c97"
-      },
-      {
-        "index": 9,
-        "hash": "dab3414fe8e0c7e138d6304303185f45782c14f8fdc66133feb6681733495730"
-      },
-      {
-        "index": 10,
-        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-      }
-    ],
-    "values": [
-      {
-        "index": 0,
-        "value": "https://troopersgame.com/dog/evidence"
-      },
-      {
-        "index": 1,
-        "value": "http://json-schema.org/draft-07/schema"
-      },
-      {
-        "index": 2,
-        "value": "A weapon for the Troopers game which can severely injure the enemy."
-      },
-      {
-        "index": 3,
-        "value": "https://troopersgame.com/dog.jpg"
-      },
-      {
-        "index": 4,
-        "value": "Magic Sword"
-      }
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "data": [
+        {
+            "path": [],
+            "nodes": [
+                {
+                    "index": 1,
+                    "hash": "9b61df344ebc1740d60333efc401150f756c3e3bc13f9ca31ddd96b8fc7180fe"
+                },
+                {
+                    "index": 3,
+                    "hash": "d95a266f24ca0ca79539cb3620832d9d37b415023002e8748458d34da53ccc1b"
+                },
+                {
+                    "index": 8,
+                    "hash": "3ef34334173d794cfc862c2f05580975ba10bea41e7ff2c60164a8288dee0cc6"
+                }
+            ],
+            "values": [
+                {
+                    "index": 2,
+                    "value": "A weapon for the Troopers game which can severely injure the enemy.",
+                    "nonce": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+                },
+                {
+                    "index": 3,
+                    "value": "https://troopersgame.com/dog.jpg",
+                    "nonce": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+                }
+            ]
+        }
     ]
-  }
-]
+}
 ```
 
 **Asset Conventions:**
 
 | Issue | Id | Description
 |-|-|-
-| [86](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) | 0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d | Basic asset data schema.
-| [87](https://github.com/0xcert/framework/blob/master/conventions/87-asset-evidence-schema.md) | 0x331b2de5f698fe579b1c7e735e8dfb96f98026a54ea1a17bae1e292932818df8 | Asset evidence data schema.
-| [88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible-schema.md) | 0xa4cf0407b223849773430feaf0949827373c40feb3258d82dd605ed41c5e9a2c | Schema describing digital collectible item.
+| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 0x50fa12f723c0e93d7c291bbf0c9092ec3eb7aef24761206158bef3dfe79a34e8 | Basic asset data schema.
+| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | 0x89f9bc6a5eb3153867b980dbb7fbf35916a4d321edfe1a73188c2c540282569d | Asset evidence data schema.
+| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | 0xe38873339dc9cbc05cc5f8cc03da910ed57cdaf340b603407d2f8e68a0841905 | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).
