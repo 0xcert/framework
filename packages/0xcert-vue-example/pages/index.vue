@@ -15,6 +15,9 @@
 </template>
 
 <script>
+import { Cert } from '@0xcert/cert';
+import { schema88 } from '@0xcert/conventions';
+
 export default {
   data() {
     return {
@@ -34,20 +37,11 @@ export default {
           },
         ],
       },
-      assetSchema: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          age: {
-            type: 'integer',
-          },
-        },
-      },
+      assetSchema: schema88,
       assetData: {
-        age: 38,
-        name: 'John',
+        description: 'A weapon for the Troopers game which can severely injure the enemy.',
+        image: 'https://troopersgame.com/dog.jpg',
+        name: 'Magic Sword',
       },
     }
   },
@@ -76,29 +70,29 @@ export default {
       console.log('Canceled order mutation:', mutation)
     },
     async notarize() {
-      const cert = this.$0xcert.createCert({ schema: this.assetSchema });
+      const cert = this.$0xcert.createCert({ schema: this.assetSchema })
       const proofs = await cert.notarize(this.assetData);
-      console.log('Notarized asset proofs:', JSON.stringify(proofs))
+      console.log('Notarized asset proofs:', JSON.stringify(proofs, null, 2))
     },
     async disclose() {
-      const paths = [['age']];
-      const cert = this.$0xcert.createCert({ schema: this.assetSchema });
+      const paths = [['description'], ['image']]
+      const cert = this.$0xcert.createCert({ schema: this.assetSchema })
       const proofs = await cert.disclose(this.assetData, paths);
-      console.log('Asset evidence:', JSON.stringify(proofs))
+      console.log('Asset evidence:', JSON.stringify(proofs, null, 2))
     },
     async imprint() {
-      const paths = [['age']];
-      const cert = this.$0xcert.createCert({ schema: this.assetSchema });
+      const cert = this.$0xcert.createCert({ schema: this.assetSchema })
       const proofs = await cert.notarize(this.assetData);
-      const imprint = await cert.calculate(this.assetData, proofs);
+      const imprint = await cert.calculate(this.assetData, proofs)
       console.log('Asset imprint from asset proofs:', imprint)
     },
     async calculate() {
-      const cert = this.$0xcert.createCert({ schema: this.assetSchema });
-      const proofs = await cert.disclose(this.assetData, [['age']]);
-      const imprint = await cert.calculate({ age: 38 }, proofs);
+      const paths = [['description'], ['image']]
+      const cert = this.$0xcert.createCert({ schema: this.assetSchema })
+      const proofs = await cert.disclose(this.assetData, paths)
+      const imprint = await cert.calculate({ age: 38 }, proofs)
       console.log('Asset imprint from evidence:', imprint)
     },
-  }
+  },
 }
 </script>

@@ -10,7 +10,7 @@ spec.test('imprints complete data object', async (ctx) => {
   });
   const recipes = await cert.notarize(exampleData);
   const imprint = await cert.calculate(exampleData, recipes);
-  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+  ctx.is(imprint, '048c8f3384d5600792a4c8279d2c933fa43c26b81f2cab63462b72dd7488baad');
 });
 
 spec.test('validates selected paths', async (ctx) => {
@@ -22,7 +22,7 @@ spec.test('validates selected paths', async (ctx) => {
   ]);
   const data = { name: 'B' };
   const imprint = await cert.calculate(data, recipes);
-  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+  ctx.is(imprint, '048c8f3384d5600792a4c8279d2c933fa43c26b81f2cab63462b72dd7488baad');
 });
 
 spec.test('validates selected nested paths', async (ctx) => {
@@ -38,7 +38,7 @@ spec.test('validates selected nested paths', async (ctx) => {
     books: [{}, { title: 'B1' }],
   };
   const imprint = await cert.calculate(data, recipes);
-  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+  ctx.is(imprint, '048c8f3384d5600792a4c8279d2c933fa43c26b81f2cab63462b72dd7488baad');
 });
 
 spec.test('fails when data includes more data then exposed', async (ctx) => {
@@ -69,7 +69,7 @@ spec.test('pass on custom properties not defined by schema', async (ctx) => {
     custom: [{ title: 'B0' }],
   };
   const imprint = await cert.calculate(data, recipes);
-  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+  ctx.is(imprint, '048c8f3384d5600792a4c8279d2c933fa43c26b81f2cab63462b72dd7488baad');
 });
 
 export default spec;

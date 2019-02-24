@@ -16,13 +16,13 @@ spec.test('returns recipes from exposed paths `name`', async (ctx) => {
     {
       path: [],
       values: [
-        { index: 3, value: 'B' },
+        { index: 3, value: 'B', nonce: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce' },
       ],
       nodes: [
-        { index: 1, hash: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb' },
-        { index: 3, hash: '559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd' },
-        { index: 5, hash: 'ab7a1a25348448f245bb0dcff7508d2a499051bfdb3e68d703bc5112199b20b0' },
-        { index: 8, hash: '27939152348bd40d93319d31a98c99efd13d3234ef5c9abd1982902f4a1dae8c' },
+        { index: 1, hash: '1fba16a89b1b3db0b386153879172947f611d8218c7ac1d5ccf076cdbbf10048' },
+        { index: 3, hash: '78dbcc37c29dc20ba67f95e716ba983696fe82328c39ff0aa3d3aca1ec28a946' },
+        { index: 5, hash: 'c55bf29bdc98704b2fa7003fca49e290b2c87e2f8c268dcec7a3eb3a0832bcbd' },
+        { index: 8, hash: '283e38811185f219e37064989f7ba3ab7191c58eafe8dea39688a7372931d76d' },
       ],
     },
   ]);
@@ -39,31 +39,31 @@ spec.test('returns recipes from exposed paths `event.organizer.name`', async (ct
     {
       path: [],
       values: [
-        { index: 2, value: 'cecf5f228b718ed5c43c8781a64b88f00977dcfc052c2d87d07e3418530b3fea' },
+        { index: 2, value: '9b079860f537c3300225f312a865f209cf410a7489b140f1eec2f9da9bd88ff2', nonce: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' },
       ],
       nodes: [
-        { index: 1, hash: 'd747e6ffd1aa3f83efef2931e3cc22c653ea97a32c1ee7289e4966b6964ecdfb' },
-        { index: 3, hash: '559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd' },
-        { index: 6, hash: '14287058a78ef3a7d0c5b0417bc252de066942bcd65259d62ef26b05271587be' },
+        { index: 1, hash: '1fba16a89b1b3db0b386153879172947f611d8218c7ac1d5ccf076cdbbf10048' },
+        { index: 3, hash: '78dbcc37c29dc20ba67f95e716ba983696fe82328c39ff0aa3d3aca1ec28a946' },
+        { index: 6, hash: '680bddde558d04defa8fa5817e96eb7f47e4f07a17d6b3bda1a78c58ea05ded8' },
       ],
     },
     {
       path: ['event'],
       values: [
-        { index: 0, value: 'b79f2e3f88dea9c1f218073dae360348a46d2a32062820e20ded9664b949a132' },
+        { index: 0, value: 'e41ddc3a726700cacec02298841db28af75d0671969a565b72de12d12d0e2736', nonce: '293ff6ac108e226a78170251c8be9e83073894e5ba2861c598fb5ea93793cf3f' },
       ],
       nodes: [
-        { index: 2, hash: 'ec07adc6a372d96b68ab8d8facc84c8242ebb3444330847f9f7c7ff7f138e87f' },
+        { index: 2, hash: '732576d3f7e924a0b5c6ac17d10e5fb036d448e9871f2d38bfb2e8cffd5cd71b' },
       ],
     },
     {
       path: ['event', 'organizer'],
       values: [
-        { index: 1, value: 'B' },
+        { index: 1, value: 'B', nonce: 'f2c6defbdfd54cae320d14d82a80cdd3edfe010ebba2308862ff3bc1aff9cda9' },
       ],
       nodes: [
-        { index: 1, hash: '559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd' },
-        { index: 4, hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' },
+        { index: 1, hash: '65fe2f8b7b6304deec8828c78f9f0164d947a64b093cffb64073febcdea68660' },
+        { index: 4, hash: '1a2feaef8a3e8cf5d0ba00ebb6f86904aab110bb8b3950c794b2547e13a6a73c' },
       ],
     },
   ]);

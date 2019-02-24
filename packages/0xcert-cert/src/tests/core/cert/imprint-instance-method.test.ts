@@ -9,7 +9,7 @@ spec.test('calculates imprint for complete data object', async (ctx) => {
     schema: exampleSchema,
   });
   const imprint = await cert.imprint(exampleData);
-  ctx.is(imprint, 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933');
+  ctx.is(imprint, '048c8f3384d5600792a4c8279d2c933fa43c26b81f2cab63462b72dd7488baad');
 });
 
 export default spec;

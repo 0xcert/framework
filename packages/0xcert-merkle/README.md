@@ -2,37 +2,34 @@
 
 > Implementation of basic functions of binary Merkle tree.
 
-This module handles binary trees like this:
+This module handles binary trees like this (v = value, n = node, r = nonce):
 
 ```ts
-    n0
-    |
----------
-|       |
-n1      n2
-A       |
-    ---------
-    |       |
-    n3      n4
-    B       |
-        ---------
-        |       |
-        n5      n6
-        C       |
-            ---------
-            |       |
-            n7      n8
-            D       empty
+       n0
+       |
+   ---------
+   |       |
+   n1      n2
+   |       |
+|-----|    |
+v0    r0   |
+      ---------
+      |       |
+      n3      n4
+      |       |
+   |-----|    |
+   v1    r1   r2
 ```
 
-A user defines an array of values `['A', 'B', 'C', 'D']`. These values can be hashed into an `imprint`, which is a merkle root tree hash. A user can expose selected values to a third-party by providing the evidence file which includes a recipe of `values` and `nodes`. This file holds enough information for a third-party to recreate the imprint.
+A user defines an array of values where these values are hashed into an `imprint`, which is a merkle root tree hash. A user can expose selected values to a third-party by providing the evidence file which includes a recipe of `values` and `nodes`. This file holds enough information for a third-party to recreate the imprint.
 
 ```js
 import { sha } from '@0xcert/utils'; 
 import { Merkle } from '@0xcert/merkle'; 
 
 const merkle = new Merkle({
-  hasher: (v) => sha(256, v),
+  hasher: (v, p, k) => sha(256, v),
+  noncer: (p) => Math.random().toString(36).substring(7),
 });
 const values = ['A', 'B', 'C', 'D', 'E'];
 const expose = [2, 3];

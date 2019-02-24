@@ -1,13 +1,18 @@
+import { sha } from '@0xcert/utils';
 import { Spec } from '@hayspec/spec';
 import * as Ajv from 'ajv';
 import { Object87, schema87 } from '../assets/87-asset-evidence';
 
-const ajv = new Ajv({ allErrors: true });
-const spec = new Spec();
+const spec = new Spec<{
+  validate: any;
+}>();
 
-spec.test('Validates data', (ctx) => {
-  const validate = ajv.compile(schema87);
-  const data: Object87 = {
+spec.before((stage) => {
+  stage.set('validate', new Ajv({ allErrors: true }).compile(schema87));
+});
+
+spec.test('passes for valid data', (ctx) => {
+  const schema: Object87 = {
     '$schema': 'http://json-schema.org/draft-07/schema',
     'data': [
       {
@@ -15,65 +20,47 @@ spec.test('Validates data', (ctx) => {
         'nodes': [
           {
             'index': 1,
-            'hash': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-          },
-          {
-            'index': 3,
-            'hash': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-          },
-          {
-            'index': 8,
-            'hash': 'fe57a125a8377ddd78ac9e8000b3cc7bf695601d1c194192e12cac46e3005c97',
+            'hash': '9b61df344ebc1740d60333efc401150f756c3e3bc13f9ca31ddd96b8fc7180fe',
           },
         ],
         'values': [
-          {
-            'index': 2,
-            'value': 'A weapon for the Troopers game which can severely injure the enemy.',
-          },
           {
             'index': 3,
             'value': 'https://troopersgame.com/dog.jpg',
+            'nonce': '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce',
           },
         ],
       },
     ],
   };
-  ctx.true(validate(data));
+  ctx.true(ctx.get('validate')(schema));
+});
 
-  const data2 = {
+spec.test('fails for valid data', (ctx) => {
+  const schema = {
     '$schema': 'http://json-schema.org/draft-07/schema',
     'data': [
       {
-        'path': [],
         'nodes': [
           {
-            'index': 1,
-            'hash': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-          },
-          {
-            'index': 3,
-            'hash': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-          },
-          {
-            'index': 8,
-            'hash': 'fe57a125a8377ddd78ac9e8000b3cc7bf695601d1c194192e12cac46e3005c97',
+            'index': '9b61df344ebc1740d60333efc401150f756c3e3bc13f9ca31ddd96b8fc7180fe',
           },
         ],
         'values': [
           {
-            'index': 2,
-            'value': 'A weapon for the Troopers game which can severely injure the enemy.',
-          },
-          {
-            'index': 3,
-            'value': 123423432,
+            'index': 'foo',
+            'value': 'https://troopersgame.com/dog.jpg',
+            'nonce': '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce',
           },
         ],
       },
     ],
   };
-  ctx.false(validate(data2));
+  ctx.false(ctx.get('validate')(schema));
+});
+
+spec.test('matches unique schema ID', async (ctx) => {
+  ctx.is(await sha(256, JSON.stringify(schema87)), '89f9bc6a5eb3153867b980dbb7fbf35916a4d321edfe1a73188c2c540282569d');
 });
 
 export default spec;

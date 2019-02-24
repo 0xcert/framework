@@ -1,7 +1,27 @@
 /**
  * Merkle tree hash function interface.
  */
-export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
+export enum MerkleHasherPosition {
+  VALUE = 0,
+  LEAF = 1,
+  NODE = 2,
+}
+
+/**
+ * Merkle tree hash function interface.
+ */
+export type MerkleHasher = (
+  (value: any, path: (string | number)[], position: MerkleHasherPosition) => string)
+  | ((value: any, path: (string | number)[], position: MerkleHasherPosition) => Promise<string>
+);
+
+/**
+ * Merkle tree nonce function interface.
+ */
+export type MerkleNoncer = (
+  (path: (string | number)[]) => string)
+  | ((path: (string | number)[]) => Promise<string>
+);
 
 /**
  * Merkle value interface.
@@ -9,6 +29,7 @@ export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
 export interface MerkleValue {
   index: number;
   value: any;
+  nonce: string;
 }
 
 /**
@@ -32,6 +53,7 @@ export interface MerkleRecipe {
  */
 export interface MerkleOptions {
   hasher?: MerkleHasher;
+  noncer?: MerkleNoncer;
 }
 
 /**
@@ -47,32 +69,53 @@ export class Merkle {
   public constructor(options?: MerkleOptions) {
     this._options = {
       hasher: (v) => v,
+      noncer: () => '',
       ...options,
     };
+  }
+
+  /**
+   * Create a custom hash.
+   */
+  public hash(value: any, path: (string | number)[], position: MerkleHasherPosition): string | Promise<string> {
+    return this._options.hasher(value, path, position);
+  }
+
+  /**
+   * Create a custom hash.
+   */
+  public nonce(path: (string | number)[]): string | Promise<string> {
+    return this._options.noncer(path);
   }
 
   /**
    * Returns a complete merkle recipe object with all merkle values and nodes.
    * @param data List of arbitrary values.
    */
-  public async notarize(data: (string | number | boolean)[]): Promise<MerkleRecipe> {
+  public async notarize(data: (string | number | boolean)[], prepend: (string | number)[] = []): Promise<MerkleRecipe> {
     const values = [...data];
-    const nodes = [await this._options.hasher('')];
+    const nonces = [];
+
+    const empty = await this._options.noncer([...prepend, values.length]);
+    const nodes = [await this._options.hasher(empty, [...prepend, values.length], MerkleHasherPosition.NODE)];
 
     for (let i = values.length - 1; i >= 0; i--) {
       const right = nodes[0];
-      const value = values[i];
+      nonces.unshift(
+        await this._options.noncer([...prepend, i]),
+      );
+      const value = await this._options.hasher(values[i], [...prepend, i], MerkleHasherPosition.VALUE);
       nodes.unshift(
-        await this._options.hasher(value),
+        await this._options.hasher(`${value}${nonces[0]}`, [...prepend, i], MerkleHasherPosition.LEAF),
       );
       const left = nodes[0];
       nodes.unshift(
-        await this._options.hasher(`${left}${right}`),
+        await this._options.hasher(`${left}${right}`, [...prepend, i], MerkleHasherPosition.NODE),
       );
     }
 
     return {
-      values: values.map((value, index) => ({ index, value })),
+      values: values.map((value, index) => ({ index, value, nonce: nonces[index] })),
       nodes: nodes.map((hash, index) => ({ index, hash })),
     };
   }
@@ -114,11 +157,14 @@ export class Merkle {
   public async imprint(recipe: MerkleRecipe) {
     const nodes = [
       ...await Promise.all(
-        recipe.values.map(async (v) => ({
-          index: v.index * 2 + 1,
-          hash: await this._options.hasher(v.value),
-          value: v.value,
-        })),
+        recipe.values.map(async (v, i) => {
+          const value = await this._options.hasher(v.value, [i], MerkleHasherPosition.VALUE);
+          return {
+            index: v.index * 2 + 1,
+            hash: await this._options.hasher(`${value}${v.nonce}`, [i], MerkleHasherPosition.LEAF),
+            value: v.value,
+          };
+        }),
       ),
       ...recipe.nodes,
     ];
@@ -131,7 +177,7 @@ export class Merkle {
       if (right && left) {
         nodes.unshift({
           index: i - 2,
-          hash: await this._options.hasher(`${left.hash}${right.hash}`),
+          hash: await this._options.hasher(`${left.hash}${right.hash}`, [i], MerkleHasherPosition.NODE),
         });
       }
     }

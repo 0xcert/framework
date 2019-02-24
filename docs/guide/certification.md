@@ -44,7 +44,7 @@ On our official [GitHub repository](https://github.com/0xcert/framework), we als
 
 In the following guide, we will create a simple asset that represents a crypto collectible. We will define a JSON data object of the asset, create its cryptographic imprint, and show how to reveal data to a third party.
 
-To start, we create a simple JSON object that will represent our crypto collectible item. We will define the data object based on the [#88](https://github.com/0xcert/framework/blob/master/conventions/88-crypto-collectible-schema.md) convention which describes crypto collectible items. It's advised to store this data into a local database to keep its original structure and have it at our disposal in the future.
+To start, we create a simple JSON object that will represent our crypto collectible item. We will define the data object based on the [#88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) convention which describes crypto collectible items. It's advised to store this data into a local database to keep its original structure and have it at our disposal in the future.
 
 ```ts
 import { Object88, schema88 } from '@0xcert/conventions';
@@ -71,7 +71,7 @@ We can now create a cryptographic proof for our crypto collectible that we will 
 
 ```ts
 const imprint = await cert.imprint(data);
-// => aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b
+// => 642c19d1a7f27bbe601defe6d730ea321d60b156d73fc814bd62ce8ed8640b5d
 ```
 
 This long string returned by the `imprint` method represents a cryptographic proof of the original asset data object. We will store this string on the Ethereum blockchain in one of the following sections where we'll show how to handle asset ledgers.
@@ -112,25 +112,27 @@ The content that is obtained with the function above can now be published on the
             "nodes": [
                 {
                     "index": 1,
-                    "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                    "hash": "9b61df344ebc1740d60333efc401150f756c3e3bc13f9ca31ddd96b8fc7180fe"
                 },
                 {
                     "index": 3,
-                    "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                    "hash": "d95a266f24ca0ca79539cb3620832d9d37b415023002e8748458d34da53ccc1b"
                 },
                 {
                     "index": 8,
-                    "hash": "fe57a125a8377ddd78ac9e8000b3cc7bf695601d1c194192e12cac46e3005c97"
+                    "hash": "3ef34334173d794cfc862c2f05580975ba10bea41e7ff2c60164a8288dee0cc6"
                 }
             ],
             "values": [
                 {
                     "index": 2,
-                    "value": "A weapon for the Troopers game which can severely injure the enemy."
+                    "value": "A weapon for the Troopers game which can severely injure the enemy.",
+                    "nonce": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
                 },
                 {
                     "index": 3,
-                    "value": "https://troopersgame.com/dog.jpg"
+                    "value": "https://troopersgame.com/dog.jpg",
+                    "nonce": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
                 }
             ]
         }
