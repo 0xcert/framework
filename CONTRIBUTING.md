@@ -44,8 +44,6 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 The release manager will publish packages to NPM using these commands.
 
 ```sh
-$ cp ./packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./docs/.vuepress/public/
-$ cp ./packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./docs/.vuepress/public/
 $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
 ```
@@ -57,7 +55,7 @@ We are using VuePress for building the documentation pages. Files are built loca
 First, navigate to the root directory and install dependencies.
 
 ```
-$ cd /docs/.vuepress
+$ cd ./docs/.vuepress
 $ npm i
 ```
 
@@ -80,7 +78,7 @@ We are using VuePress for building the conventions pages. Files are built locall
 First, navigate to the root directory and install dependencies.
 
 ```
-$ cd /conventions/.vuepress
+$ cd ./conventions/.vuepress
 $ npm i
 ```
 
@@ -93,5 +91,7 @@ $ npm run dev
 You can build and deploy the conventions to the servr.
 
 ```
+$ cp ../../packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./public/
+$ cp ../../packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./public/
 $ npm run deploy
 ```
