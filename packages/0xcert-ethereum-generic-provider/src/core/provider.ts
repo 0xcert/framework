@@ -110,8 +110,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.accountId = options.accountId;
     this.orderGatewayId = options.orderGatewayId;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
-    this.assetLedgerSource = options.assetLedgerSource || 'https://docs.0xcert.org/xcert-mock.json';
-    this.valueLedgerSource = options.valueLedgerSource || 'https://docs.0xcert.org/token-mock.json';
+    this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/xcert-mock.json';
+    this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/token-mock.json';
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
 

@@ -91,7 +91,7 @@ $ npm run dev
 You can build and deploy the conventions to the servr.
 
 ```
-$ cp ../../packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ./public/
-$ cp ../../packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ./public/
+$ cp ../../packages/0xcert-ethereum-erc20-contracts/build/token-mock.json ..
+$ cp ../../packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json ..
 $ npm run deploy
 ```
