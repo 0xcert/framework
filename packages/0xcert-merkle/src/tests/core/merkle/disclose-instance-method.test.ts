@@ -31,7 +31,7 @@ spec.test('exposes 0 from A, B, C, D', async (ctx) => {
   ctx.deepEqual(minRecipe, {
     values: [],
     nodes: [
-      { index: 0, hash: '0bcec31a258c3f9aa814efe53d638648df413a1fe35470b5be5341a2a9fd30a9' },
+      { index: 0, hash: 'b16c961cbfca86d7b78cd687729bae18f1015c742e7319d91088502a892ba166' },
     ],
   });
 });
@@ -43,12 +43,12 @@ spec.test('exposes 5 from A, B, C, D', async (ctx) => {
   const minRecipe = await ctx.get('merkle').disclose(fullRecipe, expose);
   ctx.deepEqual(minRecipe, {
     values: [
-      { index: 0, value: 'A' },
-      { index: 2, value: 'C' },
+      { index: 0, value: 'A', nonce: '' },
+      { index: 2, value: 'C', nonce: '' },
     ],
     nodes: [
-      { index: 3, hash: 'df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c' },
-      { index: 6, hash: 'dbf687a59392a9b4a1c1fe1527b776a85b971c583ea22a88e41cebf91215930c' },
+      { index: 3, hash: 'acab60e972cca11cd0571b8d08fe9bfc6521565c601a3785c5f5fb0a406279e6' },
+      { index: 6, hash: '1bfcb70acfee69c7ef93ea300e3127715dcced515022daf9f149d395610b2cc4' },
     ],
   });
 });
