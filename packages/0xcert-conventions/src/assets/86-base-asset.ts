@@ -5,7 +5,7 @@ import { ObjectErc721, schemaErc721 } from './erc721';
  */
 export interface Object86 extends ObjectErc721 {
   $evidence?: string;
-  $schema?: string;
+  $schema: string;
   description?: string;
   image?: string;
   name?: string;
