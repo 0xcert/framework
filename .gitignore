@@ -69,3 +69,5 @@ package-deps.json
 build
 **/dist/*
 !dist/*
+conventions/.vuepress/dist
+docs/.vuepress/dist

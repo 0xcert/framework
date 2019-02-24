@@ -2,7 +2,7 @@
  * Asset evidence object interface.
  */
 export interface Object87 {
-  $schema?: string;
+  $schema: string;
   data: {
     nodes: {
       index: number;
@@ -83,6 +83,7 @@ export const schema87 = {
       type: 'array',
     },
   },
+  required: ['$schema'],
   title: 'Asset evidence',
   type: 'object',
 };

@@ -323,8 +323,8 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 | Issue | Id | Description
 |-|-|-
-| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 0x50fa12f723c0e93d7c291bbf0c9092ec3eb7aef24761206158bef3dfe79a34e8 | Basic asset data schema.
-| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | 0x89f9bc6a5eb3153867b980dbb7fbf35916a4d321edfe1a73188c2c540282569d | Asset evidence data schema.
-| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | 0xe38873339dc9cbc05cc5f8cc03da910ed57cdaf340b603407d2f8e68a0841905 | Schema describing digital collectible item.
+| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 0x3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71 | Basic asset data schema.
+| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | 0x8fb2992291698b165e7f6b7e43627243767984e3e6ff1b8e7903f59723c94b24 | Asset evidence data schema.
+| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | 0xb17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169 | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).

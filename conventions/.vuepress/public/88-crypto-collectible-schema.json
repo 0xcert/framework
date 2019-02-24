@@ -4,6 +4,7 @@
     { "$ref": "#/asset-metadata" }
   ],
   "description": "A digital assets that have a unique combination of different properties.",
-  "title": "Crypto Collectible Asset",
+  "required": ["$schema"],
+  "title": "Crypto collectible asset",
   "type": "object"
 }
