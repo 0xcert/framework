@@ -60,4 +60,23 @@ spec.test('builds recipe for values A,B,C,D', async (ctx) => {
   });
 });
 
+spec.only('hasher function receives value, index and node parameters', async (ctx) => {
+  const values = ['A', 'B'];
+  const calls = [];
+  const merkle = new Merkle({
+    hasher: (v, i, n) => {
+      calls.push([v, i, n]);
+      return v;
+    },
+  });
+  await merkle.notarize(values);
+  ctx.deepEqual(calls, [
+    ['', [2], false],
+    ['B', [1], true],
+    ['B', [1], false],
+    ['A', [0], true],
+    ['AB', [0], false],
+  ]);
+});
+
 export default spec;

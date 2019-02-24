@@ -1,7 +1,10 @@
 /**
  * Merkle tree hash function interface.
  */
-export type MerkleHasher = ((v: any) => string) | ((v: any) => Promise<string>);
+export type MerkleHasher = (
+  (v: any, p: (string | number)[], n: boolean) => string)
+  | ((v: any, p: (string | number)[], n: boolean) => Promise<string>
+);
 
 /**
  * Merkle value interface.
@@ -57,17 +60,18 @@ export class Merkle {
    */
   public async notarize(data: (string | number | boolean)[]): Promise<MerkleRecipe> {
     const values = [...data];
-    const nodes = [await this._options.hasher('')];
+    const size = values.length;
+    const nodes = [await this._options.hasher('', [size], false)];
 
-    for (let i = values.length - 1; i >= 0; i--) {
+    for (let i = size - 1; i >= 0; i--) {
       const right = nodes[0];
       const value = values[i];
       nodes.unshift(
-        await this._options.hasher(value),
+        await this._options.hasher(value, [i], true),
       );
       const left = nodes[0];
       nodes.unshift(
-        await this._options.hasher(`${left}${right}`),
+        await this._options.hasher(`${left}${right}`, [i], false),
       );
     }
 
@@ -114,9 +118,9 @@ export class Merkle {
   public async imprint(recipe: MerkleRecipe) {
     const nodes = [
       ...await Promise.all(
-        recipe.values.map(async (v) => ({
+        recipe.values.map(async (v, i) => ({
           index: v.index * 2 + 1,
-          hash: await this._options.hasher(v.value),
+          hash: await this._options.hasher(v.value, [i], true),
           value: v.value,
         })),
       ),
@@ -131,7 +135,7 @@ export class Merkle {
       if (right && left) {
         nodes.unshift({
           index: i - 2,
-          hash: await this._options.hasher(`${left.hash}${right.hash}`),
+          hash: await this._options.hasher(`${left.hash}${right.hash}`, [i], false),
         });
       }
     }
