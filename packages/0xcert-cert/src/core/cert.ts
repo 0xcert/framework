@@ -1,4 +1,4 @@
-import { Merkle, MerkleHasher } from '@0xcert/merkle';
+import { Merkle, MerkleHasher, MerkleNoncer } from '@0xcert/merkle';
 import { sha } from '@0xcert/utils';
 import { cloneObject, readPath, stepPaths, toString } from '../utils/data';
 import { PropPath, PropRecipe } from './prop';
@@ -9,6 +9,7 @@ import { PropPath, PropRecipe } from './prop';
 export interface CertConfig {
   schema: any;
   hasher?: MerkleHasher;
+  noncer?: MerkleNoncer;
 }
 
 /**
@@ -34,7 +35,8 @@ export class Cert {
     this.schema = config.schema;
 
     this.merkle = new Merkle({
-      hasher: (v: any) => sha(256, toString(v)),
+      hasher: async (v: any) => sha(256, toString(v)),
+      noncer: async (p) => sha(256, p.join('.')),
       ...config,
     });
   }
@@ -152,7 +154,7 @@ export class Cert {
         .sort((a, b) => a.key > b.key ? 1 : -1)
         .map((i: any) => i.value);
 
-      const recipes = await this.merkle.notarize(values);
+      const recipes = await this.merkle.notarize(values, path);
       props.push({
         path,
         value: recipes.nodes[0].hash,
@@ -183,7 +185,7 @@ export class Cert {
           .filter((p: any) => p.group === group)
           .map((p: any) => p.value);
 
-        let recipes = await this.merkle.notarize(values);
+        let recipes = await this.merkle.notarize(values, groups[group]);
         if (keys) {
           const expose = props
             .filter((p: any) => p.group === group)
@@ -271,12 +273,14 @@ export class Cert {
       });
 
       const groupKey = recipe.path.slice(0, -1).join('.');
+      const groupPath = recipe.path.slice(0, -1);
       const groupIndex = this.getPathIndexes(recipe.path).slice(-1).pop();
       const groupRecipe = recipes.find((p: any) => p['key'] === groupKey);
       if (groupRecipe) {
         groupRecipe.values.unshift({ // adds posible duplicate thus use `unshift`
           index: groupIndex,
           value: imprint,
+          nonce: await this.merkle.nonce([...groupPath, groupIndex]),
         });
       }
     }

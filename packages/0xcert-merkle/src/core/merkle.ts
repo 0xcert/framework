@@ -75,6 +75,20 @@ export class Merkle {
   }
 
   /**
+   * Create a custom hash.
+   */
+  public hash(value: any, path: (string | number)[], position: MerkleHasherPosition): string | Promise<string> {
+    return this._options.hasher(value, path, position);
+  }
+
+  /**
+   * Create a custom hash.
+   */
+  public nonce(path: (string | number)[]): string | Promise<string> {
+    return this._options.noncer(path);
+  }
+
+  /**
    * Returns a complete merkle recipe object with all merkle values and nodes.
    * @param data List of arbitrary values.
    */
