@@ -45,6 +45,10 @@
                 "value": {
                   "description": "A string representing the value in a binary tree.",
                   "type": "string"
+                },
+                "nonce": {
+                  "description": "A string representing value secret.",
+                  "type": "string"
                 }
               },
               "type": "object"
