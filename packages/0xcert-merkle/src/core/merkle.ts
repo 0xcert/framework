@@ -78,25 +78,25 @@ export class Merkle {
    * Returns a complete merkle recipe object with all merkle values and nodes.
    * @param data List of arbitrary values.
    */
-  public async notarize(data: (string | number | boolean)[]): Promise<MerkleRecipe> {
+  public async notarize(data: (string | number | boolean)[], prepend: (string | number)[] = []): Promise<MerkleRecipe> {
     const values = [...data];
     const nonces = [];
 
-    const empty = await this._options.noncer([values.length]);
-    const nodes = [await this._options.hasher(empty, [values.length], MerkleHasherPosition.NODE)];
+    const empty = await this._options.noncer([...prepend, values.length]);
+    const nodes = [await this._options.hasher(empty, [...prepend, values.length], MerkleHasherPosition.NODE)];
 
     for (let i = values.length - 1; i >= 0; i--) {
       const right = nodes[0];
       nonces.unshift(
-        await this._options.noncer([i]),
+        await this._options.noncer([...prepend, i]),
       );
-      const value = await this._options.hasher(values[i], [i], MerkleHasherPosition.VALUE);
+      const value = await this._options.hasher(values[i], [...prepend, i], MerkleHasherPosition.VALUE);
       nodes.unshift(
-        await this._options.hasher(`${value}${nonces[0]}`, [i], MerkleHasherPosition.LEAF),
+        await this._options.hasher(`${value}${nonces[0]}`, [...prepend, i], MerkleHasherPosition.LEAF),
       );
       const left = nodes[0];
       nodes.unshift(
-        await this._options.hasher(`${left}${right}`, [i], MerkleHasherPosition.NODE),
+        await this._options.hasher(`${left}${right}`, [...prepend, i], MerkleHasherPosition.NODE),
       );
     }
 

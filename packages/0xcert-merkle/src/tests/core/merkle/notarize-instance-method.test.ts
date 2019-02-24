@@ -81,6 +81,24 @@ spec.test('hasher function receives value, path and position parameters', async 
   ]);
 });
 
+spec.test('with prepended path', async (ctx) => {
+  const values = ['A'];
+  const hashings = [];
+  const merkle = new Merkle({
+    hasher: (v, p, n) => {
+      hashings.push([v, p, n]);
+      return v;
+    },
+  });
+  await merkle.notarize(values, ['a', 1]);
+  ctx.deepEqual(hashings, [
+    ['', ['a', 1, 1], 2],
+    ['A', ['a', 1, 0], 0],
+    ['A', ['a', 1, 0], 1],
+    ['A', ['a', 1, 0], 2],
+  ]);
+});
+
 spec.test('recipe with custom noncer function', async (ctx) => {
   const values = ['A', 'B'];
   const merkle = new Merkle({
