@@ -60,7 +60,7 @@ spec.test('fails for valid data', (ctx) => {
 });
 
 spec.test('matches unique schema ID', async (ctx) => {
-  ctx.is(await sha(256, JSON.stringify(schema87)), '89f9bc6a5eb3153867b980dbb7fbf35916a4d321edfe1a73188c2c540282569d');
+  ctx.is(await sha(256, JSON.stringify(schema87)), '8fb2992291698b165e7f6b7e43627243767984e3e6ff1b8e7903f59723c94b24');
 });
 
 export default spec;
