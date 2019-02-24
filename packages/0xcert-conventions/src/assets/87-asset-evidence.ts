@@ -12,6 +12,7 @@ export interface Object87 {
     values: {
       index: number;
       value: string;
+      nonce: string;
     }[];
   }[];
 }
@@ -66,6 +67,10 @@ export const schema87 = {
                 },
                 value: {
                   description: 'A string representing the value in a binary tree.',
+                  type: 'string',
+                },
+                nonce: {
+                  description: 'A string representing value secret.',
                   type: 'string',
                 },
               },
