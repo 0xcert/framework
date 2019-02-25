@@ -109,13 +109,8 @@
     "no-bitwise": true,
     "use-isnan": true,
     "no-conditional-assignment": true,
-    "prefer-conditional-expression": [
-      true,
-      "check-else-if"
-    ],
     "prefer-while": true,
     "prefer-for-of": true,
-    "forin": true,
     "switch-default": true,
     "no-switch-case-fall-through": true,
     "no-duplicate-switch-case": true,

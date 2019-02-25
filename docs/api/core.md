@@ -116,6 +116,37 @@ const paths = [
 const proofs = await cert.disclose(data, paths);
 ```
 
+### expose(data, paths)
+
+A `synchronous` class instance `function` which creates a new object from `data` with only keys matching the provided `paths`. Use this function when creating public metadata JSON.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| data | [required] An `object` with asset data which follows class schema definition.
+| paths | [required] An `array` of `strings` representing JSON key paths.
+
+**Result:**
+
+A truncated data object with selected keys.
+
+**Example:**
+
+```ts
+// arbitrary data
+const data = {
+  name: 'John',
+  age: 36,
+};
+const paths = [
+  ['name'],
+];
+
+// generate metadata
+const metadata = await cert.expose(data, paths);
+```
+
 ### imprint(data)
 
 An `asynchronous` class instance `function` which generates asset imprint for the provided `data`.
