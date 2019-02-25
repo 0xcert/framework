@@ -1,6 +1,6 @@
 import { Merkle, MerkleHasher, MerkleNoncer } from '@0xcert/merkle';
 import { sha } from '@0xcert/utils';
-import { cloneObject, readPath, stepPaths, toString } from '../utils/data';
+import { cloneObject, readPath, stepPaths, toString, writePath } from '../utils/data';
 import { PropPath, PropRecipe } from './prop';
 
 /**
@@ -55,6 +55,23 @@ export class Cert {
       nodes: recipe.nodes,
       values: recipe.values,
     }));
+  }
+
+  /**
+   * Returns data object with only provided paths. Use this function to create
+   * a public metadata data.
+   * @param data Complete data object.
+   * @param paths Property paths to be disclosed to a user.
+   */
+  public expose(data: any, paths: PropPath[]): any {
+    const metadata = {};
+
+    paths.forEach((path) => {
+      const value = readPath(path, data);
+      writePath(path, value, metadata);
+    });
+
+    return JSON.parse(JSON.stringify(metadata));
   }
 
   /**

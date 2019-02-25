@@ -57,3 +57,33 @@ export function readPath(path: any, json: any): any {
     return undefined;
   }
 }
+
+/**
+ * Sets value at path for the provided json object and returns the updated json.
+ * @param path Property path.
+ * @param value Property value.
+ * @param json Arbitrary data object.
+ */
+export function writePath(path: any, value: any, json: any = {}) {
+  json = json || {};
+
+  let obj = json;
+
+  for (let i = 0; i < path.length; i++) {
+    const key = path[i];
+    const nextKey = path[i + 1];
+
+    if (typeof nextKey === 'undefined') {
+      obj[key] = value;
+    } else {
+      if (typeof nextKey === 'number' && typeof obj[key] === 'undefined') {
+        obj[key] = [];
+      } else if (typeof obj[key] === 'undefined') {
+        obj[key] = {};
+      }
+      obj = obj[key];
+    }
+  }
+
+  return JSON.parse(JSON.stringify(json));
+}
