@@ -18,6 +18,7 @@ import transfer from '../mutations/transfer';
 import update from '../mutations/update';
 import updateAsset from '../mutations/update-asset';
 import getAbilities from '../queries/get-abilities';
+import getAccountAssetIdAt from '../queries/get-account-asset-id-at';
 import getApprovedAccount from '../queries/get-approved-account';
 import getAsset from '../queries/get-asset';
 import getAssetAccount from '../queries/get-asset-account';
@@ -139,12 +140,21 @@ export class AssetLedger implements AssetLedgerBase {
     return getInfo(this);
   }
 
+  /**
+   * Gets the ID of the asset at index.
+   * @param index Asset index.
+   */
   public async getAssetIdAt(index: number): Promise<number> {
     return getAssetIdAt(this, index);
   }
 
-  public async getAccountAssetIdAt(index: number): Promise<string> {
-    return '';
+  /**
+   * Gets the ID of the asset at index for account.
+   * @param accountId Account address.
+   * @param index Asset index.
+   */
+  public async getAccountAssetIdAt(accountId: string, index: number): Promise<number> {
+    return getAccountAssetIdAt(this, accountId, index);
   }
 
   /**
