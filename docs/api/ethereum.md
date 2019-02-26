@@ -1141,7 +1141,7 @@ A `number` representing the asset id.
 
 ```ts
 // arbitrary data
-const index = 0; // the contract holds 100 tokens on indexesx 0 to 99
+const index = 0; // the contract holds 100 tokens on indexes 0 to 99
 
 // perform query
 const assetId = await ledger.getAssetIdAt(index);
