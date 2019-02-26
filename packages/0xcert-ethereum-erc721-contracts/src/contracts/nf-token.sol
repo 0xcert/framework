@@ -316,7 +316,7 @@ contract NFToken is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -356,7 +356,7 @@ contract NFToken is
     );
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }

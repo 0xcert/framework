@@ -230,7 +230,7 @@ contract XcertToken is
   )
     internal
   {
-    if(supportedInterfaces[0xbedb86fb])
+    if (supportedInterfaces[0xbedb86fb])
     {
       require(!isPaused, TRANSFERS_DISABLED);
     }
