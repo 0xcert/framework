@@ -1115,30 +1115,6 @@ const assetId = '100';
 const accountId = await ledger.getAssetAccount(assetId);
 ```
 
-### getBalance(accountId)
-
-An `asynchronous` class instance `function` which returns the number of assets owned by `accountId`.
-
-**Arguments:**
-
-| Argument | Description
-|-|-
-| accountId | [required] A `string` representing the Ethereum account address.
-
-**Result:**
-
-An `integer` number representing the number of assets in the `accountId`.
-
-**Example:**
-
-```ts
-// arbitrary data
-const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
-
-// perform query
-const balance = await ledger.getBalance(accountId);
-```
-
 ### getAssetIdAt(index)
 
 An `asynchronous` class instance `function` which returns the asset id at specified `index`.
@@ -1161,6 +1137,30 @@ const index = '100';
 
 // perform query
 const assetId = await ledger.getAssetIdAt(index);
+```
+
+### getBalance(accountId)
+
+An `asynchronous` class instance `function` which returns the number of assets owned by `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+
+**Result:**
+
+An `integer` number representing the number of assets in the `accountId`.
+
+**Example:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// perform query
+const balance = await ledger.getBalance(accountId);
 ```
 
 ### getCapabilities()
