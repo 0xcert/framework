@@ -1013,6 +1013,10 @@ const abilities = await ledger.getAbilities(accountId);
 
 An `asynchronous` class instance `function` which returns the asset id at specified `index` for desired `accountId`.
 
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
 **Arguments:**
 
 | Argument | Description
@@ -1029,7 +1033,7 @@ A `number` representing the asset id.
 ```ts
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
-const index = '100';
+const index = 0;
 
 // perform query
 const assetId = await ledger.getAccountAssetIdAt(accountId, index);
@@ -1119,6 +1123,10 @@ const accountId = await ledger.getAssetAccount(assetId);
 
 An `asynchronous` class instance `function` which returns the asset id at specified `index`.
 
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
 **Arguments:**
 
 | Argument | Description
@@ -1133,7 +1141,7 @@ A `number` representing the asset id.
 
 ```ts
 // arbitrary data
-const index = '100';
+const index = 0;
 
 // perform query
 const assetId = await ledger.getAssetIdAt(index);
