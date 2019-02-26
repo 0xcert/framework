@@ -1033,7 +1033,7 @@ A `number` representing the asset id.
 ```ts
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
-const index = 0;
+const index = 0; // the account has 3 tokens on indexes 0, 1 and 2
 
 // perform query
 const assetId = await ledger.getAccountAssetIdAt(accountId, index);
@@ -1141,7 +1141,7 @@ A `number` representing the asset id.
 
 ```ts
 // arbitrary data
-const index = 0;
+const index = 0; // the contract holds 100 tokens on indexes 0 to 99
 
 // perform query
 const assetId = await ledger.getAssetIdAt(index);
