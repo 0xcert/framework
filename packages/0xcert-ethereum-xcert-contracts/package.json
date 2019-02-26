@@ -63,8 +63,8 @@
   "devDependencies": {
     "@0xcert/ethereum-utils-contracts": "1.0.0-rc9",
     "@0xcert/ethereum-erc721-contracts": "1.0.0-rc9",
-    "@specron/cli": "^0.5.4",
-    "@specron/spec": "^0.5.4",
+    "@specron/cli": "^0.5.6",
+    "@specron/spec": "^0.5.6",
     "solc": "0.5.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
