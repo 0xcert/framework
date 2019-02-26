@@ -106,7 +106,7 @@ contract Abilitable
   {
     addressToAbility[_target] |= _abilities;
 
-    if((_abilities & ABILITY_TO_MANAGE_ABILITIES) == ABILITY_TO_MANAGE_ABILITIES)
+    if ((_abilities & ABILITY_TO_MANAGE_ABILITIES) == ABILITY_TO_MANAGE_ABILITIES)
     {
       zeroAbilityCount = zeroAbilityCount.add(1);
     }
@@ -126,7 +126,7 @@ contract Abilitable
     hasAbilities(ABILITY_TO_MANAGE_ABILITIES)
   {
     addressToAbility[_target] &= ~_abilities;
-    if((_abilities & 1) == 1)
+    if ((_abilities & 1) == 1)
     {
       require(zeroAbilityCount > 1, ONE_ZERO_ABILITY_HAS_TO_EXIST);
       zeroAbilityCount--;
