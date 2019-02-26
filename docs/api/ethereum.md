@@ -1009,6 +1009,32 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = await ledger.getAbilities(accountId);
 ```
 
+### getAssetIdAt(accountId, index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index` for desired `accountId`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const index = '100';
+
+// perform query
+const assetId = await ledger.getAccountAssetIdAt(accountId, index);
+```
+
 ### getApprovedAccount(assetId)
 
 An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`.
@@ -1111,6 +1137,30 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
 // perform query
 const balance = await ledger.getBalance(accountId);
+```
+
+### getAssetIdAt(index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const index = '100';
+
+// perform query
+const assetId = await ledger.getAssetIdAt(index);
 ```
 
 ### getCapabilities()
