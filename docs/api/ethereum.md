@@ -1009,6 +1009,36 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = await ledger.getAbilities(accountId);
 ```
 
+### getAccountAssetIdAt(accountId, index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index` for desired `accountId`.
+
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const index = 0; // the account has 3 tokens on indexes 0, 1 and 2
+
+// perform query
+const assetId = await ledger.getAccountAssetIdAt(accountId, index);
+```
+
 ### getApprovedAccount(assetId)
 
 An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`.
@@ -1087,6 +1117,34 @@ const assetId = '100';
 
 // perform query
 const accountId = await ledger.getAssetAccount(assetId);
+```
+
+### getAssetIdAt(index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index`.
+
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const index = 0; // the contract holds 100 tokens on indexes 0 to 99
+
+// perform query
+const assetId = await ledger.getAssetIdAt(index);
 ```
 
 ### getBalance(accountId)
