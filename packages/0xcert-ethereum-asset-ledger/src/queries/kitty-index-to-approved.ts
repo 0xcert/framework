@@ -1,8 +1,7 @@
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
-import kittyIndexToApproved from './kitty-index-to-approved';
 
-const functionSignature = '0x081812fc';
+const functionSignature = '0x481af3d3';
 const inputTypes = ['uint256'];
 const outputTypes = ['address'];
 
@@ -23,6 +22,6 @@ export default async function(ledger: AssetLedger, assetId: string) {
     });
     return decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
-    return kittyIndexToApproved(ledger, assetId);
+    return null;
   }
 }
