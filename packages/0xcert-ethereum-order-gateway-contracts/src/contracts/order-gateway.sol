@@ -177,7 +177,7 @@ contract OrderGateway is
 
   /**
    * @dev Performs the atomic swap that can exchange, create, update and do other actions for
-   * fundgible and non-fundgible tokens.
+   * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
