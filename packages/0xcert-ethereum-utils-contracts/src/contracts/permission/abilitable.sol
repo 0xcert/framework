@@ -25,25 +25,20 @@ contract Abilitable
    * @dev Error constants.
    */
   string constant NOT_AUTHORIZED = "017001";
-  string constant ONE_ZERO_ABILITY_HAS_TO_EXIST = "017002";
+  string constant CANNOT_REVOKE_OWN_SUPER_ABILITY = "017002";
   string constant INVALID_INPUT = "017003";
 
   /**
-   * @dev Ability 1 is a reserved ability. It is an ability to grant or revoke abilities. 
-   * There can be minimum of 1 address with ability 1.
-   * Other abilities are determined by implementing contract.
+   * @dev Ability 1 (00000001) is a reserved ability which we call super ability. It is an
+   * ability to grant or revoke abilities of others. Other abilities are determined by implementing
+   * contract.
    */
-  uint8 constant ABILITY_TO_MANAGE_ABILITIES = 1;
+  uint8 constant SUPER_ABILITY = 1;
 
   /**
    * @dev Maps address to ability ids.
    */
   mapping(address => uint256) public addressToAbility;
-
-  /**
-   * @dev Count of zero ability addresses.
-   */
-  uint256 private zeroAbilityCount;
 
   /**
    * @dev Emits when an address is granted an ability.
@@ -74,7 +69,7 @@ contract Abilitable
   {
     require(_abilities > 0, INVALID_INPUT);
     require(
-      (addressToAbility[msg.sender] & _abilities) == _abilities,
+      addressToAbility[msg.sender] & _abilities == _abilities,
       NOT_AUTHORIZED
     );
     _;
@@ -87,9 +82,8 @@ contract Abilitable
   constructor()
     public
   {
-    addressToAbility[msg.sender] = ABILITY_TO_MANAGE_ABILITIES;
-    zeroAbilityCount = 1;
-    emit GrantAbilities(msg.sender, ABILITY_TO_MANAGE_ABILITIES);
+    addressToAbility[msg.sender] = SUPER_ABILITY;
+    emit GrantAbilities(msg.sender, SUPER_ABILITY);
   }
 
   /**
@@ -102,14 +96,9 @@ contract Abilitable
     uint256 _abilities
   )
     external
-    hasAbilities(ABILITY_TO_MANAGE_ABILITIES)
+    hasAbilities(SUPER_ABILITY)
   {
     addressToAbility[_target] |= _abilities;
-
-    if((_abilities & ABILITY_TO_MANAGE_ABILITIES) == ABILITY_TO_MANAGE_ABILITIES)
-    {
-      zeroAbilityCount = zeroAbilityCount.add(1);
-    }
     emit GrantAbilities(_target, _abilities);
   }
 
@@ -117,20 +106,22 @@ contract Abilitable
    * @dev Unassigns specific abilities from specified address.
    * @param _target Address of which we revoke abilites.
    * @param _abilities Number representing bitfield of abilities we are revoking.
+   * @param _allowSuperRevoke Additional check so that you do not remove your own super ability by 
+   * mistake.
    */
   function revokeAbilities(
     address _target,
-    uint256 _abilities
+    uint256 _abilities,
+    bool _allowSuperRevoke
   )
     external
-    hasAbilities(ABILITY_TO_MANAGE_ABILITIES)
+    hasAbilities(SUPER_ABILITY)
   {
-    addressToAbility[_target] &= ~_abilities;
-    if((_abilities & 1) == 1)
+    if (!_allowSuperRevoke && msg.sender == _target)
     {
-      require(zeroAbilityCount > 1, ONE_ZERO_ABILITY_HAS_TO_EXIST);
-      zeroAbilityCount--;
+      require((_abilities & 1) == 0, CANNOT_REVOKE_OWN_SUPER_ABILITY);
     }
+    addressToAbility[_target] &= ~_abilities;
     emit RevokeAbilities(_target, _abilities);
   }
 
