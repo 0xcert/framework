@@ -230,10 +230,19 @@ contract XcertToken is
   )
     internal
   {
-    if (supportedInterfaces[0xbedb86fb])
-    {
-      require(!isPaused, TRANSFERS_DISABLED);
-    }
+    /**
+     * if (supportedInterfaces[0xbedb86fb])
+     * {
+     *   require(!isPaused, TRANSFERS_DISABLED);
+     * }
+     * There is no need to check for pausable capability here since by using logical deduction we 
+     * can say based on code above that:
+     * !supportedInterfaces[0xbedb86fb] => !isPaused
+     * isPaused => supportedInterfaces[0xbedb86fb]
+     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused. 
+     * This saves 200 gas.
+     */
+    require(!isPaused, TRANSFERS_DISABLED); 
     super._transferFrom(_from, _to, _tokenId);
   }
 }
