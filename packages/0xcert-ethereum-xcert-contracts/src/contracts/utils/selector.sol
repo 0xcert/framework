@@ -8,7 +8,7 @@ import "../ixcert-revokable.sol";
 
 /**
  * @dev This contracts calculates interface id of Xcert contracts as described in EIP165:
- * http://tiny.cc/uo23ty.
+ * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md.
  * @notice See test folder for usage examples.
  */
 contract Selector
