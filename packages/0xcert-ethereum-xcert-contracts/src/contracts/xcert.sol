@@ -123,8 +123,8 @@ contract XcertToken is
   }
 
   /**
-   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
-   * address.
+   * @dev Revokes(destroys) a specified Xcert. Reverts if not called from contract owner or 
+   * authorized address.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
   function revoke(
