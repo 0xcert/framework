@@ -37,6 +37,14 @@ contract XcertToken is
   uint8 constant ABILITY_UPDATE_URI_BASE = 64;
 
   /**
+   * @dev List of capabilities (supportInterface bytes4 representations).
+   */
+  bytes4 constant MUTABLE = 0xbda0e852;
+  bytes4 constant BURNABLE = 0x9d118770;
+  bytes4 constant PAUSABLE = 0xbedb86fb;
+  bytes4 constant REVOKABLE = 0x20c5429b;
+
+  /**
    * @dev Error constants.
    */
   string constant CAPABILITY_NOT_SUPPORTED = "007001";
@@ -133,7 +141,7 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_REVOKE_ASSET)
   {
-    require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[REVOKABLE], CAPABILITY_NOT_SUPPORTED);
     super._destroy(_tokenId);
     delete idToImprint[_tokenId];
   }
@@ -148,7 +156,7 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_TOGGLE_TRANSFERS)
   {
-    require(supportedInterfaces[0xbedb86fb], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[PAUSABLE], CAPABILITY_NOT_SUPPORTED);
     isPaused = _isPaused;
     emit IsPaused(_isPaused);
   }
@@ -165,7 +173,7 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_UPDATE_ASSET_IMPRINT)
   {
-    require(supportedInterfaces[0xbda0e852], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[MUTABLE], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     idToImprint[_tokenId] = _imprint;
     emit TokenImprintUpdate(_tokenId, _imprint);
@@ -180,7 +188,7 @@ contract XcertToken is
   )
     external
   {
-    require(supportedInterfaces[0x9d118770], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[BURNABLE], CAPABILITY_NOT_SUPPORTED);
     address tokenOwner = idToOwner[_tokenId];
     super._destroy(_tokenId);
     require(
@@ -230,7 +238,7 @@ contract XcertToken is
   )
     internal
   {
-    if (supportedInterfaces[0xbedb86fb])
+    if (supportedInterfaces[PAUSABLE])
     {
       require(!isPaused, TRANSFERS_DISABLED);
     }
