@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-erc721-contracts",
   "entries": [
     {
-      "version": "1.0.0-rc9",
-      "tag": "@0xcert/ethereum-erc721-contracts_v1.0.0-rc9",
+      "version": "1.0.0-rc11",
+      "tag": "@0xcert/ethereum-erc721-contracts_v1.0.0-rc11",
       "date": "Thu, 22 Nov 2018 00:51:03 GMT",
       "comments": {}
     }

@@ -12,12 +12,12 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 
 | Argument | Description
 |-|-|-
-| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
+| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
-| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here). 
+| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 **Usage**
 
@@ -34,6 +34,10 @@ const provider = new MetamaskProvider();
 ### accountId
 
 A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
+
+### assetLedgerSource
+
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
 ### emit(event, ...options);
 
@@ -101,6 +105,25 @@ A `string` representing Ethereum network version.
 const version = await provider.getNetworkVersion();
 ```
 
+### isEnabled()
+
+A `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
+
+**Result:**
+
+A `boolean` which tells if provider is enabled.
+
+**Example:**
+
+```ts
+// perform query
+const isEnabled = await provider.isEnabled();
+```
+
+**See also:**
+
+[enable](#enable), [isSupported](#is-supported)
+
 ### isSupported()
 
 A `synchronous` class instance `function` which returns `true` when the provider is supported by the environment.
@@ -120,24 +143,33 @@ const isSupported = provider.isSupported();
 
 [isEnabled](#is-enabled)
 
-### isEnabled()
+### isUnsafeRecipientId(ledgerId)
 
-A `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
+A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
 
 **Result:**
 
-A `boolean` which tells if provider is enabled.
+A `boolean` which tells if the `id` is unsafe recipient.
 
 **Example:**
 
 ```ts
+// unsafe recipient address
+const criptoKittiesId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
 // perform query
-const isEnabled = await provider.isEnabled();
+const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 ```
 
 **See also:**
 
-[enable](#enable), [isSupported](#is-supported)
+[unsafeRecipientIds](#unsaferecipientids)
 
 ### on(event, handler);
 
@@ -224,6 +256,26 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 [on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
 
+### orderGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [order gateway](/#public-addresses).
+
+### requiredConfirmations
+
+A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+
+### signMethod
+
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+
+### unsafeRecipientIds
+
+A class instance `variable` holding a `string` which represents smart contract addresses that do not support safe ERC-721 transfers.
+
+### valueLedgerSource
+
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
+
 ## HTTP provider
 
 HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum node. It is used mostly for querying and mutating data but does not support subscriptions.
@@ -273,6 +325,10 @@ Please note, when using [Infura](https://infura.io/), only queries are supported
 
 [MetamaskProvider](#metamask-provider)
 
+### assetLedgerSource
+
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
 ### getInstance(options)
 
 A static class `function` that returns a new instance of the HttpProvider class (alias for `new HttpProvider`).
@@ -319,6 +375,34 @@ A `boolean` which tells if the provider can be used.
 // perform query
 const isSupported = provider.isSupported();
 ```
+
+### isUnsafeRecipientId(ledgerId)
+
+A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+
+**Result:**
+
+A `boolean` which tells if the `id` is unsafe recipient.
+
+**Example:**
+
+```ts
+// unsafe recipient address
+const criptoKittiesId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
+// perform query
+const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
+```
+
+**See also:**
+
+[unsafeRecipientIds](#unsaferecipientids-2)
 
 ### on(event, handler);
 
@@ -404,6 +488,26 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 **See also:**
 
 [on (event, handler)](#on-event-handler), [once (event, handler)](#once-event-handler)
+
+### orderGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [order gateway](/#public-addresses).
+
+### requiredConfirmations
+
+A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+
+### signMethod
+
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+
+### unsafeRecipientIds
+
+A class instance `variable` holding a `string` which represents smart contract addresses that do not support safe ERC-721 transfers.
+
+### valueLedgerSource
+
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 ## Provider events
 
@@ -1009,6 +1113,36 @@ const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = await ledger.getAbilities(accountId);
 ```
 
+### getAccountAssetIdAt(accountId, index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index` for desired `accountId`.
+
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address.
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const index = 0; // the account has 3 tokens on indexes 0, 1 and 2
+
+// perform query
+const assetId = await ledger.getAccountAssetIdAt(accountId, index);
+```
+
 ### getApprovedAccount(assetId)
 
 An `asynchronous` class instance `function` which returns an account ID of a third party which is able to take over a specific `assetId`.
@@ -1087,6 +1221,34 @@ const assetId = '100';
 
 // perform query
 const accountId = await ledger.getAssetAccount(assetId);
+```
+
+### getAssetIdAt(index)
+
+An `asynchronous` class instance `function` which returns the asset id at specified `index`.
+
+::: warning
+The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| index | [required] A `number` representing the asset index.
+
+**Result:**
+
+A `number` representing the asset id.
+
+**Example:**
+
+```ts
+// arbitrary data
+const index = 0; // the contract holds 100 tokens on indexes 0 to 99
+
+// perform query
+const assetId = await ledger.getAssetIdAt(index);
 ```
 
 ### getBalance(accountId)

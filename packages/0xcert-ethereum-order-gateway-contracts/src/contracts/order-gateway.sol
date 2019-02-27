@@ -291,7 +291,7 @@ contract OrderGateway is
     pure
     returns (bool)
   {
-    if(_signature.kind == SignatureKind.eth_sign)
+    if (_signature.kind == SignatureKind.eth_sign)
     {
       return _signer == ecrecover(
         keccak256(
@@ -346,7 +346,7 @@ contract OrderGateway is
         INVALID_PROXY
       );
 
-      if(_order.actions[i].kind == ActionKind.create)
+      if (_order.actions[i].kind == ActionKind.create)
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),

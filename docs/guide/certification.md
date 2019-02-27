@@ -10,19 +10,23 @@ The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has 
 
 ## Explaining the process
 
-When creating an asset, we start preparing a digital structure of data represented by the asset. During this process, we create a cryptographic imprint based on the asset data. Such `imprint` represents a cryptographic proof of the asset data and should thus be saved on a public blockchain or similar distributed systems so that third parties are able to use it as a public asset proof. Based on it, they can verify the proof of existence, authenticity, and ownership of these digital assets without a middleman involvement. The process of creating an asset imprint from the asset data is called certification.
+The result of the certification process are objects that allow third-party to verify the proof of existence, authenticity, and ownership of these digital assets without a middleman involvement.
 
 ![0xcert framework](../assets/certification.svg)
 
-The original data of an asset is usually known only to the issuer and the owner of an asset. Both can reveal a specific part of the data to a third person anytime, while a third party can verify such data based on a publicly available `imprint`. For this purpose, the issuer or the owner creates an evidence file that contains the revealed data and other proofs needed for a third party to calculate the `imprint` once more. If the calculated imprint matches the publicly available imprint, it means that the revealed data indeed exists in the original data object.
+When creating an asset, we start preparing a digital structure of data represented by the asset. During this process, we first create a cryptographic `imprint` based on the asset data. Such imprint constitutes a cryptographic proof of the asset data and should be saved on a public blockchain or similar distributed systems so that third parties are able to use it as a public asset proof.
 
-The process of certification is based on the [Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree) concept, a well-known mechanism in the world of cryptography. To create a cryptographic hash string, the 0xcert Framework employs the [sha256](https://en.wikipedia.org/wiki/SHA-2) algorithm. Within the framework, this complexity is hidden from the developer's interaction and available via simple functions provided by the API.
+The original data of an asset is usually known only to the issuer and the owner of an asset. Both can reveal a specific part of the data to a third person anytime, while a third party can verify such data based on a publicly available `imprint`. For this purpose, the issuer or the owner creates an `evidence` file that contains the revealed data and proofs needed for a third party to calculate the `imprint` once more. If the calculated imprint matches the publicly available imprint, it means that the revealed data indeed exists in the original data object.
+
+The process of certification is based on the [Binary Tree](https://en.wikipedia.org/wiki/Binary_tree) concept, a well-known mechanism in the world of cryptography. To create a cryptographic hash string, the 0xcert Framework employs the [sha256](https://en.wikipedia.org/wiki/SHA-2) algorithm. Within the Framework, this complexity is hidden from the developer's interaction and available via simple functions provided by the API. See the [@0xcert/merkle](https://github.com/0xcert/framework/tree/master/packages/0xcert-merkle) and [@0xcert/cert](https://github.com/0xcert/framework/tree/master/packages/0xcert-cert) modules for the in-depth information about this algorithm.
+
+According to the [ERC-721 Metadata](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard, a token includes a URI which points to the public token metadata JSON file. This JSON provides additional asset metadata information. The 0xcert Protocol makes this mandatory and expects every token to provide that. The metadata file must provide information about the schema convention and should also point to the evidence file which allows a third-party to prove the values in the public metadata. We explain this further later in the chapter.
 
 ## Conventions
 
 As explained earlier, the 0xcert Framework provides data models that allow your application to interoperate with other applications using the 0xcert Framework. Additionally, conventions enable imprints, a tamper-evident system for assuring data consistency in which some of the data can be public and some can be private.
 
-Conventions that are approved and represent best practices in industry can be found in [this package](https://github.com/0xcert/framework/tree/master/conventions) on GitHub. These conventions are public. You can use these public conventions as-is, derive your own more specific versions of these public conventions or create your own conventions from scratch.
+Conventions that are approved and represent best practices in the industry can be found in [this package](https://github.com/0xcert/framework/tree/master/conventions) on GitHub. These conventions are public. You can use these public conventions as-is, derive your own more specific versions of these public conventions or create your own conventions from scratch.
 
 Please see the [base asset schema](https://github.com/0xcert/framework/blob/master/conventions/86-base-asset-schema.md) as an example of the convention format. Also, every convention must adopt this base asset schema.
 
@@ -67,7 +71,7 @@ const cert = new Cert({
 });
 ```
 
-We can now create a cryptographic proof for our crypto collectible that we will need in the following sections of this guide.
+We can now create a cryptographic imprint for our crypto collectible that we will need in the following sections of this guide.
 
 ```ts
 const imprint = await cert.imprint(data);
@@ -78,20 +82,17 @@ This long string returned by the `imprint` method represents a cryptographic pro
 
 In the previous [section](/guide/about-assets.html#explaining-the-concept), we mentioned that each asset also holds its URI, pointing to the asset's publicly available metadata. We should put metadata and other public files to a publicly available HTTP location. We can either establish an HTTP server ourselves, or we can host the file through services like Amazon and Google.
 
-At this point, we have to decide which data we want to expose publicly and which do we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers. Based on the data object above, we create a JSON object that will be published publicly.
+At this point, we have to decide which data we want to expose publicly and which do we want to store internally. For the purpose of this guide, we choose to publicly disclose `description` and `image,` while we retain the `name` privately for us as the issuers.
 
-```json
-{
-  "$evidence": "https://troopersgame.com/dog/evidence",
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "description": "A weapon for the Troopers game which can severely injure the enemy.",
-  "image": "https://troopersgame.com/dog.jpg"
-}
+```ts
+const metadata = cert.expose(data, [
+    ['description'],
+    ['image'],
+]);
+// => { description: ..., image: ... }
 ```
 
-We should thus publish this structure on a publicly accessible HTTP location. Along with the metadata file, we usually publish the evidence file, too, which proves the data validity of this publicly published JSON file.
-
-The example above already assumes that we host the evidence file on the location `https://troopersgame.com/dog/evidence` which means that we should publish the appropriate content there (we thus change this location to match its true location). We create the evidence data using the `disclose` method where we list the JSON data paths that we want to expose.
+We also need the create evidence data. These recipes will enable third parties to recalculate asset imprint and thus verify and prove the validity of the public metadata above.
 
 ```ts
 const evidence = await cert.disclose(data, [
@@ -101,7 +102,20 @@ const evidence = await cert.disclose(data, [
 // => [{ path, nodes, values }, ...]
 ```
 
-The content that is obtained with the function above can now be published on the said HTTP location, the same way as we did it for the asset metadata (`data` carries the content of the `evidence` variable in the above example).
+The content that is obtained with the functions above can now be published on the public HTTP location. Let's assume that the public metadata file will be available at `https://troopersgame.com/sword/100.json` and it's evidence file at `https://troopersgame.com/sword/100-evidence.json`
+
+The metadata URL should respond with the `metadata` object that looks like the one below:
+
+```json
+{
+  "$evidence": "https://troopersgame.com/sword/100-evidence.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "description": "A weapon for the Troopers game which can severely injure the enemy.",
+  "image": "https://troopersgame.com/sword/100.jpg"
+}
+```
+
+The evidence URL should respond with the `evidence` object like these:
 
 ```json
 {
@@ -146,4 +160,4 @@ Certification offers some additional possibilities. For more details, please ref
 
 ---
 
-Next, we proceed to [creating our assets](/guide/asset-management.html#installation).
+Next, we proceed to [creating our assets](/guide/asset-management.html#installation)

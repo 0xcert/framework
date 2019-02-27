@@ -18,9 +18,11 @@ import transfer from '../mutations/transfer';
 import update from '../mutations/update';
 import updateAsset from '../mutations/update-asset';
 import getAbilities from '../queries/get-abilities';
+import getAccountAssetIdAt from '../queries/get-account-asset-id-at';
 import getApprovedAccount from '../queries/get-approved-account';
 import getAsset from '../queries/get-asset';
 import getAssetAccount from '../queries/get-asset-account';
+import getAssetIdAt from '../queries/get-asset-id-at';
 import getBalance from '../queries/get-balance';
 import getCapabilities from '../queries/get-capabilities';
 import getInfo from '../queries/get-info';
@@ -89,6 +91,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account address for wich we want to get abilities.
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
+    accountId = normalizeAddress(accountId);
+
     return getAbilities(this, accountId);
   }
 
@@ -121,6 +125,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Address for which we want asset count.
    */
   public async getBalance(accountId: string): Promise<string> {
+    accountId = normalizeAddress(accountId);
+
     return getBalance(this, accountId);
   }
 
@@ -139,6 +145,25 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
+   * Gets the ID of the asset at index.
+   * @param index Asset index.
+   */
+  public async getAssetIdAt(index: number): Promise<number> {
+    return getAssetIdAt(this, index);
+  }
+
+  /**
+   * Gets the ID of the asset at index for account.
+   * @param accountId Account address.
+   * @param index Asset index.
+   */
+  public async getAccountAssetIdAt(accountId: string, index: number): Promise<number> {
+    accountId = normalizeAddress(accountId);
+
+    return getAccountAssetIdAt(this, accountId, index);
+  }
+
+  /**
    * Checks if a specific account is approved for a specific asset.
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
@@ -147,6 +172,9 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
+
+    accountId = normalizeAddress(accountId as string);
+
     return accountId === await getApprovedAccount(this, assetId);
   }
 
@@ -166,7 +194,10 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
-    return approveAccount(this, accountId as string, assetId);
+
+    accountId = normalizeAddress(accountId as string);
+
+    return approveAccount(this, accountId, assetId);
   }
 
   /**
@@ -187,11 +218,14 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
+    accountId = normalizeAddress(accountId as string);
+
     let bitAbilities = bigNumberify(0);
     abilities.forEach((ability) => {
       bitAbilities = bitAbilities.add(ability);
     });
-    return grantAbilities(this, accountId as string, bitAbilities.toString());
+
+    return grantAbilities(this, accountId, bitAbilities);
   }
 
   /**
@@ -199,9 +233,10 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data from which the new asset is created.
    */
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
-    // TODO(Kristjan): imprint input validation that it is a hex of length 64.
     const imprint = recipe.imprint || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-    return createAsset(this, recipe.receiverId, recipe.id, `0x${imprint}`);
+    const receiverId = normalizeAddress(recipe.receiverId);
+
+    return createAsset(this, receiverId, recipe.id, `0x${imprint}`);
   }
 
   /**
@@ -222,11 +257,14 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
+    accountId = normalizeAddress(accountId as string);
+
     let bitAbilities = bigNumberify(0);
     abilities.forEach((ability) => {
       bitAbilities = bitAbilities.add(ability);
     });
-    return revokeAbilities(this, accountId as string, bitAbilities);
+
+    return revokeAbilities(this, accountId, bitAbilities);
   }
 
   /**
@@ -245,9 +283,13 @@ export class AssetLedger implements AssetLedgerBase {
     if (!recipe.senderId) {
       recipe.senderId = this.provider.accountId;
     }
+
+    const senderId = normalizeAddress(recipe.senderId);
+    const receiverId = normalizeAddress(recipe.receiverId);
+
     return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
-      ? transfer(this, recipe.senderId, recipe.receiverId, recipe.id)
-      : safeTransfer(this, recipe.senderId, recipe.receiverId, recipe.id, recipe.data);
+      ? transfer(this, senderId, receiverId, recipe.id)
+      : safeTransfer(this, senderId, receiverId, recipe.id, recipe.data);
   }
 
   /**
@@ -270,7 +312,6 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data to update asset with.
    */
   public async updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation> {
-    // TODO(Kristjan): imprint input validation that it is a hex of length 64.
     return updateAsset(this, assetId, recipe.imprint);
   }
 
@@ -290,7 +331,10 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
-    return setApprovalForAll(this, accountId as string, true);
+
+    accountId = normalizeAddress(accountId as string);
+
+    return setApprovalForAll(this, accountId, true);
   }
 
   /**
@@ -301,7 +345,10 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
-    return setApprovalForAll(this, accountId as string, false);
+
+    accountId = normalizeAddress(accountId as string);
+
+    return setApprovalForAll(this, accountId, false);
   }
 
   /**
@@ -313,7 +360,11 @@ export class AssetLedger implements AssetLedgerBase {
     if (typeof operatorId !== 'string') {
       operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
     }
-    return isApprovedForAll(this, accountId, operatorId as string);
+
+    accountId = normalizeAddress(accountId);
+    operatorId = normalizeAddress(operatorId as string);
+
+    return isApprovedForAll(this, accountId, operatorId);
   }
 
   /**
