@@ -6,8 +6,8 @@ import * as common from './helpers/common';
 /**
  * Test definition.
  *
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC20: ZXC
+ * ERC721: Cat
  */
 
 /**
@@ -19,17 +19,11 @@ interface Data {
   tokenProxy?: any;
   nftSafeProxy?: any;
   cat?: any;
-  dog?: any;
-  fox?: any;
-  bee?: any;
   owner?: string;
   bob?: string;
   jane?: string;
   sara?: string;
   zxc?: any;
-  gnt?: any;
-  bnb?: any;
-  omg?: any;
 }
 
 /**
@@ -85,120 +79,18 @@ spec.beforeEach(async (ctx) => {
 });
 
 /**
- * Dog
- * Jane owns: #1
- */
-spec.beforeEach(async (ctx) => {
-  const dog = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['dog', 'DOG', 'http://0xcert.org/'],
-  });
-  await dog.instance.methods
-    .create(ctx.get('jane'), 1)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('dog', dog);
-});
-
-/**
- * Bee
- * Bob owns: #3
- */
-spec.beforeEach(async (ctx) => {
-  const bee = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['bee', 'BEE', 'http://0xcert.org/'],
-  });
-  await bee.instance.methods
-    .create(ctx.get('bob'), 3)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('bee', bee);
-});
-
-/**
- * Fox
- * Bob owns: #1
- */
-spec.beforeEach(async (ctx) => {
-  const fox = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['fox', 'FOX', 'http://0xcert.org/'],
-  });
-  await fox.instance.methods
-    .create(ctx.get('bob'), 1)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('fox', fox);
-});
-
-/**
  * ZXC
- * Jane owns: all
+ * Bob owns: all
  */
 spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
+  const bob = ctx.get('bob');
   const zxc = await ctx.deploy({
     src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
     contract: 'TokenMock',
     args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
+    from: bob,
   });
   ctx.set('zxc', zxc);
-});
-
-/**
- * BNB
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const bnb = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('bnb', bnb);
-});
-
-/**
- * GNT
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const gnt = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('gnt', gnt);
-});
-
-/**
- * OMG
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const omg = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('omg', omg);
 });
 
 spec.beforeEach(async (ctx) => {
@@ -295,8 +187,8 @@ spec.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
-  const omg = ctx.get('omg');
-  const omgAmount = 5000;
+  const zxc = ctx.get('zxc');
+  const zxcAmount = 5000;
 
   const actions = [
     {
@@ -310,10 +202,10 @@ spec.test('when proxy has unsofficient allowence for a token', async (ctx) => {
     {
       kind: 1,
       proxy: 0,
-      token: omg.receipt._address,
+      token: zxc.receipt._address,
       from: bob,
       to: jane,
-      value: omgAmount,
+      value: zxcAmount,
     },
   ];
   const orderData = {
@@ -336,7 +228,7 @@ spec.test('when proxy has unsofficient allowence for a token', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
-  await omg.instance.methods.approve(tokenProxy.receipt._address, omgAmount - 1000).send({ from: bob });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmount - 1000).send({ from: bob });
   await ctx.reverts(() => orderGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '001002');
 });
 

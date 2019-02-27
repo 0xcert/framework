@@ -7,8 +7,8 @@ import * as common from './helpers/common';
 
 /**
  * Test definition.
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC20: ZXC
+ * ERC721: Cat
  */
 
 interface Data {
@@ -17,23 +17,11 @@ interface Data {
   nftSafeProxy?: any;
   createProxy?: any;
   cat?: any;
-  dog?: any;
-  fox?: any;
-  bee?: any;
   owner?: string;
-  bob?: string;
   jane?: string;
-  sara?: string;
   zxc?: any;
-  gnt?: any;
-  bnb?: any;
-  omg?: any;
   id1?: string;
-  id2?: string;
-  id3?: string;
   imprint1?: string;
-  imprint2?: string;
-  imprint3?: string;
 }
 
 const spec = new Spec<Data>();
@@ -41,18 +29,12 @@ const spec = new Spec<Data>();
 spec.before(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
   ctx.set('owner', accounts[0]);
-  ctx.set('bob', accounts[1]);
   ctx.set('jane', accounts[2]);
-  ctx.set('sara', accounts[3]);
 });
 
 spec.before(async (ctx) => {
   ctx.set('id1', '1');
-  ctx.set('id2', '2');
-  ctx.set('id3', '3');
   ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
-  ctx.set('imprint2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
-  ctx.set('imprint3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
 });
 
 /**
@@ -68,56 +50,6 @@ spec.beforeEach(async (ctx) => {
 });
 
 /**
- * Dog
- * Jane owns: #1, #2, #3
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const dog = await ctx.deploy({
-    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
-    contract: 'XcertMock',
-    args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6', []],
-  });
-  await dog.instance.methods
-    .create(jane, 1, '0x0')
-    .send({
-      from: owner,
-    });
-  await dog.instance.methods
-    .create(jane, 2, '0x0')
-    .send({
-      from: owner,
-    });
-  await dog.instance.methods
-    .create(jane, 3, '0x0')
-    .send({
-      from: owner,
-    });
-  ctx.set('dog', dog);
-});
-
-/**
- * Fox
- * Jane owns: #1
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const fox = await ctx.deploy({
-    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
-    contract: 'XcertMock',
-    args: ['fox', 'FOX', 'http://0xcert.org/', '0xa65de9e6', []],
-  });
-  await fox.instance.methods
-    .create(jane, 1, '0x0')
-    .send({
-      from: owner,
-    });
-  ctx.set('fox', fox);
-});
-
-/**
  * ZXC
  * Jane owns: all
  */
@@ -130,21 +62,6 @@ spec.beforeEach(async (ctx) => {
     from: jane,
   });
   ctx.set('zxc', zxc);
-});
-
-/**
- * BNB
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const bnb = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('bnb', bnb);
 });
 
 spec.beforeEach(async (ctx) => {

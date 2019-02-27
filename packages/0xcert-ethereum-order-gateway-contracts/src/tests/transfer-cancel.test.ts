@@ -6,8 +6,7 @@ import * as common from './helpers/common';
 /**
  * Test definition.
  *
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC721: Cat
  */
 
 /**
@@ -19,17 +18,10 @@ interface Data {
   tokenProxy?: any;
   nftSafeProxy?: any;
   cat?: any;
-  dog?: any;
-  fox?: any;
-  bee?: any;
   owner?: string;
   bob?: string;
   jane?: string;
   sara?: string;
-  zxc?: any;
-  gnt?: any;
-  bnb?: any;
-  omg?: any;
   signatureTuple?: any;
   dataTuple?: any;
 }
@@ -84,123 +76,6 @@ spec.beforeEach(async (ctx) => {
       gas: 4000000,
     });
   ctx.set('cat', cat);
-});
-
-/**
- * Dog
- * Jane owns: #1
- */
-spec.beforeEach(async (ctx) => {
-  const dog = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['dog', 'DOG', 'http://0xcert.org/'],
-  });
-  await dog.instance.methods
-    .create(ctx.get('jane'), 1)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('dog', dog);
-});
-
-/**
- * Bee
- * Bob owns: #3
- */
-spec.beforeEach(async (ctx) => {
-  const bee = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['bee', 'BEE', 'http://0xcert.org/'],
-  });
-  await bee.instance.methods
-    .create(ctx.get('bob'), 3)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('bee', bee);
-});
-
-/**
- * Fox
- * Bob owns: #1
- */
-spec.beforeEach(async (ctx) => {
-  const fox = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['fox', 'FOX', 'http://0xcert.org/'],
-  });
-  await fox.instance.methods
-    .create(ctx.get('bob'), 1)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('fox', fox);
-});
-
-/**
- * ZXC
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const zxc = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('zxc', zxc);
-});
-
-/**
- * BNB
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const bnb = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('bnb', bnb);
-});
-
-/**
- * GNT
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const gnt = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('gnt', gnt);
-});
-
-/**
- * OMG
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const omg = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('omg', omg);
 });
 
 spec.beforeEach(async (ctx) => {

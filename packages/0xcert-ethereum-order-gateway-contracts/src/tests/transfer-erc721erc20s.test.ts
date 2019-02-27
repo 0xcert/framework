@@ -6,8 +6,8 @@ import * as common from './helpers/common';
 /**
  * Test definition.
  *
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC20: ZXC, OMG, GNT
+ * ERC721: Cat, Dog, Fox
  */
 
 /**
@@ -21,14 +21,12 @@ interface Data {
   cat?: any;
   dog?: any;
   fox?: any;
-  bee?: any;
   owner?: string;
   bob?: string;
   jane?: string;
   sara?: string;
   zxc?: any;
   gnt?: any;
-  bnb?: any;
   omg?: any;
 }
 
@@ -104,25 +102,6 @@ spec.beforeEach(async (ctx) => {
 });
 
 /**
- * Bee
- * Bob owns: #3
- */
-spec.beforeEach(async (ctx) => {
-  const bee = await ctx.deploy({
-    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
-    contract: 'NFTokenMetadataEnumerableMock',
-    args: ['bee', 'BEE', 'http://0xcert.org/'],
-  });
-  await bee.instance.methods
-    .create(ctx.get('bob'), 3)
-    .send({
-      from: ctx.get('owner'),
-      gas: 4000000,
-    });
-  ctx.set('bee', bee);
-});
-
-/**
  * Fox
  * Bob owns: #1
  */
@@ -154,21 +133,6 @@ spec.beforeEach(async (ctx) => {
     from: jane,
   });
   ctx.set('zxc', zxc);
-});
-
-/**
- * BNB
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const bnb = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('bnb', bnb);
 });
 
 /**

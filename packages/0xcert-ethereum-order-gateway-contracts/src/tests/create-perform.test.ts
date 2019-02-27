@@ -7,8 +7,8 @@ import * as common from './helpers/common';
 
 /**
  * Test definition.
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC20: ZXC, BNB
+ * ERC721: Cat, Dog, Fox
  */
 
 interface Data {
@@ -19,15 +19,12 @@ interface Data {
   cat?: any;
   dog?: any;
   fox?: any;
-  bee?: any;
   owner?: string;
   bob?: string;
   jane?: string;
   sara?: string;
   zxc?: any;
-  gnt?: any;
   bnb?: any;
-  omg?: any;
   id1?: string;
   id2?: string;
   id3?: string;

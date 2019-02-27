@@ -6,8 +6,7 @@ import * as common from './helpers/common';
 /**
  * Test definition.
  *
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC721: Cat, Dog, Fox, Bee
  */
 
 /**
@@ -25,11 +24,6 @@ interface Data {
   owner?: string;
   bob?: string;
   jane?: string;
-  sara?: string;
-  zxc?: any;
-  gnt?: any;
-  bnb?: any;
-  omg?: any;
 }
 
 /**
@@ -43,7 +37,6 @@ spec.before(async (ctx) => {
   ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
   ctx.set('jane', accounts[2]);
-  ctx.set('sara', accounts[3]);
 });
 
 /**
@@ -139,66 +132,6 @@ spec.beforeEach(async (ctx) => {
       gas: 4000000,
     });
   ctx.set('fox', fox);
-});
-
-/**
- * ZXC
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const zxc = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('zxc', zxc);
-});
-
-/**
- * BNB
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const bnb = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('bnb', bnb);
-});
-
-/**
- * GNT
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const gnt = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('gnt', gnt);
-});
-
-/**
- * OMG
- * Bob owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const omg = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: bob,
-  });
-  ctx.set('omg', omg);
 });
 
 spec.beforeEach(async (ctx) => {
