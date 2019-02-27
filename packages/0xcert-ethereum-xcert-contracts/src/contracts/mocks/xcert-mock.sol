@@ -14,6 +14,8 @@ contract XcertMock is XcertToken {
    * @param _uriBase Base of uri for token metadata uris.
    * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
    * convention.
+   * @param _capabilities Array of bytes4 representing supported interfaces which activate the
+   * corresponding capabilities.
    */
   constructor(
     string memory _name,
