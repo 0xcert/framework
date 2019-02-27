@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-xcert-contracts",
   "entries": [
     {
-      "version": "1.0.0-rc10",
-      "tag": "@0xcert/ethereum-xcert-contracts_v1.0.0-rc10",
+      "version": "1.0.0-rc11",
+      "tag": "@0xcert/ethereum-xcert-contracts_v1.0.0-rc11",
       "date": "Thu, 22 Nov 2018 00:51:03 GMT",
       "comments": {}
     }
