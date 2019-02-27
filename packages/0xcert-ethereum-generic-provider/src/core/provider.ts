@@ -220,6 +220,14 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Returns true if the provided ledgerId is unsafe recipient address.
+   */
+  public isUnsafeRecipientId(ledgerId: string) {
+    const normalizedLedgerId = normalizeAddress(ledgerId);
+    return !!this.unsafeRecipientIds.find((id) => id === normalizedLedgerId);
+  }
+
+  /**
    * Sends a raw request to the JSON RPC serveer.
    * @param options.method RPC procedure name.
    * @param options.params RPC procedure parameters.
