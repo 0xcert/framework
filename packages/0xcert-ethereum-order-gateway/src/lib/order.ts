@@ -1,4 +1,4 @@
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
 import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { OrderGateway } from '../core/gateway';
@@ -178,4 +178,20 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
   const padding = (chars - input.length + 1 >= 0) ? chars - input.length + 1 : 0;
 
   return (hasPrefix ? '0x' : '') + new Array(padding).join(sign ? sign : '0') + input;
+}
+
+/**
+ * Normalizes order IDs and returns a new order object.
+ * @param order Order instance.
+ */
+export function normalizeOrderIds(order: Order): Order {
+  order = JSON.parse(JSON.stringify(order));
+  order.makerId = normalizeAddress(order.makerId);
+  order.takerId = normalizeAddress(order.takerId);
+  order.actions.forEach((action) => {
+    action.ledgerId = normalizeAddress(action.ledgerId);
+    action.receiverId = normalizeAddress(action.receiverId);
+    action.senderId = normalizeAddress(action.senderId);
+  });
+  return order;
 }
