@@ -176,7 +176,8 @@ contract OrderGateway is
   }
 
   /**
-   * @dev Performs the ERC721/ERC20 atomic swap.
+   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
+   * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
