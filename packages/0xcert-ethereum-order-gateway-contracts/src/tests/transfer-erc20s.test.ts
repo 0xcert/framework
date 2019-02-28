@@ -1,4 +1,4 @@
-import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { TokenTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { OrderGatewayAbilities } from '../core/types';
 import * as common from './helpers/common';
@@ -16,7 +16,6 @@ import * as common from './helpers/common';
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
-  nftSafeProxy?: any;
   owner?: string;
   bob?: string;
   jane?: string;
@@ -108,16 +107,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const nftSafeProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
-    contract: 'NFTokenSafeTransferProxy',
-  });
-  ctx.set('nftSafeProxy', nftSafeProxy);
-});
-
-spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftSafeProxy = ctx.get('nftSafeProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
@@ -125,17 +115,14 @@ spec.beforeEach(async (ctx) => {
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftSafeProxy = ctx.get('nftSafeProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
   await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
-  await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
 });
 
 spec.test('3000 ZXC <=> 50000 GNT', async (ctx) => {

@@ -1,5 +1,4 @@
-import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities,
-  XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { TokenTransferProxyAbilities, XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { OrderGatewayAbilities } from '../core/types';
@@ -14,7 +13,6 @@ import * as common from './helpers/common';
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
-  nftSafeProxy?: any;
   createProxy?: any;
   cat?: any;
   owner?: string;
@@ -73,14 +71,6 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const nftSafeProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
-    contract: 'NFTokenSafeTransferProxy',
-  });
-  ctx.set('nftSafeProxy', nftSafeProxy);
-});
-
-spec.beforeEach(async (ctx) => {
   const createProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
     contract: 'XcertCreateProxy',
@@ -90,7 +80,6 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftSafeProxy = ctx.get('nftSafeProxy');
   const createProxy = ctx.get('createProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
@@ -99,19 +88,16 @@ spec.beforeEach(async (ctx) => {
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.setProxy(2, createProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const nftSafeProxy = ctx.get('nftSafeProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
   const createProxy = ctx.get('createProxy');
   await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
-  await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
   await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
