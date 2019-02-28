@@ -7,7 +7,7 @@
     "clean": "rm -Rf ./build",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
     "sandbox": "npx specron sandbox",
-    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
+    "test": "npm run clean && npx specron compile && npx specron test"
   },
   "specron": {
     "compiler": {
@@ -61,6 +61,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/ethereum-utils": "1.0.0-rc12",
     "@0xcert/ethereum-utils-contracts": "1.0.0-rc12",
     "@0xcert/ethereum-erc20-contracts": "1.0.0-rc12",
     "@0xcert/ethereum-erc721-contracts": "1.0.0-rc12",
