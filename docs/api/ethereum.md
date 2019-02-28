@@ -13,6 +13,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
@@ -171,6 +172,10 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 
 [unsafeRecipientIds](#unsaferecipientids)
 
+### mutationTimeout
+
+A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
+
 ### on(event, handler);
 
 A `synchronous` class instance `function` which attaches a new event handler.
@@ -298,6 +303,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
@@ -403,6 +409,10 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 **See also:**
 
 [unsafeRecipientIds](#unsaferecipientids-2)
+
+### mutationTimeout
+
+A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
 
 ### on(event, handler);
 
