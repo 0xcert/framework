@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.3;
 
 /**
  * @dev A standard for detecting smart contract interfaces.

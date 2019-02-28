@@ -19,7 +19,7 @@ This implementation is based on the [openzeppelin-solidity](https://github.com/O
 Exampe usage:
 
 ```solidity
-pragma solidity ^0.5.1;
+pragma solidity ^0.5.3;
 import "https://github.com/0xcert/framework/packages/0xcert-ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 
 contract MilitaryStrengthAdder

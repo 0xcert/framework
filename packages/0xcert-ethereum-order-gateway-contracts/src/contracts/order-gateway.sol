@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.3;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";

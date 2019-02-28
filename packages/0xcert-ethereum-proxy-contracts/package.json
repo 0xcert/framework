@@ -67,7 +67,7 @@
     "@0xcert/ethereum-xcert-contracts": "1.0.0-rc11",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
-    "solc": "0.5.1",
+    "solc": "0.5.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
