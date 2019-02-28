@@ -1204,13 +1204,14 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-XUOiWKMD993vAQF6fGabYUr3qPJVv+kuPnt+Zur7GB0xyU91L0EbWQP1nKvoG5wqPXozC2rXpmXUDI/jaqK/7Q==",
+      "integrity": "sha512-HurB+0hhw2HiYbIMa0Z5TsgUnvrXaLqmuu8eZQX5/lHaCddq8y+RKP3BNDibuG6O1wn5RtqOiHn1P+7iwhp9Pw==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
         "@types/node": "^10.12.24",
         "events": "^3.0.0",
         "nyc": "^13.1.0",
+        "promised-timeout": "^0.5.1",
         "solc": "0.5.1",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.1",
@@ -9167,6 +9168,11 @@
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz",
       "integrity": "sha1-mEcocL8igTL8vdhoEputEsPAKeM="
+    },
+    "promised-timeout": {
+      "version": "0.5.1",
+      "resolved": "https://registry.npmjs.org/promised-timeout/-/promised-timeout-0.5.1.tgz",
+      "integrity": "sha1-Vr2Y64xZ5ZTa6FVRvFRFHNRYTCM="
     },
     "proxy-addr": {
       "version": "2.0.4",

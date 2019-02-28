@@ -42,9 +42,19 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected _provider: any;
 
   /**
-   * Timer for checking confirmations.
+   * Completion process heartbeat speed.
    */
-  protected _timer: any = null;
+  protected _speed = 14000;
+
+  /**
+   * Completion process loop timer.
+   */
+  protected _timer: any;
+
+  /**
+   * Completion process start timestamp.
+   */
+  protected _started: number;
 
   /**
    * Current mutation status.
@@ -167,8 +177,9 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     if (this.isCompleted()) {
       return this;
-    } else {
+    } else if (!this.isPending()) {
       this._status = MutationStatus.PENDING;
+      this._started = Date.now();
     }
 
     await new Promise((resolve, reject) => {
@@ -192,6 +203,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   public forget() {
     if (this._timer) {
       clearTimeout(this._timer);
+      this._timer = undefined;
     }
 
     return this;
@@ -199,15 +211,17 @@ export class Mutation extends EventEmitter implements MutationBase {
 
   /**
    * Helper methods for waiting to resolve mutation.
+   * IMPORTANT: After submiting a transaction to the Ethereum network, the
+   * transaction can not be found for some seconds. This happens because the
+   * Ethereum nodes in a cluster are not in sync and we must wait some time for
+   * this to happen.
    */
   protected async loopUntilResolved() {
     const tx = await this.getTransactionObject();
-    if (!tx) {
-      return this.emit(MutationEvent.ERROR, new Error('Mutation not found (1)'));
-    } else if (!tx.to || tx.to === '0x0') {
+    if (tx && (!tx.to || tx.to === '0x0')) {
       tx.to = await this.getTransactionReceipt().then((r) => r ? r.contractAddress : null);
     }
-    if (tx.to) {
+    if (tx && tx.to) {
       this._senderId = normalizeAddress(tx.from);
       this._receiverId = normalizeAddress(tx.to);
       this._confirmations = await this.getLastBlock()
@@ -216,13 +230,15 @@ export class Mutation extends EventEmitter implements MutationBase {
 
       if (this._confirmations >= this._provider.requiredConfirmations) {
         this._status = MutationStatus.COMPLETED;
-        this.emit(MutationEvent.COMPLETE, this);
+        return this.emit(MutationEvent.COMPLETE, this); // success
       } else {
         this.emit(MutationEvent.CONFIRM, this);
-        this._timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
       }
+    }
+    if (this._provider.mutationTimeout === -1 || Date.now() - this._started < this._provider.mutationTimeout) {
+      this._timer = setTimeout(this.loopUntilResolved.bind(this), this._speed);
     } else {
-      this._timer = setTimeout(this.loopUntilResolved.bind(this), 14000);
+      this.emit(MutationEvent.ERROR, new Error('Mutation has timed out'));
     }
   }
 
