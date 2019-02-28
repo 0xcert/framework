@@ -1,8 +1,8 @@
 import { TokenTransferProxyAbilities, XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
-import { OrderGatewayAbilities } from '../core/types';
-import * as common from './helpers/common';
+import { OrderGatewayAbilities } from '../../core/types';
+import * as common from '../helpers/common';
 
 /**
  * Test definition.
