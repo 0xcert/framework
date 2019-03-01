@@ -973,7 +973,7 @@ const mutation = await AssetLedger.deploy(provider, recipe).then((mutation) => {
 
 ### destroyAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account but stays logged in the blockchain. The function succeeds only when performed by the asset's owner.
+An `asynchronous` class instance `function` which destroys a specific `assetId` on the Ethereum blockchain. The asset is removed from the account and all queries about it will be invalid. The function succeeds only when performed by the asset's owner. This function is similar to `revokeAsset` but it differs in who can trigger it.
 
 ::: warning
 The `DESTROY_ASSET` ledger capability is needed to perform this function.
@@ -1001,7 +1001,7 @@ const mutation = await ledger.destroyAsset(assetId);
 
 **See also:**
 
-[revokeAsset](#revoke-asset)
+[revokeAsset](#revokeasset-assetid)
 
 ### disapproveAccount(assetId)
 
@@ -1511,7 +1511,7 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 ### revokeAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account but stays logged in the blockchain. The function is ment to be used by ledger owners to destroy assets of other accounts.
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account and all queries about it will be invalid. The function is ment to be used by ledger owners to destroy assets of other accounts. This function is similar to `destroyAsset` but it differs in who can trigger it.
 
 ::: warning
 The `REVOKE_ASSET` ledger capability is needed to perform this function.
@@ -1539,7 +1539,7 @@ const mutation = await ledger.revokeAsset(assetId);
 
 **See also:**
 
-[destroyAsset](#destroy-asset)
+[destroyAsset](#destroyasset-assetid)
 
 ### update(recipe)
 
