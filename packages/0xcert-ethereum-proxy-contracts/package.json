@@ -61,6 +61,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/ethereum-utils": "1.0.0-rc12",
     "@0xcert/ethereum-utils-contracts": "1.0.0-rc12",
     "@0xcert/ethereum-erc20-contracts": "1.0.0-rc12",
     "@0xcert/ethereum-erc721-contracts": "1.0.0-rc12",

@@ -14,7 +14,7 @@ interface Data {
 
 const spec = new Spec<Data>();
 
-spec.beforeEach(async (ctx) => {
+spec.before(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
   ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
