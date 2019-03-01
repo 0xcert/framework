@@ -1,3 +1,4 @@
+import { bigNumberify } from '@0xcert/ethereum-utils';
 import { Spec } from '@specron/spec';
 import { NFTokenSafeTransferProxyAbilities } from '../core/types';
 
@@ -15,7 +16,7 @@ interface Data {
 
 const spec = new Spec<Data>();
 
-spec.beforeEach(async (ctx) => {
+spec.before(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
   ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
@@ -80,6 +81,35 @@ spec.test('transfers an NFT', async (ctx) => {
   await nftProxy.instance.methods.execute(cat.receipt._address, jane, sara, 1).send({ from: bob });
 
   const newOwner = await cat.instance.methods.ownerOf(1).call();
+  ctx.is(newOwner, sara);
+});
+
+spec.test('transfers an NFT with high ID', async (ctx) => {
+  const nftProxy = ctx.get('nftProxy');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const jane = ctx.get('jane');
+  const sara = ctx.get('sara');
+
+  await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+
+  const cat = await ctx.deploy({
+    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
+    contract: 'NFTokenMetadataEnumerableMock',
+    args: ['cat', 'CAT', 'http://0xcert.org/'],
+  });
+
+  await cat.instance.methods
+    .create(jane, bigNumberify('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE'))
+    .send({
+      from: owner ,
+      gas: 4000000,
+    });
+
+  await cat.instance.methods.approve(nftProxy.receipt._address, bigNumberify('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE')).send({ from: jane });
+  await nftProxy.instance.methods.execute(cat.receipt._address, jane, sara, bigNumberify('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE')).send({ from: bob });
+
+  const newOwner = await cat.instance.methods.ownerOf(bigNumberify('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE')).call();
   ctx.is(newOwner, sara);
 });
 

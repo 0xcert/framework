@@ -5,9 +5,7 @@ import "./ixcert-burnable.sol";
 import "./ixcert-mutable.sol";
 import "./ixcert-pausable.sol";
 import "./ixcert-revokable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/utils/address-utils.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/nf-token-metadata-enumerable.sol";
 
 /**
@@ -22,8 +20,6 @@ contract XcertToken is
   NFTokenMetadataEnumerable,
   Abilitable
 {
-  using SafeMath for uint256;
-  using AddressUtils for address;
 
   /**
    * @dev List of abilities (gathered from all extensions):
@@ -131,8 +127,8 @@ contract XcertToken is
   }
 
   /**
-   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
-   * address.
+   * @dev Revokes(destroys) a specified Xcert. Reverts if not called from contract owner or 
+   * authorized address.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
   function revoke(
@@ -199,7 +195,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
+   * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention.
    * @return Schema id.
    */
   function schemaId()
@@ -238,10 +234,19 @@ contract XcertToken is
   )
     internal
   {
-    if (supportedInterfaces[PAUSABLE])
-    {
-      require(!isPaused, TRANSFERS_DISABLED);
-    }
+    /**
+     * if (supportedInterfaces[0xbedb86fb])
+     * {
+     *   require(!isPaused, TRANSFERS_DISABLED);
+     * }
+     * There is no need to check for pausable capability here since by using logical deduction we 
+     * can say based on code above that:
+     * !supportedInterfaces[0xbedb86fb] => !isPaused
+     * isPaused => supportedInterfaces[0xbedb86fb]
+     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused. 
+     * This saves 200 gas.
+     */
+    require(!isPaused, TRANSFERS_DISABLED); 
     super._transferFrom(_from, _to, _tokenId);
   }
 }

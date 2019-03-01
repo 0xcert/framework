@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-utils",
-  "version": "1.0.0-rc9",
+  "version": "1.0.0-rc12",
   "description": "General Ethereum utility module with helper functions for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

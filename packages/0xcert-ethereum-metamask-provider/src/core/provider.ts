@@ -34,6 +34,11 @@ export interface MetamaskProviderOptions {
    * Id (address) of order gateway.
    */
   orderGatewayId?: string;
+
+  /**
+   * The number of milliseconds in which a mutation times out.
+   */
+  mutationTimeout?: number;
 }
 
 /**
