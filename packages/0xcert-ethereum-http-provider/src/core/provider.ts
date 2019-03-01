@@ -67,6 +67,11 @@ export interface HttpProviderOptions {
   orderGatewayId?: string;
 
   /**
+   * The number of milliseconds in which a mutation times out.
+   */
+  mutationTimeout?: number;
+
+  /**
    * Url to JSON RPC endpoint.
    */
   url: string;
