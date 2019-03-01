@@ -76,7 +76,7 @@ spec.test('creates an Xcert', async (ctx) => {
   ctx.is(newOwner, jane);
 });
 
-spec.test('creates an Xcert high ID', async (ctx) => {
+spec.test('creates an Xcert with high ID', async (ctx) => {
   const xcertProxy = ctx.get('xcertProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

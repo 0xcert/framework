@@ -84,7 +84,7 @@ spec.test('transfers an NFT', async (ctx) => {
   ctx.is(newOwner, sara);
 });
 
-spec.test('transfers an NFT high ID', async (ctx) => {
+spec.test('transfers an NFT with high ID', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
