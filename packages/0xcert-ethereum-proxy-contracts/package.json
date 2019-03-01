@@ -7,7 +7,7 @@
     "clean": "rm -Rf ./build",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
     "sandbox": "npx specron sandbox",
-    "test": "npm run clean && npx specron compile && npx specron test"
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
   },
   "specron": {
     "compiler": {
