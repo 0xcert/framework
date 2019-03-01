@@ -5,9 +5,7 @@ import "./ixcert-burnable.sol";
 import "./ixcert-mutable.sol";
 import "./ixcert-pausable.sol";
 import "./ixcert-revokable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/utils/address-utils.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/nf-token-metadata-enumerable.sol";
 
 /**
@@ -22,8 +20,6 @@ contract XcertToken is
   NFTokenMetadataEnumerable,
   Abilitable
 {
-  using SafeMath for uint256;
-  using AddressUtils for address;
 
   /**
    * @dev List of abilities (gathered from all extensions):
