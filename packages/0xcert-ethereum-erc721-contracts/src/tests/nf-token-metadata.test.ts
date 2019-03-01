@@ -32,8 +32,8 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const uriBase = ctx.get('uriBase');
   const nfToken = await ctx.deploy({
-    src: './build/nf-token-metadata-mock.json',
-    contract: 'NFTokenMetadataMock',
+    src: './build/nf-token-metadata-test-mock.json',
+    contract: 'NFTokenMetadataTestMock',
     args: ['Foo', 'F', uriBase],
   });
   ctx.set('nfToken', nfToken);
