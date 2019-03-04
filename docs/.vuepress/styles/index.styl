@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Overpass+Mono:700');
+
+h1, h2, h3, h4, h5, h6
+  font-family: 'Overpass Mono', monospace
+
+h2, h3
+  border-bottom: 1px solid #eaecef
+
+h2 
+  font-size 1.7rem
+
+h3 
+  margin-top: -2rem !important
+  padding-bottom: 0.4rem
+  font-size 1.4rem
+
+td
+  line-height: 1.7
+
+.page 
+  padding-top: 4rem
+
+  p img
+    display block
+    margin: 2rem auto
+
+.sidebar 
+  background-color: #f5f7f9 !important
+
+  .sidebar-sub-header
+    opacity: 0.85 !important
+
+.navbar
+  box-shadow: 0 2px 14px rgba(60,59,77,.08) 
+
+  .home-link
+    display: flex !important
+    align-items: center !important
+
+  .logo
+    height: 30px !important
+    
+.homepage .page
+  text-align center
+
+  .intro 
+    margin 0 auto
+    max-width 800px
+  
+  .content:not(.custom) > *:first-child
+    margin-top: 2rem;
+
+  p img
+    display block
+    margin: auto 0 3rem auto
+
+  .button
+    display inline-block
+    color: white
+    background-color: #007AFF
+    padding: 12px 45px
+    font-weight bold
+    border-radius: 5px 
+    margin: 2rem 0 2rem
+
+  .page-edit
+    display none
+
+  h2
+    border-bottom: none;
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 2rem;
+    font-size: 21px;
+
+  .features
+    border-bottom: 1px solid #dfe2e5
+    padding: 2rem 0
+    padding-top: 0px
+    list-style: none
+    text-align: left
+
+    li
+      padding: 1rem
+
+    a
+      display block
+      margin-top: 10px;
+
+    @media (min-width: ($MQMobile + 1px))
+      display: flex
+
+  .products
+    padding: 0
+    list-style: none
+    margin: 3rem 0 2rem
+    justify-content: space-between
+    align-items: center
+
+    li
+      padding-right 1rem
+      padding-bottom 1rem
+
+    @media (min-width: ($MQMobile + 1px))
+      display flex
+
+  .blockchains
+    border-top 1px solid #dfe2e5
+    padding-top 1rem
+    
+.content:not(.custom)
+  max-width 850px !important
+
+.custom-block
+  .custom-block-title
+    font-weight 600
+    margin-bottom -0.4rem
+  &.tip, &.warning, &.danger, &.card
+    padding .1rem 1.5rem
+    border-left-width .5rem
+    border-left-style solid
+    margin 1rem 0
+  &.tip
+    background-color #f3f5f7
+    border-color #42b983
+  &.warning
+    background-color rgba(255,229,100,.3)
+    border-color darken(#ffe564, 35%)
+    color darken(#ffe564, 70%)
+    .custom-block-title
+      color darken(#ffe564, 50%)
+    a
+      color $textColor
+  &.danger
+    background-color #ffe6e6
+    border-color darken(red, 20%)
+    color darken(red, 70%)
+    .custom-block-title
+      color darken(red, 40%)
+    a
+      color $textColor
+  &.card
+    background-color #F0F6FB
+    border-color #275F94
+    .custom-block-title
+      color $textColor
+    a
+      color $textColor
