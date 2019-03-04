@@ -3,6 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible 
@@ -22,6 +23,7 @@ contract OrderGateway is
    * @dev Xcert abilities.
    */
   uint8 constant ABILITY_ALLOW_CREATE_ASSET = 32;
+  uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 128;
 
   /**
    * @dev Error constants.
@@ -63,7 +65,8 @@ contract OrderGateway is
   enum ActionKind
   {
     create,
-    transfer
+    transfer,
+    update
   }
 
   /**
@@ -376,6 +379,18 @@ contract OrderGateway is
           from,
           _order.actions[i].to,
           _order.actions[i].value
+        );
+      } else if (_order.actions[i].kind == ActionKind.update)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
+          SIGNER_NOT_AUTHORIZED
+        );
+        
+        XcertUpdateProxy(idToProxy[_order.actions[i].proxy]).update(
+          _order.actions[i].token,
+          _order.actions[i].value,
+          _order.actions[i].param1
         );
       }
     }
