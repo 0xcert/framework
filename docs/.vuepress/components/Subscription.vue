@@ -10,7 +10,7 @@
       </div>
 
       <div v-if="state === 2" class="confirm" key="error">
-        <h3 class="text-center">Ooops!</h3>
+        <h2 class="text-center">Ooops!</h2>
         <p class="text-center">Something went wrong. Try again later.</p>
         <p><a @click="state = 0"> &larr; Go back</a></p>
       </div>
