@@ -2,11 +2,8 @@
   <section class="subscription">
     <transition mode="out-in">
       <div v-if="state === 1" class="confirm" key="confirm">
-        <h2 class="text-center">Thank you for applying!</h2>
-        
-        <p class="text-center">Please check your inbox and <strong>click a confirmation link,</strong>
-        <br />to complete your registration.
-        </p>
+        <h2 class="text-center">Thank you!</h2>      
+        <p class="text-center">Please check your inbox and <strong>click the confirmation link,</strong></p>
       </div>
 
       <div v-if="state === 2" class="confirm" key="error">
