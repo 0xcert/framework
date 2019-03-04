@@ -10,7 +10,7 @@
     "markdown-it-container": "^2.0.0"
   },
   "devDependencies": {
-    "@vuepress/plugin-pwa": "^1.0.0-alpha.0",
+    "@vuepress/plugin-pwa": "^1.0.0-alpha.42",
     "vuepress": "^1.0.0-alpha.42"
   }
 }
