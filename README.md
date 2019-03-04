@@ -35,4 +35,8 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
 | 0xcert/webpack | - | Module for package building and minification.
 
+## Supporter blockchain
+
+![Ethereum](./assets/ethereum.png)
+
 See [CONTRIBUTING](https://github.com/0xcert/suite/blob/master/CONTRIBUTING.md) to learn how to contribute to the project and [LICENSE](https://github.com/0xcert/suite/blob/master/LICENCE) to learn about the terms of use.
