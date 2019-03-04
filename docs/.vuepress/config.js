@@ -12,7 +12,7 @@ module.exports = {
     '@vuepress/google-analytics': {
       'ga': 'UA-114983924-2'
     },
-    '@vuepress/last-updated': {}
+    '@vuepress/last-updated': {},
   },
   themeConfig: {
     logo: '/0xcert-logo.svg',
