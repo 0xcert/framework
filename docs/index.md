@@ -43,3 +43,8 @@ pageClass: homepage
   <li><a href="https://swapmarket.com" target="_blank"><img src="./assets/logo_swapmarket.svg"/></a></li>
   <li><a href="https://nonfungiblealliance.org" target="_blank"><img src="./assets/logo_alliance.svg"/></a></li>
 </ul>
+
+<div class="blockchains">
+  <h4>Supported blockchains:</h4>  
+  <img src="./assets/ethereum.png"/>
+</div>
