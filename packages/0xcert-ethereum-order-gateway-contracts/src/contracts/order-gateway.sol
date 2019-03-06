@@ -68,8 +68,9 @@ contract OrderGateway is
 
   /**
    * @dev Structure representing what to send and where.
-   * @param token Address of the token we are sending.
+   * @param kind Enum representing action kind. 
    * @param proxy Id representing approved proxy address.
+   * @param token Address of the token we are sending.
    * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
@@ -176,7 +177,8 @@ contract OrderGateway is
   }
 
   /**
-   * @dev Performs the ERC721/ERC20 atomic swap.
+   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
+   * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
