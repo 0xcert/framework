@@ -217,8 +217,8 @@ contract OrderGateway is
 
   /** 
    * @dev Cancels order.
-   * @notice You can cancel the same order multiple times. There is no check if the order was
-   * already canceled for gas optimization reason. You should either check orderCancelled variable
+   * @notice You can cancel the same order multiple times. There is no check for whether the order
+   * was already canceled due to gas optimization. You should either check orderCancelled variable
    * or listen to Cancel event if you want to check if an order is already canceled.
    * @param _data Data of order to cancel.
    */
