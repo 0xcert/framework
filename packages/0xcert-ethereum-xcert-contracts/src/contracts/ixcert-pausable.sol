@@ -7,7 +7,7 @@ interface XcertPausable // is Xcert
 {
 
   /**
-   * @dev Sets if Xcerts are paused or not.
+   * @dev Sets if Xcerts transfers are paused (can be performed) or not.
    * @param _isPaused Pause status.
    */
   function setPause(
