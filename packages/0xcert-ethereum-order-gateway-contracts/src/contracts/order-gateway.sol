@@ -121,7 +121,7 @@ contract OrderGateway is
   /** 
    * @dev Valid proxy contract addresses.
    */
-  mapping(uint32 => address) public idToProxy;
+  address[] public proxies;
 
   /**
    * @dev Mapping of all cancelled orders.
@@ -155,25 +155,38 @@ contract OrderGateway is
    * @dev This event emmits when proxy address is changed..
    */
   event ProxyChange(
-    uint32 indexed _id,
+    uint256 indexed _index,
     address _proxy
   );
 
   /**
-   * @dev Sets a verified proxy address. 
+   * @dev Adds a verified proxy address. 
    * @notice Can be done through a multisig wallet in the future.
-   * @param _id Id of the proxy.
    * @param _proxy Proxy address.
    */
-  function setProxy(
-    uint32 _id,
+  function addProxy(
     address _proxy
   )
     external
     hasAbilities(ABILITY_TO_SET_PROXIES)
   {
-    idToProxy[_id] = _proxy;
-    emit ProxyChange(_id, _proxy);
+    uint256 length = proxies.push(_proxy);
+    emit ProxyChange(length - 1, _proxy);
+  }
+
+  /**
+   * @dev Removes a proxy address. 
+   * @notice Can be done through a multisig wallet in the future.
+   * @param _index Index of proxy we are removing.
+   */
+  function removeProxy(
+    uint256 _index
+  )
+    external
+    hasAbilities(ABILITY_TO_SET_PROXIES)
+  {
+    proxies[_index] = address(0);
+    emit ProxyChange(_index, address(0));
   }
 
   /**
@@ -347,7 +360,7 @@ contract OrderGateway is
     for(uint256 i = 0; i < _order.actions.length; i++)
     {
       require(
-        idToProxy[_order.actions[i].proxy] != address(0),
+        proxies[_order.actions[i].proxy] != address(0),
         INVALID_PROXY
       );
 
@@ -358,7 +371,7 @@ contract OrderGateway is
           SIGNER_NOT_AUTHORIZED
         );
         
-        XcertCreateProxy(idToProxy[_order.actions[i].proxy]).create(
+        XcertCreateProxy(proxies[_order.actions[i].proxy]).create(
           _order.actions[i].token,
           _order.actions[i].to,
           _order.actions[i].value,
@@ -374,7 +387,7 @@ contract OrderGateway is
           SENDER_NOT_TAKER_OR_MAKER
         );
         
-        Proxy(idToProxy[_order.actions[i].proxy]).execute(
+        Proxy(proxies[_order.actions[i].proxy]).execute(
           _order.actions[i].token,
           from,
           _order.actions[i].to,
