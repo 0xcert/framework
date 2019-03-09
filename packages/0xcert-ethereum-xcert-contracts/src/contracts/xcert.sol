@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
