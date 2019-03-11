@@ -8,7 +8,7 @@ interface Proxy {
   /**
    * @dev Executes an action.
    * @param _target Target of execution.
-   * @param _a Address usually represention from.
+   * @param _a Address usually representing from.
    * @param _b Address usually representing to.
    * @param _c Integer usually repersenting amount/value/id.
    */
