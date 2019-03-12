@@ -73,7 +73,7 @@
     "@specron/spec": "^0.5.6",
     "nyc": "^13.1.0",
     "promised-timeout": "^0.5.1",
-    "solc": "0.5.1",
+    "solc": "0.5.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
