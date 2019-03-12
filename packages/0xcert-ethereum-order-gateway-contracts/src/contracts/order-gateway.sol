@@ -53,6 +53,7 @@ contract OrderGateway is
   enum SignatureKind
   {
     eth_sign,
+    personal_sign,
     trezor,
     eip712
   }
@@ -298,6 +299,20 @@ contract OrderGateway is
   {
     if (_signature.kind == SignatureKind.eth_sign)
     {
+      return _signer == ecrecover(
+        keccak256(
+          abi.encodePacked(
+            "\x19Ethereum Signed Message:\n32",
+            _claim
+          )
+        ),
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    } else if (_signature.kind == SignatureKind.personal_sign)
+    {
+      // TODO:
       return _signer == ecrecover(
         keccak256(
           abi.encodePacked(

@@ -4,7 +4,8 @@ import { Order, OrderGatewayBase } from '@0xcert/scaffold';
 import { normalizeOrderIds } from '../lib/order';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
-import claim from '../queries/claim';
+import claimEthSign from '../queries/claim-eth-sign';
+import claimPersonalSign from '../queries/claim-personal-sign';
 import getOrderDataClaim from '../queries/get-order-data-claim';
 import getProxyAccountId from '../queries/get-proxy-account-id';
 import isValidSignature from '../queries/is-valid-signature';
@@ -65,7 +66,18 @@ export class OrderGateway implements OrderGatewayBase {
   public async claim(order: Order): Promise<string> {
     order = normalizeOrderIds(order);
 
-    return claim(this, order);
+    return claimEthSign(this, order);
+  }
+
+  /**
+   * Gets personal signed claim for an order.
+   * @param order Order data
+   * @param passphrase Account passphrase
+   */
+  public async claimPersonal(order: Order, passphrase?: string): Promise<string> {
+    order = normalizeOrderIds(order);
+
+    return claimPersonalSign(this, order, passphrase);
   }
 
   /**
