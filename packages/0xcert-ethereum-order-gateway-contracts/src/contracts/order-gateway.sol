@@ -403,7 +403,7 @@ contract OrderGateway is
           SIGNER_NOT_AUTHORIZED
         );
         
-        XcertUpdateProxy(idToProxy[_order.actions[i].proxy]).update(
+        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
           _order.actions[i].token,
           _order.actions[i].value,
           _order.actions[i].param1
