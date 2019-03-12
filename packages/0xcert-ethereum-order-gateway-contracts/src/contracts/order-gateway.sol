@@ -312,7 +312,6 @@ contract OrderGateway is
       );
     } else if (_signature.kind == SignatureKind.personal_sign)
     {
-      // TODO:
       return _signer == ecrecover(
         keccak256(
           abi.encodePacked(
