@@ -84,7 +84,7 @@ contract XcertToken is
   mapping (address => bool) internal addressToAuthorized;
 
   /**
-   * @dev Are Xcerts paused or not.
+   * @dev Are Xcerts transfers paused (can be performed) or not.
    */
   bool public isPaused;
 
@@ -147,7 +147,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Sets if Xcerts are paused or not.
+   * @dev Sets if Xcerts transfers are paused (can be performed) or not.
    * @param _isPaused Pause status.
    */
   function setPause(

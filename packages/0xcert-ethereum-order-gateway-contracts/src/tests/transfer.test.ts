@@ -237,8 +237,8 @@ spec.beforeEach(async (ctx) => {
     contract: 'OrderGateway',
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
-  await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(nftSafeProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 

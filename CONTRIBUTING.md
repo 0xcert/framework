@@ -33,7 +33,7 @@ We use GitHub issues to track bugs. Please ensure your description is clear and 
 
 ## Pull requests
 
-Always fork the repo and create your branch from master. If you've added code that should be tested, add tests. Alsp ensure the test suite passes before submitting the PR.
+Always fork the repository and create your branch from master. If you've added code that should be tested, add tests. Also, ensure the test suite passes before submitting the PR.
 
 ## Coding style
 
@@ -65,7 +65,7 @@ You can start VuePress in development mode.
 $ npm run dev
 ```
 
-You can build and deploy the documentation to the servr.
+You can build and deploy the documentation to the server.
 
 ```
 $ npm run deploy
@@ -88,7 +88,7 @@ You can start VuePress in development mode.
 $ npm run dev
 ```
 
-You can build and deploy the conventions to the servr.
+You can build and deploy the conventions to the server.
 
 ```
 $ npm run deploy
