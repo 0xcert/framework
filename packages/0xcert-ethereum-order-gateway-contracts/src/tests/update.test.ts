@@ -1,5 +1,6 @@
 import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities,
-  XcertUpdateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+  XcertUpdateProxyAbilities, 
+  XcertCreateProxyAbilities} from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { OrderGatewayAbilities } from '../core/types';
@@ -16,6 +17,7 @@ interface Data {
   tokenProxy?: any;
   nftSafeProxy?: any;
   updateProxy?: any;
+  createProxy?: any;
   cat?: any;
   dog?: any;
   fox?: any;
@@ -84,23 +86,26 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
+  const imprint1 = ctx.get('imprint1');
+  const imprint2 = ctx.get('imprint2');
+  const imprint3 = ctx.get('imprint3');
   const dog = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
     args: ['dog', 'DOG', 'http://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
   });
   await dog.instance.methods
-    .create(jane, 1, '0x0')
+    .create(jane, 1, imprint1)
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .create(jane, 2, '0x0')
+    .create(jane, 2, imprint2)
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .create(jane, 3, '0x0')
+    .create(jane, 3, imprint3)
     .send({
       from: owner,
     });
@@ -182,9 +187,18 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const createProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
+    contract: 'XcertCreateProxy',
+  });
+  ctx.set('createProxy', createProxy);
+});
+
+spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
   const updateProxy = ctx.get('updateProxy');
+  const createProxy = ctx.get('createProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
@@ -194,18 +208,21 @@ spec.beforeEach(async (ctx) => {
   await orderGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.addProxy(nftSafeProxy.receipt._address).send({ from: owner });
   await orderGateway.instance.methods.addProxy(updateProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(createProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const nftSafeProxy = ctx.get('nftSafeProxy');
+  const updateProxy = ctx.get('updateProxy');
+  const createProxy = ctx.get('createProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  const updateProxy = ctx.get('updateProxy');
   await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
   await nftSafeProxy.instance.methods.grantAbilities(orderGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
   await updateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE).send({ from: owner });
+  await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
 /**
@@ -214,7 +231,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.spec('perform an atomic update', perform);
 
-perform.only('Cat #1', async (ctx) => {
+perform.test('on one asset', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const updateProxy = ctx.get('updateProxy');
   const jane = ctx.get('jane');
@@ -259,6 +276,256 @@ perform.only('Cat #1', async (ctx) => {
 
   const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
   ctx.is(cat1Imprint, imprint2);
+});
+
+perform.test('on multiple assets', async (ctx) => {
+  const orderGateway = ctx.get('orderGateway');
+  const updateProxy = ctx.get('updateProxy');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const cat = ctx.get('cat');
+  const dog = ctx.get('dog');
+  const id = ctx.get('id1');
+  const id2 = ctx.get('id2');
+  const id3 = ctx.get('id3');
+  const imprint1 = ctx.get('imprint1');
+  const imprint2 = ctx.get('imprint2');
+
+  const actions = [
+    {
+      kind: 2,
+      proxy: 2,
+      token: cat.receipt._address,
+      param1: imprint2,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id,
+    },
+    {
+      kind: 2,
+      proxy: 2,
+      token: dog.receipt._address,
+      param1: imprint1,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id2,
+    },
+    {
+      kind: 2,
+      proxy: 2,
+      token: dog.receipt._address,
+      param1: imprint2,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id3,
+    },
+  ];
+  const orderData = {
+    from: owner,
+    to: jane,
+    actions,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  };
+  const createTuple = ctx.tuple(orderData);
+
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  await dog.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.Perform, undefined);
+
+  const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
+  ctx.is(cat1Imprint, imprint2);
+
+  const dog2Imprint = await dog.instance.methods.tokenImprint(2).call();
+  ctx.is(dog2Imprint, imprint1);
+
+  const dog3Imprint = await dog.instance.methods.tokenImprint(3).call();
+  ctx.is(dog3Imprint, imprint2);
+});
+
+perform.test('on multiple assets with other order actions', async (ctx) => {
+  const orderGateway = ctx.get('orderGateway');
+  const updateProxy = ctx.get('updateProxy');
+  const createProxy = ctx.get('createProxy');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const cat = ctx.get('cat');
+  const dog = ctx.get('dog');
+  const id = ctx.get('id1');
+  const id2 = ctx.get('id2');
+  const id3 = ctx.get('id3');
+  const imprint1 = ctx.get('imprint1');
+  const imprint2 = ctx.get('imprint2');
+  const zxc = ctx.get('zxc');
+  const tokenProxy = ctx.get('tokenProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
+  const zxcAmount = 3000;
+
+  const actions = [
+    {
+      kind: 2,
+      proxy: 2,
+      token: cat.receipt._address,
+      param1: imprint2,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id,
+    },
+    {
+      kind: 2,
+      proxy: 2,
+      token: dog.receipt._address,
+      param1: imprint1,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id2,
+    },
+    {
+      kind: 2,
+      proxy: 2,
+      token: dog.receipt._address,
+      param1: imprint2,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id3,
+    },
+    {
+      kind: 0,
+      proxy: 3,
+      token: cat.receipt._address,
+      param1: imprint2,
+      to: jane,
+      value: id2,
+    },
+    {
+      kind: 1,
+      proxy: 0,
+      token: zxc.receipt._address,
+      param1: jane,
+      to: bob,
+      value: zxcAmount,
+    },
+    {
+      kind: 1,
+      proxy: 1,
+      token: dog.receipt._address,
+      param1: jane,
+      to: bob,
+      value: id,
+    },
+  ];
+
+  const orderData = {
+    from: owner,
+    to: jane,
+    actions,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  };
+  const createTuple = ctx.tuple(orderData);
+
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  await dog.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmount).send({ from: jane });
+  await dog.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.Perform, undefined);
+
+  const cat1Imprint = await cat.instance.methods.tokenImprint(id).call();
+  ctx.is(cat1Imprint, imprint2);
+
+  const dog2Imprint = await dog.instance.methods.tokenImprint(id2).call();
+  ctx.is(dog2Imprint, imprint1);
+
+  const dog3Imprint = await dog.instance.methods.tokenImprint(id3).call();
+  ctx.is(dog3Imprint, imprint2);
+
+  const dog1Owner = await dog.instance.methods.ownerOf(id).call();
+  ctx.is(dog1Owner, bob);
+
+  const cat2Owner = await cat.instance.methods.ownerOf(id2).call();
+  ctx.is(cat2Owner, jane);
+
+  const bobZxcBalance = await zxc.instance.methods.balanceOf(bob).call();
+  ctx.is(bobZxcBalance, zxcAmount.toString());
+});
+
+perform.only('on in order created asset', async (ctx) => {
+  const orderGateway = ctx.get('orderGateway');
+  const updateProxy = ctx.get('updateProxy');
+  const createProxy = ctx.get('createProxy');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const cat = ctx.get('cat');
+  const id2 = ctx.get('id2');
+  const imprint1 = ctx.get('imprint1');
+  const imprint2 = ctx.get('imprint2');
+
+  const actions = [
+    {
+      kind: 0,
+      proxy: 3,
+      token: cat.receipt._address,
+      param1: imprint2,
+      to: jane,
+      value: id2,
+    },
+    {
+      kind: 2,
+      proxy: 2,
+      token: cat.receipt._address,
+      param1: imprint1,
+      to: '0x0000000000000000000000000000000000000000',
+      value: id2,
+    },
+  ];
+
+  const orderData = {
+    from: owner,
+    to: jane,
+    actions,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  };
+  const createTuple = ctx.tuple(orderData);
+
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.Perform, undefined);
+
+  const cat2Imprint = await cat.instance.methods.tokenImprint(id2).call();
+  ctx.is(cat2Imprint, imprint1);
 });
 
 export default spec;
