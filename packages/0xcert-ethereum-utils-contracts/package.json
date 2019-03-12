@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-utils-contracts",
   "description": "General utility module with helper smart contracts.",
-  "version": "1.0.0-rc9",
+  "version": "1.0.0-rc12",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
@@ -63,10 +63,10 @@
   "devDependencies": {
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
-    "solc": "0.5.1",
+    "solc": "0.5.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
-    "web3": "1.0.0-beta.36"
+    "web3": "1.0.0-beta.37"
   }
 }

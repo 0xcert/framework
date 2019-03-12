@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "../../contracts/nf-token-enumerable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
@@ -24,19 +24,6 @@ contract NFTokenEnumerableMock is
     onlyOwner
   {
     super._create(_to, _tokenId);
-  }
-
-  /**
-   * @dev Removes a NFT from owner.
-   * @param _tokenId Which NFT we want to remove.
-   */
-  function destroy(
-    uint256 _tokenId
-  )
-    external
-    onlyOwner
-  {
-    super._destroy(_tokenId);
   }
   
 }

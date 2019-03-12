@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "./erc721.sol";
 import "./erc721-metadata.sol";
@@ -398,7 +398,7 @@ contract NFTokenMetadataEnumerable is
     returns (string memory)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
-    if(bytes(uriBase).length > 0)
+    if (bytes(uriBase).length > 0)
     {
       return string(abi.encodePacked(uriBase, _uint2str(_tokenId)));
     }
@@ -467,7 +467,7 @@ contract NFTokenMetadataEnumerable is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -478,7 +478,7 @@ contract NFTokenMetadataEnumerable is
     uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
     uint256 lastTokenIndex = ownerToIds[owner].length - 1;
     uint256 lastToken;
-    if(lastTokenIndex != tokenToRemoveIndex)
+    if (lastTokenIndex != tokenToRemoveIndex)
     {
       lastToken = ownerToIds[owner][lastTokenIndex];
       ownerToIds[owner][tokenToRemoveIndex] = lastToken;
@@ -533,7 +533,7 @@ contract NFTokenMetadataEnumerable is
     );
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -544,7 +544,7 @@ contract NFTokenMetadataEnumerable is
     uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
     uint256 lastTokenIndex = ownerToIds[_from].length - 1;
 
-    if(lastTokenIndex != tokenToRemoveIndex)
+    if (lastTokenIndex != tokenToRemoveIndex)
     {
       uint256 lastToken = ownerToIds[_from][lastTokenIndex];
       ownerToIds[_from][tokenToRemoveIndex] = lastToken;

@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "./erc721.sol";
 import "./erc721-metadata.sol";
@@ -333,7 +333,7 @@ contract NFTokenMetadata is
     returns (string memory)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
-    if(bytes(uriBase).length > 0)
+    if (bytes(uriBase).length > 0)
     {
       return string(abi.encodePacked(uriBase, _uint2str(_tokenId)));
     }
@@ -396,7 +396,7 @@ contract NFTokenMetadata is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }
@@ -436,7 +436,7 @@ contract NFTokenMetadata is
     );
 
     // clear approval
-    if(idToApproval[_tokenId] != address(0))
+    if (idToApproval[_tokenId] != address(0))
     {
       delete idToApproval[_tokenId];
     }

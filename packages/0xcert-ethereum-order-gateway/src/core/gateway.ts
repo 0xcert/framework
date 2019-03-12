@@ -1,6 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { Order, OrderGatewayBase } from '@0xcert/scaffold';
+import { normalizeOrderIds } from '../lib/order';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
 import claim from '../queries/claim';
@@ -62,6 +63,8 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async claim(order: Order): Promise<string> {
+    order = normalizeOrderIds(order);
+
     return claim(this, order);
   }
 
@@ -71,6 +74,8 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
+    order = normalizeOrderIds(order);
+
     return perform(this, order, claim);
   }
 
@@ -79,6 +84,8 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async cancel(order: Order): Promise<Mutation> {
+    order = normalizeOrderIds(order);
+
     return cancel(this, order);
   }
 
@@ -96,6 +103,8 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async isValidSignature(order: Order, claim: string) {
+    order = normalizeOrderIds(order);
+
     return isValidSignature(this, order, claim);
   }
 
@@ -104,6 +113,9 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {
+    order = normalizeOrderIds(order);
+
     return getOrderDataClaim(this, order);
   }
+
 }

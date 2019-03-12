@@ -2,7 +2,7 @@ import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
 
-const functionSignature = '0xf1e9fbc4';
+const functionSignature = '0xabd90f85';
 const inputTypes = ['uint8'];
 const outputTypes = ['address'];
 

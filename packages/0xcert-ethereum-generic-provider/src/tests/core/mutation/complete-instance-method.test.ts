@@ -1,5 +1,6 @@
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
+import { timeout } from 'promised-timeout';
 import { GenericProvider, Mutation, MutationEvent } from '../../..';
 
 const spec = new Spec<{
@@ -30,16 +31,16 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.test('method `resolve` resolves mutation', async (ctx) => {
+spec.test('resolves mutation', async (ctx) => {
   const provider = ctx.get('provider');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  const counters = { confirm: 0, resolve: 0 };
+  const counters = { confirm: 0, complete: 0 };
 
   const transactionHash = await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }).then((t) => t.transactionHash);
   const mutation = new Mutation(provider, transactionHash);
   mutation.on(MutationEvent.CONFIRM, () => counters.confirm++);
-  mutation.on(MutationEvent.COMPLETE, () => counters.resolve++);
+  mutation.on(MutationEvent.COMPLETE, () => counters.complete++);
 
   mutation.complete();
   await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
@@ -48,11 +49,38 @@ spec.test('method `resolve` resolves mutation', async (ctx) => {
   ctx.true(mutation.isCompleted());
 
   ctx.is(counters.confirm, 1);
-  ctx.is(counters.resolve, 1);
+  ctx.is(counters.complete, 1);
   ctx.is(mutation.confirmations, 1);
   ctx.is(mutation.id, transactionHash);
   ctx.is(mutation.senderId, coinbase);
   ctx.is(mutation.receiverId, bob);
+});
+
+spec.test('times out when valid timeout value', async (ctx) => {
+  const provider = ctx.get('provider');
+  provider.mutationTimeout = 10000;
+
+  const started = Date.now();
+  const mutation = new Mutation(provider, 'fakehash');
+
+  await ctx.throws(() => mutation.complete());
+  ctx.true(Date.now() - started >= provider.mutationTimeout);
+});
+
+spec.test('does not time out when timeout is -1', async (ctx) => {
+  const provider = ctx.get('provider');
+  provider.mutationTimeout = -1;
+
+  const started = Date.now();
+  const mutation = new Mutation(provider, 'fakehash');
+
+  await ctx.throws(() => timeout({
+    action: () => mutation.complete(),
+    time: 3000,
+    error: new Error(),
+  }));
+
+  ctx.true(Date.now() - started >= 3000);
 });
 
 export default spec;

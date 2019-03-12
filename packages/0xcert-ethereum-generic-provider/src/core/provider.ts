@@ -48,6 +48,11 @@ export interface GenericProviderOptions {
    * Id (address) of order gateway.
    */
   orderGatewayId?: string;
+
+  /**
+   * The number of milliseconds in which a mutation times out.
+   */
+  mutationTimeout?: number;
 }
 
 /**
@@ -74,6 +79,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
    */
   public requiredConfirmations: number;
+
+  /**
+   * The number of milliseconds in which a mutation times out.
+   */
+  public mutationTimeout: number;
 
   /**
    * Id (address) of order gateway.
@@ -114,6 +124,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/token-mock.json';
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
+    this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
 
     this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
@@ -217,6 +228,14 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
       params: [],
     });
     return res.result;
+  }
+
+  /**
+   * Returns true if the provided ledgerId is unsafe recipient address.
+   */
+  public isUnsafeRecipientId(ledgerId: string) {
+    const normalizedLedgerId = normalizeAddress(ledgerId);
+    return !!this.unsafeRecipientIds.find((id) => id === normalizedLedgerId);
   }
 
   /**

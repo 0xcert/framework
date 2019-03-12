@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "../xcert.sol";
 
@@ -14,6 +14,8 @@ contract XcertMock is XcertToken {
    * @param _uriBase Base of uri for token metadata uris.
    * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
    * convention.
+   * @param _capabilities Array of bytes4 representing supported interfaces which activate the
+   * corresponding capabilities.
    */
   constructor(
     string memory _name,
@@ -32,7 +34,7 @@ contract XcertMock is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender] = 127;
+    addressToAbility[msg.sender] = 127; // Assigns all available abilities to creator. 
   }
   
 }

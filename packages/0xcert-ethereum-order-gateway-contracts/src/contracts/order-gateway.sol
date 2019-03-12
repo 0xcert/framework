@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
@@ -68,8 +68,9 @@ contract OrderGateway is
 
   /**
    * @dev Structure representing what to send and where.
-   * @param token Address of the token we are sending.
+   * @param kind Enum representing action kind. 
    * @param proxy Id representing approved proxy address.
+   * @param token Address of the token we are sending.
    * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
@@ -120,7 +121,7 @@ contract OrderGateway is
   /** 
    * @dev Valid proxy contract addresses.
    */
-  mapping(uint32 => address) public idToProxy;
+  address[] public proxies;
 
   /**
    * @dev Mapping of all cancelled orders.
@@ -154,29 +155,43 @@ contract OrderGateway is
    * @dev This event emmits when proxy address is changed..
    */
   event ProxyChange(
-    uint32 indexed _id,
+    uint256 indexed _index,
     address _proxy
   );
 
   /**
-   * @dev Sets a verified proxy address. 
+   * @dev Adds a verified proxy address. 
    * @notice Can be done through a multisig wallet in the future.
-   * @param _id Id of the proxy.
    * @param _proxy Proxy address.
    */
-  function setProxy(
-    uint32 _id,
+  function addProxy(
     address _proxy
   )
     external
     hasAbilities(ABILITY_TO_SET_PROXIES)
   {
-    idToProxy[_id] = _proxy;
-    emit ProxyChange(_id, _proxy);
+    uint256 length = proxies.push(_proxy);
+    emit ProxyChange(length - 1, _proxy);
   }
 
   /**
-   * @dev Performs the ERC721/ERC20 atomic swap.
+   * @dev Removes a proxy address. 
+   * @notice Can be done through a multisig wallet in the future.
+   * @param _index Index of proxy we are removing.
+   */
+  function removeProxy(
+    uint256 _index
+  )
+    external
+    hasAbilities(ABILITY_TO_SET_PROXIES)
+  {
+    proxies[_index] = address(0);
+    emit ProxyChange(_index, address(0));
+  }
+
+  /**
+   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
+   * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
@@ -214,7 +229,10 @@ contract OrderGateway is
   }
 
   /** 
-   * @dev Cancels order
+   * @dev Cancels order.
+   * @notice You can cancel the same order multiple times. There is no check for whether the order
+   * was already canceled due to gas optimization. You should either check orderCancelled variable
+   * or listen to Cancel event if you want to check if an order is already canceled.
    * @param _data Data of order to cancel.
    */
   function cancel(
@@ -291,7 +309,7 @@ contract OrderGateway is
     pure
     returns (bool)
   {
-    if(_signature.kind == SignatureKind.eth_sign)
+    if (_signature.kind == SignatureKind.eth_sign)
     {
       return _signer == ecrecover(
         keccak256(
@@ -342,18 +360,18 @@ contract OrderGateway is
     for(uint256 i = 0; i < _order.actions.length; i++)
     {
       require(
-        idToProxy[_order.actions[i].proxy] != address(0),
+        proxies[_order.actions[i].proxy] != address(0),
         INVALID_PROXY
       );
 
-      if(_order.actions[i].kind == ActionKind.create)
+      if (_order.actions[i].kind == ActionKind.create)
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
           SIGNER_NOT_AUTHORIZED
         );
         
-        XcertCreateProxy(idToProxy[_order.actions[i].proxy]).create(
+        XcertCreateProxy(proxies[_order.actions[i].proxy]).create(
           _order.actions[i].token,
           _order.actions[i].to,
           _order.actions[i].value,
@@ -369,7 +387,7 @@ contract OrderGateway is
           SENDER_NOT_TAKER_OR_MAKER
         );
         
-        Proxy(idToProxy[_order.actions[i].proxy]).execute(
+        Proxy(proxies[_order.actions[i].proxy]).execute(
           _order.actions[i].token,
           from,
           _order.actions[i].to,

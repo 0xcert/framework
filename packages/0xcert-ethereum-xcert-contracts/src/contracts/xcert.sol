@@ -1,13 +1,11 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
 import "./ixcert-mutable.sol";
 import "./ixcert-pausable.sol";
 import "./ixcert-revokable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/utils/address-utils.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/nf-token-metadata-enumerable.sol";
 
 /**
@@ -22,8 +20,6 @@ contract XcertToken is
   NFTokenMetadataEnumerable,
   Abilitable
 {
-  using SafeMath for uint256;
-  using AddressUtils for address;
 
   /**
    * @dev List of abilities (gathered from all extensions):
@@ -35,6 +31,14 @@ contract XcertToken is
   /// ABILITY_ALLOW_CREATE_ASSET = 32 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
   uint8 constant ABILITY_UPDATE_URI_BASE = 64;
+
+  /**
+   * @dev List of capabilities (supportInterface bytes4 representations).
+   */
+  bytes4 constant MUTABLE = 0xbda0e852;
+  bytes4 constant BURNABLE = 0x9d118770;
+  bytes4 constant PAUSABLE = 0xbedb86fb;
+  bytes4 constant REVOKABLE = 0x20c5429b;
 
   /**
    * @dev Error constants.
@@ -76,7 +80,7 @@ contract XcertToken is
   mapping (address => bool) internal addressToAuthorized;
 
   /**
-   * @dev Are Xcerts paused or not.
+   * @dev Are Xcerts transfers paused (can be performed) or not.
    */
   bool public isPaused;
 
@@ -123,8 +127,8 @@ contract XcertToken is
   }
 
   /**
-   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
-   * address.
+   * @dev Revokes(destroys) a specified Xcert. Reverts if not called from contract owner or 
+   * authorized address.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
   function revoke(
@@ -133,13 +137,13 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_REVOKE_ASSET)
   {
-    require(supportedInterfaces[0x20c5429b], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[REVOKABLE], CAPABILITY_NOT_SUPPORTED);
     super._destroy(_tokenId);
     delete idToImprint[_tokenId];
   }
 
   /**
-   * @dev Sets if Xcerts are paused or not.
+   * @dev Sets if Xcerts transfers are paused (can be performed) or not.
    * @param _isPaused Pause status.
    */
   function setPause(
@@ -148,7 +152,7 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_TOGGLE_TRANSFERS)
   {
-    require(supportedInterfaces[0xbedb86fb], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[PAUSABLE], CAPABILITY_NOT_SUPPORTED);
     isPaused = _isPaused;
     emit IsPaused(_isPaused);
   }
@@ -165,7 +169,7 @@ contract XcertToken is
     external
     hasAbilities(ABILITY_UPDATE_ASSET_IMPRINT)
   {
-    require(supportedInterfaces[0xbda0e852], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[MUTABLE], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     idToImprint[_tokenId] = _imprint;
     emit TokenImprintUpdate(_tokenId, _imprint);
@@ -180,7 +184,7 @@ contract XcertToken is
   )
     external
   {
-    require(supportedInterfaces[0x9d118770], CAPABILITY_NOT_SUPPORTED);
+    require(supportedInterfaces[BURNABLE], CAPABILITY_NOT_SUPPORTED);
     address tokenOwner = idToOwner[_tokenId];
     super._destroy(_tokenId);
     require(
@@ -191,7 +195,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
+   * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention.
    * @return Schema id.
    */
   function schemaId()
@@ -230,10 +234,19 @@ contract XcertToken is
   )
     internal
   {
-    if(supportedInterfaces[0xbedb86fb])
-    {
-      require(!isPaused, TRANSFERS_DISABLED);
-    }
+    /**
+     * if (supportedInterfaces[0xbedb86fb])
+     * {
+     *   require(!isPaused, TRANSFERS_DISABLED);
+     * }
+     * There is no need to check for pausable capability here since by using logical deduction we 
+     * can say based on code above that:
+     * !supportedInterfaces[0xbedb86fb] => !isPaused
+     * isPaused => supportedInterfaces[0xbedb86fb]
+     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused. 
+     * This saves 200 gas.
+     */
+    require(!isPaused, TRANSFERS_DISABLED); 
     super._transferFrom(_from, _to, _tokenId);
   }
 }
