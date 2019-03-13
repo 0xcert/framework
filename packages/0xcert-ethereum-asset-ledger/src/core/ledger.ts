@@ -258,7 +258,7 @@ export class AssetLedger implements AssetLedgerBase {
     }
 
     let allowSuperRevoke = false;
-    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) > 0) {
+    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1) {
       allowSuperRevoke = true;
     }
 
