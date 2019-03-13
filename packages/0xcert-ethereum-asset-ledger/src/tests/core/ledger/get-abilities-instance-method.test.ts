@@ -33,7 +33,7 @@ spec.before(async (stage) => {
   stage.set('coinbase', accounts[0]);
 });
 
-spec.test('returns account abilities (xcert smart contract)', async (ctx) => {
+spec.test('returns account abilities (Xcert smart contract)', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').xcert.instance.options.address;
