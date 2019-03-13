@@ -10,7 +10,7 @@ const inputTypes = ['address', 'uint256', 'bool'];
  * @param ledger Asset ledger instance.
  * @param accountId Address of the account for which abilities will be revoked.
  * @param abilities Abilities as number representing bitfield.
- * @param allowSuperRevoke Additional check so that you do not remove your own super ability by mistake.
+ * @param allowSuperRevoke Additional check that prevents you from removing your own super ability by mistake.
  */
 export default async function(ledger: AssetLedger, accountId: string, abilities: string, allowSuperRevoke: boolean) {
   const attrs = {

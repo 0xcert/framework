@@ -29,9 +29,9 @@ contract Abilitable
   string constant INVALID_INPUT = "017003";
 
   /**
-   * @dev Ability 1 (00000001) is a reserved ability which we call super ability. It is an
-   * ability to grant or revoke abilities of others. Other abilities are determined by implementing
-   * contract.
+   * @dev Ability 1 (00000001) is a reserved ability called super ability. It is an
+   * ability to grant or revoke abilities of other accounts. Other abilities are determined by the
+   * implementing contract.
    */
   uint8 constant SUPER_ABILITY = 1;
 
@@ -77,7 +77,7 @@ contract Abilitable
 
   /**
    * @dev Contract constructor.
-   * Sets ABILITY_TO_MANAGE_ABILITIES ability to the sender account.
+   * Sets SUPER_ABILITY ability to the sender account.
    */
   constructor()
     public
@@ -106,8 +106,8 @@ contract Abilitable
    * @dev Unassigns specific abilities from specified address.
    * @param _target Address of which we revoke abilites.
    * @param _abilities Number representing bitfield of abilities we are revoking.
-   * @param _allowSuperRevoke Additional check so that you do not remove your own super ability by 
-   * mistake.
+   * @param _allowSuperRevoke Additional check that prevents you from removing your own super
+   * ability by mistake.
    */
   function revokeAbilities(
     address _target,

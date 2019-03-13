@@ -170,7 +170,7 @@ spec.test('successfuly revokes multiple abilities', async (ctx) => {
   await ctx.reverts(() => abilitable.instance.methods.abilityA().call({ from: bob }), '017001');
 });
 
-spec.test('throws when trying to revoke ability own super ability without check', async (ctx) => {
+spec.test('throws when trying to revoke account\'s own super ability without check', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const superAbility = ctx.get('superAbility');

@@ -1650,7 +1650,7 @@ const mutation = await ledger.transferAsset(recipe);
 ## Ledger abilities
 
 Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
-We have two categories of abilities. General and super. General abilities are abilities that can not change other account's abilities and super abilities can.
+We have two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities whereas super abilities can.
 This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control. 
 
 **Super abilities options:**
