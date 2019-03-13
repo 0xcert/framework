@@ -53,7 +53,6 @@ contract OrderGateway is
   enum SignatureKind
   {
     eth_sign,
-    personal_sign,
     trezor,
     eip712
   }
@@ -69,9 +68,8 @@ contract OrderGateway is
 
   /**
    * @dev Structure representing what to send and where.
-   * @param kind Enum representing action kind. 
-   * @param proxy Id representing approved proxy address.
    * @param token Address of the token we are sending.
+   * @param proxy Id representing approved proxy address.
    * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
@@ -178,8 +176,7 @@ contract OrderGateway is
   }
 
   /**
-   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
-   * fungible and non-fungible tokens.
+   * @dev Performs the ERC721/ERC20 atomic swap.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
@@ -217,10 +214,7 @@ contract OrderGateway is
   }
 
   /** 
-   * @dev Cancels order.
-   * @notice You can cancel the same order multiple times. There is no check for whether the order
-   * was already canceled due to gas optimization. You should either check orderCancelled variable
-   * or listen to Cancel event if you want to check if an order is already canceled.
+   * @dev Cancels order
    * @param _data Data of order to cancel.
    */
   function cancel(
@@ -297,20 +291,7 @@ contract OrderGateway is
     pure
     returns (bool)
   {
-    if (_signature.kind == SignatureKind.eth_sign)
-    {
-      return _signer == ecrecover(
-        keccak256(
-          abi.encodePacked(
-            "\x19Ethereum Signed Message:\n32",
-            _claim
-          )
-        ),
-        _signature.v,
-        _signature.r,
-        _signature.s
-      );
-    } else if (_signature.kind == SignatureKind.personal_sign)
+    if(_signature.kind == SignatureKind.eth_sign)
     {
       return _signer == ecrecover(
         keccak256(
@@ -365,7 +346,7 @@ contract OrderGateway is
         INVALID_PROXY
       );
 
-      if (_order.actions[i].kind == ActionKind.create)
+      if(_order.actions[i].kind == ActionKind.create)
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
