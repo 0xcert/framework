@@ -1352,7 +1352,7 @@ A class instance `variable` holding the address of ledger's smart contract on th
 An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+The `MANAGE_ABILITIES` ledger super ability is required to perform this function.
 :::
 
 **Arguments:**
@@ -1369,13 +1369,13 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
 // perform mutation
@@ -1384,7 +1384,8 @@ const mutation = await ledger.grantAbilities(accountId, abilities);
 
 **See also:**
 
-[revokeAbilities](#revoke-abilities)
+[Ledger abilities](#ledger-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
 
 
 ### isApprovedAccount(assetId, accountId)
@@ -1475,7 +1476,11 @@ const isTransferable = await ledger.isTransferable();
 An `asynchronous` class instance `function` which removes `abilities` of an `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+The `MANAGE_ABILITIES` ledger super ability is required to perform this function.
+:::
+
+::: warning
+You can revoke your own `MANAGE_ABILITIES` ledger super ability.
 :::
 
 **Arguments:**
@@ -1492,13 +1497,13 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
 // perform mutation
@@ -1507,7 +1512,8 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 **See also:**
 
-[grantAbilities](#grant-abilities)
+[Ledger abilities](#ledger-abilities)
+[grantAbilities](#grantabilities-accountid-abilities)
 
 ### revokeAsset(assetId)
 
@@ -1644,14 +1650,21 @@ const mutation = await ledger.transferAsset(recipe);
 ## Ledger abilities
 
 Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
+We have two categories of abilities. General and super. General abilities are abilities that can not change other account's abilities and super abilities can.
+This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control. 
 
-**Options:**
+**Super abilities options:**
+
+| Name | Value | Description
+|-|-|-
+| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+
+**General abilities options:**
 
 | Name | Value | Description
 |-|-|-
 | ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 2 | Allows an account to create a new asset.
-| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
 | UPDATE_ASSET | 16 | Allows an account to update asset data.
@@ -1660,12 +1673,19 @@ Ledger abilities represent account-level permissions. For optimization reasons a
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { SuperAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 const abilities = [
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    SuperAssetLedgerAbility.MANAGE_ABILITIES,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 ```
+
+**See also:**
+
+[grantAbilities](#grantabilities-accountid-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
 
 ## Ledger capabilities
 
