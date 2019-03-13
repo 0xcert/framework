@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
-    "lint": "npx tslint 'src/**/*.ts?(x)' && solhint 'src/contracts/**/*.sol'",
+    "lint": "npx tslint 'src/**/*.ts?(x)' && npx solhint 'src/contracts/**/*.sol'",
     "sandbox": "npx specron sandbox",
     "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
   },
