@@ -176,7 +176,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Destroys a specified Xcert. Reverts if not called from xcert owner or operator.
+   * @dev Destroys a specified Xcert. Reverts if not called from Xcert owner or operator.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
   function destroy(
