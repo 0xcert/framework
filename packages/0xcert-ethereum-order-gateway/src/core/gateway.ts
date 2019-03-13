@@ -67,6 +67,7 @@ export class OrderGateway implements OrderGatewayBase {
     order = normalizeOrderIds(order);
 
     if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+      passphrase = typeof passphrase === 'undefined' ? null : passphrase;
       return claimPersonalSign(this, order, passphrase);
     } else {
       return claimEthSign(this, order);
