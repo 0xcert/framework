@@ -60,6 +60,7 @@ Vue.use(VeeValidate);
 Vue.use(VueAxios, axios)
 
 export default {
+  name: "Subscription",
   data () {
     return {
       privacy: false,
