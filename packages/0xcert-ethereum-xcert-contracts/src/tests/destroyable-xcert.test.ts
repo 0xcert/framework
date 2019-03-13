@@ -43,7 +43,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('xcert', xcert);
 });
 
-spec.test('successfuly destroys an xcert', async (ctx) => {
+spec.test('successfuly destroys an Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -71,7 +71,7 @@ spec.test('successfuly destroys an xcert', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
-spec.test('successfuly destroys an xcert from an operator', async (ctx) => {
+spec.test('successfuly destroys an Xcert from an operator', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -86,7 +86,7 @@ spec.test('successfuly destroys an xcert from an operator', async (ctx) => {
   ctx.not(logs.events.Transfer, undefined);
 });
 
-spec.test('throws when trying to destroy an already destroyed xcert', async (ctx) => {
+spec.test('throws when trying to destroy an already destroyed Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -98,7 +98,7 @@ spec.test('throws when trying to destroy an already destroyed xcert', async (ctx
   await ctx.reverts(() => xcert.instance.methods.destroy(id1).send({ from: bob }), '006002');
 });
 
-spec.test('throws when a third party tries to destroy a xcert', async (ctx) => {
+spec.test('throws when a third party tries to destroy a Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

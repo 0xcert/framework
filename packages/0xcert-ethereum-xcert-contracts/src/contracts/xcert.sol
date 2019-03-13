@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.5;
 
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
@@ -80,7 +80,7 @@ contract XcertToken is
   mapping (address => bool) internal addressToAuthorized;
 
   /**
-   * @dev Are Xcerts paused or not.
+   * @dev Are Xcerts transfers paused (can be performed) or not.
    */
   bool public isPaused;
 
@@ -143,7 +143,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Sets if Xcerts are paused or not.
+   * @dev Sets if Xcerts transfers are paused (can be performed) or not.
    * @param _isPaused Pause status.
    */
   function setPause(
@@ -176,7 +176,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Destroys a specified Xcert. Reverts if not called from xcert owner or operator.
+   * @dev Destroys a specified Xcert. Reverts if not called from Xcert owner or operator.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
   function destroy(

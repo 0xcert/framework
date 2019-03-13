@@ -62,7 +62,7 @@ This results in shorter development time, lower risk and costs associated with d
 
 ## Need help?
 
-To learn more about the 0xcert Framework, the -xcert Protocol, and the news about 0xcert, please refer to:
+To learn more about the 0xcert Framework, the -Xcert Protocol, and the news about 0xcert, please refer to:
 * The 0xcert official [website](https://0xcert.org),
 * The 0xcert [GitHub Repository](https://github.com/0xcert/framework): please consider contributing to the open-source and free framework,
 * Our [News Blog](https://0xcert.org/news).

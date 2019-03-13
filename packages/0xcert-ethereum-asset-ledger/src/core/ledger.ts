@@ -56,7 +56,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Gets an instance of already deployed asset ledger.
    * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc721/xcert smart contract.
+   * @param id Address of the erc721/Xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
     return new AssetLedger(provider, id);
@@ -65,7 +65,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Initialize asset ledger.
    * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc721/xcert smart contract.
+   * @param id Address of the erc721/Xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
     this._id = normalizeAddress(id);

@@ -4,8 +4,16 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
-  ga: 'UA-114983924-2',
-  serviceWorker: true,
+  plugins: {
+    '@vuepress/pwa': {
+      serviceWorker: true,
+      updatePopup: true
+    },
+    '@vuepress/google-analytics': {
+      'ga': 'UA-114983924-2'
+    },
+    '@vuepress/last-updated': {},
+  },
   themeConfig: {
     logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
@@ -17,9 +25,6 @@ module.exports = {
     docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Help us improve this page.',
-    serviceWorker: {
-      updatePopup: true,
-    },
     nav: [
       { text: '0xcert Home', link: 'https://0xcert.org' },
     ],
@@ -59,7 +64,7 @@ module.exports = {
   },
   markdown: {
     lineNumbers: false,
-    config(md) {
+    extendMarkdown: md => {
       md.use(require('markdown-it-container'), 'card', {
         validate: function (params) {
           return params.trim().match(/^card\s+(.*)$/);

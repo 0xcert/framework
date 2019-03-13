@@ -36,10 +36,16 @@ pageClass: homepage
   </li>
 </ul>
 
-
 <ul class="products">
   <li><a href="https://0xcert.org" target="_blank"><img src="./assets/logo_0xcert.svg"/></a></li>
   <li><a href="https://erc721validator.org" target="_blank"><img src="./assets/logo_validator.svg"/></a></li>
   <li><a href="https://swapmarket.com" target="_blank"><img src="./assets/logo_swapmarket.svg"/></a></li>
   <li><a href="https://nonfungiblealliance.org" target="_blank"><img src="./assets/logo_alliance.svg"/></a></li>
 </ul>
+
+<Subscription/>
+
+<div class="blockchains">
+  <h4>Supported blockchains:</h4>  
+  <img src="./assets/ethereum.png"/>
+</div>
