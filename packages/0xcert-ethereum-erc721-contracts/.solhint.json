@@ -1,0 +1,7 @@
+{
+  "extends": "solhint:default",
+  "plugins": [],
+  "rules": {
+    "indent": ["error", 2]
+  }
+}

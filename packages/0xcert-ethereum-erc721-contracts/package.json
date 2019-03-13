@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
-    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "lint": "npx tslint 'src/**/*.ts?(x)' && solhint 'src/contracts/**/*.sol'",
     "sandbox": "npx specron sandbox",
     "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
   },
@@ -65,6 +65,7 @@
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
     "solc": "0.5.5",
+    "solhint": "2.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
