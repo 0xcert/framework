@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { AssetLedgerAbility } from '@0xcert/scaffold';
+import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
@@ -40,13 +40,13 @@ spec.test('returns account abilities (xcert smart contract)', async (ctx) => {
   const ledger = new AssetLedger(provider, ledgerId);
   const abilities = await ledger.getAbilities(coinbase);
   ctx.deepEqual(abilities, [
-    AssetLedgerAbility.MANAGE_ABILITIES,
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.REVOKE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
-    AssetLedgerAbility.UPDATE_ASSET,
-    AssetLedgerAbility.ALLOW_CREATE_ASSET,
-    AssetLedgerAbility.UPDATE_URI_BASE,
+    SuperAssetLedgerAbility.MANAGE_ABILITIES,
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.REVOKE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.UPDATE_ASSET,
+    GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
+    GeneralAssetLedgerAbility.UPDATE_URI_BASE,
   ]);
 });
 
