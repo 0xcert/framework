@@ -62,6 +62,7 @@ export class OrderGateway implements OrderGatewayBase {
   /**
    * Gets signed claim for an order.
    * @param order Order data.
+   * @param passphrase Account password.
    */
   public async claim(order: Order, passphrase?: string): Promise<string> {
     order = normalizeOrderIds(order);
