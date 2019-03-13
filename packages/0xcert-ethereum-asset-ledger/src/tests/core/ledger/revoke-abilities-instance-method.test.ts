@@ -1,7 +1,7 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { GeneralAssetLedgerAbility } from '@0xcert/scaffold';
+import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 
@@ -11,6 +11,8 @@ const spec = new Spec<{
   gateway: OrderGateway;
   protocol: Protocol;
   bob: string;
+  jane: string;
+  owner: string;
 }>();
 
 spec.before(async (stage) => {
@@ -36,7 +38,9 @@ spec.before(async (stage) => {
 
 spec.before(async (stage) => {
   const accounts = await stage.web3.eth.getAccounts();
+  stage.set('owner', accounts[0]);
   stage.set('bob', accounts[1]);
+  stage.set('jane', accounts[2]);
 });
 
 spec.test('revokes ledger abilities for an account', async (ctx) => {
@@ -56,6 +60,30 @@ spec.test('revokes ledger abilities for an order gateway', async (ctx) => {
   await ledger.revokeAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]).then(() => ctx.sleep(200));
   const abilities = await ledger.getAbilities(proxyId);
   ctx.deepEqual(abilities, []);
+});
+
+spec.test('revokes ledger super abilities for an account', async (ctx) => {
+  const ledger = ctx.get('ledger');
+  const jane = ctx.get('jane');
+  await ledger.grantAbilities(jane, [SuperAssetLedgerAbility.MANAGE_ABILITIES]).then(() => ctx.sleep(200));
+  await ledger.revokeAbilities(jane, [SuperAssetLedgerAbility.MANAGE_ABILITIES]).then(() => ctx.sleep(200));
+  const abilities = await ledger.getAbilities(jane);
+  ctx.deepEqual(abilities, []);
+});
+
+spec.test('revokes own super ability', async (ctx) => {
+  const ledger = ctx.get('ledger');
+  const owner = ctx.get('owner');
+  await ledger.revokeAbilities(owner, [SuperAssetLedgerAbility.MANAGE_ABILITIES]).then(() => ctx.sleep(200));
+  const abilities = await ledger.getAbilities(owner);
+  ctx.deepEqual(abilities, [
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.REVOKE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.UPDATE_ASSET,
+    GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
+    GeneralAssetLedgerAbility.UPDATE_URI_BASE,
+  ]);
 });
 
 export default spec;
