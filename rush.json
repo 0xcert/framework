@@ -78,6 +78,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/ethereum-bitski-provider",
+      "projectFolder": "packages/0xcert-ethereum-bitski-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/ethereum-order-gateway-contracts",
       "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
       "versionPolicyName": "patchAll"
