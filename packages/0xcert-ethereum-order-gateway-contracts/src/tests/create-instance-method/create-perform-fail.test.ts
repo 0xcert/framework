@@ -89,8 +89,8 @@ spec.beforeEach(async (ctx) => {
     contract: 'OrderGateway',
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
-  await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(2, createProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(createProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
@@ -118,7 +118,7 @@ spec.test('fails if msg.sender is not the receiver', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -172,7 +172,7 @@ spec.test('fails when trying to perform already performed creation', async (ctx)
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -227,7 +227,7 @@ spec.test('fails when approved token value is not sufficient', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -280,7 +280,7 @@ spec.test('fails when proxy does not have the create rights', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -333,7 +333,7 @@ spec.test('fails if current time is after expirationTimestamp', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -387,7 +387,7 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -422,7 +422,7 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.revokeAbilities(owner, 32).send({ from: owner });
+  await cat.instance.methods.revokeAbilities(owner, 32, false).send({ from: owner });
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');

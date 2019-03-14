@@ -87,8 +87,8 @@ spec.beforeEach(async (ctx) => {
     contract: 'OrderGateway',
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
-  await orderGateway.instance.methods.setProxy(0, tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.setProxy(2, createProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(createProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
@@ -115,7 +115,7 @@ spec.test('succeeds', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -169,7 +169,7 @@ spec.test('fails when a third party tries to cancel it', async (ctx) => {
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,
@@ -210,7 +210,7 @@ spec.test('fails when trying to cancel an already performed creation', async (ct
   const actions = [
     {
       kind: 0,
-      proxy: 2,
+      proxy: 1,
       token: cat.receipt._address,
       param1: imprint,
       to: jane,

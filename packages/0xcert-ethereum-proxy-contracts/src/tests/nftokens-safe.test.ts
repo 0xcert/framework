@@ -48,7 +48,7 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await nftProxy.instance.methods.grantAbilities(bob, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
-  const logs = await nftProxy.instance.methods.revokeAbilities(bob, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
+  const logs = await nftProxy.instance.methods.revokeAbilities(bob, NFTokenSafeTransferProxyAbilities.EXECUTE, false).send({ from: owner });
   ctx.not(logs.events.RevokeAbilities, undefined);
 
   const bobHasAbilityToExecute = await nftProxy.instance.methods.isAble(bob, NFTokenSafeTransferProxyAbilities.EXECUTE).call();
