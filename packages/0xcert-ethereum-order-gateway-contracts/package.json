@@ -5,9 +5,11 @@
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
-    "lint": "npx tslint 'src/**/*.ts?(x)' && npx solhint 'src/contracts/**/*.sol'",
+    "lint": "npm run tslint && npm run solhint",
     "sandbox": "npx specron sandbox",
-    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
+    "solhint": "npx solhint 'src/contracts/**/*.sol'",
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test",
+    "tslint": "npx tslint 'src/**/*.ts?(x)'"
   },
   "specron": {
     "compiler": {
