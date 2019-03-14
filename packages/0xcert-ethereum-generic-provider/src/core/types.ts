@@ -3,9 +3,9 @@
  */
 export enum SignMethod {
   ETH_SIGN = 0,
-  PERSONAL_SIGN = 1,
-  TREZOR = 2,
-  EIP712 = 3,
+  TREZOR = 1,
+  EIP712 = 2,
+  PERSONAL_SIGN = 3,
 }
 
 /**

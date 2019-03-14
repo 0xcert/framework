@@ -62,14 +62,12 @@ export class OrderGateway implements OrderGatewayBase {
   /**
    * Gets signed claim for an order.
    * @param order Order data.
-   * @param passphrase Account password.
    */
-  public async claim(order: Order, passphrase?: string): Promise<string> {
+  public async claim(order: Order): Promise<string> {
     order = normalizeOrderIds(order);
 
     if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
-      passphrase = typeof passphrase === 'undefined' ? null : passphrase;
-      return claimPersonalSign(this, order, passphrase);
+      return claimPersonalSign(this, order);
     } else {
       return claimEthSign(this, order);
     }
