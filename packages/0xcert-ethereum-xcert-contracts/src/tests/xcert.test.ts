@@ -97,7 +97,7 @@ spec.test('throws when trying to create two xcerts with the same id', async (ctx
   await ctx.reverts(() => xcert.instance.methods.create(bob, id, imprint).send({ from: owner }), '006006');
 });
 
-spec.test('throws when a third party tries to create an xcert', async (ctx) => {
+spec.test('throws when a third party tries to create an Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const bob = ctx.get('bob');
   const id = ctx.get('id1');
@@ -107,7 +107,7 @@ spec.test('throws when a third party tries to create an xcert', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.create(bob, id, imprint).send({ from: sara }), '017001');
 });
 
-spec.test('throws when trying to create an xcert to zero address', async (ctx) => {
+spec.test('throws when trying to create an Xcert to zero address', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
@@ -137,7 +137,7 @@ spec.test('throws when a third party tries to grant create ability', async (ctx)
   await ctx.reverts(() => xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: sara }));
 });
 
-spec.test('correctly creates an xcert from an address with create ability', async (ctx) => {
+spec.test('correctly creates an Xcert from an address with create ability', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -160,11 +160,11 @@ spec.test('throws trying to create from address which authorization got revoked'
   const imprint = ctx.get('imprint1');
 
   await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET, false).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.create(sara, id, imprint).send({ from: bob }), '017001');
 });
 
-spec.test('throws when trying to find owner of a non-existing xcert', async (ctx) => {
+spec.test('throws when trying to find owner of a non-existing Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const id = ctx.get('id1');
 
@@ -194,7 +194,7 @@ spec.test('throws when trying to get count of xcerts owned by zero address', asy
   await ctx.reverts(() => xcert.instance.methods.balanceOf(zeroAddress).call(), '006001');
 });
 
-spec.test('throws when trying to find owner of non-existant xcert', async (ctx) => {
+spec.test('throws when trying to find owner of non-existant Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const id = ctx.get('id1');
   await ctx.reverts(() => xcert.instance.methods.ownerOf(id).call(), '006002');
@@ -233,14 +233,14 @@ spec.test('correctly cancels approval', async (ctx) => {
   ctx.is(address, zeroAddress);
 });
 
-spec.test('throws when trying to get approval of non-existing xcert', async (ctx) => {
+spec.test('throws when trying to get approval of non-existing Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const id1 = ctx.get('id1');
 
   await ctx.reverts(() => xcert.instance.methods.getApproved(id1).call(), '006002');
 });
 
-spec.test('throws when trying to approve a xcert from a third party', async (ctx) => {
+spec.test('throws when trying to approve a Xcert from a third party', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -282,7 +282,7 @@ spec.test('correctly sets then cancels an operator', async (ctx) => {
   ctx.is(isApprovedForAll, false);
 });
 
-spec.test('corectly transfers xcert from owner', async (ctx) => {
+spec.test('corectly transfers Xcert from owner', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -303,7 +303,7 @@ spec.test('corectly transfers xcert from owner', async (ctx) => {
   ctx.is(ownerOfId1, sara);
 });
 
-spec.test('corectly transfers xcert from approved address', async (ctx) => {
+spec.test('corectly transfers Xcert from approved address', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -328,7 +328,7 @@ spec.test('corectly transfers xcert from approved address', async (ctx) => {
   ctx.is(ownerOfId1, jane);
 });
 
-spec.test('corectly transfers xcert as operator', async (ctx) => {
+spec.test('corectly transfers Xcert as operator', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -350,7 +350,7 @@ spec.test('corectly transfers xcert as operator', async (ctx) => {
   ctx.is(ownerOfId1, jane);
 });
 
-spec.test('throws when trying to transfer xcert as an address that is not owner, approved or operator', async (ctx) => {
+spec.test('throws when trying to transfer Xcert as an address that is not owner, approved or operator', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -363,7 +363,7 @@ spec.test('throws when trying to transfer xcert as an address that is not owner,
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, jane, id1).send({ from: sara }), '006004');
 });
 
-spec.test('throws when trying to transfer xcert to a zero address', async (ctx) => {
+spec.test('throws when trying to transfer Xcert to a zero address', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -375,7 +375,7 @@ spec.test('throws when trying to transfer xcert to a zero address', async (ctx) 
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, zeroAddress, id1).send({ from: bob }), '006001');
 });
 
-spec.test('throws when trying to transfer a invalid xcert', async (ctx) => {
+spec.test('throws when trying to transfer a invalid Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -388,7 +388,7 @@ spec.test('throws when trying to transfer a invalid xcert', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.transferFrom(bob, sara, id2).send({ from: bob }), '006002');
 });
 
-spec.test('corectly safe transfers xcert from owner', async (ctx) => {
+spec.test('corectly safe transfers Xcert from owner', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -409,7 +409,7 @@ spec.test('corectly safe transfers xcert from owner', async (ctx) => {
   ctx.is(ownerOfId1, sara);
 });
 
-spec.test('throws when trying to safe transfers xcert from owner to a smart contract', async (ctx) => {
+spec.test('throws when trying to safe transfers Xcert from owner to a smart contract', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
