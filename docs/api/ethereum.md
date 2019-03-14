@@ -1352,7 +1352,7 @@ A class instance `variable` holding the address of ledger's smart contract on th
 An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger super ability is required to perform this function.
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
 :::
 
 **Arguments:**
@@ -1476,11 +1476,11 @@ const isTransferable = await ledger.isTransferable();
 An `asynchronous` class instance `function` which removes `abilities` of an `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger super ability is required to perform this function.
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
 :::
 
 ::: warning
-You can revoke your own `MANAGE_ABILITIES` ledger super ability.
+You can revoke your own `MANAGE_ABILITIES` super ability.
 :::
 
 **Arguments:**
