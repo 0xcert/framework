@@ -1,3 +1,4 @@
+import { SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
 import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
@@ -76,12 +77,13 @@ export function createRecipeTuple(gateway: OrderGateway, order: Order) {
  */
 export function createSignatureTuple(claim: string) {
   const [kind, signature] = claim.split(':');
+  const k = (parseInt(kind) == SignMethod.PERSONAL_SIGN) ? SignMethod.ETH_SIGN : kind;
 
   const signatureData = {
     r: signature.substr(0, 66),
     s: `0x${signature.substr(66, 64)}`,
     v: parseInt(`0x${signature.substr(130, 2)}`),
-    kind,
+    k,
   };
 
   if (signatureData.v < 27) {
