@@ -49,7 +49,7 @@ A `synchronous` class instance `function` to manually trigger a provider event.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| options | [required] Pass a valid account ID for `ACCOUNT_CHANGE` event and a valid network version for `NETWORK_CHANGE` event.
+| options | [required] Pass valid current and previous account ID for `ACCOUNT_CHANGE` event or valid current and previous network version for `NETWORK_CHANGE` event.
 
 **Result:**
 
@@ -72,6 +72,21 @@ An `asynchronous` class instance `function` which authorizes the provider and co
 ```ts
 // perform mutation
 const provider = await provider.enable();
+```
+
+### getAvailableAccounts()
+
+An `asynchronous` class instance `function` which returns currently available Ethereum wallet addresses.
+
+**Result:**
+
+A list of `strings` representing Ethereum account IDs.
+
+**Example:**
+
+```ts
+// perform query
+const accountIds = await provider.getAvailableAccounts();
 ```
 
 ### getInstance(options)
@@ -209,7 +224,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -238,7 +253,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -359,6 +374,21 @@ Please note, when using [Infura](https://infura.io/), only queries are supported
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
+### getAvailableAccounts()
+
+An `asynchronous` class instance `function` which returns currently available Ethereum wallet addresses.
+
+**Result:**
+
+A list of `strings` representing Ethereum account IDs.
+
+**Example:**
+
+```ts
+// perform query
+const accountIds = await provider.getAvailableAccounts();
+```
+
 ### getInstance(options)
 
 A static class `function` that returns a new instance of the HttpProvider class (alias for `new HttpProvider`).
@@ -432,7 +462,7 @@ const isSupported = provider.isSupported();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `ledgerId` is listed among unsafe recipient ids on the provided.
 
 **Arguments:**
 
@@ -471,7 +501,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one.
 
 **Result:**
 
@@ -500,7 +530,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one.
 
 **Result:**
 

@@ -225,6 +225,17 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Returns a list of all available account IDs.
+   */
+  public async getAvailableAccounts(): Promise<string[]> {
+    const res = await this.post({
+      method: 'eth_accounts',
+      params: [],
+    });
+    return res.result.map((a) => normalizeAddress(a));
+  }
+
+  /**
    * Returns current network type (e.g. '3' for ropsten).
    */
   public async getNetworkVersion(): Promise<string> {
