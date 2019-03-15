@@ -47,6 +47,11 @@ export interface MetamaskProviderOptions {
 export class MetamaskProvider extends GenericProvider {
 
   /**
+   * Current network version.
+   */
+  protected _networkVersion: string;
+
+  /**
    * Gets an instance of metamask provider.
    */
   public static getInstance(): MetamaskProvider {
@@ -59,17 +64,12 @@ export class MetamaskProvider extends GenericProvider {
   public constructor(options?: MetamaskProviderOptions) {
     super({
       ...options,
-      client: typeof window !== 'undefined' ? window['ethereum'] : null,
       signMethod: SignMethod.PERSONAL_SIGN,
     });
 
     if (this.isSupported()) {
-      window['ethereum'].on('accountsChanged', (accounts) => {
-        this.accountId = accounts[0];
-      });
-      window['ethereum'].on('networkChanged', (netId) => {
-        this.emit(ProviderEvent.NETWORK_CHANGE, netId);
-      });
+      this.installClient();
+      this.installEvents();
     }
   }
 
@@ -77,31 +77,88 @@ export class MetamaskProvider extends GenericProvider {
    * Checks if metamask is available.
    */
   public isSupported() {
-    return (
-      typeof window !== 'undefined'
-      && typeof window['ethereum'] !== 'undefined'
-    );
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    if (typeof window['ethereum'] !== 'undefined') {
+      return (
+        window['ethereum'].isMetaMask
+      );
+    } else if (typeof window['web3'] !== 'undefined') {
+      return (
+        typeof window['web3']['currentProvider'] !== 'undefined'
+        && window['web3']['currentProvider'].isMetaMask
+      );
+    } else {
+      return false;
+    }
   }
 
   /**
    * Checks if metamask is enabled.
    */
   public async isEnabled() {
-    return (
-      this.isSupported()
-      && await this._client._metamask.isApproved()
-      && !!this.accountId
-    );
+    if (!this.isSupported() || !this.accountId) {
+      return false;
+    }
+
+    if (typeof window['ethereum'] !== 'undefined') {
+      return this._client._metamask.isApproved();
+    } else {
+      return typeof window['web3'] !== 'undefined';
+    }
   }
 
   /**
    * Enables metamask.
    */
   public async enable() {
-    if (this.isSupported()) {
-      this.accountId = await this._client.enable().then((a) => a[0]);
+    if (!this.isSupported()) {
+      return false;
     }
+
+    this.accountId = typeof window['ethereum'] !== 'undefined'
+      ? await this._client.enable().then((a) => a[0])
+      : window['web3']['eth']['coinbase'];
+
     return this;
+  }
+
+  /**
+   * Initializes metamask client.
+   */
+  protected async installClient() {
+    if (typeof window['ethereum'] !== 'undefined') { // v2 (latest)
+      this._client = window['ethereum'];
+    } else { // v1 (web3 based)
+      this._client = {
+        ...window['web3']['currentProvider'],
+        send(payload, callback) {
+          if (['eth_accounts', 'eth_coinbase', 'net_version'].indexOf(payload.method) !== -1) {
+            callback(null, window['web3']['currentProvider'].send(payload));
+          } else {
+            window['web3']['currentProvider'].sendAsync(payload, callback);
+          }
+        },
+      };
+    }
+  }
+
+  /**
+   * Initializes metamask events.
+   */
+  protected async installEvents() {
+
+    const networkVersion = await this.getNetworkVersion();
+    if (networkVersion !== this._networkVersion) {
+      this.emit(ProviderEvent.NETWORK_CHANGE, networkVersion, this._networkVersion);
+      this._networkVersion = networkVersion;
+    }
+
+    this.accountId = await this.getAvailableAccounts().then((a) => a[0]);
+
+    setTimeout(() => this.installEvents(), 1000);
   }
 
 }
