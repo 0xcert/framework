@@ -18,6 +18,16 @@
         "./src/**/*.sol"
       ]
     },
+    "flattener": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ],
+      "severities": [
+        "error",
+        "warning"
+      ]
+    },
     "test": {
       "port": 8501,
       "match": [
