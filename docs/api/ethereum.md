@@ -16,7 +16,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here). 
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
@@ -346,7 +346,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Ethereum node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
@@ -2322,7 +2322,7 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xabd785db74609461ec10d023625d3e09a16746d0](https://etherscan.io/address/0xabd785db74609461ec10d023625d3e09a16746d0)
+| OrderGateway | [0x7b220ac85b7ae8af1ceccc44e183a862da2ed517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
 | TokenTransferProxy | [0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
 | NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
 | NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
@@ -2332,17 +2332,17 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x073d230a53bffc8295d9a5247296213298e3fbcf](https://ropsten.etherscan.io/address/0x073d230a53bffc8295d9a5247296213298e3fbcf)
+| OrderGateway | [0x28ddb78095cf42081b9393f263e8b70bffcbf88f](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
 | TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
 | NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
 | NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
-| XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
+| XcertCreateProxy | [0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff](https://ropsten.etherscan.io/address/0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff)
 
 ### Rinkeby
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x0827696c1a5ecea8a7f5bad02df93aad6516f41d](https://rinkeby.etherscan.io/address/0x0827696c1a5ecea8a7f5bad02df93aad6516f41d)
+| OrderGateway | [0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
 | TokenTransferProxy | [0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
 | NFTokenTransferProxy | [0x0a02d630669c75d5e162aec89e6adccf8ec1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
 | NFTokenSafeTransferProxy | [0x15731d295aee0b1631995ab19e350e0edc5691f6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)

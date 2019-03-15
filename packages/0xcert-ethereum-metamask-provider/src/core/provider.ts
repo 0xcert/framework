@@ -64,7 +64,7 @@ export class MetamaskProvider extends GenericProvider {
   public constructor(options?: MetamaskProviderOptions) {
     super({
       ...options,
-      signMethod: SignMethod.EIP712,
+      signMethod: SignMethod.PERSONAL_SIGN,
     });
 
     if (this.isSupported()) {

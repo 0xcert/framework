@@ -1,10 +1,11 @@
-import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, Mutation, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { Order, OrderGatewayBase } from '@0xcert/scaffold';
 import { normalizeOrderIds } from '../lib/order';
 import cancel from '../mutations/cancel';
 import perform from '../mutations/perform';
-import claim from '../queries/claim';
+import claimEthSign from '../queries/claim-eth-sign';
+import claimPersonalSign from '../queries/claim-personal-sign';
 import getOrderDataClaim from '../queries/get-order-data-claim';
 import getProxyAccountId from '../queries/get-proxy-account-id';
 import isValidSignature from '../queries/is-valid-signature';
@@ -65,7 +66,11 @@ export class OrderGateway implements OrderGatewayBase {
   public async claim(order: Order): Promise<string> {
     order = normalizeOrderIds(order);
 
-    return claim(this, order);
+    if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+      return claimPersonalSign(this, order);
+    } else {
+      return claimEthSign(this, order);
+    }
   }
 
   /**
