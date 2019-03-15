@@ -13,6 +13,12 @@ module.exports = {
       'ga': 'UA-114983924-2'
     },
     '@vuepress/last-updated': {},
+    'register-components': {
+      components: [{
+        name: 'Subscription',
+        path: './components/Subscription.vue'
+      }]
+    }
   },
   themeConfig: {
     logo: '/0xcert-logo.svg',
