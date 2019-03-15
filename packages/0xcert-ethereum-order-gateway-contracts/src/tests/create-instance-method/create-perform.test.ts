@@ -762,4 +762,62 @@ spec.test('Dog #1, Fox #1, 10 ZXC => Cat #1', async (ctx) => {
   ctx.is(ownerZxcBalance, '10');
 });
 
+spec.test('Create and transfer token in a single order', async (ctx) => {
+  const orderGateway = ctx.get('orderGateway');
+  const createProxy = ctx.get('createProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
+  const owner = ctx.get('owner');
+  const jane = ctx.get('jane');
+  const cat = ctx.get('cat');
+  const id = ctx.get('id1');
+  const imprint = ctx.get('imprint1');
+
+  const actions = [
+    {
+      kind: 0,
+      proxy: 2,
+      token: cat.receipt._address,
+      param1: imprint,
+      to: owner,
+      value: id,
+    },
+    {
+      kind: 1,
+      proxy: 1,
+      token: cat.receipt._address,
+      param1: owner,
+      to: jane,
+      value: id,
+    },
+  ];
+  const orderData = {
+    from: owner,
+    to: jane,
+    actions,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  };
+  const createTuple = ctx.tuple(orderData);
+
+  const claim = await orderGateway.instance.methods.getOrderDataClaim(createTuple).call();
+
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.setApprovalForAll(nftSafeProxy.receipt._address, true).send({ from: owner });
+
+  const logs = await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
+  ctx.not(logs.events.Perform, undefined);
+
+  const cat1Owner = await cat.instance.methods.ownerOf(id).call();
+  ctx.is(cat1Owner, jane);
+});
+
 export default spec;
