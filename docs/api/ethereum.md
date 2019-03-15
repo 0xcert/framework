@@ -106,6 +106,30 @@ A `string` representing Ethereum network version.
 const version = await provider.getNetworkVersion();
 ```
 
+### isCurrentAccount(accountId)
+
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing Ethereum account address.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` maches the currently set account ID.
+
+**Example:**
+
+```ts
+// ethereum wallet address
+const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
+// perform query
+const maches = provider.isCurrentAccount(walletId);
+```
+
 ### isEnabled()
 
 A `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
@@ -365,6 +389,30 @@ A `string` representing Ethereum network version.
 ```ts
 // perform query
 const version = await provider.getNetworkVersion();
+```
+
+### isCurrentAccount(accountId)
+
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing Ethereum account address.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` maches the currently set account ID.
+
+**Example:**
+
+```ts
+// ethereum wallet address
+const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
+// perform query
+const maches = provider.isCurrentAccount(walletId);
 ```
 
 ### isSupported()

@@ -236,6 +236,13 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Returns true if the provided accountId maches current class accountId.
+   */
+  public isCurrentAccount(accountId: string) {
+    return this.accountId === normalizeAddress(accountId);
+  }
+
+  /**
    * Returns true if the provided ledgerId is unsafe recipient address.
    */
   public isUnsafeRecipientId(ledgerId: string) {
