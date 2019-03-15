@@ -10,6 +10,8 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 * [The official 0xcert website](https://0xcert.org/),
 * [Our news blog](https://0xcert.org/news/).
 
+## Packages
+
 | Package | Version | Description
 |-|-|-
 | 0xcert/cert | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fcert.svg)](https://badge.fury.io/js/%400xcert%2Fcert) | Module for certifying asset data objects.
@@ -35,7 +37,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
 | 0xcert/webpack | - | Module for package building and minification.
 
-## Supported blockchain
+## Supported platforms
 
 ![Ethereum](./assets/ethereum.png)
 
