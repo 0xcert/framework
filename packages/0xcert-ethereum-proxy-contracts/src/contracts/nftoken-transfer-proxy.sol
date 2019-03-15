@@ -1,4 +1,4 @@
-pragma solidity 0.5.5;
+pragma solidity 0.5.6;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";

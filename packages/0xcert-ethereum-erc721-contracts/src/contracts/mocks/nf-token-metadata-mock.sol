@@ -1,4 +1,4 @@
-pragma solidity 0.5.5;
+pragma solidity 0.5.6;
 
 import "../nf-token-metadata.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
