@@ -69,6 +69,7 @@ export class MetamaskProvider extends GenericProvider {
 
     if (this.isSupported()) {
       this.installClient();
+      this.installEvents();
     }
   }
 
@@ -89,6 +90,8 @@ export class MetamaskProvider extends GenericProvider {
         typeof window['web3']['currentProvider'] !== 'undefined'
         && window['web3']['currentProvider'].isMetaMask
       );
+    } else {
+      return false;
     }
   }
 
@@ -126,7 +129,26 @@ export class MetamaskProvider extends GenericProvider {
    * Initializes metamask client.
    */
   protected async installClient() {
-    this._client = window['ethereum'] || window['web3']['currentProvider'];
+    if (typeof window['ethereum'] !== 'undefined') { // v2 (latest)
+      this._client = window['ethereum'];
+    } else { // v1 (web3 based)
+      this._client = {
+        ...window['web3']['currentProvider'],
+        send(payload, callback) {
+          if (['eth_accounts', 'eth_coinbase', 'net_version'].indexOf(payload.method) !== -1) {
+            callback(null, window['web3']['currentProvider'].send(payload));
+          } else {
+            window['web3']['currentProvider'].sendAsync(payload, callback);
+          }
+        },
+      };
+    }
+  }
+
+  /**
+   * Initializes metamask events.
+   */
+  protected async installEvents() {
 
     const networkVersion = await this.getNetworkVersion();
     if (networkVersion !== this._networkVersion) {
@@ -136,7 +158,7 @@ export class MetamaskProvider extends GenericProvider {
 
     this.accountId = await this.getAvailableAccounts().then((a) => a[0]);
 
-    setInterval(() => this.installClient(), 1000);
+    setTimeout(() => this.installEvents(), 1000);
   }
 
 }
