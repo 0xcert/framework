@@ -20,7 +20,7 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.test('returns ledger info (xcert smart contract)', async (ctx) => {
+spec.test('returns ledger info (Xcert smart contract)', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').xcert.instance.options.address;
   const ledger = new AssetLedger(provider, ledgerId);

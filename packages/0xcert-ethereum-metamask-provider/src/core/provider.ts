@@ -60,7 +60,7 @@ export class MetamaskProvider extends GenericProvider {
     super({
       ...options,
       client: typeof window !== 'undefined' ? window['ethereum'] : null,
-      signMethod: SignMethod.EIP712,
+      signMethod: SignMethod.PERSONAL_SIGN,
     });
 
     if (this.isSupported()) {

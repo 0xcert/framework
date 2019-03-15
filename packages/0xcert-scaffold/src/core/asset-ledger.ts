@@ -1,17 +1,27 @@
 import { MutationBase } from './mutation';
 import { OrderGatewayBase } from './order-gateway';
 
+export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbility;
+
 /**
- * List of available abilities an account can have per asset ledger.
+ * List of available general abilities an account can have per asset ledger. General abilities are
+ * abilities that can not change other account's abilities.
  */
-export enum AssetLedgerAbility {
-  MANAGE_ABILITIES = 1,
+export enum GeneralAssetLedgerAbility {
   CREATE_ASSET = 2,
   REVOKE_ASSET = 4,
   TOGGLE_TRANSFERS = 8,
   UPDATE_ASSET = 16,
   ALLOW_CREATE_ASSET = 32,
   UPDATE_URI_BASE = 64,
+}
+
+/**
+ * List of available super abilities an account can have per asset ledger. Super abilities are
+ * abilities that can change other account's abilities.
+ */
+export enum SuperAssetLedgerAbility {
+  MANAGE_ABILITIES = 1,
 }
 
 /**

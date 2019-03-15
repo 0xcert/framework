@@ -77,7 +77,7 @@ spec.test('throws when a third party tries to update imprint', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, newImprint).send({ from: sara }));
 });
 
-spec.test('throws when trying to update xcert that does not exist', async (ctx) => {
+spec.test('throws when trying to update Xcert that does not exist', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const id = ctx.get('id1');

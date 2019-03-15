@@ -1,5 +1,5 @@
 import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
-import { AssetLedgerAbility } from '@0xcert/scaffold';
+import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { AssetLedger } from '../core/ledger';
 
 const functionSignature = '0xba00a330';
@@ -13,13 +13,13 @@ const outputTypes = ['bool'];
  */
 export default async function(ledger: AssetLedger, accountId: string) {
   return Promise.all(
-    [ AssetLedgerAbility.MANAGE_ABILITIES,
-      AssetLedgerAbility.CREATE_ASSET,
-      AssetLedgerAbility.REVOKE_ASSET,
-      AssetLedgerAbility.TOGGLE_TRANSFERS,
-      AssetLedgerAbility.UPDATE_ASSET,
-      AssetLedgerAbility.ALLOW_CREATE_ASSET,
-      AssetLedgerAbility.UPDATE_URI_BASE,
+    [ SuperAssetLedgerAbility.MANAGE_ABILITIES,
+      GeneralAssetLedgerAbility.CREATE_ASSET,
+      GeneralAssetLedgerAbility.REVOKE_ASSET,
+      GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+      GeneralAssetLedgerAbility.UPDATE_ASSET,
+      GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
+      GeneralAssetLedgerAbility.UPDATE_URI_BASE,
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,
