@@ -2322,8 +2322,8 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x7b220ac85b7ae8af1ceccc44e183a862da2ed517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
-| TokenTransferProxy | [0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
+| OrderGateway | [0x7b220AC85B7ae8Af1CECCC44e183A862dA2eD517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
+| TokenTransferProxy | [0xcadd178eb978B07B19C8c7F04A54fa337D9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
 | NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
 | NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
 | XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
@@ -2332,18 +2332,18 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x28ddb78095cf42081b9393f263e8b70bffcbf88f](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
-| TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
-| NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
-| NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
+| OrderGateway | [0x28dDb78095cf42081B9393F263E8b70BffCbF88F](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
+| TokenTransferProxy | [0x61B47772Fd1f98D88dfE887af7F897F0e403aC10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41F8e2f78D930259a03A348713879a79736fC57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fBD008577Bdea7cdB5ec6388D6f21546B0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff](https://ropsten.etherscan.io/address/0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff)
 
 ### Rinkeby
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
-| TokenTransferProxy | [0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
-| NFTokenTransferProxy | [0x0a02d630669c75d5e162aec89e6adccf8ec1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
-| NFTokenSafeTransferProxy | [0x15731d295aee0b1631995ab19e350e0edc5691f6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
-| XcertCreateProxy | [0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79](https://rinkeby.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)
+| OrderGateway | [0x1d57b453DF7483C4b16C0ea67a12C8D2F4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
+| TokenTransferProxy | [0x4BCA0E94239504e69bC25a3Ef3C5Ca6D80157c3D](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
+| NFTokenTransferProxy | [0x0a02d630669C75d5E162AEC89e6adcCF8eC1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
+| NFTokenSafeTransferProxy | [0x15731d295aee0B1631995aB19e350e0eDC5691F6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
+| XcertCreateProxy | [0x67E20dd951Ef09AE6aEbd7c39903F89B2aBD4C79](https://rinkeby.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)
