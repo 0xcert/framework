@@ -1,10 +1,9 @@
 import { NFTokenSafeTransferProxyAbilities, TokenTransferProxyAbilities,
-  XcertUpdateProxyAbilities, 
-  XcertCreateProxyAbilities} from '@0xcert/ethereum-proxy-contracts/src/core/types';
+  XcertCreateProxyAbilities, XcertUpdateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
-import { OrderGatewayAbilities } from '../core/types';
-import * as common from './helpers/common';
+import { OrderGatewayAbilities } from '../../core/types';
+import * as common from '../helpers/common';
 
 /**
  * Test definition.
@@ -39,8 +38,6 @@ interface Data {
 }
 
 const spec = new Spec<Data>();
-const perform = new Spec<Data>();
-const cancel = new Spec<Data>();
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
@@ -225,13 +222,7 @@ spec.beforeEach(async (ctx) => {
   await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-/**
- * Perform create.
- */
-
-spec.spec('perform an atomic update', perform);
-
-perform.test('on one asset', async (ctx) => {
+spec.test('thows when trying to perform and already performed update', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const updateProxy = ctx.get('updateProxy');
   const jane = ctx.get('jane');
@@ -278,7 +269,7 @@ perform.test('on one asset', async (ctx) => {
   ctx.is(cat1Imprint, imprint2);
 });
 
-perform.test('on multiple assets', async (ctx) => {
+spec.test('correctly updates multiple assets', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const updateProxy = ctx.get('updateProxy');
   const jane = ctx.get('jane');
@@ -352,7 +343,7 @@ perform.test('on multiple assets', async (ctx) => {
   ctx.is(dog3Imprint, imprint2);
 });
 
-perform.test('on multiple assets with other order actions', async (ctx) => {
+spec.test('correctly updates multiple assets with other order actions', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const updateProxy = ctx.get('updateProxy');
   const createProxy = ctx.get('createProxy');
@@ -469,7 +460,7 @@ perform.test('on multiple assets with other order actions', async (ctx) => {
   ctx.is(bobZxcBalance, zxcAmount.toString());
 });
 
-perform.only('on in order created asset', async (ctx) => {
+spec.test('correctly updates an asset created in the same order', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const updateProxy = ctx.get('updateProxy');
   const createProxy = ctx.get('createProxy');
