@@ -49,7 +49,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('xcert', xcert);
 });
 
-spec.test('successfuly revokes an xcert', async (ctx) => {
+spec.test('successfuly revokes an Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -77,7 +77,7 @@ spec.test('successfuly revokes an xcert', async (ctx) => {
   await ctx.reverts(() => xcert.instance.methods.tokenOfOwnerByIndex(bob, 1).call(), '006007');
 });
 
-spec.test('throws when trying to revoke an already revoked xcert', async (ctx) => {
+spec.test('throws when trying to revoke an already revoked Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
@@ -89,7 +89,7 @@ spec.test('throws when trying to revoke an already revoked xcert', async (ctx) =
   await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: owner }), '006002');
 });
 
-spec.test('throws when a third party tries to revoke a xcert', async (ctx) => {
+spec.test('throws when a third party tries to revoke a Xcert', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

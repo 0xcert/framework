@@ -1,4 +1,4 @@
-pragma solidity 0.5.1;
+pragma solidity 0.5.6;
 
 import "../../contracts/erc721-token-receiver.sol";
 

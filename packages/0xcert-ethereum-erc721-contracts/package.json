@@ -1,13 +1,15 @@
 {
   "name": "@0xcert/ethereum-erc721-contracts",
-  "version": "1.0.0-rc12",
+  "version": "1.0.0-rc13",
   "description": "Smart contract implementation of the ERC-721 standard on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",
-    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "lint": "npm run tslint && npm run solhint",
     "sandbox": "npx specron sandbox",
-    "test": "npm run lint && npm run clean && npx specron compile && npx specron test"
+    "solhint": "npx solhint 'src/contracts/**/*.sol'",
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test",
+    "tslint": "npx tslint 'src/**/*.ts?(x)'"
   },
   "specron": {
     "compiler": {
@@ -61,13 +63,14 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "1.0.0-rc12",
+    "@0xcert/ethereum-utils-contracts": "1.0.0-rc13",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
-    "solc": "0.5.1",
+    "solc": "0.5.6",
+    "solhint": "2.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
-    "web3": "1.0.0-beta.36"
+    "web3": "1.0.0-beta.37"
   }
 }

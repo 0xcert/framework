@@ -3,7 +3,7 @@ import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, OrderGatewayBase } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, OrderGatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -56,7 +56,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Gets an instance of already deployed asset ledger.
    * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc721/xcert smart contract.
+   * @param id Address of the erc721/Xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
     return new AssetLedger(provider, id);
@@ -65,7 +65,7 @@ export class AssetLedger implements AssetLedgerBase {
   /**
    * Initialize asset ledger.
    * @param provider Provider class with which we comunicate with blockchain.
-   * @param id Address of the erc721/xcert smart contract.
+   * @param id Address of the erc721/Xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
     this._id = normalizeAddress(id);
@@ -257,6 +257,11 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
+    let allowSuperRevoke = false;
+    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1) {
+      allowSuperRevoke = true;
+    }
+
     accountId = normalizeAddress(accountId as string);
 
     let bitAbilities = bigNumberify(0);
@@ -264,7 +269,7 @@ export class AssetLedger implements AssetLedgerBase {
       bitAbilities = bitAbilities.add(ability);
     });
 
-    return revokeAbilities(this, accountId, bitAbilities);
+    return revokeAbilities(this, accountId, bitAbilities, allowSuperRevoke);
   }
 
   /**
