@@ -3,7 +3,7 @@ issue: 88
 title: Crypto Collectible Asset
 id: a4cf0407b223849773430feaf0949827373c40feb3258d82dd605ed41c5e9a2c
 author: Kristijan Sedlak <kristijan@0xcert.org>
-version: 1.0.0-rc13
+version: 1.0.0
 category: conventions
 status: Draft
 created: 2018-11-07
