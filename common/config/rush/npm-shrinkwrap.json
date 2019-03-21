@@ -1140,7 +1140,7 @@
     },
     "@rush-temp/cert": {
       "version": "file:projects/cert.tgz",
-      "integrity": "sha512-w2SEUikCKvxv0wXp47gJfvtnhEl4o2b35hxKiNGIiZS2+tWydwacnVZEuiZ33vNA3xtECGPbpLcoz9b5qJYN0g==",
+      "integrity": "sha512-q8NLiO2H9K2PSWkgJGNz1SoKezeWFpJpVNHQ2PmMcYCPKjZ0I0Of28uMySINoDxXJ+vi1QGF8vpxy6P+cbXBMw==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1152,7 +1152,7 @@
     },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
-      "integrity": "sha512-6MYK6JV7U1d8xsl5IttMEmwQZLY+lPHA/7szeMT83rBnKLYo+Hm/RUSWXJspOwvLYuo7/91fN3znArwmf9UIaQ==",
+      "integrity": "sha512-dtxr2L98l3xIF1PX9rvq78zjlXA7QGaNILnY8nafkHwhh10jc61UbUMqHHZK2dLC32tBxDu1poxX8hckyS8cUw==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1164,7 +1164,7 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-Sgq7YjgA02FEIScSVR9pOeszL66Lxw4zf8hBn7aOwi0xy4dNpfklgXQ3Jac3mHWXPA8CM5VMvuwgxTpm1+OXSw==",
+      "integrity": "sha512-Iz2nv7ZcgKw2byyb9f8jCjWFHeHg91/tykpm5UencrwSVKuICe6l9VtRHSi6QMK7ccOlTrNvMYcfdFARYx71lA==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1178,7 +1178,7 @@
     },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
-      "integrity": "sha512-RX9IqugeAvow8s92f82a/kkpFRefkkcMBoA724bvSoxbdfGsx30ZYT+kxWaTQWbHkyT/VzZDWOqF+AtRgwxMPg==",
+      "integrity": "sha512-J/oJD67xjfuv/oLNAIKAB+i9DCDGBLQwkTJV/WucXleeu5M1xPXlo6I1tOWJ9tbpqcAwc4FGgXy1J2Se8U6+Ow==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1192,7 +1192,7 @@
     },
     "@rush-temp/ethereum-erc721-contracts": {
       "version": "file:projects/ethereum-erc721-contracts.tgz",
-      "integrity": "sha512-/HSUgdImF/bojAZ27Sj5x/0kQzbobPieRE5A6qQD6B90jOsak5fZx3+tpSGgnQoRGrVdk3/+bSPz3rNt2eUDqQ==",
+      "integrity": "sha512-YEQ9DX7LhUAU5tL8zI/RX6FyfvnoCEw21H1E/4KY0XeVlGu2xTF0n8Pb9yHZg1sUIPG6ksVDy9id2Jo/pgrlSQ==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1206,7 +1206,7 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-kndFMBFhx1BWYCHiITie8+tkR2gJbgkqSSm1zfB4Z2IKnrZ2sFLdOeTYqPcQjtWIizx9qdMMRxdkjwIMKbGJdQ==",
+      "integrity": "sha512-E717UQjr7k7T5EOmvb3BqhT+Vsg9rYww85SPY8+VOOSD5E1s7ETnFES/CxBjQticqe+hv04RVLooAr81sEIOQw==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1223,7 +1223,7 @@
     },
     "@rush-temp/ethereum-http-provider": {
       "version": "file:projects/ethereum-http-provider.tgz",
-      "integrity": "sha512-2/L/umIWX3f55yTLuALN+b1w/qqaIRbqepo6Vi3Q0p7Busi3SdK8fNWKRH3HF1+ZViH8c4ACZ0EE/veo332Qsg==",
+      "integrity": "sha512-VOnm4a3ZKd9eU5prrchAlKXBGy+6UlWaaaFa2q6kqYsikKZO1npQM5cUCiEKAjZGXkmQu2JjHJaNXwFeGGQFUw==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1237,7 +1237,7 @@
     },
     "@rush-temp/ethereum-metamask-provider": {
       "version": "file:projects/ethereum-metamask-provider.tgz",
-      "integrity": "sha512-T/mI4PFGyhH46YwAICBMuLFwhZP6Sbx/xTRUThjcGrg2PcoFn4b2LKt+SfZQtzvrJE/NG4c3C2KDddKCGGdW9Q==",
+      "integrity": "sha512-cP8TSjJ8qFCsKEFQ/wBFy7SxXt7ZtkS3to6isjYo6phjpm9z4XvZkj5xWNqnf+jP19NO3NkxDPK+sZhHnc1myQ==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1251,7 +1251,7 @@
     },
     "@rush-temp/ethereum-order-gateway": {
       "version": "file:projects/ethereum-order-gateway.tgz",
-      "integrity": "sha512-P6216BbfImbYgrDI8OwUsB3g5MwpZmtquAjW7vQ+0gK7sHbX/HbhJ5mdJmIozW0eYvMeG+mnTXt+3gampZGPBg==",
+      "integrity": "sha512-a0kgpuxpLvwPb1QLo9vrdQb/NE7AYiwv4RExMkCK7COe73cQ8Db0RDkLEKZHvsP8BJM/VjnH+IwHp1oDT5JUKw==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1265,7 +1265,7 @@
     },
     "@rush-temp/ethereum-order-gateway-contracts": {
       "version": "file:projects/ethereum-order-gateway-contracts.tgz",
-      "integrity": "sha512-7h4Z2EBtchXTh4BPrGUV2x/ieDB/gWU4kHw+PTcSqmcADmF8rzaICFYeQR09sd+KoFrj1kJZFwdI3d5JDOm48w==",
+      "integrity": "sha512-ZJHXhaBbTGZkCQHicOCUAtyOr6K0qqJRUeYsI/WoKMQl9TKmsP4a1uDwnNXNKertk4FOgPx7ulPVMb5BvH7XHQ==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1279,7 +1279,7 @@
     },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
-      "integrity": "sha512-OxBF9/qsDuwZTzpaVDZnU1kjt8591CT6JWLeiBhRY0bW0rfWyFwQOuRHSHLyWRrzXPsjB9l4OzvuLakhZBGLkw==",
+      "integrity": "sha512-BnkB+6q7KqOKawcTqC4HCqk9jgCfGl45Mua2jLMLXBhZQv3i4F56aegqk8XfOmyXm9RTDNGaUjg4XSiJ6mzfhg==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1293,7 +1293,7 @@
     },
     "@rush-temp/ethereum-sandbox": {
       "version": "file:projects/ethereum-sandbox.tgz",
-      "integrity": "sha512-tHqW0hniiMoNFmEfuNoQVpDZfEYeFCwDRR3eeF9AEOkkc4jz+CUweWH7pef3sGX0+r3SGdWvZJ9q9U7f392K3g==",
+      "integrity": "sha512-qAcJ8GuP/CfJ4kWowmlAhptTXWiRahoO5ALfvqQXP/U+GGoUG18WBTJIzM0Krpv0kcIuzR3roGKNxiwNYgIAEA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1335,7 +1335,7 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-N5opNxtMSovu7wFC+kV4Ig4t53YoXouIXvwlCT9M6hyK5rpSGM6jWLW2Y7cd5b99iA6WGCHDsL4TRnOgvVs9Pw==",
+      "integrity": "sha512-z5oyudgc2IFnPsGrSlG+s9wvr5DTqekF1KbgGOoCVv9uqhPaziohH0+etFtCxd/NlZOlk9H+0+V6qQqu7YA1nQ==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1349,7 +1349,7 @@
     },
     "@rush-temp/ethereum-xcert-contracts": {
       "version": "file:projects/ethereum-xcert-contracts.tgz",
-      "integrity": "sha512-hUOpaNu8Dn6RixqlI2CJ/ojrJC0JCdPIgONrYsJjwBioXQxxxbgqL8w90ix8LCzl8lwrPqglS2AqN7M1mK0Znw==",
+      "integrity": "sha512-8+VdWbSKn1C8nOAU3rCOSRlgbS+oCxA16ZCssUosld4YQsc8U0+/MwFSwkiw0U5bwscVOogS7SohrRudcAOsng==",
       "requires": {
         "@specron/cli": "^0.5.6",
         "@specron/spec": "^0.5.6",
@@ -1363,7 +1363,7 @@
     },
     "@rush-temp/merkle": {
       "version": "file:projects/merkle.tgz",
-      "integrity": "sha512-iBGlr6WAtcuMk1PY6dRuIp0agwuEoPenLxwIs42+p6PgNRov4i3HqFuoRKUQCd3hBCOxLM6y/b4umDmohas8gw==",
+      "integrity": "sha512-xG86WPd+TMbZsfaFi0yMZV8QAFF51pIfieivEeum4kSwSo7F2qEHYAts71m63Q/9FjqB+l52PXhNkxSdx9bqeg==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1410,14 +1410,14 @@
     },
     "@rush-temp/vue-example": {
       "version": "file:projects/vue-example.tgz",
-      "integrity": "sha512-bYQBrZUHBiQLcIvqpiDJwH17IXYMqosbZaiRo5hqq/2zfYdSzv0B3/4DZfIBWDulUKIjEzunBuf3uplMziMg/A==",
+      "integrity": "sha512-WJn5bOUQ9zqzdhYM3+woIhS36in1HXGWPFWFbPChtuRqwofjR9jYeKBEJwS4yA+dzNEX6nmi7bf2rq02v9XFeg==",
       "requires": {
         "nuxt": "^2.3.1"
       }
     },
     "@rush-temp/vue-plugin": {
       "version": "file:projects/vue-plugin.tgz",
-      "integrity": "sha512-qPEvu7uOOukMXF6qWXkpZFe8ut19AZQoiCHtJCY1AwUgIgydxmeGjqq7e7UxYJPqkpeI8E19cQJvr9MTNXFRWg==",
+      "integrity": "sha512-OUAdOfhTI1ff4xCkwkJBx6wYc7y/hpqVCsIPpXzo6hanb1llmY0bcKWdMSkP3zGJC3161ppTiczUpGJ1EjMy4g==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -1429,7 +1429,7 @@
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-KHiB3830aF3RDo6HMxTNYTu+9/DQVwoCN8ICp4iAXc5DM7PfORYGS1n+OZrgaGLC5TvteckfWbXPU5WXm8f1Gg==",
+      "integrity": "sha512-6x+/x3brALgzLUQeiabwNZJn7gCx56qFS8DOYKxS1uk9rbAZuUs1oiwIBPQDFn7YJ7p1nh/KM+lUmk64AQqDBw==",
       "requires": {
         "webpack": "^4.25.0",
         "webpack-cli": "^3.1.2"
