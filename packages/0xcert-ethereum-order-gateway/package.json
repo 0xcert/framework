@@ -79,7 +79,7 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "1.0.0",
-    "@0xcert/ethereum-utils": "1.0.0",
+    "@0xcert/ethereum-utils": "1.2.0",
     "@0xcert/scaffold": "1.0.0",
     "@0xcert/utils": "1.0.0"
   }

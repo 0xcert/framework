@@ -43,6 +43,8 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 
 The release manager will publish packages to NPM using these commands.
 
+**WARNING**: We used `@0xcert/ethereum-utils` package before and now have version inconsistency problem. The package is released as version 1.2.0 and is not part of the Rush configuration until we reach the actual 1.2.0 version of the framework. Make sure you re-include that package after 1.2.0 is released!
+
 ```sh
 $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
