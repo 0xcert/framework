@@ -1,14 +1,14 @@
 <img src="https://github.com/0xcert/framework/raw/master/assets/cover.png" />
 
-[![Build Status](https://travis-ci.org/0xcert/framework.svg?branch=master)](https://travis-ci.org/0xcert/framework)&nbsp;[![codecov](https://codecov.io/gh/0xcert/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/0xcert/framework)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-open-2930e8.svg)](https://github.com/0xcert/framework/blob/master/BUG_BOUNTY.md)&nbsp;[![Join the chat at https://gitter.im/0xcert/framework](https://badges.gitter.im/0xcert/framework.svg)](https://gitter.im/0xcert/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=I%20support%20the%20%23dapp%20revolution%20and%20the%20open-source%20%23JavaScript%20library%20for%20building%20dapps%20-%20the%200xcert%20Framework.&url=https://github.com/0xcert/framework&hashtags=ethereum,nft,erc721,erc20)
+[![Build Status](https://travis-ci.org/0xcert/framework.svg?branch=master)](https://travis-ci.org/0xcert/framework)&nbsp;[![codecov](https://codecov.io/gh/0xcert/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/0xcert/framework)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-open-2930e8.svg)](https://github.com/0xcert/framework/blob/master/BUG_BOUNTY.md)&nbsp;[![Join the chat at https://gitter.im/0xcert/framework](https://badges.gitter.im/0xcert/framework.svg)](https://gitter.im/0xcert/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Donate](https://img.shields.io/badge/ETH-0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa-blue.svg)](https://etherscan.io/address/0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=I%20support%20the%20%23dapp%20revolution%20and%20the%20open-source%20%23JavaScript%20library%20for%20building%20dapps%20-%20the%200xcert%20Framework.&url=https://github.com/0xcert/framework&hashtags=ethereum,nft,erc721,erc20)
 
 The 0xcert Framework is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
 
 To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, please refer to:
-* [The 0xcert Framework documentation](https://docs.0xcert.org/).
-* [The 0xcert Framework repository](https://github.com/0xcert/framework/): please consider contributing to the open-source and free framework,
-* [The official 0xcert website](https://0xcert.org/),
-* [Our news blog](https://0xcert.org/news/).
+* 📘 [The 0xcert Framework documentation](https://docs.0xcert.org/).
+* 🖥 [The official 0xcert website](https://0xcert.org/),
+* 📝 Our [News blog](https://0xcert.org/news/).
+* 💬 Chat on [Gitter](https://gitter.im/0xcert/framework)
 
 ## Packages
 
