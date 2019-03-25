@@ -1,6 +1,6 @@
 <img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
 
-> Implementation of Bitski communication provider for the Ethereum blockchain.
+> Implementation of Bitski front-end communication provider for the Ethereum blockchain.
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
 

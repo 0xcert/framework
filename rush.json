@@ -78,8 +78,13 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-bitski-provider",
-      "projectFolder": "packages/0xcert-ethereum-bitski-provider",
+      "packageName": "@0xcert/ethereum-bitski-frontend-provider",
+      "projectFolder": "packages/0xcert-ethereum-bitski-frontend-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-bitski-backend-provider",
+      "projectFolder": "packages/0xcert-ethereum-bitski-backend-provider",
       "versionPolicyName": "patchAll"
     },
     {
