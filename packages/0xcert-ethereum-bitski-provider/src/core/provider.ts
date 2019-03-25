@@ -72,12 +72,12 @@ export class BitskiProvider extends GenericProvider {
   protected _options: BitskiProviderOptions;
 
   /**
-   * Bitski instance
+   * Bitski instance.
    */
   protected _bitski: any;
 
   /**
-   * Bitski instance
+   * Bitski provider instance.
    */
   protected _provider: any;
 
@@ -99,8 +99,10 @@ export class BitskiProvider extends GenericProvider {
     this._client = this;
     if (typeof window !== 'undefined') {
       const bitski = require('bitski');
-      this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
+      this._bitski = new bitski(options.clientId, options.redirectUrl);
       this._provider = this._bitski.getProvider({ networkName: options.networkName === 'undefined' ? 'mainnet' : options.networkName });
+    } else {
+      throw new Error('Cannot initialize bitski.');
     }
   }
 
@@ -108,13 +110,13 @@ export class BitskiProvider extends GenericProvider {
    * Is provider supported.
    */
   public isSupported() {
-    return typeof window !== 'undefined' && !!require('bitski');
+    return typeof window !== 'undefined' && !!require.resolve('bitski');
   }
 
   /**
    * Checks if bitski is connected.
    */
-  public async isSignedIn() {
+  public isSignedIn() {
     return this._bitski.authStatus === 'CONNECTED';
   }
 
