@@ -6,11 +6,6 @@ import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 export interface BitskiProviderOptions {
 
   /**
-   * Default account from which all mutations are made.
-   */
-  accountId?: string;
-
-  /**
    * Type of signature that will be used in making claims etc.
    */
   signMethod?: SignMethod;
@@ -82,6 +77,11 @@ export class BitskiProvider extends GenericProvider {
   protected _provider: any;
 
   /**
+   * Handles sign out.
+   */
+  private signOutHandler: any;
+
+  /**
    * Returns a new provider instance.
    * @param options HTTP provider options.
    */
@@ -124,8 +124,30 @@ export class BitskiProvider extends GenericProvider {
    * Signs into bitski.
    */
   public async signIn() {
-    await this._bitski.signIn();
+    const user = await this._bitski.start();
+    this.accountId = user.accounts[0];
+    this.signOutHandler = () => {
+      this.accountId = null;
+      this._bitski.removeSignOutHandler(this.signOutHandler);
+    };
+    this._bitski.addSignOutHandler(this.signOutHandler);
     return this;
+  }
+
+  /**
+   * Signs out bitski.
+   */
+  public async signOut() {
+    await this._bitski.signOut();
+    return this;
+  }
+
+  /**
+   * Gets the current signed in user. Will reject if we are not signed in.
+   */
+  public async getConnectedUser() {
+    const user = await this._bitski.getUser();
+    return user;
   }
 
   /**
