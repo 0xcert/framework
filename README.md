@@ -31,7 +31,6 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/ethereum-metamask-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-metamask-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-metamask-provider) | Implementation of MetaMask communication provider for the Ethereum blockchain.
 | 0xcert/ethereum-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-order-gateway) | Order gateway module for executing atomic operations on the Ethereum blockchain.
 | 0xcert/ethereum-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-value-ledger) | Value ledger module for currency management on the Ethereum blockchain.
-| 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
 
 ### Wanchain
 | Package | Version | Description
@@ -41,6 +40,9 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/wanchain-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-order-gateway) | Order gateway module for executing atomic operations on the Wanchain blockchain.
 | 0xcert/wanchain-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-value-ledger) | Value ledger module for currency management on the Wanchain blockchain.
 
+### Plugins
+
+| 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
 
 ## Contributing
 
