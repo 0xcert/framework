@@ -142,7 +142,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set accountId(id: string) {
-    id = normalizeAddress(id);
+    id = this.normalizeAddress(id);
 
     if (!this.isCurrentAccount(id)) {
       this.emit(ProviderEvent.ACCOUNT_CHANGE, id, this._accountId); // must be before the new account is set
@@ -162,7 +162,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes unsafe recipient IDs.
    */
   public set unsafeRecipientIds(ids: string[]) {
-    this._unsafeRecipientIds = (ids || []).map((id) => normalizeAddress(id));
+    this._unsafeRecipientIds = (ids || []).map((id) => this.normalizeAddress(id));
   }
 
   /**
@@ -176,7 +176,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set orderGatewayId(id: string) {
-    this._orderGatewayId = normalizeAddress(id);
+    this._orderGatewayId = this.normalizeAddress(id);
   }
 
   /**
@@ -232,7 +232,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
       method: 'eth_accounts',
       params: [],
     });
-    return res.result.map((a) => normalizeAddress(a));
+    return res.result.map((a) => this.normalizeAddress(a));
   }
 
   /**
@@ -250,14 +250,14 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Returns true if the provided accountId maches current class accountId.
    */
   public isCurrentAccount(accountId: string) {
-    return this.accountId === normalizeAddress(accountId);
+    return this.accountId === this.normalizeAddress(accountId);
   }
 
   /**
    * Returns true if the provided ledgerId is unsafe recipient address.
    */
   public isUnsafeRecipientId(ledgerId: string) {
-    const normalizedLedgerId = normalizeAddress(ledgerId);
+    const normalizedLedgerId = this.normalizeAddress(ledgerId);
     return !!this.unsafeRecipientIds.find((id) => id === normalizedLedgerId);
   }
 
@@ -337,6 +337,15 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   protected getNextId() {
     this._id++;
     return this._id;
+  }
+
+  /**
+   * Normalizes the Ethereum address.
+   * NOTE: This method is here to easily extend the class for related platforms
+   * such as Wanchain.
+   */
+  protected normalizeAddress(address: string): string {
+    return normalizeAddress(address);
   }
 
 }

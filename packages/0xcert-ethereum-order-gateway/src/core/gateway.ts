@@ -41,7 +41,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public constructor(provider: GenericProvider, id?: string) {
-    this._id = normalizeAddress(id || provider.orderGatewayId);
+    this._id = this.normalizeAddress(id || provider.orderGatewayId);
     this._provider = provider;
   }
 
@@ -64,7 +64,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async claim(order: Order): Promise<string> {
-    order = normalizeOrderIds(order);
+    order = this.normalizeOrderIds(order);
 
     if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
       return claimPersonalSign(this, order);
@@ -79,7 +79,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
-    order = normalizeOrderIds(order);
+    order = this.normalizeOrderIds(order);
 
     return perform(this, order, claim);
   }
@@ -89,7 +89,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async cancel(order: Order): Promise<Mutation> {
-    order = normalizeOrderIds(order);
+    order = this.normalizeOrderIds(order);
 
     return cancel(this, order);
   }
@@ -108,7 +108,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async isValidSignature(order: Order, claim: string) {
-    order = normalizeOrderIds(order);
+    order = this.normalizeOrderIds(order);
 
     return isValidSignature(this, order, claim);
   }
@@ -118,9 +118,27 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {
-    order = normalizeOrderIds(order);
+    order = this.normalizeOrderIds(order);
 
     return getOrderDataClaim(this, order);
+  }
+
+  /**
+   * Normalizes the Ethereum address.
+   * NOTE: This method is here to easily extend the class for related platforms
+   * such as Wanchain.
+   */
+  protected normalizeAddress(address: string): string {
+    return normalizeAddress(address);
+  }
+
+  /**
+   * Normalizes the Ethereum addresses of an order.
+   * NOTE: This method is here to easily extend the class for related platforms
+   * such as Wanchain.
+   */
+  protected normalizeOrderIds(order: Order): Order {
+    return normalizeOrderIds(order);
   }
 
 }
