@@ -50,7 +50,7 @@ $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
 ```
 
-# 0xcet documentation
+# 0xcert documentation
 
 We are using VuePress for building the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
 
@@ -73,7 +73,7 @@ You can build and deploy the documentation to the server.
 $ npm run deploy
 ```
 
-# 0xcet conventions
+# 0xcert conventions
 
 We are using VuePress for building the conventions pages. Files are built locally from `.md` files located in `/conventions` folder and generated into a `/convntions/.vuepress/dist` folder.
 
