@@ -10,36 +10,37 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 * [The official 0xcert website](https://0xcert.org/),
 * [Our news blog](https://0xcert.org/news/).
 
+## Supported platforms
+
+![Ethereum](./assets/ethereum.png)
+![Wanchain](./assets/wanchain.png)
+
 ## Packages
 
+### Core 
 | Package | Version | Description
 |-|-|-
 | 0xcert/cert | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fcert.svg)](https://badge.fury.io/js/%400xcert%2Fcert) | Module for certifying asset data objects.
 | 0xcert/conventions | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fconventions.svg)](https://badge.fury.io/js/%400xcert%2Fconventions) | Module with implementation of all confirmed conventions.
+
+### Ethereum
+| Package | Version | Description
+|-|-|-
 | 0xcert/ethereum-asset-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-asset-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-asset-ledger) | Asset ledger module for asset management on the Ethereum blockchain.
-| 0xcert/ethereum-erc20-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-erc20-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-erc20-contracts) | Smart contract implementation of the ERC-20 standard on the Ethereum blockchain.
-| 0xcert/ethereum-erc721-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-erc721-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-erc721-contracts) | Smart contract implementation of the ERC-721 standard on the Ethereum blockchain.
-| 0xcert/ethereum-generic-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-generic-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-generic-provider) | Basic implementation of communication provider for the Ethereum blockchain.
 | 0xcert/ethereum-http-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-http-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-http-provider) | Implementation of HTTP communication provider for the Ethereum blockchain.
 | 0xcert/ethereum-metamask-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-metamask-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-metamask-provider) | Implementation of MetaMask communication provider for the Ethereum blockchain.
 | 0xcert/ethereum-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-order-gateway) | Order gateway module for executing atomic operations on the Ethereum blockchain.
-| 0xcert/ethereum-order-gateway-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-order-gateway-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-order-gateway-contracts) | Smart contracts used by the order gateway on the Ethereum blockchain.
-| 0xcert/ethereum-proxy-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-proxy-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-proxy-contracts) | Proxy smart contracts used by the order gateway when communicating with the Ethereum blockchain.
-| 0xcert/ethereum-sandbox | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-sandbox.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-sandbox) | Test server for local running testing of modules on the Ethereum blockchain.
-| 0xcert/ethereum-utils | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-utils.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-utils) | General Ethereum utility module with helper functions for the Ethereum blockchain.
-| 0xcert/ethereum-utils-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-utils-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-utils-contracts) | General utility module with helper smart contracts.
 | 0xcert/ethereum-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-value-ledger) | Value ledger module for currency management on the Ethereum blockchain.
-| 0xcert/ethereum-xcert-contracts | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-xcert-contracts.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-xcert-contracts) | Smart contracts used by the Asset ledger on the Ethereum blockchain.
-| 0xcert/merkle | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fmerkle.svg)](https://badge.fury.io/js/%400xcert%2Fmerkle) | Implementation of basic functions of binary Merkle tree.
-| 0xcert/scaffold | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fscaffold.svg)](https://badge.fury.io/js/%400xcert%2Fscaffold) | Overarching module with types, enums, and interfaces for easier development of interoperable modules.
-| 0xcert/utils | [![NPM Version](https://badge.fury.io/js/@0xcert%2Futils.svg)](https://badge.fury.io/js/%400xcert%2Futils) | General utility module with common helper functions.
-| 0xcert/vue-example | - | VueJS plug-in example for NuxtJS.
 | 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
-| 0xcert/webpack | - | Module for package building and minification.
 
-## Supported platforms
+### Wanchain
+| Package | Version | Description
+|-|-|-
+| 0xcert/wanchain-asset-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-asset-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-asset-ledger) | Asset ledger module for asset management on the Wanchain blockchain.
+| 0xcert/wanchain-http-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-http-provider.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-http-provider) | Implementation of HTTP communication provider for the Wanchain blockchain.
+| 0xcert/wanchain-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-order-gateway) | Order gateway module for executing atomic operations on the Wanchain blockchain.
+| 0xcert/wanchain-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-value-ledger) | Value ledger module for currency management on the Wanchain blockchain.
 
-![Ethereum](./assets/ethereum.png)
 
 ## Contributing
 
