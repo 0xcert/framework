@@ -41,7 +41,8 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/wanchain-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-value-ledger) | Value ledger module for currency management on the Wanchain blockchain.
 
 ### Plugins
-
+| Package | Version | Description
+|-|-|-
 | 0xcert/vue-plugin | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fvue-plugin.svg)](https://badge.fury.io/js/%400xcert%2Fvue-plugin) | Implementation of VueJS plug-in.
 
 ## Contributing
