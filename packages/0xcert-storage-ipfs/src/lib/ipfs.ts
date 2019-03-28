@@ -1,4 +1,5 @@
-import { ipfsClient } from 'ipfs-http-client';
+import { fetch } from '@0xcert/utils';
+import * as ipfsClient from 'ipfs-http-client';
 
 export interface OptionsIPFS {
 
@@ -28,16 +29,16 @@ export class StorageIPFS {
   /**
    * IPFS client instance
    */
-  private ipfs: ipfsClient;
+  private ipfs: any;
 
   /**
    * Class constructor.
    */
   public constructor(options: OptionsIPFS) {
-    this.gateway = typeof options.gateway !== 'undefined' ? options.gateway : 'https://ipfs.io:8080';
+    this.gateway = typeof options.gateway !== 'undefined' ? options.gateway : 'https://ipfs.io';
     this.api = typeof options.api !== 'undefined' ? options.api : 'ipfs.infura.io';
-    this.ipfs = new ipfsClient({
-      host: this.gateway,
+    this.ipfs = ipfsClient({
+      host: this.api,
       port: 5001,
       protocol: 'https',
     });
@@ -48,6 +49,7 @@ export class StorageIPFS {
   }
 
   public async get(hash: string) {
-    return this.ipfs.get(`/ipfs/${hash}`);
+    const res = await fetch(`${this.gateway}/ipfs/${hash}`).then((r) => r);
+    return res;
   }
 }
