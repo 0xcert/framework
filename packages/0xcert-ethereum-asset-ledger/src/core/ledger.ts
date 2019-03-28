@@ -59,7 +59,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param id Address of the erc721/Xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
-    return new AssetLedger(provider, id);
+    return new this(provider, id);
   }
 
   /**

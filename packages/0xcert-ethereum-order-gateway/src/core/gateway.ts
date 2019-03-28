@@ -32,7 +32,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public static getInstance(provider: GenericProvider, id?: string): OrderGateway {
-    return new OrderGateway(provider, id);
+    return new this(provider, id);
   }
 
   /**

@@ -40,7 +40,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param id Address of the erc20 smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): ValueLedger {
-    return new ValueLedger(provider, id);
+    return new this(provider, id);
   }
 
   /**
