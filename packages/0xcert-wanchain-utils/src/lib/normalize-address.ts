@@ -10,10 +10,10 @@ export function normalizeAddress(address: string): string {
     return null;
   }
 
-  // We are using ethers.js for encoding ABI calls. This means that if we send in a wanchain address,
+  // We are using ethers.js for encoding ABI calls. This means that if we send using a Wanchain address,
   // ethers.js will throw an error. Ethers.js 5.0 with subclassing will be available in the following
-  // weeks. Up till then we just make the address lowercase and let Ethers.js do its thing. Because of
-  // this there is a danger of making a transaction to an ethereum address since there is no checksum check.
+  // weeks. Until then we just write the address in lowercase and let Ethers.js do its thing. Because of
+  // this there is a danger of executing a transaction to an Ethereum address since there is no checksum check.
 
   return address.toLowerCase();
 
