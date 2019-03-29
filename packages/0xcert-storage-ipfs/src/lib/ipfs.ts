@@ -4,27 +4,35 @@ import * as ipfsClient from 'ipfs-http-client';
 export interface OptionsIPFS {
 
   /**
-   * IPFS gateway URI
+   * IPFS gateway
    */
-  gateway?: string;
+  gatewayUri?: string;
+  gatewayPort?: number;
+  gatewayProtocol?: string;
 
   /**
-   * IPFS API URI
+   * IPFS API
    */
-  api?: string;
+  apiUri?: string;
+  apiPort?: number;
+  apiProtocol?: string;
 }
 
 export class StorageIPFS {
 
   /**
-   * IPFS gateway URI
+   * IPFS gateway
    */
-  public gateway: string;
+  public gatewayUri: string;
+  public gatewayPort: number;
+  public gatewayProtocol: string;
 
   /**
-   * IPFS API URI
+   * IPFS API
    */
-  public api: string;
+  public apiUri: string;
+  public apiPort: number;
+  public apiProtocol: string;
 
   /**
    * IPFS client instance
@@ -35,12 +43,18 @@ export class StorageIPFS {
    * Class constructor.
    */
   public constructor(options: OptionsIPFS) {
-    this.gateway = typeof options.gateway !== 'undefined' ? options.gateway : 'https://ipfs.io';
-    this.api = typeof options.api !== 'undefined' ? options.api : 'ipfs.infura.io';
+    this.gatewayUri = typeof options.gatewayUri !== 'undefined' ? options.gatewayUri : 'ipfs.io';
+    this.gatewayPort = typeof options.gatewayPort !== 'undefined' ? options.gatewayPort : 443;
+    this.gatewayProtocol = typeof options.gatewayProtocol !== 'undefined' ? options.gatewayProtocol : 'https';
+
+    this.apiUri = typeof options.apiUri !== 'undefined' ? options.apiUri : 'ipfs.infura.io';
+    this.apiPort = typeof options.apiPort !== 'undefined' ? options.apiPort : 5001;
+    this.apiProtocol = typeof options.apiProtocol !== 'undefined' ? options.apiProtocol : 'https';
+
     this.ipfs = ipfsClient({
-      host: this.api,
-      port: 5001,
-      protocol: 'https',
+      host: this.apiUri,
+      port: this.apiPort,
+      protocol: this.apiProtocol,
     });
   }
 
@@ -49,7 +63,7 @@ export class StorageIPFS {
   }
 
   public async get(hash: string) {
-    const res = await fetch(`${this.gateway}/ipfs/${hash}`).then((r) => r);
+    const res = await fetch(`${this.gatewayProtocol}://${this.gatewayUri}:${this.gatewayPort}/ipfs/${hash}`).then((r) => r);
     return res;
   }
 }

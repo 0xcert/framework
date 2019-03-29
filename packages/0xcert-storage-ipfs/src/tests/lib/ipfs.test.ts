@@ -8,7 +8,10 @@ const spec = new Spec<{
 
 spec.before(async (stage) => {
   console.log('IPFS');
-  const ipfs = new StorageIPFS({});
+  const ipfs = new StorageIPFS({
+    // apiUri: '192.168.10.80',
+    // apiProtocol: 'http',
+  });
   stage.set('ipfs', ipfs);
 });
 
