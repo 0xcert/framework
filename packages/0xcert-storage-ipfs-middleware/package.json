@@ -1,0 +1,81 @@
+{
+  "name": "@0xcert/storage-ipfs-middleware",
+  "version": "1.0.1",
+  "description": "IPFS storage interface middleware.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npx tsc",
+    "clean": "rm -Rf ./dist",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "test": "npm run lint && npx nyc npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xcert/framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xcert/framework/issues"
+  },
+  "homepage": "https://github.com/0xcert/framework#readme",
+  "keywords": [
+    "0xcert",
+    "framework",
+    "protocol",
+    "asset",
+    "value",
+    "values",
+    "currency",
+    "token",
+    "non-fungible",
+    "fungible",
+    "erc-721",
+    "erc-20",
+    "blockchain",
+    "javascript",
+    "typescript",
+    "nodejs",
+    "vuejs",
+    "nuxtjs",
+    "npm",
+    "libraries",
+    "smart-contract",
+    "ethereum",
+    "zxc"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "^0.8.3",
+    "@hayspec/spec": "^0.8.3",
+    "@types/node": "^10.12.24",
+    "nyc": "^13.1.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.1.1"
+  },
+  "dependencies": {
+    "@0xcert/utils": "1.0.1",
+    "@0xcert/storage-ipfs": "file:/home/alko/Development/Blockchain/0xcert/0xcert-framework/packages/0xcert-storage-ipfs",
+    "express": "^4.16.4",
+    "level": "^5.0.1"
+  }
+}
