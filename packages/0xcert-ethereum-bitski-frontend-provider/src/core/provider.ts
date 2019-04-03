@@ -124,8 +124,8 @@ export class BitskiProvider extends GenericProvider {
    * Signs into bitski.
    */
   public async signIn() {
-    const user = await this._bitski.start();
-    this.accountId = user.accounts[0];
+    await this._bitski.start();
+    this.accountId = await this.getAvailableAccounts().then((a) => a[0]);
     this.signOutHandler = () => {
       this.accountId = null;
       this._bitski.removeSignOutHandler(this.signOutHandler);
