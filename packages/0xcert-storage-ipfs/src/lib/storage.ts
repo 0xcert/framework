@@ -1,6 +1,9 @@
 import { fetch } from '@0xcert/utils';
 import * as ipfsClient from 'ipfs-http-client';
 
+/**
+ * IPFS storege config
+ */
 export interface StorageConfig {
 
   /**
@@ -34,6 +37,9 @@ export interface StorageConfig {
   ipfsApiProtocol?: string;
 }
 
+/**
+ * IPFS storage class
+ */
 export class Storage {
 
   /**
@@ -44,7 +50,7 @@ export class Storage {
   /**
    * IPFS client instance
    */
-  private ipfs: any;
+  protected ipfs: any;
 
   /**
    * Class constructor.
@@ -69,6 +75,7 @@ export class Storage {
 
   /**
    * Add new file to IPFS.
+   * @param file to be stored on IPFS.
    */
   public async add(file: Buffer) {
     return this.ipfs.add(file);
@@ -76,6 +83,7 @@ export class Storage {
 
   /**
    * Fetch the file from IPFS.
+   * @param hash of the file stored on IPFS.
    */
   public async get(hash: string) {
     const res = await fetch(`${this.config.ipfsGatewayProtocol}://${this.config.ipfsGatewayUri}:${this.config.ipfsGatewayPort}/ipfs/${hash}`).then((r) => r);

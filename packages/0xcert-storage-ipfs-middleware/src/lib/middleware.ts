@@ -2,6 +2,9 @@ import { Storage } from '@0xcert/storage-ipfs';
 import * as bodyParser from 'body-parser';
 import * as level from 'level';
 
+/**
+ * IPFS storage express middleware config
+ */
 export interface StorageMiddlewareConfig {
 
   /**
@@ -40,6 +43,9 @@ export interface StorageMiddlewareConfig {
   ipfsApiProtocol?: string;
 }
 
+/**
+ * IPFS storage express middleware class
+ */
 export class StorageMiddleware {
 
   /**
