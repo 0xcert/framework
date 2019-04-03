@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-sandbox",
-  "version": "1.0.0-rc13",
+  "version": "1.0.1",
   "description": "Test server for local running testing of modules on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -76,10 +76,10 @@
     "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/ethereum-order-gateway-contracts": "1.0.0-rc13",
-    "@0xcert/ethereum-erc20-contracts": "1.0.0-rc13",
-    "@0xcert/ethereum-erc721-contracts": "1.0.0-rc13",
-    "@0xcert/ethereum-proxy-contracts": "1.0.0-rc13",
-    "@0xcert/ethereum-xcert-contracts": "1.0.0-rc13"
+    "@0xcert/ethereum-order-gateway-contracts": "1.0.1",
+    "@0xcert/ethereum-erc20-contracts": "1.0.1",
+    "@0xcert/ethereum-erc721-contracts": "1.0.1",
+    "@0xcert/ethereum-proxy-contracts": "1.0.1",
+    "@0xcert/ethereum-xcert-contracts": "1.0.1"
   }
 }
