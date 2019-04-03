@@ -1,6 +1,6 @@
+import { Storage } from '@0xcert/storage-ipfs';
 import * as bodyParser from 'body-parser';
 import * as level from 'level';
-import { Storage } from '@0xcert/storage-ipfs';
 
 export interface StorageMiddlewareConfig {
 

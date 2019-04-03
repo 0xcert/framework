@@ -1,5 +1,4 @@
 import { Spec } from '@hayspec/spec';
-import * as https from 'https';
 import { Storage } from '../../';
 
 const spec = new Spec<{
@@ -7,20 +6,19 @@ const spec = new Spec<{
 }>();
 
 spec.before(async (stage) => {
-  console.log('IPFS');
   const ipfs = new Storage({});
   stage.set('ipfs', ipfs);
 });
 
 spec.test('add get file', async (ctx) => {
   const ipfs = ctx.get('ipfs');
+  const text = 'Hello world!';
 
-  const v = await ipfs.add(Buffer.alloc(12, 'Hello world!'));
-  console.log(v[0].hash);
-  console.log();
-
+  const v = await ipfs.add(Buffer.alloc(text.length, text));
   const res = await ipfs.get(v[0].hash);
-  console.log(await res.text());
+  const body = await res.text();
+
+  ctx.is(body, text);
 });
 
 export default spec;
