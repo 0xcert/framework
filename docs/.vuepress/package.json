@@ -8,14 +8,14 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "vee-validate": "^2.1.7",
+    "vee-validate": "^2.2.0",
     "vue-axios": "^2.1.4",
-    "vuepress": "^1.0.0-alpha.42"
+    "vuepress": "^1.0.0-alpha.44"
   },
   "devDependencies": {
-    "@vuepress/plugin-container": "^1.0.0-alpha.42",
-    "@vuepress/plugin-google-analytics": "^1.0.0-alpha.42",
-    "@vuepress/plugin-pwa": "^1.0.0-alpha.42",
+    "@vuepress/plugin-container": "^1.0.0-alpha.44",
+    "@vuepress/plugin-google-analytics": "^1.0.0-alpha.44",
+    "@vuepress/plugin-pwa": "^1.0.0-alpha.44",
     "markdown-it-container": "^2.0.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0"

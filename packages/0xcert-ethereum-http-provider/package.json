@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-http-provider",
-  "version": "1.0.0-rc12",
+  "version": "1.0.1",
   "description": "Implementation of HTTP communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -67,18 +67,18 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "1.0.0-rc12",
+    "@0xcert/ethereum-sandbox": "1.0.1",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
     "nyc": "^13.1.0",
-    "solc": "0.5.5",
+    "solc": "0.5.6",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
     "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.0.0-rc12",
-    "@0xcert/utils": "1.0.0-rc12"
+    "@0xcert/ethereum-generic-provider": "1.0.1",
+    "@0xcert/utils": "1.0.1"
   }
 }

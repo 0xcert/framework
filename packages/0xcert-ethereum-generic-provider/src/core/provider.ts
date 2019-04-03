@@ -142,8 +142,13 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set accountId(id: string) {
-    this.emit(ProviderEvent.ACCOUNT_CHANGE, id); // must be before the new account is set
-    this._accountId = normalizeAddress(id);
+    id = normalizeAddress(id);
+
+    if (!this.isCurrentAccount(id)) {
+      this.emit(ProviderEvent.ACCOUNT_CHANGE, id, this._accountId); // must be before the new account is set
+    }
+
+    this._accountId = id;
   }
 
   /**
@@ -177,8 +182,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * Emits provider event.
    */
-  public emit(event: ProviderEvent.ACCOUNT_CHANGE, accountId: string);
-  public emit(event: ProviderEvent.NETWORK_CHANGE, networkVersion: string);
+  public emit(event: ProviderEvent.ACCOUNT_CHANGE, newAccountId: string, oldAccountId: string);
+  public emit(event: ProviderEvent.NETWORK_CHANGE, newNetworkVersion: string, oldNetworkVersion: string);
   public emit(...args) {
     super.emit.call(this, ...args);
     return this;
@@ -187,8 +192,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * Attaches on provider events.
    */
-  public on(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
-  public on(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public on(event: ProviderEvent.ACCOUNT_CHANGE, handler: (newAccountId: string, oldAccountId: string) => any);
+  public on(event: ProviderEvent.NETWORK_CHANGE, handler: (newNetworkVersion: string, oldNetworkVersion: string) => any);
   public on(...args) {
     super.on.call(this, ...args);
     return this;
@@ -197,8 +202,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * Once handler.
    */
-  public once(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
-  public once(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public once(event: ProviderEvent.ACCOUNT_CHANGE, handler: (newAccountId: string, oldAccountId: string) => any);
+  public once(event: ProviderEvent.NETWORK_CHANGE, handler: (newNetworkVersion: string, oldNetworkVersion: string) => any);
   public once(...args) {
     super.once.call(this, ...args);
     return this;
@@ -207,8 +212,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   /**
    * Dettaches from provider events.
    */
-  public off(event: ProviderEvent.ACCOUNT_CHANGE, handler: (accountId: string) => any);
-  public off(event: ProviderEvent.NETWORK_CHANGE, handler: (networkVersion: string) => any);
+  public off(event: ProviderEvent.ACCOUNT_CHANGE, handler: (newAccountId: string, oldAccountId: string) => any);
+  public off(event: ProviderEvent.NETWORK_CHANGE, handler: (newNetworkVersion: string, oldNetworkVersion: string) => any);
   public off(event: ProviderEvent);
   public off(event, handler?) {
     if (handler) {
@@ -220,6 +225,17 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Returns a list of all available account IDs.
+   */
+  public async getAvailableAccounts(): Promise<string[]> {
+    const res = await this.post({
+      method: 'eth_accounts',
+      params: [],
+    });
+    return res.result.map((a) => normalizeAddress(a));
+  }
+
+  /**
    * Returns current network type (e.g. '3' for ropsten).
    */
   public async getNetworkVersion(): Promise<string> {
@@ -228,6 +244,13 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
       params: [],
     });
     return res.result;
+  }
+
+  /**
+   * Returns true if the provided accountId maches current class accountId.
+   */
+  public isCurrentAccount(accountId: string) {
+    return this.accountId === normalizeAddress(accountId);
   }
 
   /**

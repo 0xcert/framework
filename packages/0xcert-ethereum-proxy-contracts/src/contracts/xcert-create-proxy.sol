@@ -1,4 +1,4 @@
-pragma solidity 0.5.5;
+pragma solidity 0.5.6;
 
 import "@0xcert/ethereum-xcert-contracts/src/contracts/xcert.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";

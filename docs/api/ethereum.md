@@ -16,7 +16,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here). 
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
@@ -49,7 +49,7 @@ A `synchronous` class instance `function` to manually trigger a provider event.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| options | [required] Pass a valid account ID for `ACCOUNT_CHANGE` event and a valid network version for `NETWORK_CHANGE` event.
+| options | [required] Pass valid current and previous account ID for `ACCOUNT_CHANGE` event or valid current and previous network version for `NETWORK_CHANGE` event.
 
 **Result:**
 
@@ -72,6 +72,21 @@ An `asynchronous` class instance `function` which authorizes the provider and co
 ```ts
 // perform mutation
 const provider = await provider.enable();
+```
+
+### getAvailableAccounts()
+
+An `asynchronous` class instance `function` which returns currently available Ethereum wallet addresses.
+
+**Result:**
+
+A list of `strings` representing Ethereum account IDs.
+
+**Example:**
+
+```ts
+// perform query
+const accountIds = await provider.getAvailableAccounts();
 ```
 
 ### getInstance(options)
@@ -104,6 +119,30 @@ A `string` representing Ethereum network version.
 ```ts
 // perform query
 const version = await provider.getNetworkVersion();
+```
+
+### isCurrentAccount(accountId)
+
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing Ethereum account address.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` maches the currently set account ID.
+
+**Example:**
+
+```ts
+// ethereum wallet address
+const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
+// perform query
+const maches = provider.isCurrentAccount(walletId);
 ```
 
 ### isEnabled()
@@ -185,7 +224,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -214,7 +253,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -307,7 +346,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712). It defaults to `0`.
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Ethereum node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
@@ -334,6 +373,21 @@ Please note, when using [Infura](https://infura.io/), only queries are supported
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### getAvailableAccounts()
+
+An `asynchronous` class instance `function` which returns currently available Ethereum wallet addresses.
+
+**Result:**
+
+A list of `strings` representing Ethereum account IDs.
+
+**Example:**
+
+```ts
+// perform query
+const accountIds = await provider.getAvailableAccounts();
+```
 
 ### getInstance(options)
 
@@ -367,6 +421,30 @@ A `string` representing Ethereum network version.
 const version = await provider.getNetworkVersion();
 ```
 
+### isCurrentAccount(accountId)
+
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing Ethereum account address.
+
+**Result:**
+
+A `boolean` which tells if the `accountId` maches the currently set account ID.
+
+**Example:**
+
+```ts
+// ethereum wallet address
+const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
+
+// perform query
+const maches = provider.isCurrentAccount(walletId);
+```
+
 ### isSupported()
 
 A `synchronous` class instance `function` which returns `true` when the provider is supported by the environment.
@@ -384,7 +462,7 @@ const isSupported = provider.isSupported();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `ledgerId` is listed among unsafe recipient ids on the provided.
 
 **Arguments:**
 
@@ -423,7 +501,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one.
 
 **Result:**
 
@@ -452,7 +530,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one.
 
 **Result:**
 
@@ -1352,7 +1430,7 @@ A class instance `variable` holding the address of ledger's smart contract on th
 An `asynchronous` class instance `function` which grants management permissions for this ledger to a third party `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
 :::
 
 **Arguments:**
@@ -1369,13 +1447,13 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
 // perform mutation
@@ -1384,7 +1462,8 @@ const mutation = await ledger.grantAbilities(accountId, abilities);
 
 **See also:**
 
-[revokeAbilities](#revoke-abilities)
+[Ledger abilities](#ledger-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
 
 
 ### isApprovedAccount(assetId, accountId)
@@ -1475,7 +1554,11 @@ const isTransferable = await ledger.isTransferable();
 An `asynchronous` class instance `function` which removes `abilities` of an `accountId`.
 
 ::: warning
-The `MANAGE_ABILITIES` ledger ability is required to perform this function.
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
+:::
+
+::: warning
+You can revoke your own `MANAGE_ABILITIES` super ability.
 :::
 
 **Arguments:**
@@ -1492,13 +1575,13 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 // arbitrary data
 const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const abilities = [
-    AssetLedgerAbility.CREATE_ASSET,
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 
 // perform mutation
@@ -1507,7 +1590,8 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 **See also:**
 
-[grantAbilities](#grant-abilities)
+[Ledger abilities](#ledger-abilities)
+[grantAbilities](#grantabilities-accountid-abilities)
 
 ### revokeAsset(assetId)
 
@@ -1644,14 +1728,21 @@ const mutation = await ledger.transferAsset(recipe);
 ## Ledger abilities
 
 Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
+We have two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities whereas super abilities can.
+This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control. 
 
-**Options:**
+**Super abilities options:**
+
+| Name | Value | Description
+|-|-|-
+| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+
+**General abilities options:**
 
 | Name | Value | Description
 |-|-|-
 | ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 2 | Allows an account to create a new asset.
-| MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
 | UPDATE_ASSET | 16 | Allows an account to update asset data.
@@ -1660,12 +1751,19 @@ Ledger abilities represent account-level permissions. For optimization reasons a
 **Example:**
 
 ```ts
-import { AssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+import { SuperAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
 
 const abilities = [
-    AssetLedgerAbility.TOGGLE_TRANSFERS,
+    SuperAssetLedgerAbility.MANAGE_ABILITIES,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
 ];
 ```
+
+**See also:**
+
+[grantAbilities](#grantabilities-accountid-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
 
 ## Ledger capabilities
 
@@ -2224,8 +2322,8 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xabd785db74609461ec10d023625d3e09a16746d0](https://etherscan.io/address/0xabd785db74609461ec10d023625d3e09a16746d0)
-| TokenTransferProxy | [0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
+| OrderGateway | [0x7b220AC85B7ae8Af1CECCC44e183A862dA2eD517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
+| TokenTransferProxy | [0xcadd178eb978B07B19C8c7F04A54fa337D9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
 | NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
 | NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
 | XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
@@ -2234,18 +2332,18 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x073d230a53bffc8295d9a5247296213298e3fbcf](https://ropsten.etherscan.io/address/0x073d230a53bffc8295d9a5247296213298e3fbcf)
-| TokenTransferProxy | [0x61b47772fd1f98d88dfe887af7f897f0e403ac10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
-| NFTokenTransferProxy | [0x41f8e2f78d930259a03a348713879a79736fc57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
-| NFTokenSafeTransferProxy | [0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
-| XcertCreateProxy | [0x7c1218ef246a53b71b6937ae4ae5f29a83387096](https://ropsten.etherscan.io/address/0x7c1218ef246a53b71b6937ae4ae5f29a83387096)
+| OrderGateway | [0x28dDb78095cf42081B9393F263E8b70BffCbF88F](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
+| TokenTransferProxy | [0x61B47772Fd1f98D88dfE887af7F897F0e403aC10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41F8e2f78D930259a03A348713879a79736fC57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fBD008577Bdea7cdB5ec6388D6f21546B0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
+| XcertCreateProxy | [0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff](https://ropsten.etherscan.io/address/0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff)
 
 ### Rinkeby
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x0827696c1a5ecea8a7f5bad02df93aad6516f41d](https://rinkeby.etherscan.io/address/0x0827696c1a5ecea8a7f5bad02df93aad6516f41d)
-| TokenTransferProxy | [0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
-| NFTokenTransferProxy | [0x0a02d630669c75d5e162aec89e6adccf8ec1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
-| NFTokenSafeTransferProxy | [0x15731d295aee0b1631995ab19e350e0edc5691f6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
-| XcertCreateProxy | [0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79](https://rinkeby.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)
+| OrderGateway | [0x1d57b453DF7483C4b16C0ea67a12C8D2F4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
+| TokenTransferProxy | [0x4BCA0E94239504e69bC25a3Ef3C5Ca6D80157c3D](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
+| NFTokenTransferProxy | [0x0a02d630669C75d5E162AEC89e6adcCF8eC1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
+| NFTokenSafeTransferProxy | [0x15731d295aee0B1631995aB19e350e0eDC5691F6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
+| XcertCreateProxy | [0x67E20dd951Ef09AE6aEbd7c39903F89B2aBD4C79](https://rinkeby.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)

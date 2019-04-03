@@ -149,7 +149,7 @@ spec.beforeEach(async (ctx) => {
     contract: 'OrderGateway',
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
-  await orderGateway.instance.methods.setProxy(1, nftSafeProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(nftSafeProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
@@ -170,7 +170,7 @@ spec.test('Cat #1 <=> Cat #2', async (ctx) => {
   const actions = [
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       param1: jane,
       to: bob,
@@ -178,7 +178,7 @@ spec.test('Cat #1 <=> Cat #2', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       param1: bob,
       to: jane,
@@ -226,7 +226,7 @@ spec.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
   const actions = [
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       from: jane,
       to: bob,
@@ -234,7 +234,7 @@ spec.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       from: jane,
       to: bob,
@@ -242,7 +242,7 @@ spec.test('Cat #1, Cat #4 <=> Cat #2', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       from: bob,
       to: jane,
@@ -295,7 +295,7 @@ spec.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
   const actions = [
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: cat.receipt._address,
       from: jane,
       to: bob,
@@ -303,7 +303,7 @@ spec.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: dog.receipt._address,
       from: jane,
       to: bob,
@@ -311,7 +311,7 @@ spec.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: fox.receipt._address,
       from: bob,
       to: jane,
@@ -319,7 +319,7 @@ spec.test('Cat #1, Dog #1 <=> Fox #1, Bee #3', async (ctx) => {
     },
     {
       kind: 1,
-      proxy: 1,
+      proxy: 0,
       token: bee.receipt._address,
       from: bob,
       to: jane,

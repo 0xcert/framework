@@ -7,11 +7,11 @@ import { ValueLedger } from '@0xcert/ethereum-value-ledger'
 import { OrderGateway } from '@0xcert/ethereum-order-gateway'
 
 const provider = new MetamaskProvider()
-provider.on(ProviderEvent.ACCOUNT_CHANGE, (accountId) => {
-  if (provider.accountId) location.reload()
+provider.on(ProviderEvent.ACCOUNT_CHANGE, (newAccountId, oldAccountId) => {
+  if (oldAccountId) location.reload()
 })
-provider.on(ProviderEvent.NETWORK_CHANGE, (netId) => {
-  location.reload()
+provider.on(ProviderEvent.NETWORK_CHANGE, (newNetworkVersion, oldNetworkId) => {
+  if (oldNetworkId) location.reload()
 })
 
 Vue.use(Vue0xcert, {

@@ -1,4 +1,4 @@
-pragma solidity 0.5.5;
+pragma solidity 0.5.6;
 
 /**
  * @dev Standard interface for a dex proxy contract.

@@ -115,12 +115,12 @@ await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
 });
 
 // assign ability to mint
-await assetLedger.grantAbilities(orderGateway, [AssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
+await assetLedger.grantAbilities(orderGateway, [GeneralAssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```
 ::: tip
-Don't forget to create an instance of `assetLedger` and to import `AssetLedgerAbility`.
+Don't forget to create an instance of `assetLedger` and to import `GeneralAssetLedgerAbility`.
 :::
 
 ::: card Why instance of OrderGateway?
