@@ -86,7 +86,7 @@ export class BitskiProvider extends GenericProvider {
    * @param options HTTP provider options.
    */
   public static getInstance(options: BitskiProviderOptions): BitskiProvider {
-    return new BitskiProvider(options);
+    return new this(options);
   }
 
   /**

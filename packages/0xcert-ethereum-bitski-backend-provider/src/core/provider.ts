@@ -88,7 +88,7 @@ export class BitskiProvider extends GenericProvider {
    * @param options HTTP provider options.
    */
   public static getInstance(options: BitskiProviderOptions): BitskiProvider {
-    return new BitskiProvider(options);
+    return new this(options);
   }
 
   /**
@@ -103,8 +103,8 @@ export class BitskiProvider extends GenericProvider {
       network: options.networkName === 'undefined' ? 'mainnet' : options.networkName,
       credentials: {
         id: options.credentialsId,
-        secret: options.credentialsSecret
-      }
+        secret: options.credentialsSecret,
+      },
     });
 
   }
@@ -115,7 +115,7 @@ export class BitskiProvider extends GenericProvider {
   public isSupported() {
     return !!this._provider;
   }
-  
+
   /**
    * Sends the RPC call.
    */
