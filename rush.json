@@ -97,6 +97,16 @@
       "projectFolder": "packages/0xcert-ethereum-sandbox",
       "versionPolicyName": "patchAll"
     },
+    {
+      "packageName": "@0xcert/storage-ipfs",
+      "projectFolder": "packages/0xcert-storage-ipfs",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/storage-ipfs-middleware",
+      "projectFolder": "packages/0xcert-storage-ipfs-middleware",
+      "versionPolicyName": "patchAll"
+    },
     // {
     //   "packageName": "@0xcert/ethereum-utils",
     //   "projectFolder": "packages/0xcert-ethereum-utils",

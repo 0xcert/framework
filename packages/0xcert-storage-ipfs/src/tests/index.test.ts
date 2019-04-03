@@ -4,7 +4,7 @@ import * as storage from '..';
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!storage.StorageIPFS);
+  ctx.true(!!storage.Storage);
 });
 
 export default spec;

@@ -1,10 +1,10 @@
 import { Spec } from '@hayspec/spec';
-import * as storage from '..';
+import * as middleware from '..';
 
 const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
-  ctx.true(!!storage.StorageIPFS);
+  ctx.true(!!middleware.StorageMiddleware);
 });
 
 export default spec;

@@ -1,17 +1,14 @@
 import { Spec } from '@hayspec/spec';
 import * as https from 'https';
-import { StorageIPFS } from '../../';
+import { Storage } from '../../';
 
 const spec = new Spec<{
-  ipfs: StorageIPFS;
+  ipfs: Storage;
 }>();
 
 spec.before(async (stage) => {
   console.log('IPFS');
-  const ipfs = new StorageIPFS({
-    // apiUri: '192.168.10.80',
-    // apiProtocol: 'http',
-  });
+  const ipfs = new Storage({});
   stage.set('ipfs', ipfs);
 });
 

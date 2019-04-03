@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/storage-ipfs-middleware",
   "version": "1.0.1",
-  "description": "IPFS storage interface middleware.",
+  "description": "IPFS storage express middleware.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -73,9 +73,11 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
+    "@0xcert/storage-ipfs": "1.0.1",
     "@0xcert/utils": "1.0.1",
-    "@0xcert/storage-ipfs": "file:/home/alko/Development/Blockchain/0xcert/0xcert-framework/packages/0xcert-storage-ipfs",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "ipfs-http-client": "^30.1.1",
     "level": "^5.0.1"
   }
 }

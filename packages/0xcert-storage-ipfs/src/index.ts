@@ -1,1 +1,1 @@
-export * from './lib/ipfs';
+export * from './lib/storage';

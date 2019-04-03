@@ -1,28 +1,99 @@
+import * as bodyParser from 'body-parser';
 import * as level from 'level';
+import { Storage } from '@0xcert/storage-ipfs';
+
+export interface StorageMiddlewareConfig {
+
+  /**
+   * Database path
+   */
+  levelDbPath?: string;
+
+  /**
+   * IPFS gateway URI
+   */
+  ipfsGatewayUri?: string;
+
+  /**
+   * IPFS gateway port
+   */
+  ipfsGatewayPort?: number;
+
+  /**
+   * IPFS gateway protocol (http or https)
+   */
+  ipfsGatewayProtocol?: string;
+
+  /**
+   * IPFS API URI
+   */
+  ipfsApiUri?: string;
+
+  /**
+   * IPFS API port
+   */
+  ipfsApiPort?: number;
+
+  /**
+   * IPFS API protocol (http or https)
+   */
+  ipfsApiProtocol?: string;
+}
 
 export class StorageMiddleware {
- protected db: any;
 
- public constructor() {
-   this.db = new level('0x-db');
- }
+  /**
+   * LevelDB database instance
+   */
+  protected db: any;
 
- public getter(options = {}) {
-   return async (req, res, next) => {
-     const { id } = req.params;
-     const ipfsHash = this.db.get(id);
-     const ipfsJson = await IPFS.get(ipfsHash);
-     res.json(ipfsJson);
-   };
- }
+  /**
+   * IPFS storage instance
+   */
+  protected ipfs: Storage;
 
- public setter(options = {}) {
-   return async (req, res, next) => {
-     const { id } = req.params;
-     const json = req.body; // uporabi "body-parser" middleware
-     const ipfsHash = await IPFS.set(json);
-     await this.db.set(id, ipfsHash);
-     res.json({ success: true });
-   };
- }
+  /**
+   * Class constructor.
+   */
+  public constructor(config: StorageMiddlewareConfig) {
+    this.db = new level(config.levelDbPath || '0xcertdb');
+    this.ipfs = new Storage({ ...config });
+  }
+
+  /**
+   * Middleware getter function.
+   */
+  public getter() {
+    return async (req, res) => {
+      const { id } = req.params;
+      const ipfsHash = await this.db.get(id);
+      const ipfsJson = await this.ipfs.get(ipfsHash);
+      res.json(await ipfsJson.json());
+    };
+  }
+
+  /**
+   * Middleware setter function.
+   */
+  public setter() {
+    const jsonParser = bodyParser.json();
+
+    const respond = async (req, res) => {
+      const { id } = req.params;
+      const json = req.body;
+      const jsonString = JSON.stringify(json);
+      const ipfsHash = await this.ipfs.add(Buffer.alloc(jsonString.length, jsonString));
+      await this.db.put(id, ipfsHash[0].hash);
+      res.json({ success: true });
+    };
+
+    return async (req, res) => {
+      if (!req.body) {
+        jsonParser(req, res, async (err) => respond(req, res));
+      } else {
+        respond(req, res);
+      }
+    };
+  }
+
 }

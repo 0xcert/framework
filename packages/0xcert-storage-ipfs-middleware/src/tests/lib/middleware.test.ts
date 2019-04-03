@@ -1,29 +1,20 @@
 import { Spec } from '@hayspec/spec';
 import * as https from 'https';
-import { StorageIPFS } from '../../';
+import { StorageMiddleware } from '../../';
 
 const spec = new Spec<{
-  ipfs: StorageIPFS;
+  middleware: StorageMiddleware;
 }>();
 
 spec.before(async (stage) => {
   console.log('IPFS');
-  const ipfs = new StorageIPFS({
-    // apiUri: '192.168.10.80',
-    // apiProtocol: 'http',
-  });
+  const ipfs = new StorageMiddleware({});
   stage.set('ipfs', ipfs);
 });
 
 spec.test('add get file', async (ctx) => {
-  const ipfs = ctx.get('ipfs');
+  const middleware = ctx.get('middleware');
 
-  const v = await ipfs.add(Buffer.alloc(12, 'Hello world!'));
-  console.log(v[0].hash);
-  console.log();
-
-  const res = await ipfs.get(v[0].hash);
-  console.log(await res.text());
 });
 
 export default spec;
