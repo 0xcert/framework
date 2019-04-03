@@ -396,7 +396,8 @@ contract OrderGateway is
           _order.actions[i].to,
           _order.actions[i].value
         );
-      } else if (_order.actions[i].kind == ActionKind.update)
+      }
+      else if (_order.actions[i].kind == ActionKind.update)
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
