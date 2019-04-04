@@ -8,6 +8,7 @@ module.exports = {
     '0xcert-ethereum-metamask-provider': './src/0xcert-ethereum-metamask-provider.js',
     '0xcert-ethereum-order-gateway': './src/0xcert-ethereum-order-gateway.js',
     '0xcert-ethereum-value-ledger': './src/0xcert-ethereum-value-ledger.js',
+    '0xcert-ethereum-bitski-frontend-provider': './src/0xcert-ethereum-bitski-frontend-provider.js',
     '0xcert-ethereum': './src/0xcert-ethereum.js',
   },
   output: {
