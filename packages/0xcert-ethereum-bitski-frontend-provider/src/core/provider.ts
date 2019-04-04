@@ -97,12 +97,10 @@ export class BitskiProvider extends GenericProvider {
 
     this._options = options;
     this._client = this;
-    if (typeof window !== 'undefined') {
+    if (this.isSupported()) {
       const bitski = require('bitski');
       this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
       this._provider = this._bitski.getProvider({ networkName: options.networkName === 'undefined' ? 'mainnet' : options.networkName });
-    } else {
-      throw new Error('Cannot initialize Bitski.');
     }
   }
 
@@ -117,13 +115,17 @@ export class BitskiProvider extends GenericProvider {
    * Checks if Bitski is connected.
    */
   public isSignedIn() {
-    return this._bitski.authStatus === 'CONNECTED';
+    return this._bitski && this._bitski.authStatus === 'CONNECTED';
   }
 
   /**
    * Signs into Bitski.
    */
   public async signIn() {
+    if (!this.isSupported()) {
+      return false;
+    }
+
     await this._bitski.start();
     this.accountId = await this.getAvailableAccounts().then((a) => a[0]);
     this.signOutHandler = () => {
@@ -138,6 +140,9 @@ export class BitskiProvider extends GenericProvider {
    * Signs out of Bitski.
    */
   public async signOut() {
+    if (!this.isSupported()) {
+      return false;
+    }
     await this._bitski.signOut();
     return this;
   }
@@ -146,6 +151,9 @@ export class BitskiProvider extends GenericProvider {
    * Gets the current signed in user. Will reject if no user is signed in.
    */
   public async getConnectedUser() {
+    if (!this.isSupported()) {
+      return false;
+    }
     const user = await this._bitski.getUser();
     return user;
   }
