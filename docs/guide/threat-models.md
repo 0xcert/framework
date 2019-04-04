@@ -159,7 +159,7 @@ If you use these two mitigations together then Bob is unable to make any bound o
 
 If you are using the Ethereum or Wanchain blockchains or similar, Bob will see which entity commited each transaction. This is a fundamental property of how blockchains works. If your application publishes documents which are imprinted in a 0xcert Framework Asset and a part of that document includes the identity of the publisher then Bob would be able to guess the part of the document representing the document publisher insofaras it is equal to the identity of the person performing the blockchain transaction.
 
-💡 Mitigation: You may use an Order Gateway and claims to create Assets. In this senario, the pubisher would create a claim and a separate entity (your application) would publish the transaction to the blockchain. The identity of the beneficial publisher can be hidden in several ways using this technique. The specific ways are are outside the scope of this document.
+💡 Mitigation: You may use an Order Gateway and claims to create Assets. In this senario, the publisher would create a claim and a separate entity (your application) would publish the transaction to the blockchain. The identity of the beneficial publisher can be hidden in several ways using this technique. The specific ways are are outside the scope of this document.
 
 ## Penny: publishes a proof 
 
