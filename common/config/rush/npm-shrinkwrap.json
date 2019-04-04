@@ -1953,7 +1953,7 @@
     },
     "@rush-temp/webpack": {
       "version": "file:projects/webpack.tgz",
-      "integrity": "sha512-WbYOYueghl4Hv+QiV5HJgCY3LgG7B+Z63HkRHwuvgoXiXK6mvlnjxXmNqgDPlDYseMolvr4xMbAQEMd9l6xiHA==",
+      "integrity": "sha512-6vnyxpfWu/3wPm++940CVp041tJjAOjXe8vHRjhR+dyoGG8UGXe0cQBlIA+TvlIr7I1TIbzFTHOnuClqv3Dg3Q==",
       "requires": {
         "webpack": "^4.25.0",
         "webpack-cli": "^3.1.2"
