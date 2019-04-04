@@ -37,7 +37,7 @@ export interface BitskiProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * ID (address) of order gateway.
    */
   orderGatewayId?: string;
 
@@ -47,12 +47,12 @@ export interface BitskiProviderOptions {
   mutationTimeout?: number;
 
   /**
-   * Bitski client id.
+   * Bitski client ID.
    */
   clientId: string;
 
   /**
-   * Bitski credentials id.
+   * Bitski credentials ID.
    */
   credentialsId: string;
 
@@ -61,9 +61,8 @@ export interface BitskiProviderOptions {
    */
   credentialsSecret: string;
 
-
   /**
-   * Which ethereum network bitski is connection to. Mainnet by default.
+   * Ethereum network Bitski is connected to. Mainnet by default.
    */
   networkName?: string;
 }

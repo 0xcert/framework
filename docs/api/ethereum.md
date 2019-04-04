@@ -2,26 +2,26 @@
 
 ## Bitski back-end provider
 
-A [Bitski](https://www.bitski.com/) back-end provider is applied back-end Node.js usage. You will be able to connect to ethereum blockchain and create queries and mutation via your Bitski developer wallets. To setup Bitski back-end provider it is required to first create a [development account](https://developer.bitski.com/) on Bitski.
+A [Bitski](https://www.bitski.com/) back-end provider is applied to back-end Node.js usage. You will be able to connect to the Ethereum blockchain and create queries and mutations via your Bitski developer wallets. To set up Bitski back-end provider, you need to first create a [development account](https://developer.bitski.com/) on Bitski.
 
 ### BitskiProvider(options)
 
-A `class` providing the communication with the Ethereum blockchain through [Bitski](https://www.bitski.com/).
+A class providing communication with the Ethereum blockchain through [Bitski](https://www.bitski.com/).
 
 **Arguments**
 
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
-| options.clientId | A `string` representing the Bitski client id. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.credentialsId | A `string` representing the Bitski credentials ID. You get the cretentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
+| options.mutationTimeout | A numberrepresenting the number of milliseconds in which a mutation times out. Defaults to3600000. You can set it to -1 to disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
-| options.networkName | A `string` representing which ethereum network we will connect to.
+| options.networkName | A string representing the Ethereum network we will connect to.
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here). 
+| options.unsafeRecipientIds | A list of stringsrepresenting smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 **Usage**
@@ -42,7 +42,7 @@ const provider = new BitskiProvider({
 
 ### accountId
 
-A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
+A class instance `variable` holding a `string` which represents the user's current Ethereum wallet address.
 
 ### assetLedgerSource
 
@@ -105,11 +105,11 @@ const provider = BitskiProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
 **Result:**
 
-A `string` representing Ethereum network version.
+A `string` representing the Ethereum network version.
 
 **Example:**
 
@@ -120,7 +120,7 @@ const version = await provider.getNetworkVersion();
 
 ### isCurrentAccount(accountId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` matches the currently set account ID.
 
 **Arguments:**
 
@@ -130,7 +130,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` maches the currently set account ID.
+A `boolean` which tells if the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -139,7 +139,7 @@ A `boolean` which tells if the `accountId` maches the currently set account ID.
 const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
 
 // perform query
-const maches = provider.isCurrentAccount(walletId);
+const matches = provider.isCurrentAccount(walletId);
 ```
 
 ### isSupported()
@@ -159,7 +159,7 @@ const isSupported = provider.isSupported();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient IDs on the provider.
 
 **Arguments:**
 
@@ -198,7 +198,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -227,7 +227,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -260,7 +260,7 @@ A `synchronous` class instance `function` which removes an existing event handle
 
 **Result:**
 
-An instance of the same provider  class.
+An instance of the same provider class.
 
 **Example:**
 
@@ -284,7 +284,7 @@ A class instance `variable` holding a `string` which represents the number of co
 
 ### signMethod
 
-A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
 
 ### unsafeRecipientIds
 
@@ -297,25 +297,25 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ## Bitski front-end provider
 
-A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/login into his bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider it is required to first create a [development account](https://developer.bitski.com/) on Bitski.
+A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log into his Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider you need to first create a [development account](https://developer.bitski.com/) on Bitski.
 
 ### BitskiProvider(options)
 
-A `class` providing the communication with the Ethereum blockchain through [Bitski](https://www.bitski.com/).
+A `class` providing communication with the Ethereum blockchain through [Bitski](https://www.bitski.com/).
 
 **Arguments**
 
 | Argument | Description
 |-|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
-| options.clientId | A `string` representing the Bitski client id. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
+| options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
-| options.networkName | A `string` representing which ethereum network we will connect to.
-| options.redirectUrl | A `string` representing Bitski redirect URL. For Bitski front-end integration you will need to create a call back website for OAuth2 and host it. Here is an [example](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html). The URL to this HTML page also needs to be apps authorized redirect URL in [Bitski Developer Portal](https://developer.bitski.com/). 
+| options.networkName | A `string` representing the Ethereum network we will connect to.
+| options.redirectUrl | A `string` representing Bitski redirect URL. For Bitski front-end integration you will need to create a call back to the website for OAuth2 and host it. Here is an [example](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html). The URL to this HTML page also needs to be apps authorized redirect URL in [Bitski Developer Portal](https://developer.bitski.com/).
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here). 
+| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 **Usage**
@@ -335,7 +335,7 @@ const provider = new BitskiProvider({
 
 ### accountId
 
-A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
+A class instance `variable` holding a `string` which represents the user's current Ethereum wallet address.
 
 ### assetLedgerSource
 
@@ -350,7 +350,7 @@ A `synchronous` class instance `function` to manually trigger a provider event.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| options | [required] Pass valid current and previous account ID for `ACCOUNT_CHANGE` event or valid current and previous network version for `NETWORK_CHANGE` event.
+| options | [required] Pass valid current and previous account ID for `ACCOUNT_CHANGE` event or valid current and previous network versions for `NETWORK_CHANGE` event.
 
 **Result:**
 
@@ -381,7 +381,7 @@ const accountIds = await provider.getAvailableAccounts();
 
 ### getConnectedUser()
 
-An `asynchronous` class instance `function` which returns currently signed in Bitski user data. Will throw if no user is signed in.
+An `asynchronous` class instance `function` which returns data of the currently signed in Bitski user. Will throw if no user is signed in.
 
 **Result:**
 
@@ -413,11 +413,11 @@ const provider = BitskiProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g., `1` for Ethereum Mainnet).
 
 **Result:**
 
-A `string` representing Ethereum network version.
+A `string` representing the Ethereum network version.
 
 **Example:**
 
@@ -428,7 +428,7 @@ const version = await provider.getNetworkVersion();
 
 ### isCurrentAccount(accountId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` matches the currently set account ID.
 
 **Arguments:**
 
@@ -438,7 +438,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` maches the currently set account ID.
+A `boolean` which tells if the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -447,7 +447,7 @@ A `boolean` which tells if the `accountId` maches the currently set account ID.
 const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
 
 // perform query
-const maches = provider.isCurrentAccount(walletId);
+const matches = provider.isCurrentAccount(walletId);
 ```
 
 ### isSupported()
@@ -483,7 +483,7 @@ const isSignedIn = provider.isSignedIn();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient IDs on the provider.
 
 **Arguments:**
 
@@ -522,7 +522,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -551,7 +551,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -584,7 +584,7 @@ A `synchronous` class instance `function` which removes an existing event handle
 
 **Result:**
 
-An instance of the same provider  class.
+An instance of the same provider class.
 
 **Example:**
 
@@ -619,7 +619,7 @@ const provider = await provider.signIn();
 
 ### signMethod
 
-A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
 
 ### signOut()
 
@@ -763,7 +763,7 @@ const version = await provider.getNetworkVersion();
 
 ### isCurrentAccount(accountId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` matches the currently set account ID.
 
 **Arguments:**
 
@@ -773,7 +773,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` maches the currently set account ID.
+A `boolean` which tells if the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -782,7 +782,7 @@ A `boolean` which tells if the `accountId` maches the currently set account ID.
 const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
 
 // perform query
-const maches = provider.isCurrentAccount(walletId);
+const matches = provider.isCurrentAccount(walletId);
 ```
 
 ### isEnabled()
@@ -1063,7 +1063,7 @@ const version = await provider.getNetworkVersion();
 
 ### isCurrentAccount(accountId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` matches the currently set account ID.
 
 **Arguments:**
 
@@ -1073,7 +1073,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` maches the currently set account ID.
+A `boolean` which tells if the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -1082,7 +1082,7 @@ A `boolean` which tells if the `accountId` maches the currently set account ID.
 const walletId = '0x06012c8cf97bead5deae237070f9587f8e7a266d';
 
 // perform query
-const maches = provider.isCurrentAccount(walletId);
+const matches = provider.isCurrentAccount(walletId);
 ```
 
 ### isSupported()

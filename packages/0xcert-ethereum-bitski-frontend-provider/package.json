@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-bitski-frontend-provider",
   "version": "1.0.1-alpha1",
-  "description": "Implementation of Bitski frontend communication provider for the Ethereum blockchain.",
+  "description": "Implementation of Bitski front-end communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

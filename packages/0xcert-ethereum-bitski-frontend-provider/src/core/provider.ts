@@ -26,12 +26,12 @@ export interface BitskiProviderOptions {
   valueLedgerSource?: string;
 
   /**
-   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   * Number of confirmations (blocks in blockchain after mutation is accepted) that are necessary to mark a mutation complete.
    */
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * ID (address) of order gateway.
    */
   orderGatewayId?: string;
 
@@ -41,7 +41,7 @@ export interface BitskiProviderOptions {
   mutationTimeout?: number;
 
   /**
-   * Bitski client id.
+   * Bitski client ID.
    */
   clientId: string;
 
@@ -51,7 +51,7 @@ export interface BitskiProviderOptions {
   redirectUrl: string;
 
   /**
-   * Which ethereum network bitski is connection to. Mainnet by default.
+   * Ethereum network Bitski is connected to. Mainnet by default.
    */
   networkName?: string;
 }
@@ -102,7 +102,7 @@ export class BitskiProvider extends GenericProvider {
       this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
       this._provider = this._bitski.getProvider({ networkName: options.networkName === 'undefined' ? 'mainnet' : options.networkName });
     } else {
-      throw new Error('Cannot initialize bitski.');
+      throw new Error('Cannot initialize Bitski.');
     }
   }
 
@@ -114,14 +114,14 @@ export class BitskiProvider extends GenericProvider {
   }
 
   /**
-   * Checks if bitski is connected.
+   * Checks if Bitski is connected.
    */
   public isSignedIn() {
     return this._bitski.authStatus === 'CONNECTED';
   }
 
   /**
-   * Signs into bitski.
+   * Signs into Bitski.
    */
   public async signIn() {
     await this._bitski.start();
@@ -135,7 +135,7 @@ export class BitskiProvider extends GenericProvider {
   }
 
   /**
-   * Signs out bitski.
+   * Signs out of Bitski.
    */
   public async signOut() {
     await this._bitski.signOut();
@@ -143,7 +143,7 @@ export class BitskiProvider extends GenericProvider {
   }
 
   /**
-   * Gets the current signed in user. Will reject if we are not signed in.
+   * Gets the current signed in user. Will reject if no user is signed in.
    */
   public async getConnectedUser() {
     const user = await this._bitski.getUser();
