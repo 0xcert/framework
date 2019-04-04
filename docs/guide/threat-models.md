@@ -171,7 +171,7 @@ Penny is able to share this proof with a third party or publish it. This third p
 
 ### Anonymous publishing
 
-If you are the only person that has access to the document parts and you expose data to Penny and her friend then you will be unable to know which of the two of them published data if it is ever pubished.
+If you are the only person that has access to the document parts and you expose data to Penny and her friend then you will be unable to know which of the two of them published data if it is ever published.
 
 ## Sheryl: can control your cloud provider
 
