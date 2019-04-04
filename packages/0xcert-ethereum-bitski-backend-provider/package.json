@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-bitski-backend-provider",
-  "version": "1.0.1-alpha1",
+  "version": "1.0.1",
   "description": "Implementation of Bitski back-end communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
