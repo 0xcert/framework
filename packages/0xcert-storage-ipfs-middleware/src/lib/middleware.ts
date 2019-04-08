@@ -71,10 +71,14 @@ export class StorageMiddleware {
    */
   public getter() {
     return async (req, res) => {
-      const { id } = req.params;
-      const ipfsHash = await this.db.get(id);
-      const ipfsJson = await this.ipfs.get(ipfsHash);
-      res.json(await ipfsJson.json());
+      try {
+        const { id } = req.params;
+        const ipfsHash = await this.db.get(id);
+        const ipfsJson = await this.ipfs.get(ipfsHash);
+        res.json(await ipfsJson.json());
+      } catch (error) {
+        res.json({ error: 'Key not found' });
+      }
     };
   }
 
@@ -88,9 +92,13 @@ export class StorageMiddleware {
       const { id } = req.params;
       const json = req.body;
       const jsonString = JSON.stringify(json);
-      const ipfsHash = await this.ipfs.add(Buffer.alloc(jsonString.length, jsonString));
-      await this.db.put(id, ipfsHash[0].hash);
-      res.json({ success: true });
+      try {
+        const ipfsHash = await this.ipfs.add(Buffer.alloc(jsonString.length, jsonString));
+        await this.db.put(id, ipfsHash[0].hash);
+        res.json({ success: true });
+      } catch (error) {
+        res.json({ error: error.message });
+      }
     };
 
     return async (req, res) => {
