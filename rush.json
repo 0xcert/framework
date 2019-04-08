@@ -43,6 +43,11 @@
       "shouldPublish": false
     },
     {
+      "packageName": "@0xcert/ipfs-example",
+      "projectFolder": "packages/0xcert-ipfs-example",
+      "shouldPublish": false
+    },
+    {
       "packageName": "@0xcert/vue-plugin",
       "projectFolder": "packages/0xcert-vue-plugin",
       "versionPolicyName": "patchAll"

@@ -4,7 +4,7 @@
   "description": "IPFS storage example.",
   "scripts": {
     "build": "",
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "npx cross-env NODE_ENV=development npx nodemon server/index.js --watch server",
     "test": ""
   },
   "dependencies": {
