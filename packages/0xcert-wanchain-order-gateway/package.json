@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-order-gateway",
-  "version": "1.1.0-alpha0",
+  "version": "1.2.0",
   "description": "Order gateway module for executing atomic operations on the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,7 +72,6 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-order-gateway": "1.1.0-alpha0",
-    "@0xcert/wanchain-utils": "1.1.0-alpha0"
+    "@0xcert/ethereum-order-gateway": "1.2.0"
   }
 }

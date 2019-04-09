@@ -1,3 +1,2 @@
-export { MutationEvent, ProviderEvent, ProviderIssue, ProviderError, parseError, MutationStatus,
-  Mutation, GenericProvider, SignMethod } from '@0xcert/ethereum-http-provider';
+export * from '@0xcert/ethereum-generic-provider';
 export * from './core/provider';

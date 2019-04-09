@@ -1,4 +1,3 @@
-import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
 
@@ -15,13 +14,13 @@ export default async function(gateway: OrderGateway, proxyId: OrderGatewayProxy)
   try {
     const attrs = {
       to: gateway.id,
-      data: functionSignature + encodeParameters(inputTypes, [proxyId]).substr(2),
+      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [proxyId]).substr(2),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(outputTypes, res.result)[0];
+    return gateway.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
     return null;
   }

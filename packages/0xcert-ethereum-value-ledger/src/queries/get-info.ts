@@ -1,4 +1,3 @@
-import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedger } from '../core/ledger';
 
 const functions = [
@@ -34,13 +33,13 @@ export default async function(ledger: ValueLedger) {
       try {
         const attrs = {
           to: ledger.id,
-          data: f.signature + encodeParameters(f.inputTypes, []).substr(2),
+          data: f.signature + ledger.provider.encoder.encodeParameters(f.inputTypes, []).substr(2),
         };
         const res = await ledger.provider.post({
           method: 'eth_call',
           params: [attrs, 'latest'],
         });
-        return decodeParameters(f.outputTypes, res.result)[0].toString();
+        return ledger.provider.encoder.decodeParameters(f.outputTypes, res.result)[0].toString();
       } catch (error) {
         return null;
       }

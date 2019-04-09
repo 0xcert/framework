@@ -1,1 +1,1 @@
-export * from './lib/normalize-address';
+export * from './lib/encoder';

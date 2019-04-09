@@ -1,4 +1,3 @@
-import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { Order } from '@0xcert/scaffold';
 import { OrderGateway } from '../core/gateway';
 import { createOrderHash, createSignatureTuple } from '../lib/order';
@@ -19,13 +18,13 @@ export default async function(gateway: OrderGateway, order: Order, claim: string
   try {
     const attrs = {
       to: gateway.id,
-      data: functionSignature + encodeParameters(inputTypes, [order.makerId, orderHash, signatureTuple]).substr(2),
+      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [order.makerId, orderHash, signatureTuple]).substr(2),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(outputTypes, res.result)[0];
+    return gateway.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
     return null;
   }
