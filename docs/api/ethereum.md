@@ -1742,6 +1742,7 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 128 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 2 | Allows an account to create a new asset.
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
@@ -2282,6 +2283,7 @@ Order actions define the atomic operations of the order gateway.
 | Name | Value | Description
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
+| UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
@@ -2294,7 +2296,15 @@ Order actions define the atomic operations of the order gateway.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+
+### Update asset imprint action
+
+| Property | Description
+|-|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
 
