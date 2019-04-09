@@ -2287,6 +2287,8 @@ Order actions define the atomic operations of the order gateway.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
+::: warning There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing. :::
+
 ### Create asset action
 
 | Property | Description
