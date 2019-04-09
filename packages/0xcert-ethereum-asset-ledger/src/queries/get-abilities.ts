@@ -20,6 +20,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
       GeneralAssetLedgerAbility.UPDATE_ASSET,
       GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
       GeneralAssetLedgerAbility.UPDATE_URI_BASE,
+      GeneralAssetLedgerAbility.ALLOW_UPDATE_ASSET_IMPRINT,
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,

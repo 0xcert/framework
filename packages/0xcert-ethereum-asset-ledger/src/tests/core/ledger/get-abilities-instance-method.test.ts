@@ -47,6 +47,7 @@ spec.test('returns account abilities (Xcert smart contract)', async (ctx) => {
     GeneralAssetLedgerAbility.UPDATE_ASSET,
     GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
     GeneralAssetLedgerAbility.UPDATE_URI_BASE,
+    GeneralAssetLedgerAbility.ALLOW_UPDATE_ASSET_IMPRINT,
   ]);
 });
 
