@@ -11,9 +11,7 @@ import { OrderGatewayProxy } from '../core/types';
  * @param order Order instance.
  */
 export function createOrderHash(gateway: OrderGateway, order: Order) {
-
   let temp = '0x0000000000000000000000000000000000000000000000000000000000000000';
-
   for (const action of order.actions) {
     temp = keccak256(
       hexToBytes([
@@ -23,7 +21,7 @@ export function createOrderHash(gateway: OrderGateway, order: Order) {
         `0000000${getActionProxy(gateway, action)}`,
         action.ledgerId.substr(2),
         getActionParam1(action).substr(2),
-        action.receiverId.substr(2),
+        getActionTo(action).substr(2),
         getActionValue(action).substr(2),
       ].join('')),
     );
@@ -55,7 +53,7 @@ export function createRecipeTuple(gateway: OrderGateway, order: Order) {
       proxy: getActionProxy(gateway, action),
       token: action.ledgerId,
       param1: getActionParam1(action),
-      to: action.receiverId,
+      to: getActionTo(action),
       value: getActionValue(action),
     };
   });
@@ -98,7 +96,30 @@ export function createSignatureTuple(claim: string) {
  * @param action OrderAction instance.
  */
 export function getActionKind(action: OrderAction) {
-  return action.kind == OrderActionKind.CREATE_ASSET ? '00' : '01';
+  switch (action.kind) {
+    case OrderActionKind.CREATE_ASSET: {
+      return '00';
+      break;
+    }
+    case OrderActionKind.UPDATE_ASSET_IMPRINT: {
+      return '02';
+      break;
+    }
+    default: {
+      return '01';
+      break;
+    }
+  }
+}
+
+/**
+ * Gets the correct to address.
+ * @param action OrderAction instance.
+ */
+export function getActionTo(action: OrderAction) {
+  return action.kind == OrderActionKind.UPDATE_ASSET_IMPRINT
+    ? '0x0000000000000000000000000000000000000000'
+    : action.receiverId;
 }
 
 /**
@@ -113,8 +134,10 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
       ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
-  } else {
+  } else if (action.kind == OrderActionKind.CREATE_ASSET) {
     return OrderGatewayProxy.XCERT_CREATE;
+  } else {
+    return OrderGatewayProxy.XCERT_UPDATE;
   }
 }
 
@@ -123,9 +146,10 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
  * @param action OrderAction instance.
  */
 export function getActionParam1(action: OrderAction) {
-  return action.kind == OrderActionKind.CREATE_ASSET
+  return (action.kind == OrderActionKind.CREATE_ASSET
+    || action.kind == OrderActionKind.UPDATE_ASSET_IMPRINT)
     ? rightPad(`0x${action['assetImprint']}`, 64)
-    : `${action.senderId}000000000000000000000000`;
+    : `${action['senderId']}000000000000000000000000`;
 }
 
 /**
@@ -192,8 +216,12 @@ export function normalizeOrderIds(order: Order): Order {
   order.takerId = normalizeAddress(order.takerId);
   order.actions.forEach((action) => {
     action.ledgerId = normalizeAddress(action.ledgerId);
-    action.receiverId = normalizeAddress(action.receiverId);
-    action.senderId = normalizeAddress(action.senderId);
+    if (action['receiverId']) {
+      action['receiverId'] = normalizeAddress(action['receiverId']);
+    }
+    if (action['senderId']) {
+      action['senderId'] = normalizeAddress(action['senderId']);
+    }
   });
   return order;
 }

@@ -54,21 +54,24 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
 
-  const xcert = stage.get('protocol').xcert;
+  const xcert = stage.get('protocol').xcertMutable;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
   const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
+  const xcertUpdateProxy = stage.get('protocol').xcertUpdateProxy.instance.options.address;
 
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(xcertCreateProxy, 2).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, 16).send({ from: coinbase });
   await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: bob });
 });
 
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
-  const xcertId = stage.get('protocol').xcert.instance.options.address;
+  const xcertId = stage.get('protocol').xcertMutable.instance.options.address;
+  const xcert = stage.get('protocol').xcertMutable.instance;
 
   const order: Order = {
     makerId: coinbase,
@@ -79,10 +82,15 @@ spec.before(async (stage) => {
       {
         kind: OrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
-        senderId: coinbase,
         receiverId: bob,
         assetId: '102',
         assetImprint: '0',
+      },
+      {
+        kind: OrderActionKind.UPDATE_ASSET_IMPRINT,
+        ledgerId: xcertId,
+        assetImprint: '2',
+        assetId: '100',
       },
       {
         kind: OrderActionKind.TRANSFER_ASSET,
@@ -120,11 +128,12 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   const claim = ctx.get('claim');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
-  const xcert = ctx.get('protocol').xcert;
+  const xcert = ctx.get('protocol').xcertMutable;
 
   const orderGateway = new OrderGateway(provider, orderGatewayId);
   await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
 
+  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
