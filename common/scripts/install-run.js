@@ -369,7 +369,7 @@ function runWithErrorAndStatusCode(fn) {
 }
 exports.runWithErrorAndStatusCode = runWithErrorAndStatusCode;
 function run() {
-    const [nodePath, /* Ex: /bin/node */ scriptPath, /* /repo/common/scripts/install-run-rush.js */ rawPackageSpecifier, /* qrcode@^1.2.0 */ packageBinName, /* qrcode */ ...packageBinArgs /* [-f, myproject/lib] */] = process.argv;
+    const [nodePath, /* Ex: /bin/node */ scriptPath, /* /repo/common/scripts/install-run-rush.js */ rawPackageSpecifier, /* qrcode@^1.2.0-alpha0 */ packageBinName, /* qrcode */ ...packageBinArgs /* [-f, myproject/lib] */] = process.argv;
     if (!nodePath) {
         throw new Error('Unexpected exception: could not detect node path');
     }

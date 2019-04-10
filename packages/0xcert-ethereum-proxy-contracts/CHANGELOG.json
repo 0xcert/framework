@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-proxy-contracts",
   "entries": [
     {
-      "version": "1.2.0",
-      "tag": "@0xcert/ethereum-proxy-contracts_v1.2.0",
+      "version": "1.2.0-alpha0",
+      "tag": "@0xcert/ethereum-proxy-contracts_v1.2.0-alpha0",
       "date": "Fri, 22 Mar 2019 09:48:00 GMT",
       "comments": {}
     },
