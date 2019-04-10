@@ -22,8 +22,10 @@ async function start() {
     await nuxt.ready()
   }
 
+  // Create IPFS middleware storage instance
   const storage = new StorageMiddleware({});
 
+  // Expose IPFS storage endpoints
   app.get('/storage/:id', storage.getter());
   app.post('/storage/:id', storage.setter());
 
