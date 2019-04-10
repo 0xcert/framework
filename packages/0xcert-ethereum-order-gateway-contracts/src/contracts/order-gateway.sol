@@ -71,6 +71,8 @@ contract OrderGateway is
 
   /**
    * @dev Structure representing what to send and where.
+   * @notice For update action kind to parameter is unnecessary. For this reason we recommend you
+   * set it to zero address (0x000...0) since it costs less.
    * @param kind Enum representing action kind. 
    * @param proxy Id representing approved proxy address.
    * @param token Address of the token we are sending.
