@@ -630,7 +630,7 @@ A `class` which handles transaction-related operations on the Ethereum blockchai
 **Arguments**
 
 | Argument | Description
-|-|-|-
+|-|-
 | mutationId | [required] A `string` representing a hash string of an Ethereum transaction.
 | provider | [required] An instance of an HTTP or MetaMask provider.
 
@@ -2292,7 +2292,7 @@ Order actions define the atomic operations of the order gateway.
 ### Create asset action
 
 | Property | Description
-|-|-|-
+|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
@@ -2302,7 +2302,7 @@ Order actions define the atomic operations of the order gateway.
 ### Update asset imprint action
 
 | Property | Description
-|-|-|-
+|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
@@ -2311,7 +2311,7 @@ Order actions define the atomic operations of the order gateway.
 ### Transfer asset action
 
 | Property | Description
-|-|-|-
+|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
@@ -2321,7 +2321,7 @@ Order actions define the atomic operations of the order gateway.
 ### Transfer value action
 
 | Property | Description
-|-|-|-
+|-|-
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_VALUE`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | [required] A `string` representing receiver's address.
@@ -2333,7 +2333,7 @@ Order actions define the atomic operations of the order gateway.
 ### Mainnet
 
 | Contract | Address
-|-|-|-
+|-|-
 | OrderGateway | [0x7b220AC85B7ae8Af1CECCC44e183A862dA2eD517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
 | TokenTransferProxy | [0xcadd178eb978B07B19C8c7F04A54fa337D9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
 | NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
@@ -2343,7 +2343,7 @@ Order actions define the atomic operations of the order gateway.
 ### Ropsten
 
 | Contract | Address
-|-|-|-
+|-|-
 | OrderGateway | [0x28dDb78095cf42081B9393F263E8b70BffCbF88F](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
 | TokenTransferProxy | [0x61B47772Fd1f98D88dfE887af7F897F0e403aC10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
 | NFTokenTransferProxy | [0x41F8e2f78D930259a03A348713879a79736fC57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
@@ -2353,7 +2353,7 @@ Order actions define the atomic operations of the order gateway.
 ### Rinkeby
 
 | Contract | Address
-|-|-|-
+|-|-
 | OrderGateway | [0x1d57b453DF7483C4b16C0ea67a12C8D2F4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
 | TokenTransferProxy | [0x4BCA0E94239504e69bC25a3Ef3C5Ca6D80157c3D](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
 | NFTokenTransferProxy | [0x0a02d630669C75d5E162AEC89e6adcCF8eC1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
