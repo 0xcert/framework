@@ -75,6 +75,6 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "1.0.1",
-    "bitski-node": "^0.4.1"
+    "bitski-node": "0.4.1"
   }
 }
