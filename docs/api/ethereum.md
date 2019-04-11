@@ -11,7 +11,8 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 **Arguments**
 
 | Argument | Description
-|-|-|-
+|-|-
+| options.accountId | A `string` representing the Ethereum account that will perform actions.
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
@@ -306,7 +307,7 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 **Arguments**
 
 | Argument | Description
-|-|-|-
+|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable timeout.
@@ -479,7 +480,6 @@ A `boolean` which tells if the user is signed into Bitski.
 // perform query
 const isSignedIn = provider.isSignedIn();
 ```
-
 
 ### isUnsafeRecipientId(ledgerId)
 
