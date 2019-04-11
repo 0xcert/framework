@@ -651,7 +651,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 **Arguments**
 
 | Argument | Description
-|-|-|-
+|-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
@@ -1270,7 +1270,7 @@ A `class` which handles transaction-related operations on the Ethereum blockchai
 **Arguments**
 
 | Argument | Description
-|-|-|-
+|-|-
 | mutationId | [required] A `string` representing a hash string of an Ethereum transaction.
 | provider | [required] An instance of an HTTP or MetaMask provider.
 
@@ -2661,7 +2661,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 **Arguments:**
 
 | Argument | Description
-|-|-|-
+|-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns the funds.
 | spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the `OrderGateway` class.
 | value | [required] A big number `string` representing the amount allowed to transfer.
