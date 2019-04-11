@@ -32,7 +32,8 @@ export interface BitskiProviderOptions {
   valueLedgerSource?: string;
 
   /**
-   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark
+   * a mutation complete.
    */
   requiredConfirmations?: number;
 
@@ -92,6 +93,23 @@ export class BitskiProvider extends GenericProvider {
 
   /**
    * Class constructor.
+   * @param options.accountId Optional coinbase account.
+   * @param options.signMethod Optional setting of signature kind used in claims.
+   * @param options.unsafeRecipientIds Optional list of addresses where normal transfer not
+   * safeTransfer smart contract methods will be used.
+   * @param options.assetLedgerSource Optional source where assetLedger compiled smart contracts are
+   * located.
+   * @param options.valueLedgerSource Optional source where valueLedger compiled smart contracts are
+   * located.
+   * @param options.requiredConfirmations Optional number of confirmations that are necessary to
+   * mark a mutation complete.
+   * @param options.orderGatewayId Optional ID (address) of order gateway.
+   * @param options.mutationTimeout Optional number of milliseconds in which a mutation times out.
+   * @param options.clientId Required Bitski client ID.
+   * @param options.credentialsId Required Bitski credentials ID.
+   * @param options.credentialsSecret Required Bitski credentials secret.
+   * @param options.networkName Optional name of Ethereum network Bitski is connected to. Mainnet by
+   * default.
    */
   public constructor(options: BitskiProviderOptions) {
     super(options);
@@ -99,13 +117,12 @@ export class BitskiProvider extends GenericProvider {
     this._options = options;
     this._client = this;
     this._provider = Bitski.getProvider(options.clientId, {
-      network: options.networkName === 'undefined' ? 'mainnet' : options.networkName,
+      network: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
       credentials: {
         id: options.credentialsId,
         secret: options.credentialsSecret,
       },
     });
-
   }
 
   /**
@@ -117,6 +134,8 @@ export class BitskiProvider extends GenericProvider {
 
   /**
    * Sends the RPC call.
+   * @param data JSON-RPC ethereum call.
+   * @param callback Callback function to be executed.
    */
   public send(data: any, callback: (err, data) => any) {
     this._provider.sendAsync(data, callback);
