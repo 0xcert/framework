@@ -174,7 +174,7 @@ export class BitskiProvider extends GenericProvider {
    */
   public async getConnectedUser() {
     if (!this.isSupported()) {
-      return false;
+      return null;
     }
     return this._bitski.getUser();
   }
