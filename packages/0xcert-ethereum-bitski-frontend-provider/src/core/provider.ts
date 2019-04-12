@@ -91,6 +91,21 @@ export class BitskiProvider extends GenericProvider {
 
   /**
    * Class constructor.
+   * @param options.signMethod Optional setting of signature kind used in claims.
+   * @param options.unsafeRecipientIds Optional list of addresses where normal transfer not
+   * safeTransfer smart contract methods will be used.
+   * @param options.assetLedgerSource Optional source where assetLedger compiled smart contracts are
+   * located.
+   * @param options.valueLedgerSource Optional source where valueLedger compiled smart contracts are
+   * located.
+   * @param options.requiredConfirmations Optional number of confirmations that are necessary to
+   * mark a mutation complete.
+   * @param options.orderGatewayId Optional ID (address) of order gateway.
+   * @param options.mutationTimeout Optional number of milliseconds in which a mutation times out.
+   * @param options.clientId Required Bitski client ID.
+   * @param options.redirectUrl Required Bitski redirect url.
+   * @param options.networkName Optional name of Ethereum network Bitski is connected to. Mainnet by
+   * default.
    */
   public constructor(options: BitskiProviderOptions) {
     super(options);
@@ -100,7 +115,9 @@ export class BitskiProvider extends GenericProvider {
     if (this.isSupported()) {
       const bitski = require('bitski');
       this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
-      this._provider = this._bitski.getProvider({ networkName: options.networkName === 'undefined' ? 'mainnet' : options.networkName });
+      this._provider = this._bitski.getProvider({
+        networkName: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
+      });
     }
   }
 
@@ -115,7 +132,12 @@ export class BitskiProvider extends GenericProvider {
    * Checks if Bitski is connected.
    */
   public isSignedIn() {
-    return this._bitski && this._bitski.authStatus === 'CONNECTED';
+    return (
+      this.isSupported()
+      && !!this.accountId
+      && !!this._bitski
+      && this._bitski.authStatus === 'CONNECTED'
+    );
   }
 
   /**
@@ -141,7 +163,7 @@ export class BitskiProvider extends GenericProvider {
    */
   public async signOut() {
     if (!this.isSupported()) {
-      return false;
+      return null;
     }
     await this._bitski.signOut();
     return this;
@@ -154,12 +176,13 @@ export class BitskiProvider extends GenericProvider {
     if (!this.isSupported()) {
       return false;
     }
-    const user = await this._bitski.getUser();
-    return user;
+    return this._bitski.getUser();
   }
 
   /**
    * Sends the RPC call.
+   * @param data JSON-RPC ethereum call.
+   * @param callback Callback function to be executed.
    */
   public send(data: any, callback: (err, data) => any) {
     this._provider.sendAsync(data, callback);
