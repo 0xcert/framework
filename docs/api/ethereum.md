@@ -298,7 +298,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ## Bitski front-end provider
 
-A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log into his Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider you need to first create a [development account](https://developer.bitski.com/) on Bitski.
+A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log into his Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider, you first need to create a [development account](https://developer.bitski.com/) on Bitski, you will also need to host a call-back page like [this](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html), and authorize its URL on previously created development account.
 
 ### BitskiProvider(options)
 
@@ -608,7 +608,11 @@ A class instance `variable` holding a `string` which represents the number of co
 
 ### signIn()
 
-An `asynchronous` class instance `function` which signs in the user and authorizes the provider.
+An `asynchronous` class instance `function` which signs in the user and authorizes the provider. 
+
+::: warning
+Calling this method should always be performed by a click handler (user-generated request) so the pop-up will not get blocked by the browser.
+:::
 
 **Example:**
 
