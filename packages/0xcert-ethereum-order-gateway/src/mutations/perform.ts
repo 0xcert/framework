@@ -1,5 +1,4 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeParameters } from '@0xcert/ethereum-utils';
 import { Order } from '../../../0xcert-scaffold/dist';
 import { OrderGateway } from '../core/gateway';
 import { createRecipeTuple, createSignatureTuple } from '../lib/order';
@@ -19,7 +18,7 @@ export default async function(gateway: OrderGateway, order: Order, claim: string
   const attrs = {
     from: gateway.provider.accountId,
     to: gateway.id,
-    data: functionSignature + encodeParameters(inputTypes, [recipeTuple, signatureTuple]).substr(2),
+    data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [recipeTuple, signatureTuple]).substr(2),
   };
   const res = await gateway.provider.post({
     method: 'eth_sendTransaction',
