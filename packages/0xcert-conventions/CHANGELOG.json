@@ -2,6 +2,12 @@
   "name": "@0xcert/conventions",
   "entries": [
     {
+      "version": "1.0.2",
+      "tag": "@0xcert/conventions_v1.0.2",
+      "date": "Tue, 23 Apr 2019 13:16:49 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.0.1",
       "tag": "@0xcert/conventions_v1.0.1",
       "date": "Fri, 22 Mar 2019 09:48:00 GMT",

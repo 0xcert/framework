@@ -9,12 +9,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/cert": "1.0.1",
-    "@0xcert/ethereum-asset-ledger": "1.0.1",
-    "@0xcert/ethereum-http-provider": "1.0.1",
-    "@0xcert/ethereum-metamask-provider": "1.0.1",
-    "@0xcert/ethereum-order-gateway": "1.0.1",
-    "@0xcert/ethereum-value-ledger": "1.0.1",
+    "@0xcert/cert": "1.0.2",
+    "@0xcert/ethereum-asset-ledger": "1.0.2",
+    "@0xcert/ethereum-http-provider": "1.0.2",
+    "@0xcert/ethereum-metamask-provider": "1.0.2",
+    "@0xcert/ethereum-order-gateway": "1.0.2",
+    "@0xcert/ethereum-value-ledger": "1.0.2",
     "webpack": "^4.25.0",
     "webpack-cli": "^3.1.2"
   }
