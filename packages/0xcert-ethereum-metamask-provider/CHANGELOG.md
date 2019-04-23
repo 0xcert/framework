@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-metamask-provider
 
-This log was last generated on Tue, 23 Apr 2019 14:00:03 GMT and should not be manually modified.
+This log was last generated on Tue, 23 Apr 2019 14:07:07 GMT and should not be manually modified.
+
+## 1.2.0
+Tue, 23 Apr 2019 14:07:07 GMT
+
+*Version update only*
 
 ## 1.1.0
 Tue, 23 Apr 2019 14:00:03 GMT
