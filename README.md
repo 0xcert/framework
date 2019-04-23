@@ -16,10 +16,6 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 * NPM > v6.x
 * Browser with ES6 and MetaMask support
 
-## Consulting from the 0xcert team
-
-Get help with that tough bug or make sure your dapp is ready to deploy. For $250 an hour, get technical support, advice, code reviews, and development from the 0xcert core team: [Hire 0xcert](mailto:hello@0xcert.org)
-
 ## Packages
 
 | Package | Version | Description
@@ -50,6 +46,10 @@ Get help with that tough bug or make sure your dapp is ready to deploy. For $250
 ## Security
 
 If you discover a security vulnerability regarding 0xcert Framework, please send an e-mail to the team via [hello@0xcert.org](mailto:hello@0xcert.org)! All security vulnerabilities will be promptly addressed.
+
+## Consulting from the 0xcert team
+
+Get help with that tough bug or make sure your dapp is ready to deploy. To get technical support, advice, code reviews, and development from the 0xcert core team, reach us at: [Hire 0xcert](mailto:hello@0xcert.org)
 
 ## Supported platforms
 
