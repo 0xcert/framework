@@ -22,7 +22,7 @@ const ledgerId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 const ledger = new AssetLedger(provider, ledgerId);
 
 // perform a query
-const balance = await ledger.getBalance(accountId);
+const balance = await ledger.getBalance(ledgerId);
 ```
 
 ## What are mutations?
