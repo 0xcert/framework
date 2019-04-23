@@ -1,5 +1,4 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
 const functionSignature = '0x0ab319e8';
@@ -15,7 +14,7 @@ export default async function(ledger: AssetLedger, accountId: string, abilities:
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: functionSignature + encodeParameters(inputTypes, [accountId, abilities]).substr(2),
+    data: functionSignature + ledger.provider.encoder.encodeParameters(inputTypes, [accountId, abilities]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

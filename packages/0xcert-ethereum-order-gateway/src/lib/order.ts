@@ -1,5 +1,5 @@
-import { SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
+import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { bigNumberify } from '@0xcert/ethereum-utils';
 import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { OrderGateway } from '../core/gateway';
@@ -186,14 +186,14 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
  */
-export function normalizeOrderIds(order: Order): Order {
+export function normalizeOrderIds(order: Order, provider: GenericProvider): Order {
   order = JSON.parse(JSON.stringify(order));
-  order.makerId = normalizeAddress(order.makerId);
-  order.takerId = normalizeAddress(order.takerId);
+  order.makerId = provider.encoder.normalizeAddress(order.makerId);
+  order.takerId = provider.encoder.normalizeAddress(order.takerId);
   order.actions.forEach((action) => {
-    action.ledgerId = normalizeAddress(action.ledgerId);
-    action.receiverId = normalizeAddress(action.receiverId);
-    action.senderId = normalizeAddress(action.senderId);
+    action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
+    action.receiverId = provider.encoder.normalizeAddress(action.receiverId);
+    action.senderId = provider.encoder.normalizeAddress(action.senderId);
   });
   return order;
 }
