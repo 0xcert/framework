@@ -336,7 +336,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 
 | Argument | Description
 |-|-
-| options.accountId | [required] A `string` representing the Ethereum account that will perform actions.
+| options.accountId | A `string` representing the Ethereum account that will perform actions.
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
