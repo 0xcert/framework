@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
+import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
@@ -59,7 +59,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param id Address of the erc721/Xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
-    return new AssetLedger(provider, id);
+    return new this(provider, id);
   }
 
   /**
@@ -68,8 +68,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param id Address of the erc721/Xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
-    this._id = normalizeAddress(id);
     this._provider = provider;
+    this._id = this._provider.encoder.normalizeAddress(id);
   }
 
   /**
@@ -91,7 +91,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account address for wich we want to get abilities.
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
-    accountId = normalizeAddress(accountId);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
 
     return getAbilities(this, accountId);
   }
@@ -125,7 +125,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Address for which we want asset count.
    */
   public async getBalance(accountId: string): Promise<string> {
-    accountId = normalizeAddress(accountId);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
 
     return getBalance(this, accountId);
   }
@@ -158,7 +158,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param index Asset index.
    */
   public async getAccountAssetIdAt(accountId: string, index: number): Promise<number> {
-    accountId = normalizeAddress(accountId);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
 
     return getAccountAssetIdAt(this, accountId, index);
   }
@@ -173,7 +173,7 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     return accountId === await getApprovedAccount(this, assetId);
   }
@@ -195,7 +195,7 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     return approveAccount(this, accountId, assetId);
   }
@@ -218,7 +218,7 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     let bitAbilities = bigNumberify(0);
     abilities.forEach((ability) => {
@@ -234,7 +234,7 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
     const imprint = recipe.imprint || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-    const receiverId = normalizeAddress(recipe.receiverId);
+    const receiverId = this._provider.encoder.normalizeAddress(recipe.receiverId);
 
     return createAsset(this, receiverId, recipe.id, `0x${imprint}`);
   }
@@ -262,7 +262,7 @@ export class AssetLedger implements AssetLedgerBase {
       allowSuperRevoke = true;
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     let bitAbilities = bigNumberify(0);
     abilities.forEach((ability) => {
@@ -289,8 +289,8 @@ export class AssetLedger implements AssetLedgerBase {
       recipe.senderId = this.provider.accountId;
     }
 
-    const senderId = normalizeAddress(recipe.senderId);
-    const receiverId = normalizeAddress(recipe.receiverId);
+    const senderId = this._provider.encoder.normalizeAddress(recipe.senderId);
+    const receiverId = this._provider.encoder.normalizeAddress(recipe.receiverId);
 
     return this.provider.unsafeRecipientIds.indexOf(recipe.receiverId) !== -1
       ? transfer(this, senderId, receiverId, recipe.id)
@@ -337,7 +337,7 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     return setApprovalForAll(this, accountId, true);
   }
@@ -351,7 +351,7 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     return setApprovalForAll(this, accountId, false);
   }
@@ -366,8 +366,8 @@ export class AssetLedger implements AssetLedgerBase {
       operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
     }
 
-    accountId = normalizeAddress(accountId);
-    operatorId = normalizeAddress(operatorId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
+    operatorId = this._provider.encoder.normalizeAddress(operatorId as string);
 
     return isApprovedForAll(this, accountId, operatorId);
   }

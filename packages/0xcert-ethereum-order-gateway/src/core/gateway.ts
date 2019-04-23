@@ -1,5 +1,4 @@
 import { GenericProvider, Mutation, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { Order, OrderGatewayBase } from '@0xcert/scaffold';
 import { normalizeOrderIds } from '../lib/order';
 import cancel from '../mutations/cancel';
@@ -32,7 +31,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public static getInstance(provider: GenericProvider, id?: string): OrderGateway {
-    return new OrderGateway(provider, id);
+    return new this(provider, id);
   }
 
   /**
@@ -41,8 +40,8 @@ export class OrderGateway implements OrderGatewayBase {
    * @param id Address of the order gateway smart contract.
    */
   public constructor(provider: GenericProvider, id?: string) {
-    this._id = normalizeAddress(id || provider.orderGatewayId);
     this._provider = provider;
+    this._id = this._provider.encoder.normalizeAddress(id || provider.orderGatewayId);
   }
 
   /**
@@ -64,7 +63,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async claim(order: Order): Promise<string> {
-    order = normalizeOrderIds(order);
+    order = normalizeOrderIds(order, this._provider);
 
     if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
       return claimPersonalSign(this, order);
@@ -79,7 +78,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
-    order = normalizeOrderIds(order);
+    order = normalizeOrderIds(order, this._provider);
 
     return perform(this, order, claim);
   }
@@ -89,7 +88,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async cancel(order: Order): Promise<Mutation> {
-    order = normalizeOrderIds(order);
+    order = normalizeOrderIds(order, this._provider);
 
     return cancel(this, order);
   }
@@ -108,7 +107,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param claim Claim data.
    */
   public async isValidSignature(order: Order, claim: string) {
-    order = normalizeOrderIds(order);
+    order = normalizeOrderIds(order, this._provider);
 
     return isValidSignature(this, order, claim);
   }
@@ -118,7 +117,7 @@ export class OrderGateway implements OrderGatewayBase {
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {
-    order = normalizeOrderIds(order);
+    order = normalizeOrderIds(order, this._provider);
 
     return getOrderDataClaim(this, order);
   }

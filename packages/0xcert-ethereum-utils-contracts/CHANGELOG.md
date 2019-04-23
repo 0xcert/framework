@@ -1,8 +1,28 @@
 # Change Log - @0xcert/ethereum-utils-contracts
 
-This log was last generated on Fri, 22 Mar 2019 09:48:00 GMT and should not be manually modified.
+This log was last generated on Tue, 23 Apr 2019 15:15:01 GMT and should not be manually modified.
 
-## 1.0.1
+## 1.3.0
+Tue, 23 Apr 2019 15:15:01 GMT
+
+*Version update only*
+
+## 1.2.0
+Tue, 23 Apr 2019 14:07:07 GMT
+
+*Version update only*
+
+## 1.1.0
+Tue, 23 Apr 2019 14:00:03 GMT
+
+*Version update only*
+
+## 1.0.2
+Tue, 23 Apr 2019 13:16:49 GMT
+
+*Version update only*
+
+## 1.2.0
 Fri, 22 Mar 2019 09:48:00 GMT
 
 *Version update only*
