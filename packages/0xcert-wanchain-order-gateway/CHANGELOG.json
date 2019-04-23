@@ -1,6 +1,12 @@
 {
-  "name": "@0xcert/ethereum-order-gateway",
+  "name": "@0xcert/wanchain-order-gateway",
   "entries": [
+    {
+      "version": "1.4.0",
+      "tag": "@0xcert/wanchain-order-gateway_v1.4.0",
+      "date": "Tue, 23 Apr 2019 15:50:38 GMT",
+      "comments": {}
+    },
     {
       "version": "1.2.0",
       "tag": "@0xcert/ethereum-order-gateway_v1.2.0",
