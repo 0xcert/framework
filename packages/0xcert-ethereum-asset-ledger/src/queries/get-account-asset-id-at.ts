@@ -1,4 +1,3 @@
-import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { AssetLedger } from '../core/ledger';
 
 const functionSignature = '0x2f745c59';
@@ -15,13 +14,13 @@ export default async function(ledger: AssetLedger, accountId: string, index: num
   try {
     const attrs = {
       to: ledger.id,
-      data: functionSignature + encodeParameters(inputTypes, [accountId, index]).substr(2),
+      data: functionSignature + ledger.provider.encoder.encodeParameters(inputTypes, [accountId, index]).substr(2),
     };
     const res = await ledger.provider.post({
       method: 'eth_call',
       params: [attrs, 'latest'],
     });
-    return decodeParameters(outputTypes, res.result)[0];
+    return ledger.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
     return null;
   }
