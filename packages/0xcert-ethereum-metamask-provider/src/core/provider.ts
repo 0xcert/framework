@@ -55,7 +55,7 @@ export class MetamaskProvider extends GenericProvider {
    * Gets an instance of metamask provider.
    */
   public static getInstance(): MetamaskProvider {
-    return new MetamaskProvider();
+    return new this();
   }
 
   /**

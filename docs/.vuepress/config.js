@@ -57,6 +57,7 @@ module.exports = {
         children: [
           ['/api/core', 'Core'],
           ['/api/ethereum', 'Ethereum'],
+          ['/api/wanchain', 'Wanchain'],
         ],
       },
       {
