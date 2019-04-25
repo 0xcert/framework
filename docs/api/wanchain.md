@@ -1775,6 +1775,10 @@ In fixed order, the Taker of the order (its wallet address) is known, and we wan
 
 In dynamic order, we do not care who performs the order as long as they have the assets we specified (it is usually used to transfer a specific asset for some amount of value). In this case, we do not set `order.takerId` and we have to set either `senderId` or `receiverId` or both in `order.actions`, but we are not allowed to not set any, otherwise any function called with this order will throw an error. Now any account (wallet) will be able to perform such order and will automatically become its Taker, and by such, every empty parameter will be replaced by his address.
 
+::: warning
+When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since zero address is reserved on the smart contract to replace the order Taker.
+:::
+
 ### OrderGateway(provider, gatewayId)
 
 A `class` which represents a smart contract on the Wanchain blockchain.

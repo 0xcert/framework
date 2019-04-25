@@ -232,6 +232,8 @@ contract OrderGateway is
    * @dev Performs the atomic swap that can exchange, create, update and do other actions for
    * fungible and non-fungible tokens where performing address does not need to be known before
    * hand.
+   * @notice When using this function, be aware that the zero address is reserved for replacement
+   * with msg.sender, meaning you cannot send anything to the zero address.
    * @param _data Data required to make the order.
    * @param _signature Data from the signature. 
    */
