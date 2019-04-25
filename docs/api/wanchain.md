@@ -2017,15 +2017,18 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-
-Coming soon.
+| OrderGateway | [0x06aF4893D6Da522B3889C7F0A35fcb3999541f96](http://wanscan.org/address/0x06aF4893D6Da522B3889C7F0A35fcb3999541f96)
+| TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
+| NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
+| NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
+| XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
 
 ### Testnet
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714](http://47.104.61.26/block/addr/0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714)
-| TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://47.104.61.26/block/addr/0xB827222B89BA5237c432c47B4ef7d2079641A075)
-| NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://47.104.61.26/block/addr/0xB59A801024393eB92b38a0711a54579c0136347A)
-| NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://47.104.61.26/block/addr/0x84907deF46A2D0fc80035f1c08A722f2432e9801)
-| XcertCreateProxy | [0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D](http://47.104.61.26/block/addr/0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D)
+| OrderGateway | [0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714](http://testnet.wanscan.org/address/0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714)
+| TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://testnet.wanscan.org/address/0xB827222B89BA5237c432c47B4ef7d2079641A075)
+| NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://testnet.wanscan.org/address/0xB59A801024393eB92b38a0711a54579c0136347A)
+| NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://testnet.wanscan.org/address/0x84907deF46A2D0fc80035f1c08A722f2432e9801)
+| XcertCreateProxy | [0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D](http://testnet.wanscan.org/address/0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D)
