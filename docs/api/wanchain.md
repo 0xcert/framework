@@ -2004,8 +2004,11 @@ Order actions define the atomic operations of the order gateway.
 
 | Contract | Address
 |-|-|-
-
-Coming soon.
+| OrderGateway | [0x06aF4893D6Da522B3889C7F0A35fcb3999541f96](http://wanscan.org/address/0x06aF4893D6Da522B3889C7F0A35fcb3999541f96)
+| TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
+| NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
+| NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
+| XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
 
 ### Testnet
 
