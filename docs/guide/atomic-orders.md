@@ -83,7 +83,6 @@ const order = {
         {
             kind: OrderActionKind.CREATE_ASSET,
             ledgerId: assetLedgerId,
-            senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '200',
             assetImprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b', // imprint generated in the certification step
