@@ -8,12 +8,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "vee-validate": "^2.2.0",
+    "vee-validate": "^2.2.4",
     "vue-axios": "^2.1.4",
-    "vuepress": "^1.0.0-alpha.44"
+    "vuepress": "^1.0.0-alpha.47"
   },
   "devDependencies": {
-    "@vuepress/plugin-container": "^1.0.0-alpha.44",
     "@vuepress/plugin-google-analytics": "^1.0.0-alpha.44",
     "@vuepress/plugin-pwa": "^1.0.0-alpha.44",
     "markdown-it-container": "^2.0.0",

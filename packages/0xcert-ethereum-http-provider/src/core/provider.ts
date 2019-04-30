@@ -92,7 +92,7 @@ export class HttpProvider extends GenericProvider {
    * @param options HTTP provider options.
    */
   public static getInstance(options: HttpProviderOptions): HttpProvider {
-    return new HttpProvider(options);
+    return new this(options);
   }
 
   /**

@@ -19,6 +19,32 @@ export class Client {
   /**
    *
    */
+  public deployAssetLedger(config: any) {
+    const module = this.getModule('AssetLedger');
+
+    if (!module) {
+      throw this.getMissingModuleError('AssetLedger');
+    } else {
+      return module.deploy(this.provider, config);
+    }
+  }
+
+  /**
+   *
+   */
+  public deployValueLedger(config: any) {
+    const module = this.getModule('ValueLedger');
+
+    if (!module) {
+      throw this.getMissingModuleError('ValueLedger');
+    } else {
+      return module.deploy(this.provider, config);
+    }
+  }
+
+  /**
+   *
+   */
   public getAssetLedger(id: string) {
     const module = this.getModule('AssetLedger');
 
@@ -71,7 +97,7 @@ export class Client {
   /**
    *
    */
-  protected getModule(name: string) {
+  public getModule(name: string) {
     return this.modules.find((m) => m.name === name);
   }
 

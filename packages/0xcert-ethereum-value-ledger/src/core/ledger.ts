@@ -1,5 +1,5 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
+import { bigNumberify } from '@0xcert/ethereum-utils';
 import { OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase, ValueLedgerDeployRecipe,
   ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
@@ -40,7 +40,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param id Address of the erc20 smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): ValueLedger {
-    return new ValueLedger(provider, id);
+    return new this(provider, id);
   }
 
   /**
@@ -49,8 +49,8 @@ export class ValueLedger implements ValueLedgerBase {
    * @param id Address of the erc20 smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
-    this._id = normalizeAddress(id);
     this._provider = provider;
+    this._id = this._provider.encoder.normalizeAddress(id);
   }
 
   /**
@@ -77,8 +77,8 @@ export class ValueLedger implements ValueLedgerBase {
       spenderId = await (spenderId as any).getProxyAccountId(1);
     }
 
-    accountId = normalizeAddress(accountId);
-    spenderId = normalizeAddress(spenderId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
+    spenderId = this._provider.encoder.normalizeAddress(spenderId as string);
 
     return getAllowance(this, accountId, spenderId);
   }
@@ -88,7 +88,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    */
   public async getBalance(accountId: string): Promise<string> {
-    accountId = normalizeAddress(accountId);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
 
     return getBalance(this, accountId);
   }
@@ -111,8 +111,8 @@ export class ValueLedger implements ValueLedgerBase {
       spenderId = await (spenderId as any).getProxyAccountId(1);
     }
 
-    accountId = normalizeAddress(accountId);
-    spenderId = normalizeAddress(spenderId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId);
+    spenderId = this._provider.encoder.normalizeAddress(spenderId as string);
 
     const approved = await getAllowance(this, accountId, spenderId);
     return bigNumberify(approved).gte(bigNumberify(value));
@@ -128,7 +128,7 @@ export class ValueLedger implements ValueLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     const approvedValue = await this.getApprovedValue(this.provider.accountId, accountId);
     if (!bigNumberify(value).isZero() && !bigNumberify(approvedValue).isZero()) {
@@ -147,7 +147,7 @@ export class ValueLedger implements ValueLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
 
-    accountId = normalizeAddress(accountId as string);
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     return approveAccount(this, accountId, '0');
   }
@@ -157,8 +157,8 @@ export class ValueLedger implements ValueLedgerBase {
    * @param recipe Data needed for the transfer.
    */
   public async transferValue(recipe: ValueLedgerTransferRecipe): Promise<Mutation> {
-    const senderId = normalizeAddress(recipe.senderId);
-    const receiverId = normalizeAddress(recipe.receiverId);
+    const senderId = this._provider.encoder.normalizeAddress(recipe.senderId);
+    const receiverId = this._provider.encoder.normalizeAddress(recipe.receiverId);
 
     return recipe.senderId
       ? transferFrom(this, senderId, receiverId, recipe.value)

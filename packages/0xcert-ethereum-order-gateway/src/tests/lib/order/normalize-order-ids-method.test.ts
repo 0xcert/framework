@@ -1,3 +1,4 @@
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderActionKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { normalizeOrderIds } from '../../../lib/order';
@@ -19,7 +20,7 @@ spec.test('converts addresses to checksum addresses', async (ctx) => {
         assetId: '100',
       },
     ],
-  }), {
+  }, new GenericProvider({})), {
     makerId: '0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9',
     takerId: '0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9',
     seed: 100,
