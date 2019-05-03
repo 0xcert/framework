@@ -1,0 +1,23 @@
+{
+  "name": "@0xcert/wanchain-order-gateway",
+  "entries": [
+    {
+      "version": "1.4.0",
+      "tag": "@0xcert/wanchain-order-gateway_v1.4.0",
+      "date": "Tue, 23 Apr 2019 15:50:38 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.2.0",
+      "tag": "@0xcert/ethereum-order-gateway_v1.2.0",
+      "date": "Fri, 22 Mar 2019 09:48:00 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.0.0",
+      "tag": "@0xcert/ethereum-order-gateway_v1.0.0",
+      "date": "Thu, 22 Nov 2018 00:51:03 GMT",
+      "comments": {}
+    }
+  ]
+}

@@ -1,9 +1,11 @@
-import { SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
-import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
+import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { bigNumberify } from '@0xcert/ethereum-utils';
+import { Order, OrderAction, OrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
+
+export const zeroAddress = '0x0000000000000000000000000000000000000000';
 
 /**
  * Generates order hash from input data.
@@ -210,17 +212,39 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
  */
-export function normalizeOrderIds(order: Order): Order {
+export function normalizeOrderIds(order: Order, provider: GenericProvider): Order {
   order = JSON.parse(JSON.stringify(order));
-  order.makerId = normalizeAddress(order.makerId);
-  order.takerId = normalizeAddress(order.takerId);
+  let dynamic = false;
+
+  if (typeof order.takerId === 'undefined') {
+    order.takerId = zeroAddress;
+    dynamic = true;
+  } else {
+    order.takerId = provider.encoder.normalizeAddress(order.takerId);
+  }
+
+  order.makerId = provider.encoder.normalizeAddress(order.makerId);
   order.actions.forEach((action) => {
-    action.ledgerId = normalizeAddress(action.ledgerId);
-    if (action['receiverId']) {
-      action['receiverId'] = normalizeAddress(action['receiverId']);
+    action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
+    if (typeof action.receiverId === 'undefined') {
+      if (!dynamic) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+      }
+      action.receiverId = zeroAddress;
+    } else {
+      action.receiverId = provider.encoder.normalizeAddress(action.receiverId);
     }
-    if (action['senderId']) {
-      action['senderId'] = normalizeAddress(action['senderId']);
+    if (action.kind !== OrderActionKind.CREATE_ASSET) {
+      if (typeof action['senderId'] === 'undefined') {
+        if (!dynamic) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
+        } else if (dynamic && action.receiverId === zeroAddress) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Either senderId or receiverId need to be set.');
+        }
+        action['senderId'] = zeroAddress;
+      } else {
+        action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
+      }
     }
   });
   return order;

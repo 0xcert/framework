@@ -64,7 +64,7 @@ export interface OrderActionCreateAsset {
   /**
    * Id (address) of the receiver.
    */
-  receiverId: string;
+  receiverId?: string;
 
   /**
    * Unique asset Id.
@@ -95,12 +95,12 @@ export interface OrderActionTransferAsset {
   /**
    * Id (address) of the sender.
    */
-  senderId: string;
+  senderId?: string;
 
   /**
    * Id (address) of the receiver.
    */
-  receiverId: string;
+  receiverId?: string;
 
   /**
    * Unique asset Id.
@@ -152,12 +152,12 @@ export interface OrderActionTransferValue {
   /**
    * Id (address) of the sender.
    */
-  senderId: string;
+  senderId?: string;
 
   /**
    * Id (address) of the receiver.
    */
-  receiverId: string;
+  receiverId?: string;
 
   /**
    * The amount of value(erc20 tokens).
@@ -178,7 +178,7 @@ export class Order {
   /**
    * Address of the order taker.
    */
-  public takerId: string;
+  public takerId?: string;
 
   /**
    * Array of actions that will execute in this order.

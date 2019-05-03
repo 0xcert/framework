@@ -1,4 +1,3 @@
-import { decodeParameters, encodeParameters } from '@0xcert/ethereum-utils';
 import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { AssetLedger } from '../core/ledger';
 
@@ -24,13 +23,13 @@ export default async function(ledger: AssetLedger, accountId: string) {
     ].map(async (ability) => {
       const attrs = {
         to: ledger.id,
-        data: functionSignature + encodeParameters(inputTypes, [accountId, ability]).substr(2),
+        data: functionSignature + ledger.provider.encoder.encodeParameters(inputTypes, [accountId, ability]).substr(2),
       };
       const res = await ledger.provider.post({
         method: 'eth_call',
         params: [attrs, 'latest'],
       });
-      return decodeParameters(outputTypes, res.result)[0] ? ability : -1;
+      return ledger.provider.encoder.decodeParameters(outputTypes, res.result)[0] ? ability : -1;
     }),
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort((a, b) => a - b);

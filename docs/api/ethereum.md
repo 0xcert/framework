@@ -336,7 +336,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 
 | Argument | Description
 |-|-
-| options.accountId | [required] A `string` representing the Ethereum account that will perform actions.
+| options.accountId | A `string` representing the Ethereum account that will perform actions.
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -2076,9 +2076,27 @@ const recipe = {
 const mutation = await ledger.transferValue(recipe);
 ```
 
-## Orders gateway
+## Order gateway
 
-Order gateway allows for performing multiple actions in one single atomic operation.
+Order gateway allows for performing multiple actions in a single atomic operation.
+To perform an atomic order through `OrderGateway`, you need to follow its flow:
+
+1. Maker (address creating the order) defines the order (who will transfer what to who).
+2. Maker generates the order claim and signs it (claims functions).
+3. Maker approves/assigns abilities for all the assets necessary.
+4. Maker sends order and signature to the Taker.
+5. Taker approves/assigns abilities for all the required assets.
+6. Taker performs the order.
+
+`Order` class is responsible for defining what will happen in the atomic swap. We support two different order configurations which we will call a fixed order and a dynamic order.
+
+In fixed order, the Taker of the order (its wallet address) is known, and we want to make an atomic order specifically with him and only him. For this, we need to set `order.takerId` and both `senderId` and `receiverId` in `order.actions`. If `takerId` is set and any parameters in `order.actions` are missing, any function called with this order will throw an error.
+
+In dynamic order, we do not care who performs the order as long as they have the assets we specified (it is usually used to transfer a specific asset for some amount of value). In this case, we do not set `order.takerId` and we have to set either `senderId` or `receiverId` or both in `order.actions`, but we are not allowed to not set any, otherwise any function called with this order will throw an error. Now any account (wallet) will be able to perform such order and will automatically become its Taker, and by such, every empty parameter will be replaced by his address.
+
+::: warning
+When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since zero address is reserved on the smart contract to replace the order Taker.
+:::
 
 ### OrderGateway(provider, gatewayId)
 
@@ -2117,7 +2135,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays for the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays for the gas cost.
 
 **Result:**
 
@@ -2168,7 +2186,7 @@ This operation must be executed by the maker of the order.
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
 **Result:**
 
@@ -2240,7 +2258,7 @@ This operation must be executed by the taker of the order.
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
 **Result:**
 
@@ -2297,7 +2315,7 @@ Order actions define the atomic operations of the order gateway.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
+| receiverId | A `string` representing receiver's address.
 
 ### Update asset imprint action
 
@@ -2315,8 +2333,8 @@ Order actions define the atomic operations of the order gateway.
 | assetId | [required] A `string` representing an ID of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+| receiverId | A `string` representing receiver's address.
+| senderId | A `string` representing sender's address.
 
 ### Transfer value action
 
@@ -2324,8 +2342,8 @@ Order actions define the atomic operations of the order gateway.
 |-|-
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_VALUE`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+| receiverId | A `string` representing receiver's address.
+| senderId | A `string` representing sender's address.
 | value | [required] A big number `string` representing the transferred amount.
 
 ## Public addresses
