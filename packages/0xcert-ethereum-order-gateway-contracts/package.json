@@ -80,6 +80,7 @@
     "@0xcert/ethereum-proxy-contracts": "1.4.0",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
+    "@specron/flattener": "^0.5.6",
     "solc": "0.5.6",
     "solhint": "2.0.0",
     "ts-node": "^7.0.1",

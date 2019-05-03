@@ -1333,9 +1333,10 @@
     },
     "@rush-temp/ethereum-order-gateway-contracts": {
       "version": "file:projects/ethereum-order-gateway-contracts.tgz",
-      "integrity": "sha512-RJeGg8t2fqs9n25UfKlWMIeWwt2SU0+nmdhG6M99Oiq6OaA9hVd1FCqOPfGxrZmyMg4JatwTRcLQO7xGFWHldw==",
+      "integrity": "sha512-PSu9R17RDcbSWNWJxfdnFhV++51uQY3diRwU71jis3P6gRZd5YAu80YR0wvO0C7L0O+ZXTUskZ7eFcfjc1ARow==",
       "requires": {
         "@specron/cli": "^0.5.6",
+        "@specron/flattener": "^0.5.6",
         "@specron/spec": "^0.5.6",
         "solc": "0.5.6",
         "solhint": "2.0.0",
@@ -1347,9 +1348,10 @@
     },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
-      "integrity": "sha512-iHsXSFes6qzs+OdJlqLOQ17tyY/bjgSHNpjx1HmR2JCVIcSIGFqQ8sSpmyLVXTthNl5NlhxiI+zLXqaNmM0gRQ==",
+      "integrity": "sha512-iwlecf98D1lYN1VYidfoHzY42ZvpLtm5cqk2+0OqCph+MowyEMaNQUhW8p+YA0MLSsEOqo1cIe/o8UNdVIzYHA==",
       "requires": {
         "@specron/cli": "^0.5.6",
+        "@specron/flattener": "^0.5.6",
         "@specron/spec": "^0.5.6",
         "solc": "0.5.6",
         "solhint": "2.0.0",

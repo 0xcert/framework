@@ -35,5 +35,5 @@ contract XcertUpdateProxy is
   {
     XcertMutable(_xcert).updateTokenImprint(_id, _imprint);
   }
-  
+
 }
