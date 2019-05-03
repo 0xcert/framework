@@ -228,6 +228,48 @@ contract OrderGateway is
     );
   }
 
+  /**
+   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
+   * fungible and non-fungible tokens where performing address does not need to be known before
+   * hand.
+   * @notice When using this function, be aware that the zero address is reserved for replacement
+   * with msg.sender, meaning you cannot send anything to the zero address.
+   * @param _data Data required to make the order.
+   * @param _signature Data from the signature. 
+   */
+  function performAnyTaker(
+    OrderData memory _data,
+    SignatureData memory _signature
+  )
+    public 
+  {
+    require(_data.expiration >= now, CLAIM_EXPIRED);
+
+    bytes32 claim = getOrderDataClaim(_data);
+    require(
+      isValidSignature(
+        _data.maker,
+        claim,
+        _signature
+      ), 
+      INVALID_SIGNATURE
+    );
+
+    require(!orderCancelled[claim], ORDER_CANCELED);
+    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
+
+    orderPerformed[claim] = true;
+
+    _data.taker = msg.sender;
+    _doActionsReplaceZeroAddress(_data);
+
+    emit Perform(
+      _data.maker,
+      _data.taker,
+      claim
+    );
+  }
+
   /** 
    * @dev Cancels order.
    * @notice You can cancel the same order multiple times. There is no check for whether the order
@@ -347,9 +389,74 @@ contract OrderGateway is
 
     revert(INVALID_SIGNATURE_KIND);
   }
+  
+  /**
+   * @dev Helper function that makes order actions and replaces zero addresses with msg.sender.
+   * @param _order Data needed for order.
+   */
+  function _doActionsReplaceZeroAddress(
+    OrderData memory _order
+  )
+    private
+  {
+    for(uint256 i = 0; i < _order.actions.length; i++)
+    {
+      require(
+        proxies[_order.actions[i].proxy] != address(0),
+        INVALID_PROXY
+      );
+
+      if (_order.actions[i].kind == ActionKind.create)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
+          SIGNER_NOT_AUTHORIZED
+        );
+        
+        if (_order.actions[i].to == address(0))
+        {
+          _order.actions[i].to = _order.taker;
+        }
+
+        XcertCreateProxy(proxies[_order.actions[i].proxy]).create(
+          _order.actions[i].token,
+          _order.actions[i].to,
+          _order.actions[i].value,
+          _order.actions[i].param1
+        );
+      } 
+      else if (_order.actions[i].kind == ActionKind.transfer)
+      {
+        address from = address(uint160(bytes20(_order.actions[i].param1)));
+
+        if (_order.actions[i].to == address(0))
+        {
+          _order.actions[i].to = _order.taker;
+        }
+
+        if (from == address(0))
+        {
+          from = _order.taker;
+        }
+
+        require(
+          from == _order.maker
+          || from == _order.taker,
+          SENDER_NOT_TAKER_OR_MAKER
+        );
+        
+        Proxy(proxies[_order.actions[i].proxy]).execute(
+          _order.actions[i].token,
+          from,
+          _order.actions[i].to,
+          _order.actions[i].value
+        );
+      }
+    }
+  }
 
   /**
-   * @dev Helper function that makes transfes.
+   * @dev Helper function that makes order actions.
    * @param _order Data needed for order.
    */
   function _doActions(
