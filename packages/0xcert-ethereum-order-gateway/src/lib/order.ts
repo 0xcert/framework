@@ -1,9 +1,11 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
+import { Order, OrderAction, OrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
+
+export const zeroAddress = '0x0000000000000000000000000000000000000000';
 
 /**
  * Generates order hash from input data.
@@ -188,12 +190,38 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
  */
 export function normalizeOrderIds(order: Order, provider: GenericProvider): Order {
   order = JSON.parse(JSON.stringify(order));
+  let dynamic = false;
+
+  if (typeof order.takerId === 'undefined') {
+    order.takerId = zeroAddress;
+    dynamic = true;
+  } else {
+    order.takerId = provider.encoder.normalizeAddress(order.takerId);
+  }
+
   order.makerId = provider.encoder.normalizeAddress(order.makerId);
-  order.takerId = provider.encoder.normalizeAddress(order.takerId);
   order.actions.forEach((action) => {
     action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-    action.receiverId = provider.encoder.normalizeAddress(action.receiverId);
-    action.senderId = provider.encoder.normalizeAddress(action.senderId);
+    if (typeof action.receiverId === 'undefined') {
+      if (!dynamic) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+      }
+      action.receiverId = zeroAddress;
+    } else {
+      action.receiverId = provider.encoder.normalizeAddress(action.receiverId);
+    }
+    if (action.kind !== OrderActionKind.CREATE_ASSET) {
+      if (typeof action['senderId'] === 'undefined') {
+        if (!dynamic) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
+        } else if (dynamic && action.receiverId === zeroAddress) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Either senderId or receiverId need to be set.');
+        }
+        action['senderId'] = zeroAddress;
+      } else {
+        action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
+      }
+    }
   });
   return order;
 }

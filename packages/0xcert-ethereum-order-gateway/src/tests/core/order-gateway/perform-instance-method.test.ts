@@ -6,8 +6,9 @@ import { OrderGateway } from '../../..';
 
 interface Data {
   protocol: Protocol;
-  makerGenericProvider: GenericProvider;
-  takerGenericProvider: GenericProvider;
+  coinbaseGenericProvider: GenericProvider;
+  bobGenericProvider: GenericProvider;
+  saraGenericProvider: GenericProvider;
   order: Order;
   claim: string;
   coinbase: string;
@@ -36,39 +37,56 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
+  const sara = stage.get('sara');
 
-  const makerGenericProvider = new GenericProvider({
+  const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
   });
-  const takerGenericProvider = new GenericProvider({
+  const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
   });
 
-  stage.set('makerGenericProvider', makerGenericProvider);
-  stage.set('takerGenericProvider', takerGenericProvider);
+  const saraGenericProvider = new GenericProvider({
+    client: stage.web3,
+    accountId: sara,
+  });
+
+  stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
+  stage.set('bobGenericProvider', bobGenericProvider);
+  stage.set('saraGenericProvider', saraGenericProvider);
 });
 
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
+  const sara = stage.get('sara');
 
   const xcert = stage.get('protocol').xcert;
+  const erc20 = stage.get('protocol').erc20;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
+  const tokenTransferProxy = stage.get('protocol').tokenTransferProxy.instance.options.address;
   const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
 
+  await erc20.instance.methods.transfer(sara, 100000).send({ form: coinbase });
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
-  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '100').send({ from: coinbase });
+  await xcert.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
+  await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(xcertCreateProxy, 2).send({ from: coinbase });
-  await xcert.instance.methods.approve(nftokenSafeTransferProxy, '101').send({ from: bob });
+  await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: bob });
+  await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: sara });
+  await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
 });
 
-spec.before(async (stage) => {
-  const coinbase = stage.get('coinbase');
-  const bob = stage.get('bob');
-  const xcertId = stage.get('protocol').xcert.instance.options.address;
+spec.test('submits orderGateway order to the network which executes transfers', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const bobGenericProvider = ctx.get('bobGenericProvider');
+  const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
+  const xcert = ctx.get('protocol').xcert;
+  const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
   const order: Order = {
     makerId: coinbase,
@@ -79,7 +97,6 @@ spec.before(async (stage) => {
       {
         kind: OrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
-        senderId: coinbase,
         receiverId: bob,
         assetId: '102',
         assetImprint: '0',
@@ -101,33 +118,172 @@ spec.before(async (stage) => {
     ],
   };
 
-  stage.set('order', order);
-});
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+  const claim = await coinbaseOrderGateway.claim(order);
 
-spec.before(async (stage) => {
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
-  const provider = stage.get('makerGenericProvider');
-  const orderGateway = new OrderGateway(provider, orderGatewayId);
-  const order = stage.get('order');
-
-  stage.set('claim', await orderGateway.claim(order));
-});
-
-spec.test('submits orderGateway order to the network which executes transfers', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const provider = ctx.get('takerGenericProvider');
-  const order = ctx.get('order');
-  const claim = ctx.get('claim');
-  const bob = ctx.get('bob');
-  const coinbase = ctx.get('coinbase');
-  const xcert = ctx.get('protocol').xcert;
-
-  const orderGateway = new OrderGateway(provider, orderGatewayId);
+  const orderGateway = new OrderGateway(bobGenericProvider, orderGatewayId);
   await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
+});
+
+spec.test('submits dynamic orderGateway order to the network which executes transfers', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const saraGenericProvider = ctx.get('saraGenericProvider');
+  const sara = ctx.get('sara');
+  const coinbase = ctx.get('coinbase');
+  const xcert = ctx.get('protocol').xcert;
+  const xcertId = ctx.get('protocol').xcert.instance.options.address;
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const erc20 = ctx.get('protocol').erc20;
+
+  const order: Order = {
+    makerId: coinbase,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.CREATE_ASSET,
+        ledgerId: xcertId,
+        assetId: '105',
+        assetImprint: '0',
+      },
+      {
+        kind: OrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '101',
+      },
+      {
+        kind: OrderActionKind.TRANSFER_VALUE,
+        ledgerId: erc20Id,
+        receiverId: coinbase,
+        value: '100000',
+      },
+    ],
+  };
+
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+  const claim = await coinbaseOrderGateway.claim(order);
+
+  const orderGateway = new OrderGateway(saraGenericProvider, orderGatewayId);
+  await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
+
+  ctx.is(await xcert.instance.methods.ownerOf('105').call(), sara);
+  ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
+  ctx.is(await erc20.instance.methods.balanceOf(coinbase).call(), '500000000');
+});
+
+spec.test('handles fixed order without receiver', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const xcertId = ctx.get('protocol').xcert.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  let order: Order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.CREATE_ASSET,
+        ledgerId: xcertId,
+        assetId: '105',
+        assetImprint: '0',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+
+  order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '101',
+      },
+    ],
+  };
+
+  error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+});
+
+spec.test('handles fixed order without sender', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  const order: Order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_VALUE,
+        ledgerId: erc20Id,
+        receiverId: coinbase,
+        value: '100000',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+});
+
+spec.test('handles dynamic order without sender and receiver', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  const order: Order = {
+    makerId: coinbase,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_VALUE,
+        ledgerId: erc20Id,
+        value: '100000',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
 });
 
 export default spec;
