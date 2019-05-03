@@ -6,16 +6,16 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol
 /**
  * @title XcertUpdateProxy - updates a token on behalf of contracts that have been approved via
  * decentralized governance.
- * @notice There is a possibility of unintentional behavior when token imprint can be overwritten 
+ * @notice There is a possibility of unintentional behavior when token imprint can be overwritten
  * if more than one claim is active. Be aware of this when implementing.
  */
-contract XcertUpdateProxy is 
-  Abilitable 
+contract XcertUpdateProxy is
+  Abilitable
 {
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute create. 
+   * 2 - Ability to execute create.
    */
   uint8 constant ABILITY_TO_EXECUTE = 2;
 

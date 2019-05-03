@@ -6,8 +6,8 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 
 /**
- * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible 
- * tokens powered by atomic swaps. 
+ * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
+ * tokens powered by atomic swaps.
  */
 contract OrderGateway is
   Abilitable
@@ -49,7 +49,7 @@ contract OrderGateway is
    * See also:
    * https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer
    * https://github.com/trezor/trezor-mcu/blob/master/firmware/ethereum.c#L602
-   * https://github.com/trezor/trezor-mcu/blob/master/firmware/crypto.c#L36 
+   * https://github.com/trezor/trezor-mcu/blob/master/firmware/crypto.c#L36a
    * @param eip721 Signature using eip721.
    */
   enum SignatureKind
@@ -73,14 +73,14 @@ contract OrderGateway is
    * @dev Structure representing what to send and where.
    * @notice For update action kind to parameter is unnecessary. For this reason we recommend you
    * set it to zero address (0x000...0) since it costs less.
-   * @param kind Enum representing action kind. 
+   * @param kind Enum representing action kind.
    * @param proxy Id representing approved proxy address.
    * @param token Address of the token we are sending.
    * @param param1 Address of the sender or imprint.
    * @param to Address of the receiver.
    * @param value Amount of ERC20 or ID of ERC721.
    */
-  struct ActionData 
+  struct ActionData
   {
     ActionKind kind;
     uint32 proxy;
@@ -95,7 +95,7 @@ contract OrderGateway is
    * @param r ECDSA signature parameter r.
    * @param s ECDSA signature parameter s.
    * @param v ECDSA signature parameter v.
-   * @param kind Type of signature. 
+   * @param kind Type of signature.
    */
   struct SignatureData
   {
@@ -112,9 +112,9 @@ contract OrderGateway is
    * @param actions Data of all the actions that should accure it this order.
    * @param signature Data from the signed claim.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
-   * @param expiration Timestamp of when the claim expires. 0 if indefinet. 
+   * @param expiration Timestamp of when the claim expires. 0 if indefinet.
    */
-  struct OrderData 
+  struct OrderData
   {
     address maker;
     address taker;
@@ -123,7 +123,7 @@ contract OrderGateway is
     uint256 expiration;
   }
 
-  /** 
+  /**
    * @dev Valid proxy contract addresses.
    */
   address[] public proxies;
@@ -165,7 +165,7 @@ contract OrderGateway is
   );
 
   /**
-   * @dev Adds a verified proxy address. 
+   * @dev Adds a verified proxy address.
    * @notice Can be done through a multisig wallet in the future.
    * @param _proxy Proxy address.
    */
@@ -180,7 +180,7 @@ contract OrderGateway is
   }
 
   /**
-   * @dev Removes a proxy address. 
+   * @dev Removes a proxy address.
    * @notice Can be done through a multisig wallet in the future.
    * @param _index Index of proxy we are removing.
    */
@@ -198,13 +198,13 @@ contract OrderGateway is
    * @dev Performs the atomic swap that can exchange, create, update and do other actions for
    * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
-   * @param _signature Data from the signature. 
+   * @param _signature Data from the signature.
    */
   function perform(
     OrderData memory _data,
     SignatureData memory _signature
   )
-    public 
+    public
   {
     require(_data.taker == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
     require(_data.expiration >= now, CLAIM_EXPIRED);
@@ -215,7 +215,7 @@ contract OrderGateway is
         _data.maker,
         claim,
         _signature
-      ), 
+      ),
       INVALID_SIGNATURE
     );
 
@@ -394,7 +394,7 @@ contract OrderGateway is
 
     revert(INVALID_SIGNATURE_KIND);
   }
-  
+
   /**
    * @dev Helper function that makes order actions and replaces zero addresses with msg.sender.
    * @param _order Data needed for order.

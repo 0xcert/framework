@@ -35,5 +35,5 @@ contract XcertCreateProxy is
   {
     Xcert(_xcert).create(_to, _id, _imprint);
   }
-  
+
 }
