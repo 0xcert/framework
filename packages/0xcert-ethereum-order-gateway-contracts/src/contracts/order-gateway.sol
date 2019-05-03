@@ -457,6 +457,19 @@ contract OrderGateway is
           _order.actions[i].value
         );
       }
+      else if (_order.actions[i].kind == ActionKind.update)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
+          _order.actions[i].token,
+          _order.actions[i].value,
+          _order.actions[i].param1
+        );
+      }
     }
   }
 
