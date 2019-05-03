@@ -1982,8 +1982,13 @@ Order actions define the atomic operations of the order gateway.
 | Name | Value | Description
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
+| UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
+
+::: warning
+There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
 
 ### Create asset action
 
@@ -1994,6 +1999,15 @@ Order actions define the atomic operations of the order gateway.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing receiver's address.
+
+### Update asset imprint action
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
 
