@@ -260,7 +260,7 @@ export class Cert {
       const dataIndex = this.getPathIndexes(prop.path).pop();
       const recipeValue = recipe.values.find((v: any) => v.index === dataIndex);
 
-      if (!recipeValue) {
+      if (typeof recipeValue === undefined) {
         continue;
       }
 

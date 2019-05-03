@@ -105,12 +105,10 @@ export const pictureSchema = {
       'description': 'A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this digital assets represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.',
       'type': 'string',
     },
-
     'pictures': {
       'type': 'array',
       'title': 'Pictures',
-      'items':
-      {
+      'items': {
         'type': 'object',
         'properties': {
           'src': {
