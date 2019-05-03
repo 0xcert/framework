@@ -226,19 +226,22 @@ export function normalizeOrderIds(order: Order, provider: GenericProvider): Orde
   order.makerId = provider.encoder.normalizeAddress(order.makerId);
   order.actions.forEach((action) => {
     action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-    if (typeof action.receiverId === 'undefined') {
+    if (action.kind === OrderActionKind.UPDATE_ASSET_IMPRINT) {
+      action['receiverId'] = zeroAddress;
+    }
+    if (typeof action['receiverId'] === 'undefined') {
       if (!dynamic) {
         throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
       }
-      action.receiverId = zeroAddress;
+      action['receiverId'] = zeroAddress;
     } else {
-      action.receiverId = provider.encoder.normalizeAddress(action.receiverId);
+      action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
     }
-    if (action.kind !== OrderActionKind.CREATE_ASSET) {
+    if (action.kind !== OrderActionKind.CREATE_ASSET && action.kind !== OrderActionKind.UPDATE_ASSET_IMPRINT) {
       if (typeof action['senderId'] === 'undefined') {
         if (!dynamic) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
-        } else if (dynamic && action.receiverId === zeroAddress) {
+        } else if (dynamic && action['receiverId'] === zeroAddress) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Either senderId or receiverId need to be set.');
         }
         action['senderId'] = zeroAddress;
