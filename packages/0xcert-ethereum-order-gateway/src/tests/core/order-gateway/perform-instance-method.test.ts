@@ -21,7 +21,6 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -63,11 +62,12 @@ spec.before(async (stage) => {
   const bob = stage.get('bob');
   const sara = stage.get('sara');
 
-  const xcert = stage.get('protocol').xcert;
+  const xcert = stage.get('protocol').xcertMutable;
   const erc20 = stage.get('protocol').erc20;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
   const tokenTransferProxy = stage.get('protocol').tokenTransferProxy.instance.options.address;
   const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
+  const xcertUpdateProxy = stage.get('protocol').xcertUpdateProxy.instance.options.address;
 
   await erc20.instance.methods.transfer(sara, 100000).send({ form: coinbase });
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
@@ -75,6 +75,7 @@ spec.before(async (stage) => {
   await xcert.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(xcertCreateProxy, 2).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, 16).send({ from: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: bob });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: sara });
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
@@ -85,8 +86,8 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   const bobGenericProvider = ctx.get('bobGenericProvider');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
-  const xcert = ctx.get('protocol').xcert;
-  const xcertId = ctx.get('protocol').xcert.instance.options.address;
+  const xcert = ctx.get('protocol').xcertMutable;
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
   const order: Order = {
     makerId: coinbase,
@@ -100,6 +101,12 @@ spec.test('submits orderGateway order to the network which executes transfers', 
         receiverId: bob,
         assetId: '102',
         assetImprint: '0',
+      },
+      {
+        kind: OrderActionKind.UPDATE_ASSET_IMPRINT,
+        ledgerId: xcertId,
+        assetImprint: '2',
+        assetId: '100',
       },
       {
         kind: OrderActionKind.TRANSFER_ASSET,
@@ -128,17 +135,19 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
+  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
 });
 
 spec.test('submits dynamic orderGateway order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const saraGenericProvider = ctx.get('saraGenericProvider');
-  const sara = ctx.get('sara');
   const coinbase = ctx.get('coinbase');
-  const xcert = ctx.get('protocol').xcert;
-  const xcertId = ctx.get('protocol').xcert.instance.options.address;
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const sara = ctx.get('sara');
+  const bob = ctx.get('bob');
+  const xcert = ctx.get('protocol').xcertMutable;
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const erc20 = ctx.get('protocol').erc20;
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
 
   const order: Order = {
     makerId: coinbase,
@@ -160,8 +169,14 @@ spec.test('submits dynamic orderGateway order to the network which executes tran
       {
         kind: OrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
-        receiverId: coinbase,
+        receiverId: bob,
         value: '100000',
+      },
+      {
+        kind: OrderActionKind.UPDATE_ASSET_IMPRINT,
+        ledgerId: xcertId,
+        assetImprint: '2',
+        assetId: '105',
       },
     ],
   };
@@ -171,18 +186,20 @@ spec.test('submits dynamic orderGateway order to the network which executes tran
   const claim = await coinbaseOrderGateway.claim(order);
 
   const orderGateway = new OrderGateway(saraGenericProvider, orderGatewayId);
+
   await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
 
+  ctx.is(await xcert.instance.methods.tokenImprint('105').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.is(await xcert.instance.methods.ownerOf('105').call(), sara);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
-  ctx.is(await erc20.instance.methods.balanceOf(coinbase).call(), '500000000');
+  ctx.is(await erc20.instance.methods.balanceOf(bob).call(), '100000');
 });
 
 spec.test('handles fixed order without receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  const xcertId = ctx.get('protocol').xcert.instance.options.address;
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
 

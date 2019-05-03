@@ -1,6 +1,6 @@
 pragma solidity 0.5.6;
 
-import "@0xcert/ethereum-xcert-contracts/src/contracts/xcert.sol";
+import "@0xcert/ethereum-xcert-contracts/src/contracts/ixcert.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /**
@@ -18,10 +18,10 @@ contract XcertCreateProxy is
   uint8 constant ABILITY_TO_EXECUTE = 2;
 
   /**
-   * @dev Creates a new NFT.
+   * @dev Creates a new Xcert.
    * @param _xcert Address of the Xcert contract on which the creation will be perfomed.
-   * @param _to The address that will own the created NFT.
-   * @param _id The NFT to be created by the msg.sender.
+   * @param _to The address that will own the created Xcert.
+   * @param _id The Xcert to be created by the msg.sender.
    * @param _imprint Cryptographic asset imprint.
    */
   function create(
@@ -35,5 +35,5 @@ contract XcertCreateProxy is
   {
     Xcert(_xcert).create(_to, _id, _imprint);
   }
-  
+
 }

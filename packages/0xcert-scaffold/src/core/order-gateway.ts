@@ -7,6 +7,7 @@ export enum OrderActionKind {
   CREATE_ASSET = 1,
   TRANSFER_ASSET = 2,
   TRANSFER_VALUE = 3,
+  UPDATE_ASSET_IMPRINT = 4,
 }
 
 /**
@@ -43,7 +44,7 @@ export interface OrderGatewayBase {
  * Different order actions.
  */
 export type OrderAction = OrderActionCreateAsset | OrderActionTransferAsset
-  | OrderActionTransferValue;
+  | OrderActionTransferValue | OrderActionUpdateAssetImprint;
 
 /**
  * Order create asset data definitio.
@@ -100,6 +101,32 @@ export interface OrderActionTransferAsset {
    * Id (address) of the receiver.
    */
   receiverId?: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
+}
+
+/**
+ * Order transfer asset data definition.
+ */
+export interface OrderActionUpdateAssetImprint {
+
+  /**
+   * Type od order action.
+   */
+  kind: OrderActionKind.UPDATE_ASSET_IMPRINT;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Merkle tree root of asset proof.
+   */
+  assetImprint: string;
 
   /**
    * Unique asset Id.
