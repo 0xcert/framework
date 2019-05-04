@@ -1,25 +1,9 @@
-import { fetch } from '@0xcert/utils';
 import * as ipfsClient from 'ipfs-http-client';
 
 /**
  * IPFS storege config
  */
 export interface StorageConfig {
-
-  /**
-   * IPFS gateway URI
-   */
-  ipfsGatewayUri?: string;
-
-  /**
-   * IPFS gateway port
-   */
-  ipfsGatewayPort?: number;
-
-  /**
-   * IPFS gateway protocol (http or https)
-   */
-  ipfsGatewayProtocol?: string;
 
   /**
    * IPFS API URI
@@ -57,9 +41,6 @@ export class Storage {
    */
   public constructor(config: StorageConfig) {
     this.config = {
-      ipfsGatewayUri: 'ipfs.io',
-      ipfsGatewayPort: 443,
-      ipfsGatewayProtocol: 'https',
       ipfsApiUri: 'ipfs.infura.io',
       ipfsApiPort: 5001,
       ipfsApiProtocol: 'https',
@@ -83,10 +64,11 @@ export class Storage {
 
   /**
    * Fetch the file from IPFS.
-   * @param hash of the file stored on IPFS.
+   * @param path of the file stored on IPFS.
    */
-  public async get(hash: string) {
-    const res = await fetch(`${this.config.ipfsGatewayProtocol}://${this.config.ipfsGatewayUri}:${this.config.ipfsGatewayPort}/ipfs/${hash}`).then((r) => r);
-    return res;
+  public async cat(path: string) {
+    const buff = await this.ipfs.cat(path);
+    return buff.toString('utf8');
   }
+
 }
