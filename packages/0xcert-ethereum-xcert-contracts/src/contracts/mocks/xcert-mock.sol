@@ -34,7 +34,7 @@ contract XcertMock is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender] = 127; // Assigns all available abilities to creator. 
+    addressToAbility[msg.sender] = 255; // Assigns all available abilities to creator. 
   }
   
 }

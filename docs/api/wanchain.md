@@ -1982,8 +1982,13 @@ Order actions define the atomic operations of the order gateway.
 | Name | Value | Description
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
+| UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
+
+::: warning
+There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
 
 ### Create asset action
 
@@ -1994,6 +1999,15 @@ Order actions define the atomic operations of the order gateway.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing receiver's address.
+
+### Update asset imprint action
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
 
@@ -2017,7 +2031,35 @@ Order actions define the atomic operations of the order gateway.
 
 ## Public addresses
 
+This are latest addresses that work with version 1.5.0. For older addresses that may not be fully compatible with 1.5.0 check under archive. 
+
 ### Mainnet
+
+| Contract | Address
+|-|-|-
+| OrderGateway | [0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16](http://wanscan.org/address/0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16)
+| TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
+| NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
+| NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
+| XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
+| XcertUpdateProxy | [0xf2A432F872922dA97C0dD9F29E55E45962233f06](http://wanscan.org/address/0xf2A432F872922dA97C0dD9F29E55E45962233f06)
+
+### Testnet
+
+| Contract | Address
+|-|-|-
+| OrderGateway | [0x1d3fd1eA89510Ab49FFFE160Ee166dd08d0d079C](http://testnet.wanscan.org/address/0x1d3fd1eA89510Ab49FFFE160Ee166dd08d0d079C)
+| TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://testnet.wanscan.org/address/0xB827222B89BA5237c432c47B4ef7d2079641A075)
+| NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://testnet.wanscan.org/address/0xB59A801024393eB92b38a0711a54579c0136347A)
+| NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://testnet.wanscan.org/address/0x84907deF46A2D0fc80035f1c08A722f2432e9801)
+| XcertCreateProxy | [0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D](http://testnet.wanscan.org/address/0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D)
+| XcertUpdateProxy | [0xf73b617c55a3519F2c832cFb707363Ee609e3495](http://testnet.wanscan.org/address/0xf73b617c55a3519F2c832cFb707363Ee609e3495)
+
+### Archive
+
+#### 1.0.0 - 1.4.0
+
+##### Mainnet
 
 | Contract | Address
 |-|-|-
@@ -2027,7 +2069,7 @@ Order actions define the atomic operations of the order gateway.
 | NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
 | XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
 
-### Testnet
+##### Testnet
 
 | Contract | Address
 |-|-|-

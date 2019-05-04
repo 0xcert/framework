@@ -118,7 +118,6 @@ export class OrderGateway implements OrderGatewayBase {
    */
   public async getOrderDataClaim(order: Order) {
     order = normalizeOrderIds(order, this._provider);
-
     return getOrderDataClaim(this, order);
   }
 
