@@ -74,8 +74,8 @@ export class StorageMiddleware {
       try {
         const { id } = req.params;
         const ipfsHash = await this.db.get(id);
-        const ipfsJson = await this.ipfs.get(ipfsHash);
-        res.json(await ipfsJson.json());
+        const ipfsJson = await this.ipfs.cat(ipfsHash);
+        res.json(ipfsJson);
       } catch (error) {
         res.json({ error: 'Key not found' });
       }

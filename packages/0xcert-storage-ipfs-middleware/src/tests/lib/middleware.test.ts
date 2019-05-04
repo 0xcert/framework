@@ -54,7 +54,7 @@ spec.test('get file from IPFS', async (ctx) => {
       method: 'get',
   });
 
-  ctx.deepEqual(res.data, data);
+  ctx.deepEqual(res.data, JSON.stringify(data));
 });
 
 export default spec;
