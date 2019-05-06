@@ -2,6 +2,12 @@
   "name": "@0xcert/ethereum-order-gateway-contracts",
   "entries": [
     {
+      "version": "1.5.1",
+      "tag": "@0xcert/ethereum-order-gateway-contracts_v1.5.1",
+      "date": "Mon, 06 May 2019 16:02:11 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.5.0",
       "tag": "@0xcert/ethereum-order-gateway-contracts_v1.5.0",
       "date": "Fri, 03 May 2019 12:52:02 GMT",

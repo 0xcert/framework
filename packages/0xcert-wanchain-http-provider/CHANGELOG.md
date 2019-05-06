@@ -1,6 +1,11 @@
 # Change Log - @0xcert/wanchain-http-provider
 
-This log was last generated on Fri, 03 May 2019 12:52:02 GMT and should not be manually modified.
+This log was last generated on Mon, 06 May 2019 16:02:11 GMT and should not be manually modified.
+
+## 1.5.1
+Mon, 06 May 2019 16:02:11 GMT
+
+*Version update only*
 
 ## 1.5.0
 Fri, 03 May 2019 12:52:02 GMT
