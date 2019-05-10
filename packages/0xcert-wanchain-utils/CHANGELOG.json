@@ -2,6 +2,12 @@
   "name": "@0xcert/wanchain-utils",
   "entries": [
     {
+      "version": "1.5.2",
+      "tag": "@0xcert/wanchain-utils_v1.5.2",
+      "date": "Fri, 10 May 2019 16:39:10 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.5.1",
       "tag": "@0xcert/wanchain-utils_v1.5.1",
       "date": "Mon, 06 May 2019 16:02:11 GMT",
