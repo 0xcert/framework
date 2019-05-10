@@ -1,14 +1,14 @@
 import { Spec } from '@hayspec/spec';
 import { Cert } from '../../../core/cert';
-import { exampleData, exampleSchema } from '../helpers/schema';
+import { defaultData, defaultSchema } from '../helpers/schemas';
 
 const spec = new Spec();
 
 spec.test('returns recipes from exposed paths `name`', async (ctx) => {
   const cert = new Cert({
-    schema: exampleSchema,
+    schema: defaultSchema,
   });
-  const recipes = await cert.disclose(exampleData, [
+  const recipes = await cert.disclose(defaultData, [
     [''],
     ['name'],
   ]);
@@ -30,9 +30,9 @@ spec.test('returns recipes from exposed paths `name`', async (ctx) => {
 
 spec.test('returns recipes from exposed paths `event.organizer.name`', async (ctx) => {
   const cert = new Cert({
-    schema: exampleSchema,
+    schema: defaultSchema,
   });
-  const recipes = await cert.disclose(exampleData, [
+  const recipes = await cert.disclose(defaultData, [
     ['event', 'organizer', 'name'],
   ]);
   ctx.deepEqual(recipes, [

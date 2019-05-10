@@ -1,14 +1,14 @@
 import { Spec } from '@hayspec/spec';
 import { Cert } from '../../../core/cert';
-import { exampleData, exampleSchema } from '../helpers/schema';
+import { defaultData, defaultSchema } from '../helpers/schemas';
 
 const spec = new Spec();
 
 spec.test('returns recipes for a complete a complete schema', async (ctx) => {
   const cert = new Cert({
-    schema: exampleSchema,
+    schema: defaultSchema,
   });
-  const recipes = await cert.notarize(exampleData);
+  const recipes = await cert.notarize(defaultData);
   ctx.deepEqual(recipes, [
     {
       path: [],

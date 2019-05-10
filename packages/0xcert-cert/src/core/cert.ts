@@ -129,11 +129,14 @@ export class Cert {
    */
   protected buildSchemaProps(data: any, schema = this.schema, prepend = []): any {
     if (schema.type === 'array') {
-      return (data || [])
+      const items = (data || [])
         .map((v, i) => {
           return this.buildSchemaProps(v, schema.items, [...prepend, i]);
         })
         .reduce((a, b) => a.concat(b), []);
+      return items.length > 0
+        ? items
+        : [this.buildSchemaProps(undefined, {}, [...prepend])]; // add empty object to preserve keys sequence
     } else if (schema.type === 'object') {
       return Object.keys(schema.properties)
         .sort()
