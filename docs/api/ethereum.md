@@ -980,7 +980,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 
 | Argument | Description
 |-|-
-| options.accountId | [required] A `string` representing the Ethereum account that will perform actions.
+| options.accountId | A `string` representing the Ethereum account that will perform actions.
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -2386,6 +2386,7 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `OrderGateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 128 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `OrderGateway`, the order maker has to have this ability.
 | CREATE_ASSET | 2 | Allows an account to create a new asset.
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
@@ -2719,9 +2720,27 @@ const recipe = {
 const mutation = await ledger.transferValue(recipe);
 ```
 
-## Orders gateway
+## Order gateway
 
-Order gateway allows for performing multiple actions in one single atomic operation.
+Order gateway allows for performing multiple actions in a single atomic operation.
+To perform an atomic order through `OrderGateway`, you need to follow its flow:
+
+1. Maker (address creating the order) defines the order (who will transfer what to who).
+2. Maker generates the order claim and signs it (claims functions).
+3. Maker approves/assigns abilities for all the assets necessary.
+4. Maker sends order and signature to the Taker.
+5. Taker approves/assigns abilities for all the required assets.
+6. Taker performs the order.
+
+`Order` class is responsible for defining what will happen in the atomic swap. We support two different order configurations which we will call a fixed order and a dynamic order.
+
+In fixed order, the Taker of the order (its wallet address) is known, and we want to make an atomic order specifically with him and only him. For this, we need to set `order.takerId` and both `senderId` and `receiverId` in `order.actions`. If `takerId` is set and any parameters in `order.actions` are missing, any function called with this order will throw an error.
+
+In dynamic order, we do not care who performs the order as long as they have the assets we specified (it is usually used to transfer a specific asset for some amount of value). In this case, we do not set `order.takerId` and we have to set either `senderId` or `receiverId` or both in `order.actions`, but we are not allowed to not set any, otherwise any function called with this order will throw an error. Now any account (wallet) will be able to perform such order and will automatically become its Taker, and by such, every empty parameter will be replaced by his address.
+
+::: warning
+When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since zero address is reserved on the smart contract to replace the order Taker.
+:::
 
 ### OrderGateway(provider, gatewayId)
 
@@ -2760,7 +2779,7 @@ An `asynchronous` class instance `function` which marks the provided `order` as 
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing the Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays for the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays for the gas cost.
 
 **Result:**
 
@@ -2811,7 +2830,7 @@ This operation must be executed by the maker of the order.
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
 **Result:**
 
@@ -2883,7 +2902,7 @@ This operation must be executed by the taker of the order.
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing the unique order number.
-| order.takerId | [required] A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
 **Result:**
 
@@ -2926,66 +2945,119 @@ Order actions define the atomic operations of the order gateway.
 | Name | Value | Description
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
+| UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
+
+::: warning
+There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
 
 ### Create asset action
 
 | Property | Description
-|-|-|-
+|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+| receiverId | A `string` representing receiver's address.
+
+### Update asset imprint action
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
 
 | Property | Description
-|-|-|-
+|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+| receiverId | A `string` representing receiver's address.
+| senderId | A `string` representing sender's address.
 
 ### Transfer value action
 
 | Property | Description
-|-|-|-
+|-|-
 | kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_VALUE`.
 | ledgerId | [required] A `string` representing asset ledger address.
-| receiverId | [required] A `string` representing receiver's address.
-| senderId | [required] A `string` representing sender's address.
+| receiverId | A `string` representing receiver's address.
+| senderId | A `string` representing sender's address.
 | value | [required] A big number `string` representing the transferred amount.
 
 ## Public addresses
 
+This are latest addresses that work with version 1.5.0. For older addresses that may not be fully compatible with 1.5.0 check under archive. 
+
 ### Mainnet
 
 | Contract | Address
-|-|-|-
+|-|-
+| OrderGateway | [0x20149E6633706Ff7AA8dD65a49a991fbdfc48460](https://etherscan.io/address/0x20149E6633706Ff7AA8dD65a49a991fbdfc48460)
+| TokenTransferProxy | [0xcadd178eb978B07B19C8c7F04A54fa337D9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
+| NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
+| NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
+| XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
+| XcertUpdateProxy | [0xd0A87c106C3Cb3be6662f0BC02d3E86F2BC7c170](https://etherscan.io/address/0xd0A87c106C3Cb3be6662f0BC02d3E86F2BC7c170)
+
+
+### Ropsten
+
+| Contract | Address
+|-|-
+| OrderGateway | [0x0e4f45ad9bca9f214e73683f734f5b1aa3a4051a](https://ropsten.etherscan.io/address/0x0e4f45ad9bca9f214e73683f734f5b1aa3a4051a)
+| TokenTransferProxy | [0x61B47772Fd1f98D88dfE887af7F897F0e403aC10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
+| NFTokenTransferProxy | [0x41F8e2f78D930259a03A348713879a79736fC57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
+| NFTokenSafeTransferProxy | [0x25ac60fBD008577Bdea7cdB5ec6388D6f21546B0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
+| XcertCreateProxy | [0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff](https://ropsten.etherscan.io/address/0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff)
+| XcertUpdateProxy | [0x1a05a5139d2e7cf410dd642567211b568f83f221](https://ropsten.etherscan.io/address/0x1a05a5139d2e7cf410dd642567211b568f83f221)
+
+### Rinkeby
+
+| Contract | Address
+|-|-
+| OrderGateway | [0x1707f3e4cbfa103cbf51cbbc129ef70123e41d28](https://rinkeby.etherscan.io/address/0x1707f3e4cbfa103cbf51cbbc129ef70123e41d28)
+| TokenTransferProxy | [0x4BCA0E94239504e69bC25a3Ef3C5Ca6D80157c3D](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
+| NFTokenTransferProxy | [0x0a02d630669C75d5E162AEC89e6adcCF8eC1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)
+| NFTokenSafeTransferProxy | [0x15731d295aee0B1631995aB19e350e0eDC5691F6](https://rinkeby.etherscan.io/address/0x15731d295aee0b1631995ab19e350e0edc5691f6)
+| XcertCreateProxy | [0x67E20dd951Ef09AE6aEbd7c39903F89B2aBD4C79](https://rinkeby.etherscan.io/address/0x67e20dd951ef09ae6aebd7c39903f89b2abd4c79)
+| XcertUpdateProxy | [0x0ec6d078e9fd8290b0f990701f1cd9a45d5254a3](https://rinkeby.etherscan.io/address/0x0ec6d078e9fd8290b0f990701f1cd9a45d5254a3)
+
+### Archive
+
+#### 1.0.0 - 1.4.0
+
+##### Mainnet
+
+| Contract | Address
+|-|-
 | OrderGateway | [0x7b220AC85B7ae8Af1CECCC44e183A862dA2eD517](https://etherscan.io/address/0x7b220ac85b7ae8af1ceccc44e183a862da2ed517)
 | TokenTransferProxy | [0xcadd178eb978B07B19C8c7F04A54fa337D9c4d8c](https://etherscan.io/address/0xcadd178eb978b07b19c8c7f04a54fa337d9c4d8c)
 | NFTokenTransferProxy | [0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D](https://etherscan.io/address/0x28386bCdC913A0f5639C6ae70FF46E7BaCbB207D)
 | NFTokenSafeTransferProxy | [0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4](https://etherscan.io/address/0x4FE96F8b4C6Cfa819A4162AC4630787c191471e4)
 | XcertCreateProxy | [0x730dc765471340f68774A415E15f1cBc06d37BCE](https://etherscan.io/address/0x730dc765471340f68774A415E15f1cBc06d37BCE)
 
-### Ropsten
+##### Ropsten
 
 | Contract | Address
-|-|-|-
+|-|-
 | OrderGateway | [0x28dDb78095cf42081B9393F263E8b70BffCbF88F](https://ropsten.etherscan.io/address/0x28ddb78095cf42081b9393f263e8b70bffcbf88f)
 | TokenTransferProxy | [0x61B47772Fd1f98D88dfE887af7F897F0e403aC10](https://ropsten.etherscan.io/address/0x61b47772fd1f98d88dfe887af7f897f0e403ac10)
 | NFTokenTransferProxy | [0x41F8e2f78D930259a03A348713879a79736fC57c](https://ropsten.etherscan.io/address/0x41f8e2f78d930259a03a348713879a79736fc57c)
 | NFTokenSafeTransferProxy | [0x25ac60fBD008577Bdea7cdB5ec6388D6f21546B0](https://ropsten.etherscan.io/address/0x25ac60fbd008577bdea7cdb5ec6388d6f21546b0)
 | XcertCreateProxy | [0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff](https://ropsten.etherscan.io/address/0x0eb7913c496c9f41f56f1e24b01a170fc7e8f0ff)
 
-### Rinkeby
+##### Rinkeby
 
 | Contract | Address
-|-|-|-
+|-|-
 | OrderGateway | [0x1d57b453DF7483C4b16C0ea67a12C8D2F4133d7f](https://rinkeby.etherscan.io/address/0x1d57b453df7483c4b16c0ea67a12c8d2f4133d7f)
 | TokenTransferProxy | [0x4BCA0E94239504e69bC25a3Ef3C5Ca6D80157c3D](https://rinkeby.etherscan.io/address/0x4bca0e94239504e69bc25a3ef3c5ca6d80157c3d)
 | NFTokenTransferProxy | [0x0a02d630669C75d5E162AEC89e6adcCF8eC1b475](https://rinkeby.etherscan.io/address/0x0a02d630669c75d5e162aec89e6adccf8ec1b475)

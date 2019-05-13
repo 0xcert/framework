@@ -109,7 +109,7 @@ import { Cert } from '@0xcert/cert';
 
 const cert = new Cert({ schema });
 const imprints = await cert.notarize(data);
-const imprints = await cert.disclose(exampleData, [ ...paths... ]);
+const imprints = await cert.disclose(defaultData, [ ...paths... ]);
 const imprint = await cert.calculate(data, imprints);
 const imprint = await cert.imprint(data);
 ```

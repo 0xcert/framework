@@ -107,11 +107,11 @@
       "projectFolder": "packages/0xcert-ethereum-sandbox",
       "versionPolicyName": "patchAll"
     },
-    // {
-    //   "packageName": "@0xcert/ethereum-utils",
-    //   "projectFolder": "packages/0xcert-ethereum-utils",
-    //   "versionPolicyName": "patchAll"
-    // },
+    {
+      "packageName": "@0xcert/ethereum-utils",
+      "projectFolder": "packages/0xcert-ethereum-utils",
+      "versionPolicyName": "patchAll"
+    },
     {
       "packageName": "@0xcert/ethereum-utils-contracts",
       "projectFolder": "packages/0xcert-ethereum-utils-contracts",
@@ -131,6 +131,31 @@
       "packageName": "@0xcert/webpack",
       "projectFolder": "packages/0xcert-webpack",
       "shouldPublish": false
+    },
+    {
+      "packageName": "@0xcert/wanchain-asset-ledger",
+      "projectFolder": "packages/0xcert-wanchain-asset-ledger",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/wanchain-http-provider",
+      "projectFolder": "packages/0xcert-wanchain-http-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/wanchain-order-gateway",
+      "projectFolder": "packages/0xcert-wanchain-order-gateway",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/wanchain-utils",
+      "projectFolder": "packages/0xcert-wanchain-utils",
+      "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/wanchain-value-ledger",
+      "projectFolder": "packages/0xcert-wanchain-value-ledger",
+      "versionPolicyName": "patchAll"
     }
   ]
 }

@@ -9,7 +9,12 @@ module.exports = {
     '0xcert-ethereum-order-gateway': './src/0xcert-ethereum-order-gateway.js',
     '0xcert-ethereum-value-ledger': './src/0xcert-ethereum-value-ledger.js',
     '0xcert-ethereum-bitski-frontend-provider': './src/0xcert-ethereum-bitski-frontend-provider.js',
+    '0xcert-wanchain-asset-ledger': './src/0xcert-wanchain-asset-ledger.js',
+    '0xcert-wanchain-http-provider': './src/0xcert-wanchain-http-provider.js',
+    '0xcert-wanchain-order-gateway': './src/0xcert-wanchain-order-gateway.js',
+    '0xcert-wanchain-value-ledger': './src/0xcert-wanchain-value-ledger.js',
     '0xcert-ethereum': './src/0xcert-ethereum.js',
+    '0xcert-wanchain': './src/0xcert-wanchain.js',
   },
   output: {
     filename: `[name].min.js`,

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/conventions",
-  "version": "1.0.1",
+  "version": "1.5.2",
   "description": "Module with implementation of all confirmed conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,7 +64,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/utils": "1.0.1",
+    "@0xcert/utils": "1.5.2",
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
     "ajv": "^6.7.0",

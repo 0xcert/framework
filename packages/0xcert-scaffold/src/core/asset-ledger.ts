@@ -14,6 +14,7 @@ export enum GeneralAssetLedgerAbility {
   UPDATE_ASSET = 16,
   ALLOW_CREATE_ASSET = 32,
   UPDATE_URI_BASE = 64,
+  ALLOW_UPDATE_ASSET_IMPRINT = 128,
 }
 
 /**

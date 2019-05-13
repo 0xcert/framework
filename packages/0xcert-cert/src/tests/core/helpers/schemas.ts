@@ -1,7 +1,7 @@
 /**
  * JSON Schema example.
  */
-export const exampleSchema = {
+export const defaultSchema = {
   type: 'object',
   properties: {
     'books': {
@@ -55,7 +55,7 @@ export const exampleSchema = {
 /**
  * Data for example schema.
  */
-export const exampleData = {
+export const defaultData = {
   books: [
     {
       note: 'A0',

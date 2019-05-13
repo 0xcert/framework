@@ -83,6 +83,7 @@ spec.test('revokes own super ability', async (ctx) => {
     GeneralAssetLedgerAbility.UPDATE_ASSET,
     GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
     GeneralAssetLedgerAbility.UPDATE_URI_BASE,
+    GeneralAssetLedgerAbility.ALLOW_UPDATE_ASSET_IMPRINT,
   ]);
 });
 
