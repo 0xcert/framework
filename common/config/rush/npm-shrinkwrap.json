@@ -1259,11 +1259,11 @@
     },
     "@rush-temp/ethereum-bitski-backend-provider": {
       "version": "file:projects/ethereum-bitski-backend-provider.tgz",
-      "integrity": "sha512-/4b3KYvDUpPwqahQfuZyo7+2ED3XQNnVDuIE+wEgvtKBregnS7F/YflSL9S5LMcI3T6VbK23ZjwriE7aNmnBgA==",
+      "integrity": "sha512-t6NLNmpAP1ownK+WaB6/xakrkv+ajG5zWLkU3wb6LNRsvAbVBQfJYYvgt6Y7Dv6RYU2tMThBY2IvBOu1peLDAw==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
-        "bitski-node": "0.4.1",
+        "bitski-node": "0.5.0",
         "nyc": "^13.1.0",
         "solc": "0.5.5",
         "ts-node": "^7.0.1",
@@ -1446,11 +1446,11 @@
     },
     "@rush-temp/ethereum-bitski-frontend-provider": {
       "version": "file:projects/ethereum-bitski-frontend-provider.tgz",
-      "integrity": "sha512-U3OyOI3hQIUf5cpe8U2eaiC5LHTkG7ZZHSK7zks0iEy/ZF1vBELEK81qdVkArxufKQC/oH2O1fJ+LQjTdTTm7Q==",
+      "integrity": "sha512-JYH7dmVofFPk3N7oXcJHEKzkcaU9HG2iS4syTcMFvZ2k19ulqVEhwGn77j1E3pKIqLXusJSaY5Gar08vJxLejA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
-        "bitski": "0.5.2",
+        "bitski": "0.5.6",
         "nyc": "^13.1.0",
         "solc": "0.5.5",
         "ts-node": "^7.0.1",
@@ -3593,41 +3593,29 @@
       }
     },
     "bitski": {
-      "version": "0.5.2",
-      "resolved": "https://registry.npmjs.org/bitski/-/bitski-0.5.2.tgz",
-      "integrity": "sha512-8cqzZBxjUExcHZHcLSfWMbPHdNEPsC4i4zZjuu4ZsVYt7s9T49jhuhn8L20n/6R3Pvn9cqrSHoOg7TZWMSrIBw==",
+      "version": "0.5.6",
+      "resolved": "https://registry.npmjs.org/bitski/-/bitski-0.5.6.tgz",
+      "integrity": "sha512-Swur9y3nidsOCS/MsficHgdawsvQBf2G4PeK1u91d3YqFHLYivqGh1A9uQbtwocSsH0YOEkstSpbZud+10smjw==",
       "requires": {
         "@openid/appauth": "^1.2.0",
-        "bitski-provider": "^0.5.1",
+        "bitski-provider": "^0.5.6",
         "uuid": "^3.3.2",
         "web3-provider-engine": "^14.1.0"
-      },
-      "dependencies": {
-        "bitski-provider": {
-          "version": "0.5.6",
-          "resolved": "https://registry.npmjs.org/bitski-provider/-/bitski-provider-0.5.6.tgz",
-          "integrity": "sha512-MJ8wTAKmNbuuXw0pMxXgsrGFIpqQWhxyKDbd+RJKhHF2soOs2m/Syh9YewmXfF02nbPwfwdYN81pTzwcmTO5qQ==",
-          "requires": {
-            "@types/ethereum-protocol": "^1.0.0",
-            "json-rpc-error": "^2.0.0",
-            "web3-provider-engine": "github:BitskiCo/provider-engine#master"
-          }
-        }
       }
     },
     "bitski-node": {
-      "version": "0.4.1",
-      "resolved": "https://registry.npmjs.org/bitski-node/-/bitski-node-0.4.1.tgz",
-      "integrity": "sha512-XX12sPZ8trA9bi10ZK6Xz5DgvKmScJfiuoSqdPrPr0QGWxFUxPIWgBT6qrPiJMKzRhH5/BsFP1W2Rj59etlwhQ==",
+      "version": "0.5.0",
+      "resolved": "https://registry.npmjs.org/bitski-node/-/bitski-node-0.5.0.tgz",
+      "integrity": "sha512-pLnMeYevJj0YbWyl+JZP05P+SuLNVC7XJa0uehW6i9xl9L1d0MHP2HgRXr7GYCwcj5obIaW+8FOwzY9UJhLQ6A==",
       "requires": {
-        "bitski-provider": "^0.4.0",
+        "bitski-provider": "^0.5.5",
         "simple-oauth2": "^2.2.0"
       }
     },
     "bitski-provider": {
-      "version": "0.4.2",
-      "resolved": "https://registry.npmjs.org/bitski-provider/-/bitski-provider-0.4.2.tgz",
-      "integrity": "sha512-j4zRecArDHw6weZS0WmJKu28s+E4qgAo0KSGg8rGV7GyUlOU5gv/h3K1YeevQmXJ/LF6JKizMXzW5htUJJvsKA==",
+      "version": "0.5.6",
+      "resolved": "https://registry.npmjs.org/bitski-provider/-/bitski-provider-0.5.6.tgz",
+      "integrity": "sha512-MJ8wTAKmNbuuXw0pMxXgsrGFIpqQWhxyKDbd+RJKhHF2soOs2m/Syh9YewmXfF02nbPwfwdYN81pTzwcmTO5qQ==",
       "requires": {
         "@types/ethereum-protocol": "^1.0.0",
         "json-rpc-error": "^2.0.0",
