@@ -117,7 +117,7 @@ export class BitskiProvider extends GenericProvider {
     this._options = options;
     this._client = this;
     this._provider = Bitski.getProvider(options.clientId, {
-      network: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
+      networkName: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
       credentials: {
         id: options.credentialsId,
         secret: options.credentialsSecret,
