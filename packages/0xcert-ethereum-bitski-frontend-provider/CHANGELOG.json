@@ -1,0 +1,17 @@
+{
+  "name": "@0xcert/ethereum-bitski-frontend-provider",
+  "entries": [
+    {
+      "version": "1.6.0",
+      "tag": "@0xcert/ethereum-bitski-frontend-provider_v1.6.0",
+      "date": "Thu, 16 May 2019 16:19:39 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.5.3",
+      "tag": "@0xcert/ethereum-bitski-frontend-provider_v1.5.3",
+      "date": "Thu, 16 May 2019 16:18:17 GMT",
+      "comments": {}
+    }
+  ]
+}
