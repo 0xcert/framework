@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-bitski-backend-provider",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Implementation of Bitski back-end communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -67,14 +67,14 @@
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
     "nyc": "^13.1.0",
-    "solc": "0.5.5",
+    "solc": "0.5.6",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.1.1",
     "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.5.2",
+    "@0xcert/ethereum-generic-provider": "1.6.0",
     "bitski-node": "0.5.0"
   }
 }

@@ -2,6 +2,18 @@
   "name": "@0xcert/ethereum-value-ledger",
   "entries": [
     {
+      "version": "1.6.0",
+      "tag": "@0xcert/ethereum-value-ledger_v1.6.0",
+      "date": "Thu, 16 May 2019 16:19:39 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.5.3",
+      "tag": "@0xcert/ethereum-value-ledger_v1.5.3",
+      "date": "Thu, 16 May 2019 16:18:17 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.5.2",
       "tag": "@0xcert/ethereum-value-ledger_v1.5.2",
       "date": "Fri, 10 May 2019 16:39:10 GMT",
