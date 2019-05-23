@@ -17,7 +17,7 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.mutationTimeout | A number representing the number of milliseconds in which a mutation times out. Defaults to3600000. You can set it to -1 to disable timeout.
+| options.mutationTimeout | A number representing the number of milliseconds in which a mutation times out. Defaults to 3600000. You can set it to -1 to disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
 | options.networkName | A string representing the Ethereum network we will connect to.
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
