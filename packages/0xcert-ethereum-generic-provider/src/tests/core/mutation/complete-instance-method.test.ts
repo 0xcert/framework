@@ -65,6 +65,7 @@ spec.test('resolves mutation in sandbox mode', async (ctx) => {
   const transactionHash = await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }).then((t) => t.transactionHash);
   const mutation = new Mutation(provider, transactionHash);
   ctx.true(mutation.isCompleted());
+  provider.sandbox = false;
 });
 
 spec.test('times out when valid timeout value', async (ctx) => {
