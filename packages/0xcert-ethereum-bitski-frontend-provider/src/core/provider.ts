@@ -54,6 +54,11 @@ export interface BitskiProviderOptions {
    * Ethereum network Bitski is connected to. Mainnet by default.
    */
   networkName?: string;
+
+  /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  gasPriceMultiplier?: number;
 }
 
 /**

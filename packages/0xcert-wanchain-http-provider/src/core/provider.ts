@@ -76,6 +76,11 @@ export interface HttpProviderOptions {
    * Url to JSON RPC endpoint.
    */
   url: string;
+
+  /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  gasPriceMultiplier?: number;
 }
 
 /**

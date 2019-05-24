@@ -58,6 +58,11 @@ export interface GenericProviderOptions {
    * Encoder instance.
    */
   encoder?: Encode;
+
+  /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  gasPriceMultiplier?: number;
 }
 
 /**
@@ -94,6 +99,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Instance of encoder.
    */
   public encoder: Encode;
+
+  /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  public gasPriceMultiplier?: number;
 
   /**
    * Id (address) of order gateway.
@@ -136,6 +146,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
+    this.gasPriceMultiplier = typeof options.gasPriceMultiplier !== 'undefined' ? options.gasPriceMultiplier : 1.1;
 
     this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
@@ -303,8 +314,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
           method: 'eth_gasPrice',
           params: [],
         });
-        // TODO: get multiplyer from provider settings
-        payload.params[0].gasPrice = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
+        payload.params[0].gasPrice = `0x${Math.ceil(res.result * this.gasPriceMultiplier).toString(16)}`;
       }
     }
 

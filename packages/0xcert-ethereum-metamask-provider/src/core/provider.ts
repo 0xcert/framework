@@ -39,6 +39,11 @@ export interface MetamaskProviderOptions {
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;
+
+  /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  gasPriceMultiplier?: number;
 }
 
 /**
