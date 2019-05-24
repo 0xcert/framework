@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Only the latest minor version of 0xcert Framework is supported with security updates. These updates are published as new patch versions. All versioning follows Semantic Versioning. You can the latest version [released on GitHub](https://github.com/0xcert/framework/releases) and simultaneously published on NPM under individual packages.
+Only the latest minor version of 0xcert Framework is supported with security updates. These updates are published as new patch versions. All versioning follows Semantic Versioning. You can find the latest version [released on GitHub](https://github.com/0xcert/framework/releases) and simultaneously published on NPM under individual packages.
 
 | Branch | Supported          |
 | ------- | ------------------ |
