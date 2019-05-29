@@ -44,6 +44,11 @@ export interface MetamaskProviderOptions {
    * Gas price multiplier. Defaults to 1.1.
    */
   gasPriceMultiplier?: number;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
