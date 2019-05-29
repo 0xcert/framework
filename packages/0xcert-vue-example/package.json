@@ -8,13 +8,13 @@
     "test": ""
   },
   "dependencies": {
-    "@0xcert/cert": "1.0.1",
-    "@0xcert/conventions": "1.0.1",
-    "@0xcert/ethereum-asset-ledger": "1.0.1",
-    "@0xcert/ethereum-order-gateway": "1.0.1",
-    "@0xcert/ethereum-value-ledger": "1.0.1",
-    "@0xcert/ethereum-metamask-provider": "1.0.1",
-    "@0xcert/vue-plugin": "1.0.1",
+    "@0xcert/cert": "1.6.0",
+    "@0xcert/conventions": "1.6.0",
+    "@0xcert/ethereum-asset-ledger": "1.6.0",
+    "@0xcert/ethereum-order-gateway": "1.6.0",
+    "@0xcert/ethereum-value-ledger": "1.6.0",
+    "@0xcert/ethereum-metamask-provider": "1.6.0",
+    "@0xcert/vue-plugin": "1.6.0",
     "nuxt": "^2.3.1"
   }
 }

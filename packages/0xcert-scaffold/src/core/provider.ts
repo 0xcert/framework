@@ -18,6 +18,7 @@ export enum ProviderEvent {
  */
 export enum ProviderIssue {
   GENERAL = 0,
+  WRONG_INPUT = 1,
 }
 
 /**

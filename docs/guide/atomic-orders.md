@@ -6,7 +6,13 @@ Atomic order is a way of creating an atomic swap within the 0xcert Framework. It
 
 ## How it works
 
-Atomic swap operation is always an order between a maker and a taker, and multiple parties can represent either side. A maker is the one who creates an order, signs it and sends it to the taker, who in turn executes the order and pays the execution fee.
+Atomic swap operation is always an order between a Maker and a Taker, and multiple parties can represent either side. A Maker is the one who creates an order, signs it and sends it to the Taker, who in turn executes the order and pays the execution fee. There are two different concepts when defining an order:
+1. You know who will be the one executing the order and you want them any only them to execute it. For example, you want to send a diploma to a specific receiver.
+2. You do not care who will execute the order. For example, you are selling a digital artwork to anyone who wants to buy it.
+
+In case 1, both Maker and Taker need to be defined and every action in the order needs to have a sender and receiver.
+
+In case 2, only the Maker is defined, and in actions either sender or receiver can be left undefined and will automatically be assigned to whoever will perform the action.
 
 ![Atomic swap](../assets/atomic-swap.svg)
 
@@ -83,7 +89,6 @@ const order = {
         {
             kind: OrderActionKind.CREATE_ASSET,
             ledgerId: assetLedgerId,
-            senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '200',
             assetImprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b', // imprint generated in the certification step

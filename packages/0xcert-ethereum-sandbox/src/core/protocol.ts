@@ -17,6 +17,7 @@ export class Protocol {
   public xcertRevokable;
   public xcert;
   public xcertCreateProxy;
+  public xcertUpdateProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
@@ -60,6 +61,7 @@ export class Protocol {
     this.xcertRevokable = await this.deployXcertRevokable(from);
     this.xcert = await this.deployXcert(from);
     this.xcertCreateProxy = await this.deployXcertCreateProxy(from);
+    this.xcertUpdateProxy = await this.deployXcertUpdateProxy(from);
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
@@ -217,6 +219,18 @@ export class Protocol {
   }
 
   /**
+   * Deploys the Xcert update proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployXcertUpdateProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.xcertUpdateProxy.abi,
+      bytecode: contracts.xcertUpdateProxy.bytecode,
+      from,
+    });
+  }
+  /**
    * Deploys the token transfer proxy contract.
    * @param from Contract owner's address.
    */
@@ -285,10 +299,12 @@ export class Protocol {
     await orderGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address).send({ from });
+    await orderGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address).send({ from });
     await this.tokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
     await this.nftokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
     await this.xcertCreateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
     await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
+    await this.xcertUpdateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
 
     return orderGateway;
   }

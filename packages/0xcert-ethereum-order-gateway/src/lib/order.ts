@@ -1,9 +1,11 @@
-import { SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, normalizeAddress } from '@0xcert/ethereum-utils';
-import { Order, OrderAction, OrderActionKind } from '@0xcert/scaffold';
+import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { bigNumberify } from '@0xcert/ethereum-utils';
+import { Order, OrderAction, OrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { OrderGateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
+
+export const zeroAddress = '0x0000000000000000000000000000000000000000';
 
 /**
  * Generates order hash from input data.
@@ -11,9 +13,7 @@ import { OrderGatewayProxy } from '../core/types';
  * @param order Order instance.
  */
 export function createOrderHash(gateway: OrderGateway, order: Order) {
-
   let temp = '0x0000000000000000000000000000000000000000000000000000000000000000';
-
   for (const action of order.actions) {
     temp = keccak256(
       hexToBytes([
@@ -23,7 +23,7 @@ export function createOrderHash(gateway: OrderGateway, order: Order) {
         `0000000${getActionProxy(gateway, action)}`,
         action.ledgerId.substr(2),
         getActionParam1(action).substr(2),
-        action.receiverId.substr(2),
+        getActionTo(action).substr(2),
         getActionValue(action).substr(2),
       ].join('')),
     );
@@ -55,7 +55,7 @@ export function createRecipeTuple(gateway: OrderGateway, order: Order) {
       proxy: getActionProxy(gateway, action),
       token: action.ledgerId,
       param1: getActionParam1(action),
-      to: action.receiverId,
+      to: getActionTo(action),
       value: getActionValue(action),
     };
   });
@@ -98,7 +98,30 @@ export function createSignatureTuple(claim: string) {
  * @param action OrderAction instance.
  */
 export function getActionKind(action: OrderAction) {
-  return action.kind == OrderActionKind.CREATE_ASSET ? '00' : '01';
+  switch (action.kind) {
+    case OrderActionKind.CREATE_ASSET: {
+      return '00';
+      break;
+    }
+    case OrderActionKind.UPDATE_ASSET_IMPRINT: {
+      return '02';
+      break;
+    }
+    default: {
+      return '01';
+      break;
+    }
+  }
+}
+
+/**
+ * Gets the correct to address.
+ * @param action OrderAction instance.
+ */
+export function getActionTo(action: OrderAction) {
+  return action.kind == OrderActionKind.UPDATE_ASSET_IMPRINT
+    ? '0x0000000000000000000000000000000000000000'
+    : action.receiverId;
 }
 
 /**
@@ -113,8 +136,10 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
       ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
-  } else {
+  } else if (action.kind == OrderActionKind.CREATE_ASSET) {
     return OrderGatewayProxy.XCERT_CREATE;
+  } else {
+    return OrderGatewayProxy.XCERT_UPDATE;
   }
 }
 
@@ -123,9 +148,10 @@ export function getActionProxy(gateway: OrderGateway, action: OrderAction) {
  * @param action OrderAction instance.
  */
 export function getActionParam1(action: OrderAction) {
-  return action.kind == OrderActionKind.CREATE_ASSET
+  return (action.kind == OrderActionKind.CREATE_ASSET
+    || action.kind == OrderActionKind.UPDATE_ASSET_IMPRINT)
     ? rightPad(`0x${action['assetImprint']}`, 64)
-    : `${action.senderId}000000000000000000000000`;
+    : `${action['senderId']}000000000000000000000000`;
 }
 
 /**
@@ -186,14 +212,43 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
  */
-export function normalizeOrderIds(order: Order): Order {
+export function normalizeOrderIds(order: Order, provider: GenericProvider): Order {
   order = JSON.parse(JSON.stringify(order));
-  order.makerId = normalizeAddress(order.makerId);
-  order.takerId = normalizeAddress(order.takerId);
+  let dynamic = false;
+
+  if (typeof order.takerId === 'undefined') {
+    order.takerId = zeroAddress;
+    dynamic = true;
+  } else {
+    order.takerId = provider.encoder.normalizeAddress(order.takerId);
+  }
+
+  order.makerId = provider.encoder.normalizeAddress(order.makerId);
   order.actions.forEach((action) => {
-    action.ledgerId = normalizeAddress(action.ledgerId);
-    action.receiverId = normalizeAddress(action.receiverId);
-    action.senderId = normalizeAddress(action.senderId);
+    action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
+    if (action.kind === OrderActionKind.UPDATE_ASSET_IMPRINT) {
+      action['receiverId'] = zeroAddress;
+    }
+    if (typeof action['receiverId'] === 'undefined') {
+      if (!dynamic) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+      }
+      action['receiverId'] = zeroAddress;
+    } else {
+      action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
+    }
+    if (action.kind !== OrderActionKind.CREATE_ASSET && action.kind !== OrderActionKind.UPDATE_ASSET_IMPRINT) {
+      if (typeof action['senderId'] === 'undefined') {
+        if (!dynamic) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
+        } else if (dynamic && action['receiverId'] === zeroAddress) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Either senderId or receiverId need to be set.');
+        }
+        action['senderId'] = zeroAddress;
+      } else {
+        action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
+      }
+    }
   });
   return order;
 }

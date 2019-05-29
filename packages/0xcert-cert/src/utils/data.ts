@@ -1,5 +1,6 @@
 /**
- * Converts any value to string.
+ * Converts any value to string following the procedure in ES6 7.1.12.
+ * https://www.ecma-international.org/ecma-262/6.0/#sec-tostring
  * @param val Arbitrary value.
  */
 export function toString(val: any): string {

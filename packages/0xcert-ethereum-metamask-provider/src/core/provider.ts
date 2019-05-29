@@ -39,6 +39,11 @@ export interface MetamaskProviderOptions {
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
@@ -55,7 +60,7 @@ export class MetamaskProvider extends GenericProvider {
    * Gets an instance of metamask provider.
    */
   public static getInstance(): MetamaskProvider {
-    return new MetamaskProvider();
+    return new this();
   }
 
   /**

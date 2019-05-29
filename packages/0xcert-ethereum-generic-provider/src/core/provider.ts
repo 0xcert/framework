@@ -1,4 +1,4 @@
-import { normalizeAddress } from '@0xcert/ethereum-utils';
+import { Encode, Encoder } from '@0xcert/ethereum-utils';
 import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
@@ -53,6 +53,16 @@ export interface GenericProviderOptions {
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;
+
+  /**
+   * Encoder instance.
+   */
+  encoder?: Encode;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
@@ -86,6 +96,16 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public mutationTimeout: number;
 
   /**
+   * Instance of encoder.
+   */
+  public encoder: Encode;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  public sandbox: Boolean;
+
+  /**
    * Id (address) of order gateway.
    */
   protected _orderGatewayId: string;
@@ -117,6 +137,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    */
   public constructor(options: GenericProviderOptions) {
     super();
+    this.encoder = typeof options.encoder !== 'undefined' ? options.encoder : new Encoder();
     this.accountId = options.accountId;
     this.orderGatewayId = options.orderGatewayId;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
@@ -125,6 +146,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
+    this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
 
     this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
@@ -142,7 +164,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set accountId(id: string) {
-    id = normalizeAddress(id);
+    id = this.encoder.normalizeAddress(id);
 
     if (!this.isCurrentAccount(id)) {
       this.emit(ProviderEvent.ACCOUNT_CHANGE, id, this._accountId); // must be before the new account is set
@@ -162,7 +184,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes unsafe recipient IDs.
    */
   public set unsafeRecipientIds(ids: string[]) {
-    this._unsafeRecipientIds = (ids || []).map((id) => normalizeAddress(id));
+    this._unsafeRecipientIds = (ids || []).map((id) => this.encoder.normalizeAddress(id));
   }
 
   /**
@@ -176,7 +198,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Sets and normalizes account ID.
    */
   public set orderGatewayId(id: string) {
-    this._orderGatewayId = normalizeAddress(id);
+    this._orderGatewayId = this.encoder.normalizeAddress(id);
   }
 
   /**
@@ -232,7 +254,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
       method: 'eth_accounts',
       params: [],
     });
-    return res.result.map((a) => normalizeAddress(a));
+    return res.result.map((a) => this.encoder.normalizeAddress(a));
   }
 
   /**
@@ -250,14 +272,14 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Returns true if the provided accountId maches current class accountId.
    */
   public isCurrentAccount(accountId: string) {
-    return this.accountId === normalizeAddress(accountId);
+    return this.accountId === this.encoder.normalizeAddress(accountId);
   }
 
   /**
    * Returns true if the provided ledgerId is unsafe recipient address.
    */
   public isUnsafeRecipientId(ledgerId: string) {
-    const normalizedLedgerId = normalizeAddress(ledgerId);
+    const normalizedLedgerId = this.encoder.normalizeAddress(ledgerId);
     return !!this.unsafeRecipientIds.find((id) => id === normalizedLedgerId);
   }
 
@@ -272,11 +294,9 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public async post(options: SendOptions): Promise<RpcResponse> {
     const payload = { ...options };
 
-    // TODO: test if error throwing works on ropsten or do we need to check if
-    // the resulting gas amount is the same as block gas amount => revert.
     if (payload.method === 'eth_sendTransaction' && payload.params.length) {
 
-      if (typeof payload.params[0].gas === 'undefined') {
+      if (this.sandbox || typeof payload.params[0].gas === 'undefined') {
         const res = await this.request({
           ...payload,
           method: 'eth_estimateGas',
@@ -284,6 +304,10 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
         // estimate gas is sometimes inaccurate (depends on the node). So to be
         // sure we have enough gas, we multiply result with a factor.
         payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
+      }
+
+      if (this.sandbox) {
+        return { id: null, jsonrpc: null, result: payload.params[0].gas };
       }
 
       if (typeof payload.params[0].gasPrice === 'undefined') {

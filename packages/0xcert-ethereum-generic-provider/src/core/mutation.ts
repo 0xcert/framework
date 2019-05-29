@@ -71,6 +71,9 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     this._id = id;
     this._provider = provider;
+    if (this._provider.sandbox) {
+      this._status = MutationStatus.COMPLETED;
+    }
   }
 
   /**

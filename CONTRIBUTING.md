@@ -43,14 +43,14 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 
 The release manager will publish packages to NPM using these commands.
 
-**WARNING**: We used `@0xcert/ethereum-utils` package before and now have version inconsistency problem. The package is released as version 1.2.0 and is not part of the Rush configuration until we reach the actual 1.2.0 version of the framework. Make sure you re-include that package (inside rush.json) after 1.2.0 is released!
+NOTE: New packages must be published manually!
 
 ```sh
 $ rush version --bump --override-bump minor
 $ rush publish --publish --include-all
 ```
 
-# 0xcet documentation
+# 0xcert documentation
 
 We are using VuePress for building the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
 
@@ -73,7 +73,7 @@ You can build and deploy the documentation to the server.
 $ npm run deploy
 ```
 
-# 0xcet conventions
+# 0xcert conventions
 
 We are using VuePress for building the conventions pages. Files are built locally from `.md` files located in `/conventions` folder and generated into a `/convntions/.vuepress/dist` folder.
 

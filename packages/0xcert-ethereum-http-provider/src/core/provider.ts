@@ -75,6 +75,11 @@ export interface HttpProviderOptions {
    * Url to JSON RPC endpoint.
    */
   url: string;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
@@ -92,7 +97,7 @@ export class HttpProvider extends GenericProvider {
    * @param options HTTP provider options.
    */
   public static getInstance(options: HttpProviderOptions): HttpProvider {
-    return new HttpProvider(options);
+    return new this(options);
   }
 
   /**

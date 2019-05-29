@@ -1,5 +1,4 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { encodeParameters } from '@0xcert/ethereum-utils';
 import { ValueLedgerDeployRecipe } from '@0xcert/scaffold';
 import { fetch } from '@0xcert/utils';
 
@@ -15,7 +14,7 @@ export default async function(provider: GenericProvider, { name, symbol, decimal
   const source = contract.TokenMock.evm.bytecode.object;
   const attrs = {
     from: provider.accountId,
-    data: `0x${source}${encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
+    data: `0x${source}${provider.encoder.encodeParameters(inputTypes, [ name, symbol, decimals, supply]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
