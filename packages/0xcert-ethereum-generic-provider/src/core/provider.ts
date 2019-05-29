@@ -106,6 +106,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public encoder: Encode;
 
   /**
+   * Gas price multiplier. Defaults to 1.1.
+   */
+  public gasPriceMultiplier?: number;
+
+  /**
    * Sandbox mode. False by default.
    */
   public sandbox: Boolean;
@@ -151,6 +156,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
+    this.gasPriceMultiplier = typeof options.gasPriceMultiplier !== 'undefined' ? options.gasPriceMultiplier : 1.1;
     this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
 
     this._client = options.client && options.client.currentProvider
