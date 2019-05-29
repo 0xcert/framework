@@ -2,6 +2,12 @@
   "name": "@0xcert/ethereum-utils-contracts",
   "entries": [
     {
+      "version": "1.7.0",
+      "tag": "@0xcert/ethereum-utils-contracts_v1.7.0",
+      "date": "Wed, 29 May 2019 13:47:23 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.6.0",
       "tag": "@0xcert/ethereum-utils-contracts_v1.6.0",
       "date": "Thu, 16 May 2019 16:19:39 GMT",
