@@ -75,6 +75,11 @@ export interface HttpProviderOptions {
    * Url to JSON RPC endpoint.
    */
   url: string;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**

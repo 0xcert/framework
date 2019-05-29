@@ -58,6 +58,11 @@ export interface GenericProviderOptions {
    * Encoder instance.
    */
   encoder?: Encode;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
@@ -94,6 +99,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Instance of encoder.
    */
   public encoder: Encode;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  public sandbox: Boolean;
 
   /**
    * Id (address) of order gateway.
@@ -136,6 +146,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
+    this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
 
     this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
@@ -283,11 +294,9 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public async post(options: SendOptions): Promise<RpcResponse> {
     const payload = { ...options };
 
-    // TODO: test if error throwing works on ropsten or do we need to check if
-    // the resulting gas amount is the same as block gas amount => revert.
     if (payload.method === 'eth_sendTransaction' && payload.params.length) {
 
-      if (typeof payload.params[0].gas === 'undefined') {
+      if (this.sandbox || typeof payload.params[0].gas === 'undefined') {
         const res = await this.request({
           ...payload,
           method: 'eth_estimateGas',
@@ -295,6 +304,10 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
         // estimate gas is sometimes inaccurate (depends on the node). So to be
         // sure we have enough gas, we multiply result with a factor.
         payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
+      }
+
+      if (this.sandbox) {
+        return { id: null, jsonrpc: null, result: payload.params[0].gas };
       }
 
       if (typeof payload.params[0].gasPrice === 'undefined') {

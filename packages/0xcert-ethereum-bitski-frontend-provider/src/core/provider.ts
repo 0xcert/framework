@@ -54,6 +54,11 @@ export interface BitskiProviderOptions {
    * Ethereum network Bitski is connected to. Mainnet by default.
    */
   networkName?: string;
+
+  /**
+   * Sandbox mode. False by default.
+   */
+  sandbox?: Boolean;
 }
 
 /**
