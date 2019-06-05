@@ -13,5 +13,5 @@ export const Vue0xcert = {
  * The plugin is automatically installed when loaded in browser (not as module).
  */
 if (typeof window !== 'undefined' && !!window['Vue']) {
-  window['Vue'].use(Vue0xcert);
+  (window as any)['Vue'].use(Vue0xcert);
 }

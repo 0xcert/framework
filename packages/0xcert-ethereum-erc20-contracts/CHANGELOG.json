@@ -2,6 +2,12 @@
   "name": "@0xcert/ethereum-erc20-contracts",
   "entries": [
     {
+      "version": "1.7.1",
+      "tag": "@0xcert/ethereum-erc20-contracts_v1.7.1",
+      "date": "Wed, 05 Jun 2019 08:19:55 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.7.0",
       "tag": "@0xcert/ethereum-erc20-contracts_v1.7.0",
       "date": "Wed, 29 May 2019 13:47:23 GMT",
