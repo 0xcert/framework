@@ -37,9 +37,15 @@ export default {
 }
 ```
 
-The plug-in gives you access to the 0xcert VueJS client.
+The plug-in gives you access to the [0xcert VueJS client](https://github.com/0xcert/framework/blob/master/packages/0xcert-vue-plugin/src/core/client.ts).
 
 ```ts
 const client = this.$0xcert; // 0xcert client
 const provider = this.$0xcert.provider; // current provider
+await this.$0xcert.deployAssetLedger({ ... }); // deploy AssetLedger
+await this.$0xcert.deployValueLedger({ ... }); // deploy ValueLedger
+this.$0xcert.getAssetLedger(id); // get instance of AssetLedger
+this.$0xcert.getValueLedger(id); // get instance of ValueLedger
+this.$0xcert.getOrderGateway(id); // get instance of OrderGateway
+this.$0xcert.createCert(schema); // 
 ```
