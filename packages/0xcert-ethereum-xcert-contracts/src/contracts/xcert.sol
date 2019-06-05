@@ -11,7 +11,7 @@ import "@0xcert/ethereum-erc721-contracts/src/contracts/nf-token-metadata-enumer
 /**
  * @dev Xcert implementation.
  */
-contract XcertToken is 
+contract XcertToken is
   Xcert,
   XcertBurnable,
   XcertMutable,
@@ -34,7 +34,6 @@ contract XcertToken is
   /// ABILITY_ALLOW_UPDATE_ASSET = 128 - A specific ability that is bounded to atomic orders.
   /// When updating imprint of an Xcert trough `OrderGateway`, the order maker has to have this
   /// ability.
-
 
   /**
    * @dev List of capabilities (supportInterface bytes4 representations).
@@ -131,7 +130,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Revokes(destroys) a specified Xcert. Reverts if not called from contract owner or 
+   * @dev Revokes(destroys) a specified Xcert. Reverts if not called from contract owner or
    * authorized address.
    * @param _tokenId Id of the Xcert we want to destroy.
    */
