@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>Asset Ledger</h2>
+    <button @click="deployAssetLedger()">Deploy Asset Ledger</button>
     <h2>Order Exchange</h2>
     <button @click="connect()">Connect Metamask</button>
     <button @click="claim()">Sign Order</button>
@@ -93,6 +95,21 @@ export default {
       const imprint = await cert.calculate({ age: 38 }, proofs)
       console.log('Asset imprint from evidence:', imprint)
     },
+    async deployAssetLedger() {
+      const mutation = await this.$0xcert.deployAssetLedger({
+        name: 'fundin',
+        symbol: 'fundin',
+        uriBase: 'http://www.fundin.us',
+        schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
+        capabilities: [3, 1]
+      }).then((mutation) => {
+        return mutation.complete();
+      });
+      console.log('Contract deployed:', {
+        tx: mutation.id,
+        address: mutation.receiverId,
+      })
+    }
   },
 }
 </script>
