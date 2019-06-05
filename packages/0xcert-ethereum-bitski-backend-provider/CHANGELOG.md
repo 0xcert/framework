@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-bitski-backend-provider
 
-This log was last generated on Wed, 05 Jun 2019 08:19:55 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jun 2019 08:40:14 GMT and should not be manually modified.
+
+## 1.7.2
+Wed, 05 Jun 2019 08:40:14 GMT
+
+*Version update only*
 
 ## 1.7.1
 Wed, 05 Jun 2019 08:19:55 GMT

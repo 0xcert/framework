@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-bitski-frontend-provider",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Implementation of Bitski front-end communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -74,7 +74,7 @@
     "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.7.1",
+    "@0xcert/ethereum-generic-provider": "1.7.2",
     "bitski": "0.5.6"
   }
 }
