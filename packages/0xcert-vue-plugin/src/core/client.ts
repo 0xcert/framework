@@ -19,26 +19,26 @@ export class Client {
   /**
    *
    */
-  public deployAssetLedger(config: any) {
+  public async deployAssetLedger(config: any) {
     const module = this.getModule('AssetLedger');
 
     if (!module) {
       throw this.getMissingModuleError('AssetLedger');
     } else {
-      return module.deploy(this.provider, config);
+      return module.object.deploy(this.provider, config);
     }
   }
 
   /**
    *
    */
-  public deployValueLedger(config: any) {
+  public async deployValueLedger(config: any) {
     const module = this.getModule('ValueLedger');
 
     if (!module) {
       throw this.getMissingModuleError('ValueLedger');
     } else {
-      return module.deploy(this.provider, config);
+      return module.object.deploy(this.provider, config);
     }
   }
 
