@@ -15,13 +15,13 @@ spec.beforeEach(async (ctx) => {
   ctx.set('xcert', xcert);
 });
 
-spec.test('supports interfaces', async (ctx) => {
+spec.only('supports interfaces', async (ctx) => {
   const xcert = ctx.get('xcert');
   ctx.true(await xcert.instance.methods.supportsInterface('0x9d118770')); // destroyable
   ctx.true(await xcert.instance.methods.supportsInterface('0x33b641ae')); // mutable
   ctx.true(await xcert.instance.methods.supportsInterface('0xbedb86fb')); // pausable
   ctx.true(await xcert.instance.methods.supportsInterface('0x20c5429b')); // revokable
-  ctx.true(await xcert.instance.methods.supportsInterface('0x55bee7a4')); // xcert
+  ctx.true(await xcert.instance.methods.supportsInterface('0xe08725ee')); // xcert
 });
 
 export default spec;

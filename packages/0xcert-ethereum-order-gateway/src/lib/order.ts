@@ -216,7 +216,7 @@ export function normalizeOrderIds(order: Order, provider: GenericProvider): Orde
   order = JSON.parse(JSON.stringify(order));
   let dynamic = false;
 
-  if (typeof order.takerId === 'undefined') {
+  if (!order.takerId) {
     order.takerId = zeroAddress;
     dynamic = true;
   } else {
@@ -229,7 +229,7 @@ export function normalizeOrderIds(order: Order, provider: GenericProvider): Orde
     if (action.kind === OrderActionKind.UPDATE_ASSET_IMPRINT) {
       action['receiverId'] = zeroAddress;
     }
-    if (typeof action['receiverId'] === 'undefined') {
+    if (!action['receiverId']) {
       if (!dynamic) {
         throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
       }
@@ -238,7 +238,7 @@ export function normalizeOrderIds(order: Order, provider: GenericProvider): Orde
       action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
     }
     if (action.kind !== OrderActionKind.CREATE_ASSET && action.kind !== OrderActionKind.UPDATE_ASSET_IMPRINT) {
-      if (typeof action['senderId'] === 'undefined') {
+      if (!action['senderId']) {
         if (!dynamic) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
         } else if (dynamic && action['receiverId'] === zeroAddress) {

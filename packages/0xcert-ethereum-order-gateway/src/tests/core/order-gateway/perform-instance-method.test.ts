@@ -246,6 +246,58 @@ spec.test('handles fixed order without receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
+spec.test('handles fixed order without null receiver', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  let order: Order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.CREATE_ASSET,
+        receiverId: null,
+        ledgerId: xcertId,
+        assetId: '105',
+        assetImprint: '0',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+
+  order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '101',
+      },
+    ],
+  };
+
+  error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+});
+
 spec.test('handles fixed order without sender', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
@@ -276,6 +328,37 @@ spec.test('handles fixed order without sender', async (ctx) => {
   ctx.not(error, null);
 });
 
+spec.test('handles fixed order with null sender', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  const order: Order = {
+    makerId: coinbase,
+    takerId: bob,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_VALUE,
+        ledgerId: erc20Id,
+        senderId: null,
+        receiverId: coinbase,
+        value: '100000',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+});
+
 spec.test('handles dynamic order without sender and receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
@@ -290,6 +373,36 @@ spec.test('handles dynamic order without sender and receiver', async (ctx) => {
     actions: [
       {
         kind: OrderActionKind.TRANSFER_VALUE,
+        ledgerId: erc20Id,
+        value: '100000',
+      },
+    ],
+  };
+
+  let error = null;
+  await coinbaseOrderGateway.claim(order).catch((e) => {
+    error = e;
+  });
+  ctx.not(error, null);
+});
+
+spec.test('handles dynamic order without null sender and null receiver', async (ctx) => {
+  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const coinbase = ctx.get('coinbase');
+  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbaseOrderGateway = new OrderGateway(coinbaseGenericProvider, orderGatewayId);
+
+  const order: Order = {
+    makerId: coinbase,
+    takerId: null,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: OrderActionKind.TRANSFER_VALUE,
+        senderId: null,
+        receiverId: null,
         ledgerId: erc20Id,
         value: '100000',
       },
