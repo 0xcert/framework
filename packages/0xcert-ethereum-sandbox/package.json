@@ -67,7 +67,6 @@
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
     "@types/node": "^10.12.24",
-    "ganache-core": "2.5.3",
     "nyc": "^13.1.0",
     "supertest": "^3.3.0",
     "ts-node": "^7.0.1",
@@ -80,6 +79,7 @@
     "@0xcert/ethereum-erc20-contracts": "1.7.2",
     "@0xcert/ethereum-erc721-contracts": "1.7.2",
     "@0xcert/ethereum-proxy-contracts": "1.7.2",
-    "@0xcert/ethereum-xcert-contracts": "1.7.2"
+    "@0xcert/ethereum-xcert-contracts": "1.7.2",
+    "ganache-core": "2.5.3"
   }
 }
