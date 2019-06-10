@@ -32,7 +32,7 @@ spec.test('returns account balance', async (ctx) => {
   const ledgerId = ctx.get('protocol').erc20.instance.options.address;
   const ledger =  new ValueLedger(provider, ledgerId);
   const balance = await ledger.getBalance(coinbase);
-  ctx.is(balance, '500000000');
+  ctx.is(balance, '500000000000000000000000000');
 });
 
 spec.test('returns null when getting account balance on contract that does not support it', async (ctx) => {
