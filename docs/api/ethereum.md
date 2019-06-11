@@ -285,6 +285,26 @@ A class instance `variable` holding a `string` which represents an Ethereum addr
 
 A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 
+### sign(message)
+
+An `asynchronous` class instance `function` which signs a message using `signMethod` set in provider.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| message | [required] A `string` representing the message to be signed.
+
+**Result:**
+
+A string representing the signature.
+
+**Example:**
+
+```ts
+const signature = await provider.sign('test');
+```
+
 ### signMethod
 
 A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
@@ -609,6 +629,26 @@ A class instance `variable` holding a `string` which represents an Ethereum addr
 ### requiredConfirmations
 
 A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+
+### sign(message)
+
+An `asynchronous` class instance `function` which signs a message using `signMethod` set in provider.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| message | [required] A `string` representing the message to be signed.
+
+**Result:**
+
+A string representing the signature.
+
+**Example:**
+
+```ts
+const signature = await provider.sign('test');
+```
 
 ### signIn()
 
@@ -958,6 +998,26 @@ A class instance `variable` holding a `string` which represents an Ethereum addr
 
 A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 
+### sign(message)
+
+An `asynchronous` class instance `function` which signs a message using `signMethod` set in provider.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| message | [required] A `string` representing the message to be signed.
+
+**Result:**
+
+A string representing the signature.
+
+**Example:**
+
+```ts
+const signature = await provider.sign('test');
+```
+
 ### signMethod
 
 A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
@@ -1236,6 +1296,26 @@ A class instance `variable` holding a `string` which represents an Ethereum addr
 ### requiredConfirmations
 
 A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+
+### sign(message)
+
+An `asynchronous` class instance `function` which signs a message using `signMethod` set in provider.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| message | [required] A `string` representing the message to be signed.
+
+**Result:**
+
+A string representing the signature.
+
+**Example:**
+
+```ts
+const signature = await provider.sign('test');
+```
 
 ### signMethod
 
