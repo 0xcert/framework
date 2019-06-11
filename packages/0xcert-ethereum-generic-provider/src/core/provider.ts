@@ -258,6 +258,31 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Signs a message.
+   * @param message Message to sign.
+   */
+  public async sign(message: string): Promise<string> {
+    if (!this.accountId) {
+      throw new Error('accountId not set.');
+    }
+    if (this.signMethod === SignMethod.PERSONAL_SIGN) {
+      const res = await this.post({
+        method: 'personal_sign',
+        params: [message, this.accountId, null],
+      });
+      return res.result;
+    } else if (this.signMethod === SignMethod.ETH_SIGN) {
+      const res = await this.post({
+        method: 'eth_sign',
+        params: [this.accountId, message],
+      });
+      return res.result;
+    } else {
+      throw new Error('Signing method not implemented.');
+    }
+  }
+
+  /**
    * Returns a list of all available account IDs.
    */
   public async getAvailableAccounts(): Promise<string[]> {
