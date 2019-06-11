@@ -29,7 +29,7 @@ spec.test('returns ledger info', async (ctx) => {
     name: 'ERC20',
     symbol: 'ERC20',
     decimals: '18',
-    supply: '500000000',
+    supply: '500000000000000000000000000',
   });
 });
 
