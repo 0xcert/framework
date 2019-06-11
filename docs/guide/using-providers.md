@@ -2,7 +2,7 @@
 
 As explained previously, the 0xcert Framework tends to be platform-agnostic, meaning that it is not created for merely one blockchain or one specific platform. It aims to provide a consistently optimal developing experience, regardless of the platform you employ.
 
-Each provider operates on the same principles, but can also have its own distinctive characteristics. The current version of the Framework, however, only supports the Ethereum blockchain. Soon, more platforms will be added.
+Each provider operates on the same principles, but can also have their own distinctive characteristics. The current version of the Framework, however, only supports the Ethereum and Wanchain blockchains. Soon, more platforms will be added.
 
 Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about providers please refer to the [API](/api/ethereum.html#api-ethereum).
 
@@ -22,7 +22,7 @@ We recommend you employ the provider module as an NPM package in your applicatio
 $ npm i --save @0xcert/ethereum-metamask-provider
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host compiled and minimized JavaScript files that you can directly include in your website. Please refer to the [API](/api/ethereum.html) section to learn more about other providers.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/ethereum.html) section to learn more about other providers.
 
 ## Usage overview
 
