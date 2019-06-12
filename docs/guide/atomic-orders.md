@@ -101,7 +101,7 @@ const order = {
 } as Order;
 ```
 
-When you work on a real case, make sure to set the `takerId` correctly. If you want your colleague to execute an order, you should insert their Ethereum wallet address as the `takerId`.
+When you work on a real case, make sure to set the `takerId` correctly. If you want your colleague or a third party to execute an order, you should insert their Ethereum wallet address as the `takerId`.
 
 The following step is made only by the maker, i.e. the person who creates an order.
 
@@ -152,7 +152,7 @@ const owner200Id = await assetLedger.getAssetAccount('200');
 //=> 0x...
 ```
 
-To learn more about atomic operations, please refer to the [API](/api/ethereum.html#orders-gateway) section.
+To learn more about atomic operations on Ethereum, please refer to the [API for Ethereum](/api/ethereum.html#orders-gateway) section. For more information on atomic operations on Wanchain, please refer to the [API for Wanchain](/api/wanchain.html#order-gateway) section.
 
 ---
 

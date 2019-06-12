@@ -6,7 +6,7 @@ When discussing assets, we think of different things of value. The simplest exam
 
 By definition, unique assets are one-of-a-kind, unrepeatable and undividable objects, representing valuable information such as identity, licenses, certificates, etc.
 
-Within the realm of the blockchain and other distributed systems, unique assets are mainly represented by non-fungible tokens (NFTs). In early 2018, the Ethereum community has reached a consensus and adopted the [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard to define and serve as an interface for non-fungible tokens on the Ethereum blockchain, and recently also on other platforms.
+Within the realm of the blockchain and other distributed platforms, these assets are represented by non-fungible tokens (NFTs). The Ethereum community has reached a consensus and adopted the [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard to define and serve as an interface for non-fungible tokens on the Ethereum blockchain, and recently also on other platforms. The Wanchain community has also adopted the ERC-721 standard for non-fungible tokens on the Wanchain blockchain.
 
 ## Explaining the concept
 
