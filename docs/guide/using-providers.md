@@ -2,9 +2,9 @@
 
 As explained previously, the 0xcert Framework tends to be platform-agnostic, meaning that it is not created for merely one blockchain or one specific platform. It aims to provide a consistently optimal developing experience, regardless of the platform you employ.
 
-Each provider operates on the same principles, but can also have their own distinctive characteristics. The current version of the Framework, however, only supports the Ethereum and Wanchain blockchains. Soon, more platforms will be added.
+Each provider operates on the same principles, but can also have its own distinctive characteristics. The current version of the Framework supports the Ethereum and the Wanchain blockchain. Soon, more platforms will be added.
 
-Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about providers please refer to the [API](/api/ethereum.html#api-ethereum).
+Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about other providers for Ethereum such as Bitski, please click [here](/api/ethereum.html#api-ethereum), and to learn more about providers for Wanchain, please click [here](/api/wanchain.html#api-wanchain).
 
 ::: card Learn by example
 Click [here](https://stackblitz.com/edit/using-providers-example) to check the live example for this section.
@@ -12,7 +12,7 @@ Click [here](https://stackblitz.com/edit/using-providers-example) to check the l
 
 ## Installation process
 
-The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide, we will employ an example on the most common and straightforward blockchain provider called the [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
+The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide, we will employ an example on the most common and straightforward blockchain provider called [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
 
 [MetaMask](https://metamask.io/) is a popular plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge between your browser and the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with hardware wallets such as [Ledger](https://www.ledger.com/) or [Trezor](https://trezor.io/).
 
