@@ -463,8 +463,8 @@ contract NFTokenMetadataEnumerable is
     internal
   {
     // valid NFT
-    address owner = idToOwner[_tokenId];
-    require(owner != address(0), NOT_VALID_NFT);
+    address _owner = idToOwner[_tokenId];
+    require(_owner != address(0), NOT_VALID_NFT);
 
     // clear approval
     if (idToApproval[_tokenId] != address(0))
@@ -473,21 +473,21 @@ contract NFTokenMetadataEnumerable is
     }
 
     // remove NFT
-    assert(ownerToIds[owner].length > 0);
+    assert(ownerToIds[_owner].length > 0);
 
     uint256 tokenToRemoveIndex = idToOwnerIndex[_tokenId];
-    uint256 lastTokenIndex = ownerToIds[owner].length - 1;
+    uint256 lastTokenIndex = ownerToIds[_owner].length - 1;
     uint256 lastToken;
     if (lastTokenIndex != tokenToRemoveIndex)
     {
-      lastToken = ownerToIds[owner][lastTokenIndex];
-      ownerToIds[owner][tokenToRemoveIndex] = lastToken;
+      lastToken = ownerToIds[_owner][lastTokenIndex];
+      ownerToIds[_owner][tokenToRemoveIndex] = lastToken;
       idToOwnerIndex[lastToken] = tokenToRemoveIndex;
     }
 
     delete idToOwner[_tokenId];
     delete idToOwnerIndex[_tokenId];
-    ownerToIds[owner].length--;
+    ownerToIds[_owner].length--;
 
     // remove from tokens array
     assert(tokens.length > 0);
@@ -503,7 +503,7 @@ contract NFTokenMetadataEnumerable is
     idToIndex[lastToken] = tokenIndex;
     idToIndex[_tokenId] = 0;
 
-    emit Transfer(owner, address(0), _tokenId);
+    emit Transfer(_owner, address(0), _tokenId);
   }
 
   /**
