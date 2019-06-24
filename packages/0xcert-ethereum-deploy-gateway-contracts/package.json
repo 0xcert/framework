@@ -75,6 +75,7 @@
   "devDependencies": {
     "@0xcert/ethereum-utils-contracts": "1.7.3",
     "@0xcert/ethereum-erc20-contracts": "1.7.3",
+    "@0xcert/ethereum-erc721-contracts": "1.7.3",
     "@0xcert/ethereum-xcert-contracts": "1.7.3",
     "@0xcert/ethereum-proxy-contracts": "1.7.3",
     "@specron/cli": "^0.5.6",

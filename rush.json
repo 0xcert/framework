@@ -156,6 +156,11 @@
       "packageName": "@0xcert/wanchain-value-ledger",
       "projectFolder": "packages/0xcert-wanchain-value-ledger",
       "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-deploy-gateway-contracts",
+      "projectFolder": "packages/0xcert-ethereum-deploy-gateway-contracts",
+      "versionPolicyName": "patchAll"
     }
   ]
 }
