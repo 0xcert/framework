@@ -160,7 +160,7 @@ spec.test('fails when trying to cancel an alredy performed order', async (ctx) =
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {

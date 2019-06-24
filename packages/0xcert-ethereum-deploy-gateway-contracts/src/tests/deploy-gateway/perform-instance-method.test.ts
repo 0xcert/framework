@@ -100,7 +100,7 @@ spec.test('performs a deploy', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -169,7 +169,7 @@ spec.test('fails when not enough balance', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -213,7 +213,7 @@ spec.test('fails when not specified taker', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -256,7 +256,7 @@ spec.test('fails with expired claim', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -301,7 +301,7 @@ spec.test('fails with invalid signature', async (ctx) => {
   orderData.taker = jane;
   const invalidTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(invalidTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(invalidTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -344,7 +344,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -387,7 +387,7 @@ spec.test('fails trying to perform an already performed order', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {
@@ -431,7 +431,7 @@ spec.test('fails trying to perform a canceled order', async (ctx) => {
   };
   const createTuple = ctx.tuple(orderData);
 
-  const claim = await deployGateway.instance.methods.getOrderDataClaim(createTuple).call();
+  const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
   const signature = await ctx.web3.eth.sign(claim, jane);
   const signatureData = {

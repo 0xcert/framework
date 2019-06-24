@@ -7,8 +7,7 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 import "./xcert-custom.sol";
 
 /**
- * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
- * tokens powered by atomic swaps.
+ * @dev Atomic deploy of a new Xcert (non fungible) smart contract with a token transfer.
  */
 contract DeployGateway
 {
@@ -47,7 +46,7 @@ contract DeployGateway
   /**
    * Data needed to deploy a new Xcert smart contract.
    */
-  struct DeployData
+  struct XcertData
   {
     string name;
     string symbol;
@@ -86,17 +85,17 @@ contract DeployGateway
    * @dev Structure representing the data needed to do the order.
    * @param maker Address of the one that made the claim.
    * @param taker Address of the one that is executing the claim.
-   * @param deployData Data needed to deploy a new Xcert smart contract.
+   * @param xcertData Data needed to deploy a new Xcert smart contract.
    * @param transferData Data needed to transfer tokens.
    * @param signature Data from the signed claim.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet.
    */
-  struct OrderData
+  struct DeployData
   {
     address maker;
     address taker;
-    DeployData deployData;
+    XcertData xcertData;
     TransferData transferData;
     uint256 seed;
     uint256 expiration;
@@ -162,7 +161,7 @@ contract DeployGateway
    * @param _signature Data from the signature.
    */
   function perform(
-    OrderData memory _data,
+    DeployData memory _data,
     SignatureData memory _signature
   )
     public
@@ -170,7 +169,7 @@ contract DeployGateway
     require(_data.taker == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
     require(_data.expiration >= now, CLAIM_EXPIRED);
 
-    bytes32 claim = getOrderDataClaim(_data);
+    bytes32 claim = getDeployDataClaim(_data);
     require(
       isValidSignature(
         _data.maker,
@@ -205,14 +204,14 @@ contract DeployGateway
    * @param _signature Data from the signature.
    */
   function performAnyTaker(
-    OrderData memory _data,
+    DeployData memory _data,
     SignatureData memory _signature
   )
     public
   {
     require(_data.expiration >= now, CLAIM_EXPIRED);
 
-    bytes32 claim = getOrderDataClaim(_data);
+    bytes32 claim = getDeployDataClaim(_data);
     require(
       isValidSignature(
         _data.maker,
@@ -245,13 +244,13 @@ contract DeployGateway
    * @param _data Data of order to cancel.
    */
   function cancel(
-    OrderData memory _data
+    DeployData memory _data
   )
     public
   {
     require(_data.maker == msg.sender, MAKER_NOT_EQUAL_TO_SENDER);
 
-    bytes32 claim = getOrderDataClaim(_data);
+    bytes32 claim = getDeployDataClaim(_data);
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
     orderCancelled[claim] = true;
@@ -263,25 +262,25 @@ contract DeployGateway
   }
 
   /**
-   * @dev Calculates keccak-256 hash of OrderData from parameters.
+   * @dev Calculates keccak-256 hash of DeployData from parameters.
    * @param _orderData Data needed for atomic swap.
    * @return keccak-hash of order data.
    */
-  function getOrderDataClaim(
-    OrderData memory _orderData
+  function getDeployDataClaim(
+    DeployData memory _orderData
   )
     public
     view
     returns (bytes32)
   {
-    bytes32 deployData = keccak256(
+    bytes32 xcertData = keccak256(
       abi.encodePacked(
-        _orderData.deployData.name,
-        _orderData.deployData.symbol,
-        _orderData.deployData.uriBase,
-        _orderData.deployData.schemaId,
-        _orderData.deployData.capabilities,
-        _orderData.deployData.owner
+        _orderData.xcertData.name,
+        _orderData.xcertData.symbol,
+        _orderData.xcertData.uriBase,
+        _orderData.xcertData.schemaId,
+        _orderData.xcertData.capabilities,
+        _orderData.xcertData.owner
       )
     );
 
@@ -298,7 +297,7 @@ contract DeployGateway
         address(this),
         _orderData.maker,
         _orderData.taker,
-        deployData,
+        xcertData,
         transferData,
         _orderData.seed,
         _orderData.expiration
@@ -365,7 +364,7 @@ contract DeployGateway
    * @param _order Data needed for order.
    */
   function _doActions(
-    OrderData memory _order
+    DeployData memory _order
   )
     private
     returns (address _xcert)
@@ -379,12 +378,12 @@ contract DeployGateway
 
     _xcert = address(
         new XcertCustom(
-        _order.deployData.name,
-        _order.deployData.symbol,
-        _order.deployData.uriBase,
-        _order.deployData.schemaId,
-        _order.deployData.capabilities,
-        _order.deployData.owner,
+        _order.xcertData.name,
+        _order.xcertData.symbol,
+        _order.xcertData.uriBase,
+        _order.xcertData.schemaId,
+        _order.xcertData.capabilities,
+        _order.xcertData.owner,
         assetCreateProxy
       )
     );
