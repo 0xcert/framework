@@ -3,9 +3,9 @@ import { DeployGateway } from '../core/gateway';
 import { createDeployHash } from '../lib/deploy';
 
 /**
- * Creates order hash, signes it and returns personal signed order claim.
- * @param gateway Order gateway instance.
- * @param order Order data.
+ * Creates deploy hash, signes it and returns personal signed deploy claim.
+ * @param gateway Deploy gateway instance.
+ * @param deploy Deploy data.
  */
 export default async function(gateway: DeployGateway, deploy: Deploy) {
   const message = createDeployHash(gateway, deploy);

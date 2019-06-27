@@ -71,13 +71,13 @@ spec.beforeEach(async (ctx) => {
   await tokenProxy.instance.methods.grantAbilities(deployGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-spec.test('cancels an order', async (ctx) => {
+spec.test('cancels an deploy', async (ctx) => {
   const deployGateway = ctx.get('deployGateway');
   const zxc = ctx.get('zxc');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: owner,
     deployData: {
@@ -96,19 +96,19 @@ spec.test('cancels an order', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const logs = await deployGateway.instance.methods.cancel(createTuple).send({ from: jane });
   ctx.not(logs.events.Cancel, undefined);
 });
 
-spec.test('fails when not the maker tries to cancel order', async (ctx) => {
+spec.test('fails when not the maker tries to cancel deploy', async (ctx) => {
   const deployGateway = ctx.get('deployGateway');
   const zxc = ctx.get('zxc');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: owner,
     deployData: {
@@ -127,19 +127,19 @@ spec.test('fails when not the maker tries to cancel order', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   await ctx.reverts(() => deployGateway.instance.methods.cancel(createTuple).send({ from: owner }), '009007');
 });
 
-spec.test('fails when trying to cancel an alredy performed order', async (ctx) => {
+spec.test('fails when trying to cancel an alredy performed deploy', async (ctx) => {
   const deployGateway = ctx.get('deployGateway');
   const zxc = ctx.get('zxc');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: owner,
     deployData: {
@@ -158,7 +158,7 @@ spec.test('fails when trying to cancel an alredy performed order', async (ctx) =
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 

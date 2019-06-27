@@ -19,8 +19,8 @@ contract DeployGateway
   string constant TAKER_NOT_EQUAL_TO_SENDER = "009002";
   string constant CLAIM_EXPIRED = "009003";
   string constant INVALID_SIGNATURE = "009004";
-  string constant ORDER_CANCELED = "009005";
-  string constant ORDER_ALREADY_PERFORMED = "009006";
+  string constant DEPLOY_CANCELED = "009005";
+  string constant DEPLOY_ALREADY_PERFORMED = "009006";
   string constant MAKER_NOT_EQUAL_TO_SENDER = "009007";
 
   /**
@@ -82,13 +82,13 @@ contract DeployGateway
   }
 
   /**
-   * @dev Structure representing the data needed to do the order.
+   * @dev Structure representing the data needed to do the deokiy.
    * @param maker Address of the one that made the claim.
    * @param taker Address of the one that is executing the claim.
    * @param xcertData Data needed to deploy a new Xcert smart contract.
    * @param transferData Data needed to transfer tokens.
    * @param signature Data from the signed claim.
-   * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param seed Arbitrary number to facilitate uniqueness of the deploy's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet.
    */
   struct DeployData
@@ -112,17 +112,17 @@ contract DeployGateway
   address public assetCreateProxy;
 
   /**
-   * @dev Mapping of all cancelled orders.
+   * @dev Mapping of all cancelled deploys.
    */
-  mapping(bytes32 => bool) public orderCancelled;
+  mapping(bytes32 => bool) public deployCancelled;
 
   /**
-   * @dev Mapping of all performed orders.
+   * @dev Mapping of all performed deploys.
    */
-  mapping(bytes32 => bool) public orderPerformed;
+  mapping(bytes32 => bool) public deployPerformed;
 
   /**
-   * @dev This event emmits when tokens change ownership.
+   * @dev This event emmits when deploy is performed.
    */
   event Perform(
     address indexed _maker,
@@ -132,7 +132,7 @@ contract DeployGateway
   );
 
   /**
-   * @dev This event emmits when transfer order is cancelled.
+   * @dev This event emmits when deploy is cancelled.
    */
   event Cancel(
     address indexed _maker,
@@ -157,7 +157,7 @@ contract DeployGateway
   /**
    * @dev Performs the atomic swap that deploys a new Xcert smart contract and at the same time
    * transfers tokens.
-   * @param _data Data required to make the order.
+   * @param _data Data required to make the deploy.
    * @param _signature Data from the signature.
    */
   function perform(
@@ -179,10 +179,10 @@ contract DeployGateway
       INVALID_SIGNATURE
     );
 
-    require(!orderCancelled[claim], ORDER_CANCELED);
-    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
+    require(!deployCancelled[claim], DEPLOY_CANCELED);
+    require(!deployPerformed[claim], DEPLOY_ALREADY_PERFORMED);
 
-    orderPerformed[claim] = true;
+    deployPerformed[claim] = true;
 
     address xcert = _doActions(_data);
 
@@ -200,7 +200,7 @@ contract DeployGateway
    * hand.
    * @notice When using this function, be aware that the zero address is reserved for replacement
    * with msg.sender, meaning you cannot send anything to the zero address.
-   * @param _data Data required to make the order.
+   * @param _data Data required to make the deploy.
    * @param _signature Data from the signature.
    */
   function performAnyTaker(
@@ -221,10 +221,10 @@ contract DeployGateway
       INVALID_SIGNATURE
     );
 
-    require(!orderCancelled[claim], ORDER_CANCELED);
-    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
+    require(!deployCancelled[claim], DEPLOY_CANCELED);
+    require(!deployPerformed[claim], DEPLOY_ALREADY_PERFORMED);
 
-    orderPerformed[claim] = true;
+    deployPerformed[claim] = true;
 
     address xcert = _doActions(_data);
 
@@ -237,11 +237,11 @@ contract DeployGateway
   }
 
   /**
-   * @dev Cancels order.
-   * @notice You can cancel the same order multiple times. There is no check for whether the order
-   * was already canceled due to gas optimization. You should either check orderCancelled variable
-   * or listen to Cancel event if you want to check if an order is already canceled.
-   * @param _data Data of order to cancel.
+   * @dev Cancels deploy.
+   * @notice You can cancel the same deploy multiple times. There is no check for whether the deploy
+   * was already canceled due to gas optimization. You should either check deployCancelled variable
+   * or listen to Cancel event if you want to check if an deploy is already canceled.
+   * @param _data Data of deploy to cancel.
    */
   function cancel(
     DeployData memory _data
@@ -251,9 +251,9 @@ contract DeployGateway
     require(_data.maker == msg.sender, MAKER_NOT_EQUAL_TO_SENDER);
 
     bytes32 claim = getDeployDataClaim(_data);
-    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
+    require(!deployPerformed[claim], DEPLOY_ALREADY_PERFORMED);
 
-    orderCancelled[claim] = true;
+    deployCancelled[claim] = true;
     emit Cancel(
       _data.maker,
       _data.taker,
@@ -263,11 +263,11 @@ contract DeployGateway
 
   /**
    * @dev Calculates keccak-256 hash of DeployData from parameters.
-   * @param _orderData Data needed for atomic swap.
-   * @return keccak-hash of order data.
+   * @param _deployData Data needed for atomic swap.
+   * @return keccak-hash of deploy data.
    */
   function getDeployDataClaim(
-    DeployData memory _orderData
+    DeployData memory _deployData
   )
     public
     view
@@ -275,32 +275,32 @@ contract DeployGateway
   {
     bytes32 xcertData = keccak256(
       abi.encodePacked(
-        _orderData.xcertData.name,
-        _orderData.xcertData.symbol,
-        _orderData.xcertData.uriBase,
-        _orderData.xcertData.schemaId,
-        _orderData.xcertData.capabilities,
-        _orderData.xcertData.owner
+        _deployData.xcertData.name,
+        _deployData.xcertData.symbol,
+        _deployData.xcertData.uriBase,
+        _deployData.xcertData.schemaId,
+        _deployData.xcertData.capabilities,
+        _deployData.xcertData.owner
       )
     );
 
     bytes32 transferData = keccak256(
       abi.encodePacked(
-        _orderData.transferData.token,
-        _orderData.transferData.to,
-        _orderData.transferData.value
+        _deployData.transferData.token,
+        _deployData.transferData.to,
+        _deployData.transferData.value
       )
     );
 
     return keccak256(
       abi.encodePacked(
         address(this),
-        _orderData.maker,
-        _orderData.taker,
+        _deployData.maker,
+        _deployData.taker,
         xcertData,
         transferData,
-        _orderData.seed,
-        _orderData.expiration
+        _deployData.seed,
+        _deployData.expiration
       )
     );
   }
@@ -360,30 +360,30 @@ contract DeployGateway
   }
 
   /**
-   * @dev Helper function that makes order actions.
-   * @param _order Data needed for order.
+   * @dev Helper function that makes deploy actions.
+   * @param _deploy Data needed for deploy.
    */
   function _doActions(
-    DeployData memory _order
+    DeployData memory _deploy
   )
     private
     returns (address _xcert)
   {
     Proxy(tokenTransferProxy).execute(
-      _order.transferData.token,
-      _order.maker,
-      _order.transferData.to,
-      _order.transferData.value
+      _deploy.transferData.token,
+      _deploy.maker,
+      _deploy.transferData.to,
+      _deploy.transferData.value
     );
 
     _xcert = address(
         new XcertCustom(
-        _order.xcertData.name,
-        _order.xcertData.symbol,
-        _order.xcertData.uriBase,
-        _order.xcertData.schemaId,
-        _order.xcertData.capabilities,
-        _order.xcertData.owner,
+        _deploy.xcertData.name,
+        _deploy.xcertData.symbol,
+        _deploy.xcertData.uriBase,
+        _deploy.xcertData.schemaId,
+        _deploy.xcertData.capabilities,
+        _deploy.xcertData.owner,
         assetCreateProxy
       )
     );

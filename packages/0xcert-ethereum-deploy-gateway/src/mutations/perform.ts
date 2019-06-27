@@ -6,9 +6,9 @@ import { createRecipeTuple, createSignatureTuple, zeroAddress } from '../lib/dep
 const inputTypes = ['tuple(address, address, tuple(string, string, string, bytes32, bytes4[], address), tuple(address, address, uint256), uint256, uint256)', 'tuple(bytes32, bytes32, uint8, uint8)'];
 
 /**
- * Submits the provided order to the network.
- * @param gateway Order gateway instance.
- * @param order Order data.
+ * Submits the provided deploy to the network.
+ * @param gateway Deploy gateway instance.
+ * @param deploy Deploy data.
  * @param claim Claim data.
  */
 export default async function(gateway: DeployGateway, deploy: Deploy, claim: string) {

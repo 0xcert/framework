@@ -75,7 +75,7 @@ export function getValue(value: string) {
 }
 
 /**
- * Flattens and reshapes order input data into a tuple.
+ * Flattens and reshapes deploy input data into a tuple.
  * @param deploy Deploy instance.
  */
 export function createRecipeTuple(deploy: Deploy) {

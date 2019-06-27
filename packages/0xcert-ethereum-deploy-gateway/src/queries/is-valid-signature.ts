@@ -8,17 +8,17 @@ const outputTypes = ['bool'];
 
 /**
  * Checks if signature is valid.
- * @param gateway Order gateway instance.
- * @param order Order data.
+ * @param gateway Deploy gateway instance.
+ * @param deploy Deploy data.
  * @param claim Claim data.
  */
 export default async function(gateway: DeployGateway, deploy: Deploy, claim: string) {
-  const orderHash = createDeployHash(gateway, deploy);
+  const deployHash = createDeployHash(gateway, deploy);
   const signatureTuple = createSignatureTuple(claim);
   try {
     const attrs = {
       to: gateway.id,
-      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [deploy.makerId, orderHash, signatureTuple]).substr(2),
+      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [deploy.makerId, deployHash, signatureTuple]).substr(2),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',

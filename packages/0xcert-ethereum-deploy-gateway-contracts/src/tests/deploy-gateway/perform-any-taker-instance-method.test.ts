@@ -82,7 +82,7 @@ spec.test('performs a deploy', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -101,7 +101,7 @@ spec.test('performs a deploy', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
@@ -152,7 +152,7 @@ spec.test('fails when not enough balance', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -171,7 +171,7 @@ spec.test('fails when not enough balance', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
@@ -196,7 +196,7 @@ spec.test('fails with expired claim', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -215,7 +215,7 @@ spec.test('fails with expired claim', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() - 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
@@ -240,7 +240,7 @@ spec.test('fails with invalid signature', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -259,9 +259,9 @@ spec.test('fails with invalid signature', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
-  orderData.taker = jane;
-  const invalidTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
+  deployData.taker = jane;
+  const invalidTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(invalidTuple).call();
 
@@ -286,7 +286,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -305,7 +305,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
@@ -322,7 +322,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
   await ctx.reverts(() => deployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }));
 });
 
-spec.test('fails trying to perform an already performed order', async (ctx) => {
+spec.test('fails trying to perform an already performed deploy', async (ctx) => {
   const deployGateway = ctx.get('deployGateway');
   const zxc = ctx.get('zxc');
   const tokenProxy = ctx.get('tokenProxy');
@@ -330,7 +330,7 @@ spec.test('fails trying to perform an already performed order', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -349,7 +349,7 @@ spec.test('fails trying to perform an already performed order', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
@@ -367,7 +367,7 @@ spec.test('fails trying to perform an already performed order', async (ctx) => {
   await ctx.reverts(() => deployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '009006');
 });
 
-spec.test('fails trying to perform a canceled order', async (ctx) => {
+spec.test('fails trying to perform a canceled deploy', async (ctx) => {
   const deployGateway = ctx.get('deployGateway');
   const zxc = ctx.get('zxc');
   const tokenProxy = ctx.get('tokenProxy');
@@ -375,7 +375,7 @@ spec.test('fails trying to perform a canceled order', async (ctx) => {
   const owner = ctx.get('owner');
   const zeroAddress = ctx.get('zeroAddress');
 
-  const orderData = {
+  const deployData = {
     maker: jane,
     taker: zeroAddress,
     deployData: {
@@ -394,7 +394,7 @@ spec.test('fails trying to perform a canceled order', async (ctx) => {
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
-  const createTuple = ctx.tuple(orderData);
+  const createTuple = ctx.tuple(deployData);
 
   const claim = await deployGateway.instance.methods.getDeployDataClaim(createTuple).call();
 
