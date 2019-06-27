@@ -1,7 +1,7 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase, ValueLedgerDeployRecipe,
-  ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
+import { DeployGatewayBase, OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
+  ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
 import transfer from '../mutations/transfer';
@@ -123,9 +123,9 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  public async approveValue(value: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveValue(value: string, accountId: string | OrderGatewayBase | DeployGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
+      accountId = (accountId as any).getProxyAccountId ? await (accountId as any).getProxyAccountId(1) : await (accountId as any).getTokenTransferProxyId();
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
@@ -142,9 +142,9 @@ export class ValueLedger implements ValueLedgerBase {
    * Disapproves account for operating with your value.
    * @param accountId Account id.
    */
-  public async disapproveValue(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async disapproveValue(accountId: string | OrderGatewayBase | DeployGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
+      accountId = (accountId as any).getProxyAccountId ? await (accountId as any).getProxyAccountId(1) : await (accountId as any).getTokenTransferProxyId();
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
