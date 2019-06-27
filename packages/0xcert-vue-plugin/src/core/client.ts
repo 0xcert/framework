@@ -71,6 +71,19 @@ export class Client {
   /**
    *
    */
+  public getDeployGateway(id?: string) {
+    const module = this.getModule('DeployGateway');
+
+    if (!module) {
+      throw this.getMissingModuleError('DeployGateway');
+    } else {
+      return new module.object(this.provider, id);
+    }
+  }
+
+  /**
+   *
+   */
   public getValueLedger(id: string) {
     const module = this.getModule('ValueLedger');
 
