@@ -39,7 +39,7 @@ spec.test('returns proxy account address', async (ctx) => {
   const id = protocol.deployGateway.instance.options.address;
 
   const gateway = new DeployGateway(provider, id);
-  const tokenTransferProxy = await gateway.getTokenTranferProxyId();
+  const tokenTransferProxy = await gateway.getTokenTransferProxyId();
   ctx.is(tokenTransferProxy, protocol.tokenTransferProxy.instance.options.address);
 });
 
@@ -49,7 +49,7 @@ spec.test('returns null when calling getProxyAccountId on a contract that does n
   const id = protocol.erc20.instance.options.address;
 
   const gateway = new DeployGateway(provider, id);
-  const tokenTransferProxy = await gateway.getTokenTranferProxyId();
+  const tokenTransferProxy = await gateway.getTokenTransferProxyId();
   ctx.is(tokenTransferProxy, null);
 });
 

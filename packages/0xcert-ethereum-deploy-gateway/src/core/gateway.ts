@@ -95,7 +95,7 @@ export class DeployGateway implements DeployGatewayBase {
   /**
    * Gets token transfer proxy address.
    */
-  public async getTokenTranferProxyId() {
+  public async getTokenTransferProxyId() {
     return getTokenTransferProxyId(this);
   }
 
