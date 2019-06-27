@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-generic-provider
 
-This log was last generated on Thu, 13 Jun 2019 12:48:22 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jun 2019 10:31:05 GMT and should not be manually modified.
+
+## 1.7.4
+Wed, 19 Jun 2019 10:31:05 GMT
+
+*Version update only*
 
 ## 1.7.3
 Thu, 13 Jun 2019 12:48:22 GMT

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-deploy-gateway",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Deploy gateway module for executing atomic deployment on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

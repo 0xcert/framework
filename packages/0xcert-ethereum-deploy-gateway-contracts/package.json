@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-deploy-gateway-contracts",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Smart contracts used by the deploy gateway on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",

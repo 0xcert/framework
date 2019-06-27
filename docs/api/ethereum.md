@@ -17,6 +17,7 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.deployGatewayId | A `string` representing an Ethereum address of the [deploy gateway](/#public-addresses).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.mutationTimeout | A numberrepresenting the number of milliseconds in which a mutation times out. Defaults to3600000. You can set it to -1 to disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
@@ -50,6 +51,10 @@ A class instance `variable` holding a `string` which represents the user's curre
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### deployGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -332,6 +337,7 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 |-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.deployGatewayId | A `string` representing an Ethereum address of the [deploy gateway](/#public-addresses).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
@@ -365,6 +371,10 @@ A class instance `variable` holding a `string` which represents the user's curre
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### deployGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -701,6 +711,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | Argument | Description
 |-|-
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+| options.deployGatewayId | A `string` representing an Ethereum address of the [deploy gateway](/#public-addresses).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.orderGatewayId | A `string` representing an Ethereum address of the [order gateway](/#public-addresses).
@@ -729,6 +740,10 @@ A class instance `variable` holding a `string` which represents user's current E
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### deployGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -1050,6 +1065,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.deployGatewayId | A `string` representing an Ethereum address of the [deploy gateway](/#public-addresses).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -1085,6 +1101,10 @@ Please note, when using [Infura](https://infura.io/), only queries are supported
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### deployGatewayId
+
+A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 
@@ -2558,7 +2578,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an account address or an instance of the `OrderGateway` class.
+| accountId | [required] A `string` representing an account address, an instance of the `DeployGateway` class or an instance of the `OrderGateway` class.
 | value | [required] An `integer` number representing the approved amount.
 
 **Result:**
@@ -2627,7 +2647,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the accountId who will be disapproved.
+| accountId | [required] A `string` representing an account address, an instance of the `DeployGateway` class or an instance of the `OrderGateway` class.
 
 **Result:**
 
@@ -2656,7 +2676,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender or an instance of the `OrderGateway` class.
+| spenderId | [required] A `string` representing the account ID of a spender, an instance of the `DeployGateway` class or an instance of the `OrderGateway` class.
 
 **Result:**
 
@@ -2756,7 +2776,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns the funds.
-| spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the `OrderGateway` class.
+| spenderId | [required] A `string` representing the approved Ethereum account address, an instance of the `DeployGateway` class or an instance of the `OrderGateway` class.
 | value | [required] A big number `string` representing the amount allowed to transfer.
 
 **Result:**

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-deploy-gateway",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Deploy gateway module for executing atomic deployment on the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

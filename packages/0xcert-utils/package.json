@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/utils",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "General utility module with common helper functions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
