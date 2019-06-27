@@ -9,8 +9,6 @@ interface Data {
   coinbaseGenericProvider: GenericProvider;
   bobGenericProvider: GenericProvider;
   saraGenericProvider: GenericProvider;
-  order: Order;
-  claim: string;
   coinbase: string;
   bob: string;
   sara: string;
