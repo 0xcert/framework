@@ -8,7 +8,7 @@
     "build": "npm run clean && npx tsc",
     "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "test": "npm run lint && npx nyc npx specron test"
+    "test": "npx nyc npx specron test"
   },
   "specron": {
     "test": {
@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "1.7.3",
+    "@0xcert/ethereum-asset-ledger": "1.7.3",
     "@0xcert/ethereum-utils": "1.7.3",
     "@0xcert/scaffold": "1.7.3",
     "@0xcert/utils": "1.7.3"
