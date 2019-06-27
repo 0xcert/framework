@@ -1552,6 +1552,35 @@
         "web3": "1.0.0-beta.37"
       }
     },
+    "@rush-temp/ethereum-deploy-gateway": {
+      "version": "file:projects/ethereum-deploy-gateway.tgz",
+      "integrity": "sha512-7O4+XZJy5zPmVhHRFSsT+QE0H68r72taO/C9BzK/hwiTklHOBd13Spwu26adX28ETlKNK+8YbkhS/CVvjd2SAw==",
+      "requires": {
+        "@specron/cli": "^0.5.6",
+        "@specron/spec": "^0.5.6",
+        "nyc": "^13.1.0",
+        "solc": "0.5.6",
+        "ts-node": "^7.0.1",
+        "tslint": "^5.12.1",
+        "typescript": "^3.1.1",
+        "web3": "1.0.0-beta.37"
+      }
+    },
+    "@rush-temp/ethereum-deploy-gateway-contracts": {
+      "version": "file:projects/ethereum-deploy-gateway-contracts.tgz",
+      "integrity": "sha512-w8RyaqJY1jmduyZiG7WRvkE7rHHurvwQBhrrWca892uOnHyfoYVuH9LFAjXm55UN0Z1LKJ1ohIxyXoa8iI1v1w==",
+      "requires": {
+        "@specron/cli": "^0.5.6",
+        "@specron/flattener": "^0.5.6",
+        "@specron/spec": "^0.5.6",
+        "solc": "0.5.6",
+        "solhint": "2.0.0",
+        "ts-node": "^7.0.1",
+        "tslint": "^5.12.1",
+        "typescript": "^3.1.1",
+        "web3": "1.0.0-beta.37"
+      }
+    },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
       "integrity": "sha512-ORcHAMaJi+xlAzVYEbvSr1Zx+8hLnbVt+3Xg4tLuIUIH9fBCs5zfXRF+3rrRAsZ+t7MhzjK9T1ojzThQ3r83UQ==",
@@ -1671,7 +1700,7 @@
     },
     "@rush-temp/ethereum-sandbox": {
       "version": "file:projects/ethereum-sandbox.tgz",
-      "integrity": "sha512-NasmJEBq4zB5fUh3vMD4zX8cn7lh6uZB0d7pbA0ulIVzaM1WSBTFY9KuXZIjvL377QElkJ31cnl6Goz4mhuEbw==",
+      "integrity": "sha512-tBlb2YBvoP/Mi/a1zTMMQUl9e0eRnlHSZ6JaOyIr1MBBbwLeH5oQ06hoP1Lf4RPT/u6XHzAF1M752ASylD12pA==",
       "requires": {
         "@hayspec/cli": "^0.8.3",
         "@hayspec/spec": "^0.8.3",
@@ -3499,6 +3528,42 @@
         "@types/ethereum-protocol": "^1.0.0",
         "json-rpc-error": "^2.0.0",
         "web3-provider-engine": "github:BitskiCo/provider-engine#master"
+      },
+      "dependencies": {
+        "web3-provider-engine": {
+          "version": "github:BitskiCo/provider-engine#8e13c791da898d48407511e3af35384a885e7ec9",
+          "from": "github:BitskiCo/provider-engine#master",
+          "requires": {
+            "async": "^2.5.0",
+            "backoff": "^2.5.0",
+            "clone": "^2.0.0",
+            "cross-fetch": "^2.1.0",
+            "eth-block-tracker": "^3.0.0",
+            "eth-json-rpc-infura": "^3.1.0",
+            "eth-sig-util": "^1.4.2",
+            "ethereumjs-block": "^1.2.2",
+            "ethereumjs-tx": "^1.2.0",
+            "ethereumjs-util": "^5.1.5",
+            "ethereumjs-vm": "^2.3.4",
+            "json-rpc-error": "^2.0.0",
+            "json-stable-stringify": "^1.0.1",
+            "promise-to-callback": "^1.0.0",
+            "readable-stream": "^2.2.9",
+            "request": "^2.85.0",
+            "semaphore": "^1.0.3",
+            "ws": "^5.1.1",
+            "xhr": "^2.2.0",
+            "xtend": "^4.0.1"
+          }
+        },
+        "ws": {
+          "version": "5.2.2",
+          "resolved": "https://registry.npmjs.org/ws/-/ws-5.2.2.tgz",
+          "integrity": "sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==",
+          "requires": {
+            "async-limiter": "~1.0.0"
+          }
+        }
       }
     },
     "bl": {

@@ -161,6 +161,11 @@
       "packageName": "@0xcert/ethereum-deploy-gateway-contracts",
       "projectFolder": "packages/0xcert-ethereum-deploy-gateway-contracts",
       "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-deploy-gateway",
+      "projectFolder": "packages/0xcert-ethereum-deploy-gateway",
+      "versionPolicyName": "patchAll"
     }
   ]
 }
