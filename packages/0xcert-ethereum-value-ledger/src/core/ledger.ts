@@ -70,11 +70,11 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * Gets the amount of value that another account id approved for.
    * @param accountId Account id.
-   * @param spenderId Account if of the spender.
+   * @param spenderId Account id of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase): Promise<String> {
+  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase | DeployGatewayBase): Promise<String> {
     if (typeof spenderId !== 'string') {
-      spenderId = await (spenderId as any).getProxyAccountId(1);
+      spenderId = (spenderId as any).getProxyAccountId ? await (spenderId as any).getProxyAccountId(1) : await (spenderId as any).getTokenTransferProxyId();
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId);
@@ -106,9 +106,9 @@ export class ValueLedger implements ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase): Promise<Boolean> {
+  public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase | DeployGatewayBase): Promise<Boolean> {
     if (typeof spenderId !== 'string') {
-      spenderId = await (spenderId as any).getProxyAccountId(1);
+      spenderId = (spenderId as any).getProxyAccountId ? await (spenderId as any).getProxyAccountId(1) : await (spenderId as any).getTokenTransferProxyId();
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId);

@@ -1,3 +1,4 @@
+import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
@@ -52,7 +53,7 @@ spec.test('returns null when calling getApprovedValue on contract that does not 
   ctx.is(approvedValue, null);
 });
 
-spec.test('returns gateway approved amount', async (ctx) => {
+spec.test('returns order gateway approved amount', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc20.instance.options.address;
   const ledger =  new ValueLedger(provider, ledgerId);
@@ -62,6 +63,24 @@ spec.test('returns gateway approved amount', async (ctx) => {
   const approveAmount = '5000000000000000000';
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const gateway = new OrderGateway(provider, orderGatewayId);
+
+  const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
+  await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
+
+  const approvedValue = await ledger.getApprovedValue(coinbase, gateway);
+  ctx.is(approvedValue, approveAmount);
+});
+
+spec.test('returns deploy gateway approved amount', async (ctx) => {
+  const provider = ctx.get('provider');
+  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
+  const ledger =  new ValueLedger(provider, ledgerId);
+  const coinbase = ctx.get('coinbase');
+  const token = ctx.get('protocol').erc20;
+
+  const approveAmount = '0';
+  const deployGatewayId = ctx.get('protocol').deployGateway.instance.options.address;
+  const gateway = new DeployGateway(provider, deployGatewayId);
 
   const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
