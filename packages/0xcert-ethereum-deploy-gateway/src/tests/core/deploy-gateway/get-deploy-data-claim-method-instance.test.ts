@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Deploy, AssetLedgerCapability } from '@0xcert/scaffold';
+import { AssetLedgerCapability, Deploy } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { DeployGateway } from '../../../core/gateway';
 import { createDeployHash } from '../../../lib/deploy';
