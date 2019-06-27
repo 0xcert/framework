@@ -50,6 +50,11 @@ export interface GenericProviderOptions {
   orderGatewayId?: string;
 
   /**
+   * Id (address) of deploy gateway.
+   */
+  deployGatewayId?: string;
+
+  /**
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;
@@ -121,6 +126,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   protected _orderGatewayId: string;
 
   /**
+   * Id (address) of deploy gateway.
+   */
+  protected _deployGatewayId: string;
+
+  /**
    * Default account from which all mutations are made.
    */
   protected _accountId: string;
@@ -150,6 +160,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.encoder = typeof options.encoder !== 'undefined' ? options.encoder : new Encoder();
     this.accountId = options.accountId;
     this.orderGatewayId = options.orderGatewayId;
+    this.deployGatewayId = options.deployGatewayId;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
     this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/xcert-mock.json';
     this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/token-mock.json';
@@ -199,6 +210,20 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Returns deploy gateway ID (address).
+   */
+  public get deployGatewayId(): string {
+    return this._deployGatewayId || null;
+  }
+
+  /**
+   * Sets and normalizes deploy gateway ID (address).
+   */
+  public set deployGatewayId(id: string) {
+    this._deployGatewayId = this.encoder.normalizeAddress(id);
+  }
+
+  /**
    * Returns order gateway ID (address).
    */
   public get orderGatewayId(): string {
@@ -206,7 +231,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
-   * Sets and normalizes account ID.
+   * Sets and normalizes order gateway ID (address).
    */
   public set orderGatewayId(id: string) {
     this._orderGatewayId = this.encoder.normalizeAddress(id);

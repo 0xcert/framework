@@ -40,7 +40,7 @@ export class DeployGateway implements DeployGatewayBase {
    */
   public constructor(provider: GenericProvider, id?: string) {
     this._provider = provider;
-    this._id = this._provider.encoder.normalizeAddress(id); // TODO: || provider.deployGatewayId
+    this._id = this._provider.encoder.normalizeAddress(id || provider.deployGatewayId);
   }
 
   /**

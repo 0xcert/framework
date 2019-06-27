@@ -14,8 +14,8 @@ spec.before(async (stage) => {
 
 spec.test('normalizes ID when set', async (ctx) => {
   const provider = ctx.get('provider');
-  provider.accountId = '0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa';
-  ctx.is(provider.accountId, '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa');
+  provider.orderGatewayId = '0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa';
+  ctx.is(provider.orderGatewayId, '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa');
 });
 
 export default spec;

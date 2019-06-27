@@ -1,25 +1,21 @@
 import { Spec } from '@specron/spec';
 import { GenericProvider } from '../../..';
-import { SignMethod } from '../../../core/types';
 
 const spec = new Spec<{
   provider: GenericProvider;
 }>();
 
 spec.before(async (stage) => {
-  const accounts = await stage.web3.eth.getAccounts();
   const provider = new GenericProvider({
     client: stage.web3,
-    signMethod: SignMethod.ETH_SIGN,
-    accountId: accounts[0],
   });
   stage.set('provider', provider);
 });
 
-spec.test('signs a message', async (ctx) => {
+spec.test('normalizes ID when set', async (ctx) => {
   const provider = ctx.get('provider');
-  const signature = await provider.sign('test');
-  ctx.true(!!signature);
+  provider.deployGatewayId = '0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa';
+  ctx.is(provider.deployGatewayId, '0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa');
 });
 
 export default spec;

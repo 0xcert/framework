@@ -29,14 +29,17 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
+  const deployGatewayId = stage.get('protocol').deployGateway.instance.options.address;
 
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
+    deployGatewayId,
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
+    deployGatewayId,
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
@@ -82,12 +85,10 @@ spec.test('submits deployGateway deploy to the network which executes transfer a
     },
   };
 
-  const deployGatewayId = ctx.get('protocol').deployGateway.instance.options.address;
-
-  const deployGatewayBob = new DeployGateway(bobGenericProvider, deployGatewayId);
+  const deployGatewayBob = new DeployGateway(bobGenericProvider);
   const claim = await deployGatewayBob.claim(deploy);
 
-  const deployGatewayCoinbase = new DeployGateway(coinbaseGenericProvider, deployGatewayId);
+  const deployGatewayCoinbase = new DeployGateway(coinbaseGenericProvider);
   const mutation = await deployGatewayCoinbase.perform(deploy, claim);
   const receipt = await ctx.web3.eth.getTransactionReceipt(mutation.id);
 
