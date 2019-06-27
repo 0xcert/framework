@@ -10,6 +10,7 @@ const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
 const { NFTokenReceiverTestMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-receiver-test-mock');
 const { OrderGateway } = require('@0xcert/ethereum-order-gateway-contracts/build/order-gateway');
+const { DeployGateway } = require('@0xcert/ethereum-deploy-gateway-contracts/build/deploy-gateway');
 
 /**
  * ERC20 contract data.
@@ -105,4 +106,12 @@ export const xcertUpdateProxy = {
 export const orderGateway = {
   abi: OrderGateway.abi,
   bytecode: OrderGateway.evm.bytecode.object,
+};
+
+/**
+ * Decentralized deployGateway contract data.
+ */
+export const deployGateway = {
+  abi: DeployGateway.abi,
+  bytecode: DeployGateway.evm.bytecode.object,
 };

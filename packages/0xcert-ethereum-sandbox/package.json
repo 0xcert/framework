@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "@0xcert/ethereum-order-gateway-contracts": "1.7.3",
+    "@0xcert/ethereum-deploy-gateway-contracts": "1.7.3",
     "@0xcert/ethereum-erc20-contracts": "1.7.3",
     "@0xcert/ethereum-erc721-contracts": "1.7.3",
     "@0xcert/ethereum-proxy-contracts": "1.7.3",
