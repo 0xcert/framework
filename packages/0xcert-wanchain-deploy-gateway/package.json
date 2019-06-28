@@ -72,6 +72,6 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-deploy-gateway": "1.7.3"
+    "@0xcert/ethereum-deploy-gateway": "1.7.4"
   }
 }
