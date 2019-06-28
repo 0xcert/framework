@@ -1,5 +1,255 @@
 # API / Wanchain
 
+## Deploy gateway
+
+Deploy gateway allows for delegating deployment of an `AssetLedger` smart contract to a third party and transfering value in the same atomic transaction.
+
+To perform a delegate deploy through `DeployGateway`, you need to follow its flow:
+
+1. Maker (address creating the delegate deploy) defines the deploy (defines the data for the `AssetLedger` that will be created, who will be the owner of that `AssetLedger` and what amount of tokens will be sent to what address in exchange).
+2. Maker generates the deploy claim and signs it (`claim` functions).
+3. Maker approves value transfer.
+4. Maker sends deploy and signature to the Taker trough arbitrary channel.
+6. Taker performs the deploy.
+
+`Deploy` class is responsible for defining what will happen in the atomic swap. We support two different deploy configurations which we will call a fixed deploy and a dynamic deploy.
+
+In fixed deploy, the Taker of the deploy (its wallet address) is known, and we want to make an atomic deploy specifically with him and only him. For this, we need to set `deploy.takerId`.
+
+In dynamic deploy, we do not care who performs the deploy. In this case, we do not set `deploy.takerId`. Now any account (wallet) will be able to perform such deploy and will automatically become its Taker.
+
+### DeployGateway(provider, deployGatewayId)
+
+A `class` which represents a smart contract on the Wanchain blockchain.
+
+**Arguments**
+
+| Argument | Description
+|-|-
+| deployGatewayId | [required] A `string` representing an address of the [0xcert deploy gateway smart contract](#public-addresses) on the Wanchain blockchain.
+| provider | [required] An instance of an provider.
+
+**Usage**
+
+```ts
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
+import { DeployGateway } from '@0xcert/wanchain-deploy-gateway';
+
+// arbitrary data
+const provider = new HttpProvider();
+const deployGatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
+
+// create deploy gateway instance
+const deployGateway = new DeployGateway(provider, deployGatewayId);
+```
+
+### cancel(deploy)
+
+An `asynchronous` class instance `function` which marks the provided `deploy` as canceled. This prevents the `deploy` to be performed.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Wanchain account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.seed | [required] An `integer` number representing the unique deploy number.
+| deploy.takerId | A `string` representing the Wanchain account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address which will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+// arbitrary data
+const deploy: Deploy = {
+  makerId: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  takerId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+  seed: 1535113220,
+  expiration: Date.now() + 60 * 60 * 24, // 1 day
+  assetLedgerData: {
+    name: 'test',
+    symbol: 'TST',
+    uriBase: 'https://base.com/',
+    schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
+    capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
+    owner: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  },
+  tokenTransferData: {
+    ledgerId: '0x09f4C86B43FD562E4A4B6627029Ff8Dff1c3cEA2',
+    receiverId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+    value: '50000',
+  },
+};
+
+// perform mutation
+const mutation = await deployDateway.cancel(deploy);
+```
+
+**See also:**
+
+[claim](#claim), [perform](#perform)
+
+### claim(deploy)
+
+An `asynchronous` class instance `function` which cryptographically signes the provided `deploy` and returns a signature.
+
+::: warning
+This operation must be executed by the maker of the deploy.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Wanchain account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.seed | [required] An `integer` number representing the unique deploy number.
+| deploy.takerId | A `string` representing the Wanchain account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address which will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+
+**Result:**
+
+A `string` representing deploy signature.
+
+**Example:**
+
+```ts
+// arbitrary data
+const deploy: Deploy = {
+  makerId: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  takerId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+  seed: 1535113220,
+  expiration: Date.now() + 60 * 60 * 24, // 1 day
+  assetLedgerData: {
+    name: 'test',
+    symbol: 'TST',
+    uriBase: 'https://base.com/',
+    schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
+    capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
+    owner: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  },
+  tokenTransferData: {
+    ledgerId: '0x09f4C86B43FD562E4A4B6627029Ff8Dff1c3cEA2',
+    receiverId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+    value: '50000',
+  },
+};
+
+
+// perform query
+const signature = await deployGateway.claim(deploy);
+```
+
+### getInstance(provider, id)
+
+A static class `function` that returns a new instance of the `DeployGateway` class (alias for `new DeployGateway`).
+
+**Arguments**
+
+See the class [constructor](#deploy-gateway) for details.
+
+**Usage**
+
+```ts
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
+import { DeployGateway } from '@0xcert/wanchain-deploy-gateway';
+
+// arbitrary data
+const provider = new HttpProvider();
+const deployGatewayId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+
+// create deploy gateway instance
+const deployGateway = DeployGateway.getInstance(provider, deployGatewayId);
+```
+
+### id
+
+A class instance `variable` holding the address of deploy gateway's smart contract on the Wanchain blockchain.
+
+### perform(deploy, signature)
+
+An `asynchronous` class instance `function` which submits the `deploy` with  `signature` from the maker.
+
+::: warning
+This operation must be executed by the taker of the deploy.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| signature | [required] A `string` representing deploy signature created by the maker.
+| deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Wanchain account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.seed | [required] An `integer` number representing the unique deploy number.
+| deploy.takerId | A `string` representing the Wanchain account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address which will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+// arbitrary data
+const signature = 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933';
+const deploy: Deploy = {
+  makerId: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  takerId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+  seed: 1535113220,
+  expiration: Date.now() + 60 * 60 * 24, // 1 day
+  assetLedgerData: {
+    name: 'test',
+    symbol: 'TST',
+    uriBase: 'https://base.com/',
+    schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
+    capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
+    owner: '0xb86051eCDe694d87D8f8f14B46557Db3704dbB4b',
+  },
+  tokenTransferData: {
+    ledgerId: '0x09f4C86B43FD562E4A4B6627029Ff8Dff1c3cEA2',
+    receiverId: '0x2B8C7FEf8f44fFfE07009B37fb7a031860B191a5',
+    value: '50000',
+  },
+};
+
+// perform mutation
+const mutation = await deployGateway.perform(deploy, signature);
+```
+
+**See also:**
+
+[cancel](#cancel)
+
 ## HTTP provider
 
 HTTP provider uses HTTP and HTTPS protocol for communication with the Wanchain node. It is used mostly for querying and mutating data but does not support subscriptions.
@@ -20,6 +270,7 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.deployGatewayId | A `string` representing a Wanchain address of the [deploy gateway](/#public-addresses).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -51,6 +302,10 @@ Please note, when using [Infra](http://infra.wanchainx.exchange/), only queries 
 ### assetLedgerSource
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+
+### deployGatewayId
+
+A class instance `variable` holding a `string` which represents an Wanchain address of the [deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 
