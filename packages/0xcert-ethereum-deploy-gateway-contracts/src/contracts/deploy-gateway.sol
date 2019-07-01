@@ -82,14 +82,14 @@ contract DeployGateway
   }
 
   /**
-   * @dev Structure representing the data needed to do the deokiy.
+   * @dev Structure representing the data needed to do the deploy.
    * @param maker Address of the one that made the claim.
    * @param taker Address of the one that is executing the claim.
    * @param xcertData Data needed to deploy a new Xcert smart contract.
    * @param transferData Data needed to transfer tokens.
    * @param signature Data from the signed claim.
    * @param seed Arbitrary number to facilitate uniqueness of the deploy's hash. Usually timestamp.
-   * @param expiration Timestamp of when the claim expires. 0 if indefinet.
+   * @param expiration Timestamp of when the claim expires. 0 if indefinite.
    */
   struct DeployData
   {
@@ -377,7 +377,7 @@ contract DeployGateway
     );
 
     _xcert = address(
-        new XcertCustom(
+      new XcertCustom(
         _deploy.xcertData.name,
         _deploy.xcertData.symbol,
         _deploy.xcertData.uriBase,
