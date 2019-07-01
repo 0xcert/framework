@@ -54,7 +54,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ### deployGatewayId
 
-A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
+A class instance `variable` holding a `string` that represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -374,7 +374,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ### deployGatewayId
 
-A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
+A class instance `variable` holding a `string` that represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -743,7 +743,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ### deployGatewayId
 
-A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
+A class instance `variable` holding a `string` that represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### emit(event, ...options);
 
@@ -1047,32 +1047,32 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ## Deploy gateway
 
-Deploy gateway allows for delegating deployment of an `AssetLedger` smart contract to a third party and transfering value in the same atomic transaction.
+Deploy gateway allows for delegating deployment of an `AssetLedger` smart contract to a third party and for transferring value in the same atomic transaction.
 
 To perform a delegate deploy through `DeployGateway`, you need to follow its flow:
 
-1. Maker (address creating the delegate deploy) defines the deploy (defines the data for the `AssetLedger` that will be created, who will be the owner of that `AssetLedger` and what amount of tokens will be sent to what address in exchange).
+1. Maker (address creating the delegate deploy) defines the deploy by defining the data for the `AssetLedger` that will be created, the owner of that `AssetLedger`, the number of tokens sent in exchange, and the recipient address.
 2. Maker generates the deploy claim and signs it (`claim` functions).
 3. Maker approves value transfer.
-4. Maker sends deploy and signature to the Taker trough arbitrary channel.
-6. Taker performs the deploy.
+4. Maker sends deploy and signature to the Taker through an arbitrary channel.
+5. Taker performs the deploy.
 
-`Deploy` class is responsible for defining what will happen in the atomic swap. We support two different deploy configurations which we will call a fixed deploy and a dynamic deploy.
+`Deploy` class is responsible for defining what will happen in the atomic swap. We support two different deploy configurations, namely fixed deploy and dynamic deploy.
 
-In fixed deploy, the Taker of the deploy (its wallet address) is known, and we want to make an atomic deploy specifically with him and only him. For this, we need to set `deploy.takerId`.
+In fixed deploy, the Taker of the deploy (its wallet address) is known, and we want to make an atomic deploy specifically with them and only them. For this, we need to set `deploy.takerId`.
 
-In dynamic deploy, we do not care who performs the deploy. In this case, we do not set `deploy.takerId`. Now any account (wallet) will be able to perform such deploy and will automatically become its Taker.
+In dynamic deploy, the deploy can be performed by anyone. For this reason, we do not set `deploy.takerId`. This will enable any account (wallet) to perform such deploy and automatically become its Taker.
 
 ### DeployGateway(provider, deployGatewayId)
 
-A `class` which represents a smart contract on the Ethereum blockchain.
+A `class` that represents a smart contract on the Ethereum blockchain.
 
 **Arguments**
 
 | Argument | Description
 |-|-
 | deployGatewayId | [required] A `string` representing an address of the [0xcert deploy gateway smart contract](#public-addresses) on the Ethereum blockchain.
-| provider | [required] An instance of an provider.
+| provider | [required] An instance of a provider.
 
 **Usage**
 
@@ -1090,7 +1090,7 @@ const deployGateway = new DeployGateway(provider, deployGatewayId);
 
 ### cancel(deploy)
 
-An `asynchronous` class instance `function` which marks the provided `deploy` as canceled. This prevents the `deploy` to be performed.
+An `asynchronous` class instance `function` that marks the provided `deploy` as canceled. This prevents the `deploy` from being performed.
 
 **Arguments:**
 
@@ -1098,17 +1098,17 @@ An `asynchronous` class instance `function` which marks the provided `deploy` as
 |-|-
 | deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
-| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of the owner of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
-| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address which will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -1139,7 +1139,7 @@ const deploy: Deploy = {
 };
 
 // perform mutation
-const mutation = await deployDateway.cancel(deploy);
+const mutation = await deployGateway.cancel(deploy);
 ```
 
 **See also:**
@@ -1148,10 +1148,10 @@ const mutation = await deployDateway.cancel(deploy);
 
 ### claim(deploy)
 
-An `asynchronous` class instance `function` which cryptographically signes the provided `deploy` and returns a signature.
+An `asynchronous` class instance `function` that cryptographically signs the provided `deploy` and returns a signature.
 
 ::: warning
-This operation must be executed by the maker of the deploy.
+This operation must be executed by the Maker of the deploy.
 :::
 
 **Arguments:**
@@ -1160,17 +1160,17 @@ This operation must be executed by the maker of the deploy.
 |-|-
 | deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
-| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of the owner of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
-| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address which will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -1233,30 +1233,30 @@ A class instance `variable` holding the address of deploy gateway's smart contra
 
 ### perform(deploy, signature)
 
-An `asynchronous` class instance `function` which submits the `deploy` with  `signature` from the maker.
+An `asynchronous` class instance `function` that submits the `deploy` with `signature` from the Maker.
 
 ::: warning
-This operation must be executed by the taker of the deploy.
+This operation must be executed by the Taker of the deploy.
 :::
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| signature | [required] A `string` representing deploy signature created by the maker.
+| signature | [required] A `string` representing deploy signature created by the Maker.
 | deploy.assetLedgerData.capabilities | [required] An array of `AssetLedgerCapability` representing the capabilities of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.name | [required] A `string` representing the name of the `AssetLedger` that will be deployed.
-| deploy.assetLedgerData.owner | [required] A `string` representing the address of owner of the `AssetLedger` that will be deployed.
+| deploy.assetLedgerData.owner | [required] A `string` representing the address of the owner of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.schemaId | [required] A `string` representing the schemaId of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
-| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds at which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address which makes the deploy. It defaults to the `accountId` of a provider.
+| deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
+| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address which will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be tranfered.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address which will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transfered.
+| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
+| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -1354,7 +1354,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ### deployGatewayId
 
-A class instance `variable` holding a `string` which represents an Ethereum address of the [deploy gateway](/#public-addresses).
+A class instance `variable` holding a `string` that represents an Ethereum address of the [deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 
