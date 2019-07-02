@@ -82,7 +82,7 @@ export interface TokenTransferData {
   /**
    * Id (address) of the receiver.
    */
-  receiverId: string;
+  receiverId?: string;
 
   /**
    * The amount of value(erc20 tokens).

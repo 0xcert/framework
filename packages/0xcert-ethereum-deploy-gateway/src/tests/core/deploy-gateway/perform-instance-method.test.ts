@@ -105,7 +105,6 @@ spec.test('submits deployGateway deploy to the network which executes transfer a
 });
 
 spec.test('submits dynamic deployGateway deploy to the network which executes transfer and creates a new xcert', async (ctx) => {
-  const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const tokenId = ctx.get('protocol').erc20.instance.options.address;
@@ -126,7 +125,6 @@ spec.test('submits dynamic deployGateway deploy to the network which executes tr
     },
     tokenTransferData: {
       ledgerId: tokenId,
-      receiverId: coinbase,
       value: '50000',
     },
   };
@@ -150,6 +148,36 @@ spec.test('submits dynamic deployGateway deploy to the network which executes tr
   ctx.is(xcertName, 'test');
 
   ctx.is(await token.instance.methods.balanceOf(bob).call(), '0');
+});
+
+spec.test('handles fixed deploy with dynamic token transfer receiver', async (ctx) => {
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const tokenId = ctx.get('protocol').erc20.instance.options.address;
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const deployGatewayId = ctx.get('protocol').deployGateway.instance.options.address;
+
+  const deploy: Deploy = {
+    makerId: bob,
+    takerId: coinbase,
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    assetLedgerData: {
+      name: 'test',
+      symbol: 'TST',
+      uriBase: 'https://base.com/',
+      schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
+      capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
+      owner: bob,
+    },
+    tokenTransferData: {
+      ledgerId: tokenId,
+      value: '50000',
+    },
+  };
+
+  const deployGatewayCoinbase = new DeployGateway(coinbaseGenericProvider, deployGatewayId);
+  await ctx.throws(() => deployGatewayCoinbase.claim(deploy));
 });
 
 export default spec;

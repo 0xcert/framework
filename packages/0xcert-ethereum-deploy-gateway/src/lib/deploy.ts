@@ -1,7 +1,7 @@
 import { getInterfaceCode } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { Deploy } from '@0xcert/scaffold';
+import { Deploy, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { DeployGateway } from '../core/gateway';
 
@@ -176,10 +176,25 @@ export function leftPad(input: any, chars: number, sign?: string, prefix?: boole
  */
 export function normalizeDeployIds(deploy: Deploy, provider: GenericProvider): Deploy {
   deploy = JSON.parse(JSON.stringify(deploy));
-  deploy.takerId = !deploy.takerId ? zeroAddress : provider.encoder.normalizeAddress(deploy.takerId);
+  let dynamic = false;
+
+  if (!deploy.takerId) {
+    deploy.takerId = zeroAddress;
+    dynamic = true;
+  } else {
+    deploy.takerId = provider.encoder.normalizeAddress(deploy.takerId);
+  }
   deploy.makerId = provider.encoder.normalizeAddress(deploy.makerId);
   deploy.tokenTransferData.ledgerId = provider.encoder.normalizeAddress(deploy.tokenTransferData.ledgerId);
-  deploy.tokenTransferData.receiverId = provider.encoder.normalizeAddress(deploy.tokenTransferData.receiverId);
+
+  if (!deploy.tokenTransferData.receiverId) {
+    if (!dynamic) {
+      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+    }
+    deploy.tokenTransferData.receiverId = zeroAddress;
+  } else {
+    deploy.tokenTransferData.receiverId = provider.encoder.normalizeAddress(deploy.tokenTransferData.receiverId);
+  }
   deploy.assetLedgerData.owner = provider.encoder.normalizeAddress(deploy.assetLedgerData.owner);
   return deploy;
 }

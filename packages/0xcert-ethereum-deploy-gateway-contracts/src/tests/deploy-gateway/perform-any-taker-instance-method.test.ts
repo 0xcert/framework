@@ -95,7 +95,7 @@ spec.test('performs a deploy', async (ctx) => {
     },
     paymentData: {
       token: zxc.receipt._address,
-      to: owner,
+      to: zeroAddress,
       value: '10000',
     },
     seed: common.getCurrentTime(),

@@ -16,27 +16,31 @@ To perform a delegate deploy through `DeployGateway`, you need to follow its flo
 
 In fixed deploy, the Taker of the deploy (its wallet address) is known, and we want to make an atomic deploy specifically with them and only them. For this, we need to set `deploy.takerId`.
 
-In dynamic deploy, the deploy can be performed by anyone. For this reason, we do not set `deploy.takerId`. This will enable any account (wallet) to perform such deploy and automatically become its Taker.
+In dynamic deploy, the deploy can be performed by anyone. For this reason, we do not set `deploy.takerId`. This will enable any account (wallet) to perform such deploy and automatically become its Taker. We can also skip setting `deploy.tokenTransferData.receiverId` and it will automatically be replaced with the account (wallet) that performed this deploy.
+
+::: warning
+When using dynamic deploy, you cannot send value to the zero address (0x000...0), since zero address is reserved on the smart contract to replace the order Taker.
+:::
 
 ### DeployGateway(provider, deployGatewayId)
 
-A `class` that represents a smart contract on the Ethereum blockchain.
+A `class` that represents a smart contract on the Wanchain blockchain.
 
 **Arguments**
 
 | Argument | Description
 |-|-
-| deployGatewayId | [required] A `string` representing an address of the [0xcert deploy gateway smart contract](#public-addresses) on the Ethereum blockchain.
+| deployGatewayId | [required] A `string` representing an address of the [0xcert deploy gateway smart contract](#public-addresses) on the Wanchain blockchain.
 | provider | [required] An instance of a provider.
 
 **Usage**
 
 ```ts
-import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
-import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
+import { DeployGateway } from '@0xcert/wanchain-deploy-gateway';
 
 // arbitrary data
-const provider = new MetamaskProvider();
+const provider = new HttpProvider();
 const deployGatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
 
 // create deploy gateway instance
@@ -58,12 +62,12 @@ An `asynchronous` class instance `function` that marks the provided `deploy` as 
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
 | deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
+| deploy.makerId | [required] A `string` representing the Wanchain account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.takerId | A `string` representing the Wanchain account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address that will receive the value.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -120,12 +124,12 @@ This operation must be executed by the Maker of the deploy.
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
 | deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
+| deploy.makerId | [required] A `string` representing the Wanchain account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.takerId | A `string` representing the Wanchain account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address that will receive the value.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -171,11 +175,11 @@ See the class [constructor](#deploy-gateway) for details.
 **Usage**
 
 ```ts
-import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
-import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
+import { DeployGateway } from '@0xcert/wanchain-deploy-gateway';
 
 // arbitrary data
-const provider = new MetamaskProvider();
+const provider = new HttpProvider();
 const deployGatewayId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
 
 // create deploy gateway instance
@@ -184,7 +188,7 @@ const deployGateway = DeployGateway.getInstance(provider, deployGatewayId);
 
 ### id
 
-A class instance `variable` holding the address of deploy gateway's smart contract on the Ethereum blockchain.
+A class instance `variable` holding the address of deploy gateway's smart contract on the Wanchain blockchain.
 
 ### perform(deploy, signature)
 
@@ -206,12 +210,12 @@ This operation must be executed by the Taker of the deploy.
 | deploy.assetLedgerData.symbol | [required] A `string` representing the symbol of the `AssetLedger` that will be deployed.
 | deploy.assetLedgerData.uriBase | [required] A `string` representing the uriBase of the `AssetLedger` that will be deployed.
 | deploy.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the deploy expires and can not be performed any more.
-| deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
+| deploy.makerId | [required] A `string` representing the Wanchain account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
-| deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
-| deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.takerId | A `string` representing the Wanchain account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.receiverId | A `string` representing the Wanchain account address that will receive the value.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -305,7 +309,7 @@ A class instance `variable` holding a `string` which represents the URL to the c
 
 ### deployGatewayId
 
-A class instance `variable` holding a `string` that represents an Ethereum address of the [deploy gateway](/#public-addresses).
+A class instance `variable` holding a `string` that represents an Wanchain address of the [deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 

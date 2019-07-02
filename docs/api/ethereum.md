@@ -1061,7 +1061,11 @@ To perform a delegate deploy through `DeployGateway`, you need to follow its flo
 
 In fixed deploy, the Taker of the deploy (its wallet address) is known, and we want to make an atomic deploy specifically with them and only them. For this, we need to set `deploy.takerId`.
 
-In dynamic deploy, the deploy can be performed by anyone. For this reason, we do not set `deploy.takerId`. This will enable any account (wallet) to perform such deploy and automatically become its Taker.
+In dynamic deploy, the deploy can be performed by anyone. For this reason, we do not set `deploy.takerId`. This will enable any account (wallet) to perform such deploy and automatically become its Taker. We can also skip setting `deploy.tokenTransferData.receiverId` and it will automatically be replaced with the account (wallet) that performed this deploy.
+
+::: warning
+When using dynamic deploy, you cannot send value to the zero address (0x000...0), since zero address is reserved on the smart contract to replace the order Taker.
+:::
 
 ### DeployGateway(provider, deployGatewayId)
 
@@ -1106,9 +1110,9 @@ An `asynchronous` class instance `function` that marks the provided `deploy` as 
 | deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
 | deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
 | deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -1168,9 +1172,9 @@ This operation must be executed by the Maker of the deploy.
 | deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
 | deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
 | deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 
@@ -1254,9 +1258,9 @@ This operation must be executed by the Taker of the deploy.
 | deploy.makerId | [required] A `string` representing the Ethereum account address that creates the deploy. It defaults to the `accountId` of a provider.
 | deploy.seed | [required] An `integer` number representing the unique deploy number.
 | deploy.takerId | A `string` representing the Ethereum account address that will be able to perform the deploy on the blockchain. This account also pays for the gas cost.
-| deploy.tokenTransferData.ledgerId | A `string` representing the value ledger address of which value will be transferred.
+| deploy.tokenTransferData.ledgerId | [required] A `string` representing the value ledger address of which value will be transferred.
 | deploy.tokenTransferData.receiverId | A `string` representing the Ethereum account address that will receive the value.
-| deploy.tokenTransferData.value | A `string` representing the value amount that will be transferred.
+| deploy.tokenTransferData.value | [required] A `string` representing the value amount that will be transferred.
 
 **Result:**
 

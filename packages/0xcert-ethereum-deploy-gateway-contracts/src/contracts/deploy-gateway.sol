@@ -226,7 +226,7 @@ contract DeployGateway
 
     deployPerformed[claim] = true;
 
-    address xcert = _doActions(_data);
+    address xcert = _doActionsReplaceZeroAddress(_data);
 
     emit Perform(
       _data.maker,
@@ -369,6 +369,41 @@ contract DeployGateway
     private
     returns (address _xcert)
   {
+    Proxy(tokenTransferProxy).execute(
+      _deploy.transferData.token,
+      _deploy.maker,
+      _deploy.transferData.to,
+      _deploy.transferData.value
+    );
+
+    _xcert = address(
+      new XcertCustom(
+        _deploy.xcertData.name,
+        _deploy.xcertData.symbol,
+        _deploy.xcertData.uriBase,
+        _deploy.xcertData.schemaId,
+        _deploy.xcertData.capabilities,
+        _deploy.xcertData.owner,
+        assetCreateProxy
+      )
+    );
+  }
+
+  /**
+   * @dev Helper function that makes deploy actions  and replaces zero addresses with msg.sender.
+   * @param _deploy Data needed for deploy.
+   */
+  function _doActionsReplaceZeroAddress(
+    DeployData memory _deploy
+  )
+    private
+    returns (address _xcert)
+  {
+    if (_deploy.transferData.to == address(0))
+    {
+      _deploy.transferData.to = msg.sender;
+    }
+
     Proxy(tokenTransferProxy).execute(
       _deploy.transferData.token,
       _deploy.maker,
