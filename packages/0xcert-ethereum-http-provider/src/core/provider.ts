@@ -67,6 +67,11 @@ export interface HttpProviderOptions {
   orderGatewayId?: string;
 
   /**
+   * ID (address) of deploy gateway.
+   */
+  deployGatewayId?: string;
+
+  /**
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;

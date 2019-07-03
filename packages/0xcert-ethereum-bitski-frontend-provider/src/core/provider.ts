@@ -36,6 +36,11 @@ export interface BitskiProviderOptions {
   orderGatewayId?: string;
 
   /**
+   * ID (address) of deploy gateway.
+   */
+  deployGatewayId?: string;
+
+  /**
    * The number of milliseconds in which a mutation times out.
    */
   mutationTimeout?: number;
@@ -111,6 +116,7 @@ export class BitskiProvider extends GenericProvider {
    * @param options.requiredConfirmations Optional number of confirmations that are necessary to
    * mark a mutation complete.
    * @param options.orderGatewayId Optional ID (address) of order gateway.
+   * @param options.deployGatewayId Optional ID (address) of deploy gateway.
    * @param options.mutationTimeout Optional number of milliseconds in which a mutation times out.
    * @param options.clientId Required Bitski client ID.
    * @param options.redirectUrl Required Bitski redirect url.
