@@ -8,7 +8,7 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 const provider = new GenericProvider({
   provider: window.ethereum,
   accountId: '',
-  signMethod: 2,
+  signMethod: SignMethod.EIP712,
 });
 provider.isSupported();
 await provider.enable();
