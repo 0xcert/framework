@@ -2070,12 +2070,12 @@ This are latest addresses that work with version 1.5.0. For older addresses that
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x1d3fd1eA89510Ab49FFFE160Ee166dd08d0d079C](http://testnet.wanscan.org/address/0x1d3fd1eA89510Ab49FFFE160Ee166dd08d0d079C)
-| TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://testnet.wanscan.org/address/0xB827222B89BA5237c432c47B4ef7d2079641A075)
-| NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://testnet.wanscan.org/address/0xB59A801024393eB92b38a0711a54579c0136347A)
-| NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://testnet.wanscan.org/address/0x84907deF46A2D0fc80035f1c08A722f2432e9801)
-| XcertCreateProxy | [0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D](http://testnet.wanscan.org/address/0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D)
-| XcertUpdateProxy | [0xf73b617c55a3519F2c832cFb707363Ee609e3495](http://testnet.wanscan.org/address/0xf73b617c55a3519F2c832cFb707363Ee609e3495)
+| OrderGateway | [0x90A8D7e2138ABB28393906Ae162238B5A18fE846](http://testnet.wanscan.org/address/0x90A8D7e2138ABB28393906Ae162238B5A18fE846)
+| TokenTransferProxy | [0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA](http://testnet.wanscan.org/address/0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA)
+| NFTokenTransferProxy | [0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC](http://testnet.wanscan.org/address/0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC)
+| NFTokenSafeTransferProxy | [0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08](http://testnet.wanscan.org/address/0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08)
+| XcertCreateProxy | [0xF3e68b923FEaEB6F2fa6Fa84025910018a6092c6](http://testnet.wanscan.org/address/0xF3e68b923FEaEB6F2fa6Fa84025910018a6092c6)
+| XcertUpdateProxy | [0x4B6eFA47223a14d22fDBD47ce617E0Ade90aD053](http://testnet.wanscan.org/address/0x4B6eFA47223a14d22fDBD47ce617E0Ade90aD053)
 
 ### Archive
 
