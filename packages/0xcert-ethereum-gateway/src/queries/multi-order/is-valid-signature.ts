@@ -1,6 +1,6 @@
-import { Order } from '@0xcert/scaffold';
-import { Gateway } from '../core/gateway';
-import { createOrderHash, createSignatureTuple } from '../lib/order';
+import { MultiOrder } from '@0xcert/scaffold';
+import { Gateway } from '../../core/gateway';
+import { createOrderHash, createSignatureTuple } from '../../lib/multi-order';
 
 const functionSignature = '0x8fa76d8d';
 const inputTypes = ['address', 'bytes32', 'tuple(bytes32, bytes32, uint8, uint8)'];
@@ -12,7 +12,7 @@ const outputTypes = ['bool'];
  * @param order Order data.
  * @param claim Claim data.
  */
-export default async function(gateway: Gateway, order: Order, claim: string) {
+export default async function(gateway: Gateway, order: MultiOrder, claim: string) {
   const orderHash = createOrderHash(gateway, order);
   const signatureTuple = createSignatureTuple(claim);
   try {

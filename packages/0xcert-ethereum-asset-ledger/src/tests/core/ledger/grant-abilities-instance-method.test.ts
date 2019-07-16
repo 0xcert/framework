@@ -1,14 +1,14 @@
-import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { GeneralAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: Gateway;
+  gateway: GatewayMock;
   protocol: Protocol;
   bob: string;
 }>();
@@ -31,7 +31,7 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new Gateway(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.before(async (stage) => {

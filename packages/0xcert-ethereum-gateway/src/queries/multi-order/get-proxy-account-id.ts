@@ -1,5 +1,5 @@
-import { Gateway } from '../core/gateway';
-import { OrderGatewayProxy } from '../core/types';
+import { Gateway } from '../../core/gateway';
+import { OrderGatewayProxy } from '../../core/types';
 
 const functionSignature = '0xabd90f85';
 const inputTypes = ['uint8'];

@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "1.7.4",
+    "@0xcert/ethereum-asset-ledger": "1.7.4",
     "@0xcert/ethereum-utils": "1.7.4",
     "@0xcert/scaffold": "1.7.4",
     "@0xcert/utils": "1.7.4"

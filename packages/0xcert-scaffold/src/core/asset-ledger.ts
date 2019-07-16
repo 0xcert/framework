@@ -1,5 +1,5 @@
+import { GatewayBase } from './gateway';
 import { MutationBase } from './mutation';
-import { GatewayBase } from './order-gateway';
 
 export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbility;
 

@@ -1,7 +1,7 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { Order } from '../../../0xcert-scaffold/dist';
-import { Gateway } from '../core/gateway';
-import { createRecipeTuple } from '../lib/order';
+import { MultiOrder } from '@0xcert/scaffold';
+import { Gateway } from '../../core/gateway';
+import { createRecipeTuple } from '../../lib/multi-order';
 
 const functionSignature = '0x36d63aca';
 const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)'];
@@ -11,7 +11,7 @@ const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, byt
  * @param gateway Order gateway instance.
  * @param order Order data.
  */
-export default async function(gateway: Gateway, order: Order) {
+export default async function(gateway: Gateway, order: MultiOrder) {
   const recipeTuple = createRecipeTuple(gateway, order);
   const attrs = {
     from: gateway.provider.accountId,

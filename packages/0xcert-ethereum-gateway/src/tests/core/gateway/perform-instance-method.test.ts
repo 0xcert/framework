@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Order, OrderActionKind } from '@0xcert/scaffold';
+import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../..';
 
@@ -87,34 +87,35 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.CREATE_ASSET,
+        kind: MultiOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         receiverId: bob,
         assetId: '102',
         assetImprint: '0',
       },
       {
-        kind: OrderActionKind.UPDATE_ASSET_IMPRINT,
+        kind: MultiOrderActionKind.UPDATE_ASSET_IMPRINT,
         ledgerId: xcertId,
         assetImprint: '2',
         assetId: '100',
       },
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         receiverId: bob,
         assetId: '100',
       },
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: bob,
         receiverId: coinbase,
@@ -147,31 +148,32 @@ spec.test('submits dynamic orderGateway order to the network which executes tran
   const erc20 = ctx.get('protocol').erc20;
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.CREATE_ASSET,
+        kind: MultiOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         assetId: '105',
         assetImprint: '0',
       },
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
       },
       {
-        kind: OrderActionKind.TRANSFER_VALUE,
+        kind: MultiOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         receiverId: bob,
         value: '100000',
       },
       {
-        kind: OrderActionKind.UPDATE_ASSET_IMPRINT,
+        kind: MultiOrderActionKind.UPDATE_ASSET_IMPRINT,
         ledgerId: xcertId,
         assetImprint: '2',
         assetId: '105',
@@ -201,14 +203,15 @@ spec.test('handles fixed order without receiver', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  let order: Order = {
+  let order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.CREATE_ASSET,
+        kind: MultiOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         assetId: '105',
         assetImprint: '0',
@@ -223,13 +226,14 @@ spec.test('handles fixed order without receiver', async (ctx) => {
   ctx.not(error, null);
 
   order = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
@@ -252,14 +256,15 @@ spec.test('handles fixed order without null receiver', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  let order: Order = {
+  let order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.CREATE_ASSET,
+        kind: MultiOrderActionKind.CREATE_ASSET,
         receiverId: null,
         ledgerId: xcertId,
         assetId: '105',
@@ -275,13 +280,14 @@ spec.test('handles fixed order without null receiver', async (ctx) => {
   ctx.not(error, null);
 
   order = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
@@ -304,14 +310,15 @@ spec.test('handles fixed order without sender', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_VALUE,
+        kind: MultiOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         receiverId: coinbase,
         value: '100000',
@@ -334,14 +341,15 @@ spec.test('handles fixed order with null sender', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_VALUE,
+        kind: MultiOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         senderId: null,
         receiverId: coinbase,
@@ -364,13 +372,14 @@ spec.test('handles dynamic order without sender and receiver', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_VALUE,
+        kind: MultiOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         value: '100000',
       },
@@ -391,14 +400,15 @@ spec.test('handles dynamic order without null sender and null receiver', async (
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, orderGatewayId);
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: null,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_VALUE,
+        kind: MultiOrderActionKind.TRANSFER_VALUE,
         senderId: null,
         receiverId: null,
         ledgerId: erc20Id,

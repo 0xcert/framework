@@ -1,4 +1,4 @@
-import { AssetLedgerCapability } from './asset-ledger';
+import { AssetLedgerData, TokenTransferData } from './gateway';
 import { MutationBase } from './mutation';
 
 /**
@@ -29,66 +29,6 @@ export interface DeployGatewayBase {
    * @param deploy Deploy data.
    */
   cancel(deploy: Deploy): Promise<MutationBase>;
-}
-
-/**
- * Asset ledger deploy data definition.
- */
-export interface AssetLedgerData {
-
-  /**
-   * Asset Ledger name.
-   */
-  name: string;
-
-  /**
-   * Asset Ledger symbol/ticker.
-   */
-  symbol: string;
-
-  /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended foo each asset.
-   * Example: https://example.com/id/
-   * Asset 1 URI will become: https://example.com/id/1
-   */
-  uriBase: string;
-
-  /**
-   * Hashed representation of JSON schema defining this object.
-   */
-  schemaId: string;
-
-  /**
-   * Array representing capabilities.
-   */
-  capabilities?: AssetLedgerCapability[];
-
-  /**
-   * Id (address) of the owner of this asset ledger.
-   */
-  owner: string;
-}
-
-/**
- * Token transfer data definition.
- */
-export interface TokenTransferData {
-
-  /**
-   * Id (address) of the smart contract that represents the assetLedger.
-   */
-  ledgerId: string;
-
-  /**
-   * Id (address) of the receiver.
-   */
-  receiverId?: string;
-
-  /**
-   * The amount of value(erc20 tokens).
-   */
-  value: string; // TODO BN.js
-
 }
 
 /**

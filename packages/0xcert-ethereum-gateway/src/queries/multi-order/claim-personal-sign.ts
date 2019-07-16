@@ -1,13 +1,13 @@
-import { Order } from '@0xcert/scaffold';
-import { Gateway } from '../core/gateway';
-import { createOrderHash } from '../lib/order';
+import { MultiOrder } from '@0xcert/scaffold';
+import { Gateway } from '../../core/gateway';
+import { createOrderHash } from '../../lib/multi-order';
 
 /**
  * Creates order hash, signes it and returns personal signed order claim.
  * @param gateway Order gateway instance.
  * @param order Order data.
  */
-export default async function(gateway: Gateway, order: Order) {
+export default async function(gateway: Gateway, order: MultiOrder) {
   const message = createOrderHash(gateway, order);
   const res = await gateway.provider.post({
     method: 'personal_sign',

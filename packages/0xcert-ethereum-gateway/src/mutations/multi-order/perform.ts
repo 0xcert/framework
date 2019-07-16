@@ -1,7 +1,7 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { Order } from '../../../0xcert-scaffold/dist';
-import { Gateway } from '../core/gateway';
-import { createRecipeTuple, createSignatureTuple, zeroAddress } from '../lib/order';
+import { MultiOrder } from '@0xcert/scaffold';
+import { Gateway } from '../../core/gateway';
+import { createRecipeTuple, createSignatureTuple, zeroAddress } from '../../lib/multi-order';
 
 const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)', 'tuple(bytes32, bytes32, uint8, uint8)'];
 
@@ -11,7 +11,7 @@ const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, byt
  * @param order Order data.
  * @param claim Claim data.
  */
-export default async function(gateway: Gateway, order: Order, claim: string) {
+export default async function(gateway: Gateway, order: MultiOrder, claim: string) {
   let functionSignature = '0x8b1d8335'; // perform
   if (order.takerId === zeroAddress) {
     functionSignature = '0x04aa2cb7'; // performAnyTaker

@@ -1,6 +1,5 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { OrderActionKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway, OrderGatewayProxy } from '../../..';
 

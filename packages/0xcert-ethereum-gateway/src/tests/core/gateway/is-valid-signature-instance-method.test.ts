@@ -1,9 +1,8 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Order, OrderActionKind } from '@0xcert/scaffold';
+import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../core/gateway';
-import { createOrderHash } from '../../../lib/order';
 
 interface Data {
   protocol: Protocol;
@@ -39,26 +38,27 @@ spec.before(async (stage) => {
   stage.set('makerGenericProvider', makerGenericProvider);
 });
 
-spec.test('gets order data claim', async (ctx) => {
+spec.test('check if signature is valid', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         receiverId: bob,
         assetId: '100',
       },
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: bob,
         receiverId: coinbase,
@@ -71,8 +71,8 @@ spec.test('gets order data claim', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
 
   const orderGateway = new Gateway(provider, orderGatewayId);
-  const claim = createOrderHash(orderGateway, order);
-  ctx.is(await orderGateway.getOrderDataClaim(order), claim);
+  const claim = await orderGateway.claim(order);
+  ctx.true(await orderGateway.isValidSignature(order, claim));
 });
 
 export default spec;

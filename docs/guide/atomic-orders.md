@@ -74,21 +74,21 @@ For the purpose of simplicity of this guide, we will be both the maker and the t
 :::
 
 ```ts
-import { Order, OrderActionKind } from '@0xcert/ethereum-gateway';
+import { Order, MultiOrderActionKind } from '@0xcert/ethereum-gateway';
 
 const order = {
     makerId: provider.accountId,
     takerId: provider.accountId,
     actions: [
         {
-            kind: OrderActionKind.TRANSFER_ASSET,
+            kind: MultiOrderActionKind.TRANSFER_ASSET,
             ledgerId: assetLedgerId,
             senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '100',
         },
         {
-            kind: OrderActionKind.CREATE_ASSET,
+            kind: MultiOrderActionKind.CREATE_ASSET,
             ledgerId: assetLedgerId,
             senderId: provider.accountId,
             receiverId: provider.accountId,

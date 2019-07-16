@@ -2106,13 +2106,13 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { OrderActionKind } from '@0xcert/wanchain-gateway';
+import { MultiOrderActionKind } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const order = {
     actions: [
         {
-            kind: OrderActionKind.TRANSFER_ASSET,
+            kind: MultiOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0x...',
             senderId: '0x...',
             receiverId: '0x...',
@@ -2161,7 +2161,7 @@ A `string` representing order signature.
 const order = {
     actions: [
         {
-            kind: OrderActionKind.TRANSFER_ASSET,
+            kind: MultiOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0x...',
             senderId: '0x...',
             receiverId: '0x...',
@@ -2234,7 +2234,7 @@ const signature = 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68
 const order = {
     actions: [
         {
-            kind: OrderActionKind.TRANSFER_ASSET,
+            kind: MultiOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0x...',
             senderId: '0x...',
             receiverId: '0x...',
@@ -2277,7 +2277,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 |-|-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
-| kind | [required] An `integer` number that equals to `OrderActionKind.CREATE_ASSET`.
+| kind | [required] An `integer` number that equals to `MultiOrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing receiver's address.
 
@@ -2287,7 +2287,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
-| kind | [required] An `integer` number that equals to `OrderActionKind.UPDATE_ASSET_IMPRINT`.
+| kind | [required] An `integer` number that equals to `MultiOrderActionKind.UPDATE_ASSET_IMPRINT`.
 | ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
@@ -2295,7 +2295,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 | Property | Description
 |-|-|-
 | assetId | [required] A `string` representing an ID of an asset.
-| kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_ASSET`.
+| kind | [required] An `integer` number that equals to `MultiOrderActionKind.TRANSFER_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing receiver's address.
 | senderId | A `string` representing sender's address.
@@ -2304,7 +2304,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 
 | Property | Description
 |-|-|-
-| kind | [required] An `integer` number that equals to `OrderActionKind.TRANSFER_VALUE`.
+| kind | [required] An `integer` number that equals to `MultiOrderActionKind.TRANSFER_VALUE`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing receiver's address.
 | senderId | A `string` representing sender's address.

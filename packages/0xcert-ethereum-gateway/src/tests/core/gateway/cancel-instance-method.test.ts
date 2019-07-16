@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { Order, OrderActionKind } from '@0xcert/scaffold';
+import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../core/gateway';
 
@@ -8,7 +8,7 @@ interface Data {
   protocol: Protocol;
   makerGenericProvider: GenericProvider;
   takerGenericProvider: GenericProvider;
-  order: Order;
+  order: MultiOrder;
   claim: string;
   coinbase: string;
   bob: string;
@@ -71,21 +71,22 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order: Order = {
+  const order: MultiOrder = {
+    kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: sara,
         receiverId: jane,
         assetId: '100',
       },
       {
-        kind: OrderActionKind.TRANSFER_ASSET,
+        kind: MultiOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: jane,
         receiverId: sara,
