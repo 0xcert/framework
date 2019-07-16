@@ -93,8 +93,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-order-gateway",
-      "projectFolder": "packages/0xcert-ethereum-order-gateway",
+      "packageName": "@0xcert/ethereum-gateway",
+      "projectFolder": "packages/0xcert-ethereum-gateway",
       "versionPolicyName": "patchAll"
     },
     {
@@ -143,8 +143,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/wanchain-order-gateway",
-      "projectFolder": "packages/0xcert-wanchain-order-gateway",
+      "packageName": "@0xcert/wanchain-gateway",
+      "projectFolder": "packages/0xcert-wanchain-gateway",
       "versionPolicyName": "patchAll"
     },
     {

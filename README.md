@@ -35,7 +35,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 | 0xcert/ethereum-asset-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-asset-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-asset-ledger) | Asset ledger module for asset management on the Ethereum blockchain.
 | 0xcert/ethereum-http-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-http-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-http-provider) | Implementation of HTTP communication provider for the Ethereum blockchain.
 | 0xcert/ethereum-metamask-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-metamask-provider.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-metamask-provider) | Implementation of MetaMask communication provider for the Ethereum blockchain.
-| 0xcert/ethereum-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-order-gateway) | Order gateway module for executing atomic operations on the Ethereum blockchain.
+| 0xcert/ethereum-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-gateway) | Order gateway module for executing atomic operations on the Ethereum blockchain.
 | 0xcert/ethereum-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fethereum-value-ledger) | Value ledger module for currency management on the Ethereum blockchain.
 
 ### Wanchain
@@ -43,7 +43,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 |-|-|-
 | 0xcert/wanchain-asset-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-asset-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-asset-ledger) | Asset ledger module for asset management on the Wanchain blockchain.
 | 0xcert/wanchain-http-provider | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-http-provider.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-http-provider) | Implementation of HTTP communication provider for the Wanchain blockchain.
-| 0xcert/wanchain-order-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-order-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-order-gateway) | Order gateway module for executing atomic operations on the Wanchain blockchain.
+| 0xcert/wanchain-gateway | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-gateway.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-gateway) | Order gateway module for executing atomic operations on the Wanchain blockchain.
 | 0xcert/wanchain-value-ledger | [![NPM Version](https://badge.fury.io/js/@0xcert%2Fwanchain-value-ledger.svg)](https://badge.fury.io/js/%400xcert%2Fwanchain-value-ledger) | Value ledger module for currency management on the Wanchain blockchain.
 
 ### Plugins

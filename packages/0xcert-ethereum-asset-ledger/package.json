@@ -68,7 +68,7 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "1.7.4",
-    "@0xcert/ethereum-order-gateway": "1.7.4",
+    "@0xcert/ethereum-gateway": "1.7.4",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
     "nyc": "^13.1.0",

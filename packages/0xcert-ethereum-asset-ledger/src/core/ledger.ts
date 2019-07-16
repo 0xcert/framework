@@ -3,7 +3,7 @@ import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, OrderGatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, GatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -168,7 +168,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
+  public async isApprovedAccount(assetId: string, accountId: string | GatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -190,7 +190,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveAccount(assetId: string, accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -213,7 +213,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async grantAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
@@ -252,7 +252,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async revokeAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async revokeAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
@@ -332,7 +332,7 @@ export class AssetLedger implements AssetLedgerBase {
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveOperator(accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -346,7 +346,7 @@ export class AssetLedger implements AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async disapproveOperator(accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -361,7 +361,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
+  public async isApprovedOperator(accountId: string, operatorId: string | GatewayBase): Promise<boolean> {
     if (typeof operatorId !== 'string') {
       operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
     }

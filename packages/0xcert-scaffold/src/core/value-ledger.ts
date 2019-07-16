@@ -1,5 +1,5 @@
 import { MutationBase } from './mutation';
-import { OrderGatewayBase } from './order-gateway';
+import { GatewayBase } from './order-gateway';
 
 /**
  * Value ledger methods.
@@ -16,13 +16,13 @@ export interface ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  approveValue(value: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveValue(value: string, accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Disapproves account for operating with your value.
    * @param accountId Account id.
    */
-  disapproveValue(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  disapproveValue(accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Gets the amount of value that another account id approved for.
@@ -48,7 +48,7 @@ export interface ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  isApprovedValue(value: string, accountId: string | OrderGatewayBase, spenderId: string): Promise<Boolean>;
+  isApprovedValue(value: string, accountId: string | GatewayBase, spenderId: string): Promise<Boolean>;
 
   /**
    * Transfer value to another account.

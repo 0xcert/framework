@@ -2075,7 +2075,7 @@ A `class` which represents a smart contract on the Wanchain blockchain.
 
 ```ts
 import { HttpProvider } from '@0xcert/wanchain-http-provider';
-import { OrderGateway } from '@0xcert/wanchain-order-gateway';
+import { OrderGateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const provider = new HttpProvider({ url: 'https://...' });
@@ -2106,7 +2106,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { OrderActionKind } from '@0xcert/wanchain-order-gateway';
+import { OrderActionKind } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const order = {
@@ -2189,7 +2189,7 @@ See the class [constructor](#order-gateway) for details.
 
 ```ts
 import { HttpProvider } from '@0xcert/wanchain-http-provider';
-import { OrderGateway } from '@0xcert/wanchain-order-gateway';
+import { OrderGateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const provider = new HttpProvider({ url: 'https://...' });

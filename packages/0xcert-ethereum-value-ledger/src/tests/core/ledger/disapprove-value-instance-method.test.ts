@@ -1,6 +1,6 @@
 import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
+import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
@@ -8,7 +8,7 @@ import { ValueLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  orderGateway: OrderGateway;
+  orderGateway: Gateway;
   deployGateway: DeployGateway;
   protocol: Protocol;
   coinbase: string;
@@ -40,7 +40,7 @@ spec.before(async (stage) => {
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   const deployGatewayId = stage.get('protocol').deployGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('orderGateway', new OrderGateway(provider, orderGatewayId));
+  stage.set('orderGateway', new Gateway(provider, orderGatewayId));
   stage.set('deployGateway', new DeployGateway(provider, deployGatewayId));
 });
 

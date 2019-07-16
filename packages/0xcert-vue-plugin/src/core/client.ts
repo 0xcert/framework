@@ -58,11 +58,11 @@ export class Client {
   /**
    *
    */
-  public getOrderGateway(id?: string) {
-    const module = this.getModule('OrderGateway');
+  public getGateway(id?: string) {
+    const module = this.getModule('Gateway');
 
     if (!module) {
-      throw this.getMissingModuleError('OrderGateway');
+      throw this.getMissingModuleError('Gateway');
     } else {
       return new module.object(this.provider, id);
     }

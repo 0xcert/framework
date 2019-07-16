@@ -1,5 +1,5 @@
+import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
@@ -7,7 +7,7 @@ import { AssetLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
+  gateway: Gateway;
   protocol: Protocol;
   bob: string;
   coinbase: string;

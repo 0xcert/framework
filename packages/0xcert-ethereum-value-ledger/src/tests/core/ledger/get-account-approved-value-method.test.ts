@@ -1,6 +1,6 @@
 import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
+import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
@@ -62,7 +62,7 @@ spec.test('returns order gateway approved amount', async (ctx) => {
 
   const approveAmount = '5000000000000000000';
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const gateway = new OrderGateway(provider, orderGatewayId);
+  const gateway = new Gateway(provider, orderGatewayId);
 
   const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});

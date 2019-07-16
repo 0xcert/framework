@@ -13,7 +13,7 @@ export enum OrderActionKind {
 /**
  * Order gateway method definition.
  */
-export interface OrderGatewayBase {
+export interface GatewayBase {
 
   /**
    * Address of the smart contract that represents this order gateway.

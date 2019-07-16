@@ -3119,7 +3119,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { OrderGateway } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();
@@ -3150,7 +3150,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { OrderActionKind } from '@0xcert/ethereum-order-gateway';
+import { OrderActionKind } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const order = {
@@ -3233,7 +3233,7 @@ See the class [constructor](#order-gateway) for details.
 
 ```ts
 import { MetamaskProvider } from '@0xcert/ethereum-metamask-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { OrderGateway } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const provider = new MetamaskProvider();

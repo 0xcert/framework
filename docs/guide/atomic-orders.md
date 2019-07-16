@@ -43,7 +43,7 @@ Click [here](https://stackblitz.com/edit/atomic-order-example) to check the live
 We recommend you employ the package as an NPM package in your application.
 
 ```shell
-$ npm i --save @0xcert/ethereum-order-gateway
+$ npm i --save @0xcert/ethereum-gateway
 ```
 
 On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/core.html) section to learn more about order gateway.
@@ -57,7 +57,7 @@ These guidelines assume that you have followed the complete guide and taken all 
 As usual, we first import a module into the application. This time, we import the `OrderGateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
 
 ```ts
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { OrderGateway } from '@0xcert/ethereum-gateway';
 ```
 
 Then, we create a new instance of the `OrderGateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
@@ -74,7 +74,7 @@ For the purpose of simplicity of this guide, we will be both the maker and the t
 :::
 
 ```ts
-import { Order, OrderActionKind } from '@0xcert/ethereum-order-gateway';
+import { Order, OrderActionKind } from '@0xcert/ethereum-gateway';
 
 const order = {
     makerId: provider.accountId,

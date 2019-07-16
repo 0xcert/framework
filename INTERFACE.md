@@ -93,9 +93,9 @@ const asset = {
 };
 ```
 ```ts
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
+import { Gateway } from '@0xcert/ethereum-gateway';
 
-const gateway = new OrderGateway(context);
+const gateway = new Gateway(context);
 gateway.on(event, handler);
 gateway.off(event, handler);
 gateway.subscribe();

@@ -1,6 +1,6 @@
 import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { DeployGatewayBase, OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
+import { DeployGatewayBase, GatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
   ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
@@ -72,7 +72,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param spenderId Account id of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase | DeployGatewayBase): Promise<String> {
+  public async getApprovedValue(accountId: string, spenderId: string | GatewayBase | DeployGatewayBase): Promise<String> {
     if (typeof spenderId !== 'string') {
       spenderId = (spenderId as any).getProxyAccountId ? await (spenderId as any).getProxyAccountId(1) : await (spenderId as any).getTokenTransferProxyId();
     }
@@ -106,7 +106,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase | DeployGatewayBase): Promise<Boolean> {
+  public async isApprovedValue(value: string, accountId: string, spenderId: string | GatewayBase | DeployGatewayBase): Promise<Boolean> {
     if (typeof spenderId !== 'string') {
       spenderId = (spenderId as any).getProxyAccountId ? await (spenderId as any).getProxyAccountId(1) : await (spenderId as any).getTokenTransferProxyId();
     }
@@ -123,7 +123,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  public async approveValue(value: string, accountId: string | OrderGatewayBase | DeployGatewayBase): Promise<Mutation> {
+  public async approveValue(value: string, accountId: string | GatewayBase | DeployGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = (accountId as any).getProxyAccountId ? await (accountId as any).getProxyAccountId(1) : await (accountId as any).getTokenTransferProxyId();
     }
@@ -142,7 +142,7 @@ export class ValueLedger implements ValueLedgerBase {
    * Disapproves account for operating with your value.
    * @param accountId Account id.
    */
-  public async disapproveValue(accountId: string | OrderGatewayBase | DeployGatewayBase): Promise<Mutation> {
+  public async disapproveValue(accountId: string | GatewayBase | DeployGatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = (accountId as any).getProxyAccountId ? await (accountId as any).getProxyAccountId(1) : await (accountId as any).getTokenTransferProxyId();
     }

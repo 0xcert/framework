@@ -1,5 +1,5 @@
+import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
@@ -7,7 +7,7 @@ import { AssetLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
+  gateway: Gateway;
   protocol: Protocol;
   bob: string;
   coinbase: string;
@@ -37,7 +37,7 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
+  stage.set('gateway', new Gateway(provider, orderGatewayId));
 });
 
 spec.before(async (stage) => {
