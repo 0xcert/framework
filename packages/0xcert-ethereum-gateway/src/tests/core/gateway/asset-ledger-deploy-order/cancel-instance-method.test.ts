@@ -53,7 +53,7 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: bob });
 });
 
-spec.test('marks deployGateway deploy as canceled on the network which prevents the deploy to be performed', async (ctx) => {
+spec.test('marks xcertDeployGateway deploy as canceled on the network which prevents the deploy to be performed', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
@@ -82,14 +82,14 @@ spec.test('marks deployGateway deploy as canceled on the network which prevents 
     },
   };
 
-  const deployGatewayId = ctx.get('protocol').deployGateway.instance.options.address;
+  const xcertDeployGatewayId = ctx.get('protocol').xcertDeployGateway.instance.options.address;
 
-  const deployGatewayBob = new Gateway(bobGenericProvider, { multiOrderId: '', assetLedgerDeployOrderId: deployGatewayId, valueLedgerDeployOrderId: '' });
-  const claim = await deployGatewayBob.claim(order);
-  await deployGatewayBob.cancel(order).then(() => ctx.sleep(200));
+  const xcertDeployGatewayBob = new Gateway(bobGenericProvider, { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' });
+  const claim = await xcertDeployGatewayBob.claim(order);
+  await xcertDeployGatewayBob.cancel(order).then(() => ctx.sleep(200));
 
-  const deployGatewayCoinbase = new Gateway(coinbaseGenericProvider, deployGatewayId);
-  await ctx.throws(() => deployGatewayCoinbase.perform(order, claim));
+  const xcertDeployGatewayCoinbase = new Gateway(coinbaseGenericProvider, xcertDeployGatewayId);
+  await ctx.throws(() => xcertDeployGatewayCoinbase.perform(order, claim));
 
   ctx.is(await token.instance.methods.balanceOf(bob).call(), '100000');
 });

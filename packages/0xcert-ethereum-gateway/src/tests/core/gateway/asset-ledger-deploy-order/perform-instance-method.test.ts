@@ -28,17 +28,17 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
-  const deployGatewayId = stage.get('protocol').deployGateway.instance.options.address;
+  const xcertDeployGatewayId = stage.get('protocol').xcertDeployGateway.instance.options.address;
 
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
-    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: deployGatewayId, valueLedgerDeployOrderId: '' },
+    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
-    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: deployGatewayId, valueLedgerDeployOrderId: '' },
+    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
