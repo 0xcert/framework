@@ -1,7 +1,7 @@
 {
-  "name": "@0xcert/ethereum-order-gateway-contracts",
+  "name": "@0xcert/ethereum-gateway-contracts",
   "version": "1.7.4",
-  "description": "Smart contracts used by the order gateway on the Ethereum blockchain.",
+  "description": "Smart contracts used by the gateway on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "clean": "rm -Rf ./build",

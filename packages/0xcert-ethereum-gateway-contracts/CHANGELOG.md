@@ -1,4 +1,4 @@
-# Change Log - @0xcert/ethereum-order-gateway-contracts
+# Change Log - @0xcert/ethereum-gateway-contracts
 
 This log was last generated on Wed, 19 Jun 2019 10:31:05 GMT and should not be manually modified.
 

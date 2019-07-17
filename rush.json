@@ -88,8 +88,8 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-order-gateway-contracts",
-      "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
+      "packageName": "@0xcert/ethereum-gateway-contracts",
+      "projectFolder": "packages/0xcert-ethereum-gateway-contracts",
       "versionPolicyName": "patchAll"
     },
     {
