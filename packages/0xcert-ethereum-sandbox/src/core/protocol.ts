@@ -24,6 +24,7 @@ export class Protocol {
   public nftokenReceiver;
   public orderGateway;
   public xcertDeployGateway;
+  public tokenDeployGateway;
 
   /**
    * Instantiates the protocol class and deploys the contracts.
@@ -68,7 +69,8 @@ export class Protocol {
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
     this.nftokenReceiver = await this.deployNFTokenReceiver(from);
     this.orderGateway = await this.deployOrderGateway(from);
-    this.xcertDeployGateway = await this.deployDeployGateway(from);
+    this.xcertDeployGateway = await this.deployXcertDeployGateway(from);
+    this.tokenDeployGateway = await this.deployTokenDeployGateway(from);
 
     return this;
   }
@@ -315,7 +317,7 @@ export class Protocol {
    * Deploys the decentralized xcertDeployGateway contract.
    * @param from Contract owner's address.
    */
-  protected async deployDeployGateway(from: string) {
+  protected async deployXcertDeployGateway(from: string) {
     const xcertDeployGateway = await deploy({
       web3: this.web3,
       abi: contracts.xcertDeployGateway.abi,
@@ -326,5 +328,22 @@ export class Protocol {
 
     await this.tokenTransferProxy.instance.methods.grantAbilities(xcertDeployGateway.receipt._address, 2).send({ from });
     return xcertDeployGateway;
+  }
+
+  /**
+   * Deploys the decentralized tokenDeployGateway contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployTokenDeployGateway(from: string) {
+    const tokenDeployGateway = await deploy({
+      web3: this.web3,
+      abi: contracts.tokenDeployGateway.abi,
+      bytecode: contracts.tokenDeployGateway.bytecode,
+      args: [this.tokenTransferProxy.receipt._address],
+      from,
+    });
+
+    await this.tokenTransferProxy.instance.methods.grantAbilities(tokenDeployGateway.receipt._address, 2).send({ from });
+    return tokenDeployGateway;
   }
 }
