@@ -56,7 +56,7 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: bob });
 });
 
-spec.test('submits deployGateway deploy to the network which executes transfer and creates a new xcert', async (ctx) => {
+spec.test('submits gateway asset ledger deploy order to the network which executes transfer and creates a new xcert', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
@@ -104,7 +104,7 @@ spec.test('submits deployGateway deploy to the network which executes transfer a
   ctx.is(await token.instance.methods.balanceOf(bob).call(), '50000');
 });
 
-spec.test('submits dynamic deployGateway deploy to the network which executes transfer and creates a new xcert', async (ctx) => {
+spec.test('submits dynamic asset ledger deploy order to the network which executes transfer and creates a new xcert', async (ctx) => {
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const tokenId = ctx.get('protocol').erc20.instance.options.address;

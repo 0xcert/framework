@@ -79,7 +79,7 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
 });
 
-spec.test('submits orderGateway order to the network which executes transfers', async (ctx) => {
+spec.test('submits gateway multi order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const bobGenericProvider = ctx.get('bobGenericProvider');
   const bob = ctx.get('bob');
@@ -128,8 +128,8 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const orderGateway = new Gateway(bobGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
+  const gateway = new Gateway(bobGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  await gateway.perform(order, claim).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
@@ -137,7 +137,7 @@ spec.test('submits orderGateway order to the network which executes transfers', 
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
 });
 
-spec.test('submits dynamic orderGateway order to the network which executes transfers', async (ctx) => {
+spec.test('submits dynamic gateway multi order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const saraGenericProvider = ctx.get('saraGenericProvider');
   const coinbase = ctx.get('coinbase');
@@ -185,9 +185,9 @@ spec.test('submits dynamic orderGateway order to the network which executes tran
   const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const orderGateway = new Gateway(saraGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(saraGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  await orderGateway.perform(order, claim).then(() => ctx.sleep(200));
+  await gateway.perform(order, claim).then(() => ctx.sleep(200));
 
   ctx.is(await xcert.instance.methods.tokenImprint('105').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.is(await xcert.instance.methods.ownerOf('105').call(), sara);
@@ -195,7 +195,7 @@ spec.test('submits dynamic orderGateway order to the network which executes tran
   ctx.is(await erc20.instance.methods.balanceOf(bob).call(), '100000');
 });
 
-spec.test('handles fixed order without receiver', async (ctx) => {
+spec.test('handles fixed multi order without receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -248,7 +248,7 @@ spec.test('handles fixed order without receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed order without null receiver', async (ctx) => {
+spec.test('handles fixed multi order without null receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -302,7 +302,7 @@ spec.test('handles fixed order without null receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed order without sender', async (ctx) => {
+spec.test('handles fixed multi order without sender', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -333,7 +333,7 @@ spec.test('handles fixed order without sender', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed order with null sender', async (ctx) => {
+spec.test('handles fixed multi order with null sender', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -365,7 +365,7 @@ spec.test('handles fixed order with null sender', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles dynamic order without sender and receiver', async (ctx) => {
+spec.test('handles dynamic multi order without sender and receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
@@ -393,7 +393,7 @@ spec.test('handles dynamic order without sender and receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles dynamic order without null sender and null receiver', async (ctx) => {
+spec.test('handles dynamic multi order without null sender and null receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;

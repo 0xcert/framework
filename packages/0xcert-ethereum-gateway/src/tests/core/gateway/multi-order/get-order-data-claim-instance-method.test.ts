@@ -71,9 +71,9 @@ spec.test('gets order data claim', async (ctx) => {
   const provider = ctx.get('makerGenericProvider');
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
 
-  const orderGateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  const claim = createOrderHash(orderGateway, order);
-  ctx.is(await orderGateway.getOrderDataClaim(order), claim);
+  const gateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const claim = createOrderHash(gateway, order);
+  ctx.is(await gateway.getOrderDataClaim(order), claim);
 });
 
 export default spec;

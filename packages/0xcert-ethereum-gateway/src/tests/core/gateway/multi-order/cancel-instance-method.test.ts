@@ -101,13 +101,13 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   const provider = stage.get('makerGenericProvider');
-  const orderGateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const order = stage.get('order');
 
-  stage.set('claim', await orderGateway.claim(order));
+  stage.set('claim', await gateway.claim(order));
 });
 
-spec.test('marks orderGateway order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
+spec.test('marks gateway order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const makerGenericProvider = ctx.get('makerGenericProvider');
   const takerGenericProvider = ctx.get('takerGenericProvider');
