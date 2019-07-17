@@ -1,15 +1,13 @@
-import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
-import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  orderGateway: Gateway;
-  deployGateway: DeployGateway;
+  gateway: GatewayMock;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -42,10 +40,8 @@ spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
-  const deployGatewayId = stage.get('protocol').deployGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('orderGateway', new Gateway(provider, orderGatewayId));
-  stage.set('deployGateway', new DeployGateway(provider, deployGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.test('approves account for value transfer', async (ctx) => {
@@ -58,24 +54,13 @@ spec.test('approves account for value transfer', async (ctx) => {
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), value);
 });
 
-spec.test('approves order gateway proxy for value transfer', async (ctx) => {
+spec.test('approves gateway proxy for value transfer', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
-  const gateway = ctx.get('orderGateway');
+  const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   const token = ctx.get('protocol').erc20;
   const value = '300000000000000000000000';
-  await ledger.approveValue(value, gateway);
-  ctx.is(await token.instance.methods.allowance(coinbase, proxyId).call(), value);
-});
-
-spec.test('approves deploy gateway proxy for value transfer', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const coinbase = ctx.get('coinbase');
-  const gateway = ctx.get('deployGateway');
-  const proxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  const token = ctx.get('protocol').erc20;
-  const value = '0';
   await ledger.approveValue(value, gateway);
   ctx.is(await token.instance.methods.allowance(coinbase, proxyId).call(), value);
 });

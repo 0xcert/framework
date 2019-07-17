@@ -1,7 +1,8 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { MultiOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
-import { createRecipeTuple, createSignatureTuple, zeroAddress } from '../../lib/multi-order';
+import { createRecipeTuple, createSignatureTuple } from '../../lib/multi-order';
+import { zeroAddress } from '../../lib/utils';
 
 const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)', 'tuple(bytes32, bytes32, uint8, uint8)'];
 
@@ -20,7 +21,7 @@ export default async function(gateway: Gateway, order: MultiOrder, claim: string
   const signatureTuple = createSignatureTuple(claim);
   const attrs = {
     from: gateway.provider.accountId,
-    to: gateway.id,
+    to: gateway.config.multiOrderId,
     data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [recipeTuple, signatureTuple]).substr(2),
   };
   const res = await gateway.provider.post({

@@ -15,7 +15,7 @@ export default async function(gateway: Gateway, order: MultiOrder) {
   const recipeTuple = createRecipeTuple(gateway, order);
   const attrs = {
     from: gateway.provider.accountId,
-    to: gateway.id,
+    to: gateway.config.multiOrderId,
     data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [recipeTuple]).substr(2),
   };
   const res = await gateway.provider.post({

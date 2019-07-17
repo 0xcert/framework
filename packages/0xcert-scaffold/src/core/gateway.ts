@@ -17,11 +17,6 @@ export enum MultiOrderActionKind {
 export interface GatewayBase {
 
   /**
-   * Address of the smart contract that represents this order gateway.
-   */
-  readonly id: string;
-
-  /**
    * Gets signed claim for an order.
    * @param order Order data.
    */

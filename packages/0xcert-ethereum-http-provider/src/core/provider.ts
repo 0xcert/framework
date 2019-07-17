@@ -1,4 +1,4 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { fetch } from '@0xcert/utils';
 
 /**
@@ -62,14 +62,9 @@ export interface HttpProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
-
-  /**
-   * ID (address) of deploy gateway.
-   */
-  deployGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.

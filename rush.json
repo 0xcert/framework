@@ -162,15 +162,5 @@
       "projectFolder": "packages/0xcert-ethereum-deploy-gateway-contracts",
       "versionPolicyName": "patchAll"
     },
-    {
-      "packageName": "@0xcert/ethereum-deploy-gateway",
-      "projectFolder": "packages/0xcert-ethereum-deploy-gateway",
-      "versionPolicyName": "patchAll"
-    },
-    {
-      "packageName": "@0xcert/wanchain-deploy-gateway",
-      "projectFolder": "packages/0xcert-wanchain-deploy-gateway",
-      "versionPolicyName": "patchAll"
-    }
   ]
 }

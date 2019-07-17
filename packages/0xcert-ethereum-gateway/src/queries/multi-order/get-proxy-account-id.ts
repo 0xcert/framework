@@ -13,7 +13,7 @@ const outputTypes = ['address'];
 export default async function(gateway: Gateway, proxyId: OrderGatewayProxy) {
   try {
     const attrs = {
-      to: gateway.id,
+      to: gateway.config.multiOrderId,
       data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [proxyId]).substr(2),
     };
     const res = await gateway.provider.post({

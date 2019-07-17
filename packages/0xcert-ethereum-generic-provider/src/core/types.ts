@@ -1,4 +1,25 @@
 /**
+ * Gateway configuration definition.
+ */
+export interface GatewayConfig {
+
+  /**
+   * Order gateway smart contract address.
+   */
+  multiOrderId: string;
+
+  /**
+   * Deploy asset ledger gateway smart contract address.
+   */
+  assetLedgerDeployOrderId: string;
+
+  /**
+   * Deploy value ledger gateway smart contract address.
+   */
+  valueLedgerDeployOrderId: string;
+}
+
+/**
  * Signature kinds.
  */
 export enum SignMethod {

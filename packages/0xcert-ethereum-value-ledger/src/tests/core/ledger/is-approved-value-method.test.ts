@@ -1,15 +1,13 @@
-import { DeployGateway } from '@0xcert/ethereum-deploy-gateway';
-import { Gateway } from '@0xcert/ethereum-gateway';
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  orderGateway: Gateway;
-  deployGateway: DeployGateway;
+  gateway: GatewayMock;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -37,10 +35,8 @@ spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
-  const deployGatewayId = stage.get('protocol').deployGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('orderGateway', new Gateway(provider, orderGatewayId));
-  stage.set('deployGateway', new DeployGateway(provider, deployGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.test('returns if account has the approved amount', async (ctx) => {
@@ -59,21 +55,7 @@ spec.test('checks if order gateway proxy is approved', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const token = ctx.get('protocol').erc20;
   const approveAmount = '5000000000000000000';
-  const gateway = ctx.get('orderGateway');
-  const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  ctx.false(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
-  await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
-  ctx.true(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
-  await token.instance.methods.approve(tokenTransferProxyId, '0').send({from: coinbase});
-  ctx.false(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
-});
-
-spec.test('checks if deploy gateway proxy is approved', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const coinbase = ctx.get('coinbase');
-  const token = ctx.get('protocol').erc20;
-  const approveAmount = '5000000000000000000';
-  const gateway = ctx.get('deployGateway');
+  const gateway = ctx.get('gateway');
   const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   ctx.false(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
   await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});

@@ -4,8 +4,7 @@ import { MultiOrder, MultiOrderAction, MultiOrderActionKind, ProviderError, Prov
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
-
-export const zeroAddress = '0x0000000000000000000000000000000000000000';
+import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
 
 /**
  * Generates order hash from input data.
@@ -32,7 +31,7 @@ export function createOrderHash(gateway: Gateway, order: MultiOrder) {
   return keccak256(
     hexToBytes([
       '0x',
-      gateway.id.substr(2),
+      gateway.config.multiOrderId.substr(2),
       order.makerId.substr(2),
       order.takerId.substr(2),
       temp.substr(2),
@@ -160,52 +159,6 @@ export function getActionParam1(action: MultiOrderAction) {
  */
 export function getActionValue(action: MultiOrderAction) {
   return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
-}
-
-/**
- * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
- */
-export function hexToBytes(hex: any) {
-  hex = hex.toString(16).replace(/^0x/i, '');
-  const bytes = [];
-
-  for (let c = 0; c < hex.length; c += 2) {
-    bytes.push(parseInt(hex.substr(c, 2), 16));
-  }
-
-  return bytes;
-}
-
-/**
- * Should be called to pad string to expected length
- * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
- * @param string String to be padded.
- * @param chars Chars that result string should have.
- * @param sign Sign by default 0.
- */
-export function rightPad(input: any, chars: number, sign?: string) {
-  const hasPrefix = /^0x/i.test(input) || typeof input === 'number';
-  input = input.toString(16).replace(/^0x/i, '');
-
-  const padding = (chars - input.length + 1 >= 0) ? chars - input.length + 1 : 0;
-
-  return (hasPrefix ? '0x' : '') + input + (new Array(padding).join(sign ? sign : '0'));
-}
-
-/**
- * Should be called to pad string to expected length
- * @note Based on: https://github.com/ethereum/web3.js/blob/1.0/packages/web3-utils/src/utils.js
- * @param string String to be padded.
- * @param chars Chars that result string should have.
- * @param sign Sign by default 0.
- * @param prefix Prefix by default calculated depending on input.
- */
-export function leftPad(input: any, chars: number, sign?: string, prefix?: boolean) {
-  const hasPrefix = prefix === undefined ? /^0x/i.test(input) || typeof input === 'number' : prefix;
-  input = input.toString(16).replace(/^0x/i, '');
-  const padding = (chars - input.length + 1 >= 0) ? chars - input.length + 1 : 0;
-
-  return (hasPrefix ? '0x' : '') + new Array(padding).join(sign ? sign : '0') + input;
 }
 
 /**

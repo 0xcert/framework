@@ -1,4 +1,4 @@
-import { GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, ProviderEvent, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
  * Metamask provider options interface.
@@ -31,14 +31,9 @@ export interface MetamaskProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
-
-  /**
-   * ID (address) of deploy gateway.
-   */
-  deployGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.

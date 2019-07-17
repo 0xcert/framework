@@ -1,13 +1,20 @@
-import { GenericProvider, Mutation, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, Mutation, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { GatewayBase, Order, OrderKind } from '@0xcert/scaffold';
-import { normalizeOrderIds } from '../lib/multi-order';
-import cancel from '../mutations/multi-order/cancel';
-import perform from '../mutations/multi-order/perform';
-import claimEthSign from '../queries/multi-order/claim-eth-sign';
-import claimPersonalSign from '../queries/multi-order/claim-personal-sign';
-import getOrderDataClaim from '../queries/multi-order/get-order-data-claim';
+import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
+import { normalizeOrderIds as normalizeMultiOrderIds } from '../lib/multi-order';
+import assetLedgerDeployOrderCancel from '../mutations/asset-ledger-deploy-order/cancel';
+import assetLedgerDeployOrderPerform from '../mutations/asset-ledger-deploy-order/perform';
+import multiOrderCancel from '../mutations/multi-order/cancel';
+import multiOrderPerform from '../mutations/multi-order/perform';
+import assetLedgerDeployOrderClaimEthSign from '../queries/asset-ledger-deploy-order/claim-eth-sign';
+import assetLedgerDeployOrderClaimPersonalSign from '../queries/asset-ledger-deploy-order/claim-personal-sign';
+import getAssetLedgerDeployOrderDataClaim from '../queries/asset-ledger-deploy-order/get-order-data-claim';
+import assetLedgerDeployOrderisValidSignature from '../queries/asset-ledger-deploy-order/is-valid-signature';
+import multiOrderClaimEthSign from '../queries/multi-order/claim-eth-sign';
+import multiOrderClaimPersonalSign from '../queries/multi-order/claim-personal-sign';
+import getMultiOrderDataClaim from '../queries/multi-order/get-order-data-claim';
 import getProxyAccountId from '../queries/multi-order/get-proxy-account-id';
-import isValidSignature from '../queries/multi-order/is-valid-signature';
+import multiOrderisValidSignature from '../queries/multi-order/is-valid-signature';
 import { OrderGatewayProxy } from './types';
 
 /**
@@ -18,7 +25,7 @@ export class Gateway implements GatewayBase {
   /**
    * Address of the smart contract that represents this order gateway.
    */
-  protected _id: string;
+  protected _config: GatewayConfig;
 
   /**
    * Provider instance.
@@ -28,10 +35,10 @@ export class Gateway implements GatewayBase {
   /**
    * Gets an instance of order gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
-   * @param id Address of the order gateway smart contract.
+   * @param config Gateway configuration.
    */
-  public static getInstance(provider: GenericProvider, id?: string): Gateway {
-    return new this(provider, id);
+  public static getInstance(provider: GenericProvider, config?: GatewayConfig): Gateway {
+    return new this(provider, config);
   }
 
   /**
@@ -39,16 +46,31 @@ export class Gateway implements GatewayBase {
    * @param provider  Provider class with which we comunicate with blockchain.
    * @param id Address of the order gateway smart contract.
    */
-  public constructor(provider: GenericProvider, id?: string) {
+  public constructor(provider: GenericProvider, config?: GatewayConfig) {
     this._provider = provider;
-    this._id = this._provider.encoder.normalizeAddress(id || provider.orderGatewayId);
+    this.config = config || provider.gatewayConfig;
   }
 
   /**
-   * Gets the address of the smart contract that represents this order gateway.
+   * Returns gateway config.
    */
-  public get id() {
-    return this._id;
+  public get config(): GatewayConfig {
+    return this._config || null;
+  }
+
+  /**
+   * Sets and normalizes gateway config.
+   */
+  public set config(config: GatewayConfig) {
+    if (typeof config !== 'undefined') {
+      this._config = {
+        multiOrderId: this._provider.encoder.normalizeAddress(config.multiOrderId),
+        assetLedgerDeployOrderId: this._provider.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
+        valueLedgerDeployOrderId: this._provider.encoder.normalizeAddress(config.valueLedgerDeployOrderId),
+      };
+    } else {
+      this._config = null;
+    }
   }
 
   /**
@@ -64,14 +86,21 @@ export class Gateway implements GatewayBase {
    */
   public async claim(order: Order): Promise<string> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeOrderIds(order, this._provider);
+      order = normalizeMultiOrderIds(order, this._provider);
       if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
-        return claimPersonalSign(this, order);
+        return multiOrderClaimPersonalSign(this, order);
       } else {
-        return claimEthSign(this, order);
+        return multiOrderClaimEthSign(this, order);
+      }
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+        return assetLedgerDeployOrderClaimPersonalSign(this, order);
+      } else {
+        return assetLedgerDeployOrderClaimEthSign(this, order);
       }
     } else {
-      // todo deploy
+      throw new Error('Not implemented');
     }
   }
 
@@ -82,10 +111,13 @@ export class Gateway implements GatewayBase {
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeOrderIds(order, this._provider);
-      return perform(this, order, claim);
+      order = normalizeMultiOrderIds(order, this._provider);
+      return multiOrderPerform(this, order, claim);
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      return assetLedgerDeployOrderPerform(this, order, claim);
     } else {
-      // todo deploy
+      throw new Error('Not implemented');
     }
   }
 
@@ -95,8 +127,13 @@ export class Gateway implements GatewayBase {
    */
   public async cancel(order: Order): Promise<Mutation> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeOrderIds(order, this._provider);
-      return cancel(this, order);
+      order = normalizeMultiOrderIds(order, this._provider);
+      return multiOrderCancel(this, order);
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      return assetLedgerDeployOrderCancel(this, order);
+    } else {
+      throw new Error('Not implemented');
     }
   }
 
@@ -115,8 +152,13 @@ export class Gateway implements GatewayBase {
    */
   public async isValidSignature(order: Order, claim: string) {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeOrderIds(order, this._provider);
-      return isValidSignature(this, order, claim);
+      order = normalizeMultiOrderIds(order, this._provider);
+      return multiOrderisValidSignature(this, order, claim);
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      return assetLedgerDeployOrderisValidSignature(this, order, claim);
+    } else {
+      throw new Error('Not implemented');
     }
   }
 
@@ -126,8 +168,13 @@ export class Gateway implements GatewayBase {
    */
   public async getOrderDataClaim(order: Order) {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeOrderIds(order, this._provider);
-      return getOrderDataClaim(this, order);
+      order = normalizeMultiOrderIds(order, this._provider);
+      return getMultiOrderDataClaim(this, order);
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      return getAssetLedgerDeployOrderDataClaim(this, order);
+    } else {
+      throw new Error('Not implemented');
     }
   }
 
