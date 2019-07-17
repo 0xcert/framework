@@ -1,6 +1,6 @@
 # Atomic orders
 
-If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orderr are the way to go.
+If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orders are the way to go.
 
 Atomic order is a way of creating an atomic swap within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all participants will receive their assets, or the mutation will fail and the operation will return to its starting point.
 

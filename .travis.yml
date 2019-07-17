@@ -16,5 +16,5 @@ after_success:
   # code coverage & codecov upload
   - rm -Rf .nyc_output && mkdir -p .nyc_output
   - find packages/**/.nyc_output -type f -name '*.json' -exec cp '{}' .nyc_output \;
-  - npx nyc report --reporter=text-lcov > .nyc_output/coverage.lcov
+  - npx nyc report --extension=.ts --reporter=text-lcov > .nyc_output/coverage.lcov
   - codecov
