@@ -202,7 +202,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Returns gateway config.
    */
   public get gatewayConfig(): GatewayConfig {
-    return this._gatewayConfig || null;
+    return this._gatewayConfig;
   }
 
   /**
