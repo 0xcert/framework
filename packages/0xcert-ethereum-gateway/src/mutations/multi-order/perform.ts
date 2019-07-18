@@ -13,10 +13,7 @@ const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, byt
  * @param claim Claim data.
  */
 export default async function(gateway: Gateway, order: MultiOrder, claim: string) {
-  let functionSignature = '0x8b1d8335'; // perform
-  if (order.takerId === zeroAddress) {
-    functionSignature = '0x04aa2cb7'; // performAnyTaker
-  }
+  const functionSignature = order.takerId === zeroAddress ? '0x04aa2cb7' : '0x8b1d8335'; // performAnyTaker or perform
   const recipeTuple = createRecipeTuple(gateway, order);
   const signatureTuple = createSignatureTuple(claim);
   const attrs = {
