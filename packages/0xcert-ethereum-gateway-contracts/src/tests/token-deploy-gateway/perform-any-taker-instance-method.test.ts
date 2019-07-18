@@ -205,7 +205,7 @@ spec.test('fails with expired claim', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 10000).send({ from: jane });
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '009003');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '010003');
 });
 
 spec.test('fails with invalid signature', async (ctx) => {
@@ -250,7 +250,7 @@ spec.test('fails with invalid signature', async (ctx) => {
   const signatureDataTuple = ctx.tuple(signatureData);
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 10000).send({ from: jane });
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '009004');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '010004');
 });
 
 spec.test('fails with invalid signature kind', async (ctx) => {
@@ -337,7 +337,7 @@ spec.test('fails trying to perform an already performed deploy', async (ctx) => 
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 10000).send({ from: jane });
   await tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner });
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '009006');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '010006');
 });
 
 spec.test('fails trying to perform a canceled deploy', async (ctx) => {
@@ -381,7 +381,7 @@ spec.test('fails trying to perform a canceled deploy', async (ctx) => {
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 10000).send({ from: jane });
   await tokenDeployGateway.instance.methods.cancel(createTuple).send({ from: jane });
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '009005');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.performAnyTaker(createTuple, signatureDataTuple).send({ from: owner }), '010005');
 });
 
 export default spec;

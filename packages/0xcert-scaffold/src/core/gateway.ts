@@ -164,7 +164,7 @@ export interface MultiOrderActionTransferValue {
 /**
  * Different order actions.
  */
-export type Order = MultiOrder | AssetLedgerDeployOrder;
+export type Order = MultiOrder | AssetLedgerDeployOrder | ValueLedgerDeployOrder;
 
 /**
  * List of available order kinds.
@@ -172,6 +172,7 @@ export type Order = MultiOrder | AssetLedgerDeployOrder;
 export enum OrderKind {
   MULTI_ORDER = 1,
   ASSET_LEDGER_DEPLOY_ORDER = 2,
+  VALUE_LEDGER_DEPLOY_ORDER = 3,
 }
 
 /**
@@ -211,7 +212,7 @@ export class MultiOrder {
 }
 
 /**
- * Deploy definition.
+ * Asset ledger deploy definition.
  */
 export class AssetLedgerDeployOrder {
 
@@ -234,6 +235,47 @@ export class AssetLedgerDeployOrder {
    * Data from which a new asset ledger will be created.
    */
   public assetLedgerData: AssetLedgerData;
+
+  /**
+   * Data defining a fungible token transfer.
+   */
+  public tokenTransferData: TokenTransferData;
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
+}
+
+/**
+ * Asset ledger deploy definition.
+ */
+export class ValueLedgerDeployOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.VALUE_LEDGER_DEPLOY_ORDER;
+
+  /**
+   * Address of the order maker.
+   */
+  public makerId: string;
+
+  /**
+   * Address of the order taker.
+   */
+  public takerId?: string;
+
+  /**
+   * Data from which a new value ledger will be created.
+   */
+  public valueLedgerData: ValueLedgerData;
 
   /**
    * Data defining a fungible token transfer.
@@ -285,6 +327,37 @@ export interface AssetLedgerData {
 
   /**
    * Id (address) of the owner of this asset ledger.
+   */
+  owner: string;
+}
+
+/**
+ * Value ledger deploy data definition.
+ */
+export interface ValueLedgerData {
+
+  /**
+   * Value Ledger name.
+   */
+  name: string;
+
+  /**
+   * Value Ledger symbol/ticker.
+   */
+  symbol: string;
+
+  /**
+   * Value ledger supply
+   */
+  supply: string;
+
+  /**
+   * Value ledger number of decimals.
+   */
+  decimals: string;
+
+  /**
+   * Id (address) of the owner of this value ledger (will own the whole supply at deploy).
    */
   owner: string;
 }

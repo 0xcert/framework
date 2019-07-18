@@ -116,7 +116,7 @@ spec.test('fails when not the maker tries to cancel deploy', async (ctx) => {
   };
   const createTuple = ctx.tuple(deployData);
 
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.cancel(createTuple).send({ from: owner }), '009007');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.cancel(createTuple).send({ from: owner }), '010007');
 });
 
 spec.test('fails when trying to cancel an alredy performed deploy', async (ctx) => {
@@ -160,7 +160,7 @@ spec.test('fails when trying to cancel an alredy performed deploy', async (ctx) 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 10000).send({ from: jane });
   await tokenDeployGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: owner });
 
-  await ctx.reverts(() => tokenDeployGateway.instance.methods.cancel(createTuple).send({ from: jane }), '009006');
+  await ctx.reverts(() => tokenDeployGateway.instance.methods.cancel(createTuple).send({ from: jane }), '010006');
 });
 
 export default spec;

@@ -13,13 +13,13 @@ contract TokenDeployGateway
   /**
    * @dev Error constants.
    */
-  string constant INVALID_SIGNATURE_KIND = "009001";
-  string constant TAKER_NOT_EQUAL_TO_SENDER = "009002";
-  string constant CLAIM_EXPIRED = "009003";
-  string constant INVALID_SIGNATURE = "009004";
-  string constant DEPLOY_CANCELED = "009005";
-  string constant DEPLOY_ALREADY_PERFORMED = "009006";
-  string constant MAKER_NOT_EQUAL_TO_SENDER = "009007";
+  string constant INVALID_SIGNATURE_KIND = "010001";
+  string constant TAKER_NOT_EQUAL_TO_SENDER = "010002";
+  string constant CLAIM_EXPIRED = "010003";
+  string constant INVALID_SIGNATURE = "010004";
+  string constant DEPLOY_CANCELED = "010005";
+  string constant DEPLOY_ALREADY_PERFORMED = "010006";
+  string constant MAKER_NOT_EQUAL_TO_SENDER = "010007";
 
   /**
    * @dev Enum of available signature kinds.

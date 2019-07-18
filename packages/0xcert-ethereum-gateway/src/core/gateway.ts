@@ -2,10 +2,13 @@ import { GatewayConfig, GenericProvider, Mutation, SignMethod } from '@0xcert/et
 import { GatewayBase, Order, OrderKind } from '@0xcert/scaffold';
 import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
 import { normalizeOrderIds as normalizeMultiOrderIds } from '../lib/multi-order';
+import { normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
 import assetLedgerDeployOrderCancel from '../mutations/asset-ledger-deploy-order/cancel';
 import assetLedgerDeployOrderPerform from '../mutations/asset-ledger-deploy-order/perform';
 import multiOrderCancel from '../mutations/multi-order/cancel';
 import multiOrderPerform from '../mutations/multi-order/perform';
+import valueLedgerDeployOrderCancel from '../mutations/value-ledger-deploy-order/cancel';
+import valueLedgerDeployOrderPerform from '../mutations/value-ledger-deploy-order/perform';
 import assetLedgerDeployOrderClaimEthSign from '../queries/asset-ledger-deploy-order/claim-eth-sign';
 import assetLedgerDeployOrderClaimPersonalSign from '../queries/asset-ledger-deploy-order/claim-personal-sign';
 import getAssetLedgerDeployOrderDataClaim from '../queries/asset-ledger-deploy-order/get-order-data-claim';
@@ -15,6 +18,10 @@ import multiOrderClaimPersonalSign from '../queries/multi-order/claim-personal-s
 import getMultiOrderDataClaim from '../queries/multi-order/get-order-data-claim';
 import getProxyAccountId from '../queries/multi-order/get-proxy-account-id';
 import multiOrderisValidSignature from '../queries/multi-order/is-valid-signature';
+import valueLedgerDeployOrderClaimEthSign from '../queries/value-ledger-deploy-order/claim-eth-sign';
+import valueLedgerDeployOrderClaimPersonalSign from '../queries/value-ledger-deploy-order/claim-personal-sign';
+import getValueLedgerDeployOrderDataClaim from '../queries/value-ledger-deploy-order/get-order-data-claim';
+import valueLedgerDeployOrderisValidSignature from '../queries/value-ledger-deploy-order/is-valid-signature';
 import { OrderGatewayProxy } from './types';
 
 /**
@@ -99,6 +106,13 @@ export class Gateway implements GatewayBase {
       } else {
         return assetLedgerDeployOrderClaimEthSign(this, order);
       }
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+        return valueLedgerDeployOrderClaimPersonalSign(this, order);
+      } else {
+        return valueLedgerDeployOrderClaimEthSign(this, order);
+      }
     } else {
       throw new Error('Not implemented');
     }
@@ -116,6 +130,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderPerform(this, order, claim);
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      return valueLedgerDeployOrderPerform(this, order, claim);
     } else {
       throw new Error('Not implemented');
     }
@@ -132,6 +149,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderCancel(this, order);
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      return valueLedgerDeployOrderCancel(this, order);
     } else {
       throw new Error('Not implemented');
     }
@@ -157,6 +177,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderisValidSignature(this, order, claim);
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      return valueLedgerDeployOrderisValidSignature(this, order, claim);
     } else {
       throw new Error('Not implemented');
     }
@@ -173,6 +196,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return getAssetLedgerDeployOrderDataClaim(this, order);
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      return getValueLedgerDeployOrderDataClaim(this, order);
     } else {
       throw new Error('Not implemented');
     }
