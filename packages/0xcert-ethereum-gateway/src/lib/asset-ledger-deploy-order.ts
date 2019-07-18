@@ -13,10 +13,9 @@ import { hexToBytes, leftPad, rightPad, stringToHex, zeroAddress } from './utils
  */
 export function createOrderHash(gateway: Gateway, order: AssetLedgerDeployOrder) {
 
-  let capabilities = '';
-  order.assetLedgerData.capabilities.forEach((c) => {
-    capabilities = capabilities + rightPad(getInterfaceCode(c), 64, '0', false);
-  });
+  const capabilities = order.assetLedgerData.capabilities
+    .map((c) => rightPad(getInterfaceCode(c), 64, '0', false))
+    .join('');
 
   const xcertData = keccak256(
     hexToBytes([
