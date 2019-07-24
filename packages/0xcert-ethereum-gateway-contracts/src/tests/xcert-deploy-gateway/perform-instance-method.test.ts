@@ -87,7 +87,7 @@ spec.test('performs a deploy', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -156,7 +156,7 @@ spec.test('fails when not enough balance', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -200,7 +200,7 @@ spec.test('fails when not specified taker', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -243,7 +243,7 @@ spec.test('fails with expired claim', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -286,7 +286,7 @@ spec.test('fails with invalid signature', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -331,7 +331,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -374,7 +374,7 @@ spec.test('fails trying to perform an already performed deploy', async (ctx) => 
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -418,7 +418,7 @@ spec.test('fails trying to perform a canceled deploy', async (ctx) => {
       symbol: 'TST',
       uriBase: 'https://base.com/',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0x33b641ae', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
