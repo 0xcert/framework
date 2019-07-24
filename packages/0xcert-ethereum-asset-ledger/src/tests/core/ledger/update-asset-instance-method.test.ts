@@ -19,6 +19,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -39,9 +40,11 @@ spec.test('update asset imprint', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.updateAsset('1', {
+  const mutation = await ledger.updateAsset('1', {
     imprint: '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7',
   });
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'TokenImprintUpdate');
   ctx.is(await xcert.instance.methods.tokenImprint('1').call(), '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7');
 });
 

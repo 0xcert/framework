@@ -20,5 +20,5 @@ export default async function(ledger: AssetLedger, senderId: string, receiverId:
     method: 'eth_sendTransaction',
     params: [attrs],
   });
-  return new Mutation(ledger.provider, res.result);
+  return new Mutation(ledger.provider, res.result, ledger);
 }

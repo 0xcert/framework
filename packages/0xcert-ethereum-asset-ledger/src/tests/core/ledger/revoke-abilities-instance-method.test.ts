@@ -24,6 +24,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -47,7 +48,9 @@ spec.test('revokes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
   await ledger.grantAbilities(bob, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
-  await ledger.revokeAbilities(bob, [GeneralAssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
+  const mutation = await ledger.revokeAbilities(bob, [GeneralAssetLedgerAbility.UPDATE_URI_BASE]);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'RevokeAbilities');
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
 });

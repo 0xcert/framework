@@ -22,6 +22,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -47,7 +48,9 @@ spec.test('disapproves operator', async (ctx) => {
   const ledger = ctx.get('ledger');
   await xcert.instance.methods.setApprovalForAll(bob, true).send({ from: coinbase });
   ctx.true(await xcert.instance.methods.isApprovedForAll(coinbase, bob).call());
-  await ledger.disapproveOperator(bob);
+  const mutation = await ledger.disapproveOperator(bob);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'ApprovalForAll');
   ctx.false(await xcert.instance.methods.isApprovedForAll(coinbase, bob).call());
 });
 

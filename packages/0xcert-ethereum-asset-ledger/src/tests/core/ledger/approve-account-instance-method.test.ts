@@ -22,6 +22,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -51,7 +52,9 @@ spec.test('approves account for token transfer', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
-  await ledger.approveAccount('1', bob);
+  const mutation = await ledger.approveAccount('1', bob);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Approval');
   ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
 });
 
