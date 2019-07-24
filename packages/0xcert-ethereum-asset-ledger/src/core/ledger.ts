@@ -381,6 +381,9 @@ export class AssetLedger implements AssetLedgerBase {
       : 2; // OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
 
+  /**
+   * Gets context for mutation event parsing.
+   */
   public getContext(): MutationEventSignature[] {
     return [
       {
