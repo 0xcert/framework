@@ -7,6 +7,7 @@ spec.test('exposes objects', (ctx) => {
   ctx.true(!!view.GenericProvider);
   ctx.true(!!view.SignMethod);
   ctx.true(!!view.Mutation);
+  ctx.true(!!view.NetworkKind);
 });
 
 export default spec;
