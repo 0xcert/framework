@@ -303,6 +303,7 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   protected async parseLogs() {
     try {
+      this._logs = [];
       const eventSignatures: MutationEventSignature[] = this._context.getContext();
       if (!eventSignatures) {
         return;
