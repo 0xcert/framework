@@ -101,3 +101,12 @@ export enum MutationEventTypeKind {
   NORMAL = 0,
   INDEXED = 1,
 }
+
+/**
+ * Network kind.
+ */
+export enum NetworkKind {
+  LIVE,
+  ROPSTEN,
+  RINKEBY,
+}
