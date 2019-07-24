@@ -1,6 +1,7 @@
 import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-address';
-import { MutationBase, MutationEvent } from '@0xcert/scaffold';
+import { MutationBase, MutationContext, MutationEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
+import { MutationEventSignature, MutationEventTypeKind } from './types';
 
 /**
  * Possible mutation statuses.
@@ -62,11 +63,22 @@ export class Mutation extends EventEmitter implements MutationBase {
   protected _status: MutationStatus = MutationStatus.INITIALIZED;
 
   /**
+   * Context.
+   */
+  protected _context?: any;
+
+  /**
+   * Mutations logs.
+   */
+  protected _logs: any[] = [];
+
+  /**
    * Initialize mutation.
    * @param provider Provider class with which we comunicate with blockchain.
    * @param id Smart contract address on which a mutation will be performed.
+   * @param context Mutation context.
    */
-  public constructor(provider: any, id: string) {
+  public constructor(provider: any, id: string, context?: MutationContext) {
     super();
 
     this._id = id;
@@ -74,6 +86,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     if (this._provider.sandbox) {
       this._status = MutationStatus.COMPLETED;
     }
+    this._context = context;
   }
 
   /**
@@ -109,6 +122,13 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   public get receiverId() {
     return this._receiverId;
+  }
+
+  /**
+   * Gets mutation logs.
+   */
+  public get logs() {
+    return this._logs;
   }
 
   /**
@@ -232,6 +252,7 @@ export class Mutation extends EventEmitter implements MutationBase {
         .then((num) => num < 0 ? 0 : num); // -1 when pending transaction is moved to the next block.
 
       if (this._confirmations >= this._provider.requiredConfirmations) {
+        await this.parseLogs();
         this._status = MutationStatus.COMPLETED;
         return this.emit(MutationEvent.COMPLETE, this); // success
       } else {
@@ -275,6 +296,42 @@ export class Mutation extends EventEmitter implements MutationBase {
       method: 'eth_blockNumber',
     });
     return parseInt(res.result);
+  }
+
+  /**
+   * Parses transaction receipt logs.
+   */
+  protected async parseLogs() {
+    try {
+      const eventSignatures: MutationEventSignature[] = this._context.getContext();
+      if (!eventSignatures) {
+        return;
+      }
+      const transactionReceipt = await this.getTransactionReceipt();
+      transactionReceipt.logs.forEach((log) => {
+        const eventSignature = eventSignatures.find((e) => e.topic == log.topics[0]);
+        if (!eventSignature) {
+          return;
+        }
+        const obj = {};
+        obj['event'] = eventSignature.name;
+        const normal = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.NORMAL);
+        const indexed = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.INDEXED);
+        if (normal.length > 0) {
+          const normalTypes = normal.map((n) => n.type);
+          const decoded = this._provider.encoder.decodeParameters(normalTypes, log.data);
+          normal.forEach((n, idx) => {
+            obj[n.name] = decoded[idx];
+          });
+        }
+        indexed.forEach((i, idx) => {
+          obj[i.name] = this._provider.encoder.decodeParameters([i.type], log.topics[idx + 1])[0];
+        });
+        this._logs.push(obj);
+      });
+    } catch (e) {
+      // We don't do anything.
+    }
   }
 
 }

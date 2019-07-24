@@ -75,3 +75,29 @@ export interface SendOptions {
    */
   jsonrpc?: string;
 }
+
+/**
+ * Mutation event signature definition.
+ */
+export interface MutationEventSignature {
+  topic: string;
+  name: string;
+  types: MutationEventType[];
+}
+
+/**
+ * Mutation event type definition.
+ */
+export interface MutationEventType {
+  kind: MutationEventTypeKind;
+  name: string;
+  type: string;
+}
+
+/**
+ * Mutation event type kind definition.
+ */
+export enum MutationEventTypeKind {
+  NORMAL = 0,
+  INDEXED = 1,
+}
