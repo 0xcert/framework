@@ -1,4 +1,4 @@
-import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
 import { GatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
   ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
@@ -165,4 +165,54 @@ export class ValueLedger implements ValueLedgerBase {
       : transfer(this, receiverId, recipe.value);
   }
 
+  /**
+   * Gets context for mutation event parsing.
+   */
+  public getContext(): MutationEventSignature[] {
+
+    return [
+      {
+        name: 'Transfer',
+        topic: '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'from',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'to',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'value',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'Approval',
+        topic: '0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'spender',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'value',
+            type: 'uint256',
+          },
+        ],
+      },
+    ];
+  }
 }

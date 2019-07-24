@@ -32,6 +32,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: stage.get('coinbase'),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -50,7 +51,9 @@ spec.test('approves account for value transfer', async (ctx) => {
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;
   const value = '300000000000000000000000';
-  await ledger.approveValue(value, bob);
+  const mutation = await ledger.approveValue(value, bob);
+  await mutation.complete();
+  ctx.is(mutation.logs[0].event, 'Approval');
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), value);
 });
 

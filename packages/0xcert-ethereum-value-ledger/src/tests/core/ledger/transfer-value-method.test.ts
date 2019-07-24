@@ -30,15 +30,18 @@ spec.test('transfers value to another account', async (ctx) => {
   const provider = new GenericProvider({
     client: ctx.web3,
     accountId: coinbase,
+    requiredConfirmations: 0,
   });
   const ledger = new ValueLedger(
     provider,
     ctx.get('protocol').erc20.instance.options.address,
   );
-  await ledger.transferValue({
+  const mutation = await ledger.transferValue({
     receiverId: bob,
     value: amount,
   });
+  await mutation.complete();
+  ctx.is(mutation.logs[0].event, 'Transfer');
   ctx.is(await token.instance.methods.balanceOf(bob).call(), amount);
 });
 
@@ -51,17 +54,20 @@ spec.test('transfers approved amount to another account', async (ctx) => {
   const provider = new GenericProvider({
     client: ctx.web3,
     accountId: bob,
+    requiredConfirmations: 0,
   });
   const ledger = new ValueLedger(
     provider,
     ctx.get('protocol').erc20.instance.options.address,
   );
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
-  await ledger.transferValue({
+  const mutation = await ledger.transferValue({
     senderId: coinbase,
     receiverId: sara,
     value: approveAmount,
   });
+  await mutation.complete();
+  ctx.is(mutation.logs[0].event, 'Transfer');
   ctx.is(await token.instance.methods.balanceOf(sara).call(), approveAmount);
 });
 

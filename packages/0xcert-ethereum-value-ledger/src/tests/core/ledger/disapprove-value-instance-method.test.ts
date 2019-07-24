@@ -28,6 +28,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: stage.get('coinbase'),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -47,7 +48,9 @@ spec.test('disapproves account for value transfer', async (ctx) => {
   const token = ctx.get('protocol').erc20;
   const value = '300000000000000000000000';
   await token.instance.methods.approve(bob, value).send({ from: coinbase });
-  await ledger.disapproveValue(bob);
+  const mutation = await ledger.disapproveValue(bob);
+  await mutation.complete();
+  ctx.is(mutation.logs[0].event, 'Approval');
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), '0');
 });
 
