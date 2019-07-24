@@ -1,14 +1,14 @@
 {
-  "name": "@0xcert/wanchain-http-provider",
+  "name": "@0xcert/wanchain-generic-provider",
   "version": "1.7.4",
-  "description": "Implementation of HTTP communication provider for the Wanchain blockchain.",
+  "description": "Basic implementation of communication provider for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npm run clean && npx tsc",
     "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "test": "npm run lint && npx nyc npx hayspec test"
+    "test": "npm run lint && npx nyc npx specron test"
   },
   "hayspec": {
     "require": [
@@ -59,20 +59,25 @@
     "npm",
     "libraries",
     "smart-contract",
-    "wanchain",
+    "ethereum",
     "zxc"
   ],
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/ethereum-sandbox": "1.7.4",
+    "@types/node": "^10.12.24",
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
     "nyc": "^14.1.1",
+    "promised-timeout": "^0.5.1",
+    "solc": "0.5.6",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/wanchain-generic-provider": "1.7.4",
-    "@0xcert/utils": "1.7.4"
+    "@0xcert/wanchain-utils": "1.7.4",
+    "@0xcert/ethereum-generic-provider": "1.7.4"
   }
 }

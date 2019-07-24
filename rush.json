@@ -138,6 +138,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/wanchain-generic-provider",
+      "projectFolder": "packages/0xcert-wanchain-generic-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/wanchain-http-provider",
       "projectFolder": "packages/0xcert-wanchain-http-provider",
       "versionPolicyName": "patchAll"
