@@ -1,4 +1,4 @@
-import { GatewayConfig, GenericProvider, Mutation, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { GatewayBase, Order, OrderKind } from '@0xcert/scaffold';
 import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
 import { normalizeOrderIds as normalizeMultiOrderIds } from '../lib/multi-order';
@@ -204,4 +204,95 @@ export class Gateway implements GatewayBase {
     }
   }
 
+  /**
+   * Gets context for mutation event parsing.
+   */
+  public getContext(): MutationEventSignature[] {
+    return [
+      {
+        name: 'ProxyChange',
+        topic: '0x8edda873a8ad561ecebeb71ceb3ae6bcb70c2b76a3fcb869859895c4d4fc7416',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'index',
+            type: 'uint256',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'proxy',
+            type: 'address',
+          },
+        ],
+      },
+      {
+        name: 'Perform',
+        topic: '0xdd97b854c02f699ea0d8984479d0012fbbbd0f4f80fc2e099315f6c47a3da178',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'maker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'taker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'claim',
+            type: 'bytes32',
+          },
+        ],
+      },
+      {
+        name: 'Cancel',
+        topic: '0x421b43caf093b5e58d1ea89ca0d80151eda923342cf3cfddf5eb6b30d4947ba0',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'maker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'taker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'claim',
+            type: 'bytes32',
+          },
+        ],
+      },
+      {
+        name: 'Perform',
+        topic: '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'maker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'taker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'createdContract',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'claim',
+            type: 'bytes32',
+          },
+        ],
+      },
+    ];
+  }
 }

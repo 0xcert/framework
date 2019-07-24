@@ -32,10 +32,12 @@ spec.before(async (stage) => {
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
+    requiredConfirmations: 0,
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
+    requiredConfirmations: 0,
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
@@ -85,7 +87,10 @@ spec.test('marks tokenDeployGateway order as canceled on the network which preve
 
   const tokenDeployGatewayBob = new Gateway(bobGenericProvider, { multiOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
   const claim = await tokenDeployGatewayBob.claim(order);
-  await tokenDeployGatewayBob.cancel(order).then(() => ctx.sleep(200));
+  const mutation = await tokenDeployGatewayBob.cancel(order);
+  await mutation.complete();
+
+  ctx.is((mutation.logs[0]).event, 'Cancel');
 
   const xcertDeployGatewayCoinbase = new Gateway(coinbaseGenericProvider, tokenDeployGatewayId);
   await ctx.throws(() => xcertDeployGatewayCoinbase.perform(order, claim));

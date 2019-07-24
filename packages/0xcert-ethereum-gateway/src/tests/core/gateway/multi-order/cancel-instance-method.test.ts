@@ -40,10 +40,12 @@ spec.before(async (stage) => {
   const makerGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
+    requiredConfirmations: 0,
   });
   const takerGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
+    requiredConfirmations: 0,
   });
 
   stage.set('makerGenericProvider', makerGenericProvider);
@@ -119,7 +121,10 @@ spec.test('marks gateway order as canceled on the network which prevents an tran
 
   const makerGateway = new Gateway(makerGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  await makerGateway.cancel(order).then(() => ctx.sleep(200));
+  const mutation = await makerGateway.cancel(order);
+  await mutation.complete();
+
+  ctx.is((mutation.logs[0]).event, 'Cancel');
 
   const takerGateway = new Gateway(takerGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   await ctx.throws(() => takerGateway.perform(order, claim).then(() => ctx.sleep(200)));

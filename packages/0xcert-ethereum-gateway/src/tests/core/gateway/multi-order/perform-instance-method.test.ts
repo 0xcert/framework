@@ -39,15 +39,18 @@ spec.before(async (stage) => {
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
+    requiredConfirmations: 0,
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
+    requiredConfirmations: 0,
   });
 
   const saraGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: sara,
+    requiredConfirmations: 0,
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
@@ -129,7 +132,10 @@ spec.test('submits gateway multi order to the network which executes transfers',
   const claim = await coinbaseGateway.claim(order);
 
   const gateway = new Gateway(bobGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  await gateway.perform(order, claim).then(() => ctx.sleep(200));
+  const mutation = await gateway.perform(order, claim);
+  await mutation.complete();
+
+  ctx.is((mutation.logs[0]).event, 'Perform');
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);

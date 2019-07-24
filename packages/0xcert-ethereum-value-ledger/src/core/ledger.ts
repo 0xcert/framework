@@ -169,7 +169,6 @@ export class ValueLedger implements ValueLedgerBase {
    * Gets context for mutation event parsing.
    */
   public getContext(): MutationEventSignature[] {
-
     return [
       {
         name: 'Transfer',

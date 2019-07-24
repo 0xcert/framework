@@ -25,5 +25,5 @@ export default async function(gateway: Gateway, order: MultiOrder, claim: string
     method: 'eth_sendTransaction',
     params: [attrs],
   });
-  return new Mutation(gateway.provider, res.result);
+  return new Mutation(gateway.provider, res.result, gateway);
 }

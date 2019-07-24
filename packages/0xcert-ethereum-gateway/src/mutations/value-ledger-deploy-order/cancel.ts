@@ -22,5 +22,5 @@ export default async function(gateway: Gateway, order: ValueLedgerDeployOrder) {
     method: 'eth_sendTransaction',
     params: [attrs],
   });
-  return new Mutation(gateway.provider, res.result);
+  return new Mutation(gateway.provider, res.result, gateway);
 }

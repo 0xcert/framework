@@ -34,11 +34,13 @@ spec.before(async (stage) => {
     client: stage.web3,
     accountId: coinbase,
     gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
+    requiredConfirmations: 0,
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
     gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
+    requiredConfirmations: 0,
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
@@ -135,10 +137,10 @@ spec.test('submits dynamic asset ledger deploy order to the network which execut
 
   const gatewayCoinbase = new Gateway(coinbaseGenericProvider);
   const mutation = await gatewayCoinbase.perform(order, claim);
-  const receipt = await ctx.web3.eth.getTransactionReceipt(mutation.id);
+  await mutation.complete();
 
-  const performEvent = receipt.logs.filter((r) => { return r.topics[0] === '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2'; });
-  const xcertAddress = (gatewayCoinbase.provider.encoder.decodeParameters(['address', 'bytes32'], performEvent[0].data))[0];
+  ctx.is((mutation.logs[0]).event, 'Perform');
+  const xcertAddress = (mutation.logs[0]).createdContract;
 
   const xcert = ctx.get('protocol').xcert;
   xcert.instance.options.address = xcertAddress;
