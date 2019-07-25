@@ -199,7 +199,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     const start = this._status === MutationStatus.INITIALIZED;
 
     if (this.isCompleted()) {
-      return this;
+      return this.resolveCurrentState();
     } else if (!this.isPending()) {
       this._status = MutationStatus.PENDING;
       this._started = Date.now();
@@ -213,7 +213,7 @@ export class Mutation extends EventEmitter implements MutationBase {
         resolve();
       }
       if (start) {
-        this.loopUntilResolved();
+        this.loopUntilCompleted();
       }
     });
 
@@ -233,13 +233,16 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Helper methods for waiting to resolve mutation.
-   * IMPORTANT: After submiting a transaction to the Ethereum network, the
-   * transaction can not be found for some seconds. This happens because the
-   * Ethereum nodes in a cluster are not in sync and we must wait some time for
-   * this to happen.
+   * Resolves mutation with its current data.
    */
-  protected async loopUntilResolved() {
+  public async resolve() {
+    return this.resolveCurrentState();
+  }
+
+  /**
+   * Helper method that resolves current mutation status.
+   */
+  protected async resolveCurrentState() {
     const tx = await this.getTransactionObject();
     if (tx && (!tx.to || tx.to === '0x0')) {
       tx.to = await this.getTransactionReceipt().then((r) => r ? r.contractAddress : null);
@@ -259,8 +262,19 @@ export class Mutation extends EventEmitter implements MutationBase {
         this.emit(MutationEvent.CONFIRM, this);
       }
     }
+  }
+
+  /**
+   * Helper methods for waiting until mutation is completed.
+   * IMPORTANT: After submiting a transaction to the Ethereum network, the
+   * transaction can not be found for some seconds. This happens because the
+   * Ethereum nodes in a cluster are not in sync and we must wait some time for
+   * this to happen.
+   */
+  protected async loopUntilCompleted() {
+    await this.resolveCurrentState();
     if (this._provider.mutationTimeout === -1 || Date.now() - this._started < this._provider.mutationTimeout) {
-      this._timer = setTimeout(this.loopUntilResolved.bind(this), this._speed);
+      this._timer = setTimeout(this.loopUntilCompleted.bind(this), this._speed);
     } else {
       this.emit(MutationEvent.ERROR, new Error('Mutation has timed out'));
     }

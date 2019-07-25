@@ -86,6 +86,11 @@ export interface MutationBase {
   complete(): Promise<this>;
 
   /**
+   * Resolves current mutation status.
+   */
+  resolve(): Promise<this>;
+
+  /**
    * Stops listening for confirmations.
    */
   forget(): this;
