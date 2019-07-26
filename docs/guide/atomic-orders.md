@@ -26,7 +26,7 @@ The 0xcert Framework provides automatization to ensure that a specific agreement
 
 There is no middle ground for an atomic swap's outcome which reduces the possibility of one party taking advantage over the other.
 
-Atomic swaps are performed through the Order Gateway structure which is permanently deployed on the 0xcert platform and is publicly available to everyone. A fixed sequence of required steps and conditions is secured by cryptography embedded in the order gateway. Once all steps are completed, the swap is confirmed and successfully settled. If not, the atomic swap process is abolished and canceled, with no effect on the assets that were subject to swap.
+Atomic swaps are performed through the Order Gateway structure which is permanently deployed on the 0xcert platform and is publicly available to everyone. A fixed sequence of required steps and conditions is secured by cryptography embedded in the order gateway. Once all ste∂ps are completed, the swap is confirmed and successfully settled. If not, the atomic swap process is abolished and canceled, with no effect on the assets that were subject to swap.
 
 While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on-chain. This makes every single step of the operation trackable and verifiable.
 
@@ -35,7 +35,7 @@ For more information on the actual process of atomic operation, please check [th
 :::
 
 ::: card Learn by example
-Click [here](https://stackblitz.com/edit/atomic-order-example) to check the live example for this section.
+Click [here](https://stackblitz.com/edit/gateway-example) to check the live example for this section.
 :::
 
 ## Installation
@@ -54,17 +54,16 @@ To demonstrate the greatness of atomic swap operations, we will transfer an exis
 
 These guidelines assume that you have followed the complete guide and taken all the steps from both [Certification](/guide/certification.html) and [Asset management](/guide/asset-management.html) sections, where we created a new asset with the ID `100`. For the purpose of this guide, please make sure you have opened two MetaMask accounts. In this example, we'll name the second account as `0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa`, you may change it if you like.
 
-As usual, we first import a module into the application. This time, we import the `OrderGateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
+As usual, we first import a module into the application. This time, we import the `Gateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
 
 ```ts
-import { OrderGateway } from '@0xcert/ethereum-gateway';
+import { Gateway } from '@0xcert/ethereum-gateway';
 ```
 
-Then, we create a new instance of the `OrderGateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
+Then, we create a new instance of the `Gateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
 
 ```ts
-const orderGatewayId = '0x073d230a53bffc8295d9a5247296213298e3fbcf';
-const orderGateway = OrderGateway.getInstance(provider, orderGatewayId);
+const gateway = Gateway.getInstance(provider, getGatewayConfig(NetworkKind.ROPSTEN));
 ```
 
 Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/guide/asset-management.html) section into our second MetaMask wallet. In the second action, we create a new asset with ID `200` and imprint created in the [Certification](/guide/certification.html) section.
@@ -74,9 +73,10 @@ For the purpose of simplicity of this guide, we will be both the maker and the t
 :::
 
 ```ts
-import { Order, MultiOrderActionKind } from '@0xcert/ethereum-gateway';
+import { MultiOrder, MultiOrderActionKind } from '@0xcert/ethereum-gateway';
 
-const order = {
+const order = {,
+    kind: OrderKind.MULTI_ORDER,
     makerId: provider.accountId,
     takerId: provider.accountId,
     actions: [
@@ -98,7 +98,7 @@ const order = {
     ],
     seed: Date.now(), // unique order identification
     expiration: Date.now() + 60 * 60 * 24, // 1 day
-} as Order;
+} as MultiOrder;
 ```
 
 When you work on a real case, make sure to set the `takerId` correctly. If you want your colleague or a third party to execute an order, you should insert their Ethereum wallet address as the `takerId`.
@@ -106,23 +106,23 @@ When you work on a real case, make sure to set the `takerId` correctly. If you w
 The following step is made only by the maker, i.e. the person who creates an order.
 
 ```ts
-const signedClaim = await orderGateway.claim(order);
+const signedClaim = await gateway.claim(order);
 ```
 
 By calling the `claim` function, we sign the order. Now, we need to send this signature to the taker, together with the `order` object via an arbitrary communication channel.
 
-All participants in the order must unlock the transferred assets and allow the `OrderGateway` to manage them. Make sure this step is done by every party that performs a transfer within order operations. In the example below, we authorize the `OrderGateway` to transfer the asset with ID `100` to another address and give it the ability to create assets.
+All participants in the order must unlock the transferred assets and allow the `Gateway` to manage them. Make sure this step is done by every party that performs a transfer within order operations. In the example below, we authorize the `Gateway` to transfer the asset with ID `100` to another address and give it the ability to create assets.
 
 The [API](/api/core.html#asset-proof) section contains information about how to authorize the order gateway for all the assets simultaneously, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
 
 ```ts
 // approve account for transfering asset
-await assetLedger.approveAccount('100', orderGateway).then((mutation) => {
+await assetLedger.approveAccount('100', gateway).then((mutation) => {
     return mutation.complete();
 });
 
 // assign ability to mint
-await assetLedger.grantAbilities(orderGateway, [GeneralAssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
+await assetLedger.grantAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]).then((mutation) => {
     return mutation.complete();
 });
 ```
@@ -130,14 +130,14 @@ await assetLedger.grantAbilities(orderGateway, [GeneralAssetLedgerAbility.CREATE
 Don't forget to create an instance of `assetLedger` and to import `GeneralAssetLedgerAbility`.
 :::
 
-::: card Why instance of OrderGateway?
-Order gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however the instance of `OrderGateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the order gateway, but we recommend using `OrderGateway` instance and let the framework handle it for you.
+::: card Why instance of Gateway?
+Gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however the instance of `Gateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the order gateway, but we recommend using `Gateway` instance and let the framework handle it for you.
 :::
 
 The following step is done only by the taker, who executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both maker and taker, since we are present on both sides.
 
 ```ts
-const mutation = await orderGateway.perform(order, signedClaim).then((mutation) => {
+const mutation = await gateway.perform(order, signedClaim).then((mutation) => {
     return mutation.complete();
 });
 ```
