@@ -114,7 +114,7 @@ contract TokenDeployGateway
   mapping(bytes32 => bool) public deployPerformed;
 
   /**
-   * @dev This event emmits when deploy is performed.
+   * @dev This event emits when deploy is performed.
    */
   event Perform(
     address indexed _maker,
@@ -124,7 +124,7 @@ contract TokenDeployGateway
   );
 
   /**
-   * @dev This event emmits when deploy is cancelled.
+   * @dev This event emits when deploy is cancelled.
    */
   event Cancel(
     address indexed _maker,

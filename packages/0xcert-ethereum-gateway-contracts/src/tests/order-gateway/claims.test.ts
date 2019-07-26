@@ -36,7 +36,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/'],
   });
   await cat.instance.methods
     .create(ctx.get('jane'), 1)

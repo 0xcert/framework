@@ -46,7 +46,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '0xa65de9e6', []],
   });
   ctx.set('cat', cat);
 });

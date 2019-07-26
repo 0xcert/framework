@@ -47,7 +47,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/'],
   });
   await cat.instance.methods
     .create(ctx.get('jane'), 1)
@@ -84,7 +84,7 @@ spec.beforeEach(async (ctx) => {
   const dog = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['dog', 'DOG', 'http://0xcert.org/'],
+    args: ['dog', 'DOG', 'https://0xcert.org/'],
   });
   await dog.instance.methods
     .create(ctx.get('jane'), 1)
@@ -103,7 +103,7 @@ spec.beforeEach(async (ctx) => {
   const bee = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['bee', 'BEE', 'http://0xcert.org/'],
+    args: ['bee', 'BEE', 'https://0xcert.org/'],
   });
   await bee.instance.methods
     .create(ctx.get('bob'), 3)
@@ -122,7 +122,7 @@ spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['fox', 'FOX', 'http://0xcert.org/'],
+    args: ['fox', 'FOX', 'https://0xcert.org/'],
   });
   await fox.instance.methods
     .create(ctx.get('bob'), 1)

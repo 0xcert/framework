@@ -111,7 +111,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.erc721Metadata.abi,
       bytecode: contracts.erc721Metadata.bytecode,
-      args: ['ERC721 Metadata', 'ERC721Metadata', 'http://0xcert.org/'],
+      args: ['ERC721 Metadata', 'ERC721Metadata', 'https://0xcert.org/'],
       from,
     });
   }
@@ -138,7 +138,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Destroyable Xcert', 'DestroyableXcert', 'http://0xcert.org/', '0x1', ['0x9d118770']],
+      args: ['Destroyable Xcert', 'DestroyableXcert', 'https://0xcert.org/', '0x1', ['0x9d118770']],
       from,
     });
 
@@ -154,7 +154,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2', ['0xbda0e852']],
+      args: ['Mutable Xcert', 'MutableXcert', 'https://0xcert.org/', '0x2', ['0xbda0e852']],
       from,
     });
 
@@ -170,7 +170,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3', ['0xbedb86fb']],
+      args: ['Pausable Xcert', 'PausableXcert', 'https://0xcert.org/', '0x3', ['0xbedb86fb']],
       from,
     });
 
@@ -186,7 +186,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4', ['0x20c5429b']],
+      args: ['Revokable Xcert', 'RevokableXcert', 'https://0xcert.org/', '0x4', ['0x20c5429b']],
       from,
     });
 
@@ -202,7 +202,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5', []],
+      args: ['Xcert', 'Xcert', 'https://0xcert.org/', '0x5', []],
       from,
     });
 

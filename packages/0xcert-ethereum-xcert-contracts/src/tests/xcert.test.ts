@@ -32,7 +32,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
   ctx.set('id3', '125');
-  ctx.set('uriBase', 'http://0xcert.org/');
+  ctx.set('uriBase', 'https://0xcert.org/');
   ctx.set('imprint1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
   ctx.set('imprint2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
   ctx.set('imprint3', '0xc77a290be17f8a4ef301c4ca46497c5beb4a0556ec2d5a04dce4ce6ebd439ad1');

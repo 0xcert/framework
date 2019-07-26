@@ -27,7 +27,7 @@ spec.test('returns ledger info (Xcert smart contract)', async (ctx) => {
   ctx.deepEqual(await ledger.getInfo(), {
     name: 'Xcert',
     symbol: 'Xcert',
-    uriBase: 'http://0xcert.org/',
+    uriBase: 'https://0xcert.org/',
     schemaId: '0x0500000000000000000000000000000000000000000000000000000000000000',
     supply: '0',
   });
@@ -40,7 +40,7 @@ spec.test('returns ledger info (erc721 metadata smart contract)', async (ctx) =>
   ctx.deepEqual(await ledger.getInfo(), {
     name: 'ERC721 Metadata',
     symbol: 'ERC721Metadata',
-    uriBase: 'http://0xcert.org/',
+    uriBase: 'https://0xcert.org/',
     schemaId: null,
     supply: null,
   });

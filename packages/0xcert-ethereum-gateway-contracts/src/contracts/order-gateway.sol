@@ -139,7 +139,7 @@ contract OrderGateway is
   mapping(bytes32 => bool) public orderPerformed;
 
   /**
-   * @dev This event emmits when tokens change ownership.
+   * @dev This event emits when tokens change ownership.
    */
   event Perform(
     address indexed _maker,
@@ -148,7 +148,7 @@ contract OrderGateway is
   );
 
   /**
-   * @dev This event emmits when transfer order is cancelled.
+   * @dev This event emits when transfer order is cancelled.
    */
   event Cancel(
     address indexed _maker,
@@ -157,7 +157,7 @@ contract OrderGateway is
   );
 
   /**
-   * @dev This event emmits when proxy address is changed..
+   * @dev This event emits when proxy address is changed..
    */
   event ProxyChange(
     uint256 indexed _index,
