@@ -99,9 +99,9 @@ contract TokenDeployGateway
   }
 
   /**
-   * @dev Address of token transfer proxy.
+   * @dev Instance of token transfer proxy.
    */
-  address public tokenTransferProxy;
+  Proxy public tokenTransferProxy;
 
   /**
    * @dev Mapping of all cancelled deploys.
@@ -141,7 +141,7 @@ contract TokenDeployGateway
   )
     public
   {
-    tokenTransferProxy = _tokenTransferProxy;
+    tokenTransferProxy = Proxy(_tokenTransferProxy);
   }
   
   /**
@@ -358,7 +358,7 @@ contract TokenDeployGateway
     private
     returns (address _token)
   {
-    Proxy(tokenTransferProxy).execute(
+    tokenTransferProxy.execute(
       _deploy.transferData.token,
       _deploy.maker,
       _deploy.transferData.to,
@@ -391,7 +391,7 @@ contract TokenDeployGateway
       _deploy.transferData.to = msg.sender;
     }
 
-    Proxy(tokenTransferProxy).execute(
+    tokenTransferProxy.execute(
       _deploy.transferData.token,
       _deploy.maker,
       _deploy.transferData.to,

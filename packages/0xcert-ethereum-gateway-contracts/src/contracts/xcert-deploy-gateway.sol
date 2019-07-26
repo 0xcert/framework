@@ -2,8 +2,6 @@ pragma solidity 0.5.6;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
-import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
-import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 import "./xcert-custom.sol";
 
 /**
@@ -102,9 +100,9 @@ contract XcertDeployGateway
   }
 
   /**
-   * @dev Address of token transfer proxy.
+   * @dev Instance of token transfer proxy.
    */
-  address public tokenTransferProxy;
+  Proxy public tokenTransferProxy;
 
   /**
    * @dev Address of asset create proxy.
@@ -150,7 +148,7 @@ contract XcertDeployGateway
   )
     public
   {
-    tokenTransferProxy = _tokenTransferProxy;
+    tokenTransferProxy = Proxy(_tokenTransferProxy);
     assetCreateProxy = _assetCreateProxy;
   }
   
@@ -369,7 +367,7 @@ contract XcertDeployGateway
     private
     returns (address _xcert)
   {
-    Proxy(tokenTransferProxy).execute(
+    tokenTransferProxy.execute(
       _deploy.transferData.token,
       _deploy.maker,
       _deploy.transferData.to,
@@ -404,7 +402,7 @@ contract XcertDeployGateway
       _deploy.transferData.to = msg.sender;
     }
 
-    Proxy(tokenTransferProxy).execute(
+    tokenTransferProxy.execute(
       _deploy.transferData.token,
       _deploy.maker,
       _deploy.transferData.to,
