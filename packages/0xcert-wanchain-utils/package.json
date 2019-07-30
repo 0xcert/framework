@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-utils",
-  "version": "1.7.4",
+  "version": "1.8.0",
   "description": "General Wanchain utility module with helper functions for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,6 +72,6 @@
   },
   "dependencies": {
     "ethers": "4.0.0-beta.1",
-    "@0xcert/ethereum-utils": "1.7.4"
+    "@0xcert/ethereum-utils": "1.8.0"
   }
 }

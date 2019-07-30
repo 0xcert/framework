@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-http-provider",
-  "version": "1.7.4",
+  "version": "1.8.0",
   "description": "Implementation of HTTP communication provider for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,8 +72,8 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.7.4",
-    "@0xcert/wanchain-utils": "1.7.4",
-    "@0xcert/utils": "1.7.4"
+    "@0xcert/ethereum-generic-provider": "1.8.0",
+    "@0xcert/wanchain-utils": "1.8.0",
+    "@0xcert/utils": "1.8.0"
   }
 }

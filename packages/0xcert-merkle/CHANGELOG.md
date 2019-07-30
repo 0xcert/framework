@@ -1,6 +1,11 @@
 # Change Log - @0xcert/merkle
 
-This log was last generated on Wed, 19 Jun 2019 10:31:05 GMT and should not be manually modified.
+This log was last generated on Tue, 30 Jul 2019 10:46:40 GMT and should not be manually modified.
+
+## 1.8.0
+Tue, 30 Jul 2019 10:46:40 GMT
+
+*Version update only*
 
 ## 1.7.4
 Wed, 19 Jun 2019 10:31:05 GMT
