@@ -339,7 +339,6 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     const payload = { ...options };
 
     if (payload.method === 'eth_sendTransaction' && payload.params.length) {
-
       if (this.sandbox || typeof payload.params[0].gas === 'undefined') {
         const res = await this.request({
           ...payload,
