@@ -1,6 +1,16 @@
 # Change Log - @0xcert/ethereum-sandbox
 
-This log was last generated on Wed, 05 Jun 2019 08:40:14 GMT and should not be manually modified.
+This log was last generated on Wed, 19 Jun 2019 10:31:05 GMT and should not be manually modified.
+
+## 1.7.4
+Wed, 19 Jun 2019 10:31:05 GMT
+
+*Version update only*
+
+## 1.7.3
+Thu, 13 Jun 2019 12:48:22 GMT
+
+*Version update only*
 
 ## 1.7.2
 Wed, 05 Jun 2019 08:40:14 GMT
