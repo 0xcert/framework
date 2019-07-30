@@ -1,3 +1,5 @@
+import { AssetLedgerBase, GatewayBase, ValueLedgerBase } from '..';
+
 /**
  * Mutation event kinds.
  */
@@ -6,6 +8,11 @@ export enum MutationEvent {
   CONFIRM = 'confirm',
   ERROR = 'error',
 }
+
+/**
+ * Mutation context base.
+ */
+export type MutationContext = AssetLedgerBase | ValueLedgerBase | GatewayBase;
 
 /**
  * Mutation interface.
@@ -31,6 +38,11 @@ export interface MutationBase {
    * Id(address) of the receiver.
    */
   receiverId: string;
+
+  /**
+   * Mutation logs.
+   */
+  logs: any[];
 
   /**
    * Checks if mutation in pending.
@@ -72,6 +84,11 @@ export interface MutationBase {
    * Waits until mutation is resolved (mutation reaches the specified number of confirmations).
    */
   complete(): Promise<this>;
+
+  /**
+   * Resolves current mutation status.
+   */
+  resolve(): Promise<this>;
 
   /**
    * Stops listening for confirmations.

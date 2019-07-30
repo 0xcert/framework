@@ -1,14 +1,14 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   protocol: Protocol;
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
+  gateway: GatewayMock;
   coinbase: string;
   bob: string;
 }>();
@@ -37,7 +37,7 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.test('checks if account is operator', async (ctx) => {

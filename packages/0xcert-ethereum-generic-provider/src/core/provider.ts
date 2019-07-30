@@ -2,7 +2,7 @@ import { Encode, Encoder } from '@0xcert/ethereum-utils';
 import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
-import { RpcResponse, SendOptions, SignMethod } from './types';
+import { GatewayConfig, RpcResponse, SendOptions, SignMethod } from './types';
 
 /**
  * Configuration interface for generic provider.
@@ -45,9 +45,9 @@ export interface GenericProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -116,9 +116,9 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public sandbox: Boolean;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  protected _orderGatewayId: string;
+  protected _gatewayConfig: GatewayConfig;
 
   /**
    * Default account from which all mutations are made.
@@ -149,7 +149,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     super();
     this.encoder = typeof options.encoder !== 'undefined' ? options.encoder : new Encoder();
     this.accountId = options.accountId;
-    this.orderGatewayId = options.orderGatewayId;
+    this.gatewayConfig = options.gatewayConfig;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
     this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/xcert-mock.json';
     this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/token-mock.json';
@@ -199,17 +199,25 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
-   * Returns order gateway ID (address).
+   * Returns gateway config.
    */
-  public get orderGatewayId(): string {
-    return this._orderGatewayId || null;
+  public get gatewayConfig(): GatewayConfig {
+    return this._gatewayConfig;
   }
 
   /**
-   * Sets and normalizes account ID.
+   * Sets and normalizes gateway config.
    */
-  public set orderGatewayId(id: string) {
-    this._orderGatewayId = this.encoder.normalizeAddress(id);
+  public set gatewayConfig(config: GatewayConfig) {
+    if (typeof config !== 'undefined') {
+      this._gatewayConfig = {
+        multiOrderId: this.encoder.normalizeAddress(config.multiOrderId),
+        assetLedgerDeployOrderId: this.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
+        valueLedgerDeployOrderId: this.encoder.normalizeAddress(config.valueLedgerDeployOrderId),
+      };
+    } else {
+      this._gatewayConfig = null;
+    }
   }
 
   /**

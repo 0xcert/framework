@@ -1,5 +1,4 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
@@ -7,7 +6,6 @@ import { AssetLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
   protocol: Protocol;
   bob: string;
   coinbase: string;
@@ -22,6 +20,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -49,7 +48,9 @@ spec.test('disapproves account for token transfer', async (ctx) => {
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
   await xcert.instance.methods.approve(bob, '1').send({});
-  await ledger.disapproveAccount('1');
+  const mutation = await ledger.disapproveAccount('1');
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Approval');
   ctx.is(await xcert.instance.methods.getApproved('1').call(), '0x0000000000000000000000000000000000000000');
 });
 

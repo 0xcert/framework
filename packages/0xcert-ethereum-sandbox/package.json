@@ -75,7 +75,7 @@
     "web3": "1.0.0-beta.37"
   },
   "dependencies": {
-    "@0xcert/ethereum-order-gateway-contracts": "1.7.4",
+    "@0xcert/ethereum-gateway-contracts": "1.7.4",
     "@0xcert/ethereum-erc20-contracts": "1.7.4",
     "@0xcert/ethereum-erc721-contracts": "1.7.4",
     "@0xcert/ethereum-proxy-contracts": "1.7.4",

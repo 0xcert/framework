@@ -1,5 +1,5 @@
+import { GatewayBase } from './gateway';
 import { MutationBase } from './mutation';
-import { OrderGatewayBase } from './order-gateway';
 
 export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbility;
 
@@ -50,13 +50,13 @@ export interface AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveAccount(assetId: string, accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  approveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveOperator(accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Grants abilities of an account.
@@ -87,7 +87,7 @@ export interface AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  disapproveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  disapproveOperator(accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Disables transfers of asset on the asset ledger.
@@ -144,14 +144,14 @@ export interface AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean>;
+  isApprovedAccount(assetId: string, accountId: string | GatewayBase): Promise<boolean>;
 
   /**
    * Checks if specific account is the operator for specific account.
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean>;
+  isApprovedOperator(accountId: string, operatorId: string | GatewayBase): Promise<boolean>;
 
   /**
    * Checks if transfers on the asset ledger are enabled.

@@ -1,13 +1,13 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
+  gateway: GatewayMock;
   protocol: Protocol;
   bob: string;
   coinbase: string;
@@ -22,6 +22,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -37,7 +38,7 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -51,7 +52,9 @@ spec.test('approves account for token transfer', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const bob = ctx.get('bob');
   const ledger = ctx.get('ledger');
-  await ledger.approveAccount('1', bob);
+  const mutation = await ledger.approveAccount('1', bob);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Approval');
   ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
 });
 

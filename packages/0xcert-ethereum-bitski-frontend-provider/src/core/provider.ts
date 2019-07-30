@@ -1,4 +1,4 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 
 /**
  * Configuration interface for generic provider.
@@ -31,9 +31,9 @@ export interface BitskiProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * ID (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -110,7 +110,7 @@ export class BitskiProvider extends GenericProvider {
    * located.
    * @param options.requiredConfirmations Optional number of confirmations that are necessary to
    * mark a mutation complete.
-   * @param options.orderGatewayId Optional ID (address) of order gateway.
+   * @param options.gatewayConfig Gateway configuration.
    * @param options.mutationTimeout Optional number of milliseconds in which a mutation times out.
    * @param options.clientId Required Bitski client ID.
    * @param options.redirectUrl Required Bitski redirect url.

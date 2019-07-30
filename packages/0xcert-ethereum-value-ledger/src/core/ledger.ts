@@ -1,7 +1,7 @@
-import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { OrderGatewayBase, ProviderError, ProviderIssue, ValueLedgerBase, ValueLedgerDeployRecipe,
-  ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
+import { GatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
+  ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
 import transfer from '../mutations/transfer';
@@ -70,9 +70,9 @@ export class ValueLedger implements ValueLedgerBase {
   /**
    * Gets the amount of value that another account id approved for.
    * @param accountId Account id.
-   * @param spenderId Account if of the spender.
+   * @param spenderId Account id of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string | OrderGatewayBase): Promise<String> {
+  public async getApprovedValue(accountId: string, spenderId: string | GatewayBase): Promise<String> {
     if (typeof spenderId !== 'string') {
       spenderId = await (spenderId as any).getProxyAccountId(1);
     }
@@ -106,7 +106,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  public async isApprovedValue(value: string, accountId: string, spenderId: string | OrderGatewayBase): Promise<Boolean> {
+  public async isApprovedValue(value: string, accountId: string, spenderId: string | GatewayBase): Promise<Boolean> {
     if (typeof spenderId !== 'string') {
       spenderId = await (spenderId as any).getProxyAccountId(1);
     }
@@ -123,7 +123,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  public async approveValue(value: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveValue(value: string, accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
@@ -142,7 +142,7 @@ export class ValueLedger implements ValueLedgerBase {
    * Disapproves account for operating with your value.
    * @param accountId Account id.
    */
-  public async disapproveValue(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async disapproveValue(accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(1);
     }
@@ -165,4 +165,55 @@ export class ValueLedger implements ValueLedgerBase {
       : transfer(this, receiverId, recipe.value);
   }
 
+  /**
+   * Gets context for mutation event parsing.
+   * This are event definitions for Value Ledger smart contract event parsing. This method is used
+   * by the Mutation class to provide log information.
+   */
+  public getContext(): MutationEventSignature[] {
+    return [
+      {
+        name: 'Transfer',
+        topic: '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'from',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'to',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'value',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'Approval',
+        topic: '0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'spender',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'value',
+            type: 'uint256',
+          },
+        ],
+      },
+    ];
+  }
 }

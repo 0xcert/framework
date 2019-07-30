@@ -26,7 +26,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '1');
   ctx.set('id2', '2');
-  ctx.set('uriBase', 'http://0xcert.org/');
+  ctx.set('uriBase', 'https://0xcert.org/');
 });
 
 spec.beforeEach(async (ctx) => {

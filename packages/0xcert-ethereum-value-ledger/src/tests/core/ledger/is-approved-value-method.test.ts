@@ -1,13 +1,13 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  gateway: OrderGateway;
+  gateway: GatewayMock;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -36,7 +36,7 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
 });
 
 spec.test('returns if account has the approved amount', async (ctx) => {
@@ -50,7 +50,7 @@ spec.test('returns if account has the approved amount', async (ctx) => {
   ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), true);
 });
 
-spec.test('checks if gateway proxy is approved', async (ctx) => {
+spec.test('checks if order gateway proxy is approved', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const token = ctx.get('protocol').erc20;

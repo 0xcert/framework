@@ -56,18 +56,18 @@ export default {
       console.log('Is metamask enabled:', isEnabled)
     },
     async claim() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const signature = await exchange.claim(this.orderData)
       console.log('Signed order claim:', signature)
     },
     async perform() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const signature = await exchange.claim(this.orderData)
       const mutation = await exchange.perform(this.orderData, signature)
       console.log('Performed order mutation:', mutation)
     },
     async cancel() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const mutation = await exchange.cancel(this.orderData)
       console.log('Canceled order mutation:', mutation)
     },

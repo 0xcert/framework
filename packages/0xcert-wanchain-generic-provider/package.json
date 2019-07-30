@@ -1,0 +1,83 @@
+{
+  "name": "@0xcert/wanchain-generic-provider",
+  "version": "1.7.4",
+  "description": "Basic implementation of communication provider for the Wanchain blockchain.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npx tsc",
+    "clean": "rm -Rf ./dist",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "test": "npm run lint && npx nyc npx specron test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xcert/framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xcert/framework/issues"
+  },
+  "homepage": "https://github.com/0xcert/framework#readme",
+  "keywords": [
+    "0xcert",
+    "framework",
+    "protocol",
+    "asset",
+    "value",
+    "values",
+    "currency",
+    "token",
+    "non-fungible",
+    "fungible",
+    "erc-721",
+    "erc-20",
+    "blockchain",
+    "javascript",
+    "typescript",
+    "nodejs",
+    "vuejs",
+    "nuxtjs",
+    "npm",
+    "libraries",
+    "smart-contract",
+    "ethereum",
+    "zxc"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/ethereum-sandbox": "1.7.4",
+    "@types/node": "^10.12.24",
+    "@hayspec/cli": "^0.8.3",
+    "@hayspec/spec": "^0.8.3",
+    "nyc": "^14.1.1",
+    "promised-timeout": "^0.5.1",
+    "solc": "0.5.6",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.1.1",
+    "web3": "1.0.0-beta.37"
+  },
+  "dependencies": {
+    "@0xcert/wanchain-utils": "1.7.4",
+    "@0xcert/ethereum-generic-provider": "1.7.4"
+  }
+}

@@ -1,9 +1,9 @@
-import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
+import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, OrderGatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, GatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -168,7 +168,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
+  public async isApprovedAccount(assetId: string, accountId: string | GatewayBase): Promise<boolean> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -190,7 +190,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveAccount(assetId: string, accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -213,7 +213,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async grantAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
@@ -252,7 +252,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async revokeAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+  public async revokeAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
@@ -332,7 +332,7 @@ export class AssetLedger implements AssetLedgerBase {
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async approveOperator(accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -346,7 +346,7 @@ export class AssetLedger implements AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
+  public async disapproveOperator(accountId: string | GatewayBase): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
     }
@@ -361,7 +361,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
+  public async isApprovedOperator(accountId: string, operatorId: string | GatewayBase): Promise<boolean> {
     if (typeof operatorId !== 'string') {
       operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
     }
@@ -381,4 +381,135 @@ export class AssetLedger implements AssetLedgerBase {
       : 2; // OrderGatewayProxy.NFTOKEN_TRANSFER;
   }
 
+  /**
+   * Gets context for mutation event parsing.
+   * This are event definitions for Asset Ledger smart contract event parsing. This method is used
+   * by the Mutation class to provide log information.
+   */
+  public getContext(): MutationEventSignature[] {
+    return [
+      {
+        name: 'Transfer',
+        topic: '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'from',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'to',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'Approval',
+        topic: '0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'approved',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'ApprovalForAll',
+        topic: '0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'operator',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'approved',
+            type: 'bool',
+          },
+        ],
+      },
+      {
+        name: 'IsPaused',
+        topic: '0xff4a5dbbab6b1963d10f5edd139f33a7987ecb3c4f65969be77ddba28d946594',
+        types: [
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'isPaused',
+            type: 'bool',
+          },
+        ],
+      },
+      {
+        name: 'TokenImprintUpdate',
+        topic: '0xba32aa36aaa193aeb79242c133083dec069f5b402cafe1740c9fae59a1a4cedb',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'imprint',
+            type: 'bytes32',
+          },
+        ],
+      },
+      {
+        name: 'GrantAbilities',
+        topic: '0xc4adfc5f00262a1ab9b2241c7e98408a91e58dc5777d786164bba34a7652f62f',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'target',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'imprint',
+            type: 'bytes32',
+          },
+        ],
+      },
+      {
+        name: 'RevokeAbilities',
+        topic: '0xbb71944f65b9a48cc7d835179fb5e874f29b60aa0195785fb54968d8dddef08a',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'target',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'imprint',
+            type: 'bytes32',
+          },
+        ],
+      },
+    ];
+  }
 }

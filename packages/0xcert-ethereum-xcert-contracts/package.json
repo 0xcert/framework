@@ -16,6 +16,16 @@
         "./src/**/*.sol"
       ]
     },
+    "flattener": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ],
+      "severities": [
+        "error",
+        "warning"
+      ]
+    },
     "test": {
       "port": 8506,
       "match": [
@@ -65,6 +75,7 @@
     "@0xcert/ethereum-erc721-contracts": "1.7.4",
     "@specron/cli": "^0.5.6",
     "@specron/spec": "^0.5.6",
+    "@specron/flattener": "^0.5.6",
     "solc": "0.5.6",
     "solhint": "2.0.0",
     "ts-node": "^7.0.1",

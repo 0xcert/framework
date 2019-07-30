@@ -4,7 +4,7 @@ import { MetamaskProvider, ProviderEvent } from '@0xcert/ethereum-metamask-provi
 import { Cert } from '@0xcert/cert'
 import { AssetLedger } from '@0xcert/ethereum-asset-ledger'
 import { ValueLedger } from '@0xcert/ethereum-value-ledger'
-import { OrderGateway } from '@0xcert/ethereum-order-gateway'
+import { Gateway } from '@0xcert/ethereum-gateway'
 
 const provider = new MetamaskProvider()
 provider.on(ProviderEvent.ACCOUNT_CHANGE, (newAccountId, oldAccountId) => {
@@ -20,6 +20,6 @@ Vue.use(Vue0xcert, {
     { name: 'Cert', object: Cert },
     { name: 'AssetLedger', object: AssetLedger },
     { name: 'ValueLedger', object: ValueLedger },
-    { name: 'OrderGateway', object: OrderGateway },
+    { name: 'Gateway', object: Gateway },
   ],
 })

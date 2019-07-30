@@ -1,6 +1,5 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { fetch } from '@0xcert/utils';
-import { Encoder } from '@0xcert/wanchain-utils';
+import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/wanchain-generic-provider';
 
 /**
  * HTTP RPC client options interface.
@@ -63,9 +62,9 @@ export interface HttpProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -110,10 +109,7 @@ export class HttpProvider extends GenericProvider {
    * Class constructor.
    */
   public constructor(options: HttpProviderOptions) {
-    super({
-      encoder: new Encoder(),
-      ...options,
-    });
+    super(options);
 
     this._options = options;
     this._client = this;

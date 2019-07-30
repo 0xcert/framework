@@ -1,8 +1,8 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
+import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider
@@ -52,7 +52,7 @@ spec.test('returns null when calling getApprovedValue on contract that does not 
   ctx.is(approvedValue, null);
 });
 
-spec.test('returns gateway approved amount', async (ctx) => {
+spec.test('returns order gateway approved amount', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc20.instance.options.address;
   const ledger =  new ValueLedger(provider, ledgerId);
@@ -61,7 +61,7 @@ spec.test('returns gateway approved amount', async (ctx) => {
 
   const approveAmount = '5000000000000000000';
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const gateway = new OrderGateway(provider, orderGatewayId);
+  const gateway = new GatewayMock(provider, orderGatewayId);
 
   const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});

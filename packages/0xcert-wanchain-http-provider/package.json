@@ -72,8 +72,7 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.7.4",
-    "@0xcert/wanchain-utils": "1.7.4",
+    "@0xcert/wanchain-generic-provider": "1.7.4",
     "@0xcert/utils": "1.7.4"
   }
 }
