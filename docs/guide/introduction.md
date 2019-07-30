@@ -1,6 +1,6 @@
 # Introduction
 
-The 0xcert Framework is a JavaScript library that provides tools for building powerful decentralized applications (dapps).
+The 0xcert (pronounced [zeer-oh-eks-surt]) Framework is a JavaScript library that provides tools for building powerful decentralized applications (dapps).
 
 ![0xcert framework](../assets/scheme_1.svg)
 
