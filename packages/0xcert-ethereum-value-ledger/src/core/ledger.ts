@@ -167,6 +167,8 @@ export class ValueLedger implements ValueLedgerBase {
 
   /**
    * Gets context for mutation event parsing.
+   * This are event definitions for Value Ledger smart contract event parsing. This method is used
+   * by the Mutation class to provide log information.
    */
   public getContext(): MutationEventSignature[] {
     return [

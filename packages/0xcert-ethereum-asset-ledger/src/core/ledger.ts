@@ -383,6 +383,8 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Gets context for mutation event parsing.
+   * This are event definitions for Asset Ledger smart contract event parsing. This method is used
+   * by the Mutation class to provide log information.
    */
   public getContext(): MutationEventSignature[] {
     return [
