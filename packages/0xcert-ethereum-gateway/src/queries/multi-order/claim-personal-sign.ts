@@ -3,7 +3,7 @@ import { Gateway } from '../../core/gateway';
 import { createOrderHash } from '../../lib/multi-order';
 
 /**
- * Creates order hash, signes it and returns personal signed order claim.
+ * Creates order hash, signs it and returns personal signed order claim.
  * @param gateway Order gateway instance.
  * @param order Order data.
  */

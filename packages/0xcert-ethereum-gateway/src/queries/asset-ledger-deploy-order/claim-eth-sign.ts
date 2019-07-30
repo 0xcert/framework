@@ -3,7 +3,7 @@ import { Gateway } from '../../core/gateway';
 import { createOrderHash } from '../../lib/asset-ledger-deploy-order';
 
 /**
- * Creates deploy hash, signes it and returns eth signed deploy claim.
+ * Creates deploy hash, signs it and returns eth signed deploy claim.
  * @param gateway Gateway instance.
  * @param deploy Deploy data.
  */
