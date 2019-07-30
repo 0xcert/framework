@@ -1439,6 +1439,10 @@ const mutationId = '0x767857798ea7c8d21ad72c4d7e054ed45ab5d177c06baa2183dbfc3b61
 const mutation = new Mutation(provider, mutationId);
 ```
 
+### cancel()
+
+An `asynchronous` class instance `function` which attempts to cancel a mutation. You can only cancel a mutation that has not yet been accepted onto the blockchain. Canceling works by overwriting a pending mutation (using the same [nonce](https://kb.myetherwallet.com/en/transactions/what-is-nonce/)) with a new mutation that performs no action, which could also lead the `cancel` function to fail. The `cancel` function will throw an error if the mutation has already been accepted onto the blockchain or if you are not the originator of the mutation you want to cancel.
+
 ### complete()
 
 An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations.
@@ -1639,6 +1643,10 @@ A class instance `variable` holding a `string` which represents an Ethereum acco
 ::: tip
 When you are deploying a new ledger, this variable represents the ledger ID and is `null` until a mutation is completed.
 :::
+
+### retry()
+
+An `asynchronous` class instance `function` which resubmits the same mutation to the blockchain at a higher price. Since the speed of accepting mutations onto the blockchain depends on the current network state, a mutation could remain unconfirmed for a while. In that case, you can retry submitting the same mutation with an increased price to speed up its acceptance onto the blockchain. The price is determined by the current network price, multiplied by `retryGasPriceMultiplier` parameter on the provider (which defaults to 2). Note that this method will throw error if the mutation has already been accepted onto the blockchain.
 
 ### revoke()
 
