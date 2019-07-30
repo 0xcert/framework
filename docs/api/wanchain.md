@@ -546,7 +546,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { MutationEvent } from '@0xcert/wanchain-http-provider'; 
+import { MutationEvent } from '@0xcert/wanchain-http-provider';
 
 mutation.off(MutationEvent.ERROR);
 ```
@@ -751,9 +751,9 @@ import { HttpProcider } from '@0xcert/wanchain-http-provider';
 import { AssetLedger, AssetLedgerCapability } from '@0xcert/wanchain-asset-ledger';
 
 // arbitrary data
-const provider = new HttpProvider({ 
+const provider = new HttpProvider({
     url: 'https://...',
-    accountId: '0x...' 
+    accountId: '0x...'
 });
 const capabilities = [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
@@ -1452,7 +1452,7 @@ const mutation = await ledger.transferAsset(recipe);
 
 Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
 We have two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities whereas super abilities can.
-This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control. 
+This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control.
 
 **Super abilities options:**
 
@@ -1809,7 +1809,7 @@ To perform an atomic order through `Gateway`, you need to follow its flow:
 1. Maker (address creating an order) defines the order (who will transfer what to who).
 2. Maker generates the order claim and signs it (claims functions).
 3. Maker approves/assigns abilities for all the assets if necessary.
-4. Maker sends the order and signature to the Taker.
+4. Maker sends the order and signature to the taker.
 5. Taker approves/assigns abilities for all the required assets if necessary.
 6. Taker performs the order.
 
@@ -1832,12 +1832,12 @@ Can perform multiple actions between multiple actors such as:
 
 All orders can be configured in two ways, specifically with a fixed order and a dynamic order.
 
-In a fixed order, the Taker of the order (its wallet address) is known, and we want to make an atomic order specifically with the Taker and no-one else. For this, we need to set `order.takerId` and all variables that present the receiver or the sender.
+In a fixed order, the taker of the order (its wallet address) is known, and we want to make an atomic order specifically with the taker and no-one else. For this, we need to set `order.takerId` and all variables that present the receiver or the sender.
 
-In a dynamic order, we do not care who performs the order as long as they have the assets we specified. In this case, we do not set an `order.takerId`. Instead, we need to set either the sender or the receiver or both, but we are not allowed to leave those parameters blank - if we do, any function called with this order will throw an error. A dynamic order allows any account (wallet) to perform such an order and automatically become its Taker - this will replace every empty parameter with the Taker's address.
+In a dynamic order, we do not care who performs the order as long as they have the assets we specified. In this case, we do not set an `order.takerId`. Instead, we need to set either the sender or the receiver or both, but we are not allowed to leave those parameters blank - if we do, any function called with this order will throw an error. A dynamic order allows any account (wallet) to perform such an order and automatically become its taker - this will replace every empty parameter with the taker's address.
 
 ::: Warning
-When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order Taker in the smart contract.
+When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
 :::
 
 ### Gateway(provider, gatewayConfig)
@@ -1916,7 +1916,7 @@ const mutation = await gateway.cancel(order);
 An `asynchronous` class instance `function` which cryptographically signs the provided `order` and returns a signature.
 
 ::: Warning
-This operation must be executed by the Maker of the order.
+This operation must be executed by the maker of the order.
 :::
 
 **Arguments:**
@@ -1981,17 +1981,17 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 ### perform(order, signature)
 
-An `asynchronous` class instance `function` which submits the `order` with a `signature` from the Maker.
+An `asynchronous` class instance `function` which submits the `order` with a `signature` from the maker.
 
 ::: Warning
-This operation must be executed by the Taker of the order.
+This operation must be executed by the taker of the order.
 :::
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| signature | [required] A `string` representing order signature created by the Maker.
+| signature | [required] A `string` representing order signature created by the maker.
 | order | [required] An [`Order` object](#order-kinds).
 
 **Result:**
@@ -2057,7 +2057,7 @@ This order kind can perform multiple operations such as value transfer, asset tr
 
 | Argument | Description
 |-|-
-| signature | [required] A `string` representing order signature created by the Maker.
+| signature | [required] A `string` representing order signature created by the maker.
 | order.actions | [required] An `array` of [multi-order action objects](#multi-order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
@@ -2142,7 +2142,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 
 ## Public addresses
 
-This are latest addresses that work with version 1.5.0. For older addresses that may not be fully compatible with 1.5.0 check under archive. 
+This are latest addresses that work with version 1.5.0. For older addresses that may not be fully compatible with 1.5.0 check under archive.
 
 ### Mainnet
 
