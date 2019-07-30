@@ -3,7 +3,7 @@ pragma solidity 0.5.6;
 import "@0xcert/ethereum-erc20-contracts/src/contracts/token.sol";
 
 /**
- * @dev This is an example contract implementation of Token.
+ * @dev This is an implementation of the erc20 token smart contract.
  */
 contract TokenCustom is
   Token 
