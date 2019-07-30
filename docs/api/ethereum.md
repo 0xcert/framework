@@ -1558,7 +1558,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
 | handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
 
-**Result:**)
+**Result:**
 
 An instance of the same mutation class.
 
@@ -1665,7 +1665,7 @@ A class instance `variable` holding a `string` which represents an Ethereum acco
 
 ## Mutation events
 
-We can listen to different mutation events which are emitted by the mutation in the xprocess of completion.
+We can listen to different mutation events which are emitted by the mutation in the process of completion.
 
 **Options:**
 
@@ -2642,7 +2642,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an account address, an instance of the `Gateway` class.
+| accountId | [required] A `string` representing an account address or an instance of the `Gateway` class.
 | value | [required] An `integer` number representing the approved amount.
 
 **Result:**
@@ -2711,7 +2711,7 @@ An `asynchronous` class instance `function` which removes the ability of a third
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an account address, an instance of the `Gateway` class.
+| accountId | [required] A `string` representing an account address or an instance of the `Gateway` class.
 
 **Result:**
 
@@ -2740,7 +2740,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender, an instance of the `DeployGateway` class or an instance of the `Gateway` class.
+| spenderId | [required] A `string` representing the account ID of a spender or an instance of the `Gateway` class.
 
 **Result:**
 
@@ -2840,7 +2840,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Ethereum account address that owns the funds.
-| spenderId | [required] A `string` representing the approved Ethereum account address, an instance of the `Gateway` class.
+| spenderId | [required] A `string` representing the approved Ethereum account address or an instance of the `Gateway` class.
 | value | [required] A big number `string` representing the amount allowed to transfer.
 
 **Result:**
@@ -2921,7 +2921,7 @@ Can perform multiple actions between multiple actors such as:
 - Create new asset
 - Update existing asset imprint
 
-All orders can be configured in two ways, specifically with a fixed order and a dynamic order.
+All orders can be configured in two ways, namely in fixed and dynamic order.
 
 In a fixed order, the taker of the order (its wallet address) is known, and we want to make an atomic order specifically with the taker and no-one else. For this, we need to set `order.takerId` and all variables that present the receiver or the sender.
 
