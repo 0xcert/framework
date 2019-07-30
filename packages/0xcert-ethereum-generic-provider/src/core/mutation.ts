@@ -259,11 +259,11 @@ export class Mutation extends EventEmitter implements MutationBase {
       params: [],
     });
     const oldGasPrice = tx.gasPrice;
-    const retryGasPrice = gasPrice.result * 2; // todo replace with retryGasPriceMultipier
-    // We first calculate new gas price based on current network conditions and retryGasMultiplier
-    // if calculated gas price is lower then the original gas price then we use the
-    // retryGasMultilier on the original gas price.
-    const newGasPrice = retryGasPrice >= oldGasPrice ? retryGasPrice : oldGasPrice * 2; // todo replace with retryGasPriceMultipier
+    const retryGasPrice = gasPrice.result * this._provider.retryGasPriceMultiplier;
+    // We first calculate new gas price based on current network conditions and
+    // retryGasPriceMultiplier if calculated gas price is lower then the original gas price then we
+    // use the retryGasPriceMultiplier on the original gas price.
+    const newGasPrice = retryGasPrice >= oldGasPrice ? retryGasPrice : oldGasPrice * this._provider.retryGasPriceMultiplier;
     const attrs = {
       from: tx.from,
       data: tx.input,

@@ -65,6 +65,11 @@ export interface GenericProviderOptions {
   gasPriceMultiplier?: number;
 
   /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  retryGasPriceMultiplier?: number;
+
+  /**
    * Sandbox mode. False by default.
    */
   sandbox?: Boolean;
@@ -109,6 +114,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
    * Gas price multiplier. Defaults to 1.1.
    */
   public gasPriceMultiplier?: number;
+
+  /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  public retryGasPriceMultiplier?: number;
 
   /**
    * Sandbox mode. False by default.
@@ -157,6 +167,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
     this.gasPriceMultiplier = typeof options.gasPriceMultiplier !== 'undefined' ? options.gasPriceMultiplier : 1.1;
+    this.retryGasPriceMultiplier = typeof options.retryGasPriceMultiplier !== 'undefined' ? options.retryGasPriceMultiplier : 2;
     this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
 
     this._client = options.client && options.client.currentProvider
