@@ -250,7 +250,7 @@ export class Mutation extends EventEmitter implements MutationBase {
       throw new Error('Mutation not found');
     }
 
-    if (!tx.blockNumber) {
+    if (tx.blockNumber) {
       throw new Error('Mutation already acceped into the Blockchain');
     }
 
@@ -293,7 +293,7 @@ export class Mutation extends EventEmitter implements MutationBase {
       throw new Error('Mutation not found');
     }
 
-    if (!tx.blockNumber) {
+    if (tx.blockNumber) {
       throw new Error('Mutation already acceped into the Blockchain');
     }
 
