@@ -283,7 +283,7 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Cancels mutation is possible.
+   * Cancels mutation if possible.
    * @notice Return error if mutation is already accepted into the Blockchain or you are not the
    * mutation maker.
    */
