@@ -9,9 +9,10 @@ contract NFTokenMetadataEnumerableTestMock is
   constructor(
     string memory _name,
     string memory _symbol,
-    string memory _uriBase
+    string memory _uriBase,
+    string memory _uriPostfix
   )
-    NFTokenMetadataEnumerableMock(_name, _symbol, _uriBase)
+    NFTokenMetadataEnumerableMock(_name, _symbol, _uriBase, _uriPostfix)
     public
   {}
 

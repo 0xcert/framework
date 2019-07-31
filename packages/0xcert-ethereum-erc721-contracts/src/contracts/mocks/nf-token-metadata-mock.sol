@@ -15,18 +15,21 @@ contract NFTokenMetadataMock is
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFTokens.
-   * @param _uriBase Base of uri for token metadata uris. 
+   * @param _uriBase Base of URI for token metadata URIs. 
+   * @param _uriPostfix Postfix of URI for token metadata URIs. 
    */
   constructor(
     string memory _name,
     string memory _symbol,
-    string memory _uriBase
+    string memory _uriBase,
+    string memory _uriPostfix
   )
     public
   {
     nftName = _name;
     nftSymbol = _symbol;
     uriBase = _uriBase;
+    uriPostfix = _uriPostfix;
   }
 
   /**
@@ -68,6 +71,19 @@ contract NFTokenMetadataMock is
     onlyOwner
   {
     super._setUriBase(_uriBase);
+  }
+
+  /**
+   * @dev Change URI postfix.
+   * @param _uriPostfix New uriPostfix.
+   */
+  function setUriPostfix(
+    string calldata _uriPostfix
+  )
+    external
+    onlyOwner
+  {
+    super._setUriPostfix(_uriPostfix);
   }
   
 }
