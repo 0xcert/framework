@@ -45,12 +45,12 @@ contract NFTokenMetadata is
   string internal nftSymbol;
 
   /**
-   * @dev URI base for NFT metadata. NFT URI is made from base + NFT id + postfix.
+   * @dev URI prefix for NFT metadata. NFT URI is made from prefix + NFT id + postfix.
    */
-  string public uriBase;
+  string public uriPrefix;
 
   /**
-   * @dev URI postfix for NFT metadata. NFT URI is made from base + NFT id + postfix.
+   * @dev URI postfix for NFT metadata. NFT URI is made from prefix + NFT id + postfix.
    */
   string public uriPostfix;
 
@@ -119,7 +119,7 @@ contract NFTokenMetadata is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftName, nftSymbol, uriBase and
+   * @notice When implementing this contract don't forget to set nftName, nftSymbol, uriPrefix and
    * uriPostfix.
    */
   constructor()
@@ -340,9 +340,9 @@ contract NFTokenMetadata is
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
     string memory uri = "";
-    if (bytes(uriBase).length > 0)
+    if (bytes(uriPrefix).length > 0)
     {
-      uri = string(abi.encodePacked(uriBase, _uint2str(_tokenId)));
+      uri = string(abi.encodePacked(uriPrefix, _uint2str(_tokenId)));
       if (bytes(uriPostfix).length > 0)
       {
         uri = string(abi.encodePacked(uri, uriPostfix));
@@ -356,29 +356,17 @@ contract NFTokenMetadata is
    * @notice this is a internal function which should be called from user-implemented external
    * function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
-   * @param _uriBase String representing RFC 3986 URI base.
+   * @param _prefix String representing RFC 3986 URI prefix.
+   * @param _postfix String representing RFC 3986 URI postfix.
    */
-  function _setUriBase(
-    string memory _uriBase
+  function _setUri(
+    string memory _prefix,
+    string memory _postfix
   )
     internal
   {
-    uriBase = _uriBase;
-  }
-
-  /**
-   * @dev Set a distinct URI (RFC 3986) base for all nfts.
-   * @notice this is a internal function which should be called from user-implemented external
-   * function. Its purpose is to show and properly initialize data structures when using this
-   * implementation.
-   * @param _uriPostfix String representing RFC 3986 URI postfix.
-   */
-  function _setUriPostfix(
-    string memory _uriPostfix
-  )
-    internal
-  {
-    uriPostfix = _uriPostfix;
+    uriPrefix = _prefix;
+    uriPostfix = _postfix;
   }
 
   /**
