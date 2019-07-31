@@ -48,7 +48,7 @@ contract XcertDeployGateway
   {
     string name;
     string symbol;
-    string uriBase;
+    string uriPrefix;
     string uriPostfix;
     bytes32 schemaId;
     bytes4[] capabilities;
@@ -276,7 +276,7 @@ contract XcertDeployGateway
       abi.encodePacked(
         _deployData.xcertData.name,
         _deployData.xcertData.symbol,
-        _deployData.xcertData.uriBase,
+        _deployData.xcertData.uriPrefix,
         _deployData.xcertData.uriPostfix,
         _deployData.xcertData.schemaId,
         _deployData.xcertData.capabilities,
@@ -380,7 +380,7 @@ contract XcertDeployGateway
       new XcertCustom(
         _deploy.xcertData.name,
         _deploy.xcertData.symbol,
-        _deploy.xcertData.uriBase,
+        _deploy.xcertData.uriPrefix,
         _deploy.xcertData.uriPostfix,
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
@@ -416,7 +416,7 @@ contract XcertDeployGateway
       new XcertCustom(
         _deploy.xcertData.name,
         _deploy.xcertData.symbol,
-        _deploy.xcertData.uriBase,
+        _deploy.xcertData.uriPrefix,
         _deploy.xcertData.uriPostfix,
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
