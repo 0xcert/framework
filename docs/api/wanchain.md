@@ -28,6 +28,7 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.

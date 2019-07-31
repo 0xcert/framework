@@ -23,6 +23,7 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.mutationTimeout | A numberrepresenting the number of milliseconds in which a mutation times out. Defaults to3600000. You can set it to -1 to disable timeout.
 | options.networkName | A string representing the Ethereum network we will connect to.
+| options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.
@@ -357,6 +358,7 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable timeout.
 | options.networkName | A `string` representing the Ethereum network we will connect to.
 | options.redirectUrl | A `string` representing Bitski redirect URL. For Bitski front-end integration you will need to create a call back to the website for OAuth2 and host it. Here is an [example](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html). The URL to this HTML page also needs to be apps authorized redirect URL in [Bitski Developer Portal](https://developer.bitski.com/).
+| options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.
@@ -742,6 +744,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
+| options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.
@@ -1112,6 +1115,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+| options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
 | options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.
