@@ -49,6 +49,7 @@ contract XcertDeployGateway
     string name;
     string symbol;
     string uriBase;
+    string uriPostfix;
     bytes32 schemaId;
     bytes4[] capabilities;
     address owner;
@@ -276,6 +277,7 @@ contract XcertDeployGateway
         _deployData.xcertData.name,
         _deployData.xcertData.symbol,
         _deployData.xcertData.uriBase,
+        _deployData.xcertData.uriPostfix,
         _deployData.xcertData.schemaId,
         _deployData.xcertData.capabilities,
         _deployData.xcertData.owner
@@ -379,6 +381,7 @@ contract XcertDeployGateway
         _deploy.xcertData.name,
         _deploy.xcertData.symbol,
         _deploy.xcertData.uriBase,
+        _deploy.xcertData.uriPostfix,
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,
@@ -414,6 +417,7 @@ contract XcertDeployGateway
         _deploy.xcertData.name,
         _deploy.xcertData.symbol,
         _deploy.xcertData.uriBase,
+        _deploy.xcertData.uriPostfix,
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,

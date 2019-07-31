@@ -67,7 +67,7 @@ spec.test('transfers an NFT', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json'],
   });
 
   await cat.instance.methods
@@ -96,7 +96,7 @@ spec.test('transfers an NFT with high ID', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json'],
   });
 
   await cat.instance.methods
@@ -123,7 +123,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json'],
   });
 
   await cat.instance.methods
@@ -148,7 +148,7 @@ spec.test('fails when transfering to a contract without receiver', async (ctx) =
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
     contract: 'NFTokenMetadataEnumerableMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/'],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json'],
   });
 
   await cat.instance.methods

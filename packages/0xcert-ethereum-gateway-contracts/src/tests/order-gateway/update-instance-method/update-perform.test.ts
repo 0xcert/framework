@@ -66,7 +66,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
   });
   await cat.instance.methods
   .create(jane, 1, imprint1)
@@ -89,7 +89,7 @@ spec.beforeEach(async (ctx) => {
   const dog = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['dog', 'DOG', 'https://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
+    args: ['dog', 'DOG', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
   });
   await dog.instance.methods
     .create(jane, 1, imprint1)
@@ -119,7 +119,7 @@ spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['fox', 'FOX', 'https://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
+    args: ['fox', 'FOX', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
   });
   await fox.instance.methods
     .create(jane, 1, '0x0')

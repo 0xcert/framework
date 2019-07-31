@@ -366,7 +366,7 @@ contract NFTokenMetadata is
     uriBase = _uriBase;
   }
 
-   /**
+  /**
    * @dev Set a distinct URI (RFC 3986) base for all nfts.
    * @notice this is a internal function which should be called from user-implemented external
    * function. Its purpose is to show and properly initialize data structures when using this

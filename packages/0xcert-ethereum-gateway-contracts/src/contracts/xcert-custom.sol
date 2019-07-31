@@ -11,7 +11,8 @@ contract XcertCustom is XcertToken {
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFT.
-   * @param _uriBase Base of uri for token metadata uris.
+   * @param _uriBase Base of URI for token metadata URIs.
+   * @param _uriPostfix Postfix of URI for token metadata URIs.
    * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
    * convention.
    * @param _capabilities Array of bytes4 representing supported interfaces which activate the
@@ -23,6 +24,7 @@ contract XcertCustom is XcertToken {
     string memory _name,
     string memory _symbol,
     string memory _uriBase,
+    string memory _uriPostfix,
     bytes32 _schemaId,
     bytes4[] memory _capabilities,
     address _owner,
@@ -33,6 +35,7 @@ contract XcertCustom is XcertToken {
     nftName = _name;
     nftSymbol = _symbol;
     uriBase = _uriBase;
+    uriPostfix = _uriPostfix;
     nftSchemaId = _schemaId;
     for(uint256 i = 0; i < _capabilities.length; i++)
     {
