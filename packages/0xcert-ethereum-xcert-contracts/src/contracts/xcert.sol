@@ -95,7 +95,7 @@ contract XcertToken is
   constructor()
     public
   {
-    supportedInterfaces[0x3c1a328f] = true; // Xcert
+    supportedInterfaces[0x4ecc17d1] = true; // Xcert
   }
 
   /**
@@ -117,29 +117,18 @@ contract XcertToken is
   }
 
   /**
-   * @dev Change URI base.
-   * @param _uriBase New uriBase.
+   * @dev Change URI.
+   * @param _uriPrefix New URI prefix.
+   * @param _uriPostfix New URI postfix.
    */
-  function setUriBase(
-    string calldata _uriBase
-  )
-    external
-    hasAbilities(ABILITY_UPDATE_URI)
-  {
-    super._setUriBase(_uriBase);
-  }
-
-  /**
-   * @dev Change URI postfix.
-   * @param _uriPostfix New uriPostfix.
-   */
-  function setUriPostfix(
+  function setUri(
+    string calldata _uriPrefix,
     string calldata _uriPostfix
   )
     external
     hasAbilities(ABILITY_UPDATE_URI)
   {
-    super._setUriPostfix(_uriPostfix);
+    super._setUri(_uriPrefix, _uriPostfix);
   }
 
   /**

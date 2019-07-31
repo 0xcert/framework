@@ -27,8 +27,7 @@ contract Selector
       i.create.selector
       ^ i.schemaId.selector
       ^ i.tokenImprint.selector
-      ^ i.setUriBase.selector
-      ^ i.setUriPostfix.selector
+      ^ i.setUri.selector
     );
   }
 
