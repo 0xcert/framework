@@ -572,7 +572,7 @@ When you are deploying a new ledger, this variable represents the ledger ID and 
 
 An `asynchronous` class instance `function` which resubmits the same mutation to the blockchain at a higher price. Since the speed of accepting mutations onto the blockchain depends on the current network state, a mutation could remain unconfirmed for a while. In that case, you can retry submitting the same mutation with an increased price to speed up its acceptance onto the blockchain. The price is determined by the current network price, multiplied by `retryGasPriceMultiplier` parameter on the provider (which defaults to 2). Note that this method will throw error if the mutation has already been accepted onto the blockchain.
 
-### revoke()
+### resolve()
 
 An `asynchronous` class instance `function` which resolves current mutation status.
 
