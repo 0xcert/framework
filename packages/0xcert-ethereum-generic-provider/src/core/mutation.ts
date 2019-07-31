@@ -248,9 +248,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     const tx = await this.getTransactionObject();
     if (!tx) {
       throw new Error('Mutation not found');
-    }
-
-    if (tx.blockNumber) {
+    } else if (tx.blockNumber) {
       throw new Error('Mutation already acceped into the Blockchain');
     }
 
@@ -291,13 +289,9 @@ export class Mutation extends EventEmitter implements MutationBase {
     const tx = await this.getTransactionObject();
     if (!tx) {
       throw new Error('Mutation not found');
-    }
-
-    if (tx.blockNumber) {
+    } else if (tx.blockNumber) {
       throw new Error('Mutation already acceped into the Blockchain');
-    }
-
-    if (tx.from.toLowerCase() !== this._provider.accountId.toLowerCase()) {
+    } else if (tx.from.toLowerCase() !== this._provider.accountId.toLowerCase()) {
       throw new Error('You are not the maker of this mutation so you cannot cancel it.');
     }
 
