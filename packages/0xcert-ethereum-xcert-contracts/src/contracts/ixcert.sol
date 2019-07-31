@@ -29,6 +29,15 @@ interface Xcert // is ERC721 metadata enumerable
     external;
 
   /**
+   * @dev Change URI postfix.
+   * @param _uriPostfix New uriPostfix.
+   */
+  function setUriPostfix(
+    string calldata _uriPostfix
+  )
+    external;
+
+  /**
    * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
    * @return Schema id.
    */

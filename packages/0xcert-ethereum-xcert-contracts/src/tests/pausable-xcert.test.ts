@@ -7,6 +7,7 @@ interface Data {
   sara?: string;
   id1?: string;
   uriBase?: string;
+  uriPostfix?: string;
   imprint1?: string;
 }
 
@@ -21,17 +22,18 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
-  ctx.set('uriBase', 'https://0xcert.org/1');
+  ctx.set('uriBase', 'https://0xcert.org/');
+  ctx.set('uriPostfix', '.json');
   ctx.set('imprint1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
 });
 
 spec.beforeEach(async (ctx) => {
-  const owner = ctx.get('owner');
   const uriBase = ctx.get('uriBase');
+  const uriPostfix = ctx.get('uriPostfix');
   const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbedb86fb']],
+    args: ['Foo', 'F', uriBase, uriPostfix, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbedb86fb']],
   });
 
   ctx.set('xcert', xcert);

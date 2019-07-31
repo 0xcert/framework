@@ -30,7 +30,7 @@ contract XcertToken is
   uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 16;
   /// ABILITY_ALLOW_CREATE_ASSET = 32 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
-  uint8 constant ABILITY_UPDATE_URI_BASE = 64;
+  uint8 constant ABILITY_UPDATE_URI = 64;
   /// ABILITY_ALLOW_UPDATE_ASSET = 128 - A specific ability that is bounded to atomic orders.
   /// When updating imprint of an Xcert trough `OrderGateway`, the order maker has to have this
   /// ability.
@@ -95,7 +95,7 @@ contract XcertToken is
   constructor()
     public
   {
-    supportedInterfaces[0xe08725ee] = true; // Xcert
+    supportedInterfaces[0x3c1a328f] = true; // Xcert
   }
 
   /**
@@ -124,9 +124,22 @@ contract XcertToken is
     string calldata _uriBase
   )
     external
-    hasAbilities(ABILITY_UPDATE_URI_BASE)
+    hasAbilities(ABILITY_UPDATE_URI)
   {
     super._setUriBase(_uriBase);
+  }
+
+  /**
+   * @dev Change URI postfix.
+   * @param _uriPostfix New uriPostfix.
+   */
+  function setUriPostfix(
+    string calldata _uriPostfix
+  )
+    external
+    hasAbilities(ABILITY_UPDATE_URI)
+  {
+    super._setUriPostfix(_uriPostfix);
   }
 
   /**
