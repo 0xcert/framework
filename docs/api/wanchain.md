@@ -22,16 +22,16 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
+| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi-order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
-| options.mutationTimeout | A `number` representing the number of milliseconds in which a mutation times out. Defaults to `3600000`. You can set it to `-1` for disable timeout.
+| options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
 | options.redirect | A `string` representing request redirect mode. It defaults to `follow`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
-| options.requiredConfirmations | An `integer` represeting the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
-| options.signMethod | An `integer` representing the signature type. The available options are `0` (eth_sign) or `2` (EIP-712) or `3` (perosnal_sign). It defaults to `0`.
-| options.sandbox | A `boolean` indicates whether we are in sandbox mode. Sandbox mode means we never make an actual mutation to the blockchain, but we only check if the mutation would succeed or not.
+| options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
+| options.signMethod | An `integer` representing the signature type. Available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
+| options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Wanchain node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
@@ -369,7 +369,7 @@ An `asynchronous` class instance `function` which attempts to cancel a mutation.
 
 ### complete()
 
-An `asynchronous` class instance `function` which waits until the mutation reaches the specified number of confirmations.
+An `asynchronous` class instance `function` which waits until a mutation reaches a specified number of confirmations.
 
 ::: tip
 Number of required confirmations is configurable through the provider instance.
@@ -565,12 +565,12 @@ mutation.off(MutationEvent.ERROR);
 A class instance `variable` holding a `string` which represents a Wanchain account address that plays the role of a receiver.
 
 ::: tip
-When you are deploying a new ledger, this variable represents the ledger ID and is `null` until a mutation is completed.
+When you are deploying a new ledger, this variable represents the ledger ID and remains `null` until a mutation is completed.
 :::
 
 ### retry()
 
-An `asynchronous` class instance `function` which resubmits the same mutation to the blockchain at a higher price. Since the speed of accepting mutations onto the blockchain depends on the current network state, a mutation could remain unconfirmed for a while. In that case, you can retry submitting the same mutation with an increased price to speed up its acceptance onto the blockchain. The price is determined by the current network price, multiplied by `retryGasPriceMultiplier` parameter on the provider (which defaults to 2). Note that this method will throw error if the mutation has already been accepted onto the blockchain.
+An `asynchronous` class instance `function` which resubmits the same mutation to the blockchain at a higher price. Since the speed of accepting mutations onto the blockchain depends on the current network state, a mutation could remain unconfirmed for a while. In that case, you can retry submitting the same mutation at an increased price to speed up its acceptance onto the blockchain. The price is determined by the current network price, multiplied by `retryGasPriceMultiplier` parameter on the provider (which defaults to `2`). Note that this method will throw an error if the mutation has already been accepted onto the blockchain.
 
 ### resolve()
 

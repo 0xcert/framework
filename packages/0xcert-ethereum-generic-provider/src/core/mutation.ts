@@ -240,16 +240,16 @@ export class Mutation extends EventEmitter implements MutationBase {
   }
 
   /**
-   * Retries mutation with higher gas price if possible. It uses providers retryGasMultiplier to
+   * Retries mutation with a higher gas price if possible. It uses the provider's retryGasMultiplier to
    * calculate gas price.
-   * @notice Return error if mutation is already accepted into the Blockchain.
+   * @notice Returns error if a mutation is already accepted onto the blockchain.
    */
   public async retry() {
     const tx = await this.getTransactionObject();
     if (!tx) {
       throw new Error('Mutation not found');
     } else if (tx.blockNumber) {
-      throw new Error('Mutation already acceped into the Blockchain');
+      throw new Error('Mutation already accepted onto the blockchain');
     }
 
     const gasPrice = await this._provider.post({
@@ -259,8 +259,8 @@ export class Mutation extends EventEmitter implements MutationBase {
     const oldGasPrice = tx.gasPrice;
     const retryGasPrice = gasPrice.result * this._provider.retryGasPriceMultiplier;
     // We first calculate new gas price based on current network conditions and
-    // retryGasPriceMultiplier if calculated gas price is lower then the original gas price then we
-    // use the retryGasPriceMultiplier on the original gas price.
+    // retryGasPriceMultiplier if calculated gas price is lower than the original gas price, then we
+    // use the retryGasPriceMultiplier with the original gas price.
     const newGasPrice = retryGasPrice >= oldGasPrice ? retryGasPrice : oldGasPrice * this._provider.retryGasPriceMultiplier;
     const attrs = {
       from: tx.from,
@@ -282,7 +282,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
   /**
    * Cancels mutation if possible.
-   * @notice Return error if mutation is already accepted into the Blockchain or you are not the
+   * @notice Returns error if a mutation is already accepted onto the blockchain or if you are not the
    * mutation maker.
    */
   public async cancel() {
@@ -290,7 +290,7 @@ export class Mutation extends EventEmitter implements MutationBase {
     if (!tx) {
       throw new Error('Mutation not found');
     } else if (tx.blockNumber) {
-      throw new Error('Mutation already acceped into the Blockchain');
+      throw new Error('Mutation already accepted onto the blockchain');
     } else if (tx.from.toLowerCase() !== this._provider.accountId.toLowerCase()) {
       throw new Error('You are not the maker of this mutation so you cannot cancel it.');
     }
