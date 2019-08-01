@@ -88,7 +88,8 @@ spec.test('performs a deploy', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -158,7 +159,8 @@ spec.test('fails when not enough balance', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -202,7 +204,8 @@ spec.test('fails with expired claim', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -246,7 +249,8 @@ spec.test('fails with invalid signature', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -292,7 +296,8 @@ spec.test('fails with invalid signature kind', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -336,7 +341,8 @@ spec.test('fails trying to perform an already performed deploy', async (ctx) => 
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -381,7 +387,8 @@ spec.test('fails trying to perform a canceled deploy', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,

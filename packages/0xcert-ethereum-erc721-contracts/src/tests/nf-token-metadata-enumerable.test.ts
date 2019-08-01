@@ -10,7 +10,8 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  uriBase?: string;
+  uriPrefix?: string;
+  uriPostfix?: string;
 }
 
 const spec = new Spec<Data>();
@@ -28,15 +29,17 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '1');
   ctx.set('id2', '2');
   ctx.set('id3', '3');
-  ctx.set('uriBase', 'https://0xcert.org/');
+  ctx.set('uriPrefix', 'https://0xcert.org/');
+  ctx.set('uriPostfix', '.json');
 });
 
 spec.beforeEach(async (ctx) => {
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
   const nfToken = await ctx.deploy({
     src: './build/nf-token-metadata-enumerable-test-mock.json',
     contract: 'NFTokenMetadataEnumerableTestMock',
-    args: ['Foo', 'F', uriBase],
+    args: ['Foo', 'F', uriPrefix, uriPostfix],
   });
   ctx.set('nfToken', nfToken);
 });
@@ -394,52 +397,91 @@ spec.test('return the correct URI', async (ctx) => {
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const id2 = ctx.get('id2');
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
   await nftoken.instance.methods.create(bob, id2).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id2).call();
-  ctx.is(uri, uriBase + id2);
+  ctx.is(uri, uriPrefix + id2 + uriPostfix);
 
   const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
   await nftoken.instance.methods.create(bob, bigId).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(bigId).call();
-  ctx.is(uri, uriBase + bigId);
+  ctx.is(uri, uriPrefix + bigId + uriPostfix);
 });
 
-spec.test('succesfully changes URI base', async (ctx) => {
+spec.test('succesfully changes URI prefix', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = 'http://test.com/';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = 'http://test.com/';
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await nftoken.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await nftoken.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, newUriBase + id1);
+  ctx.is(uri, newUriPrefix + id1 + uriPostfix);
 });
 
-spec.test('return empty thing if URI base is empty', async (ctx) => {
+spec.test('succesfully changes URI postfix', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = '';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '/metadata';
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await nftoken.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await nftoken.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await nftoken.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('succesfully changes URI postfix to empty', async (ctx) => {
+  const nftoken = ctx.get('nfToken');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '';
+
+  await nftoken.instance.methods.create(bob, id1).send({ from: owner });
+  let uri = await nftoken.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await nftoken.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await nftoken.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('return empty string if URI prefix is empty', async (ctx) => {
+  const nftoken = ctx.get('nfToken');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = '';
+
+  await nftoken.instance.methods.create(bob, id1).send({ from: owner });
+  let uri = await nftoken.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await nftoken.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await nftoken.instance.methods.tokenURI(id1).call();
   ctx.is(uri, '');
 });

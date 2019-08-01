@@ -11,7 +11,8 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  uriBase?: string;
+  uriPrefix?: string;
+  uriPostfix?: string;
   imprint1?: string;
   imprint2?: string;
   imprint3?: string;
@@ -32,18 +33,20 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
   ctx.set('id3', '125');
-  ctx.set('uriBase', 'https://0xcert.org/');
+  ctx.set('uriPrefix', 'https://0xcert.org/');
+  ctx.set('uriPostfix', '.json');
   ctx.set('imprint1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
   ctx.set('imprint2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
   ctx.set('imprint3', '0xc77a290be17f8a4ef301c4ca46497c5beb4a0556ec2d5a04dce4ce6ebd439ad1');
 });
 
 spec.beforeEach(async (ctx) => {
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
   const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []],
+    args: ['Foo', 'F', uriPrefix, uriPostfix, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []],
   });
 
   ctx.set('xcert', xcert);
@@ -490,54 +493,95 @@ spec.test('return the correct URI', async (ctx) => {
   const imprint1 = ctx.get('imprint1');
   const imprint2 = ctx.get('imprint2');
   const imprint3 = ctx.get('imprint3');
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
   await xcert.instance.methods.create(bob, id2, imprint2).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id2).call();
-  ctx.is(uri, uriBase + id2);
+  ctx.is(uri, uriPrefix + id2 + uriPostfix);
 
   const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
   await xcert.instance.methods.create(bob, bigId, imprint3).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(bigId).call();
-  ctx.is(uri, uriBase + bigId);
+  ctx.is(uri, uriPrefix + bigId + uriPostfix);
 });
 
-spec.test('succesfully changes URI base', async (ctx) => {
+spec.test('succesfully changes URI predix', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = 'http://test.com/';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = 'http://test.com/';
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await xcert.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, newUriBase + id1);
+  ctx.is(uri, newUriPrefix + id1 + uriPostfix);
 });
 
-spec.test('return empty thing if URI base is empty', async (ctx) => {
+spec.test('succesfully changes URI postfix', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = '';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '/metadata';
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await xcert.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('succesfully changes URI postfix to empty', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const imprint1 = ctx.get('imprint1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '';
+
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await xcert.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('return empty string if URI prefix is empty', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const imprint1 = ctx.get('imprint1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = '';
+
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await xcert.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, '');
 });

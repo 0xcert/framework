@@ -138,7 +138,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets information about the asset ledger (name, symbol, uriBase, schemaId, supply).
+   * Gets information about the asset ledger (name, symbol, uriPrefix, schemaId, supply).
    */
   public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
@@ -325,7 +325,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data to update asset ledger with.
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
-    return update(this, recipe.uriBase);
+    return update(this, recipe.uriPrefix, recipe.uriPostfix);
   }
 
   /**

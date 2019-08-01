@@ -11,7 +11,7 @@ spec.test('exposes objects', (ctx) => {
   ctx.true(!!utils.toSeconds);
   ctx.true(!!utils.toString);
   ctx.true(!!utils.toTuple);
-  ctx.true(!!utils.fetch);
+  ctx.true(!!utils.fetchJson);
 });
 
 export default spec;

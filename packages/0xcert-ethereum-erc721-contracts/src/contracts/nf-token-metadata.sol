@@ -45,9 +45,14 @@ contract NFTokenMetadata is
   string internal nftSymbol;
 
   /**
-   * @dev URI base for NFT metadata. NFT URI is made from base + NFT id.
+   * @dev URI prefix for NFT metadata. NFT URI is made from prefix + NFT id + postfix.
    */
-  string public uriBase;
+  string public uriPrefix;
+
+  /**
+   * @dev URI postfix for NFT metadata. NFT URI is made from prefix + NFT ID + postfix.
+   */
+  string public uriPostfix;
 
   /**
    * @dev A mapping from NFT ID to the address that owns it.
@@ -114,7 +119,8 @@ contract NFTokenMetadata is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftName, nftSymbol and uriBase.
+   * @notice When implementing this contract, don't forget to set nftName, nftSymbol, uriPrefix and
+   * uriPostfix.
    */
   constructor()
     public
@@ -333,11 +339,16 @@ contract NFTokenMetadata is
     returns (string memory)
   {
     require(idToOwner[_tokenId] != address(0), NOT_VALID_NFT);
-    if (bytes(uriBase).length > 0)
+    string memory uri = "";
+    if (bytes(uriPrefix).length > 0)
     {
-      return string(abi.encodePacked(uriBase, _uint2str(_tokenId)));
+      uri = string(abi.encodePacked(uriPrefix, _uint2str(_tokenId)));
+      if (bytes(uriPostfix).length > 0)
+      {
+        uri = string(abi.encodePacked(uri, uriPostfix));
+      }
     }
-    return "";
+    return uri;
   }
 
   /**
@@ -345,14 +356,17 @@ contract NFTokenMetadata is
    * @notice this is a internal function which should be called from user-implemented external
    * function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
-   * @param _uriBase String representing RFC 3986 URI base.
+   * @param _prefix String representing RFC 3986 URI prefix.
+   * @param _postfix String representing RFC 3986 URI postfix.
    */
-  function _setUriBase(
-    string memory _uriBase
+  function _setUri(
+    string memory _prefix,
+    string memory _postfix
   )
     internal
   {
-    uriBase = _uriBase;
+    uriPrefix = _prefix;
+    uriPostfix = _postfix;
   }
 
   /**

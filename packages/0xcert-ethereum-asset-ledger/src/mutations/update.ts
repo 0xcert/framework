@@ -1,19 +1,19 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { AssetLedger } from '../core/ledger';
 
-const functionSignature = '0x27fc0cff';
-const inputTypes = ['string'];
+const functionSignature = '0x89b73ec0';
+const inputTypes = ['string', 'string'];
 
 /**
  * Updates asset ledger uri base.
  * @param ledger Asset ledger instance.
- * @param uriBase New uri base.
+ * @param uriPrefix New uri base.
  */
-export default async function(ledger: AssetLedger, uriBase: string) {
+export default async function(ledger: AssetLedger, uriPrefix: string, uriPostfix: string) {
   const attrs = {
     from: ledger.provider.accountId,
     to: ledger.id,
-    data: functionSignature + ledger.provider.encoder.encodeParameters(inputTypes, [uriBase]).substr(2),
+    data: functionSignature + ledger.provider.encoder.encodeParameters(inputTypes, [uriPrefix, uriPostfix]).substr(2),
   };
   const res = await ledger.provider.post({
     method: 'eth_sendTransaction',

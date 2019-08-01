@@ -1,11 +1,15 @@
 /**
- * Universal fetch method reads remote or local file.
+ * Universal fetch method reads remote or local JSON file.
  * @param path URL or local path.
  */
-export async function fetch(path, options?) {
+export async function fetchJson(path, options?): Promise<any> {
   if (typeof window !== 'undefined') {
-    return (window as any).fetch(path, options);
+    return (window as any).fetch(path, options).then((r) => r.json());
+  } else if (path.lastIndexOf('http', 0) !== 0) {
+    return new Promise((resolve, reject) => {
+      require('fs').readFile(path, 'utf8', (err, data) => err ? reject(err) : resolve(JSON.parse(data)));
+    });
   } else {
-    return require('node-fetch')(path, options);
+    return require('node-fetch')(path, options).then((r) => r.json());
   }
 }

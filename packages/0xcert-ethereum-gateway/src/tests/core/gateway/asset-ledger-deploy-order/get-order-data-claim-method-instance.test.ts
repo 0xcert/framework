@@ -52,7 +52,8 @@ spec.test('check if deploy data claim equals locally created one', async (ctx) =
     assetLedgerData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
       owner: bob,

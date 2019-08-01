@@ -3,8 +3,8 @@ import { AssetLedgerDeployOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { createRecipeTuple } from '../../lib/asset-ledger-deploy-order';
 
-const functionSignature = '0xa7a6fdb1';
-const inputTypes = ['tuple(address, address, tuple(string, string, string, bytes32, bytes4[], address), tuple(address, address, uint256), uint256, uint256)'];
+const functionSignature = '0x9ebbc600';
+const inputTypes = ['tuple(address, address, tuple(string, string, string, string, bytes32, bytes4[], address), tuple(address, address, uint256), uint256, uint256)'];
 
 /**
  * Cancels already submited deploy on the network.

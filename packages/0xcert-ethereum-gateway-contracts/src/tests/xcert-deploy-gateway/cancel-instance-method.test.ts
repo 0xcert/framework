@@ -82,7 +82,8 @@ spec.test('cancels an deploy', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -113,7 +114,8 @@ spec.test('fails when not the maker tries to cancel deploy', async (ctx) => {
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
@@ -144,7 +146,8 @@ spec.test('fails when trying to cancel an alredy performed deploy', async (ctx) 
     deployData: {
       name: 'test',
       symbol: 'TST',
-      uriBase: 'https://base.com/',
+      uriPrefix: 'https://base.com/',
+      uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
       owner: jane,

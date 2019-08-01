@@ -12,7 +12,12 @@ const functions = [
     outputTypes: ['string'],
   },
   {
-    signature: '0xfbca0ce1',
+    signature: '0x62b99ad4',
+    inputTypes: [],
+    outputTypes: ['string'],
+  },
+  {
+    signature: '0xc298bba5',
     inputTypes: [],
     outputTypes: ['string'],
   },
@@ -29,7 +34,7 @@ const functions = [
 ];
 
 /**
- * Gets information(name, symbol, uriBase, schemaId, supply) of the asset ledger.
+ * Gets information(name, symbol, uriPrefix, uriPostfix, schemaId, supply) of the asset ledger.
  * @param ledger Asset ledger instance.
  */
 export default async function(ledger: AssetLedger) {
@@ -53,8 +58,9 @@ export default async function(ledger: AssetLedger) {
   return {
     name: info[0],
     symbol: info[1],
-    uriBase: info[2],
-    schemaId: info[3],
-    supply: info[4],
+    uriPrefix: info[2],
+    uriPostfix: info[3],
+    schemaId: info[4],
+    supply: info[5],
   };
 }

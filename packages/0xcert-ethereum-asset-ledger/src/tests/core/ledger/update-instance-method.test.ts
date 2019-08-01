@@ -28,13 +28,15 @@ spec.before(async (stage) => {
   stage.set('ledger', new AssetLedger(provider, ledgerId));
 });
 
-spec.test('update uri base', async (ctx) => {
+spec.test('update uri', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   await ledger.update({
-    uriBase: 'http://new.com/',
+    uriPrefix: 'http://new.com/',
+    uriPostfix: '.test',
   });
-  ctx.is(await xcert.instance.methods.uriBase().call(), 'http://new.com/');
+  ctx.is(await xcert.instance.methods.uriPrefix().call(), 'http://new.com/');
+  ctx.is(await xcert.instance.methods.uriPostfix().call(), '.test');
 });
 
 export default spec;
