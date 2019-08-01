@@ -308,12 +308,19 @@ export interface AssetLedgerData {
    */
   symbol: string;
 
-  /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended foo each asset.
+    /**
+   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
-   * Asset 1 URI will become: https://example.com/id/1
+   * Asset 1 URI will become: https://example.com/id/1 + postfix
    */
   uriPrefix: string;
+
+  /**
+   * Uri postfix for metadata URI-s. After uriPrefix and assetId postfix is automatically appended for each asset.
+   * Example: .json
+   * Asset 1 URI will become: uriPrefix + 1.json
+   */
+  uriPostfix: string;
 
   /**
    * Hashed representation of JSON schema defining this object.
