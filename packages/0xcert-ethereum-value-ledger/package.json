@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-value-ledger",
-  "version": "1.7.4",
+  "version": "2.0.0-alpha4",
   "description": "Value ledger module for currency management on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -77,7 +77,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "1.7.4",
+    "@0xcert/ethereum-sandbox": "2.0.0-alpha4",
     "@specron/cli": "0.6.0",
     "@specron/spec": "0.6.0",
     "@specron/flattener": "0.6.0",
@@ -89,9 +89,9 @@
     "web3": "1.2.0"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.7.4",
-    "@0xcert/ethereum-utils": "1.7.4",
-    "@0xcert/scaffold": "1.7.4",
-    "@0xcert/utils": "1.7.4"
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha4",
+    "@0xcert/ethereum-utils": "2.0.0-alpha4",
+    "@0xcert/scaffold": "2.0.0-alpha4",
+    "@0xcert/utils": "2.0.0-alpha4"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-generic-provider",
-  "version": "1.7.4",
+  "version": "2.0.0-alpha4",
   "description": "Basic implementation of communication provider for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,7 +64,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-sandbox": "1.7.4",
+    "@0xcert/ethereum-sandbox": "2.0.0-alpha4",
     "@types/node": "^10.12.24",
     "@hayspec/cli": "^0.8.3",
     "@hayspec/spec": "^0.8.3",
@@ -77,7 +77,7 @@
     "web3": "1.2.0"
   },
   "dependencies": {
-    "@0xcert/wanchain-utils": "1.7.4",
-    "@0xcert/ethereum-generic-provider": "1.7.4"
+    "@0xcert/wanchain-utils": "2.0.0-alpha4",
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha4"
   }
 }
