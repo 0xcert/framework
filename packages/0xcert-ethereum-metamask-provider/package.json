@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-metamask-provider",
-  "version": "1.7.4",
+  "version": "2.0.0-alpha4",
   "description": "Implementation of MetaMask communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -74,6 +74,6 @@
     "web3": "1.2.0"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "1.7.4"
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha4"
   }
 }
