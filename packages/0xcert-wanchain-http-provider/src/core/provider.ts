@@ -82,6 +82,11 @@ export interface HttpProviderOptions {
   gasPriceMultiplier?: number;
 
   /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  retryGasPriceMultiplier?: number;
+
+  /**
    * Sandbox mode. False by default.
    */
   sandbox?: Boolean;

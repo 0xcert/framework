@@ -1,4 +1,4 @@
-import { normalizeAddress } from '@0xcert/ethereum-utils/dist/lib/normalize-address';
+import { normalizeAddress } from '@0xcert/ethereum-utils';
 import { MutationBase, MutationContext, MutationEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { MutationEventSignature, MutationEventTypeKind } from './types';
@@ -237,6 +237,77 @@ export class Mutation extends EventEmitter implements MutationBase {
    */
   public async resolve() {
     return this.resolveCurrentState();
+  }
+
+  /**
+   * Retries mutation with a higher gas price if possible. It uses the provider's retryGasMultiplier to
+   * calculate gas price.
+   * @notice Returns error if a mutation is already accepted onto the blockchain.
+   */
+  public async retry() {
+    const tx = await this.getTransactionObject();
+    if (!tx) {
+      throw new Error('Mutation not found');
+    } else if (tx.blockNumber) {
+      throw new Error('Mutation already accepted onto the blockchain');
+    }
+
+    const gasPrice = await this._provider.post({
+      method: 'eth_gasPrice',
+      params: [],
+    });
+    const oldGasPrice = tx.gasPrice;
+    const retryGasPrice = gasPrice.result * this._provider.retryGasPriceMultiplier;
+    // We first calculate new gas price based on current network conditions and
+    // retryGasPriceMultiplier if calculated gas price is lower than the original gas price, then we
+    // use the retryGasPriceMultiplier with the original gas price.
+    const newGasPrice = retryGasPrice >= oldGasPrice ? retryGasPrice : oldGasPrice * this._provider.retryGasPriceMultiplier;
+    const attrs = {
+      from: tx.from,
+      data: tx.input,
+      nonce: tx.nonce,
+      value: tx.value,
+      gas: tx.gas,
+      gasPrice: `0x${Math.ceil(newGasPrice).toString(16)}`,
+    };
+    if (tx.to) {
+      attrs['to'] = tx.to;
+    }
+    const res = await this._provider.post({
+      method: 'eth_sendTransaction',
+      params: [attrs],
+    });
+    this._id = res.result;
+  }
+
+  /**
+   * Cancels mutation if possible.
+   * @notice Returns error if a mutation is already accepted onto the blockchain or if you are not the
+   * mutation maker.
+   */
+  public async cancel() {
+    const tx = await this.getTransactionObject();
+    if (!tx) {
+      throw new Error('Mutation not found');
+    } else if (tx.blockNumber) {
+      throw new Error('Mutation already accepted onto the blockchain');
+    } else if (tx.from.toLowerCase() !== this._provider.accountId.toLowerCase()) {
+      throw new Error('You are not the maker of this mutation so you cannot cancel it.');
+    }
+
+    const newGasPrice = `0x${Math.ceil(tx.gasPrice * 1.1).toString(16)}`;
+    const attrs = {
+      from: tx.from,
+      to: tx.from,
+      nonce: tx.nonce,
+      value: '0x0',
+      gasPrice: newGasPrice,
+    };
+    const res = await this._provider.post({
+      method: 'eth_sendTransaction',
+      params: [attrs],
+    });
+    this._id = res.result;
   }
 
   /**
