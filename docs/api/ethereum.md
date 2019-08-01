@@ -1832,7 +1832,8 @@ All ledger abilities are automatically granted to the account that performs this
 | provider | [required] An instance of an HTTP or MetaMask provider.
 | recipe.name | [required] A `string` representing asset ledger name.
 | recipe.symbol | [required] A `string` representing asset ledger symbol.
-| recipe.uriPrefix | [required] A `string` representing base asset URI.
+| recipe.uriPrefix | [required] A `string` representing prefix of asset URI.
+| recipe.uriPostfix | [required] A `string` representing postfix of asset URI.
 | recipe.schemaId | [required] A `string` representing data schema ID.
 | recipe.capabilities | A list of `integers` which represent ledger capabilities.
 
@@ -1855,6 +1856,7 @@ const recipe = {
     name: 'Math Course Certificate',
     symbol: 'MCC',
     uriPrefix: 'http://domain.com/assets/',
+    uriPostfix: '.json',
     schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
     capabilities,
 };
@@ -2204,7 +2206,8 @@ An `asynchronous` class instance `function` that returns an object with general 
 |-|-
 | name | A `string` representing asset ledger name.
 | symbol | A `string` representing asset ledger symbol.
-| uriPrefix | A `string` representing base asset URI.
+| uriPrefix | A `string` representing prefix of asset URI.
+| uriPostfix | A `string` representing postfix of asset URI.
 | schemaId | A `string` representing data schema ID.
 | supply | A big number `string` representing the total number of issued assets.
 
@@ -2446,14 +2449,15 @@ const mutation = await ledger.revokeAsset(assetId);
 An `asynchronous` class instance `function` which updates ledger data.
 
 ::: warning
-You need `UPDATE_URI_BASE` ledger ability to update ledger's `uriPrefix` property.
+You need `UPDATE_URI` ledger ability to update ledger's `uriPrefix` and `uriPostifx` properties.
 :::
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| recipe.uriPrefix | [required] A `string` representing ledger URI base property.
+| recipe.uriPrefix | [required] A `string` representing ledger URI uriPrefix property.
+| recipe.uriPostifx | [required] A `string` representing ledger URI uriPostifx property.
 
 **Result:**
 
@@ -2465,6 +2469,7 @@ An instance of the same mutation class.
 // arbitrary data
 const recipe = {
     uriPrefix: 'http://swapmarket.com/',
+    uriPostfix: '.json',
 };
 
 // perform mutation
@@ -2563,7 +2568,7 @@ This categorization is for safety purposes since revoking your own super ability
 | REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
 | UPDATE_ASSET | 16 | Allows an account to update asset data.
-| UPDATE_URI_BASE | 64 | Allows an account to update asset ledger's base URI.
+| UPDATE_URI | 64 | Allows an account to update asset ledger's URI prefix and postfix.
 
 **Example:**
 
@@ -3132,7 +3137,8 @@ This order kind is used for delegating `AssetLedger` deploy.
 | assetLedgerData.owner | [required] A `string` representing Ethereum wallet, which will be the owner of the asset ledger.
 | assetLedgerData.schemaId | [required] A `string` representing data schema ID.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
-| assetLedgerData.uriPrefix | [required] A `string` representing base asset URI.
+| assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
+| assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
 | makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
