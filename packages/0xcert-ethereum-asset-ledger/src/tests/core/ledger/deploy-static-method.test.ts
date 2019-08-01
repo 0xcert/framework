@@ -2,6 +2,7 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { AssetLedgerCapability } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
+import * as path from 'path';
 import { AssetLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
@@ -19,6 +20,7 @@ spec.before(async (stage) => {
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
     requiredConfirmations: 0,
+    assetLedgerSource: path.join(__dirname, '..', '..', '..', '..', 'node_modules', '@0xcert', 'ethereum-xcert-contracts', 'build', 'xcert-mock.json'),
   });
   stage.set('provider', provider);
 });
@@ -31,7 +33,8 @@ spec.test('deploys new asset ledger', async (ctx) => {
   const info = {
     name: 'Foo',
     symbol: 'Bar',
-    uriBase: 'http://foo.bar',
+    uriPrefix: 'http://foo.bar',
+    uriPostfix: '.json',
     schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
   };
   const ledger = await AssetLedger.deploy(provider, { ...info, capabilities }).then((mutation) => {
