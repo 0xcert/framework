@@ -308,7 +308,7 @@ export interface AssetLedgerData {
    */
   symbol: string;
 
-    /**
+  /**
    * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
    * Asset 1 URI will become: https://example.com/id/1 + postfix
