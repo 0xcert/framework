@@ -53,7 +53,7 @@ contract NFTokenMetadataEnumerable is
   string public uriPrefix;
 
   /**
-   * @dev URI postfix for NFT metadata. NFT URI is made from prefix + NFT id + postfix.
+   * @dev URI postfix for NFT metadata. NFT URI is made from prefix + NFT ID + postfix.
    */
   string public uriPostfix;
 
@@ -137,7 +137,7 @@ contract NFTokenMetadataEnumerable is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftName, nftSymbol, uriPrefix and
+   * @notice When implementing this contract, don't forget to set nftName, nftSymbol, uriPrefix and
    * uriPostfix.
    */
   constructor()

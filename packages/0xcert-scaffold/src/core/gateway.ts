@@ -316,7 +316,7 @@ export interface AssetLedgerData {
   uriPrefix: string;
 
   /**
-   * Uri postfix for metadata URI-s. After uriPrefix and assetId postfix is automatically appended for each asset.
+   * URI postfix for metadata URIs. After uriPrefix and assetId, postfix is automatically appended for each asset..
    * Example: .json
    * Asset 1 URI will become: uriPrefix + 1.json
    */

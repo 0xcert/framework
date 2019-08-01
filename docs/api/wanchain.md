@@ -1356,7 +1356,7 @@ const mutation = await ledger.revokeAsset(assetId);
 An `asynchronous` class instance `function` which updates ledger data.
 
 ::: warning
-You need `UPDATE_URI` ledger ability to update ledger's `uriPrefix` and `uriPostifx` properties.
+You need `UPDATE_URI` ledger ability to update ledger's `uriPrefix` and `uriPostfix` properties.
 :::
 
 **Arguments:**
@@ -1364,7 +1364,7 @@ You need `UPDATE_URI` ledger ability to update ledger's `uriPrefix` and `uriPost
 | Argument | Description
 |-|-
 | recipe.uriPrefix | [required] A `string` representing ledger URI uriPrefix property.
-| recipe.uriPostifx | [required] A `string` representing ledger URI uriPostifx property.
+| recipe.uriPostfix | [required] A `string` representing ledger URI uriPostfix property.
 
 **Result:**
 
