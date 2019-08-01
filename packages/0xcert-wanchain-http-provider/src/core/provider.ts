@@ -1,4 +1,4 @@
-import { fetch } from '@0xcert/utils';
+import { fetchJson } from '@0xcert/utils';
 import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/wanchain-generic-provider';
 
 /**
@@ -132,13 +132,13 @@ export class HttpProvider extends GenericProvider {
       ...this._options,
     };
 
-    return fetch(url, {
+    return fetchJson(url, {
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
     }).then((res) => {
-      return res.json();
+      return res;
     }).then((res) => {
       return callback(null, res);
     }).catch((err) => {
