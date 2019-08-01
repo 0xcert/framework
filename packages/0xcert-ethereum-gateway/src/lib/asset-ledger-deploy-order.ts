@@ -22,7 +22,7 @@ export function createOrderHash(gateway: Gateway, order: AssetLedgerDeployOrder)
       '0x',
       stringToHex(order.assetLedgerData.name),
       stringToHex(order.assetLedgerData.symbol),
-      stringToHex(order.assetLedgerData.uriBase),
+      stringToHex(order.assetLedgerData.uriPrefix),
       order.assetLedgerData.schemaId.substr(2),
       capabilities,
       order.assetLedgerData.owner.substr(2),
@@ -71,7 +71,7 @@ export function createRecipeTuple(order: AssetLedgerDeployOrder) {
     xcertData: {
       name: order.assetLedgerData.name,
       symbol: order.assetLedgerData.symbol,
-      uriBase: order.assetLedgerData.uriBase,
+      uriPrefix: order.assetLedgerData.uriPrefix,
       schemaId: order.assetLedgerData.schemaId,
       capabilities: order.assetLedgerData.capabilities.map((c) => { return getInterfaceCode(c); }),
       owner: order.assetLedgerData.owner,

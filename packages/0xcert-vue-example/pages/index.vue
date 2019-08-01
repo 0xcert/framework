@@ -99,7 +99,7 @@ export default {
       const mutation = await this.$0xcert.deployAssetLedger({
         name: 'fundin',
         symbol: 'fundin',
-        uriBase: 'http://www.fundin.us',
+        uriPrefix: 'http://www.fundin.us',
         schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
         capabilities: [3, 1]
       }).then((mutation) => {

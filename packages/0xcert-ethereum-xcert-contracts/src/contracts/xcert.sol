@@ -90,7 +90,7 @@ contract XcertToken is
   /**
    * @dev Contract constructor.
    * @notice When implementing this contract don't forget to set nftSchemaId, nftName, nftSymbol
-   * and uriBase.
+   * and uriPrefix.
    */
   constructor()
     public

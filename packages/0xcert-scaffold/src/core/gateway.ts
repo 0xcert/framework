@@ -313,7 +313,7 @@ export interface AssetLedgerData {
    * Example: https://example.com/id/
    * Asset 1 URI will become: https://example.com/id/1
    */
-  uriBase: string;
+  uriPrefix: string;
 
   /**
    * Hashed representation of JSON schema defining this object.
