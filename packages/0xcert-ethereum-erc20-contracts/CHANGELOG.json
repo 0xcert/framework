@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-erc20-contracts",
   "entries": [
     {
-      "version": "2.0.0-alpha4",
-      "tag": "@0xcert/ethereum-erc20-contracts_v2.0.0-alpha4",
+      "version": "2.0.0-alpha5",
+      "tag": "@0xcert/ethereum-erc20-contracts_v2.0.0-alpha5",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },
