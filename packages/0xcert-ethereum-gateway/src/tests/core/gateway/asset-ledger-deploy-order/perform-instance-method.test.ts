@@ -33,13 +33,13 @@ spec.before(async (stage) => {
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
-    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
+    gatewayConfig: { actionsOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
     requiredConfirmations: 0,
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
-    gatewayConfig: { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
+    gatewayConfig: { actionsOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' },
     requiredConfirmations: 0,
   });
 

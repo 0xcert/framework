@@ -66,7 +66,7 @@ spec.test('check if order data claim equals locally created one', async (ctx) =>
   const provider = ctx.get('makerGenericProvider');
   const tokenDeployGateway = ctx.get('protocol').tokenDeployGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGateway });
+  const gateway = new Gateway(provider, { actionsOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGateway });
   const claim = await gateway.getOrderDataClaim(order);
 
   const localClaim = createOrderHash(gateway, order);

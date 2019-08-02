@@ -19,7 +19,7 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi-order gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
 | options.networkName | A string representing the Ethereum network we will connect to.
@@ -94,7 +94,7 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 | Argument | Description
 |-|-
 | assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
+| actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
@@ -353,7 +353,7 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi-order gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.`
 | options.networkName | A `string` representing the Ethereum network we will connect to.
@@ -428,7 +428,7 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 | Argument | Description
 |-|-
 | assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
+| actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
@@ -741,7 +741,7 @@ A `class` providing the communication with the Ethereum blockchain through [Meta
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi-order gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
 | options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
@@ -822,7 +822,7 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 | Argument | Description
 |-|-
 | assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
+| actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
@@ -1109,7 +1109,7 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi-order gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -2957,7 +2957,7 @@ A `class` representing a smart contract on the Ethereum blockchain.
 | Argument | Description
 |-|-
 | gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.multiOrderId | A `string` representing an Ethereum address of the [multi order gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
 | gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
 | provider | [required] An instance of an HTTP or MetaMask provider.
 
@@ -2991,14 +2991,14 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { MultiOrderActionKind } from '@0xcert/ethereum-gateway';
+import { ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const order = {
     kind: OrderKind.MULTI_ORDER,
     actions: [
         {
-            kind: MultiOrderActionKind.TRANSFER_ASSET,
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
             senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
             receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
@@ -3045,7 +3045,7 @@ const order = {
     kind: OrderKind.MULTI_ORDER,
     actions: [
         {
-            kind: MultiOrderActionKind.TRANSFER_ASSET,
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
             senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
             receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
@@ -3114,7 +3114,7 @@ const signature = 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68
 const order = {
     actions: [
         {
-            kind: MultiOrderActionKind.TRANSFER_ASSET,
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
             ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
             senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
             receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
@@ -3167,7 +3167,7 @@ This order kind can perform multiple operations such as value transfer, asset tr
 | Argument | Description
 |-|-
 | signature | [required] A `string` representing order signature created by the maker.
-| order.actions | [required] An `array` of [multi-order action objects](#multi-order-actions).
+| order.actions | [required] An `array` of [actions order action objects](#actions order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing a unique order number.
@@ -3195,7 +3195,7 @@ This order kind is used for delegating `ValueLedger` deploy.
 
 ## Multi-order actions
 
-Multi-order actions define the atomic operations of the multi-order.
+Multi-order actions define the atomic operations of the actions order.
 
 **Options:**
 
@@ -3216,7 +3216,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
-| kind | [required] An `integer` number that equals to `MultiOrderActionKind.CREATE_ASSET`.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing the receiver's address.
 
@@ -3226,7 +3226,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
-| kind | [required] An `integer` number that equals to `MultiOrderActionKind.UPDATE_ASSET_IMPRINT`.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
 | ledgerId | [required] A `string` representing asset ledger address.
 
 ### Transfer asset action
@@ -3234,7 +3234,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 | Property | Description
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
-| kind | [required] An `integer` number that equals to `MultiOrderActionKind.TRANSFER_ASSET`.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.TRANSFER_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing the receiver's address.
 | senderId | A `string` representing the sender's address.
@@ -3243,7 +3243,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 
 | Property | Description
 |-|-
-| kind | [required] An `integer` number that equals to `MultiOrderActionKind.TRANSFER_VALUE`.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.TRANSFER_VALUE`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing the receiver's address.
 | senderId | A `string` representing the sender's address.

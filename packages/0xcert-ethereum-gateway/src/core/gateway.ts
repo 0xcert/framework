@@ -1,23 +1,23 @@
 import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { GatewayBase, Order, OrderKind } from '@0xcert/scaffold';
+import { normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
 import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
-import { normalizeOrderIds as normalizeMultiOrderIds } from '../lib/multi-order';
 import { normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
+import actionsOrderCancel from '../mutations/actions-order/cancel';
+import actionsOrderPerform from '../mutations/actions-order/perform';
 import assetLedgerDeployOrderCancel from '../mutations/asset-ledger-deploy-order/cancel';
 import assetLedgerDeployOrderPerform from '../mutations/asset-ledger-deploy-order/perform';
-import multiOrderCancel from '../mutations/multi-order/cancel';
-import multiOrderPerform from '../mutations/multi-order/perform';
 import valueLedgerDeployOrderCancel from '../mutations/value-ledger-deploy-order/cancel';
 import valueLedgerDeployOrderPerform from '../mutations/value-ledger-deploy-order/perform';
+import actionsOrderClaimEthSign from '../queries/actions-order/claim-eth-sign';
+import actionsOrderClaimPersonalSign from '../queries/actions-order/claim-personal-sign';
+import getActionsOrderDataClaim from '../queries/actions-order/get-order-data-claim';
+import getProxyAccountId from '../queries/actions-order/get-proxy-account-id';
+import actionsOrderisValidSignature from '../queries/actions-order/is-valid-signature';
 import assetLedgerDeployOrderClaimEthSign from '../queries/asset-ledger-deploy-order/claim-eth-sign';
 import assetLedgerDeployOrderClaimPersonalSign from '../queries/asset-ledger-deploy-order/claim-personal-sign';
 import getAssetLedgerDeployOrderDataClaim from '../queries/asset-ledger-deploy-order/get-order-data-claim';
 import assetLedgerDeployOrderisValidSignature from '../queries/asset-ledger-deploy-order/is-valid-signature';
-import multiOrderClaimEthSign from '../queries/multi-order/claim-eth-sign';
-import multiOrderClaimPersonalSign from '../queries/multi-order/claim-personal-sign';
-import getMultiOrderDataClaim from '../queries/multi-order/get-order-data-claim';
-import getProxyAccountId from '../queries/multi-order/get-proxy-account-id';
-import multiOrderisValidSignature from '../queries/multi-order/is-valid-signature';
 import valueLedgerDeployOrderClaimEthSign from '../queries/value-ledger-deploy-order/claim-eth-sign';
 import valueLedgerDeployOrderClaimPersonalSign from '../queries/value-ledger-deploy-order/claim-personal-sign';
 import getValueLedgerDeployOrderDataClaim from '../queries/value-ledger-deploy-order/get-order-data-claim';
@@ -71,7 +71,7 @@ export class Gateway implements GatewayBase {
   public set config(config: GatewayConfig) {
     if (typeof config !== 'undefined') {
       this._config = {
-        multiOrderId: this._provider.encoder.normalizeAddress(config.multiOrderId),
+        actionsOrderId: this._provider.encoder.normalizeAddress(config.actionsOrderId),
         assetLedgerDeployOrderId: this._provider.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
         valueLedgerDeployOrderId: this._provider.encoder.normalizeAddress(config.valueLedgerDeployOrderId),
       };
@@ -93,11 +93,11 @@ export class Gateway implements GatewayBase {
    */
   public async claim(order: Order): Promise<string> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeMultiOrderIds(order, this._provider);
+      order = normalizeActionsOrderIds(order, this._provider);
       if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
-        return multiOrderClaimPersonalSign(this, order);
+        return actionsOrderClaimPersonalSign(this, order);
       } else {
-        return multiOrderClaimEthSign(this, order);
+        return actionsOrderClaimEthSign(this, order);
       }
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
@@ -125,8 +125,8 @@ export class Gateway implements GatewayBase {
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeMultiOrderIds(order, this._provider);
-      return multiOrderPerform(this, order, claim);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderPerform(this, order, claim);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderPerform(this, order, claim);
@@ -144,8 +144,8 @@ export class Gateway implements GatewayBase {
    */
   public async cancel(order: Order): Promise<Mutation> {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeMultiOrderIds(order, this._provider);
-      return multiOrderCancel(this, order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderCancel(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderCancel(this, order);
@@ -172,8 +172,8 @@ export class Gateway implements GatewayBase {
    */
   public async isValidSignature(order: Order, claim: string) {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeMultiOrderIds(order, this._provider);
-      return multiOrderisValidSignature(this, order, claim);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderisValidSignature(this, order, claim);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderisValidSignature(this, order, claim);
@@ -191,8 +191,8 @@ export class Gateway implements GatewayBase {
    */
   public async getOrderDataClaim(order: Order) {
     if (order.kind === OrderKind.MULTI_ORDER) {
-      order = normalizeMultiOrderIds(order, this._provider);
-      return getMultiOrderDataClaim(this, order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return getActionsOrderDataClaim(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return getAssetLedgerDeployOrderDataClaim(this, order);

@@ -222,7 +222,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public set gatewayConfig(config: GatewayConfig) {
     if (typeof config !== 'undefined') {
       this._gatewayConfig = {
-        multiOrderId: this.encoder.normalizeAddress(config.multiOrderId),
+        actionsOrderId: this.encoder.normalizeAddress(config.actionsOrderId),
         assetLedgerDeployOrderId: this.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
         valueLedgerDeployOrderId: this.encoder.normalizeAddress(config.valueLedgerDeployOrderId),
       };

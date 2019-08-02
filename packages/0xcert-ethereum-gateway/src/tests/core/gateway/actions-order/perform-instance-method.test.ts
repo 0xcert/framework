@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
 
@@ -82,7 +82,7 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
 });
 
-spec.test('submits gateway multi order to the network which executes transfers', async (ctx) => {
+spec.test('submits gateway actions order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const bobGenericProvider = ctx.get('bobGenericProvider');
   const bob = ctx.get('bob');
@@ -90,7 +90,7 @@ spec.test('submits gateway multi order to the network which executes transfers',
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -98,27 +98,27 @@ spec.test('submits gateway multi order to the network which executes transfers',
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.CREATE_ASSET,
+        kind: ActionsOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         receiverId: bob,
         assetId: '102',
         assetImprint: '0',
       },
       {
-        kind: MultiOrderActionKind.UPDATE_ASSET_IMPRINT,
+        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
         ledgerId: xcertId,
         assetImprint: '2',
         assetId: '100',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         receiverId: bob,
         assetId: '100',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: bob,
         receiverId: coinbase,
@@ -128,10 +128,10 @@ spec.test('submits gateway multi order to the network which executes transfers',
   };
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(bobGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(bobGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const mutation = await gateway.perform(order, claim);
   await mutation.complete();
 
@@ -143,7 +143,7 @@ spec.test('submits gateway multi order to the network which executes transfers',
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
 });
 
-spec.test('submits dynamic gateway multi order to the network which executes transfers', async (ctx) => {
+spec.test('submits dynamic gateway actions order to the network which executes transfers', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const saraGenericProvider = ctx.get('saraGenericProvider');
   const coinbase = ctx.get('coinbase');
@@ -154,32 +154,32 @@ spec.test('submits dynamic gateway multi order to the network which executes tra
   const erc20 = ctx.get('protocol').erc20;
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.CREATE_ASSET,
+        kind: ActionsOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         assetId: '105',
         assetImprint: '0',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_VALUE,
+        kind: ActionsOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         receiverId: bob,
         value: '100000',
       },
       {
-        kind: MultiOrderActionKind.UPDATE_ASSET_IMPRINT,
+        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
         ledgerId: xcertId,
         assetImprint: '2',
         assetId: '105',
@@ -188,10 +188,10 @@ spec.test('submits dynamic gateway multi order to the network which executes tra
   };
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(saraGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(saraGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   await gateway.perform(order, claim).then(() => ctx.sleep(200));
 
@@ -201,15 +201,15 @@ spec.test('submits dynamic gateway multi order to the network which executes tra
   ctx.is(await erc20.instance.methods.balanceOf(bob).call(), '100000');
 });
 
-spec.test('handles fixed multi order without receiver', async (ctx) => {
+spec.test('handles fixed actions order without receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  let order: MultiOrder = {
+  let order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -217,7 +217,7 @@ spec.test('handles fixed multi order without receiver', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.CREATE_ASSET,
+        kind: ActionsOrderActionKind.CREATE_ASSET,
         ledgerId: xcertId,
         assetId: '105',
         assetImprint: '0',
@@ -239,7 +239,7 @@ spec.test('handles fixed multi order without receiver', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
@@ -254,15 +254,15 @@ spec.test('handles fixed multi order without receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed multi order without null receiver', async (ctx) => {
+spec.test('handles fixed actions order without null receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  let order: MultiOrder = {
+  let order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -270,7 +270,7 @@ spec.test('handles fixed multi order without null receiver', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.CREATE_ASSET,
+        kind: ActionsOrderActionKind.CREATE_ASSET,
         receiverId: null,
         ledgerId: xcertId,
         assetId: '105',
@@ -293,7 +293,7 @@ spec.test('handles fixed multi order without null receiver', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         assetId: '101',
@@ -308,15 +308,15 @@ spec.test('handles fixed multi order without null receiver', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed multi order without sender', async (ctx) => {
+spec.test('handles fixed actions order without sender', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -324,7 +324,7 @@ spec.test('handles fixed multi order without sender', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_VALUE,
+        kind: ActionsOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         receiverId: coinbase,
         value: '100000',
@@ -339,15 +339,15 @@ spec.test('handles fixed multi order without sender', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles fixed multi order with null sender', async (ctx) => {
+spec.test('handles fixed actions order with null sender', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -355,7 +355,7 @@ spec.test('handles fixed multi order with null sender', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_VALUE,
+        kind: ActionsOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         senderId: null,
         receiverId: coinbase,
@@ -371,21 +371,21 @@ spec.test('handles fixed multi order with null sender', async (ctx) => {
   ctx.not(error, null);
 });
 
-spec.test('handles dynamic multi order without sender and receiver', async (ctx) => {
+spec.test('handles dynamic actions order without sender and receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_VALUE,
+        kind: ActionsOrderActionKind.TRANSFER_VALUE,
         ledgerId: erc20Id,
         value: '100000',
       },
@@ -399,14 +399,14 @@ spec.test('handles dynamic multi order without sender and receiver', async (ctx)
   ctx.not(error, null);
 });
 
-spec.test('handles dynamic multi order without null sender and null receiver', async (ctx) => {
+spec.test('handles dynamic actions order without null sender and null receiver', async (ctx) => {
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: null,
@@ -414,7 +414,7 @@ spec.test('handles dynamic multi order without null sender and null receiver', a
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_VALUE,
+        kind: ActionsOrderActionKind.TRANSFER_VALUE,
         senderId: null,
         receiverId: null,
         ledgerId: erc20Id,

@@ -65,7 +65,7 @@ spec.test('check if signature is valid', async (ctx) => {
   const provider = ctx.get('makerGenericProvider');
   const tokenDeployGatewayId = ctx.get('protocol').tokenDeployGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
+  const gateway = new Gateway(provider, { actionsOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
   const claim = await gateway.claim(order);
 
   ctx.true(await gateway.isValidSignature(order, claim));

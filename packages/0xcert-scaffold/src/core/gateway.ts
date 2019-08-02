@@ -4,7 +4,7 @@ import { MutationBase } from './mutation';
 /**
  * List of available order action kinds.
  */
-export enum MultiOrderActionKind {
+export enum ActionsOrderActionKind {
   CREATE_ASSET = 1,
   TRANSFER_ASSET = 2,
   TRANSFER_VALUE = 3,
@@ -39,18 +39,18 @@ export interface GatewayBase {
 /**
  * Different order actions.
  */
-export type MultiOrderAction = MultiOrderActionCreateAsset | MultiOrderActionTransferAsset
-  | MultiOrderActionTransferValue | MultiOrderActionUpdateAssetImprint;
+export type ActionsOrderAction = ActionsOrderActionCreateAsset | ActionsOrderActionTransferAsset
+  | ActionsOrderActionTransferValue | ActionsOrderActionUpdateAssetImprint;
 
 /**
  * Order create asset data definitio.
  */
-export interface MultiOrderActionCreateAsset {
+export interface ActionsOrderActionCreateAsset {
 
   /**
    * Type od order action.
    */
-  kind: MultiOrderActionKind.CREATE_ASSET;
+  kind: ActionsOrderActionKind.CREATE_ASSET;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
@@ -76,12 +76,12 @@ export interface MultiOrderActionCreateAsset {
 /**
  * Order transfer asset data definition.
  */
-export interface MultiOrderActionTransferAsset {
+export interface ActionsOrderActionTransferAsset {
 
   /**
    * Type od order action.
    */
-  kind: MultiOrderActionKind.TRANSFER_ASSET;
+  kind: ActionsOrderActionKind.TRANSFER_ASSET;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
@@ -107,12 +107,12 @@ export interface MultiOrderActionTransferAsset {
 /**
  * Order transfer asset data definition.
  */
-export interface MultiOrderActionUpdateAssetImprint {
+export interface ActionsOrderActionUpdateAssetImprint {
 
   /**
    * Type od order action.
    */
-  kind: MultiOrderActionKind.UPDATE_ASSET_IMPRINT;
+  kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
@@ -133,12 +133,12 @@ export interface MultiOrderActionUpdateAssetImprint {
 /**
  * Order transfer value data definition.
  */
-export interface MultiOrderActionTransferValue {
+export interface ActionsOrderActionTransferValue {
 
   /**
    * Type od order action.
    */
-  kind: MultiOrderActionKind.TRANSFER_VALUE;
+  kind: ActionsOrderActionKind.TRANSFER_VALUE;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
@@ -164,7 +164,7 @@ export interface MultiOrderActionTransferValue {
 /**
  * Different order actions.
  */
-export type Order = MultiOrder | AssetLedgerDeployOrder | ValueLedgerDeployOrder;
+export type Order = ActionsOrder | AssetLedgerDeployOrder | ValueLedgerDeployOrder;
 
 /**
  * List of available order kinds.
@@ -178,7 +178,7 @@ export enum OrderKind {
 /**
  * Order definition.
  */
-export class MultiOrder {
+export class ActionsOrder {
 
   /**
    * Type of order.
@@ -198,7 +198,7 @@ export class MultiOrder {
   /**
    * Array of actions that will execute in this order.
    */
-  public actions: MultiOrderAction[];
+  public actions: ActionsOrderAction[];
 
   /**
    * Nonce for hash generation - usually current timestamp.
@@ -309,7 +309,7 @@ export interface AssetLedgerData {
   symbol: string;
 
   /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended for each asset.
+   * Uri prefix for metadata URI-s. At the end of the prefix the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
    * Asset 1 URI will become: https://example.com/id/1 + postfix
    */

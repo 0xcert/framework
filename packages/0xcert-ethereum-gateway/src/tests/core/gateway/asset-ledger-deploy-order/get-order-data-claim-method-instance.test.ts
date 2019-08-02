@@ -68,7 +68,7 @@ spec.test('check if deploy data claim equals locally created one', async (ctx) =
   const provider = ctx.get('makerGenericProvider');
   const xcertDeployGatewayId = ctx.get('protocol').xcertDeployGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: '', assetLedgerDeployOrderId: xcertDeployGatewayId, valueLedgerDeployOrderId: '' });
   const claim = await gateway.getOrderDataClaim(order);
 
   const localClaim = createOrderHash(gateway, order);

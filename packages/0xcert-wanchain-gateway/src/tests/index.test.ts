@@ -5,7 +5,7 @@ const spec = new Spec();
 
 spec.test('exposes objects', (ctx) => {
   ctx.true(!!exchange.Gateway);
-  ctx.true(!!exchange.MultiOrder);
+  ctx.true(!!exchange.ActionsOrder);
   ctx.true(!!exchange.AssetLedgerDeployOrder);
 });
 

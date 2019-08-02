@@ -85,7 +85,7 @@ spec.test('marks tokenDeployGateway order as canceled on the network which preve
 
   const tokenDeployGatewayId = ctx.get('protocol').tokenDeployGateway.instance.options.address;
 
-  const tokenDeployGatewayBob = new Gateway(bobGenericProvider, { multiOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
+  const tokenDeployGatewayBob = new Gateway(bobGenericProvider, { actionsOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
   const claim = await tokenDeployGatewayBob.claim(order);
   const mutation = await tokenDeployGatewayBob.cancel(order);
   await mutation.complete();

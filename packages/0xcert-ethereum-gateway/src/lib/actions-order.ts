@@ -1,6 +1,6 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { MultiOrder, MultiOrderAction, MultiOrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
 import { OrderGatewayProxy } from '../core/types';
@@ -9,9 +9,9 @@ import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
 /**
  * Generates order hash from input data.
  * @param gateway Gateway instance.
- * @param order MultiOrder instance.
+ * @param order ActionsOrder instance.
  */
-export function createOrderHash(gateway: Gateway, order: MultiOrder) {
+export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
   let temp = '0x0000000000000000000000000000000000000000000000000000000000000000';
   for (const action of order.actions) {
     temp = keccak256(
@@ -31,7 +31,7 @@ export function createOrderHash(gateway: Gateway, order: MultiOrder) {
   return keccak256(
     hexToBytes([
       '0x',
-      gateway.config.multiOrderId.substr(2),
+      gateway.config.actionsOrderId.substr(2),
       order.makerId.substr(2),
       order.takerId.substr(2),
       temp.substr(2),
@@ -44,9 +44,9 @@ export function createOrderHash(gateway: Gateway, order: MultiOrder) {
 /**
  * Flattens and reshapes order input data into a tuple.
  * @param gateway Gateway instance.
- * @param order MultiOrder instance.
+ * @param order ActionsOrder instance.
  */
-export function createRecipeTuple(gateway: Gateway, order: MultiOrder) {
+export function createRecipeTuple(gateway: Gateway, order: ActionsOrder) {
 
   const actions = order.actions.map((action) => {
     return {
@@ -94,15 +94,15 @@ export function createSignatureTuple(claim: string) {
 
 /**
  * Generates smart contract data for action kind.
- * @param action MultiOrderAction instance.
+ * @param action ActionsOrderAction instance.
  */
-export function getActionKind(action: MultiOrderAction) {
+export function getActionKind(action: ActionsOrderAction) {
   switch (action.kind) {
-    case MultiOrderActionKind.CREATE_ASSET: {
+    case ActionsOrderActionKind.CREATE_ASSET: {
       return '00';
       break;
     }
-    case MultiOrderActionKind.UPDATE_ASSET_IMPRINT: {
+    case ActionsOrderActionKind.UPDATE_ASSET_IMPRINT: {
       return '02';
       break;
     }
@@ -115,10 +115,10 @@ export function getActionKind(action: MultiOrderAction) {
 
 /**
  * Gets the correct to address.
- * @param action MultiOrderAction instance.
+ * @param action ActionsOrderAction instance.
  */
-export function getActionTo(action: MultiOrderAction) {
-  return action.kind == MultiOrderActionKind.UPDATE_ASSET_IMPRINT
+export function getActionTo(action: ActionsOrderAction) {
+  return action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT
     ? '0x0000000000000000000000000000000000000000'
     : action.receiverId;
 }
@@ -126,16 +126,16 @@ export function getActionTo(action: MultiOrderAction) {
 /**
  * Gets the correct proxy for the specified action.
  * @param gateway Gateway instance.
- * @param action MultiOrderAction instance.
+ * @param action ActionsOrderAction instance.
  */
-export function getActionProxy(gateway: Gateway, action: MultiOrderAction) {
-  if (action.kind == MultiOrderActionKind.TRANSFER_VALUE) {
+export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
+  if (action.kind == ActionsOrderActionKind.TRANSFER_VALUE) {
     return OrderGatewayProxy.TOKEN_TRANSFER;
-  } else if (action.kind == MultiOrderActionKind.TRANSFER_ASSET) {
+  } else if (action.kind == ActionsOrderActionKind.TRANSFER_ASSET) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
       ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
-  } else if (action.kind == MultiOrderActionKind.CREATE_ASSET) {
+  } else if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
     return OrderGatewayProxy.XCERT_CREATE;
   } else {
     return OrderGatewayProxy.XCERT_UPDATE;
@@ -144,20 +144,20 @@ export function getActionProxy(gateway: Gateway, action: MultiOrderAction) {
 
 /**
  * Generates smart contract data for param 1.
- * @param action MultiOrderAction instance.
+ * @param action ActionsOrderAction instance.
  */
-export function getActionParam1(action: MultiOrderAction) {
-  return (action.kind == MultiOrderActionKind.CREATE_ASSET
-    || action.kind == MultiOrderActionKind.UPDATE_ASSET_IMPRINT)
+export function getActionParam1(action: ActionsOrderAction) {
+  return (action.kind == ActionsOrderActionKind.CREATE_ASSET
+    || action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT)
     ? rightPad(`0x${action['assetImprint']}`, 64)
     : `${action['senderId']}000000000000000000000000`;
 }
 
 /**
  * Generates smart contract data for value.
- * @param action MultiOrderAction instance.
+ * @param action ActionsOrderAction instance.
  */
-export function getActionValue(action: MultiOrderAction) {
+export function getActionValue(action: ActionsOrderAction) {
   return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
 }
 
@@ -165,7 +165,7 @@ export function getActionValue(action: MultiOrderAction) {
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
  */
-export function normalizeOrderIds(order: MultiOrder, provider: GenericProvider): MultiOrder {
+export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider): ActionsOrder {
   order = JSON.parse(JSON.stringify(order));
   let dynamic = false;
 
@@ -179,7 +179,7 @@ export function normalizeOrderIds(order: MultiOrder, provider: GenericProvider):
   order.makerId = provider.encoder.normalizeAddress(order.makerId);
   order.actions.forEach((action) => {
     action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-    if (action.kind === MultiOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    if (action.kind === ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
       action['receiverId'] = zeroAddress;
     }
     if (!action['receiverId']) {
@@ -190,7 +190,7 @@ export function normalizeOrderIds(order: MultiOrder, provider: GenericProvider):
     } else {
       action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
     }
-    if (action.kind !== MultiOrderActionKind.CREATE_ASSET && action.kind !== MultiOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    if (action.kind !== ActionsOrderActionKind.CREATE_ASSET && action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
       if (!action['senderId']) {
         if (!dynamic) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
