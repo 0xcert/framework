@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-bitski-backend-provider",
-  "version": "2.0.0-alpha4",
+  "version": "2.0.0-alpha5",
   "description": "Implementation of Bitski back-end communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -74,7 +74,7 @@
     "web3": "1.2.0"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "2.0.0-alpha4",
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha5",
     "bitski-node": "0.5.0"
   }
 }

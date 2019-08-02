@@ -2,7 +2,7 @@
 
 This log was last generated on Wed, 19 Jun 2019 10:31:05 GMT and should not be manually modified.
 
-## 2.0.0-alpha4
+## 2.0.0-alpha5
 Wed, 19 Jun 2019 10:31:05 GMT
 
 *Version update only*
