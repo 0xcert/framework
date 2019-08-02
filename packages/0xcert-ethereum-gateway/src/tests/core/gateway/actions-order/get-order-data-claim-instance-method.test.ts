@@ -1,9 +1,9 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../../core/gateway';
-import { createOrderHash } from '../../../../lib/multi-order';
+import { createOrderHash } from '../../../../lib/actions-order';
 
 interface Data {
   protocol: Protocol;
@@ -44,7 +44,7 @@ spec.test('gets order data claim', async (ctx) => {
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -52,14 +52,14 @@ spec.test('gets order data claim', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         receiverId: bob,
         assetId: '100',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: bob,
         receiverId: coinbase,
@@ -71,7 +71,7 @@ spec.test('gets order data claim', async (ctx) => {
   const provider = ctx.get('makerGenericProvider');
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = createOrderHash(gateway, order);
   ctx.is(await gateway.getOrderDataClaim(order), claim);
 });

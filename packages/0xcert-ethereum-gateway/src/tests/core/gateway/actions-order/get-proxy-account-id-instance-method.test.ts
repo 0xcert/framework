@@ -38,7 +38,7 @@ spec.test('returns proxy account address', async (ctx) => {
   const provider = ctx.get('provider');
   const id = protocol.orderGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
   const nftokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_TRANSFER);
@@ -56,7 +56,7 @@ spec.test('returns null when calling getProxyAccountId on a contract that does n
   const provider = ctx.get('provider');
   const id = protocol.erc20.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
   ctx.is(tokenTransferProxy, null);

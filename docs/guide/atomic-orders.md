@@ -73,7 +73,7 @@ For the purpose of simplicity of this guide, we will be both the maker and the t
 :::
 
 ```ts
-import { MultiOrder, MultiOrderActionKind } from '@0xcert/ethereum-gateway';
+import { ActionsOrder, ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
 
 const order = {,
     kind: OrderKind.MULTI_ORDER,
@@ -81,14 +81,14 @@ const order = {,
     takerId: provider.accountId,
     actions: [
         {
-            kind: MultiOrderActionKind.TRANSFER_ASSET,
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
             ledgerId: assetLedgerId,
             senderId: provider.accountId,
             receiverId: provider.accountId,
             assetId: '100',
         },
         {
-            kind: MultiOrderActionKind.CREATE_ASSET,
+            kind: ActionsOrderActionKind.CREATE_ASSET,
             ledgerId: assetLedgerId,
             senderId: provider.accountId,
             receiverId: provider.accountId,
@@ -98,7 +98,7 @@ const order = {,
     ],
     seed: Date.now(), // unique order identification
     expiration: Date.now() + 60 * 60 * 24, // 1 day
-} as MultiOrder;
+} as ActionsOrder;
 ```
 
 When you work on a real case, make sure to set the `takerId` correctly. If you want your colleague or a third party to execute an order, you should insert their Ethereum wallet address as the `takerId`.

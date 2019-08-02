@@ -6,7 +6,7 @@ export interface GatewayConfig {
   /**
    * Order gateway smart contract address.
    */
-  multiOrderId: string;
+  actionsOrderId: string;
 
   /**
    * Deploy asset ledger gateway smart contract address.

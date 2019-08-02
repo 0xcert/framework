@@ -9,13 +9,13 @@ export function buildGatewayConfig(networkKind: NetworkKind) {
   switch (networkKind) {
     case NetworkKind.LIVE:
       return {
-        multiOrderId: '0x0000000000000000000000000000000000000000',
+        actionsOrderId: '0x0000000000000000000000000000000000000000',
         assetLedgerDeployOrderId: '0x0000000000000000000000000000000000000000',
         valueLedgerDeployOrderId: '0x0000000000000000000000000000000000000000',
       };
     case NetworkKind.TESTNET:
       return {
-        multiOrderId: '0x0000000000000000000000000000000000000000',
+        actionsOrderId: '0x0000000000000000000000000000000000000000',
         assetLedgerDeployOrderId: '0x0000000000000000000000000000000000000000',
         valueLedgerDeployOrderId: '0x0000000000000000000000000000000000000000',
       };

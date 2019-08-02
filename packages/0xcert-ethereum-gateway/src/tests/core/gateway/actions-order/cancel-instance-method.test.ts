@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../../core/gateway';
 
@@ -8,7 +8,7 @@ interface Data {
   protocol: Protocol;
   makerGenericProvider: GenericProvider;
   takerGenericProvider: GenericProvider;
-  order: MultiOrder;
+  order: ActionsOrder;
   claim: string;
   coinbase: string;
   bob: string;
@@ -73,7 +73,7 @@ spec.before(async (stage) => {
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -81,14 +81,14 @@ spec.before(async (stage) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: sara,
         receiverId: jane,
         assetId: '100',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: jane,
         receiverId: sara,
@@ -103,7 +103,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   const provider = stage.get('makerGenericProvider');
-  const gateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const order = stage.get('order');
 
   stage.set('claim', await gateway.claim(order));
@@ -119,14 +119,14 @@ spec.test('marks gateway order as canceled on the network which prevents an tran
   const jane = ctx.get('jane');
   const xcert = ctx.get('protocol').xcert;
 
-  const makerGateway = new Gateway(makerGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const makerGateway = new Gateway(makerGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const mutation = await makerGateway.cancel(order);
   await mutation.complete();
 
   ctx.is((mutation.logs[0]).event, 'Cancel');
 
-  const takerGateway = new Gateway(takerGenericProvider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const takerGateway = new Gateway(takerGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   await ctx.throws(() => takerGateway.perform(order, claim).then(() => ctx.sleep(200)));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);

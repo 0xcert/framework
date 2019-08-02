@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { MultiOrder, MultiOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../../core/gateway';
 
@@ -43,7 +43,7 @@ spec.test('check if signature is valid', async (ctx) => {
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
-  const order: MultiOrder = {
+  const order: ActionsOrder = {
     kind: OrderKind.MULTI_ORDER,
     makerId: coinbase,
     takerId: bob,
@@ -51,14 +51,14 @@ spec.test('check if signature is valid', async (ctx) => {
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
         receiverId: bob,
         assetId: '100',
       },
       {
-        kind: MultiOrderActionKind.TRANSFER_ASSET,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: bob,
         receiverId: coinbase,
@@ -70,7 +70,7 @@ spec.test('check if signature is valid', async (ctx) => {
   const provider = ctx.get('makerGenericProvider');
   const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { multiOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await gateway.claim(order);
   ctx.true(await gateway.isValidSignature(order, claim));
 });
