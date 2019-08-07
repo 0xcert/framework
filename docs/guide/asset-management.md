@@ -55,7 +55,7 @@ We can now perform `query` and `mutation` requests on this newly deployed asset 
 
 ```ts
 const assetLedgerInfo = await assetLedger.getInfo();
-//=> { name: 'Certificate', symbol: 'CERT', uriPrefix: 'http://domain.com', uriPostfix: '.json', schemaId: '239423' }
+//=> { name: 'Certificate', symbol: 'CERT', uriPrefix: 'https://example.com/', uriPostfix: '.json', schemaId: '239423' }
 ```
 
 This query should return similar information to the one we defined when we deployed the new asset ledger. At the beginning of this section, we explained that the asset ledger as a book or folder of ownership records. The items contained in this book are called `Assets`.
