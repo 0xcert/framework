@@ -12,6 +12,11 @@ export interface HttpProviderOptions {
   accountId?: string;
 
   /**
+   * Default privateKey from which all mutations are made.
+   */
+  privateKey?: string;
+
+  /**
    * Http call cache options.
    */
   cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached' | string;

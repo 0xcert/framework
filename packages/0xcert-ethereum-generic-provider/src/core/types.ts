@@ -6,6 +6,7 @@ export enum SignMethod {
   TREZOR = 1,
   EIP712 = 2,
   PERSONAL_SIGN = 3,
+  RAW_TX_SIGN = 4,
 }
 
 /**

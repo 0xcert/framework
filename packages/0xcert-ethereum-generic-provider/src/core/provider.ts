@@ -1,5 +1,6 @@
 import { Encode, Encoder } from '@0xcert/ethereum-utils';
 import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
+import { Wallet } from 'ethers';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
 import { RpcResponse, SendOptions, SignMethod } from './types';
@@ -13,6 +14,11 @@ export interface GenericProviderOptions {
    * Default account from which all mutations are made.
    */
   accountId?: string;
+
+  /**
+   * Default privateKey from which all mutations are made.
+   */
+  privateKey?: string;
 
   /**
    * RPC client instance (e.g. window.ethereum).
@@ -126,6 +132,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   protected _accountId: string;
 
   /**
+   * Default privateKey from which all mutations are made.
+   */
+  protected _privateKey: string;
+
+  /**
    * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
    */
   protected _unsafeRecipientIds: string[];
@@ -149,6 +160,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     super();
     this.encoder = typeof options.encoder !== 'undefined' ? options.encoder : new Encoder();
     this.accountId = options.accountId;
+    this.privateKey = options.privateKey;
     this.orderGatewayId = options.orderGatewayId;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
     this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/xcert-mock.json';
@@ -182,6 +194,20 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     }
 
     this._accountId = id;
+  }
+
+  /**
+   * Returns privateKey.
+   */
+  public get privateKey() {
+    return this._privateKey || null;
+  }
+
+  /**
+   * Sets privateKey.
+   */
+  public set privateKey(pk: string) {
+    this._privateKey = pk;
   }
 
   /**
@@ -353,6 +379,24 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
           params: [],
         });
         payload.params[0].gasPrice = `0x${Math.ceil(res.result * this.gasPriceMultiplier).toString(16)}`;
+      }
+
+      if (this.signMethod === SignMethod.RAW_TX_SIGN) {
+        if (typeof payload.params[0].nonce === 'undefined') {
+          const res = await this.request({
+            ...payload,
+            method: 'eth_getTransactionCount',
+            params: [this.accountId],
+          });
+          payload.params[0].nonce = Math.ceil(res.result).toString();
+        }
+
+        payload.params[0].gasLimit = payload.params[0].gas;
+
+        const wallet = new Wallet(this.privateKey);
+        const rawTx = await wallet.sign(payload.params[0]);
+        payload.method = 'eth_sendRawTransaction';
+        payload.params = [ rawTx ];
       }
     }
 
