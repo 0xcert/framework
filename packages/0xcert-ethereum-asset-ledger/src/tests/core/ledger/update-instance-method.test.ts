@@ -32,10 +32,10 @@ spec.test('update uri', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   await ledger.update({
-    uriPrefix: 'http://new.com/',
+    uriPrefix: 'https://example.com/',
     uriPostfix: '.test',
   });
-  ctx.is(await xcert.instance.methods.uriPrefix().call(), 'http://new.com/');
+  ctx.is(await xcert.instance.methods.uriPrefix().call(), 'https://example.com/');
   ctx.is(await xcert.instance.methods.uriPostfix().call(), '.test');
 });
 

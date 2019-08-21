@@ -1867,7 +1867,7 @@ const capabilities = [
 const recipe = {
     name: 'Math Course Certificate',
     symbol: 'MCC',
-    uriPrefix: 'http://domain.com/assets/',
+    uriPrefix: 'https://example.com/assets/',
     uriPostfix: '.json',
     schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
     capabilities,
@@ -2480,7 +2480,7 @@ An instance of the same mutation class.
 ```ts
 // arbitrary data
 const recipe = {
-    uriPrefix: 'http://swapmarket.com/',
+    uriPrefix: 'https://example.com/',
     uriPostfix: '.json',
 };
 

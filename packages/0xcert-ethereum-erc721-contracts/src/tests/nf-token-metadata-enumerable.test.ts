@@ -421,7 +421,7 @@ spec.test('succesfully changes URI prefix', async (ctx) => {
   const id1 = ctx.get('id1');
   const uriPrefix = ctx.get('uriPrefix');
   const uriPostfix = ctx.get('uriPostfix');
-  const newUriPrefix = 'http://test.com/';
+  const newUriPrefix = 'https://example.com/';
 
   await nftoken.instance.methods.create(bob, id1).send({ from: owner });
   let uri = await nftoken.instance.methods.tokenURI(id1).call();

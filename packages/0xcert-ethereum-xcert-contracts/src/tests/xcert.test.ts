@@ -518,7 +518,7 @@ spec.test('succesfully changes URI predix', async (ctx) => {
   const imprint1 = ctx.get('imprint1');
   const uriPrefix = ctx.get('uriPrefix');
   const uriPostfix = ctx.get('uriPostfix');
-  const newUriPrefix = 'http://test.com/';
+  const newUriPrefix = 'https://example.com/';
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
