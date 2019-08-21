@@ -33,7 +33,7 @@ spec.test('deploys new asset ledger', async (ctx) => {
   const info = {
     name: 'Foo',
     symbol: 'Bar',
-    uriPrefix: 'http://foo.bar',
+    uriPrefix: 'https://example.com',
     uriPostfix: '.json',
     schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
   };

@@ -14053,6 +14053,28 @@
       "resolved": "https://registry.npmjs.org/merge2/-/merge2-1.2.3.tgz",
       "integrity": "sha512-gdUU1Fwj5ep4kplwcmftruWofEFt6lfpkkr3h860CXbAB9c3hGb55EOL2ali0Td5oebvW0E1+3Sr+Ur7XfKpRA=="
     },
+    "merkle-patricia-tree": {
+      "version": "2.3.2",
+      "resolved": "https://registry.npmjs.org/merkle-patricia-tree/-/merkle-patricia-tree-2.3.2.tgz",
+      "integrity": "sha512-81PW5m8oz/pz3GvsAwbauj7Y00rqm81Tzad77tHBwU7pIAtN+TJnMSOJhxBKflSVYhptMMb9RskhqHqrSm1V+g==",
+      "requires": {
+        "async": "^1.4.2",
+        "ethereumjs-util": "^5.0.0",
+        "level-ws": "0.0.0",
+        "levelup": "^1.2.1",
+        "memdown": "^1.0.0",
+        "readable-stream": "^2.0.0",
+        "rlp": "^2.0.0",
+        "semaphore": ">=1.0.1"
+      },
+      "dependencies": {
+        "async": {
+          "version": "1.5.2",
+          "resolved": "https://registry.npmjs.org/async/-/async-1.5.2.tgz",
+          "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
+        }
+      }
+    },
     "methods": {
       "version": "1.1.2",
       "resolved": "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz",
@@ -17693,6 +17715,43 @@
       "version": "1.1.3",
       "resolved": "https://registry.npmjs.org/tapable/-/tapable-1.1.3.tgz",
       "integrity": "sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA=="
+    },
+    "tape": {
+      "version": "4.11.0",
+      "resolved": "https://registry.npmjs.org/tape/-/tape-4.11.0.tgz",
+      "integrity": "sha512-yixvDMX7q7JIs/omJSzSZrqulOV51EC9dK8dM0TzImTIkHWfe2/kFyL5v+d9C+SrCMaICk59ujsqFAVidDqDaA==",
+      "requires": {
+        "deep-equal": "~1.0.1",
+        "defined": "~1.0.0",
+        "for-each": "~0.3.3",
+        "function-bind": "~1.1.1",
+        "glob": "~7.1.4",
+        "has": "~1.0.3",
+        "inherits": "~2.0.4",
+        "minimist": "~1.2.0",
+        "object-inspect": "~1.6.0",
+        "resolve": "~1.11.1",
+        "resumer": "~0.0.0",
+        "string.prototype.trim": "~1.1.2",
+        "through": "~2.3.8"
+      },
+      "dependencies": {
+        "minimist": {
+          "version": "1.2.0",
+          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
+        },
+        "string.prototype.trim": {
+          "version": "1.1.2",
+          "resolved": "https://registry.npmjs.org/string.prototype.trim/-/string.prototype.trim-1.1.2.tgz",
+          "integrity": "sha1-0E3iyJ4Tf019IG8Ia17S+ua+jOo=",
+          "requires": {
+            "define-properties": "^1.1.2",
+            "es-abstract": "^1.5.0",
+            "function-bind": "^1.0.2"
+          }
+        }
+      }
     },
     "tar": {
       "version": "4.4.10",
