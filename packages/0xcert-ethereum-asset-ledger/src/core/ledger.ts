@@ -316,7 +316,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data to update asset with.
    */
   public async updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation> {
-    return updateAsset(this, assetId, recipe.imprint);
+    return updateAsset(this, assetId, `0x${recipe.imprint}`);
   }
 
   /**
