@@ -233,10 +233,9 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data from which the new asset is created.
    */
   public async createAsset(recipe: AssetLedgerItemRecipe): Promise<Mutation> {
-    const imprint = recipe.imprint || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
     const receiverId = this._provider.encoder.normalizeAddress(recipe.receiverId);
 
-    return createAsset(this, receiverId, recipe.id, `0x${imprint}`);
+    return createAsset(this, receiverId, recipe.id, `0x${recipe.imprint}`);
   }
 
   /**
@@ -317,7 +316,7 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data to update asset with.
    */
   public async updateAsset(assetId: string, recipe: AssetLedgerObjectUpdateRecipe): Promise<Mutation> {
-    return updateAsset(this, assetId, recipe.imprint);
+    return updateAsset(this, assetId, `0x${recipe.imprint}`);
   }
 
   /**
