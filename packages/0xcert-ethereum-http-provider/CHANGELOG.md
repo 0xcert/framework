@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-http-provider
 
-This log was last generated on Tue, 30 Jul 2019 10:46:40 GMT and should not be manually modified.
+This log was last generated on Sun, 01 Sep 2019 15:46:11 GMT and should not be manually modified.
+
+## 1.8.1
+Sun, 01 Sep 2019 15:46:11 GMT
+
+*Version update only*
 
 ## 1.8.0
 Tue, 30 Jul 2019 10:46:40 GMT
