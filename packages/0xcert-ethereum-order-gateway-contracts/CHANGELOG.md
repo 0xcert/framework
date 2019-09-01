@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-order-gateway-contracts
 
-This log was last generated on Sun, 01 Sep 2019 15:46:11 GMT and should not be manually modified.
+This log was last generated on Sun, 01 Sep 2019 16:02:20 GMT and should not be manually modified.
+
+## 1.9.0
+Sun, 01 Sep 2019 16:02:20 GMT
+
+*Version update only*
 
 ## 1.8.1
 Sun, 01 Sep 2019 15:46:11 GMT
