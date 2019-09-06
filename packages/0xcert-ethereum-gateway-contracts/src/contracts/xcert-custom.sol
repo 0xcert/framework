@@ -42,7 +42,7 @@ contract XcertCustom is XcertToken {
       supportedInterfaces[_capabilities[i]] = true;
     }
     addressToAbility[_owner] = 255; // Assigns all available abilities to the new owner.
-    addressToAbility[_assetCreateProxy] = 32; // Gives createProxy ability to create a new asset.
+    addressToAbility[_assetCreateProxy] = ABILITY_CREATE_ASSET; // Gives createProxy ability to create a new asset.
     addressToAbility[msg.sender] = 0; // Remove super ability from creator.
   }
 

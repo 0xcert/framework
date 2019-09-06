@@ -1,3 +1,4 @@
+import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 
 const spec = new Spec();
@@ -20,7 +21,7 @@ spec.test('checks correct deploy', async (ctx) => {
   });
   const senderSuperAbility = await xcertCustom.instance.methods.isAble(accounts[0], 1).call();
   const ownerSuperAbility = await xcertCustom.instance.methods.isAble(accounts[2], 1).call();
-  const proxySignCreateAssetAbility = await xcertCustom.instance.methods.isAble(accounts[3], 32).call();
+  const proxySignCreateAssetAbility = await xcertCustom.instance.methods.isAble(accounts[3], XcertAbilities.CREATE_ASSET).call();
   ctx.false(senderSuperAbility);
   ctx.true(ownerSuperAbility);
   ctx.true(proxySignCreateAssetAbility);
