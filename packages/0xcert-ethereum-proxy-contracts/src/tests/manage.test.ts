@@ -103,7 +103,6 @@ spec.test('revokes self manage abilities', async (ctx) => {
   const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
-  const jane = ctx.get('jane');
 
   await abilitableManageProxy.instance.methods.grantAbilities(bob, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
 
