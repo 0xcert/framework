@@ -298,17 +298,17 @@ export class Protocol {
       from,
     });
 
-    await orderGateway.instance.methods.grantAbilities(from, 2).send({ from });
+    await orderGateway.instance.methods.grantAbilities(from, 16).send({ from });
     await orderGateway.instance.methods.addProxy(this.xcertCreateProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address).send({ from });
     await orderGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.nftokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.xcertCreateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.xcertUpdateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
+    await this.tokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 16).send({ from });
+    await this.nftokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 16).send({ from });
+    await this.xcertCreateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 16).send({ from });
+    await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 16).send({ from });
+    await this.xcertUpdateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 16).send({ from });
 
     return orderGateway;
   }
@@ -326,7 +326,7 @@ export class Protocol {
       from,
     });
 
-    await this.tokenTransferProxy.instance.methods.grantAbilities(xcertDeployGateway.receipt._address, 2).send({ from });
+    await this.tokenTransferProxy.instance.methods.grantAbilities(xcertDeployGateway.receipt._address, 16).send({ from });
     return xcertDeployGateway;
   }
 
@@ -343,7 +343,7 @@ export class Protocol {
       from,
     });
 
-    await this.tokenTransferProxy.instance.methods.grantAbilities(tokenDeployGateway.receipt._address, 2).send({ from });
+    await this.tokenTransferProxy.instance.methods.grantAbilities(tokenDeployGateway.receipt._address, 16).send({ from });
     return tokenDeployGateway;
   }
 }
