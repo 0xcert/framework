@@ -128,7 +128,7 @@ spec.test('corectly grants create ability', async (ctx) => {
   const logs =  await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
   ctx.not(logs.events.GrantAbilities, undefined);
 
-  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, 2).call();
+  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, XcertAbilities.CREATE_ASSET).call();
   ctx.is(bobHasAbility1, true);
 });
 

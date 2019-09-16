@@ -24,14 +24,14 @@ contract XcertToken is
   /**
    * @dev List of abilities (gathered from all extensions):
    */
-  uint8 constant ABILITY_CREATE_ASSET = 2;
-  uint8 constant ABILITY_REVOKE_ASSET = 4;
-  uint8 constant ABILITY_TOGGLE_TRANSFERS = 8;
-  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 16;
-  /// ABILITY_ALLOW_CREATE_ASSET = 32 - A specific ability that is bounded to atomic orders.
+  uint8 constant ABILITY_CREATE_ASSET = 16;
+  uint8 constant ABILITY_REVOKE_ASSET = 32;
+  uint8 constant ABILITY_TOGGLE_TRANSFERS = 64;
+  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 128;
+  uint16 constant ABILITY_UPDATE_URI = 256;
+  /// ABILITY_ALLOW_CREATE_ASSET = 512 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
-  uint8 constant ABILITY_UPDATE_URI = 64;
-  /// ABILITY_ALLOW_UPDATE_ASSET = 128 - A specific ability that is bounded to atomic orders.
+  /// ABILITY_ALLOW_UPDATE_ASSET = 1024 - A specific ability that is bounded to atomic orders.
   /// When updating imprint of an Xcert trough `OrderGateway`, the order maker has to have this
   /// ability.
 
