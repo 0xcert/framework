@@ -2569,18 +2569,19 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When graning or revoking abilitites trough `Gateway` the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
-| ALLOW_UPDATE_ASSET_IMPRINT | 128 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `Gateway`, the order maker has to have this ability.
-| CREATE_ASSET | 2 | Allows an account to create a new asset.
-| REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
-| TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
-| UPDATE_ASSET | 16 | Allows an account to update asset data.
-| UPDATE_URI | 64 | Allows an account to update asset ledger's URI prefix and postfix.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `Gateway`, the order maker has to have this ability.
+| CREATE_ASSET | 16 | Allows an account to create a new asset.
+| REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 128 | Allows an account to update asset data.
+| UPDATE_URI | 256 | Allows an account to update asset ledger's URI prefix and postfix.
 
 **Example:**
 
