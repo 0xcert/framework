@@ -7,6 +7,10 @@ interface Data {
   jane?: string;
   sara?: string;
   superAbility?: number;
+  allowSuperAbility?: number;
+  emptySlot1?: number;
+  emptySlot2?: number;
+  defaultAbilities?: number;
   abilityB?: number;
   abilityC?: number;
   abilityT?: number;
@@ -17,14 +21,22 @@ interface Data {
 const spec = new Spec<Data>();
 
 spec.before(async (ctx) => {
-  const superAbility = 1;
-  const abilityB = 2;
-  const abilityC = 4;
+  const superAbility = 1; // a.k.a. abilityA
+  const allowSuperAbility = 2;
+  const emptySlot1 = 4;
+  const emptySlot2 = 8;
+  const abilityB = 16;
+  const abilityC = 32;
   const abilityT = 1048576;
+  const defaultAbilities = superAbility + allowSuperAbility + emptySlot1 + emptySlot2;
   const superAbilityCT = superAbility + abilityC + abilityT;
   const superAbilityBCT = superAbility + abilityB + abilityC + abilityT;
 
   ctx.set('superAbility', superAbility);
+  ctx.set('allowSuperAbility', allowSuperAbility);
+  ctx.set('emptySlot1', emptySlot1);
+  ctx.set('emptySlot2', emptySlot2);
+  ctx.set('defaultAbilities', defaultAbilities);
   ctx.set('abilityB', abilityB);
   ctx.set('abilityC', abilityC);
   ctx.set('abilityT', abilityT);
@@ -48,15 +60,16 @@ spec.beforeEach(async (ctx) => {
   ctx.set('abilitable', abilitable);
 });
 
-spec.test('check if sender address has ability to manage abilities', async (ctx) => {
+spec.test('check if sender address has all the default abilitites', async (ctx) => {
   const abilitable = ctx.get('abilitable');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
+  const defaultAbilities = ctx.get('defaultAbilities');
   const superAbility = ctx.get('superAbility');
-  const ownerHasAbilityA = await abilitable.instance.methods.isAble(owner, superAbility).call();
-  ctx.is(ownerHasAbilityA, true);
-  const bobHasAbilityA = await abilitable.instance.methods.isAble(bob, superAbility).call();
-  ctx.is(bobHasAbilityA, false);
+  const ownerHasDefaultAbilitites = await abilitable.instance.methods.isAble(owner, defaultAbilities).call();
+  ctx.is(ownerHasDefaultAbilitites, true);
+  const bobHasSuperAbility = await abilitable.instance.methods.isAble(bob, superAbility).call();
+  ctx.is(bobHasSuperAbility, false);
 });
 
 spec.test('successfuly grants an ability', async (ctx) => {
@@ -102,7 +115,7 @@ spec.test('successfuly grants multiple abilities', async (ctx) => {
   const superAbilityBCT = ctx.get('superAbilityBCT');
 
   // We will check if bob has abilities A,B,C and T.
-  // Which are represented by numbers: 1,2,4 and 1048576. We check this with the sum: 1048583
+  // Which are represented by numbers: 1,16,32 and 1048576. We check this with the sum: 1048625
 
   let bobHasAbilities = await abilitable.instance.methods.isAble(bob, superAbilityBCT).call();
   ctx.is(bobHasAbilities, false);

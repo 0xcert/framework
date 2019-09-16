@@ -30,10 +30,31 @@ contract Abilitable
 
   /**
    * @dev Ability 1 (00000001) is a reserved ability called super ability. It is an
-   * ability to grant or revoke abilities of other accounts. Other abilities are determined by the
-   * implementing contract.
+   * ability to grant or revoke abilities of other accounts.
    */
   uint8 constant SUPER_ABILITY = 1;
+
+  /**
+   * @dev Ability 2 (00000010) is a reserved ability called allow manage ability. It is a specific
+   * ability bounded to atomic orders. The order maker has to have this ability to to grant or
+   * revoke abilities of other accounts trough abilitable gateway.
+   */
+  uint8 constant ALLOW_SUPER_ABILITY = 2;
+
+  /**
+   * @dev Ability 4 (00000100) is a reserved ability for possible future abilitable extensions.
+   */
+  uint8 constant EMPTY_SLOT_1 = 4;
+
+  /**
+   * @dev Ability 8 (00001000) is a reserved ability for possible future abilitable extensions.
+   */
+  uint8 constant EMPTY_SLOT_2 = 8;
+
+  /**
+   * @dev All basic abilities. SUPER_ABILITY + ALLOW_MANAGE_ABILITY + EMPTY_SLOT_1 + EMPTY_SLOT_2.
+   */
+  uint8 constant ALL_DEFAULT_ABILITIES = 15;
 
   /**
    * @dev Maps address to ability ids.
@@ -82,8 +103,7 @@ contract Abilitable
   constructor()
     public
   {
-    addressToAbility[msg.sender] = SUPER_ABILITY;
-    emit GrantAbilities(msg.sender, SUPER_ABILITY);
+    addressToAbility[msg.sender] = ALL_DEFAULT_ABILITIES;
   }
 
   /**
