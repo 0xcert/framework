@@ -15,15 +15,15 @@ contract OrderGateway is
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to set proxies.
+   * 16 - Ability to set proxies.
    */
-  uint8 constant ABILITY_TO_SET_PROXIES = 2;
+  uint8 constant ABILITY_TO_SET_PROXIES = 16;
 
   /**
    * @dev Xcert abilities.
    */
-  uint8 constant ABILITY_ALLOW_CREATE_ASSET = 32;
-  uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 128;
+  uint16 constant ABILITY_ALLOW_CREATE_ASSET = 512;
+  uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 1024;
 
   /**
    * @dev Error constants.
