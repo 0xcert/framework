@@ -15,9 +15,9 @@ contract XcertUpdateProxy is
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute create.
+   * 16 - Ability to execute create.
    */
-  uint8 constant ABILITY_TO_EXECUTE = 2;
+  uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
    * @dev Updates imprint of an existing Xcert.

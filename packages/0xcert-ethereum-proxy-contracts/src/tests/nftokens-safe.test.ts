@@ -62,7 +62,7 @@ spec.test('transfers an NFT', async (ctx) => {
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
 
-  await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  await nftProxy.instance.methods.grantAbilities(bob, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
 
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
@@ -91,7 +91,7 @@ spec.test('transfers an NFT with high ID', async (ctx) => {
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
 
-  await nftProxy.instance.methods.grantAbilities(bob, 2).send({ from: owner });
+  await nftProxy.instance.methods.grantAbilities(bob, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
 
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
