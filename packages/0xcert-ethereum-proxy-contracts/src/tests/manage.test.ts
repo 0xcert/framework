@@ -47,7 +47,7 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await abilitableManageProxy.instance.methods.grantAbilities(bob, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
-  const logs = await abilitableManageProxy.instance.methods.revokeAbilities(bob, AbilitableManageProxyAbilities.EXECUTE, false).send({ from: owner });
+  const logs = await abilitableManageProxy.instance.methods.revokeAbilities(bob, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
   ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await abilitableManageProxy.instance.methods.isAble(bob, AbilitableManageProxyAbilities.EXECUTE).call();
@@ -69,7 +69,7 @@ spec.test('sets abilities', async (ctx) => {
   });
 
   await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
-  await abilitableManageProxy.instance.methods.set(cat.receipt._address, jane, XcertAbilities.TOGGLE_TRANSFERS, false).send({ from: bob });
+  await abilitableManageProxy.instance.methods.set(cat.receipt._address, jane, XcertAbilities.TOGGLE_TRANSFERS).send({ from: bob });
 
   const hasToggleTransferAbility = await cat.instance.methods.isAble(jane, XcertAbilities.TOGGLE_TRANSFERS).call();
   ctx.true(hasToggleTransferAbility);
@@ -90,7 +90,7 @@ spec.test('removes self manage abilities', async (ctx) => {
 
   await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
 
-  await abilitableManageProxy.instance.methods.set(cat.receipt._address, abilitableManageProxy.receipt._address, 0, true).send({ from: bob });
+  await abilitableManageProxy.instance.methods.set(cat.receipt._address, abilitableManageProxy.receipt._address, 0).send({ from: bob });
   const hasManageAbility = await cat.instance.methods.isAble(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).call();
   ctx.false(hasManageAbility);
 });
@@ -108,7 +108,7 @@ spec.test('fails if set abilities is called by an unauthorized address', async (
   });
 
   await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
-  await ctx.reverts(() => abilitableManageProxy.instance.methods.set(cat.receipt._address, jane, XcertAbilities.TOGGLE_TRANSFERS, false).send({ from: bob }));
+  await ctx.reverts(() => abilitableManageProxy.instance.methods.set(cat.receipt._address, jane, XcertAbilities.TOGGLE_TRANSFERS).send({ from: bob }));
 });
 
 export default spec;

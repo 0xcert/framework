@@ -26,13 +26,12 @@ contract AbilitableManageProxy is
   function set(
     address _target,
     address _to,
-    uint256 _abilities,
-    bool _allowSuperRevoke
+    uint256 _abilities
   )
     public
     hasAbilities(ABILITY_TO_EXECUTE)
   {
-    Abilitable(_target).setAbilities(_to, _abilities, _allowSuperRevoke);
+    Abilitable(_target).setAbilities(_to, _abilities);
   }
   
 }

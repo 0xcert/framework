@@ -422,7 +422,7 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_CREATE_ASSET, false).send({ from: owner });
+  await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_CREATE_ASSET).send({ from: owner });
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
