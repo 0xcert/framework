@@ -473,6 +473,24 @@ contract OrderGateway is
           _order.actions[i].param1
         );
       }
+      else if (_order.actions[i].kind == ActionKind.manage_abilities)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        if (_order.actions[i].to == address(0))
+        {
+          _order.actions[i].to = _order.taker;
+        }
+
+        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
+          _order.actions[i].token,
+          _order.actions[i].to,
+          _order.actions[i].value
+        );
+      }
     }
   }
 
@@ -542,10 +560,10 @@ contract OrderGateway is
           SIGNER_NOT_AUTHORIZED
         );
 
-        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
+        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
           _order.actions[i].token,
-          _order.actions[i].value,
-          _order.actions[i].param1
+          _order.actions[i].to,
+          _order.actions[i].value
         );
       }
     }
