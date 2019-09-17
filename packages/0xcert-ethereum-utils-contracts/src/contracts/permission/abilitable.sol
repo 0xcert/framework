@@ -25,8 +25,7 @@ contract Abilitable
    * @dev Error constants.
    */
   string constant NOT_AUTHORIZED = "017001";
-  string constant CANNOT_REVOKE_OWN_SUPER_ABILITY = "017002";
-  string constant INVALID_INPUT = "017003";
+  string constant INVALID_INPUT = "017002";
 
   /**
    * @dev Ability 1 (00000001) is a reserved ability called super ability. It is an
@@ -116,21 +115,14 @@ contract Abilitable
    * @dev Unassigns specific abilities from specified address.
    * @param _target Address of which we revoke abilites.
    * @param _abilities Number representing bitfield of abilities we are revoking.
-   * @param _allowSuperRevoke Additional check that prevents you from removing your own super
-   * ability by mistake.
    */
   function revokeAbilities(
     address _target,
-    uint256 _abilities,
-    bool _allowSuperRevoke
+    uint256 _abilities
   )
     external
     hasAbilities(SUPER_ABILITY)
   {
-    if (!_allowSuperRevoke && msg.sender == _target)
-    {
-      require((_abilities & 1) == 0, CANNOT_REVOKE_OWN_SUPER_ABILITY);
-    }
     addressToAbility[_target] &= ~_abilities;
     emit SetAbilities(_target, addressToAbility[_target]);
   }
@@ -142,16 +134,11 @@ contract Abilitable
    */
   function setAbilities(
     address _target,
-    uint256 _abilities,
-    bool _allowSuperRevoke
+    uint256 _abilities
   )
     external
     hasAbilities(SUPER_ABILITY)
   {
-    if (!_allowSuperRevoke && msg.sender == _target)
-    {
-      require((_abilities & 1) == 1, CANNOT_REVOKE_OWN_SUPER_ABILITY);
-    }
     addressToAbility[_target] = _abilities;
     emit SetAbilities(_target, _abilities);
   }
