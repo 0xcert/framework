@@ -2456,6 +2456,51 @@ const mutation = await ledger.revokeAsset(assetId);
 
 [destroyAsset](#destroyasset-assetid)
 
+### setAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which sets `abilities` of an `accountId`.
+
+::: warning
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
+:::
+
+::: warning
+You can override your own `MANAGE_ABILITIES` super ability.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new Ethereum account address.
+| abilities | [required] An `array` of `integer` numbers representing ledger abilities.
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform mutation
+const mutation = await ledger.setAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[Ledger abilities](#ledger-abilities)
+[grantAbilities](#grantabilities-accountid-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
+
 ### update(recipe)
 
 An `asynchronous` class instance `function` which updates ledger data.

@@ -3,7 +3,7 @@ import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, GatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, GatewayBase } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -12,6 +12,7 @@ import grantAbilities from '../mutations/grant-abilities';
 import revokeAbilities from '../mutations/revoke-abilities';
 import revokeAsset from '../mutations/revoke-asset';
 import safeTransfer from '../mutations/safe-transfer';
+import setAbilities from '../mutations/set-abilities';
 import setApprovalForAll from '../mutations/set-approval-for-all';
 import setEnabled from '../mutations/set-enabled';
 import transfer from '../mutations/transfer';
@@ -226,6 +227,26 @@ export class AssetLedger implements AssetLedgerBase {
     });
 
     return grantAbilities(this, accountId, bitAbilities);
+  }
+
+  /**
+   * Sets abilities of an account.
+   * @param accountId Id of the account.
+   * @param abilities List of the abilities.
+   */
+  public async setAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
+      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+    }
+
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
+
+    let bitAbilities = bigNumberify(0);
+    abilities.forEach((ability) => {
+      bitAbilities = bitAbilities.add(ability);
+    });
+
+    return setAbilities(this, accountId, bitAbilities);
   }
 
   /**
