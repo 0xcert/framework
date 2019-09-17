@@ -3249,11 +3249,16 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
+| SET_ABILITIES | 4 | Sets abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
 ::: Warning
 There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
+
+::: Warning
+There is a possibility of unintentional behavior where account abilitites can be overwritten if more than one `SET_ABILITIES` order per account is active. Be aware of this when implementing.
 :::
 
 ### Create asset action
@@ -3274,6 +3279,15 @@ There is a possibility of unintentional behavior where asset imprint can be over
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
 | ledgerId | [required] A `string` representing asset ledger address.
+
+### Set account abilities action
+
+| Property | Description
+|-|-
+| abilities[] | [required] An array of `AssetLedgerAbility` representing abilities of an account.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.SET_ABILITIES`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | A `string` representing the receiver's (account of which we are setting abilities) address.
 
 ### Transfer asset action
 
