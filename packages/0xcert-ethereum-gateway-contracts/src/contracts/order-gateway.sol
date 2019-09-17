@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
@@ -22,6 +23,7 @@ contract OrderGateway is
   /**
    * @dev Xcert abilities.
    */
+  uint8 constant ABILITY_ALLOW_MANAGE_ABILITITES = 2;
   uint16 constant ABILITY_ALLOW_CREATE_ASSET = 512;
   uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 1024;
 
@@ -66,7 +68,8 @@ contract OrderGateway is
   {
     create,
     transfer,
-    update
+    update,
+    manage_abilities
   }
 
   /**
@@ -523,6 +526,19 @@ contract OrderGateway is
       {
         require(
           Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
+          _order.actions[i].token,
+          _order.actions[i].value,
+          _order.actions[i].param1
+        );
+      }
+      else if (_order.actions[i].kind == ActionKind.manage_abilities)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
           SIGNER_NOT_AUTHORIZED
         );
 

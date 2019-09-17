@@ -23,26 +23,7 @@ contract AbilitableManageProxy is
    * @param _to Account to which we are granting abilities.
    * @param _abilities Number representing bitfield of abilities we are granting.
    */
-  function grant(
-    address _target,
-    address _to,
-    uint256 _abilities
-  )
-    public
-    hasAbilities(ABILITY_TO_EXECUTE)
-  {
-    Abilitable(_target).grantAbilities(_to, _abilities);
-  }
-
-  /**
-   * @dev Calls into Abilitable contract, invoking revokeAbilities.
-   * @param _target Address of token to transfer.
-   * @param _to Account to which we are revoking abilities.
-   * @param _abilities Number representing bitfield of abilities we are revoking.
-   * @param _allowSuperRevoke dditional check that prevents you from removing your own super
-   * ability by mistake.
-   */
-  function revoke(
+  function set(
     address _target,
     address _to,
     uint256 _abilities,
@@ -51,7 +32,7 @@ contract AbilitableManageProxy is
     public
     hasAbilities(ABILITY_TO_EXECUTE)
   {
-    Abilitable(_target).revokeAbilities(_to, _abilities, _allowSuperRevoke);
+    Abilitable(_target).setAbilities(_to, _abilities, _allowSuperRevoke);
   }
   
 }
