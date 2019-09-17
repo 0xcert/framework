@@ -257,11 +257,6 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
-    let allowSuperRevoke = false;
-    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1) {
-      allowSuperRevoke = true;
-    }
-
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     let bitAbilities = bigNumberify(0);
@@ -269,7 +264,7 @@ export class AssetLedger implements AssetLedgerBase {
       bitAbilities = bitAbilities.add(ability);
     });
 
-    return revokeAbilities(this, accountId, bitAbilities, allowSuperRevoke);
+    return revokeAbilities(this, accountId, bitAbilities);
   }
 
   /**
