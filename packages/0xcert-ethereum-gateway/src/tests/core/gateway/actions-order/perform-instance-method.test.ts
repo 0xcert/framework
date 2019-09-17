@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, GeneralAssetLedgerAbility, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
 
@@ -75,8 +75,8 @@ spec.before(async (stage) => {
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: coinbase });
-  await xcert.instance.methods.grantAbilities(xcertCreateProxy, 2).send({ from: coinbase });
-  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, 16).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertCreateProxy, GeneralAssetLedgerAbility.CREATE_ASSET).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, GeneralAssetLedgerAbility.UPDATE_ASSET).send({ from: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: bob });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: sara });
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });

@@ -45,7 +45,7 @@ spec.test('grants ledger abilities for an account', async (ctx) => {
   const bob = ctx.get('bob');
   const mutation = await ledger.grantAbilities(bob, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.TOGGLE_TRANSFERS]);
   await mutation.complete();
-  ctx.is((mutation.logs[0]).event, 'GrantAbilities');
+  ctx.is((mutation.logs[0]).event, 'SetAbilities');
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.TOGGLE_TRANSFERS]);
 });

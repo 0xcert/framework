@@ -62,21 +62,11 @@ contract Abilitable
   mapping(address => uint256) public addressToAbility;
 
   /**
-   * @dev Emits when an address is granted an ability.
-   * @param _target Address to which we are granting abilities.
-   * @param _abilities Number representing bitfield of abilities we are granting.
+   * @dev Emits when address abilities are changed.
+   * @param _target Address of which the abilities where changed.
+   * @param _abilities New abilitites.
    */
-  event GrantAbilities(
-    address indexed _target,
-    uint256 indexed _abilities
-  );
-
-  /**
-   * @dev Emits when an address gets an ability revoked.
-   * @param _target Address of which we are revoking an ability.
-   * @param _abilities Number representing bitfield of abilities we are revoking.
-   */
-  event RevokeAbilities(
+  event SetAbilities(
     address indexed _target,
     uint256 indexed _abilities
   );
@@ -119,7 +109,7 @@ contract Abilitable
     hasAbilities(SUPER_ABILITY)
   {
     addressToAbility[_target] |= _abilities;
-    emit GrantAbilities(_target, _abilities);
+    emit SetAbilities(_target, addressToAbility[_target]);
   }
 
   /**
@@ -142,7 +132,28 @@ contract Abilitable
       require((_abilities & 1) == 0, CANNOT_REVOKE_OWN_SUPER_ABILITY);
     }
     addressToAbility[_target] &= ~_abilities;
-    emit RevokeAbilities(_target, _abilities);
+    emit SetAbilities(_target, addressToAbility[_target]);
+  }
+
+  /**
+   * @dev Sets specific abilities to specified address.
+   * @param _target Address to which we are setting abilitites.
+   * @param _abilities Number representing bitfield of abilities we are setting.
+   */
+  function setAbilities(
+    address _target,
+    uint256 _abilities,
+    bool _allowSuperRevoke
+  )
+    external
+    hasAbilities(SUPER_ABILITY)
+  {
+    if (!_allowSuperRevoke && msg.sender == _target)
+    {
+      require((_abilities & 1) == 1, CANNOT_REVOKE_OWN_SUPER_ABILITY);
+    }
+    addressToAbility[_target] = _abilities;
+    emit SetAbilities(_target, _abilities);
   }
 
   /**

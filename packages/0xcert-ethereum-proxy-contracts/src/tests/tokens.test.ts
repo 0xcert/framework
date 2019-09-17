@@ -34,7 +34,7 @@ spec.test('adds authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const logs = await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, TokenTransferProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
@@ -46,7 +46,7 @@ spec.test('removes authorized address', async (ctx) => {
   const bob = ctx.get('bob');
   await tokenProxy.instance.methods.grantAbilities(bob, TokenTransferProxyAbilities.EXECUTE).send({from: owner});
   const logs = await tokenProxy.instance.methods.revokeAbilities(bob, TokenTransferProxyAbilities.EXECUTE, false).send({ from: owner });
-  ctx.not(logs.events.RevokeAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await tokenProxy.instance.methods.isAble(bob, TokenTransferProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);

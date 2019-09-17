@@ -36,7 +36,7 @@ spec.test('adds authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const logs = await abilitableManageProxy.instance.methods.grantAbilities(bob, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await abilitableManageProxy.instance.methods.isAble(bob, AbilitableManageProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
@@ -48,7 +48,7 @@ spec.test('removes authorized address', async (ctx) => {
   const bob = ctx.get('bob');
   await abilitableManageProxy.instance.methods.grantAbilities(bob, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
   const logs = await abilitableManageProxy.instance.methods.revokeAbilities(bob, AbilitableManageProxyAbilities.EXECUTE, false).send({ from: owner });
-  ctx.not(logs.events.RevokeAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await abilitableManageProxy.instance.methods.isAble(bob, AbilitableManageProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);

@@ -479,8 +479,8 @@ export class AssetLedger implements AssetLedgerBase {
         ],
       },
       {
-        name: 'GrantAbilities',
-        topic: '0xc4adfc5f00262a1ab9b2241c7e98408a91e58dc5777d786164bba34a7652f62f',
+        name: 'SetAbilities',
+        topic: '0xd1d59d2d212a435434e7a4a4676427610dfe2b6268b01e541d280d65bf3d6b90',
         types: [
           {
             kind: MutationEventTypeKind.INDEXED,
@@ -489,24 +489,8 @@ export class AssetLedger implements AssetLedgerBase {
           },
           {
             kind: MutationEventTypeKind.INDEXED,
-            name: 'imprint',
-            type: 'bytes32',
-          },
-        ],
-      },
-      {
-        name: 'RevokeAbilities',
-        topic: '0xbb71944f65b9a48cc7d835179fb5e874f29b60aa0195785fb54968d8dddef08a',
-        types: [
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'target',
-            type: 'address',
-          },
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'imprint',
-            type: 'bytes32',
+            name: 'abilities',
+            type: 'uint256',
           },
         ],
       },
