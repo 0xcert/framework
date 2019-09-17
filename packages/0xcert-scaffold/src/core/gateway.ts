@@ -1,4 +1,4 @@
-import { AssetLedgerCapability } from './asset-ledger';
+import { AssetLedgerAbility, AssetLedgerCapability } from './asset-ledger';
 import { MutationBase } from './mutation';
 
 /**
@@ -9,6 +9,7 @@ export enum ActionsOrderActionKind {
   TRANSFER_ASSET = 2,
   TRANSFER_VALUE = 3,
   UPDATE_ASSET_IMPRINT = 4,
+  SET_ABILITIES = 5,
 }
 
 /**
@@ -40,7 +41,33 @@ export interface GatewayBase {
  * Different order actions.
  */
 export type ActionsOrderAction = ActionsOrderActionCreateAsset | ActionsOrderActionTransferAsset
-  | ActionsOrderActionTransferValue | ActionsOrderActionUpdateAssetImprint;
+  | ActionsOrderActionTransferValue | ActionsOrderActionUpdateAssetImprint | ActionsOrderActionSetAbilities;
+
+/**
+ * Order create asset data definitio.
+ */
+export interface ActionsOrderActionSetAbilities {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.SET_ABILITIES;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of account we are setting abilitites to.
+   */
+  receiverId?: string;
+
+  /**
+   * Abilities we want to set.
+   */
+  abilities: AssetLedgerAbility[];
+}
 
 /**
  * Order create asset data definitio.

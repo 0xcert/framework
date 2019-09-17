@@ -1530,7 +1530,7 @@
     },
     "@rush-temp/ethereum-gateway": {
       "version": "file:projects/ethereum-gateway.tgz",
-      "integrity": "sha512-Ed2dLXa+upNk5u4g06V8MaMn6rGvbySRBARldRNTyfG6M6IXjGnKekdKYonooOQpX5TNduxmAg1yq6YrUBy/Vw==",
+      "integrity": "sha512-0nKbqJWsY2xJyehKGD3qXChGuTfaFBiyb100U2JftLXaQuMEEV/gnDL7Mf6JlZzRnvUE4mthNA5Jd3LvXRfxAg==",
       "requires": {
         "@specron/cli": "0.6.0",
         "@specron/spec": "0.6.0",

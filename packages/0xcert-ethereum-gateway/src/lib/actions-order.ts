@@ -100,15 +100,15 @@ export function getActionKind(action: ActionsOrderAction) {
   switch (action.kind) {
     case ActionsOrderActionKind.CREATE_ASSET: {
       return '00';
-      break;
     }
     case ActionsOrderActionKind.UPDATE_ASSET_IMPRINT: {
       return '02';
-      break;
+    }
+    case ActionsOrderActionKind.SET_ABILITIES: {
+      return '03';
     }
     default: {
       return '01';
-      break;
     }
   }
 }
@@ -118,9 +118,11 @@ export function getActionKind(action: ActionsOrderAction) {
  * @param action ActionsOrderAction instance.
  */
 export function getActionTo(action: ActionsOrderAction) {
-  return action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT
-    ? '0x0000000000000000000000000000000000000000'
-    : action.receiverId;
+  if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    return '0x0000000000000000000000000000000000000000';
+  } else {
+    return action.receiverId;
+  }
 }
 
 /**
@@ -137,6 +139,8 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
       : OrderGatewayProxy.NFTOKEN_TRANSFER;
   } else if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
     return OrderGatewayProxy.XCERT_CREATE;
+  } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
+    return OrderGatewayProxy.MANAGE_ABILITIES;
   } else {
     return OrderGatewayProxy.XCERT_UPDATE;
   }
@@ -147,10 +151,14 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
  * @param action ActionsOrderAction instance.
  */
 export function getActionParam1(action: ActionsOrderAction) {
-  return (action.kind == ActionsOrderActionKind.CREATE_ASSET
-    || action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT)
-    ? rightPad(`0x${action['assetImprint']}`, 64)
-    : `${action['senderId']}000000000000000000000000`;
+  if (action.kind == ActionsOrderActionKind.CREATE_ASSET
+    || action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    return rightPad(`0x${action['assetImprint']}`, 64);
+  } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
+    return '0x0000000000000000000000000000000000000000000000000000000000000000';
+  } else {
+    return `${action['senderId']}000000000000000000000000`;
+  }
 }
 
 /**
@@ -158,7 +166,15 @@ export function getActionParam1(action: ActionsOrderAction) {
  * @param action ActionsOrderAction instance.
  */
 export function getActionValue(action: ActionsOrderAction) {
-  return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
+  if (action.kind === ActionsOrderActionKind.SET_ABILITIES) {
+    let bitAbilities = bigNumberify(0);
+    action.abilities.forEach((ability) => {
+      bitAbilities = bitAbilities.add(ability);
+    });
+    return leftPad(bigNumberify(bitAbilities).toHexString(), 64, '0', true);
+  } else {
+    return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
+  }
 }
 
 /**
@@ -190,7 +206,9 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
     } else {
       action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
     }
-    if (action.kind !== ActionsOrderActionKind.CREATE_ASSET && action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    if (action.kind !== ActionsOrderActionKind.CREATE_ASSET
+      && action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT
+      && action.kind !== ActionsOrderActionKind.SET_ABILITIES) {
       if (!action['senderId']) {
         if (!dynamic) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
