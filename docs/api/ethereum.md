@@ -2614,14 +2614,14 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
-| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When graning or revoking abilitites trough `Gateway` the order maker has to have this ability.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
-| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `Gateway`, the order maker has to have this ability.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
 | CREATE_ASSET | 16 | Allows an account to create a new asset.
 | REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
@@ -3249,7 +3249,7 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
-| SET_ABILITIES | 5 | Sets abilities.
+| SET_ABILITIES | 5 | Set abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
@@ -3258,7 +3258,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 :::
 
 ::: Warning
-There is a possibility of unintentional behavior where account abilitites can be overwritten if more than one `SET_ABILITIES` order per account is active. Be aware of this when implementing.
+There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
 ### Create asset action

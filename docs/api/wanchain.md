@@ -21,9 +21,9 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
-| options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.actionsOrderId | A `string` representing an Wanchain address of the [actions order gateway](/#public-addresses).
-| options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Wanchain address of the [value ledger deploy gateway](/#public-addresses).
+| options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
@@ -71,9 +71,9 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 
 | Argument | Description
 |-|-
-| assetLedgerDeployOrderId | A `string` representing an Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| actionsOrderId | A `string` representing an Wanchain address of the [actions order gateway](/#public-addresses).
-| valueLedgerDeployOrderId | A `string` representing an Wanchain address of the [value ledger deploy gateway](/#public-addresses).
+| assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 
@@ -1522,14 +1522,14 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
-| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When graning or revoking abilitites trough `Gateway` the order maker has to have this ability.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
-| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `Gateway`, the order maker has to have this ability.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
 | CREATE_ASSET | 16 | Allows an account to create a new asset.
 | REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
@@ -1913,9 +1913,9 @@ A `class` representing a smart contract on the Wanchain blockchain.
 
 | Argument | Description
 |-|-
-| gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.actionsOrderId | A `string` representing an Wanchain address of the [actions order gateway](/#public-addresses).
-| gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Wanchain address of the [value ledger deploy gateway](/#public-addresses).
+| gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | provider | [required] An instance of an HTTP provider.
 
 **Usage**
@@ -2110,7 +2110,7 @@ This order kind is used for delegating `AssetLedger` deploy.
 | assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
 | takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
@@ -2126,7 +2126,7 @@ This order kind can perform multiple operations such as value transfer, asset tr
 | signature | [required] A `string` representing order signature created by the maker.
 | order.actions | [required] An `array` of [actions order action objects](#actions order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
-| order.makerId | [required] A `string` representing an Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
+| order.makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing a unique order number.
 | order.takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
@@ -2138,7 +2138,7 @@ This order kind is used for delegating `ValueLedger` deploy.
 |-|-
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
 | takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
@@ -2160,7 +2160,7 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
-| SET_ABILITIES | 5 | Sets abilities.
+| SET_ABILITIES | 5 | Set abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
@@ -2169,7 +2169,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 :::
 
 ::: Warning
-There is a possibility of unintentional behavior where account abilitites can be overwritten if more than one `SET_ABILITIES` order per account is active. Be aware of this when implementing.
+There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
 ### Create asset action
