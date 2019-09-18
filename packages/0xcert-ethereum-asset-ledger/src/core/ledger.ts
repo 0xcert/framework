@@ -1,9 +1,9 @@
 import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
   AssetLedgerUpdateRecipe, GatewayBase } from '@0xcert/scaffold';
+import { getBitfieldFromAbilities } from '..';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -221,12 +221,7 @@ export class AssetLedger implements AssetLedgerBase {
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return grantAbilities(this, accountId, bitAbilities);
+    return grantAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -241,12 +236,7 @@ export class AssetLedger implements AssetLedgerBase {
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return setAbilities(this, accountId, bitAbilities);
+    return setAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -280,12 +270,7 @@ export class AssetLedger implements AssetLedgerBase {
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return revokeAbilities(this, accountId, bitAbilities);
+    return revokeAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**

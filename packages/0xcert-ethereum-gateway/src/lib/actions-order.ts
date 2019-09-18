@@ -1,3 +1,4 @@
+import { getBitfieldFromAbilities } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
 import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
@@ -167,10 +168,7 @@ export function getActionParam1(action: ActionsOrderAction) {
  */
 export function getActionValue(action: ActionsOrderAction) {
   if (action.kind === ActionsOrderActionKind.SET_ABILITIES) {
-    let bitAbilities = bigNumberify(0);
-    action.abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
+    const bitAbilities = getBitfieldFromAbilities(action.abilities);
     return leftPad(bigNumberify(bitAbilities).toHexString(), 64, '0', true);
   } else {
     return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
