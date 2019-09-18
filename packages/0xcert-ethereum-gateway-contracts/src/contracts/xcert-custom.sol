@@ -8,6 +8,12 @@ import "@0xcert/ethereum-xcert-contracts/src/contracts/xcert.sol";
 contract XcertCustom is XcertToken {
 
   /**
+   * Contant presenting all and none currently available Xcert abilities.
+   */
+  uint8 constant ABILITY_NONE = 0;
+  uint8 constant ABILITY_ALL = 255;
+
+  /**
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFT.
@@ -42,8 +48,8 @@ contract XcertCustom is XcertToken {
       supportedInterfaces[_capabilities[i]] = true;
     }
     addressToAbility[_assetCreateProxy] = ABILITY_CREATE_ASSET; // Gives createProxy ability to create a new asset.
-    addressToAbility[msg.sender] = 0; // Remove super ability from creator.
-    addressToAbility[_owner] = 255; // Assigns all available abilities to the new owner.
+    addressToAbility[msg.sender] = ABILITY_NONE;
+    addressToAbility[_owner] = ABILITY_ALL;
   }
 
 }
