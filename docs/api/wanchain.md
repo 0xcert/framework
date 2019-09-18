@@ -2160,7 +2160,7 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
-| SET_ABILITIES | 4 | Sets abilities.
+| SET_ABILITIES | 5 | Sets abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
