@@ -1,4 +1,5 @@
 import { TokenTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import * as path from 'path';
 import * as common from '../helpers/common';
@@ -135,7 +136,7 @@ spec.test('performs a deploy', async (ctx) => {
   const xcert1Owner = await xcert.methods.ownerOf('1').call();
   ctx.is(xcert1Owner, jane);
 
-  const isAble = await xcert.methods.isAble(createProxy.receipt._address, 32).call();
+  const isAble = await xcert.methods.isAble(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).call();
   ctx.true(isAble);
 
   const supportsInterface = await xcert.methods.supportsInterface('0xbedb86fb').call();
