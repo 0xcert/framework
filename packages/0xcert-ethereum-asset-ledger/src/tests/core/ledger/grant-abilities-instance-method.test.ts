@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { GeneralAssetLedgerAbility } from '@0xcert/scaffold';
+import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
 import { GatewayMock } from '../../mock/gateway-mock';
@@ -50,13 +50,22 @@ spec.test('grants ledger abilities for an account', async (ctx) => {
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.TOGGLE_TRANSFERS]);
 });
 
-spec.test('grants ledger abilities to an order gateway', async (ctx) => {
+spec.test('grants ledger create asset ability to an order gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
   await ledger.grantAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]);
   const abilities = await ledger.getAbilities(proxyId);
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
+});
+
+spec.test('grants ledger manage abilities ability to an order gateway', async (ctx) => {
+  const ledger = ctx.get('ledger');
+  const gateway = ctx.get('gateway');
+  const proxyId = ctx.get('protocol').abilitableManageProxy.instance.options.address;
+  await ledger.grantAbilities(gateway, [SuperAssetLedgerAbility.MANAGE_ABILITIES]);
+  const abilities = await ledger.getAbilities(proxyId);
+  ctx.deepEqual(abilities, [SuperAssetLedgerAbility.MANAGE_ABILITIES]);
 });
 
 export default spec;

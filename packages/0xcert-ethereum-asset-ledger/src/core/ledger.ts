@@ -2,7 +2,7 @@ import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKin
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, GatewayBase } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, GatewayBase, GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { getBitfieldFromAbilities } from '..';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
@@ -216,7 +216,9 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+      accountId = abilities.includes(SuperAssetLedgerAbility.MANAGE_ABILITIES) ?
+        await (accountId as any).getProxyAccountId(5) : // OrderGatewayProxy.SET_ABILITIES
+        await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
