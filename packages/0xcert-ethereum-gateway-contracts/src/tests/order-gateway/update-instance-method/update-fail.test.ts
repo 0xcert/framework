@@ -216,7 +216,7 @@ spec.test('throws when proxy does not have ability to execute', async (ctx) => {
 
   await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
 
-  await updateProxy.instance.methods.revokeAbilities(orderGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE, false).send({ from: owner });
+  await updateProxy.instance.methods.revokeAbilities(orderGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE).send({ from: owner });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '017001');
 });
 

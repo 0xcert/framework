@@ -6,7 +6,7 @@ contract AbilitableTestMock is
   Abilitable
 {
   uint8 constant ABILITY_A = 1;
-  uint8 constant ABILITY_B = 2;
+  uint8 constant ABILITY_B = 16;
 
   function abilityA()
     external

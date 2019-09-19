@@ -1,8 +1,9 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderActionKind, GeneralAssetLedgerAbility, OrderKind, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
+import { OrderGatewayProxy } from '../../../../core/types';
 
 interface Data {
   protocol: Protocol;
@@ -69,14 +70,16 @@ spec.before(async (stage) => {
   const tokenTransferProxy = stage.get('protocol').tokenTransferProxy.instance.options.address;
   const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
   const xcertUpdateProxy = stage.get('protocol').xcertUpdateProxy.instance.options.address;
+  const abilitableManageProxy = stage.get('protocol').abilitableManageProxy.instance.options.address;
 
   await erc20.instance.methods.transfer(sara, 100000).send({ form: coinbase });
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: coinbase });
-  await xcert.instance.methods.grantAbilities(xcertCreateProxy, 2).send({ from: coinbase });
-  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, 16).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertCreateProxy, GeneralAssetLedgerAbility.CREATE_ASSET).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(xcertUpdateProxy, GeneralAssetLedgerAbility.UPDATE_ASSET).send({ from: coinbase });
+  await xcert.instance.methods.grantAbilities(abilitableManageProxy, SuperAssetLedgerAbility.MANAGE_ABILITIES).send({ from: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: bob });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: sara });
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
@@ -124,6 +127,12 @@ spec.test('submits gateway actions order to the network which executes transfers
         receiverId: coinbase,
         assetId: '101',
       },
+      {
+        kind: ActionsOrderActionKind.SET_ABILITIES,
+        ledgerId: xcertId,
+        receiverId: bob,
+        abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
+      },
     ],
   };
 
@@ -141,6 +150,7 @@ spec.test('submits gateway actions order to the network which executes transfers
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
 });
 
 spec.test('submits dynamic gateway actions order to the network which executes transfers', async (ctx) => {
@@ -184,6 +194,11 @@ spec.test('submits dynamic gateway actions order to the network which executes t
         assetImprint: '2',
         assetId: '105',
       },
+      {
+        kind: ActionsOrderActionKind.SET_ABILITIES,
+        ledgerId: xcertId,
+        abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
+      },
     ],
   };
 
@@ -199,6 +214,7 @@ spec.test('submits dynamic gateway actions order to the network which executes t
   ctx.is(await xcert.instance.methods.ownerOf('105').call(), sara);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
   ctx.is(await erc20.instance.methods.balanceOf(bob).call(), '100000');
+  ctx.true(await xcert.instance.methods.isAble(sara, GeneralAssetLedgerAbility.CREATE_ASSET).call());
 });
 
 spec.test('handles fixed actions order without receiver', async (ctx) => {

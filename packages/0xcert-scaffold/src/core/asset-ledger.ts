@@ -8,13 +8,13 @@ export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbi
  * abilities that can not change other account's abilities.
  */
 export enum GeneralAssetLedgerAbility {
-  CREATE_ASSET = 2,
-  REVOKE_ASSET = 4,
-  TOGGLE_TRANSFERS = 8,
-  UPDATE_ASSET = 16,
-  ALLOW_CREATE_ASSET = 32,
-  UPDATE_URI_BASE = 64,
-  ALLOW_UPDATE_ASSET_IMPRINT = 128,
+  CREATE_ASSET = 16,
+  REVOKE_ASSET = 32,
+  TOGGLE_TRANSFERS = 64,
+  UPDATE_ASSET = 128,
+  UPDATE_URI_BASE = 256,
+  ALLOW_CREATE_ASSET = 512,
+  ALLOW_UPDATE_ASSET_IMPRINT = 1024,
 }
 
 /**
@@ -23,6 +23,7 @@ export enum GeneralAssetLedgerAbility {
  */
 export enum SuperAssetLedgerAbility {
   MANAGE_ABILITIES = 1,
+  ALLOW_MANAGE_ABILITIES = 2,
 }
 
 /**

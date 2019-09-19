@@ -1,4 +1,4 @@
-import { TokenTransferProxyAbilities, XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { AbilitableManageProxyAbilities, TokenTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { OrderGatewayAbilities } from '../../../core/types';
@@ -13,14 +13,12 @@ import * as common from '../../helpers/common';
 interface Data {
   orderGateway?: any;
   tokenProxy?: any;
-  createProxy?: any;
+  abilitableManageProxy?: any;
   cat?: any;
   owner?: string;
   jane?: string;
   sara?: string;
   zxc?: any;
-  id1?: string;
-  imprint1?: string;
 }
 
 const spec = new Spec<Data>();
@@ -30,11 +28,6 @@ spec.before(async (ctx) => {
   ctx.set('owner', accounts[0]);
   ctx.set('jane', accounts[1]);
   ctx.set('sara', accounts[2]);
-});
-
-spec.before(async (ctx) => {
-  ctx.set('id1', '1');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
 });
 
 /**
@@ -73,16 +66,16 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const createProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
-    contract: 'XcertCreateProxy',
+  const abilitableManageProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/abilitable-manage-proxy.json',
+    contract: 'AbilitableManageProxy',
   });
-  ctx.set('createProxy', createProxy);
+  ctx.set('abilitableManageProxy', abilitableManageProxy);
 });
 
 spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const owner = ctx.get('owner');
   const orderGateway = await ctx.deploy({
     src: './build/order-gateway.json',
@@ -90,7 +83,7 @@ spec.beforeEach(async (ctx) => {
   });
   await orderGateway.instance.methods.grantAbilities(owner, OrderGatewayAbilities.SET_PROXIES).send();
   await orderGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
-  await orderGateway.instance.methods.addProxy(createProxy.receipt._address).send({ from: owner });
+  await orderGateway.instance.methods.addProxy(abilitableManageProxy.receipt._address).send({ from: owner });
   ctx.set('orderGateway', orderGateway);
 });
 
@@ -98,31 +91,29 @@ spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const orderGateway = ctx.get('orderGateway');
   const owner = ctx.get('owner');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   await tokenProxy.instance.methods.grantAbilities(orderGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
-  await createProxy.instance.methods.grantAbilities(orderGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
+  await abilitableManageProxy.instance.methods.grantAbilities(orderGateway.receipt._address, AbilitableManageProxyAbilities.EXECUTE).send({ from: owner });
 });
 
 spec.test('fails if msg.sender is not the receiver', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const sara = ctx.get('sara');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -153,30 +144,29 @@ spec.test('fails if msg.sender is not the receiver', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara }), '015003');
 });
 
-spec.test('fails when trying to perform already performed creation', async (ctx) => {
+spec.test('fails when trying to perform already performed order', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
+  const sara = ctx.get('sara');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -207,7 +197,7 @@ spec.test('fails when trying to perform already performed creation', async (ctx)
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015008');
@@ -216,22 +206,20 @@ spec.test('fails when trying to perform already performed creation', async (ctx)
 spec.test('fails when approved token value is not sufficient', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -262,29 +250,27 @@ spec.test('fails when approved token value is not sufficient', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001002');
 });
 
-spec.test('fails when proxy does not have the create rights', async (ctx) => {
+spec.test('fails when proxy does not have the manage ability rights', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -322,22 +308,20 @@ spec.test('fails when proxy does not have the create rights', async (ctx) => {
 spec.test('fails if current time is after expirationTimestamp', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -368,30 +352,28 @@ spec.test('fails if current time is after expirationTimestamp', async (ctx) => {
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015005');
 });
 
-spec.test('fails if maker does not have asset creating ability', async (ctx) => {
+spec.test('fails if maker does not have allow manage ability', async (ctx) => {
   const orderGateway = ctx.get('orderGateway');
   const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
+  const abilitableManageProxy = ctx.get('abilitableManageProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
+      kind: 3,
       proxy: 1,
       token: cat.receipt._address,
-      param1: imprint,
+      param1: '0x0',
       to: jane,
-      value: id,
+      value: XcertAbilities.CREATE_ASSET,
     },
     {
       kind: 1,
@@ -422,8 +404,8 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
   };
   const signatureDataTuple = ctx.tuple(signatureData);
 
-  await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_CREATE_ASSET).send({ from: owner });
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_MANAGE_ABILITIES).send({ from: owner });
+  await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
   await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => orderGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
 });

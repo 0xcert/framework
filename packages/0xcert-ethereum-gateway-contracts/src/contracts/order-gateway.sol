@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
@@ -15,15 +16,16 @@ contract OrderGateway is
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to set proxies.
+   * 16 - Ability to set proxies.
    */
-  uint8 constant ABILITY_TO_SET_PROXIES = 2;
+  uint8 constant ABILITY_TO_SET_PROXIES = 16;
 
   /**
    * @dev Xcert abilities.
    */
-  uint8 constant ABILITY_ALLOW_CREATE_ASSET = 32;
-  uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 128;
+  uint8 constant ABILITY_ALLOW_MANAGE_ABILITITES = 2;
+  uint16 constant ABILITY_ALLOW_CREATE_ASSET = 512;
+  uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 1024;
 
   /**
    * @dev Error constants.
@@ -66,7 +68,8 @@ contract OrderGateway is
   {
     create,
     transfer,
-    update
+    update,
+    manage_abilities
   }
 
   /**
@@ -470,6 +473,24 @@ contract OrderGateway is
           _order.actions[i].param1
         );
       }
+      else if (_order.actions[i].kind == ActionKind.manage_abilities)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        if (_order.actions[i].to == address(0))
+        {
+          _order.actions[i].to = _order.taker;
+        }
+
+        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
+          _order.actions[i].token,
+          _order.actions[i].to,
+          _order.actions[i].value
+        );
+      }
     }
   }
 
@@ -530,6 +551,19 @@ contract OrderGateway is
           _order.actions[i].token,
           _order.actions[i].value,
           _order.actions[i].param1
+        );
+      }
+      else if (_order.actions[i].kind == ActionKind.manage_abilities)
+      {
+        require(
+          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
+          _order.actions[i].token,
+          _order.actions[i].to,
+          _order.actions[i].value
         );
       }
     }

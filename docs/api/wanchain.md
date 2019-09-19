@@ -21,9 +21,9 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
-| options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
-| options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
+| options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
@@ -61,7 +61,7 @@ A function that returns the current gateway config based on the deployed gateway
 
 | Argument | Description
 |-|-
-| networkKind | [required] A `number` representing the Ethereum network for which we want to get the gateway config.
+| networkKind | [required] A `number` representing the Wanchain network for which we want to get the gateway config.
 
 ### gatewayConfig
 
@@ -71,9 +71,9 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 
 | Argument | Description
 |-|-
-| assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
-| valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
+| assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
 
@@ -1364,6 +1364,51 @@ const mutation = await ledger.revokeAsset(assetId);
 
 [destroyAsset](#destroyasset-assetid)
 
+### setAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which sets `abilities` of an `accountId`.
+
+::: warning
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
+:::
+
+::: warning
+You can override your own `MANAGE_ABILITIES` super ability.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new Wanchain account address.
+| abilities | [required] An `array` of `integer` numbers representing ledger abilities.
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+import { GeneralAssetLedgerAbility } from '@0xcert/wanchain-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform mutation
+const mutation = await ledger.setAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[Ledger abilities](#ledger-abilities)
+[grantAbilities](#grantabilities-accountid-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
+
 ### update(recipe)
 
 An `asynchronous` class instance `function` which updates ledger data.
@@ -1477,17 +1522,19 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
-| CREATE_ASSET | 2 | Allows an account to create a new asset.
-| REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
-| TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
-| UPDATE_ASSET | 16 | Allows an account to update asset data.
-| UPDATE_URI | 64 | Allows an account to update asset ledger's URI prefix and postfix.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
+| CREATE_ASSET | 16 | Allows an account to create a new asset.
+| REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 128 | Allows an account to update asset data.
+| UPDATE_URI | 256 | Allows an account to update asset ledger's URI prefix and postfix.
 
 **Example:**
 
@@ -1860,25 +1907,25 @@ When using dynamic order, you cannot send any of the assets to the zero address 
 
 ### Gateway(provider, gatewayConfig)
 
-A `class` representing a smart contract on the Ethereum blockchain.
+A `class` representing a smart contract on the Wanchain blockchain.
 
 **Arguments**
 
 | Argument | Description
 |-|-
-| gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions order gateway](/#public-addresses).
-| gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
-| provider | [required] An instance of an HTTP or MetaMask provider.
+| gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
+| provider | [required] An instance of an HTTP provider.
 
 **Usage**
 
 ```ts
-import { MetamaskProvider, buildGatewayConfig } from '@0xcert/ethereum-metamask-provider';
-import { Gateway } from '@0xcert/ethereum-gateway';
+import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
+import { Gateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
-const provider = new MetamaskProvider();
+const provider = new HttpProvider();
 
 // create ledger instance
 const gateway = new Gateway(provider, buildGatewayConfig(NetworkType.ROPSTEN));
@@ -1901,7 +1948,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
+import { ActionsOrderActionKind } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const order = {
@@ -1983,11 +2030,11 @@ See the class [constructor](#gateway) for details.
 **Usage**
 
 ```ts
-import { MetamaskProvider, buildGatewayConfig } from '@0xcert/ethereum-metamask-provider';
-import { Gateway } from '@0xcert/ethereum-gateway';
+import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
+import { Gateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
-const provider = new MetamaskProvider();
+const provider = new HttpProvider();
 
 // create gateway instance
 const gateway = Gateway.getInstance(provider, buildGatewayConfig(NetworkType.ROPSTEN));
@@ -1995,7 +2042,7 @@ const gateway = Gateway.getInstance(provider, buildGatewayConfig(NetworkType.ROP
 
 ### id
 
-A class instance `variable` holding the address of gateway's smart contract on the Ethereum blockchain.
+A class instance `variable` holding the address of gateway's smart contract on the Wanchain blockchain.
 
 ### perform(order, signature)
 
@@ -2056,16 +2103,16 @@ This order kind is used for delegating `AssetLedger` deploy.
 |-|-
 | assetLedgerData.capabilities | [required] A list of `integers` representing ledger capabilities.
 | assetLedgerData.name | [required] A `string` representing asset ledger name.
-| assetLedgerData.owner | [required] A `string` representing Ethereum wallet, which will be the owner of the asset ledger.
+| assetLedgerData.owner | [required] A `string` representing Wanchain wallet, which will be the owner of the asset ledger.
 | assetLedgerData.schemaId | [required] A `string` representing data schema ID.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
 | assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
 | assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
@@ -2079,9 +2126,9 @@ This order kind can perform multiple operations such as value transfer, asset tr
 | signature | [required] A `string` representing order signature created by the maker.
 | order.actions | [required] An `array` of [actions order action objects](#actions order-actions).
 | order.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
-| order.makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| order.makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | order.seed | [required] An `integer` number representing a unique order number.
-| order.takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| order.takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 
 ### Value ledger deploy order
 
@@ -2091,15 +2138,15 @@ This order kind is used for delegating `ValueLedger` deploy.
 |-|-
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
 | valueLedgerData.decimals | [required] A big number `string` representing the number of decimals.
 | valueLedgerData.name | [required] A `string` representing value ledger name.
-| valueLedgerData.owner | [required] A `string` representing the Ethereum wallet that will be the owner of the asset ledger.
+| valueLedgerData.owner | [required] A `string` representing the Wanchain wallet that will be the owner of the asset ledger.
 | valueLedgerData.supply | [required] A big number `string` representing the total supply of a ledger.
 | valueLedgerData.symbol | [required] A `string` representing value ledger symbol.
 
@@ -2113,11 +2160,16 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
+| SET_ABILITIES | 5 | Set abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
 ::: Warning
 There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
+
+::: Warning
+There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
 ### Create asset action
@@ -2138,6 +2190,15 @@ There is a possibility of unintentional behavior where asset imprint can be over
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
 | ledgerId | [required] A `string` representing asset ledger address.
+
+### Set account abilities action
+
+| Property | Description
+|-|-
+| abilities[] | [required] An array of `AssetLedgerAbility` representing abilities of an account.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.SET_ABILITIES`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | A `string` representing the receiver's (account of which we are setting abilities) address.
 
 ### Transfer asset action
 

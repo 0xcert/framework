@@ -37,7 +37,7 @@ spec.test('adds authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const logs = await xcertUpdateProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertUpdateProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
@@ -48,8 +48,8 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await xcertUpdateProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  const logs = await xcertUpdateProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE, false).send({ from: owner });
-  ctx.not(logs.events.RevokeAbilities, undefined);
+  const logs = await xcertUpdateProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertUpdateProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);

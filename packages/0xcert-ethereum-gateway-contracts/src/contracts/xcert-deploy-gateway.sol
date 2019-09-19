@@ -73,7 +73,7 @@ contract XcertDeployGateway
    * @param kind Type of signature.
    */
   struct SignatureData
-  {
+  { 
     bytes32 r;
     bytes32 s;
     uint8 v;

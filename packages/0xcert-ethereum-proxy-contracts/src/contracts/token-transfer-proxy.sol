@@ -16,9 +16,9 @@ contract TokenTransferProxy is
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute transfer. 
+   * 16 - Ability to execute transfer. 
    */
-  uint8 constant ABILITY_TO_EXECUTE = 2;
+  uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
    * @dev Error constants.

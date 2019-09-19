@@ -1,9 +1,9 @@
 import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, GatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe, GatewayBase, GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+import { getBitfieldFromAbilities } from '..';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -12,6 +12,7 @@ import grantAbilities from '../mutations/grant-abilities';
 import revokeAbilities from '../mutations/revoke-abilities';
 import revokeAsset from '../mutations/revoke-asset';
 import safeTransfer from '../mutations/safe-transfer';
+import setAbilities from '../mutations/set-abilities';
 import setApprovalForAll from '../mutations/set-approval-for-all';
 import setEnabled from '../mutations/set-enabled';
 import transfer from '../mutations/transfer';
@@ -215,17 +216,29 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
+      accountId = abilities.includes(SuperAssetLedgerAbility.MANAGE_ABILITIES) ?
+        await (accountId as any).getProxyAccountId(5) : // OrderGatewayProxy.SET_ABILITIES
+        await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+    }
+
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
+
+    return grantAbilities(this, accountId, getBitfieldFromAbilities(abilities));
+  }
+
+  /**
+   * Sets abilities of an account.
+   * @param accountId Id of the account.
+   * @param abilities List of the abilities.
+   */
+  public async setAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+    if (typeof accountId !== 'string') {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return grantAbilities(this, accountId, bitAbilities);
+    return setAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -256,19 +269,9 @@ export class AssetLedger implements AssetLedgerBase {
       accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
     }
 
-    let allowSuperRevoke = false;
-    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1) {
-      allowSuperRevoke = true;
-    }
-
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return revokeAbilities(this, accountId, bitAbilities, allowSuperRevoke);
+    return revokeAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -478,8 +481,8 @@ export class AssetLedger implements AssetLedgerBase {
         ],
       },
       {
-        name: 'GrantAbilities',
-        topic: '0xc4adfc5f00262a1ab9b2241c7e98408a91e58dc5777d786164bba34a7652f62f',
+        name: 'SetAbilities',
+        topic: '0xd1d59d2d212a435434e7a4a4676427610dfe2b6268b01e541d280d65bf3d6b90',
         types: [
           {
             kind: MutationEventTypeKind.INDEXED,
@@ -488,24 +491,8 @@ export class AssetLedger implements AssetLedgerBase {
           },
           {
             kind: MutationEventTypeKind.INDEXED,
-            name: 'imprint',
-            type: 'bytes32',
-          },
-        ],
-      },
-      {
-        name: 'RevokeAbilities',
-        topic: '0xbb71944f65b9a48cc7d835179fb5e874f29b60aa0195785fb54968d8dddef08a',
-        types: [
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'target',
-            type: 'address',
-          },
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'imprint',
-            type: 'bytes32',
+            name: 'abilities',
+            type: 'uint256',
           },
         ],
       },

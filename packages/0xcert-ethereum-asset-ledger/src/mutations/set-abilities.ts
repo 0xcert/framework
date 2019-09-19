@@ -1,7 +1,7 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
 import { AssetLedger } from '../core/ledger';
 
-const functionSignature = '0xf394b6df';
+const functionSignature = '0x15ec3b8b';
 const inputTypes = ['address', 'uint256'];
 
 /**

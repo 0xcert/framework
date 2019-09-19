@@ -126,9 +126,9 @@ spec.test('corectly grants create ability', async (ctx) => {
   const bob = ctx.get('bob');
 
   const logs =  await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
-  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, 2).call();
+  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, XcertAbilities.CREATE_ASSET).call();
   ctx.is(bobHasAbility1, true);
 });
 
@@ -163,7 +163,7 @@ spec.test('throws trying to create from address which authorization got revoked'
   const imprint = ctx.get('imprint1');
 
   await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET, false).send({ from: owner });
+  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.create(sara, id, imprint).send({ from: bob }), '017001');
 });
 

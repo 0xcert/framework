@@ -4,3 +4,4 @@ export { AssetLedgerBase, AssetLedgerDeployRecipe, AssetLedgerAbility, GeneralAs
   AssetLedgerUpdateRecipe } from '@0xcert/scaffold';
 export * from './core/ledger';
 export * from './lib/capabilities';
+export * from './lib/abilities';

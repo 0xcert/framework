@@ -2456,6 +2456,51 @@ const mutation = await ledger.revokeAsset(assetId);
 
 [destroyAsset](#destroyasset-assetid)
 
+### setAbilities(accountId, abilities)
+
+An `asynchronous` class instance `function` which sets `abilities` of an `accountId`.
+
+::: warning
+The `MANAGE_ABILITIES` super ability of the ledger is required to perform this function.
+:::
+
+::: warning
+You can override your own `MANAGE_ABILITIES` super ability.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the new Ethereum account address.
+| abilities | [required] An `array` of `integer` numbers representing ledger abilities.
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+import { GeneralAssetLedgerAbility } from '@0xcert/ethereum-asset-ledger';
+
+// arbitrary data
+const accountId = '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce';
+const abilities = [
+    GeneralAssetLedgerAbility.CREATE_ASSET,
+    GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
+];
+
+// perform mutation
+const mutation = await ledger.setAbilities(accountId, abilities);
+```
+
+**See also:**
+
+[Ledger abilities](#ledger-abilities)
+[grantAbilities](#grantabilities-accountid-abilities)
+[revokeAbilities](#revokeabilities-accountid-abilities)
+
 ### update(recipe)
 
 An `asynchronous` class instance `function` which updates ledger data.
@@ -2569,18 +2614,19 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 32 | A specific ability that is bounded to atomic orders. When creating a new asset trough `Gateway`, the order maker has to have this ability.
-| ALLOW_UPDATE_ASSET_IMPRINT | 128 | A specific ability that is bounded to atomic orders. When updating asset imprint trough `Gateway`, the order maker has to have this ability.
-| CREATE_ASSET | 2 | Allows an account to create a new asset.
-| REVOKE_ASSET | 4 | Allows management accounts to revoke assets.
-| TOGGLE_TRANSFERS | 8 | Allows an account to stop and start asset transfers.
-| UPDATE_ASSET | 16 | Allows an account to update asset data.
-| UPDATE_URI | 64 | Allows an account to update asset ledger's URI prefix and postfix.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
+| CREATE_ASSET | 16 | Allows an account to create a new asset.
+| REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
+| TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
+| UPDATE_ASSET | 128 | Allows an account to update asset data.
+| UPDATE_URI | 256 | Allows an account to update asset ledger's URI prefix and postfix.
 
 **Example:**
 
@@ -3203,11 +3249,16 @@ Multi-order actions define the atomic operations of the actions order.
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
+| SET_ABILITIES | 5 | Set abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
 ::: Warning
 There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
+:::
+
+::: Warning
+There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
 ### Create asset action
@@ -3228,6 +3279,15 @@ There is a possibility of unintentional behavior where asset imprint can be over
 | assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
 | kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
 | ledgerId | [required] A `string` representing asset ledger address.
+
+### Set account abilities action
+
+| Property | Description
+|-|-
+| abilities[] | [required] An array of `AssetLedgerAbility` representing abilities of an account.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.SET_ABILITIES`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | A `string` representing the receiver's (account of which we are setting abilities) address.
 
 ### Transfer asset action
 

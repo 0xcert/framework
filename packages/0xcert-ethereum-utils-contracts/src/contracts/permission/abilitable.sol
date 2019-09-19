@@ -25,15 +25,35 @@ contract Abilitable
    * @dev Error constants.
    */
   string constant NOT_AUTHORIZED = "017001";
-  string constant CANNOT_REVOKE_OWN_SUPER_ABILITY = "017002";
-  string constant INVALID_INPUT = "017003";
+  string constant INVALID_INPUT = "017002";
 
   /**
    * @dev Ability 1 (00000001) is a reserved ability called super ability. It is an
-   * ability to grant or revoke abilities of other accounts. Other abilities are determined by the
-   * implementing contract.
+   * ability to grant or revoke abilities of other accounts.
    */
   uint8 constant SUPER_ABILITY = 1;
+
+  /**
+   * @dev Ability 2 (00000010) is a reserved ability called allow manage ability. It is a specific
+   * ability bounded to atomic orders. The order maker has to have this ability to to grant or
+   * revoke abilities of other accounts trough abilitable gateway.
+   */
+  uint8 constant ALLOW_SUPER_ABILITY = 2;
+
+  /**
+   * @dev Ability 4 (00000100) is a reserved ability for possible future abilitable extensions.
+   */
+  uint8 constant EMPTY_SLOT_1 = 4;
+
+  /**
+   * @dev Ability 8 (00001000) is a reserved ability for possible future abilitable extensions.
+   */
+  uint8 constant EMPTY_SLOT_2 = 8;
+
+  /**
+   * @dev All basic abilities. SUPER_ABILITY + ALLOW_MANAGE_ABILITY + EMPTY_SLOT_1 + EMPTY_SLOT_2.
+   */
+  uint8 constant ALL_DEFAULT_ABILITIES = 15;
 
   /**
    * @dev Maps address to ability ids.
@@ -41,21 +61,11 @@ contract Abilitable
   mapping(address => uint256) public addressToAbility;
 
   /**
-   * @dev Emits when an address is granted an ability.
-   * @param _target Address to which we are granting abilities.
-   * @param _abilities Number representing bitfield of abilities we are granting.
+   * @dev Emits when address abilities are changed.
+   * @param _target Address of which the abilities where changed.
+   * @param _abilities New abilitites.
    */
-  event GrantAbilities(
-    address indexed _target,
-    uint256 indexed _abilities
-  );
-
-  /**
-   * @dev Emits when an address gets an ability revoked.
-   * @param _target Address of which we are revoking an ability.
-   * @param _abilities Number representing bitfield of abilities we are revoking.
-   */
-  event RevokeAbilities(
+  event SetAbilities(
     address indexed _target,
     uint256 indexed _abilities
   );
@@ -82,8 +92,7 @@ contract Abilitable
   constructor()
     public
   {
-    addressToAbility[msg.sender] = SUPER_ABILITY;
-    emit GrantAbilities(msg.sender, SUPER_ABILITY);
+    addressToAbility[msg.sender] = ALL_DEFAULT_ABILITIES;
   }
 
   /**
@@ -99,30 +108,39 @@ contract Abilitable
     hasAbilities(SUPER_ABILITY)
   {
     addressToAbility[_target] |= _abilities;
-    emit GrantAbilities(_target, _abilities);
+    emit SetAbilities(_target, addressToAbility[_target]);
   }
 
   /**
    * @dev Unassigns specific abilities from specified address.
    * @param _target Address of which we revoke abilites.
    * @param _abilities Number representing bitfield of abilities we are revoking.
-   * @param _allowSuperRevoke Additional check that prevents you from removing your own super
-   * ability by mistake.
    */
   function revokeAbilities(
     address _target,
-    uint256 _abilities,
-    bool _allowSuperRevoke
+    uint256 _abilities
   )
     external
     hasAbilities(SUPER_ABILITY)
   {
-    if (!_allowSuperRevoke && msg.sender == _target)
-    {
-      require((_abilities & 1) == 0, CANNOT_REVOKE_OWN_SUPER_ABILITY);
-    }
     addressToAbility[_target] &= ~_abilities;
-    emit RevokeAbilities(_target, _abilities);
+    emit SetAbilities(_target, addressToAbility[_target]);
+  }
+
+  /**
+   * @dev Sets specific abilities to specified address.
+   * @param _target Address to which we are setting abilitites.
+   * @param _abilities Number representing bitfield of abilities we are setting.
+   */
+  function setAbilities(
+    address _target,
+    uint256 _abilities
+  )
+    external
+    hasAbilities(SUPER_ABILITY)
+  {
+    addressToAbility[_target] = _abilities;
+    emit SetAbilities(_target, _abilities);
   }
 
   /**
