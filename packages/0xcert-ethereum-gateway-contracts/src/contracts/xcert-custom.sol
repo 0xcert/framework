@@ -11,7 +11,7 @@ contract XcertCustom is XcertToken {
    * Contant presenting all and none currently available Xcert abilities.
    */
   uint8 constant ABILITY_NONE = 0;
-  uint8 constant ABILITY_ALL = 2047;
+  uint16 constant ABILITY_ALL = 2047;
 
   /**
    * @dev Contract constructor.
