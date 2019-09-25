@@ -22,7 +22,7 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| options.gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| options.gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | options.headers | An `object` of request headers. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.mode | A `string` representing request mode. It defaults to `same-origin`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
@@ -72,7 +72,7 @@ A class instance `variable` holding a `GatewayConfig` which represents the confi
 | Argument | Description
 |-|-
 | assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| actionsOrderId | A `string` representing a Wanchain address of the [actions gateway](/#public-addresses).
 | valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 
 ### getAvailableAccounts()
@@ -1914,7 +1914,7 @@ A `class` representing a smart contract on the Wanchain blockchain.
 | Argument | Description
 |-|-
 | gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions order gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions gateway](/#public-addresses).
 | gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | provider | [required] An instance of an HTTP provider.
 
@@ -1952,7 +1952,7 @@ import { ActionsOrderActionKind } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const order = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     actions: [
         {
             kind: ActionsOrderActionKind.TRANSFER_ASSET,
@@ -1999,7 +1999,7 @@ A `string` representing order signature.
 ```ts
 // arbitrary data
 const order = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     actions: [
         {
             kind: ActionsOrderActionKind.TRANSFER_ASSET,
@@ -2228,7 +2228,7 @@ This are latest addresses that work with version 1.5.0. For older addresses that
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16](http://wanscan.org/address/0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16)
+| ActionsGateway | [0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16](http://wanscan.org/address/0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16)
 | TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
 | NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
 | NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
@@ -2239,7 +2239,7 @@ This are latest addresses that work with version 1.5.0. For older addresses that
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x90A8D7e2138ABB28393906Ae162238B5A18fE846](http://testnet.wanscan.org/address/0x90A8D7e2138ABB28393906Ae162238B5A18fE846)
+| ActionsGateway | [0x90A8D7e2138ABB28393906Ae162238B5A18fE846](http://testnet.wanscan.org/address/0x90A8D7e2138ABB28393906Ae162238B5A18fE846)
 | TokenTransferProxy | [0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA](http://testnet.wanscan.org/address/0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA)
 | NFTokenTransferProxy | [0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC](http://testnet.wanscan.org/address/0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC)
 | NFTokenSafeTransferProxy | [0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08](http://testnet.wanscan.org/address/0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08)
@@ -2254,7 +2254,7 @@ This are latest addresses that work with version 1.5.0. For older addresses that
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0x06aF4893D6Da522B3889C7F0A35fcb3999541f96](http://wanscan.org/address/0x06aF4893D6Da522B3889C7F0A35fcb3999541f96)
+| ActionsGateway | [0x06aF4893D6Da522B3889C7F0A35fcb3999541f96](http://wanscan.org/address/0x06aF4893D6Da522B3889C7F0A35fcb3999541f96)
 | TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
 | NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
 | NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
@@ -2264,7 +2264,7 @@ This are latest addresses that work with version 1.5.0. For older addresses that
 
 | Contract | Address
 |-|-|-
-| OrderGateway | [0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714](http://testnet.wanscan.org/address/0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714)
+| ActionsGateway | [0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714](http://testnet.wanscan.org/address/0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714)
 | TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://testnet.wanscan.org/address/0xB827222B89BA5237c432c47B4ef7d2079641A075)
 | NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://testnet.wanscan.org/address/0xB59A801024393eB92b38a0711a54579c0136347A)
 | NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://testnet.wanscan.org/address/0x84907deF46A2D0fc80035f1c08A722f2432e9801)

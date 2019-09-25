@@ -15,7 +15,7 @@ import { Gateway } from '@0xcert/ethereum-gateway'
 
 Vue.use(Vue0xcert, {
   provider: new MetamaskProvider({
-    orderGatewayId: '0xf382cfa46f01d9b401d62432ad3797ee190cc97f',
+    actionsGatewayId: '0xf382cfa46f01d9b401d62432ad3797ee190cc97f',
   }),
   modules: [
     { name: 'Cert', object: Cert },

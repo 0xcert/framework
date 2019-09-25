@@ -30,9 +30,9 @@ contract XcertToken is
   uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 128;
   uint16 constant ABILITY_UPDATE_URI = 256;
   /// ABILITY_ALLOW_CREATE_ASSET = 512 - A specific ability that is bounded to atomic orders.
-  /// When creating a new Xcert trough `OrderGateway`, the order maker has to have this ability.
+  /// When creating a new Xcert trough `ActionsGateway`, the order maker has to have this ability.
   /// ABILITY_ALLOW_UPDATE_ASSET = 1024 - A specific ability that is bounded to atomic orders.
-  /// When updating imprint of an Xcert trough `OrderGateway`, the order maker has to have this
+  /// When updating imprint of an Xcert trough `ActionsGateway`, the order maker has to have this
   /// ability.
 
   /**

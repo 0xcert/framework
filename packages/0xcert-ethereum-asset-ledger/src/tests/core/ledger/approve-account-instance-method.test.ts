@@ -36,9 +36,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -58,7 +58,7 @@ spec.test('approves account for token transfer', async (ctx) => {
   ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
 });
 
-spec.test('approves order gateway proxy for token transfer', async (ctx) => {
+spec.test('approves gateway proxy for token transfer', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');

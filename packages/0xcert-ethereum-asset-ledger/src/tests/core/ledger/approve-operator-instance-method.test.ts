@@ -36,9 +36,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.test('approves operator', async (ctx) => {
@@ -52,7 +52,7 @@ spec.test('approves operator', async (ctx) => {
   ctx.true(await xcert.instance.methods.isApprovedForAll(coinbase, bob).call());
 });
 
-spec.test('approves order gateway proxy as operator', async (ctx) => {
+spec.test('approves gateway proxy as operator', async (ctx) => {
   const xcert = ctx.get('protocol').xcert;
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');

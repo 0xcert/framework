@@ -34,9 +34,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.test('returns if account has the approved amount', async (ctx) => {
@@ -50,7 +50,7 @@ spec.test('returns if account has the approved amount', async (ctx) => {
   ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), true);
 });
 
-spec.test('checks if order gateway proxy is approved', async (ctx) => {
+spec.test('checks if gateway proxy is approved', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const token = ctx.get('protocol').erc20;

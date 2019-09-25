@@ -26,7 +26,7 @@ The 0xcert Framework provides automatization to ensure that a specific agreement
 
 There is no middle ground for an atomic swap's outcome which reduces the possibility of one party taking advantage over the other.
 
-Atomic swaps are performed through the Order Gateway structure which is permanently deployed on the 0xcert platform and is publicly available to everyone. A fixed sequence of required steps and conditions is secured by cryptography embedded in the order gateway. Once all steps are completed, the swap is confirmed and successfully settled. If not, the atomic swap process is abolished and canceled, with no effect on the assets that were subject to swap.
+Atomic swaps are performed through the Order Gateway structure which is permanently deployed on the 0xcert platform and is publicly available to everyone. A fixed sequence of required steps and conditions is secured by cryptography embedded in the gateway. Once all steps are completed, the swap is confirmed and successfully settled. If not, the atomic swap process is abolished and canceled, with no effect on the assets that were subject to swap.
 
 While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on-chain. This makes every single step of the operation trackable and verifiable.
 
@@ -46,7 +46,7 @@ We recommend you employ the package as an NPM package in your application.
 $ npm i --save @0xcert/ethereum-gateway
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/core.html) section to learn more about order gateway.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/core.html) section to learn more about gateway.
 
 ## Usage overview
 
@@ -60,7 +60,7 @@ As usual, we first import a module into the application. This time, we import th
 import { Gateway } from '@0xcert/ethereum-gateway';
 ```
 
-Then, we create a new instance of the `Gateway` class with an ID that points to a pre-deployed order gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
+Then, we create a new instance of the `Gateway` class with an ID that points to a pre-deployed gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
 
 ```ts
 const gateway = Gateway.getInstance(provider, getGatewayConfig(NetworkKind.ROPSTEN));
@@ -76,7 +76,7 @@ For the purpose of simplicity of this guide, we will be both the maker and the t
 import { ActionsOrder, ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
 
 const order = {,
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: provider.accountId,
     takerId: provider.accountId,
     actions: [
@@ -113,7 +113,7 @@ By calling the `claim` function, we sign the order. Now, we need to send this si
 
 All participants in the order must unlock the transferred assets and allow the `Gateway` to manage them. Make sure this step is done by every party that performs a transfer within order operations. In the example below, we authorize the `Gateway` to transfer the asset with ID `100` to another address and give it the ability to create assets.
 
-The [API](/api/core.html#asset-proof) section contains information about how to authorize the order gateway for all the assets simultaneously, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
+The [API](/api/core.html#asset-proof) section contains information about how to authorize the gateway for all the assets simultaneously, to avoid repeating approval for each individual asset (this is especially useful in the case of a decentralized exchange).
 
 ```ts
 // approve account for transfering asset
@@ -131,7 +131,7 @@ Don't forget to create an instance of `assetLedger` and to import `GeneralAssetL
 :::
 
 ::: card Why instance of Gateway?
-Gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however the instance of `Gateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the order gateway, but we recommend using `Gateway` instance and let the framework handle it for you.
+Gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however the instance of `Gateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the gateway, but we recommend using `Gateway` instance and let the framework handle it for you.
 :::
 
 The following step is done only by the taker, who executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both maker and taker, since we are present on both sides.
@@ -152,7 +152,7 @@ const owner200Id = await assetLedger.getAssetAccount('200');
 //=> 0x...
 ```
 
-To learn more about atomic operations on Ethereum, please refer to the [API for Ethereum](/api/ethereum.html#orders-gateway) section. For more information on atomic operations on Wanchain, please refer to the [API for Wanchain](/api/wanchain.html#order-gateway) section.
+To learn more about atomic operations on Ethereum, please refer to the [API for Ethereum](/api/ethereum.html#gateway) section. For more information on atomic operations on Wanchain, please refer to the [API for Wanchain](/api/wanchain.html#gateway) section.
 
 ---
 

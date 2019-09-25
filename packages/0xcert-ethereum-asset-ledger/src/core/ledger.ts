@@ -217,8 +217,8 @@ export class AssetLedger implements AssetLedgerBase {
   public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
       accountId = abilities.includes(SuperAssetLedgerAbility.MANAGE_ABILITIES) ?
-        await (accountId as any).getProxyAccountId(5) : // OrderGatewayProxy.SET_ABILITIES
-        await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+        await (accountId as any).getProxyAccountId(5) : // ActionsGatewayProxy.SET_ABILITIES
+        await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
@@ -233,7 +233,7 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async setAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+      accountId = await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
@@ -266,7 +266,7 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async revokeAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
+      accountId = await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
     }
 
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
@@ -379,8 +379,8 @@ export class AssetLedger implements AssetLedgerBase {
    */
   protected getProxyId(): number {
     return this.provider.unsafeRecipientIds.indexOf(this.id) === -1
-      ? 3 // OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : 2; // OrderGatewayProxy.NFTOKEN_TRANSFER;
+      ? 3 // ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER
+      : 2; // ActionsGatewayProxy.NFTOKEN_TRANSFER;
   }
 
   /**
