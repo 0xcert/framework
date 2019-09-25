@@ -22,15 +22,15 @@ import valueLedgerDeployOrderClaimEthSign from '../queries/value-ledger-deploy-o
 import valueLedgerDeployOrderClaimPersonalSign from '../queries/value-ledger-deploy-order/claim-personal-sign';
 import getValueLedgerDeployOrderDataClaim from '../queries/value-ledger-deploy-order/get-order-data-claim';
 import valueLedgerDeployOrderisValidSignature from '../queries/value-ledger-deploy-order/is-valid-signature';
-import { OrderGatewayProxy } from './types';
+import { ActionsGatewayProxy } from './types';
 
 /**
- * Ethereum order gateway implementation.
+ * Ethereum gateway implementation.
  */
 export class Gateway implements GatewayBase {
 
   /**
-   * Address of the smart contract that represents this order gateway.
+   * Address of the smart contract that represents this gateway.
    */
   protected _config: GatewayConfig;
 
@@ -40,7 +40,7 @@ export class Gateway implements GatewayBase {
   protected _provider: GenericProvider;
 
   /**
-   * Gets an instance of order gateway.
+   * Gets an instance of gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
    * @param config Gateway configuration.
    */
@@ -49,9 +49,9 @@ export class Gateway implements GatewayBase {
   }
 
   /**
-   * Initialize order gateway.
+   * Initialize gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
-   * @param id Address of the order gateway smart contract.
+   * @param id Address of the gateway smart contract.
    */
   public constructor(provider: GenericProvider, config?: GatewayConfig) {
     this._provider = provider;
@@ -92,7 +92,7 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async claim(order: Order): Promise<string> {
-    if (order.kind === OrderKind.MULTI_ORDER) {
+    if (order.kind === OrderKind.ACTIONS_ORDER) {
       order = normalizeActionsOrderIds(order, this._provider);
       if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
         return actionsOrderClaimPersonalSign(this, order);
@@ -124,7 +124,7 @@ export class Gateway implements GatewayBase {
    * @param claim Claim data.
    */
   public async perform(order: Order, claim: string): Promise<Mutation> {
-    if (order.kind === OrderKind.MULTI_ORDER) {
+    if (order.kind === OrderKind.ACTIONS_ORDER) {
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
@@ -143,7 +143,7 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async cancel(order: Order): Promise<Mutation> {
-    if (order.kind === OrderKind.MULTI_ORDER) {
+    if (order.kind === OrderKind.ACTIONS_ORDER) {
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderCancel(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
@@ -161,7 +161,7 @@ export class Gateway implements GatewayBase {
    * Gets address of the proxy based on the id.
    * @param proxyId Id of the proxy.
    */
-  public async getProxyAccountId(proxyId: OrderGatewayProxy) {
+  public async getProxyAccountId(proxyId: ActionsGatewayProxy) {
     return getProxyAccountId(this, proxyId);
   }
 
@@ -171,7 +171,7 @@ export class Gateway implements GatewayBase {
    * @param claim Claim data.
    */
   public async isValidSignature(order: Order, claim: string) {
-    if (order.kind === OrderKind.MULTI_ORDER) {
+    if (order.kind === OrderKind.ACTIONS_ORDER) {
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderisValidSignature(this, order, claim);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
@@ -190,7 +190,7 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {
-    if (order.kind === OrderKind.MULTI_ORDER) {
+    if (order.kind === OrderKind.ACTIONS_ORDER) {
       order = normalizeActionsOrderIds(order, this._provider);
       return getActionsOrderDataClaim(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
