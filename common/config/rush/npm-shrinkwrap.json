@@ -1457,10 +1457,10 @@
     },
     "@rush-temp/ethereum-asset-ledger": {
       "version": "file:projects/ethereum-asset-ledger.tgz",
-      "integrity": "sha512-yhMzJ9G1kat4aO8IW7+N/GhGh/p9gKrYID0lwe5nfZcGa9YcHtK1EAxMfWauzfKX7I+hFL4vDelVYC/ybdLivg==",
+      "integrity": "sha512-UXO9OFesCrqd5ZTIC6bm6J6WD4mf9Nhc3Z8b4Vdr+oXw8cig8YTmxOT0d5vgdvReuNXDDiqUhzYE7jB2yRinkA==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "nyc": "^14.1.1",
         "solc": "0.5.6",
         "ts-node": "^7.0.1",
@@ -1501,10 +1501,10 @@
     },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
-      "integrity": "sha512-LASeTtE6gGXeVoWKH6aSUAERwAlxM4ziWAnwepvR7Gc43QZt34BtvvcJbmp6rbBLQwgx1+1dk6jzswqIgdFzkA==",
+      "integrity": "sha512-YxIp7oMcViBDD+KHiAdq4eXX2apRCFmrwD72/0XxHrSofod9AI2tWb4GxX/0LTE8NnC+xUr9Woc4+sQ4+ziwog==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1515,11 +1515,11 @@
     },
     "@rush-temp/ethereum-erc721-contracts": {
       "version": "file:projects/ethereum-erc721-contracts.tgz",
-      "integrity": "sha512-5xbaAbsrQEmHcmTxl1vJRTCRgWqVk/ULO5GysqoWU36dB2nxwYT75qJdrZ3TAmgGAdPq5jxjKl9MChfdN43hbg==",
+      "integrity": "sha512-xcP++gPRBeO6fZsM9adknMCmU4EoSV8/PgOx/0gvIREhGBK9NIStEPU8ylyjgXSU208HpfWKx0sx9pCIJyoKHA==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1530,10 +1530,10 @@
     },
     "@rush-temp/ethereum-gateway": {
       "version": "file:projects/ethereum-gateway.tgz",
-      "integrity": "sha512-5bri23ibuLc5acmW5V4NOdJXxVk8fzErOuppfEiV1mI9DZX8oj8HGOmWMp5SsNWVTQIXOK1LOL7pHsbgN4EqPg==",
+      "integrity": "sha512-0nKbqJWsY2xJyehKGD3qXChGuTfaFBiyb100U2JftLXaQuMEEV/gnDL7Mf6JlZzRnvUE4mthNA5Jd3LvXRfxAg==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "nyc": "^14.1.1",
         "solc": "0.5.6",
         "ts-node": "^7.0.1",
@@ -1544,11 +1544,11 @@
     },
     "@rush-temp/ethereum-gateway-contracts": {
       "version": "file:projects/ethereum-gateway-contracts.tgz",
-      "integrity": "sha512-QZqWgJTSONU6gbsaVfri4N9fEqNDX3OTo38QNzjejzwOJEZMuUTeyIJejlDdXv6Ryy1B/xMdK0ofc6EqAwC/Ew==",
+      "integrity": "sha512-2zUh4w3JfKAtZaKevgEEpxOBcf4I/nNPunwY+6rorhYCwQ5NEHYLXF2WC9nrHcNkEBS50w5IRz6qcWcBGChazg==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1559,10 +1559,10 @@
     },
     "@rush-temp/ethereum-generic-provider": {
       "version": "file:projects/ethereum-generic-provider.tgz",
-      "integrity": "sha512-sSA/wolsSsHVo6ygIlr2vUOSwX7bLt++GxMMXy7AU65x3lVNLgH6KZcn48MLc8dNnX/V+C3MZwydKzaSY7sbIA==",
+      "integrity": "sha512-hUBtqoVhIII65zwAgNlEMPOeX/jJT/wtRl4cWUmr2T1FdKpMk8PYm8D0vBajpBLdHSD/JUBGjSvJ9bwaChfpmw==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "@types/node": "^10.12.24",
         "events": "^3.0.0",
         "nyc": "^14.1.1",
@@ -1576,10 +1576,10 @@
     },
     "@rush-temp/ethereum-http-provider": {
       "version": "file:projects/ethereum-http-provider.tgz",
-      "integrity": "sha512-635dY7x/gYHAwYOCHflFm4L6dctMbcX4FsYgDw4WQrpucwa9ljJnk8nkPGmisCuFFnETu18mmUFVuScYvwO4sw==",
+      "integrity": "sha512-1RerJp0uFUht3IoaWundYEhNX8nOSidP6gvZGBRx64H7ZojJY9+QGF3Aemy7M6U3ZTyvQwopDXl85oCazrc/vg==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "nyc": "^14.1.1",
         "solc": "0.5.6",
         "ts-node": "^7.0.1",
@@ -1604,11 +1604,11 @@
     },
     "@rush-temp/ethereum-proxy-contracts": {
       "version": "file:projects/ethereum-proxy-contracts.tgz",
-      "integrity": "sha512-nWif6wMIsAfxLRkphY5j8Y+VKPJthlhTpcdjPn3eo41rhbbYFJHCdejoCXO3fcxhHGfleSTtBjSg+H7rTOtq+w==",
+      "integrity": "sha512-BoecRnJzX/RFdqbKrmYAvE8djtn7iHbjt4mJKnU1c6WjDQYcCRStEssAAWB0dCRiJnyWYZXjdj3YHvyNlEgp/Q==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1647,10 +1647,10 @@
     },
     "@rush-temp/ethereum-utils-contracts": {
       "version": "file:projects/ethereum-utils-contracts.tgz",
-      "integrity": "sha512-FR+Tc0WuFeVoLw4QEZxaMSu81rb0speswUocu01HHumpQR21ni0vioGMbMwv7fITsiHq8S4lH9GZsd+HdW4iDg==",
+      "integrity": "sha512-HP+ZAcCO9w1U+fm0N6sK7Bqrcr7QSguRaM9XFg71sRD6Yesd6QXQh0xsX3xtoq8m1sNA3Ryrus0UoHw3SEFMKw==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1661,11 +1661,11 @@
     },
     "@rush-temp/ethereum-value-ledger": {
       "version": "file:projects/ethereum-value-ledger.tgz",
-      "integrity": "sha512-vcNS2oMXGOGGDVqw/8+oLRK7OXb4x6YIUujRz9eJMkNEaKaPQ04Ue9JvMrNcdrYIK2s+8Tc6CvRkTYB6w8LsqA==",
+      "integrity": "sha512-dIWhIRBtAAaRk4FQjg0KALa7vb73TPFa5Jetql46fqRkdNRnKWT8t2pbIO0supKXdhKnZcweEFkaCaxWpLCRaw==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/spec": "0.6.0",
         "nyc": "^14.1.1",
         "solc": "0.5.6",
         "ts-node": "^7.0.1",
@@ -1676,11 +1676,11 @@
     },
     "@rush-temp/ethereum-xcert-contracts": {
       "version": "file:projects/ethereum-xcert-contracts.tgz",
-      "integrity": "sha512-IOEzorb5uVx68GdziANC7BHsQgUDeeD6LS5TRSg09XSeoBdg2V1mIh2hKumXoqTtB1H8fZQwWDvKdEP+Jq9KSA==",
+      "integrity": "sha512-JppW+/Q0vxJNO+ljAOWswQKGWV5l9cWlksx8ECjNLeg6fGL4oDOwo1jqoJhhst+79aCL3jY2ZynEQWEl/DPTyQ==",
       "requires": {
-        "@specron/cli": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/cli": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/spec": "0.6.0",
         "solc": "0.5.6",
         "solhint": "2.0.0",
         "ts-node": "^7.0.1",
@@ -1838,16 +1838,16 @@
       "integrity": "sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ=="
     },
     "@specron/cli": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.7.0.tgz",
-      "integrity": "sha512-WvVqtRUbQJoaQZS2DJTgHasskYvpP70FUwTc/I6h182cg7OFubDgoQHHWy80iUjKjiA0KHvrH1fInnLqWhHeWg==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/cli/-/cli-0.6.0.tgz",
+      "integrity": "sha512-LYKOqf4/GTTUDBjVA2m73qT+ugHjsWi7dlToGZd8rCU4tzZlVT3L60MWqFzStGslnKF8h0pcdKsnEqBjcFOA5w==",
       "requires": {
         "@hayspec/reporter": "0.8.3",
-        "@specron/compiler": "0.7.0",
-        "@specron/flattener": "0.7.0",
-        "@specron/init": "0.7.0",
-        "@specron/sandbox": "0.7.0",
-        "@specron/spec": "0.7.0",
+        "@specron/compiler": "0.6.0",
+        "@specron/flattener": "0.6.0",
+        "@specron/init": "0.6.0",
+        "@specron/sandbox": "0.6.0",
+        "@specron/spec": "0.6.0",
         "inquirer": "6.2.2",
         "yargs": "13.2.1"
       },
@@ -1933,9 +1933,9 @@
       }
     },
     "@specron/compiler": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.7.0.tgz",
-      "integrity": "sha512-oIw1tnDd74xQ6NVqyWPDof3Yz3C0+l6SOuGl2us0xK8pGvGNO1X/OAEUue40SYj8w6c/Trq6zl3FQODdwujd/w==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/compiler/-/compiler-0.6.0.tgz",
+      "integrity": "sha512-U/r+cPURnI0yrEsqV+tIC6ij98opc7s6eGkB4N0+iWk0VgDqhYSZZR37RMOe2AooizmHug0hHm44gel+C4Hs2w==",
       "requires": {
         "@hayspec/reporter": "0.8.3",
         "fast-glob": "2.2.6",
@@ -2101,9 +2101,9 @@
       }
     },
     "@specron/flattener": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/flattener/-/flattener-0.7.0.tgz",
-      "integrity": "sha512-Jexb+RVOzI44oX5ZBkKbOeMsgMdjttjuC8cV6NYyPFHMjCZYX+nrRu1cavP7lCQCikmRdw2l7jRYXAEpUII0Fg==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/flattener/-/flattener-0.6.0.tgz",
+      "integrity": "sha512-HIPn/v01mRqp0SE/8efmVDTm+In2JhoXGun+duojOTsy8qT/duyTJNILrwcb4vy9ht5U3fYDJwhDVesGI5oqfw==",
       "requires": {
         "@hayspec/reporter": "0.8.3",
         "deasync": "0.1.14",
@@ -2260,9 +2260,9 @@
       }
     },
     "@specron/init": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.7.0.tgz",
-      "integrity": "sha512-MAm4M6XsxxwdDlFl6YEkSy0ZfQyluXb0HtxDYzDjoPQUiZtDMLD6b7q2vqPj+Mh/fkqgX91P53E91cJIiJxU6w==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/init/-/init-0.6.0.tgz",
+      "integrity": "sha512-RAF5aPg5U86YiyF6GNIRHB/SNfqmVSHaOVhmxsc9bczKT4bPXZ7Cchiizn795cDqlOCmUhXBnCaBp53J2hAYZg==",
       "requires": {
         "fs-extra": "7.0.1"
       },
@@ -2280,22 +2280,22 @@
       }
     },
     "@specron/sandbox": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.7.0.tgz",
-      "integrity": "sha512-cjF/E+2uw/opYntn9bEC5kAL3ICFNQ0LKdAcp245HhPeW5jDGWqZZb805mhP3JTLeq4iuCAc3ZusL1q3w9szVA==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/sandbox/-/sandbox-0.6.0.tgz",
+      "integrity": "sha512-ESPJ5bxCNpH7A/PTSyjKVOXMPjNE4S4G7XDipnB6C2YeodXbGPPIYquss1fQPmvYbWM+8FK7ZWEtVayNjeA/eg==",
       "requires": {
         "ganache-cli": "6.5.0"
       }
     },
     "@specron/spec": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.7.0.tgz",
-      "integrity": "sha512-uq+ko2j3HRgyqfh/29u1mCH+w958wKw5XoTCOouPOaIbxdIy1F6VIi0Ho7Em3sCZq9mETxX/+E+4iwprM/OJfA==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/@specron/spec/-/spec-0.6.0.tgz",
+      "integrity": "sha512-iPGMz+DiOsuNuUP5VJuBSYs//WGwipA2/E2E/WWP35ONbxb9aBGVWIpoVLmNQ2yUmB4ayEFg6iGhg+5XWWYUcQ==",
       "requires": {
         "@hayspec/reporter": "0.8.3",
         "@hayspec/runner": "0.8.3",
         "@hayspec/spec": "0.8.3",
-        "@specron/sandbox": "0.7.0"
+        "@specron/sandbox": "0.6.0"
       },
       "dependencies": {
         "@hayspec/reporter": {

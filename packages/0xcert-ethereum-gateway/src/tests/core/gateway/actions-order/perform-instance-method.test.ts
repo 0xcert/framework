@@ -3,7 +3,6 @@ import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ActionsOrder, ActionsOrderActionKind, GeneralAssetLedgerAbility, OrderKind, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
-import { OrderGatewayProxy } from '../../../../core/types';
 
 interface Data {
   protocol: Protocol;
@@ -86,7 +85,7 @@ spec.before(async (stage) => {
 });
 
 spec.test('submits gateway actions order to the network which executes transfers', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const bobGenericProvider = ctx.get('bobGenericProvider');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
@@ -94,7 +93,7 @@ spec.test('submits gateway actions order to the network which executes transfers
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -137,10 +136,10 @@ spec.test('submits gateway actions order to the network which executes transfers
   };
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(bobGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(bobGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const mutation = await gateway.perform(order, claim);
   await mutation.complete();
 
@@ -154,7 +153,7 @@ spec.test('submits gateway actions order to the network which executes transfers
 });
 
 spec.test('submits dynamic gateway actions order to the network which executes transfers', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const saraGenericProvider = ctx.get('saraGenericProvider');
   const coinbase = ctx.get('coinbase');
   const sara = ctx.get('sara');
@@ -165,7 +164,7 @@ spec.test('submits dynamic gateway actions order to the network which executes t
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
@@ -203,10 +202,10 @@ spec.test('submits dynamic gateway actions order to the network which executes t
   };
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(saraGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(saraGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   await gateway.perform(order, claim).then(() => ctx.sleep(200));
 
@@ -218,15 +217,15 @@ spec.test('submits dynamic gateway actions order to the network which executes t
 });
 
 spec.test('handles fixed actions order without receiver', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   let order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -248,7 +247,7 @@ spec.test('handles fixed actions order without receiver', async (ctx) => {
   ctx.not(error, null);
 
   order = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -271,15 +270,15 @@ spec.test('handles fixed actions order without receiver', async (ctx) => {
 });
 
 spec.test('handles fixed actions order without null receiver', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   let order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -302,7 +301,7 @@ spec.test('handles fixed actions order without null receiver', async (ctx) => {
   ctx.not(error, null);
 
   order = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -325,15 +324,15 @@ spec.test('handles fixed actions order without null receiver', async (ctx) => {
 });
 
 spec.test('handles fixed actions order without sender', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -356,15 +355,15 @@ spec.test('handles fixed actions order without sender', async (ctx) => {
 });
 
 spec.test('handles fixed actions order with null sender', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -388,14 +387,14 @@ spec.test('handles fixed actions order with null sender', async (ctx) => {
 });
 
 spec.test('handles dynamic actions order without sender and receiver', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
@@ -416,14 +415,14 @@ spec.test('handles dynamic actions order without sender and receiver', async (ct
 });
 
 spec.test('handles dynamic actions order without null sender and null receiver', async (ctx) => {
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const coinbase = ctx.get('coinbase');
   const erc20Id = ctx.get('protocol').erc20.instance.options.address;
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: null,
     seed: 1535113220.12345, // should handle floats

@@ -40,9 +40,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.test('approves account for value transfer', async (ctx) => {
