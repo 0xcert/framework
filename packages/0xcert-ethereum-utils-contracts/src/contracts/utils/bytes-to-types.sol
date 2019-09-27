@@ -11,6 +11,7 @@ contract BytesToTypes
    * @dev Converts bytes to address type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
+   * @return _output Output the address extracted from memory
    */
   function bytesToAddress(
     uint _offst,
@@ -27,6 +28,7 @@ contract BytesToTypes
    * @dev Converts bytes to bool type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
+   * @param _output The bool extracted from memory
    */
   function bytesToBool(
     uint _offst,
@@ -40,16 +42,15 @@ contract BytesToTypes
     assembly { x := mload(add(_input, _offst)) } // solhint-disable-line
     if (x == 0) {
       _output = false;
-    } else {
-      _output = true;
     }
+    _output = true;
   }
 
   /**
    * @dev Converts bytes to bytes32 type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
-   * @param _output Bytes32 output.
+   * @return _output Bytes32 output.
    */
   function bytesToBytes32(
     uint _offst,
@@ -66,6 +67,7 @@ contract BytesToTypes
    * @dev Converts bytes to uint8 type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
+   * @return _output Uint8 extracted from memory
    */
   function bytesToUint8(
     uint _offst,
@@ -82,6 +84,7 @@ contract BytesToTypes
    * @dev Converts bytes to uint16 type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
+   * @return _output Uint16 extracted from memory.
    */
   function bytesToUint16(
     uint _offst,
@@ -98,6 +101,7 @@ contract BytesToTypes
    * @dev Converts bytes to uint256 type.
    * @param _offst Offset from where the conversion starts.
    * @param _input Bytes to convert.
+   * @return _output Uint256 extracted from memory.
    */
   function bytesToUint256(
     uint _offst,
