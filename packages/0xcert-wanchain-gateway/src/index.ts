@@ -1,2 +1,2 @@
-export { ActionsOrderActionKind, ActionsOrder, AssetLedgerDeployOrder, OrderGatewayProxy } from '@0xcert/ethereum-gateway';
+export { ActionsOrderActionKind, ActionsOrder, AssetLedgerDeployOrder, ActionsGatewayProxy } from '@0xcert/ethereum-gateway';
 export * from './core/gateway';

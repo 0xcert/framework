@@ -35,9 +35,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {

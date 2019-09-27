@@ -44,7 +44,7 @@ spec.test('check if signature is valid', async (ctx) => {
   const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
   const order: ActionsOrder = {
-    kind: OrderKind.MULTI_ORDER,
+    kind: OrderKind.ACTIONS_ORDER,
     makerId: coinbase,
     takerId: bob,
     seed: 1535113220.12345, // should handle floats
@@ -68,9 +68,9 @@ spec.test('check if signature is valid', async (ctx) => {
   };
 
   const provider = ctx.get('makerGenericProvider');
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
 
-  const gateway = new Gateway(provider, { actionsOrderId: orderGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const gateway = new Gateway(provider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const claim = await gateway.claim(order);
   ctx.true(await gateway.isValidSignature(order, claim));
 });

@@ -32,9 +32,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -55,7 +55,7 @@ spec.test('revokes ledger abilities for an account', async (ctx) => {
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
 });
 
-spec.test('revokes ledger abilities for an order gateway', async (ctx) => {
+spec.test('revokes ledger abilities for the gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;

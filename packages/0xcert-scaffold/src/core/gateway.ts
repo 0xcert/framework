@@ -197,7 +197,7 @@ export type Order = ActionsOrder | AssetLedgerDeployOrder | ValueLedgerDeployOrd
  * List of available order kinds.
  */
 export enum OrderKind {
-  MULTI_ORDER = 1,
+  ACTIONS_ORDER = 1,
   ASSET_LEDGER_DEPLOY_ORDER = 2,
   VALUE_LEDGER_DEPLOY_ORDER = 3,
 }
@@ -210,7 +210,7 @@ export class ActionsOrder {
   /**
    * Type of order.
    */
-  public kind: OrderKind.MULTI_ORDER;
+  public kind: OrderKind.ACTIONS_ORDER;
 
   /**
    * Address of the order maker.

@@ -36,9 +36,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.test('disapproves account for value transfer', async (ctx) => {
@@ -54,7 +54,7 @@ spec.test('disapproves account for value transfer', async (ctx) => {
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), '0');
 });
 
-spec.test('disapproves order gateway proxy for value transfer', async (ctx) => {
+spec.test('disapproves gateway proxy for value transfer', async (ctx) => {
   const ledger = ctx.get('ledger');
   const coinbase = ctx.get('coinbase');
   const gateway = ctx.get('gateway');

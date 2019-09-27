@@ -1,7 +1,7 @@
 /**
  * Order gateway proxy ids.
  */
-export enum OrderGatewayProxy {
+export enum ActionsGatewayProxy {
   XCERT_CREATE = 0,
   TOKEN_TRANSFER = 1,
   NFTOKEN_TRANSFER = 2,

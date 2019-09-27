@@ -4,7 +4,7 @@ import { bigNumberify } from '@0xcert/ethereum-utils';
 import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
-import { OrderGatewayProxy } from '../core/types';
+import { ActionsGatewayProxy } from '../core/types';
 import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
 
 /**
@@ -133,17 +133,17 @@ export function getActionTo(action: ActionsOrderAction) {
  */
 export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
   if (action.kind == ActionsOrderActionKind.TRANSFER_VALUE) {
-    return OrderGatewayProxy.TOKEN_TRANSFER;
+    return ActionsGatewayProxy.TOKEN_TRANSFER;
   } else if (action.kind == ActionsOrderActionKind.TRANSFER_ASSET) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
-      ? OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : OrderGatewayProxy.NFTOKEN_TRANSFER;
+      ? ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER
+      : ActionsGatewayProxy.NFTOKEN_TRANSFER;
   } else if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
-    return OrderGatewayProxy.XCERT_CREATE;
+    return ActionsGatewayProxy.XCERT_CREATE;
   } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
-    return OrderGatewayProxy.MANAGE_ABILITIES;
+    return ActionsGatewayProxy.MANAGE_ABILITIES;
   } else {
-    return OrderGatewayProxy.XCERT_UPDATE;
+    return ActionsGatewayProxy.XCERT_UPDATE;
   }
 }
 

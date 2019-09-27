@@ -1,7 +1,7 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
-import { Gateway, OrderGatewayProxy } from '../../../..';
+import { ActionsGatewayProxy, Gateway } from '../../../..';
 
 interface Data {
   protocol: Protocol;
@@ -36,14 +36,14 @@ spec.before(async (stage) => {
 spec.test('returns proxy account address', async (ctx) => {
   const protocol = ctx.get('protocol');
   const provider = ctx.get('provider');
-  const id = protocol.orderGateway.instance.options.address;
+  const id = protocol.actionsGateway.instance.options.address;
 
   const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
-  const nftokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_TRANSFER);
-  const nftokenSafeTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER);
-  const xcertCreateProxy = await gateway.getProxyAccountId(OrderGatewayProxy.XCERT_CREATE);
+  const tokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.TOKEN_TRANSFER);
+  const nftokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.NFTOKEN_TRANSFER);
+  const nftokenSafeTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER);
+  const xcertCreateProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.XCERT_CREATE);
 
   ctx.is(tokenTransferProxy, protocol.tokenTransferProxy.instance.options.address);
   ctx.is(nftokenTransferProxy, protocol.nftokenTransferProxy.instance.options.address);
@@ -58,7 +58,7 @@ spec.test('returns null when calling getProxyAccountId on a contract that does n
 
   const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const tokenTransferProxy = await gateway.getProxyAccountId(OrderGatewayProxy.TOKEN_TRANSFER);
+  const tokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.TOKEN_TRANSFER);
   ctx.is(tokenTransferProxy, null);
 });
 

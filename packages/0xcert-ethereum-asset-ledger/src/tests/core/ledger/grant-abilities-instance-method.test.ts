@@ -30,9 +30,9 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, orderGatewayId));
+  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -50,7 +50,7 @@ spec.test('grants ledger abilities for an account', async (ctx) => {
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.TOGGLE_TRANSFERS]);
 });
 
-spec.test('grants ledger create asset ability to an order gateway', async (ctx) => {
+spec.test('grants ledger create asset ability to the gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
@@ -59,7 +59,7 @@ spec.test('grants ledger create asset ability to an order gateway', async (ctx) 
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
 });
 
-spec.test('grants ledger manage abilities ability to an order gateway', async (ctx) => {
+spec.test('grants ledger manage abilities ability to the gateway', async (ctx) => {
   const ledger = ctx.get('ledger');
   const gateway = ctx.get('gateway');
   const proxyId = ctx.get('protocol').abilitableManageProxy.instance.options.address;

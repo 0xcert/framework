@@ -52,7 +52,7 @@ spec.test('returns null when calling getApprovedValue on contract that does not 
   ctx.is(approvedValue, null);
 });
 
-spec.test('returns order gateway approved amount', async (ctx) => {
+spec.test('returns gateway approved amount', async (ctx) => {
   const provider = ctx.get('provider');
   const ledgerId = ctx.get('protocol').erc20.instance.options.address;
   const ledger =  new ValueLedger(provider, ledgerId);
@@ -60,8 +60,8 @@ spec.test('returns order gateway approved amount', async (ctx) => {
   const token = ctx.get('protocol').erc20;
 
   const approveAmount = '5000000000000000000';
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const gateway = new GatewayMock(provider, orderGatewayId);
+  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+  const gateway = new GatewayMock(provider, actionsGatewayId);
 
   const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
   await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
