@@ -6,6 +6,7 @@ contract UnpackTestMock is
   BytesToTypes
 {
 
+  // Expecting 109-byte input
   function unpack(
     bytes calldata _input
   )
