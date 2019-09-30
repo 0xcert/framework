@@ -10,5 +10,5 @@ export function getBitfieldFromAbilities(abilities: AssetLedgerAbility[]): strin
     abilities.forEach((ability) => {
       bitAbilities = bitAbilities.add(ability);
     });
-    return bitAbilities;
+    return bitAbilities.toHexString();
 }

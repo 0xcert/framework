@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-proxy-contracts",
-  "version": "2.0.0-alpha5",
+  "version": "2.0.0-alpha6",
   "description": "Proxy smart contracts used by the gateway when communicating with the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -73,19 +73,19 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils": "2.0.0-alpha5",
-    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha5",
-    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha5",
-    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha5",
-    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha5",
-    "@specron/cli": "0.7.0",
-    "@specron/spec": "0.7.0",
-    "@specron/flattener": "0.7.0",
+    "@0xcert/ethereum-utils": "2.0.0-alpha6",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha6",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha6",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha6",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha6",
+    "@specron/cli": "0.8.0",
+    "@specron/spec": "0.8.0",
+    "@specron/flattener": "0.8.0",
     "solc": "0.5.6",
-    "solhint": "2.0.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.1.1",
-    "web3": "1.2.0"
+    "solhint": "2.3.0",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3",
+    "web3": "1.2.1"
   }
 }

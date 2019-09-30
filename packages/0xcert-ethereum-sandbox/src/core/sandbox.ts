@@ -23,7 +23,7 @@ export class Sandbox {
    * @param options Sandbox configuration options.
    */
   public static createProvider(options?: SandboxOptions) {
-    const provider = ganache.provider(options);
+    const provider = ganache['provider'](options);
     provider.setMaxListeners(999999); // hide MaxListenersExceededWarning produced by ganache provider.
     return provider;
   }
@@ -44,7 +44,7 @@ export class Sandbox {
     options = { ...options };
 
     await new Promise((resolve, reject) => {
-      this.server = ganache.server();
+      this.server = ganache['server']();
       this.server.listen(options.port, (e) => e ? reject(e) : resolve());
     });
 

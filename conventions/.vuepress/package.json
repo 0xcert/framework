@@ -7,11 +7,11 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
-    "vuepress": "^1.0.0-alpha.47"
+    "vuepress": "1.1.0"
   },
   "devDependencies": {
-    "@vuepress/plugin-google-analytics": "^1.0.0-alpha.47",
-    "@vuepress/plugin-pwa": "^1.0.0-alpha.47",
-    "markdown-it-container": "^2.0.0"
+    "@vuepress/plugin-google-analytics": "1.1.0",
+    "@vuepress/plugin-pwa": "1.1.0",
+    "markdown-it-container": "2.0.0"
   }
 }

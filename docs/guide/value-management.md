@@ -12,7 +12,7 @@ Click [here](https://stackblitz.com/edit/value-management-example) to check the 
 
 We recommend you employ the package as an NPM package in your application.
 
-```shell
+```ell
 $ npm i --save @0xcert/ethereum-value-ledger
 ```
 

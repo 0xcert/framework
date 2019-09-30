@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-metamask-provider",
-  "version": "2.0.0-alpha5",
+  "version": "2.0.0-alpha6",
   "description": "Implementation of MetaMask communication provider for the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,16 +64,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.8.3",
-    "@hayspec/spec": "^0.8.3",
-    "nyc": "^14.1.1",
+    "@hayspec/cli": "0.9.0",
+    "@hayspec/spec": "0.9.0",
+    "nyc": "14.1.1",
     "solc": "0.5.6",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.1.1",
-    "web3": "1.2.0"
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3",
+    "web3": "1.2.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "2.0.0-alpha5"
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha6"
   }
 }

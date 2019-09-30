@@ -42,7 +42,7 @@ Click [here](https://stackblitz.com/edit/gateway-example) to check the live exam
 
 We recommend you employ the package as an NPM package in your application.
 
-```shell
+```ell
 $ npm i --save @0xcert/ethereum-gateway
 ```
 

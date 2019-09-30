@@ -8,19 +8,19 @@ We use [RushJS](https://rushjs.io) to manage this repository. Some quick notes o
 
 **Install dependencies** -- You only need to run this once.
 
-```sh
+```
 npm install -g @microsoft/rush
 ```
 
 **Update packages** -- Run this if you add/remove packages from this repository.
 
-```sh
+```
 rush update --full
 ```
 
 **Rebuild and test** -- Do this each time you make changes to the code
 
-```sh
+```
 rush rebuild --verbose
 rush test --verbose
 ```
@@ -45,7 +45,7 @@ The release manager will publish packages to NPM using these commands.
 
 NOTE: New packages must be published manually!
 
-```sh
+```
 $ rush version --bump --override-bump minor
 $ rush update --all
 $ rush rebuild
