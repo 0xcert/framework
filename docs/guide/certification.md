@@ -38,7 +38,7 @@ Click [here](https://stackblitz.com/edit/certification-example) to check the liv
 
 We recommend you employ the certification module as an NPM package in your application.
 
-```shell
+```ell
 $ npm i --save @0xcert/cert
 ```
 

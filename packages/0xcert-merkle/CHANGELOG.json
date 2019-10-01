@@ -2,8 +2,8 @@
   "name": "@0xcert/merkle",
   "entries": [
     {
-      "version": "2.0.0-alpha5",
-      "tag": "@0xcert/merkle_v2.0.0-alpha5",
+      "version": "2.0.0-alpha6",
+      "tag": "@0xcert/merkle_v2.0.0-alpha6",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },
