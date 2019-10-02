@@ -42,8 +42,9 @@ contract BytesToTypes
     assembly { x := mload(add(_input, _offst)) } // solhint-disable-line
     if (x == 0) {
       _output = false;
+    } else {
+      _output = true;
     }
-    _output = true;
   }
 
   /**
