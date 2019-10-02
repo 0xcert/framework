@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "./erc721.sol";
 import "./erc721-metadata.sol";
