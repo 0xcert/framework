@@ -5,13 +5,15 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
+import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-to-types.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
  * tokens powered by atomic swaps.
  */
 contract ActionsGateway is
-  Abilitable
+  Abilitable,
+  BytesToTypes
 {
 
   /**
@@ -32,8 +34,8 @@ contract ActionsGateway is
    */
   string constant INVALID_SIGNATURE_KIND = "015001";
   string constant INVALID_PROXY = "015002";
-  string constant TAKER_NOT_EQUAL_TO_SENDER = "015003";
-  string constant SENDER_NOT_TAKER_OR_MAKER = "015004";
+  string constant SIGNATURES_LENGTH_INVALID = "015003";
+  string constant SENDER_NOT_A_SIGNER = "015004";
   string constant CLAIM_EXPIRED = "015005";
   string constant INVALID_SIGNATURE = "015006";
   string constant ORDER_CANCELED = "015007";
@@ -73,24 +75,29 @@ contract ActionsGateway is
   }
 
   /**
+   * @dev Structure defining address information.
+   * @param proxyAddress Smart contract address of the proxy.
+   * @param kind Kind of actions that can be performed on this proxy.
+   */
+  struct ProxyData
+  {
+    address proxyAddress;
+    ActionKind kind;
+  }
+
+  /**
    * @dev Structure representing what to send and where.
    * @notice For update action kind to parameter is unnecessary. For this reason we recommend you
    * set it to zero address (0x000...0) since it costs less.
-   * @param kind Enum representing action kind.
-   * @param proxy Id representing approved proxy address.
-   * @param token Address of the token we are sending.
-   * @param param1 Address of the sender or imprint.
-   * @param to Address of the receiver.
-   * @param value Amount of ERC20 or ID of ERC721.
+   * @param proxyId Id representing approved proxy address.
+   * @param contractAddress Address of the contract we are operating upon.
+   * @param params Array of params that differ depending on action.
    */
   struct ActionData
   {
-    ActionKind kind;
-    uint32 proxy;
-    address token;
-    bytes32 param1;
-    address to;
-    uint256 value;
+    uint32 proxyId;
+    address contractAddress;
+    bytes params;
   }
 
   /**
@@ -110,26 +117,23 @@ contract ActionsGateway is
 
   /**
    * @dev Structure representing the data needed to do the order.
-   * @param maker Address of the one that made the claim.
-   * @param taker Address of the one that is executing the claim.
+   * @param signers Addresses of everyone that need to sign this order for it to be valid.
    * @param actions Data of all the actions that should accure it this order.
-   * @param signature Data from the signed claim.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet.
    */
   struct OrderData
   {
-    address maker;
-    address taker;
+    address[] signers;
     ActionData[] actions;
     uint256 seed;
     uint256 expiration;
   }
 
   /**
-   * @dev Valid proxy contract addresses.
+   * @dev Valid proxy contracts.
    */
-  address[] public proxies;
+  ProxyData[] public proxies;
 
   /**
    * @dev Mapping of all cancelled orders.
@@ -145,8 +149,7 @@ contract ActionsGateway is
    * @dev This event emits when tokens change ownership.
    */
   event Perform(
-    address indexed _maker,
-    address indexed _taker,
+    address[] _signers,
     bytes32 _claim
   );
 
@@ -154,8 +157,7 @@ contract ActionsGateway is
    * @dev This event emits when transfer order is cancelled.
    */
   event Cancel(
-    address indexed _maker,
-    address indexed _taker,
+    address[] _signers,
     bytes32 _claim
   );
 
@@ -173,12 +175,13 @@ contract ActionsGateway is
    * @param _proxy Proxy address.
    */
   function addProxy(
-    address _proxy
+    address _proxy,
+    ActionKind _kind
   )
     external
     hasAbilities(ABILITY_TO_SET_PROXIES)
   {
-    uint256 length = proxies.push(_proxy);
+    uint256 length = proxies.push(ProxyData(_proxy, _kind));
     emit ProxyChange(length - 1, _proxy);
   }
 
@@ -193,7 +196,7 @@ contract ActionsGateway is
     external
     hasAbilities(ABILITY_TO_SET_PROXIES)
   {
-    proxies[_index] = address(0);
+    proxies[_index].proxyAddress = address(0);
     emit ProxyChange(_index, address(0));
   }
 
@@ -201,79 +204,61 @@ contract ActionsGateway is
    * @dev Performs the atomic swap that can exchange, create, update and do other actions for
    * fungible and non-fungible tokens.
    * @param _data Data required to make the order.
-   * @param _signature Data from the signature.
+   * @param _signatures Data from the signature.
    */
   function perform(
     OrderData memory _data,
-    SignatureData memory _signature
+    SignatureData[] memory _signatures
   )
     public
   {
-    require(_data.taker == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
     require(_data.expiration >= now, CLAIM_EXPIRED);
-
     bytes32 claim = getOrderDataClaim(_data);
-    require(
-      isValidSignature(
-        _data.maker,
-        claim,
-        _signature
-      ),
-      INVALID_SIGNATURE
-    );
+    // Last signer index, always one less then the amount of signers.
+    uint256 signersLength = _data.signers.length - 1;
+    // Address with which we are replacing zero address in case of any taker/signer.
+    address replaceAddress = address(0);
+    // If the last signer is zero address then we treat this as an any taker/signer order.
+    // This means we replace zero address with the last signer or the order executor.
+    if (_data.signers[signersLength] == address(0))
+    {
+      // If last signature is missing then the address we are replacing is the sender.
+      // Otherwise it is the last signature.
+      if (signersLength == _signatures.length) {
+        replaceAddress = msg.sender;
+      } else {
+        replaceAddress = recoverSigner(claim, _signatures[signersLength]);
+      }
+      _data.signers[signersLength] = replaceAddress;
+      // If it is not an any taker/signature order and the last signature is missing then the
+      // executor (msg.sender) has to be the last signer.
+    } else if (signersLength == _signatures.length) {
+      require(_data.signers[signersLength] == msg.sender, SENDER_NOT_A_SIGNER);
+      // If non of the above is true then we need to check all the signatures.
+    } else {
+      signersLength += 1;
+    }
+
+    for (uint8 i = 0; i < signersLength; i++)
+    {
+      require(
+        isValidSignature(
+          _data.signers[i],
+          claim,
+          _signatures[i]
+        ),
+        INVALID_SIGNATURE
+      );
+    }
 
     require(!orderCancelled[claim], ORDER_CANCELED);
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
     orderPerformed[claim] = true;
-
-    _doActions(_data);
-
-    emit Perform(
-      _data.maker,
-      _data.taker,
-      claim
-    );
-  }
-
-  /**
-   * @dev Performs the atomic swap that can exchange, create, update and do other actions for
-   * fungible and non-fungible tokens where performing address does not need to be known before
-   * hand.
-   * @notice When using this function, be aware that the zero address is reserved for replacement
-   * with msg.sender, meaning you cannot send anything to the zero address.
-   * @param _data Data required to make the order.
-   * @param _signature Data from the signature.
-   */
-  function performAnyTaker(
-    OrderData memory _data,
-    SignatureData memory _signature
-  )
-    public
-  {
-    require(_data.expiration >= now, CLAIM_EXPIRED);
-
-    bytes32 claim = getOrderDataClaim(_data);
-    require(
-      isValidSignature(
-        _data.maker,
-        claim,
-        _signature
-      ),
-      INVALID_SIGNATURE
-    );
-
-    require(!orderCancelled[claim], ORDER_CANCELED);
-    require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
-
-    orderPerformed[claim] = true;
-
-    _data.taker = msg.sender;
-    _doActionsReplaceZeroAddress(_data);
+    _doActionsReplaceZeroAddress(_data, replaceAddress);
 
     emit Perform(
-      _data.maker,
-      _data.taker,
+      _data.signers,
       claim
     );
   }
@@ -290,15 +275,21 @@ contract ActionsGateway is
   )
     public
   {
-    require(_data.maker == msg.sender, MAKER_NOT_EQUAL_TO_SENDER);
+    bool present = false;
+    for (uint8 i = 0; i < _data.signers.length; i++) {
+      if (_data.signers[i] == msg.sender) {
+        present = true;
+        break;
+      }
+    }
+    require(present, MAKER_NOT_EQUAL_TO_SENDER);
 
     bytes32 claim = getOrderDataClaim(_data);
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
     orderCancelled[claim] = true;
     emit Cancel(
-      _data.maker,
-      _data.taker,
+      _data.signers,
       claim
     );
   }
@@ -322,12 +313,9 @@ contract ActionsGateway is
       temp = keccak256(
         abi.encodePacked(
           temp,
-          _orderData.actions[i].kind,
-          _orderData.actions[i].proxy,
-          _orderData.actions[i].token,
-          _orderData.actions[i].param1,
-          _orderData.actions[i].to,
-          _orderData.actions[i].value
+          _orderData.actions[i].proxyId,
+          _orderData.actions[i].contractAddress,
+          _orderData.actions[i].params
         )
       );
     }
@@ -335,8 +323,7 @@ contract ActionsGateway is
     return keccak256(
       abi.encodePacked(
         address(this),
-        _orderData.maker,
-        _orderData.taker,
+        _orderData.signers,
         temp,
         _orderData.seed,
         _orderData.expiration
@@ -359,9 +346,25 @@ contract ActionsGateway is
     pure
     returns (bool)
   {
+    return _signer == recoverSigner(_claim, _signature);
+  }
+
+  /**
+   * @dev Gets address of the signer.
+   * @param _claim Signed Keccak-256 hash.
+   * @param _signature Signature data.
+   */
+  function recoverSigner(
+    bytes32 _claim,
+    SignatureData memory _signature
+  )
+    public
+    pure
+    returns (address)
+  {
     if (_signature.kind == SignatureKind.eth_sign)
     {
-      return _signer == ecrecover(
+      return ecrecover(
         keccak256(
           abi.encodePacked(
             "\x19Ethereum Signed Message:\n32",
@@ -374,7 +377,7 @@ contract ActionsGateway is
       );
     } else if (_signature.kind == SignatureKind.trezor)
     {
-      return _signer == ecrecover(
+      return ecrecover(
         keccak256(
           abi.encodePacked(
             "\x19Ethereum Signed Message:\n\x20",
@@ -387,7 +390,7 @@ contract ActionsGateway is
       );
     } else if (_signature.kind == SignatureKind.eip712)
     {
-      return _signer == ecrecover(
+      return ecrecover(
         _claim,
         _signature.v,
         _signature.r,
@@ -403,167 +406,89 @@ contract ActionsGateway is
    * @param _order Data needed for order.
    */
   function _doActionsReplaceZeroAddress(
-    OrderData memory _order
+    OrderData memory _order,
+    address _replaceAddress
   )
     private
   {
     for(uint256 i = 0; i < _order.actions.length; i++)
     {
       require(
-        proxies[_order.actions[i].proxy] != address(0),
+        proxies[_order.actions[i].proxyId].proxyAddress != address(0),
         INVALID_PROXY
       );
 
-      if (_order.actions[i].kind == ActionKind.create)
+      if (proxies[_order.actions[i].proxyId].kind == ActionKind.create)
       {
         require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
+          Abilitable(_order.actions[i].contractAddress).isAble(
+            _order.signers[bytesToUint8(85, _order.actions[i].params)],
+            ABILITY_ALLOW_CREATE_ASSET
+          ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        if (_order.actions[i].to == address(0))
-        {
-          _order.actions[i].to = _order.taker;
+        address to = bytesToAddress(84, _order.actions[i].params);
+        if (to == address(0)) {
+          to = _replaceAddress;
         }
 
-        XcertCreateProxy(proxies[_order.actions[i].proxy]).create(
-          _order.actions[i].token,
-          _order.actions[i].to,
-          _order.actions[i].value,
-          _order.actions[i].param1
+        XcertCreateProxy(proxies[_order.actions[i].proxyId].proxyAddress).create(
+          _order.actions[i].contractAddress,
+          to,
+          bytesToUint256(64, _order.actions[i].params),
+          bytesToBytes32(32, _order.actions[i].params)
         );
       }
-      else if (_order.actions[i].kind == ActionKind.transfer)
+      else if (proxies[_order.actions[i].proxyId].kind == ActionKind.transfer)
       {
-        address from = address(uint160(bytes20(_order.actions[i].param1)));
-
-        if (_order.actions[i].to == address(0))
-        {
-          _order.actions[i].to = _order.taker;
+        address from = _order.signers[bytesToUint8(53, _order.actions[i].params)];
+        address to = bytesToAddress(52, _order.actions[i].params);
+        if (to == address(0)) {
+          to = _replaceAddress;
         }
-
-        if (from == address(0))
-        {
-          from = _order.taker;
-        }
-
-        require(
-          from == _order.maker
-          || from == _order.taker,
-          SENDER_NOT_TAKER_OR_MAKER
-        );
-
-        Proxy(proxies[_order.actions[i].proxy]).execute(
-          _order.actions[i].token,
+        Proxy(proxies[_order.actions[i].proxyId].proxyAddress).execute(
+          _order.actions[i].contractAddress,
           from,
-          _order.actions[i].to,
-          _order.actions[i].value
+          to,
+          bytesToUint256(32, _order.actions[i].params)
         );
       }
-      else if (_order.actions[i].kind == ActionKind.update)
+      else if (proxies[_order.actions[i].proxyId].kind == ActionKind.update)
       {
         require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
+          Abilitable(_order.actions[i].contractAddress).isAble(
+            _order.signers[bytesToUint8(65, _order.actions[i].params)],
+            ABILITY_ALLOW_UPDATE_ASSET
+          ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
-          _order.actions[i].token,
-          _order.actions[i].value,
-          _order.actions[i].param1
+        XcertUpdateProxy(proxies[_order.actions[i].proxyId].proxyAddress).update(
+          _order.actions[i].contractAddress,
+          bytesToUint256(64, _order.actions[i].params),
+          bytesToBytes32(32, _order.actions[i].params)
         );
       }
-      else if (_order.actions[i].kind == ActionKind.manage_abilities)
+      else if (proxies[_order.actions[i].proxyId].kind == ActionKind.manage_abilities)
       {
         require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
+          Abilitable(_order.actions[i].contractAddress).isAble(
+            _order.signers[bytesToUint8(53, _order.actions[i].params)],
+            ABILITY_ALLOW_MANAGE_ABILITITES
+          ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        if (_order.actions[i].to == address(0))
-        {
-          _order.actions[i].to = _order.taker;
+        address to = bytesToAddress(52, _order.actions[i].params);
+        if (to == address(0)) {
+          to = _replaceAddress;
         }
 
-        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
-          _order.actions[i].token,
-          _order.actions[i].to,
-          _order.actions[i].value
-        );
-      }
-    }
-  }
-
-  /**
-   * @dev Helper function that makes order actions.
-   * @param _order Data needed for order.
-   */
-  function _doActions(
-    OrderData memory _order
-  )
-    private
-  {
-    for(uint256 i = 0; i < _order.actions.length; i++)
-    {
-      require(
-        proxies[_order.actions[i].proxy] != address(0),
-        INVALID_PROXY
-      );
-
-      if (_order.actions[i].kind == ActionKind.create)
-      {
-        require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_CREATE_ASSET),
-          SIGNER_NOT_AUTHORIZED
-        );
-
-        XcertCreateProxy(proxies[_order.actions[i].proxy]).create(
-          _order.actions[i].token,
-          _order.actions[i].to,
-          _order.actions[i].value,
-          _order.actions[i].param1
-        );
-      }
-      else if (_order.actions[i].kind == ActionKind.transfer)
-      {
-        address from = address(uint160(bytes20(_order.actions[i].param1)));
-        require(
-          from == _order.maker
-          || from == _order.taker,
-          SENDER_NOT_TAKER_OR_MAKER
-        );
-
-        Proxy(proxies[_order.actions[i].proxy]).execute(
-          _order.actions[i].token,
-          from,
-          _order.actions[i].to,
-          _order.actions[i].value
-        );
-      }
-      else if (_order.actions[i].kind == ActionKind.update)
-      {
-        require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_UPDATE_ASSET),
-          SIGNER_NOT_AUTHORIZED
-        );
-
-        XcertUpdateProxy(proxies[_order.actions[i].proxy]).update(
-          _order.actions[i].token,
-          _order.actions[i].value,
-          _order.actions[i].param1
-        );
-      }
-      else if (_order.actions[i].kind == ActionKind.manage_abilities)
-      {
-        require(
-          Abilitable(_order.actions[i].token).isAble(_order.maker, ABILITY_ALLOW_MANAGE_ABILITITES),
-          SIGNER_NOT_AUTHORIZED
-        );
-
-        AbilitableManageProxy(proxies[_order.actions[i].proxy]).set(
-          _order.actions[i].token,
-          _order.actions[i].to,
-          _order.actions[i].value
+        AbilitableManageProxy(proxies[_order.actions[i].proxyId].proxyAddress).set(
+          _order.actions[i].contractAddress,
+          to,
+          bytesToUint256(32, _order.actions[i].params)
         );
       }
     }
