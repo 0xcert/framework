@@ -12,7 +12,7 @@ Click [here](https://stackblitz.com/edit/asset-management-example) to check the 
 
 We recommend you employ the asset ledger module as an NPM package in your application.
 
-```shell
+```ell
 $ npm i --save @0xcert/ethereum-asset-ledger
 ```
 

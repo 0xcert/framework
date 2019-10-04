@@ -18,7 +18,7 @@ The 0xcert Framework supports multiple providers that enable the communication w
 
 We recommend you employ the provider module as an NPM package in your application.
 
-```shell
+```ell
 $ npm i --save @0xcert/ethereum-metamask-provider
 ```
 
