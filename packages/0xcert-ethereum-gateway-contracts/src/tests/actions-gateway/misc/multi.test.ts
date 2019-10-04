@@ -593,14 +593,6 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
   ctx.is(fox3Imprint, imprint1);
 });
 
-/**
- * owner, bob -> jane executes /sign and any taker
- * owner creates fox 2 to ?
- * owner creates fox 3 to ?
- * bob sends 3000 gnt to ?
- * owners grants revoke ability to ?
- * sara receives 10000 zxc from ?
- */
 spec.test('sucesfully executes multiple actions scenario #4', async (ctx) => {
   // This test expects 3 signers (Owner, Bob and unknown address represented as zero address) and signatures from all 3.
   // Sara executes the order, unknown signer is automatically replaced with the address provided by the 3rd signature.

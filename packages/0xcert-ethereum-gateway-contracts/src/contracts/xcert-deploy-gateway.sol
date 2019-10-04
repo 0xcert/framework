@@ -111,6 +111,16 @@ contract XcertDeployGateway
   address public assetCreateProxy;
 
   /**
+   * @dev Address of asset update proxy.
+   */
+  address public assetUpdateProxy;
+
+  /**
+   * @dev Address of abilitable manage proxy.
+   */
+  address public abilitableManageProxy;
+
+  /**
    * @dev Mapping of all cancelled deploys.
    */
   mapping(bytes32 => bool) public deployCancelled;
@@ -145,14 +155,18 @@ contract XcertDeployGateway
    */
   constructor(
     address _tokenTransferProxy,
-    address _assetCreateProxy
+    address _assetCreateProxy,
+    address _assetUpdateProxy,
+    address _abilitableManageProxy
   )
     public
   {
     tokenTransferProxy = Proxy(_tokenTransferProxy);
     assetCreateProxy = _assetCreateProxy;
+    assetUpdateProxy = _assetUpdateProxy;
+    abilitableManageProxy = _abilitableManageProxy;
   }
-  
+
   /**
    * @dev Performs the atomic swap that deploys a new Xcert smart contract and at the same time
    * transfers tokens.
@@ -385,7 +399,9 @@ contract XcertDeployGateway
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,
-        assetCreateProxy
+        assetCreateProxy,
+        assetUpdateProxy,
+        abilitableManageProxy
       )
     );
   }
@@ -421,7 +437,9 @@ contract XcertDeployGateway
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,
-        assetCreateProxy
+        assetCreateProxy,
+        assetUpdateProxy,
+        abilitableManageProxy
       )
     );
   }
