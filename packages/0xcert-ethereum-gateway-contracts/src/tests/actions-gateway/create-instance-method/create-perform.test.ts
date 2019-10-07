@@ -194,7 +194,7 @@ spec.beforeEach(async (ctx) => {
   await createProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-spec.test('Create cat #1 with signature', async (ctx) => {
+spec.only('Create cat #1 with signature', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
   const createProxy = ctx.get('createProxy');
   const jane = ctx.get('jane');
@@ -300,6 +300,45 @@ spec.test('Create cat #1 with any signer', async (ctx) => {
   const signature = await getSignature(ctx.web3, claim, owner);
   const signature2 = await getSignature(ctx.web3, claim, jane);
   const signatureDataTuple = ctx.tuple([signature, signature2]);
+
+  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
+  const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara });
+  ctx.not(logs.events.Perform, undefined);
+
+  const cat1Owner = await cat.instance.methods.ownerOf(1).call();
+  ctx.is(cat1Owner, jane);
+});
+
+spec.test('Create cat #1 with any creator', async (ctx) => {
+  const actionsGateway = ctx.get('actionsGateway');
+  const createProxy = ctx.get('createProxy');
+  const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
+  const sara = ctx.get('sara');
+  const cat = ctx.get('cat');
+  const id = ctx.get('id1');
+  const imprint = ctx.get('imprint1');
+  const zeroAddress = ctx.get('zeroAddress');
+
+  const actions = [
+    {
+      proxyId: 1,
+      contractAddress: cat.receipt._address,
+      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+    },
+  ];
+  const orderData = {
+    signers: [zeroAddress],
+    actions,
+    seed: common.getCurrentTime(),
+    expirationTimestamp: common.getCurrentTime() + 3600,
+  };
+  const createTuple = ctx.tuple(orderData);
+
+  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
+
+  const signature = await getSignature(ctx.web3, claim, owner);
+  const signatureDataTuple = ctx.tuple([signature]);
 
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
   const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara });
