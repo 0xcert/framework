@@ -216,7 +216,7 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     if (typeof accountId !== 'string') {
-      accountId = abilities.includes(SuperAssetLedgerAbility.MANAGE_ABILITIES) ?
+      accountId = abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1 ?
         await (accountId as any).getProxyAccountId(5) : // ActionsGatewayProxy.SET_ABILITIES
         await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
     }
