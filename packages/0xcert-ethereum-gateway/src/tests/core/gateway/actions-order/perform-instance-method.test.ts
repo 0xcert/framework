@@ -1,6 +1,7 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ActionsOrder, ActionsOrderActionKind, GeneralAssetLedgerAbility, OrderKind, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+import { ActionsOrderActionKind, DynamicActionsOrder, FixedActionsOrder, GeneralAssetLedgerAbility,
+  OrderKind, SignedDynamicActionsOrder, SignedFixedActionsOrder, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
 
@@ -35,22 +36,26 @@ spec.before(async (stage) => {
   const coinbase = stage.get('coinbase');
   const bob = stage.get('bob');
   const sara = stage.get('sara');
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
 
   const coinbaseGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: coinbase,
     requiredConfirmations: 0,
+    gatewayConfig: { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' },
   });
   const bobGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: bob,
     requiredConfirmations: 0,
+    gatewayConfig: { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' },
   });
 
   const saraGenericProvider = new GenericProvider({
     client: stage.web3,
     accountId: sara,
     requiredConfirmations: 0,
+    gatewayConfig: { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' },
   });
 
   stage.set('coinbaseGenericProvider', coinbaseGenericProvider);
@@ -84,23 +89,22 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: sara });
 });
 
-spec.test('submits gateway actions order to the network which executes transfers', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+spec.test('submits gateway fixed actions order to the network which executes transfers', async (ctx) => {
   const bobGenericProvider = ctx.get('bobGenericProvider');
   const bob = ctx.get('bob');
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: FixedActionsOrder = {
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
         kind: ActionsOrderActionKind.CREATE_ASSET,
+        senderId: coinbase,
         ledgerId: xcertId,
         receiverId: bob,
         assetId: '102',
@@ -108,6 +112,7 @@ spec.test('submits gateway actions order to the network which executes transfers
       },
       {
         kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+        senderId: coinbase,
         ledgerId: xcertId,
         assetImprint: '2',
         assetId: '100',
@@ -128,6 +133,7 @@ spec.test('submits gateway actions order to the network which executes transfers
       },
       {
         kind: ActionsOrderActionKind.SET_ABILITIES,
+        senderId: coinbase,
         ledgerId: xcertId,
         receiverId: bob,
         abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
@@ -136,13 +142,12 @@ spec.test('submits gateway actions order to the network which executes transfers
   };
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
   const claim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(bobGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  const mutation = await gateway.perform(order, claim);
+  const gateway = new Gateway(bobGenericProvider);
+  const mutation = await gateway.perform(order, [claim]);
   await mutation.complete();
-
   ctx.is((mutation.logs[0]).event, 'Perform');
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
@@ -152,104 +157,247 @@ spec.test('submits gateway actions order to the network which executes transfers
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
 });
 
-spec.test('submits dynamic gateway actions order to the network which executes transfers', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+spec.test('submits gateway fixed signed actions order to the network which executes transfers', async (ctx) => {
+  const bobGenericProvider = ctx.get('bobGenericProvider');
   const saraGenericProvider = ctx.get('saraGenericProvider');
-  const coinbase = ctx.get('coinbase');
-  const sara = ctx.get('sara');
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
-  const erc20 = ctx.get('protocol').erc20;
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
+  const order: SignedFixedActionsOrder = {
+    kind: OrderKind.SIGNED_FIXED_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
         kind: ActionsOrderActionKind.CREATE_ASSET,
+        senderId: coinbase,
         ledgerId: xcertId,
-        assetId: '105',
+        receiverId: bob,
+        assetId: '103',
         assetImprint: '0',
+      },
+      {
+        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        assetImprint: '2',
+        assetId: '100',
       },
       {
         kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
+        receiverId: bob,
         assetId: '101',
       },
       {
-        kind: ActionsOrderActionKind.TRANSFER_VALUE,
-        ledgerId: erc20Id,
-        receiverId: bob,
-        value: '100000',
-      },
-      {
-        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
-        assetImprint: '2',
-        assetId: '105',
+        senderId: bob,
+        receiverId: coinbase,
+        assetId: '100',
       },
       {
         kind: ActionsOrderActionKind.SET_ABILITIES,
+        senderId: coinbase,
         ledgerId: xcertId,
+        receiverId: bob,
         abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
       },
     ],
   };
 
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  const claim = await coinbaseGateway.claim(order);
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
+  const coinbaseClaim = await coinbaseGateway.claim(order);
 
-  const gateway = new Gateway(saraGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const bobGateway = new Gateway(bobGenericProvider);
+  const bobClaim = await bobGateway.claim(order);
 
-  await gateway.perform(order, claim).then(() => ctx.sleep(200));
+  const saraGateway = new Gateway(saraGenericProvider);
+  const mutation = await saraGateway.perform(order, [coinbaseClaim, bobClaim]);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Perform');
 
-  ctx.is(await xcert.instance.methods.tokenImprint('105').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
-  ctx.is(await xcert.instance.methods.ownerOf('105').call(), sara);
-  ctx.is(await xcert.instance.methods.ownerOf('101').call(), sara);
-  ctx.is(await erc20.instance.methods.balanceOf(bob).call(), '100000');
-  ctx.true(await xcert.instance.methods.isAble(sara, GeneralAssetLedgerAbility.CREATE_ASSET).call());
+  ctx.is(await xcert.instance.methods.ownerOf('100').call(), coinbase);
+  ctx.is(await xcert.instance.methods.ownerOf('101').call(), bob);
+  ctx.is(await xcert.instance.methods.ownerOf('103').call(), bob);
+  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
 });
 
-spec.test('handles fixed actions order without receiver', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
-  const coinbase = ctx.get('coinbase');
-  const bob = ctx.get('bob');
-  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+spec.test('submits gateway dynamic actions order to the network which executes transfers', async (ctx) => {
+  const bobGenericProvider = ctx.get('bobGenericProvider');
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
+  const xcert = ctx.get('protocol').xcertMutable;
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  let order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: DynamicActionsOrder = {
+    kind: OrderKind.DYNAMIC_ACTIONS_ORDER,
+    signers: [coinbase],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
         kind: ActionsOrderActionKind.CREATE_ASSET,
+        senderId: coinbase,
         ledgerId: xcertId,
-        assetId: '105',
+        assetId: '104',
         assetImprint: '0',
+      },
+      {
+        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        assetImprint: '2',
+        assetId: '100',
+      },
+      {
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '100',
+      },
+      {
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        receiverId: coinbase,
+        assetId: '101',
+      },
+      {
+        kind: ActionsOrderActionKind.SET_ABILITIES,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        abilities: [GeneralAssetLedgerAbility.UPDATE_ASSET],
       },
     ],
   };
 
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
+  const coinbaseClaim = await coinbaseGateway.claim(order);
+
+  const bobGateway = new Gateway(bobGenericProvider);
+  const mutation = await bobGateway.perform(order, [coinbaseClaim]);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Perform');
+
+  ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
+  ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
+  ctx.is(await xcert.instance.methods.ownerOf('104').call(), bob);
+  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.UPDATE_ASSET).call());
+});
+
+spec.test('submits gateway signed dynamic actions order to the network which executes transfers', async (ctx) => {
+  const bobGenericProvider = ctx.get('bobGenericProvider');
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const saraGenericProvider = ctx.get('saraGenericProvider');
+  const bob = ctx.get('bob');
+  const coinbase = ctx.get('coinbase');
+  const xcert = ctx.get('protocol').xcertMutable;
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+
+  const order: SignedDynamicActionsOrder = {
+    kind: OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER,
+    signers: [coinbase],
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: ActionsOrderActionKind.CREATE_ASSET,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        assetId: '105',
+        assetImprint: '0',
+      },
+      {
+        kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        assetImprint: '3',
+        assetId: '100',
+      },
+      {
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '101',
+      },
+      {
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: null,
+        receiverId: coinbase,
+        assetId: '100',
+      },
+      {
+        kind: ActionsOrderActionKind.SET_ABILITIES,
+        senderId: coinbase,
+        ledgerId: xcertId,
+        abilities: [GeneralAssetLedgerAbility.REVOKE_ASSET],
+      },
+    ],
+  };
+
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
+  const coinbaseClaim = await coinbaseGateway.claim(order);
+
+  const bobGateway = new Gateway(bobGenericProvider);
+  const bobClaim = await bobGateway.claim(order);
+
+  const saraGateway = new Gateway(saraGenericProvider);
+  const mutation = await saraGateway.perform(order, [coinbaseClaim, bobClaim]);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Perform');
+
+  ctx.is(await xcert.instance.methods.ownerOf('100').call(), coinbase);
+  ctx.is(await xcert.instance.methods.ownerOf('101').call(), bob);
+  ctx.is(await xcert.instance.methods.ownerOf('105').call(), bob);
+  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x3000000000000000000000000000000000000000000000000000000000000000');
+  ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.REVOKE_ASSET).call());
+});
+
+spec.test('handles incorrect dynamic action order', async (ctx) => {
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbase = ctx.get('coinbase');
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+
+  const order: DynamicActionsOrder = {
+    kind: OrderKind.DYNAMIC_ACTIONS_ORDER,
+    signers: [coinbase],
+    seed: 1535113220.12345, // should handle floats
+    expiration: Date.now() * 60.1234, // should handle floats
+    actions: [
+      {
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        assetId: '100',
+      },
+    ],
+  };
+
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
   let error = null;
   await coinbaseGateway.claim(order).catch((e) => {
     error = e;
   });
-  ctx.not(error, null);
+  ctx.is(error.original, 'Both senderId and receiverId missing.');
+});
 
-  order = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+spec.test('handles incorrect amount of signatures in fixed order', async (ctx) => {
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
+  const coinbase = ctx.get('coinbase');
+  const bob = ctx.get('bob');
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+
+  const order: FixedActionsOrder = {
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
@@ -257,53 +405,29 @@ spec.test('handles fixed actions order without receiver', async (ctx) => {
         kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
-        assetId: '101',
+        receiverId: bob,
+        assetId: '100',
       },
     ],
   };
 
-  error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
+  let error = null;
+  await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.not(error, null);
+  ctx.is(error.original, 'Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.');
 });
 
-spec.test('handles fixed actions order without null receiver', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+spec.test('handles incorrect amount of signatures in signed fixed order', async (ctx) => {
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  let order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
-    seed: 1535113220.12345, // should handle floats
-    expiration: Date.now() * 60.1234, // should handle floats
-    actions: [
-      {
-        kind: ActionsOrderActionKind.CREATE_ASSET,
-        receiverId: null,
-        ledgerId: xcertId,
-        assetId: '105',
-        assetImprint: '0',
-      },
-    ],
-  };
-
-  let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
-    error = e;
-  });
-  ctx.not(error, null);
-
-  order = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: SignedFixedActionsOrder = {
+    kind: OrderKind.SIGNED_FIXED_ACTIONS_ORDER,
+    signers: [coinbase],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
@@ -311,138 +435,76 @@ spec.test('handles fixed actions order without null receiver', async (ctx) => {
         kind: ActionsOrderActionKind.TRANSFER_ASSET,
         ledgerId: xcertId,
         senderId: coinbase,
-        assetId: '101',
+        receiverId: bob,
+        assetId: '100',
       },
     ],
   };
 
-  error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
+  let error = null;
+  await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.not(error, null);
+  ctx.is(error.original, 'Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.');
 });
 
-spec.test('handles fixed actions order without sender', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+spec.test('handles incorrect amount of signatures in dynamic order', async (ctx) => {
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: DynamicActionsOrder = {
+    kind: OrderKind.DYNAMIC_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: ActionsOrderActionKind.TRANSFER_VALUE,
-        ledgerId: erc20Id,
-        receiverId: coinbase,
-        value: '100000',
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '100',
       },
     ],
   };
 
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
   let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
+  await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.not(error, null);
+  ctx.is(error.original, 'Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.');
 });
 
-spec.test('handles fixed actions order with null sender', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
+spec.test('handles incorrect amount of signatures in signed dynamic order', async (ctx) => {
+  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
+  const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: SignedDynamicActionsOrder = {
+    kind: OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
       {
-        kind: ActionsOrderActionKind.TRANSFER_VALUE,
-        ledgerId: erc20Id,
-        senderId: null,
-        receiverId: coinbase,
-        value: '100000',
+        kind: ActionsOrderActionKind.TRANSFER_ASSET,
+        ledgerId: xcertId,
+        senderId: coinbase,
+        assetId: '100',
       },
     ],
   };
 
+  const coinbaseGateway = new Gateway(coinbaseGenericProvider);
   let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
+  await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.not(error, null);
-});
-
-spec.test('handles dynamic actions order without sender and receiver', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
-  const coinbase = ctx.get('coinbase');
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    seed: 1535113220.12345, // should handle floats
-    expiration: Date.now() * 60.1234, // should handle floats
-    actions: [
-      {
-        kind: ActionsOrderActionKind.TRANSFER_VALUE,
-        ledgerId: erc20Id,
-        value: '100000',
-      },
-    ],
-  };
-
-  let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
-    error = e;
-  });
-  ctx.not(error, null);
-});
-
-spec.test('handles dynamic actions order without null sender and null receiver', async (ctx) => {
-  const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
-  const coinbase = ctx.get('coinbase');
-  const erc20Id = ctx.get('protocol').erc20.instance.options.address;
-  const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
-  const coinbaseGateway = new Gateway(coinbaseGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: null,
-    seed: 1535113220.12345, // should handle floats
-    expiration: Date.now() * 60.1234, // should handle floats
-    actions: [
-      {
-        kind: ActionsOrderActionKind.TRANSFER_VALUE,
-        senderId: null,
-        receiverId: null,
-        ledgerId: erc20Id,
-        value: '100000',
-      },
-    ],
-  };
-
-  let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
-    error = e;
-  });
-  ctx.not(error, null);
+  ctx.is(error.original, 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.');
 });
 
 export default spec;

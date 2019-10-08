@@ -3,7 +3,6 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { GatewayBase, MutationBase, Order } from '@0xcert/scaffold';
 
 export class GatewayMock implements GatewayBase {
-
   public id: string;
   public provider: GenericProvider;
 
@@ -15,9 +14,11 @@ export class GatewayMock implements GatewayBase {
   public claim(order: Order): Promise<string> {
     throw new Error('Method not implemented.');
   }
-  public perform(order: Order, claim: string): Promise<MutationBase> {
+
+  public perform(order: Order, claim: string | string[]): Promise<MutationBase> {
     throw new Error('Method not implemented.');
   }
+
   public cancel(order: Order): Promise<MutationBase> {
     throw new Error('Method not implemented.');
   }

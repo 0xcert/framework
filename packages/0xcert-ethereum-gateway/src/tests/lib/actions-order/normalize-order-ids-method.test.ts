@@ -7,9 +7,8 @@ const spec = new Spec();
 
 spec.test('converts addresses to checksum addresses', async (ctx) => {
   ctx.deepEqual(normalizeOrderIds({
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: '0x44e44897fc076bc46aae6b06b917d0dfd8b2dae9',
-    takerId: '0x44e44897fc076bc46aae6b06b917d0dfd8b2dae9',
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: ['0x44e44897fc076bc46aae6b06b917d0dfd8b2dae9', '0x44e44897fc076bc46aae6b06b917d0dfd8b2dae9'],
     seed: 100,
     expiration: 100,
     actions: [
@@ -22,9 +21,8 @@ spec.test('converts addresses to checksum addresses', async (ctx) => {
       },
     ],
   }, new GenericProvider({})), {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: '0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9',
-    takerId: '0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9',
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: ['0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9', '0x44e44897FC076Bc46AaE6b06b917D0dfD8B2dae9'],
     seed: 100,
     expiration: 100,
     actions: [

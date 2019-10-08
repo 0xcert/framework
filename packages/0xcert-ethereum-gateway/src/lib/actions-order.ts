@@ -1,7 +1,7 @@
 import { getBitfieldFromAbilities } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
+import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, OrderKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
 import { ActionsGatewayProxy } from '../core/types';
@@ -19,12 +19,9 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
       hexToBytes([
         '0x',
         temp.substr(2),
-        getActionKind(action),
         `0000000${getActionProxy(gateway, action)}`,
         action.ledgerId.substr(2),
-        getActionParam1(action).substr(2),
-        getActionTo(action).substr(2),
-        getActionValue(action).substr(2),
+        getActionParams(action, order.signers).substr(2),
       ].join('')),
     );
   }
@@ -33,13 +30,52 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
     hexToBytes([
       '0x',
       gateway.config.actionsOrderId.substr(2),
-      order.makerId.substr(2),
-      order.takerId.substr(2),
+      addressArrayParse(order.signers),
       temp.substr(2),
       leftPad(toInteger(order.seed), 64, '0', false),
       leftPad(toSeconds(order.expiration), 64, '0', false),
     ].join('')),
   );
+}
+
+export function addressArrayParse(addresses: string[]) {
+  let encoded = '';
+  addresses.forEach((signer) => {
+    encoded += leftPad(signer.substr(2), 64, '0', false);
+  });
+  return encoded;
+}
+
+export function getActionParams(action: ActionsOrderAction, signers: string[]) {
+  let params = '';
+  const signerIndex = signers.indexOf(action['senderId']);
+  if (signerIndex === -1) {
+    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'SenderId not a signer.');
+  }
+  if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
+    params = rightPad(`0x${action['assetImprint']}`, 64);
+    params += leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', false);
+    params += action['receiverId'].substr(2);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
+    const bitAbilities = getBitfieldFromAbilities(action.abilities);
+    params =  leftPad(bitAbilities, 64, '0', true);
+    params += action['receiverId'].substr(2);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.TRANSFER_ASSET) {
+    params = leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', true);
+    params += action['receiverId'].substr(2);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.TRANSFER_VALUE) {
+    params = leftPad(bigNumberify(action['value']).toHexString(), 64, '0', true);
+    params += action['receiverId'].substr(2);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    params = rightPad(`0x${action['assetImprint']}`, 64);
+    params += leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', false);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  }
+  return params;
 }
 
 /**
@@ -48,81 +84,60 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
  * @param order ActionsOrder instance.
  */
 export function createRecipeTuple(gateway: Gateway, order: ActionsOrder) {
-
-  const actions = order.actions.map((action) => {
+  const actions = (order.actions as ActionsOrderAction[]).map((action) => {
     return {
-      kind: getActionKind(action),
-      proxy: getActionProxy(gateway, action),
-      token: action.ledgerId,
-      param1: getActionParam1(action),
-      to: getActionTo(action),
-      value: getActionValue(action),
+      proxyId: getActionProxy(gateway, action),
+      contractAddress: action.ledgerId,
+      params: getActionParams(action, order.signers),
     };
   });
 
   const recipeData = {
-    from: order.makerId,
-    to: order.takerId,
+    signers: order.signers,
     actions,
     seed: toInteger(order.seed),
     expirationTimestamp: toSeconds(order.expiration),
   };
-
   return toTuple(recipeData);
 }
 
 /**
  * Flattens and reshapes signature input data into a tuple.
- * @param claim String representing a signed claim.
+ * @param claim String or array of strings representing a signed claim.
  */
-export function createSignatureTuple(claim: string) {
-  const [kind, signature] = claim.split(':');
-  const k = (parseInt(kind) == SignMethod.PERSONAL_SIGN) ? SignMethod.ETH_SIGN : kind;
+export function createSignatureTuple(claim: string[] | string) {
+  if (typeof claim === 'string') {
+    const [kind, signature] = claim.split(':');
+    const k = (parseInt(kind) == SignMethod.PERSONAL_SIGN) ? SignMethod.ETH_SIGN : kind;
+    const signatureData = {
+      r: signature.substr(0, 66),
+      s: `0x${signature.substr(66, 64)}`,
+      v: parseInt(`0x${signature.substr(130, 2)}`),
+      k,
+    };
 
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`),
-    k,
-  };
-
-  if (signatureData.v < 27) {
-    signatureData.v = signatureData.v + 27;
-  }
-
-  return toTuple(signatureData);
-}
-
-/**
- * Generates smart contract data for action kind.
- * @param action ActionsOrderAction instance.
- */
-export function getActionKind(action: ActionsOrderAction) {
-  switch (action.kind) {
-    case ActionsOrderActionKind.CREATE_ASSET: {
-      return '00';
+    if (signatureData.v < 27) {
+      signatureData.v = signatureData.v + 27;
     }
-    case ActionsOrderActionKind.UPDATE_ASSET_IMPRINT: {
-      return '02';
-    }
-    case ActionsOrderActionKind.SET_ABILITIES: {
-      return '03';
-    }
-    default: {
-      return '01';
-    }
-  }
-}
-
-/**
- * Gets the correct to address.
- * @param action ActionsOrderAction instance.
- */
-export function getActionTo(action: ActionsOrderAction) {
-  if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
-    return '0x0000000000000000000000000000000000000000';
+    return toTuple(signatureData);
   } else {
-    return action.receiverId;
+    const signatures = [];
+    claim.forEach((c) => {
+      const [kind, signature] = c.split(':');
+      const k = (parseInt(kind) == SignMethod.PERSONAL_SIGN) ? SignMethod.ETH_SIGN : kind;
+      const signatureData = {
+        r: signature.substr(0, 66),
+        s: `0x${signature.substr(66, 64)}`,
+        v: parseInt(`0x${signature.substr(130, 2)}`),
+        k,
+      };
+
+      if (signatureData.v < 27) {
+        signatureData.v = signatureData.v + 27;
+      }
+      signatures.push(signatureData);
+    });
+    return toTuple(signatures);
   }
 }
 
@@ -148,76 +163,35 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
 }
 
 /**
- * Generates smart contract data for param 1.
- * @param action ActionsOrderAction instance.
- */
-export function getActionParam1(action: ActionsOrderAction) {
-  if (action.kind == ActionsOrderActionKind.CREATE_ASSET
-    || action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
-    return rightPad(`0x${action['assetImprint']}`, 64);
-  } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
-    return '0x0000000000000000000000000000000000000000000000000000000000000000';
-  } else {
-    return `${action['senderId']}000000000000000000000000`;
-  }
-}
-
-/**
- * Generates smart contract data for value.
- * @param action ActionsOrderAction instance.
- */
-export function getActionValue(action: ActionsOrderAction) {
-  if (action.kind === ActionsOrderActionKind.SET_ABILITIES) {
-    const bitAbilities = getBitfieldFromAbilities(action.abilities);
-    return leftPad(bigNumberify(bitAbilities).toHexString(), 64, '0', true);
-  } else {
-    return leftPad(bigNumberify(action['assetId'] || action['value']).toHexString(), 64, '0', true);
-  }
-}
-
-/**
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
  */
 export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider): ActionsOrder {
   order = JSON.parse(JSON.stringify(order));
-  let dynamic = false;
 
-  if (!order.takerId) {
-    order.takerId = zeroAddress;
-    dynamic = true;
-  } else {
-    order.takerId = provider.encoder.normalizeAddress(order.takerId);
+  for (let i = 0; i < order.signers.length; i++) {
+    order.signers[i] = provider.encoder.normalizeAddress(order.signers[i]);
   }
 
-  order.makerId = provider.encoder.normalizeAddress(order.makerId);
-  order.actions.forEach((action) => {
-    action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-    if (action.kind === ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
-      action['receiverId'] = zeroAddress;
-    }
-    if (!action['receiverId']) {
-      if (!dynamic) {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+  if (order.kind === OrderKind.FIXED_ACTIONS_ORDER || order.kind == OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
+    order.actions.forEach((action) => {
+      action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+        action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
       }
-      action['receiverId'] = zeroAddress;
-    } else {
-      action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
-    }
-    if (action.kind !== ActionsOrderActionKind.CREATE_ASSET
-      && action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT
-      && action.kind !== ActionsOrderActionKind.SET_ABILITIES) {
-      if (!action['senderId']) {
-        if (!dynamic) {
-          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'senderId is not set.');
-        } else if (dynamic && action['receiverId'] === zeroAddress) {
-          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Either senderId or receiverId need to be set.');
+      action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
+    });
+  } else {
+    order.actions.forEach((action) => {
+      action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
+      action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = zeroAddress;
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+        action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = zeroAddress;
+        if (action['senderId'] === zeroAddress && action['receiverId'] === zeroAddress) {
+          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');
         }
-        action['senderId'] = zeroAddress;
-      } else {
-        action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
       }
-    }
-  });
+    });
+  }
   return order;
 }

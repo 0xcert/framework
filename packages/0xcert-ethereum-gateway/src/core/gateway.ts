@@ -1,7 +1,8 @@
 import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { GatewayBase, Order, OrderKind } from '@0xcert/scaffold';
+import { AssetLedgerDeployOrder, DynamicActionsOrder, FixedActionsOrder, GatewayBase, Order, OrderKind, ProviderError, ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
 import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
+import { zeroAddress } from '../lib/utils';
 import { normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
 import actionsOrderCancel from '../mutations/actions-order/cancel';
 import actionsOrderPerform from '../mutations/actions-order/perform';
@@ -92,7 +93,19 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async claim(order: Order): Promise<string> {
-    if (order.kind === OrderKind.ACTIONS_ORDER) {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
+    ) {
+      order = this.prepareDynamicOrder(order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+        return actionsOrderClaimPersonalSign(this, order);
+      } else {
+        return actionsOrderClaimEthSign(this, order);
+      }
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER
+    ) {
       order = normalizeActionsOrderIds(order, this._provider);
       if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
         return actionsOrderClaimPersonalSign(this, order);
@@ -123,10 +136,39 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    * @param claim Claim data.
    */
-  public async perform(order: Order, claim: string): Promise<Mutation> {
-    if (order.kind === OrderKind.ACTIONS_ORDER) {
+  public async perform(order: DynamicActionsOrder, claim: string[]): Promise<Mutation>;
+  public async perform(order: SignedDynamicActionsOrder, claim: string[]): Promise<Mutation>;
+  public async perform(order: FixedActionsOrder, claim: string[]): Promise<Mutation>;
+  public async perform(order: SignedFixedActionsOrder, claim: string[]): Promise<Mutation>;
+  public async perform(order: AssetLedgerDeployOrder, claim: string): Promise<Mutation>;
+  public async perform(order: ValueLedgerDeployOrder, claim: string): Promise<Mutation>;
+  public async perform(order: any, claim: any): Promise<Mutation> {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER) {
+      order = this.prepareDynamicOrder(order);
+      if (order.signers.length !== claim.length + 1) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.');
+      }
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim);
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER) {
+      if (order.signers.length !== claim.length + 1) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.');
+      }
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderPerform(this, order, claim as string[]);
+    } else if (order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER) {
+      order = this.prepareDynamicOrder(order);
+      if (order.signers.length !== claim.length) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.');
+      }
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderPerform(this, order, claim as string[]);
+    } else if (order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
+      if (order.signers.length !== claim.length) {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.');
+      }
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderPerform(this, order, claim as string[]);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderPerform(this, order, claim);
@@ -134,7 +176,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderPerform(this, order, claim);
     } else {
-      throw new Error('Not implemented');
+      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
     }
   }
 
@@ -143,7 +185,15 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async cancel(order: Order): Promise<Mutation> {
-    if (order.kind === OrderKind.ACTIONS_ORDER) {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
+    ) {
+      order = this.prepareDynamicOrder(order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderCancel(this, order);
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER
+    ) {
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderCancel(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
@@ -153,7 +203,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderCancel(this, order);
     } else {
-      throw new Error('Not implemented');
+      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
     }
   }
 
@@ -170,10 +220,20 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    * @param claim Claim data.
    */
-  public async isValidSignature(order: Order, claim: string) {
-    if (order.kind === OrderKind.ACTIONS_ORDER) {
+  public async isValidSignature(order: Order, claim: string, signer?: string) {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
+      && signer !== 'undefined'
+    ) {
+      order = this.prepareDynamicOrder(order);
       order = normalizeActionsOrderIds(order, this._provider);
-      return actionsOrderisValidSignature(this, order, claim);
+      return actionsOrderisValidSignature(this, order, claim, signer);
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER
+      && signer !== 'undefined'
+    ) {
+      order = normalizeActionsOrderIds(order, this._provider);
+      return actionsOrderisValidSignature(this, order, claim, signer);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
       return assetLedgerDeployOrderisValidSignature(this, order, claim);
@@ -181,7 +241,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderisValidSignature(this, order, claim);
     } else {
-      throw new Error('Not implemented');
+      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
     }
   }
 
@@ -190,7 +250,15 @@ export class Gateway implements GatewayBase {
    * @param order Order data.
    */
   public async getOrderDataClaim(order: Order) {
-    if (order.kind === OrderKind.ACTIONS_ORDER) {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
+    ) {
+      order = this.prepareDynamicOrder(order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return getActionsOrderDataClaim(this, order);
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER
+    ) {
       order = normalizeActionsOrderIds(order, this._provider);
       return getActionsOrderDataClaim(this, order);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
@@ -200,7 +268,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return getValueLedgerDeployOrderDataClaim(this, order);
     } else {
-      throw new Error('Not implemented');
+      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
     }
   }
 
@@ -228,18 +296,13 @@ export class Gateway implements GatewayBase {
         ],
       },
       {
-        name: 'Perform',
-        topic: '0xdd97b854c02f699ea0d8984479d0012fbbbd0f4f80fc2e099315f6c47a3da178',
+        name: 'Perform', // actions order
+        topic: '0xf71443fd7a2316329f89c57f531a934709f65686f34c8fb083bd9bada8544ef1',
         types: [
           {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'maker',
-            type: 'address',
-          },
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'taker',
-            type: 'address',
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'signers',
+            type: 'address[]',
           },
           {
             kind: MutationEventTypeKind.NORMAL,
@@ -249,18 +312,13 @@ export class Gateway implements GatewayBase {
         ],
       },
       {
-        name: 'Cancel',
-        topic: '0x421b43caf093b5e58d1ea89ca0d80151eda923342cf3cfddf5eb6b30d4947ba0',
+        name: 'Cancel', // actions order
+        topic: '0x136e09c08e1531988f0f2122b0ba4db5c0b15ca3a166984e3dc4a050fdbba565',
         types: [
           {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'maker',
-            type: 'address',
-          },
-          {
-            kind: MutationEventTypeKind.INDEXED,
-            name: 'taker',
-            type: 'address',
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'signers',
+            type: 'address[]',
           },
           {
             kind: MutationEventTypeKind.NORMAL,
@@ -270,7 +328,7 @@ export class Gateway implements GatewayBase {
         ],
       },
       {
-        name: 'Perform',
+        name: 'Perform', // deploy asset/value ledger order
         topic: '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2',
         types: [
           {
@@ -295,6 +353,36 @@ export class Gateway implements GatewayBase {
           },
         ],
       },
+      {
+        name: 'Cancel', // deploy asset/value ledger order
+        topic: '0x421b43caf093b5e58d1ea89ca0d80151eda923342cf3cfddf5eb6b30d4947ba0',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'maker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'taker',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'claim',
+            type: 'bytes32',
+          },
+        ],
+      },
     ];
+  }
+
+  /**
+   * For dynamic action orders the last signer must be specified as zero address.
+   */
+  protected prepareDynamicOrder(order: DynamicActionsOrder | SignedDynamicActionsOrder) {
+    order = JSON.parse(JSON.stringify(order));
+    order.signers.push(zeroAddress);
+    return order;
   }
 }

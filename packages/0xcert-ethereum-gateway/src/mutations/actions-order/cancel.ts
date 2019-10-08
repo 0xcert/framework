@@ -3,8 +3,8 @@ import { ActionsOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { createRecipeTuple } from '../../lib/actions-order';
 
-const functionSignature = '0x36d63aca';
-const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)'];
+const functionSignature = '0x38a9bfcd';
+const inputTypes = ['tuple(address[], tuple[](uint32, address, bytes), uint256, uint256)'];
 
 /**
  * Cancels already submited order on the network.
