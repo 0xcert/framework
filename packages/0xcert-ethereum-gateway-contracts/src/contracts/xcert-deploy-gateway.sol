@@ -152,7 +152,7 @@ contract XcertDeployGateway
     tokenTransferProxy = Proxy(_tokenTransferProxy);
     assetCreateProxy = _assetCreateProxy;
   }
-  
+
   /**
    * @dev Performs the atomic swap that deploys a new Xcert smart contract and at the same time
    * transfers tokens.
