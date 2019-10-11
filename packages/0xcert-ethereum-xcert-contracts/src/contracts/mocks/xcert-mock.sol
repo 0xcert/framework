@@ -1,4 +1,5 @@
 pragma solidity 0.5.11;
+pragma experimental ABIEncoderV2;
 
 import "../xcert.sol";
 
@@ -37,7 +38,7 @@ contract XcertMock is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender] = 2047; // Assigns all available abilities to creator. 
+    addressToAbility[msg.sender] = 2047; // Assigns all available abilities to creator.
   }
-  
+
 }

@@ -1,4 +1,5 @@
 pragma solidity 0.5.11;
+pragma experimental ABIEncoderV2;
 
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
@@ -50,6 +51,10 @@ contract XcertToken is
   string constant TRANSFERS_DISABLED = "007002";
   string constant NOT_VALID_XCERT = "007003";
   string constant NOT_OWNER_OR_OPERATOR = "007004";
+  string constant INVALID_SIGNATURE = "007005";
+  string constant INVALID_SIGNATURE_KIND = "007006";
+  string constant CLAIM_PERFORMED = "007007";
+  string constant CLAIM_EXPIRED = "007008";
 
   /**
    * @dev This emits when ability of beeing able to transfer Xcerts changes (paused/unpaused).
@@ -65,6 +70,46 @@ contract XcertToken is
     uint256 indexed _tokenId,
     bytes32 _imprint
   );
+
+  /**
+   * @dev Enum of available signature kinds.
+   * @param eth_sign Signature using eth sign.
+   * @param trezor Signature from Trezor hardware wallet.
+   * It differs from web3.eth_sign in the encoding of message length
+   * (Bitcoin varint encoding vs ascii-decimal, the latter is not
+   * self-terminating which leads to ambiguities).
+   * See also:
+   * https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer
+   * https://github.com/trezor/trezor-mcu/blob/master/firmware/ethereum.c#L602
+   * https://github.com/trezor/trezor-mcu/blob/master/firmware/crypto.c#L36a
+   * @param eip721 Signature using eip721.
+   */
+  enum SignatureKind
+  {
+    eth_sign,
+    trezor,
+    no_prefix
+  }
+
+  /**
+   * @dev Structure representing the signature parts.
+   * @param r ECDSA signature parameter r.
+   * @param s ECDSA signature parameter s.
+   * @param v ECDSA signature parameter v.
+   * @param kind Type of signature.
+   */
+  struct SignatureData
+  {
+    bytes32 r;
+    bytes32 s;
+    uint8 v;
+    SignatureKind kind;
+  }
+
+  /**
+   * @dev Mapping of all performed claims.
+   */
+  mapping(bytes32 => bool) public claimPerformed;
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -200,6 +245,134 @@ contract XcertToken is
   }
 
   /**
+   * @dev Enables or disables approval for a third party ("operator") to manage all of
+   * `msg.sender`'s assets. It also emits the ApprovalForAll event.
+   * @notice This works even if sender doesn't own any tokens at the time.
+   * @param _owner Address to the owner who is approving.
+   * @param _operator Address to add to the set of authorized operators.
+   * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param _expiration Timestamp of when the claim expires.
+   * @param _signature Data from the signature.
+   */
+  function setApprovalForAllWithSignature(
+    address _owner,
+    address _operator,
+    bool _approved,
+    uint256 _seed,
+    uint256 _expiration,
+    SignatureData calldata _signature
+  )
+    external
+  {
+    bytes32 claim = generateClaim(
+      _owner,
+      _operator,
+      _approved,
+      _seed,
+      _expiration
+    );
+    require(
+      isValidSignature(
+        _owner,
+        claim,
+        _signature
+      ),
+      INVALID_SIGNATURE
+    );
+    require(!claimPerformed[claim], CLAIM_PERFORMED);
+    require(_expiration >= now, CLAIM_EXPIRED);
+    claimPerformed[claim] = true;
+    ownerToOperators[_owner][_operator] = _approved;
+    emit ApprovalForAll(_owner, _operator, _approved);
+  }
+
+  /**
+   * Generates hash of the set approval for.
+   * @param _owner Address to the owner who is approving.
+   * @param _operator Address to add to the set of authorized operators.
+   * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param _expiration Timestamp of when the claim expires.
+  */
+  function generateClaim(
+    address _owner,
+    address _operator,
+    bool _approved,
+    uint256 _seed,
+    uint256 _expiration
+  )
+    public
+    view
+    returns(bytes32)
+  {
+    return keccak256(
+      abi.encodePacked(
+        address(this),
+        _owner,
+        _operator,
+        _approved,
+        _seed,
+        _expiration
+      )
+    );
+  }
+
+  /**
+   * @dev Verifies if claim signature is valid.
+   * @param _signer address of signer.
+   * @param _claim Signed Keccak-256 hash.
+   * @param _signature Signature data.
+   */
+  function isValidSignature(
+    address _signer,
+    bytes32 _claim,
+    SignatureData memory _signature
+  )
+    public
+    pure
+    returns (bool)
+  {
+    if (_signature.kind == SignatureKind.eth_sign)
+    {
+      return _signer == ecrecover(
+        keccak256(
+          abi.encodePacked(
+            "\x19Ethereum Signed Message:\n32",
+            _claim
+          )
+        ),
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    } else if (_signature.kind == SignatureKind.trezor)
+    {
+      return _signer == ecrecover(
+        keccak256(
+          abi.encodePacked(
+            "\x19Ethereum Signed Message:\n\x20",
+            _claim
+          )
+        ),
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    } else if (_signature.kind == SignatureKind.no_prefix)
+    {
+      return _signer == ecrecover(
+        _claim,
+        _signature.v,
+        _signature.r,
+        _signature.s
+      );
+    }
+
+    revert(INVALID_SIGNATURE_KIND);
+  }
+
+  /**
    * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention.
    * @return Schema id.
    */
@@ -244,14 +417,14 @@ contract XcertToken is
      * {
      *   require(!isPaused, TRANSFERS_DISABLED);
      * }
-     * There is no need to check for pausable capability here since by using logical deduction we 
+     * There is no need to check for pausable capability here since by using logical deduction we
      * can say based on code above that:
      * !supportedInterfaces[0xbedb86fb] => !isPaused
      * isPaused => supportedInterfaces[0xbedb86fb]
-     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused. 
+     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused.
      * This saves 200 gas.
      */
-    require(!isPaused, TRANSFERS_DISABLED); 
+    require(!isPaused, TRANSFERS_DISABLED);
     super._transferFrom(_from, _to, _tokenId);
   }
 }
