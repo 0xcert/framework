@@ -1,7 +1,7 @@
 ---
 issue: 87
 title: Asset evidence schema
-id: 0xe1487a00453150d3acb4ac87e379ecc05e1be9a07ed192d3b34a4901c7623681
+id: ba47537e90fbfd7e33779556471e9122f3abc33016f96c2234ec29fb57315487
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 1.0.0
 category: conventions

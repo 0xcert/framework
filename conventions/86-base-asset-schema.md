@@ -1,7 +1,7 @@
 ---
 issue: 86
 title: Base asset schema
-id: 0x9a7531dd7ac3ed4e3d2fa61d20a825cfd4be7f3e6bc540c82d9dc94b526c5123
+id: 3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71
 author: Kristijan Sedlak <kristijan@0xcert.org>, William Entriken <github.com@phor.net>
 version: 1.0.0
 category: conventions
