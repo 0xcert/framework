@@ -96,7 +96,7 @@ export class Gateway implements GatewayBase {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
       || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
     ) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       order = normalizeActionsOrderIds(order, this._provider);
       if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
         return actionsOrderClaimPersonalSign(this, order);
@@ -144,7 +144,7 @@ export class Gateway implements GatewayBase {
   public async perform(order: ValueLedgerDeployOrder, claim: string): Promise<Mutation>;
   public async perform(order: any, claim: any): Promise<Mutation> {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       if (order.signers.length !== claim.length + 1) {
         throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.');
       }
@@ -157,7 +157,7 @@ export class Gateway implements GatewayBase {
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim as string[]);
     } else if (order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       if (order.signers.length !== claim.length) {
         throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.');
       }
@@ -188,7 +188,7 @@ export class Gateway implements GatewayBase {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
       || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
     ) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderCancel(this, order);
     } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
@@ -225,7 +225,7 @@ export class Gateway implements GatewayBase {
       || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
       && signer !== 'undefined'
     ) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderisValidSignature(this, order, claim, signer);
     } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
@@ -253,7 +253,7 @@ export class Gateway implements GatewayBase {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
       || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
     ) {
-      order = this.prepareDynamicOrder(order);
+      order = this.createDynamicOrder(order);
       order = normalizeActionsOrderIds(order, this._provider);
       return getActionsOrderDataClaim(this, order);
     } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
@@ -378,9 +378,9 @@ export class Gateway implements GatewayBase {
   }
 
   /**
-   * For dynamic action orders the last signer must be specified as zero address.
+   * For dynamic actions orders the last signer must be specified as zero address.
    */
-  protected prepareDynamicOrder(order: DynamicActionsOrder | SignedDynamicActionsOrder) {
+  protected createDynamicOrder(order: DynamicActionsOrder | SignedDynamicActionsOrder) {
     order = JSON.parse(JSON.stringify(order));
     order.signers.push(zeroAddress);
     return order;

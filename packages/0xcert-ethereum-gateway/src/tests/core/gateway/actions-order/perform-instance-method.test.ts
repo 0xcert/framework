@@ -362,7 +362,7 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.REVOKE_ASSET).call());
 });
 
-spec.test('handles incorrect dynamic action order', async (ctx) => {
+spec.test('handles incorrect dynamic actions order', async (ctx) => {
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbase = ctx.get('coinbase');
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;

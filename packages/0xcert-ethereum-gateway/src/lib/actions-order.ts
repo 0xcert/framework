@@ -30,7 +30,7 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
     hexToBytes([
       '0x',
       gateway.config.actionsOrderId.substr(2),
-      addressArrayParse(order.signers),
+      parseAddresses(order.signers),
       temp.substr(2),
       leftPad(toInteger(order.seed), 64, '0', false),
       leftPad(toSeconds(order.expiration), 64, '0', false),
@@ -38,7 +38,11 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
   );
 }
 
-export function addressArrayParse(addresses: string[]) {
+/**
+ * Encodes an array of addresses.
+ * @param addresses Array of addresses.
+ */
+export function parseAddresses(addresses: string[]) {
   let encoded = '';
   addresses.forEach((signer) => {
     encoded += leftPad(signer.substr(2), 64, '0', false);
@@ -46,6 +50,11 @@ export function addressArrayParse(addresses: string[]) {
   return encoded;
 }
 
+/**
+ * Encodes action parameters dependion on the action.
+ * @param action ActionsOrderAction instance.
+ * @param signers Array of signers.
+ */
 export function getActionParams(action: ActionsOrderAction, signers: string[]) {
   let params = '';
   const signerIndex = signers.indexOf(action['senderId']);

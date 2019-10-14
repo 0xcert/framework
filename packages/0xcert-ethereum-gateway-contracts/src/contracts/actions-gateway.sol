@@ -40,7 +40,7 @@ contract ActionsGateway is
   string constant INVALID_SIGNATURE = "015006";
   string constant ORDER_CANCELED = "015007";
   string constant ORDER_ALREADY_PERFORMED = "015008";
-  string constant MAKER_NOT_EQUAL_TO_SENDER = "015009";
+  string constant SIGNERS_DOES_NOT_INCLUDE_SENDER = "015009";
   string constant SIGNER_NOT_AUTHORIZED = "015010";
 
   /**
@@ -91,7 +91,7 @@ contract ActionsGateway is
    * set it to zero address (0x000...0) since it costs less.
    * @param proxyId Id representing approved proxy address.
    * @param contractAddress Address of the contract we are operating upon.
-   * @param params Array of params that differ depending on action.
+   * @param params Opaque parameter encoding which is interpreted differently for each ActionKind.
    */
   struct ActionData
   {
@@ -117,8 +117,12 @@ contract ActionsGateway is
 
   /**
    * @dev Structure representing the data needed to do the order.
-   * @param signers Addresses of everyone that need to sign this order for it to be valid.
-   * @param actions Data of all the actions that should accure it this order.
+   * @param signers Addresses of everyone that need to sign this order for it to be valid, with the
+   * last address possibly being the zero address which indicates a dynamic order in which zero
+   * addresses get replaced by the signer of the last signature if there are the same amount of
+   * signatures and signers or with msg.sender in case the amount of signatures is one less then
+   * signers specified. Must have at least one signer.
+   * @param actions Data of all the actions that should occur in this order.
    * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinet.
    */
@@ -131,7 +135,7 @@ contract ActionsGateway is
   }
 
   /**
-   * @dev Valid proxy contracts.
+   * @dev Valid proxy contracts, or zero, for removed proxies.
    */
   ProxyData[] public proxies;
 
@@ -214,7 +218,10 @@ contract ActionsGateway is
   {
     require(_data.expiration >= now, CLAIM_EXPIRED);
     bytes32 claim = getOrderDataClaim(_data);
-    // Last signer index, always one less then the amount of signers.
+    // Signers lenght represents the amount of signatures we have to check. Either we check all or
+    // skip the last one as it represents the msg.sender. For optimization reason the same variable
+    // is also used as a representive of the index of the last signer and for checking the amount of
+    // signatures.
     uint256 signersLength = _data.signers.length - 1;
     // Address with which we are replacing zero address in case of any taker/signer.
     address replaceAddress = address(0);
@@ -222,8 +229,8 @@ contract ActionsGateway is
     // This means we replace zero address with the last signer or the order executor.
     if (_data.signers[signersLength] == address(0))
     {
-      // If last signature is missing then the address we are replacing is the sender.
-      // Otherwise it is the last signature.
+      // If the last signature is missing then the address we are replacing with is the msg.sender
+      // else the address associated with the last signature is used.
       if (signersLength == _signatures.length) {
         replaceAddress = msg.sender;
       } else {
@@ -235,7 +242,7 @@ contract ActionsGateway is
     } else if (signersLength == _signatures.length) {
       require(_data.signers[signersLength] == msg.sender, SENDER_NOT_A_SIGNER);
       // If non of the above is true then we need to check all the signatures.
-    } else {
+    } else { // (_data.signers[signersLength] != address(0) && (signersLength != _signatures.length)
       signersLength += 1;
     }
 
@@ -282,7 +289,7 @@ contract ActionsGateway is
         break;
       }
     }
-    require(present, MAKER_NOT_EQUAL_TO_SENDER);
+    require(present, SIGNERS_DOES_NOT_INCLUDE_SENDER);
 
     bytes32 claim = getOrderDataClaim(_data);
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);

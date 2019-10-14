@@ -8,7 +8,7 @@ import { getSignature } from '../../helpers/signature';
  * Test definition.
  *
  * ERC20: ZXC
- * ERC721: Cat
+ * ERC-721: Cat
  */
 
 /**

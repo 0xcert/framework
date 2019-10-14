@@ -8,7 +8,7 @@ import { getSignature } from '../../helpers/signature';
 
 /**
  * Test definition.
- * ERC721: Cat
+ * ERC-721: Cat
  */
 
 interface Data {

@@ -9,7 +9,7 @@ import { getSignature } from '../../helpers/signature';
 /**
  * Test definition.
  * ERC20: ZXC, BNB
- * ERC721: Cat, Dog, Fox
+ * ERC-721: Cat, Dog, Fox
  */
 
 interface Data {

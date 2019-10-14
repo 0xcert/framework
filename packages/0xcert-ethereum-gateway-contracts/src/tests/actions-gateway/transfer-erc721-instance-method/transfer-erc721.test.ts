@@ -7,7 +7,7 @@ import { getSignature } from '../../helpers/signature';
 /**
  * Test definition.
  *
- * ERC721: Cat, Dog, Fox, Bee
+ * ERC-721: Cat, Dog, Fox, Bee
  */
 
 /**
