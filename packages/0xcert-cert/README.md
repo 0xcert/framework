@@ -9,6 +9,9 @@ const data = { ... };
 // Define certificate with JSON schema definition.
 const cert = new Cert({ schema: { ... } });
 
+// Calculates schema ID
+const id = await cert.identify();
+
 // Notarize data object (returns all recipes for all data keys).
 const recipes = await cert.notarize(data);
 

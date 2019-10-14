@@ -147,9 +147,34 @@ const paths = [
 const metadata = await cert.expose(data, paths);
 ```
 
+### identify(normalize)
+
+An `asynchronous` class instance `function` which calculates schema ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| normalize | A `boolean` which can disable object struction normalization (`true` by default).
+
+**Result:**
+
+A `string` representing schema hash.
+
+**Example:**
+
+```ts
+// calculate schema ID
+const schemaId = await cert.identify();
+```
+
 ### imprint(data)
 
 An `asynchronous` class instance `function` which generates asset imprint for the provided `data`.
+
+::: warning
+Please note that amn imprint can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
+:::
 
 **Arguments:**
 
@@ -288,11 +313,15 @@ const schema = {
 
 The schema ID is a hash which uniquely represents the data structure.
 
-```ts
-import { sha } from '@0xcert/utils';
+::: warning
+Please note that a schema ID can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
+:::
 
-const hash = await sha(256, JSON.stringify(schema));
-const schemaId = `0x${hash}`;
+```ts
+import { Cert } from '@0xcert/cert';
+
+const cert = new Cert({ schema });
+const schemaId = await cert.identify();
 ```
 
 **Public Metadata:**
@@ -315,7 +344,7 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 ```json
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://conventions.0xcert.org/87-asset-evidence-schema.json",
     "data": [
         {
             "path": [],
@@ -354,8 +383,8 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 | Issue | Id | Description
 |-|-|-
-| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 0x3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71 | Basic asset data schema.
-| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | 0x8fb2992291698b165e7f6b7e43627243767984e3e6ff1b8e7903f59723c94b24 | Asset evidence data schema.
-| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | 0xb17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169 | Schema describing digital collectible item.
+| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71 | Basic asset data schema.
+| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | ba47537e90fbfd7e33779556471e9122f3abc33016f96c2234ec29fb57315487 | Asset evidence data schema.
+| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | b17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169 | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).

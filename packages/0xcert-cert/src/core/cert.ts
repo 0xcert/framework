@@ -42,6 +42,16 @@ export class Cert {
   }
 
   /**
+   * Calculates schema ID.
+   * @param normalize Sort objct keys alphabetically (backward compatibility).
+   */
+  public async identify(normalize?: boolean): Promise<string> {
+    return sha(256, JSON.stringify(
+      normalize !== false ? this.sortSchema(this.schema) : this.schema,
+    ));
+  }
+
+  /**
    * Returns a complete list of recipes for the entiry data object.
    * @param data Complete data object.
    */
@@ -369,6 +379,23 @@ export class Cert {
     });
 
     return groups;
+  }
+
+  /**
+   * Returns sorted schema object.
+   * @param obj Schema object.
+   */
+  protected sortSchema(obj) {
+    return Object.keys(obj).sort().reduce((acc, key) => {
+      if (Array.isArray(obj[key])) { // sport arrays
+        acc[key] = obj[key].sort();
+      } else if (typeof obj[key] === 'object') { // sort object keys
+        acc[key] = this.sortSchema(obj[key]);
+      } else { // attach value
+        acc[key] = obj[key];
+      }
+      return acc;
+    }, {});
   }
 
 }
