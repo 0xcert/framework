@@ -214,7 +214,7 @@ contract ActionsGateway is
   )
     public
   {
-    require(_data.expiration >= now, CLAIM_EXPIRED);
+    require(_data.expiration > now, CLAIM_EXPIRED);
     bytes32 claim = getOrderDataClaim(_data);
     // Signers lenght represents the amount of signatures we have to check. Either we check all or
     // skip the last one as it represents the msg.sender. For optimization reason the same variable
