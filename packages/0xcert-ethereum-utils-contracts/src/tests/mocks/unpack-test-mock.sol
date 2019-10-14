@@ -1,9 +1,8 @@
 pragma solidity 0.5.11;
 
-import "../../contracts/utils/bytes-to-types.sol";
+import "../../contracts/utils/bytes-type.sol";
 
-contract UnpackTestMock is
-  BytesToTypes
+contract UnpackTestMock
 {
 
   // Expecting 109-byte input
@@ -15,17 +14,17 @@ contract UnpackTestMock is
     returns (address p1, bool p2, bytes32 p3, uint8 p4, uint16 p5, uint256 p6)
   {
     uint8 offset = 88;
-    p1 = bytesToAddress(offset, _input);
+    p1 = BytesType.toAddress(offset, _input);
     offset -= 20;
-    p2 = bytesToBool(offset, _input);
+    p2 = BytesType.toBool(offset, _input);
     offset -= 1;
-    p3 = bytesToBytes32(offset, _input);
+    p3 = BytesType.toBytes32(offset, _input);
     offset -= 32;
-    p4 = bytesToUint8(offset, _input);
+    p4 = BytesType.toUint8(offset, _input);
     offset -= 1;
-    p5 = bytesToUint16(offset, _input);
+    p5 = BytesType.toUint16(offset, _input);
     offset -= 2;
-    p6 = bytesToUint256(offset, _input);
+    p6 = BytesType.toUint256(offset, _input);
   }
 
 }

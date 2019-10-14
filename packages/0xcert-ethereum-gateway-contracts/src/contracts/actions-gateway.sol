@@ -5,15 +5,14 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-to-types.sol";
+import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-type.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
  * tokens powered by atomic swaps.
  */
 contract ActionsGateway is
-  Abilitable,
-  BytesToTypes
+  Abilitable
 {
 
   /**
@@ -421,13 +420,13 @@ contract ActionsGateway is
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[bytesToUint8(85, _order.actions[i].params)],
+            _order.signers[BytesType.toUint8(85, _order.actions[i].params)],
             ABILITY_ALLOW_CREATE_ASSET
           ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        address to = bytesToAddress(84, _order.actions[i].params);
+        address to = BytesType.toAddress(84, _order.actions[i].params);
         if (to == address(0)) {
           to = _replaceAddress;
         }
@@ -435,14 +434,14 @@ contract ActionsGateway is
         XcertCreateProxy(proxies[_order.actions[i].proxyId].proxyAddress).create(
           _order.actions[i].contractAddress,
           to,
-          bytesToUint256(64, _order.actions[i].params),
-          bytesToBytes32(32, _order.actions[i].params)
+          BytesType.toUint256(64, _order.actions[i].params),
+          BytesType.toBytes32(32, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.transfer)
       {
-        address from = _order.signers[bytesToUint8(53, _order.actions[i].params)];
-        address to = bytesToAddress(52, _order.actions[i].params);
+        address from = _order.signers[BytesType.toUint8(53, _order.actions[i].params)];
+        address to = BytesType.toAddress(52, _order.actions[i].params);
         if (to == address(0)) {
           to = _replaceAddress;
         }
@@ -450,14 +449,14 @@ contract ActionsGateway is
           _order.actions[i].contractAddress,
           from,
           to,
-          bytesToUint256(32, _order.actions[i].params)
+          BytesType.toUint256(32, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.update)
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[bytesToUint8(65, _order.actions[i].params)],
+            _order.signers[BytesType.toUint8(65, _order.actions[i].params)],
             ABILITY_ALLOW_UPDATE_ASSET
           ),
           SIGNER_NOT_AUTHORIZED
@@ -465,21 +464,21 @@ contract ActionsGateway is
 
         XcertUpdateProxy(proxies[_order.actions[i].proxyId].proxyAddress).update(
           _order.actions[i].contractAddress,
-          bytesToUint256(64, _order.actions[i].params),
-          bytesToBytes32(32, _order.actions[i].params)
+          BytesType.toUint256(64, _order.actions[i].params),
+          BytesType.toBytes32(32, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.manage_abilities)
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[bytesToUint8(53, _order.actions[i].params)],
+            _order.signers[BytesType.toUint8(53, _order.actions[i].params)],
             ABILITY_ALLOW_MANAGE_ABILITITES
           ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        address to = bytesToAddress(52, _order.actions[i].params);
+        address to = BytesType.toAddress(52, _order.actions[i].params);
         if (to == address(0)) {
           to = _replaceAddress;
         }
@@ -487,7 +486,7 @@ contract ActionsGateway is
         AbilitableManageProxy(proxies[_order.actions[i].proxyId].proxyAddress).set(
           _order.actions[i].contractAddress,
           to,
-          bytesToUint256(32, _order.actions[i].params)
+          BytesType.toUint256(32, _order.actions[i].params)
         );
       }
     }

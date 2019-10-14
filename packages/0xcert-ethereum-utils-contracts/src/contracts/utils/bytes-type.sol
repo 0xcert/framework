@@ -5,7 +5,7 @@ pragma solidity 0.5.11;
  * @dev The BytesToTypes contract converts the memory byte arrays to the standard solidity types.
  * @notice Based on: https://github.com/pouladzade/Seriality/blob/master/src/BytesToTypes.sol
  */
-contract BytesToTypes
+library BytesType
 {
   /**
    * @dev Converts bytes to address type.
@@ -13,7 +13,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @return _output Output the address extracted from memory
    */
-  function bytesToAddress(
+  function toAddress(
     uint _offst,
     bytes memory _input
   )
@@ -30,7 +30,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @param _output The bool extracted from memory
    */
-  function bytesToBool(
+  function toBool(
     uint _offst,
     bytes memory _input
   )
@@ -53,7 +53,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @return _output Bytes32 output.
    */
-  function bytesToBytes32(
+  function toBytes32(
     uint _offst,
     bytes memory _input
   )
@@ -70,7 +70,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @return _output Uint8 extracted from memory
    */
-  function bytesToUint8(
+  function toUint8(
     uint _offst,
     bytes memory _input
   )
@@ -87,7 +87,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @return _output Uint16 extracted from memory.
    */
-  function bytesToUint16(
+  function toUint16(
     uint _offst,
     bytes memory _input
   )
@@ -104,7 +104,7 @@ contract BytesToTypes
    * @param _input Bytes to convert.
    * @return _output Uint256 extracted from memory.
    */
-  function bytesToUint256(
+  function toUint256(
     uint _offst,
     bytes memory _input
   )
