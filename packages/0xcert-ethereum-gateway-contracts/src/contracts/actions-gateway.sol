@@ -153,16 +153,14 @@ contract ActionsGateway is
    * @dev This event emits when tokens change ownership.
    */
   event Perform(
-    address[] _signers,
-    bytes32 _claim
+    bytes32 indexed _claim
   );
 
   /**
    * @dev This event emits when transfer order is cancelled.
    */
   event Cancel(
-    address[] _signers,
-    bytes32 _claim
+    bytes32 indexed _claim
   );
 
   /**
@@ -264,10 +262,7 @@ contract ActionsGateway is
     orderPerformed[claim] = true;
     _doActionsReplaceZeroAddress(_data, replaceAddress);
 
-    emit Perform(
-      _data.signers,
-      claim
-    );
+    emit Perform(claim);
   }
 
   /**
@@ -295,10 +290,7 @@ contract ActionsGateway is
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
     orderCancelled[claim] = true;
-    emit Cancel(
-      _data.signers,
-      claim
-    );
+    emit Cancel(claim);
   }
 
   /**

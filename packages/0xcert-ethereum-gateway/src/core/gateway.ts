@@ -297,15 +297,10 @@ export class Gateway implements GatewayBase {
       },
       {
         name: 'Perform', // actions order
-        topic: '0xf71443fd7a2316329f89c57f531a934709f65686f34c8fb083bd9bada8544ef1',
+        topic: '0xe8d9861dbc9c663ed3accd261bbe2fe01e0d3d9e5f51fa38523b265c7757a93a',
         types: [
           {
-            kind: MutationEventTypeKind.NORMAL,
-            name: 'signers',
-            type: 'address[]',
-          },
-          {
-            kind: MutationEventTypeKind.NORMAL,
+            kind: MutationEventTypeKind.INDEXED,
             name: 'claim',
             type: 'bytes32',
           },
@@ -313,15 +308,10 @@ export class Gateway implements GatewayBase {
       },
       {
         name: 'Cancel', // actions order
-        topic: '0x136e09c08e1531988f0f2122b0ba4db5c0b15ca3a166984e3dc4a050fdbba565',
+        topic: '0xa4be90ab47bcea0c591eaa7dd28b8ba0329e7ebddac48c5f2ca9fed68d08cf08',
         types: [
           {
-            kind: MutationEventTypeKind.NORMAL,
-            name: 'signers',
-            type: 'address[]',
-          },
-          {
-            kind: MutationEventTypeKind.NORMAL,
+            kind: MutationEventTypeKind.INDEXED,
             name: 'claim',
             type: 'bytes32',
           },

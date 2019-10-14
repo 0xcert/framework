@@ -194,7 +194,7 @@ spec.beforeEach(async (ctx) => {
   await createProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-spec.only('Create cat #1 with signature', async (ctx) => {
+spec.test('Create cat #1 with signature', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
   const createProxy = ctx.get('createProxy');
   const jane = ctx.get('jane');
