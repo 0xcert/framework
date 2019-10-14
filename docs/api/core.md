@@ -42,7 +42,7 @@ An `asynchronous` class instance `function` which returns an asset imprint when 
 | Argument | Description
 |-|-
 | data | [required] An `object` with asset data which follows class schema definition.
-| proofs | [required] An `array` of proof `objects`.
+| evidence | [required] An `object` which describes and prooves data object.
 
 **Result:**
 
@@ -52,43 +52,25 @@ A `string` representing asset imprint or `null` when data don't match.
 
 ```ts
 // arbitrary data
-const proofs = [
-  {
-    path: [],
-    nodes: [
-      {
-        index: 0,
-        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
-      },
-      {
-        index: 1,
-        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
-      },
-      {
-        index: 2,
-        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
-      },
-    ],
-    values: [
-      {
-        index: 0,
-        value: 'John',
-        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
-      },
-    ],
-  },
-];
+const evidence = {
+  $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+  data: [...],
+};
 const data = {
   name: 'John',
 };
 
 // calculate imprint
-const imprint = await cert.calculate(data, proofs);
+const imprint = await cert.calculate(data, evidence);
 ```
 
 ### disclose(data, paths)
 
 An `asynchronous` class instance `function` which generates a minimal list of proofs needed to verify the key `paths` of the provided `data` object. Use this function to prove the validity of only selected data keys to a third-party.
+
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
 
 **Arguments:**
 
@@ -119,6 +101,10 @@ const proofs = await cert.disclose(data, paths);
 ### expose(data, paths)
 
 A `synchronous` class instance `function` which creates a new object from `data` with only keys matching the provided `paths`. Use this function when creating public metadata JSON.
+
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
 
 **Arguments:**
 
@@ -200,7 +186,11 @@ const imprint = await cert.imprint(data);
 
 ### notarize(data)
 
-An `asynchronous` class instance `function` which generates a full list of proofs needed to verify any key of the provided `data` object.
+An `asynchronous` class instance `function` which generates a full object data certification report that is needed to verify any key of the provided `data` object.
+
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
 
 **Arguments:**
 
@@ -221,7 +211,7 @@ const data = {
 };
 
 // generate proofs
-const proofs = await cert.notarize(data);
+const evidence = await cert.notarize(data);
 ```
 
 ## Asset Proof
@@ -232,44 +222,48 @@ Asset Proof represents a unit of the evidence object and describes a single leve
 
 | Key | Description
 |-|-
-| nodes | An `array` of binary tree hashes.
-| nodes.$.index | An `integer` number representing the hash index in a binary tree.
-| nodes.$.hash | A `string` representing a hash node in a binary tree.
-| path | An `array` of `strings` and `numbers` representing the JSON object key path.
-| values | An `array` of binary tree values.
-| values.$.index | An `integer` number representing the value index in a binary tree.
-| values.$.value | A `string` representing a value in a binary tree.
-| values.$.nonce | A `string` representing a secret for calculating merkle leaf.
+| $schema | URL to JSON schema definition.
+| data.$.nodes | An `array` of binary tree hashes.
+| data.$.nodes.$.index | An `integer` number representing the hash index in a binary tree.
+| data.$.nodes.$.hash | A `string` representing a hash node in a binary tree.
+| data.$.path | An `array` of `strings` and `numbers` representing the JSON object key path.
+| data.$.values | An `array` of binary tree values.
+| data.$.values.$.index | An `integer` number representing the value index in a binary tree.
+| data.$.values.$.value | A `string` representing a value in a binary tree.
+| data.$.values.$.nonce | A `string` representing a secret for calculating merkle leaf.
 
 **Example:**
 
 ```ts
-const proofs = [
-  {
-    path: [],
-    nodes: [
-      {
-        index: 0,
-        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
-      },
-      {
-        index: 1,
-        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
-      },
-      {
-        index: 2,
-        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
-      },
-    ],
-    values: [
-      {
-        index: 0,
-        value: 'John',
-        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
-      },
-    ],
-  },
-];
+const evidence = {
+  $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+  data: [
+    {
+      path: [],
+      nodes: [
+        {
+          index: 0,
+          hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
+        },
+        {
+          index: 1,
+          hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
+        },
+        {
+          index: 2,
+          hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
+        },
+      ],
+      values: [
+        {
+          index: 0,
+          value: 'John',
+          nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
+        },
+      ],
+    },
+  ],
+};
 ```
 
 ## Asset Schema
