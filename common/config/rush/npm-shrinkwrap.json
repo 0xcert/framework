@@ -1445,7 +1445,7 @@
     },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
-      "integrity": "sha512-hmz+0xAArdHEOjBnLrT8yZgokAc2GYNI/DKi8DUkZesfrzKXrbeVb9NVwaP/czNv6FwxeySHFuUPZPp7aYU9Xw==",
+      "integrity": "sha512-Tv4pwPnCzDe3fSS6VQee6Mh6qjJop4HyjwwvhSY1zZsdVgHDmdmPCf5LFD7hATOODuGOl+SqxinDodjue6RUxg==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",

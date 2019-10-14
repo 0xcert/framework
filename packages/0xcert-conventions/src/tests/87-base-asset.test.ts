@@ -1,4 +1,3 @@
-import { sha } from '@0xcert/utils';
 import { Spec } from '@hayspec/spec';
 import * as Ajv from 'ajv';
 import { Schema87, schema87 } from '../assets/87-asset-evidence';
@@ -57,10 +56,6 @@ spec.test('fails for valid data', (ctx) => {
     ],
   };
   ctx.false(ctx.get('validate')(schema));
-});
-
-spec.test('matches unique schema ID', async (ctx) => {
-  ctx.is(await sha(256, JSON.stringify(schema87)), '8fb2992291698b165e7f6b7e43627243767984e3e6ff1b8e7903f59723c94b24');
 });
 
 export default spec;
