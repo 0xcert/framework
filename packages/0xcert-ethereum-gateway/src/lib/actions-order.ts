@@ -13,12 +13,12 @@ import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
  * @param order ActionsOrder instance.
  */
 export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
-  let temp = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  let actionsHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
   for (const action of order.actions) {
-    temp = keccak256(
+    actionsHash = keccak256(
       hexToBytes([
         '0x',
-        temp.substr(2),
+        actionsHash.substr(2),
         `0000000${getActionProxy(gateway, action)}`,
         action.ledgerId.substr(2),
         getActionParams(action, order.signers).substr(2),
@@ -31,7 +31,7 @@ export function createOrderHash(gateway: Gateway, order: ActionsOrder) {
       '0x',
       gateway.config.actionsOrderId.substr(2),
       parseAddresses(order.signers),
-      temp.substr(2),
+      actionsHash.substr(2),
       leftPad(toInteger(order.seed), 64, '0', false),
       leftPad(toSeconds(order.expiration), 64, '0', false),
     ].join('')),

@@ -305,13 +305,13 @@ contract ActionsGateway is
     view
     returns (bytes32)
   {
-    bytes32 temp = 0x0;
+    bytes32 actionsHash = 0x0;
 
     for(uint256 i = 0; i < _orderData.actions.length; i++)
     {
-      temp = keccak256(
+      actionsHash = keccak256(
         abi.encodePacked(
-          temp,
+          actionsHash,
           _orderData.actions[i].proxyId,
           _orderData.actions[i].contractAddress,
           _orderData.actions[i].params
@@ -323,7 +323,7 @@ contract ActionsGateway is
       abi.encodePacked(
         address(this),
         _orderData.signers,
-        temp,
+        actionsHash,
         _orderData.seed,
         _orderData.expiration
       )
