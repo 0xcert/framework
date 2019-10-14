@@ -21,7 +21,7 @@ contract BytesToTypes
     pure
   returns (address _output)
   {
-    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
   }
 
   /**
@@ -39,7 +39,7 @@ contract BytesToTypes
     returns (bool _output)
   {
     uint8 x;
-    assembly { x := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { x := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
     if (x == 0) {
       _output = false;
     } else {
@@ -61,7 +61,7 @@ contract BytesToTypes
     pure
     returns (bytes32 _output)
   {
-    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
   }
 
   /**
@@ -78,7 +78,7 @@ contract BytesToTypes
     pure
     returns (uint8 _output)
   {
-    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
   }
 
   /**
@@ -95,7 +95,7 @@ contract BytesToTypes
     pure
     returns (uint16 _output)
   {
-    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
   }
 
   /**
@@ -112,6 +112,6 @@ contract BytesToTypes
     pure
     returns (uint256 _output)
   {
-    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line
+    assembly { _output := mload(add(_input, _offst)) } // solhint-disable-line no-inline-assembly
   }
 }
