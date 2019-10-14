@@ -1,7 +1,7 @@
 /**
  * ERC-721 unique asset data object interface.
  */
-export interface ObjectErc721 {
+export interface SchemaErc721 {
   /** A detailed description of an asset */
   description?: string;
 

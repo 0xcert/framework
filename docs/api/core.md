@@ -173,7 +173,7 @@ const schemaId = await cert.identify();
 An `asynchronous` class instance `function` which generates asset imprint for the provided `data`.
 
 ::: warning
-Please note that amn imprint can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
+Please note that an imprint can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
 :::
 
 **Arguments:**

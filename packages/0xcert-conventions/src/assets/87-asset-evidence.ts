@@ -1,7 +1,7 @@
 /**
  * Asset evidence object interface.
  */
-export interface Object87 {
+export interface Schema87 {
   $schema: string;
   data: {
     nodes: {

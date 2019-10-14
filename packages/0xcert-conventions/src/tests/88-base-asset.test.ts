@@ -1,7 +1,7 @@
 import { sha } from '@0xcert/utils';
 import { Spec } from '@hayspec/spec';
 import * as Ajv from 'ajv';
-import { Object88, schema88 } from '../assets/88-crypto-collectible';
+import { Schema88, schema88 } from '../assets/88-crypto-collectible';
 
 const spec = new Spec<{
   validate: any;
@@ -12,7 +12,7 @@ spec.before((stage) => {
 });
 
 spec.test('passes for valid data', (ctx) => {
-  const data: Object88 = {
+  const data: Schema88 = {
     '$evidence': 'https://troopersgame.com/dog/evidence',
     '$schema': 'http://json-schema.org/draft-07/schema',
     'description': 'A weapon for the Troopers game which can severely injure the enemy.',

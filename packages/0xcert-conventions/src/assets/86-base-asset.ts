@@ -1,9 +1,9 @@
-import { ObjectErc721, schemaErc721 } from './erc721';
+import { SchemaErc721, schemaErc721 } from './erc721';
 
 /**
  * Base asset data object interface.
  */
-export interface Object86 extends ObjectErc721 {
+export interface Schema86 extends SchemaErc721 {
   $evidence?: string;
   $schema: string;
   description?: string;
