@@ -43,6 +43,23 @@ contract ActionsGateway is
   string constant SIGNER_NOT_AUTHORIZED = "015010";
 
   /**
+   * @dev Constants for decoding bytes depending on ActionKind.
+   */
+  uint8 constant ACTION_CREATE_BYTES_FROM_INDEX = 85;
+  uint8 constant ACTION_CREATE_BYTES_RECEIVER = 84;
+  uint8 constant ACTION_CREATE_BYTES_ID = 64;
+  uint8 constant ACTION_CREATE_BYTES_IMPRINT = 32;
+  uint8 constant ACTION_TRANSFER_BYTES_FROM_INDEX = 53;
+  uint8 constant ACTION_TRANSFER_BYTES_RECEIVER = 52;
+  uint8 constant ACTION_TRANSFER_BYTES_ID = 32;
+  uint8 constant ACTION_UPDATE_BYTES_FROM_INDEX = 65;
+  uint8 constant ACTION_UPDATE_BYTES_ID = 64;
+  uint8 constant ACTION_UPDATE_BYTES_IMPRINT = 32;
+  uint8 constant ACTION_MANAGE_ABILITIES_BYTES_FROM_INDEX = 53;
+  uint8 constant ACTION_MANAGE_ABILITIES_BYTES_RECEIVER = 52;
+  uint8 constant ACTION_MANAGE_ABILITIES_BYTES_ABILITIES = 32;
+
+  /**
    * @dev Enum of available signature kinds.
    * @param eth_sign Signature using eth sign.
    * @param trezor Signature from Trezor hardware wallet.
@@ -420,13 +437,15 @@ contract ActionsGateway is
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[BytesType.toUint8(85, _order.actions[i].params)],
+            _order.signers[
+              BytesType.toUint8(ACTION_CREATE_BYTES_FROM_INDEX, _order.actions[i].params)
+            ],
             ABILITY_ALLOW_CREATE_ASSET
           ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        address to = BytesType.toAddress(84, _order.actions[i].params);
+        address to = BytesType.toAddress(ACTION_CREATE_BYTES_RECEIVER, _order.actions[i].params);
         if (to == address(0)) {
           to = _replaceAddress;
         }
@@ -434,29 +453,34 @@ contract ActionsGateway is
         XcertCreateProxy(proxies[_order.actions[i].proxyId].proxyAddress).create(
           _order.actions[i].contractAddress,
           to,
-          BytesType.toUint256(64, _order.actions[i].params),
-          BytesType.toBytes32(32, _order.actions[i].params)
+          BytesType.toUint256(ACTION_CREATE_BYTES_ID, _order.actions[i].params),
+          BytesType.toBytes32(ACTION_CREATE_BYTES_IMPRINT, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.transfer)
       {
-        address from = _order.signers[BytesType.toUint8(53, _order.actions[i].params)];
-        address to = BytesType.toAddress(52, _order.actions[i].params);
+        address from = _order.signers[
+          BytesType.toUint8(ACTION_TRANSFER_BYTES_FROM_INDEX, _order.actions[i].params)
+        ];
+        address to = BytesType.toAddress(ACTION_TRANSFER_BYTES_RECEIVER, _order.actions[i].params);
         if (to == address(0)) {
           to = _replaceAddress;
         }
+
         Proxy(proxies[_order.actions[i].proxyId].proxyAddress).execute(
           _order.actions[i].contractAddress,
           from,
           to,
-          BytesType.toUint256(32, _order.actions[i].params)
+          BytesType.toUint256(ACTION_TRANSFER_BYTES_ID, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.update)
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[BytesType.toUint8(65, _order.actions[i].params)],
+            _order.signers[
+              BytesType.toUint8(ACTION_UPDATE_BYTES_FROM_INDEX, _order.actions[i].params)
+            ],
             ABILITY_ALLOW_UPDATE_ASSET
           ),
           SIGNER_NOT_AUTHORIZED
@@ -464,21 +488,27 @@ contract ActionsGateway is
 
         XcertUpdateProxy(proxies[_order.actions[i].proxyId].proxyAddress).update(
           _order.actions[i].contractAddress,
-          BytesType.toUint256(64, _order.actions[i].params),
-          BytesType.toBytes32(32, _order.actions[i].params)
+          BytesType.toUint256(ACTION_UPDATE_BYTES_ID, _order.actions[i].params),
+          BytesType.toBytes32(ACTION_UPDATE_BYTES_IMPRINT, _order.actions[i].params)
         );
       }
       else if (proxies[_order.actions[i].proxyId].kind == ActionKind.manage_abilities)
       {
         require(
           Abilitable(_order.actions[i].contractAddress).isAble(
-            _order.signers[BytesType.toUint8(53, _order.actions[i].params)],
+            _order.signers[
+              BytesType.toUint8(ACTION_MANAGE_ABILITIES_BYTES_FROM_INDEX, _order.actions[i].params)
+            ],
             ABILITY_ALLOW_MANAGE_ABILITITES
           ),
           SIGNER_NOT_AUTHORIZED
         );
 
-        address to = BytesType.toAddress(52, _order.actions[i].params);
+        address to = BytesType.toAddress(
+          ACTION_MANAGE_ABILITIES_BYTES_RECEIVER,
+          _order.actions[i].params
+        );
+
         if (to == address(0)) {
           to = _replaceAddress;
         }
@@ -486,7 +516,7 @@ contract ActionsGateway is
         AbilitableManageProxy(proxies[_order.actions[i].proxyId].proxyAddress).set(
           _order.actions[i].contractAddress,
           to,
-          BytesType.toUint256(32, _order.actions[i].params)
+          BytesType.toUint256(ACTION_MANAGE_ABILITIES_BYTES_ABILITIES, _order.actions[i].params)
         );
       }
     }
