@@ -11,13 +11,12 @@ const inputTypes = ['string', 'string', 'string', 'string', 'bytes32', 'bytes4[]
  * @param param1 Data needed to deploy a new asset ledger.
  */
 export default async function(provider: GenericProvider, { name, symbol, uriPrefix, uriPostfix, schemaId, capabilities }: AssetLedgerDeployRecipe) {
-  schemaId = `0x${schemaId}`;
   const contract = await fetchJson(provider.assetLedgerSource);
   const source = contract.XcertMock.evm.bytecode.object;
   const codes = (capabilities || []).map((c) => getInterfaceCode(c));
   const attrs = {
     from: provider.accountId,
-    data: `0x${source}${provider.encoder.encodeParameters(inputTypes, [name, symbol, uriPrefix, uriPostfix, schemaId, codes]).substr(2)}`,
+    data: `0x${source}${provider.encoder.encodeParameters(inputTypes, [name, symbol, uriPrefix, uriPostfix, `0x${schemaId}`, codes]).substr(2)}`,
   };
   const res = await provider.post({
     method: 'eth_sendTransaction',
