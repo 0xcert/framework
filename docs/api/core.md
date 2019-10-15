@@ -42,7 +42,7 @@ An `asynchronous` class instance `function` which returns an asset imprint when 
 | Argument | Description
 |-|-
 | data | [required] An `object` with asset data which follows class schema definition.
-| proofs | [required] An `array` of proof `objects`.
+| evidence | [required] An `object` which describes and prooves data object.
 
 **Result:**
 
@@ -52,43 +52,25 @@ A `string` representing asset imprint or `null` when data don't match.
 
 ```ts
 // arbitrary data
-const proofs = [
-  {
-    path: [],
-    nodes: [
-      {
-        index: 0,
-        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
-      },
-      {
-        index: 1,
-        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
-      },
-      {
-        index: 2,
-        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
-      },
-    ],
-    values: [
-      {
-        index: 0,
-        value: 'John',
-        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
-      },
-    ],
-  },
-];
+const evidence = {
+  $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+  data: [...],
+};
 const data = {
   name: 'John',
 };
 
 // calculate imprint
-const imprint = await cert.calculate(data, proofs);
+const imprint = await cert.calculate(data, evidence);
 ```
 
 ### disclose(data, paths)
 
 An `asynchronous` class instance `function` which generates a minimal list of proofs needed to verify the key `paths` of the provided `data` object. Use this function to prove the validity of only selected data keys to a third-party.
+
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
 
 **Arguments:**
 
@@ -120,6 +102,10 @@ const proofs = await cert.disclose(data, paths);
 
 A `synchronous` class instance `function` which creates a new object from `data` with only keys matching the provided `paths`. Use this function when creating public metadata JSON.
 
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
+
 **Arguments:**
 
 | Argument | Description
@@ -147,9 +133,34 @@ const paths = [
 const metadata = await cert.expose(data, paths);
 ```
 
+### identify(normalize)
+
+An `asynchronous` class instance `function` which calculates schema ID.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| normalize | A `boolean` which can disable object struction normalization (`true` by default).
+
+**Result:**
+
+A `string` representing schema hash.
+
+**Example:**
+
+```ts
+// calculate schema ID
+const schemaId = await cert.identify();
+```
+
 ### imprint(data)
 
 An `asynchronous` class instance `function` which generates asset imprint for the provided `data`.
+
+::: warning
+Please note that an imprint can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
+:::
 
 **Arguments:**
 
@@ -175,7 +186,11 @@ const imprint = await cert.imprint(data);
 
 ### notarize(data)
 
-An `asynchronous` class instance `function` which generates a full list of proofs needed to verify any key of the provided `data` object.
+An `asynchronous` class instance `function` which generates a full object data certification report that is needed to verify any key of the provided `data` object.
+
+::: tip
+It's a good practice to always include `$schema` and `$evidence` properties in the data object.
+:::
 
 **Arguments:**
 
@@ -196,7 +211,7 @@ const data = {
 };
 
 // generate proofs
-const proofs = await cert.notarize(data);
+const evidence = await cert.notarize(data);
 ```
 
 ## Asset Proof
@@ -207,44 +222,48 @@ Asset Proof represents a unit of the evidence object and describes a single leve
 
 | Key | Description
 |-|-
-| nodes | An `array` of binary tree hashes.
-| nodes.$.index | An `integer` number representing the hash index in a binary tree.
-| nodes.$.hash | A `string` representing a hash node in a binary tree.
-| path | An `array` of `strings` and `numbers` representing the JSON object key path.
-| values | An `array` of binary tree values.
-| values.$.index | An `integer` number representing the value index in a binary tree.
-| values.$.value | A `string` representing a value in a binary tree.
-| values.$.nonce | A `string` representing a secret for calculating merkle leaf.
+| $schema | URL to JSON schema definition.
+| data.$.nodes | An `array` of binary tree hashes.
+| data.$.nodes.$.index | An `integer` number representing the hash index in a binary tree.
+| data.$.nodes.$.hash | A `string` representing a hash node in a binary tree.
+| data.$.path | An `array` of `strings` and `numbers` representing the JSON object key path.
+| data.$.values | An `array` of binary tree values.
+| data.$.values.$.index | An `integer` number representing the value index in a binary tree.
+| data.$.values.$.value | A `string` representing a value in a binary tree.
+| data.$.values.$.nonce | A `string` representing a secret for calculating merkle leaf.
 
 **Example:**
 
 ```ts
-const proofs = [
-  {
-    path: [],
-    nodes: [
-      {
-        index: 0,
-        hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
-      },
-      {
-        index: 1,
-        hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
-      },
-      {
-        index: 2,
-        hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
-      },
-    ],
-    values: [
-      {
-        index: 0,
-        value: 'John',
-        nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
-      },
-    ],
-  },
-];
+const evidence = {
+  $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+  data: [
+    {
+      path: [],
+      nodes: [
+        {
+          index: 0,
+          hash: '7c8238509ade64f39e13b97eeeaca13b72e833cbf10db5b05dff43a7e22abce1',
+        },
+        {
+          index: 1,
+          hash: '33c8947ba1f4a97cdb44971f3b07b5131b2c8fdd39cdb2a65926c461fa5fa68b',
+        },
+        {
+          index: 2,
+          hash: 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9',
+        },
+      ],
+      values: [
+        {
+          index: 0,
+          value: 'John',
+          nonce: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9',
+        },
+      ],
+    },
+  ],
+};
 ```
 
 ## Asset Schema
@@ -288,11 +307,15 @@ const schema = {
 
 The schema ID is a hash which uniquely represents the data structure.
 
-```ts
-import { sha } from '@0xcert/utils';
+::: warning
+Please note that a schema ID can sometimes be prepended with `0x`. You should manually remove this before passing it to the 0xcert Framework.
+:::
 
-const hash = await sha(256, JSON.stringify(schema));
-const schemaId = `0x${hash}`;
+```ts
+import { Cert } from '@0xcert/cert';
+
+const cert = new Cert({ schema });
+const schemaId = await cert.identify();
 ```
 
 **Public Metadata:**
@@ -315,7 +338,7 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 ```json
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://conventions.0xcert.org/87-asset-evidence-schema.json",
     "data": [
         {
             "path": [],
@@ -354,8 +377,8 @@ Public Evidence is a notarized metadata object which proofs data validity of the
 
 | Issue | Id | Description
 |-|-|-
-| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 0x3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71 | Basic asset data schema.
-| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | 0x8fb2992291698b165e7f6b7e43627243767984e3e6ff1b8e7903f59723c94b24 | Asset evidence data schema.
-| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | 0xb17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169 | Schema describing digital collectible item.
+| [86](https://conventions.0xcert.org/86-base-asset-schema.html) | 3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71 | Basic asset data schema.
+| [87](https://conventions.0xcert.org/87-asset-evidence-schema.html) | ba47537e90fbfd7e33779556471e9122f3abc33016f96c2234ec29fb57315487 | Asset evidence data schema.
+| [88](https://conventions.0xcert.org/88-crypto-collectible-schema.html) | b17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169 | Schema describing digital collectible item.
 
 Please propose a new convention by opening a [GitHub issue](https://github.com/0xcert/framework/issues).

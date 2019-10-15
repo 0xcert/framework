@@ -2990,7 +2990,7 @@ In a fixed order, the taker of the order (its wallet address) is known, and we w
 
 In a dynamic order, we do not care who performs the order as long as they have the assets we specified. In this case, we do not set an `order.takerId`. Instead, we need to set either the sender or the receiver or both, but we are not allowed to leave those parameters blank - if we do, any function called with this order will throw an error. A dynamic order allows any account (wallet) to perform such an order and automatically become its taker - this will replace every empty parameter with the taker's address.
 
-::: Warning
+::: warning
 When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
 :::
 
@@ -3069,7 +3069,7 @@ const mutation = await gateway.cancel(order);
 
 An `asynchronous` class instance `function` which cryptographically signs the provided `order` and returns a signature.
 
-::: Warning
+::: warning
 This operation must be executed by the maker of the order.
 :::
 
@@ -3137,7 +3137,7 @@ A class instance `variable` holding the address of gateway's smart contract on t
 
 An `asynchronous` class instance `function` which submits the `order` with a `signature` from the maker.
 
-::: Warning
+::: warning
 This operation must be executed by the taker of the order.
 :::
 
@@ -3253,11 +3253,11 @@ Multi-order actions define the atomic operations of the actions order.
 | TRANSFER_ASSET | 2 | Transfer an asset.
 | TRANSFER_VALUE | 3 | Transfer a value.
 
-::: Warning
+::: warning
 There is a possibility of unintentional behavior where asset imprint can be overwritten if more than one `UPDATE_ASSET_IMPRINT` order per asset is active. Be aware of this when implementing.
 :::
 
-::: Warning
+::: warning
 There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
