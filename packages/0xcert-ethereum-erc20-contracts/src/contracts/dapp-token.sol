@@ -8,10 +8,14 @@ import "./migration-receiver.sol";
 import "./erc20.sol";
 
 /**
- * @title ERC20 standard token implementation.
+ * @title This is an ERC-20 token that is bartered against another ERC-20 token. This means that
+ * supply can only increase when the bartered token is deposited into this smart contract. Bartered
+ * token can also be withdrawn at any moment. At that point the supply will decrease. This smart
+ * contract also limits to whom tokens can be sent and adds functionality to migrate to a newer
+ * version of the smart contract (this transfers bartered token from this smart contract to the
+ * new one) as well and approving tokens with signature.
  * @dev This interface uses the official ERC-20 specification from
- * https://eips.ethereum.org/EIPS/eip-20 and also implements every optional
- * function.
+ * https://eips.ethereum.org/EIPS/eip-20 and also implements every optional function.
  */
 contract DappToken is
   ERC20,
@@ -34,7 +38,7 @@ contract DappToken is
   string constant NOT_ENOUGH_BALANCE = "010001";
   string constant NOT_ENOUGH_ALLOWANCE = "010002";
   string constant NOT_WHITELISTED_ADDRESS = "010003";
-  string constant NULL_ADDRESS = "010004";
+  string constant MIGRATE_STARTED = "010004";
   string constant MIGRATION_STARTED = "010005";
   string constant NOT_ABLE_TO_MIGRATE = "010006";
   string constant INVALID_SIGNATURE = "010007";
@@ -43,66 +47,68 @@ contract DappToken is
   string constant INVALID_SIGNATURE_KIND = "010010";
 
   /**
-   * Token name.
+   * @dev Token name.
    */
   string internal tokenName;
 
   /**
-   * Token symbol.
+   * @dev Token symbol.
    */
   string internal tokenSymbol;
 
   /**
-   * Number of decimals.
+   * @dev Number of decimals.
    */
   uint8 internal tokenDecimals;
 
   /**
-   * Total supply of tokens.
+   * @dev Total supply of tokens.
    */
   uint256 internal tokenTotalSupply;
 
   /**
-   * Balance information map.
+   * @dev Balance information map.
    */
   mapping (address => uint256) internal balances;
 
   /**
-   * Token allowance mapping.
+   * @dev Token allowance mapping.
    */
   mapping (address => mapping (address => uint256)) internal allowed;
 
   /**
-   * Bartered token address.
-   */
-  ERC20 public barteredToken;
-
-  /**
-   * Token tranfer proxy contract address.
+   * @dev Token transfer proxy contract address.
    */
   address public tokenTransferProxy;
 
   /**
-   * Whitelisted recipients.
+   * @dev Addresses to which dapp tokens can be transfered.
    */
   mapping (address => bool) public whitelistedRecipients;
 
   /**
-   * Address to which we can migrate to.
+   * @dev Bartered token address. ERC-20 token that when deposited to this contract will create new
+   * tokens in this contract. Dapp token is pegged 1 on 1 to the bartered token. Bartered token can
+   * be withdrawn at any point.
    */
-  address public migrateAddress;
+  ERC20 public barteredToken;
 
   /**
-   * Addresses from which tokens can get migrated.
+   * @dev Address to which we can migrate to. Bartered tokens are sent to this address.
    */
-  mapping (address => bool) public migrationCallers;
+  address public migrationAddress;
+
+  /**
+   * @dev Dapp token addresses from which tokens can migrated to the new dapp tokens. Bartered
+   * tokens are transfered to the new dapp token address in the process.
+   */
+  mapping (address => bool) public approvedMigrators;
 
   /**
    * @dev Magic value of a smart contract that can be migrated to.
    * Equal to: bytes4(keccak256("onMigrationReceived(address,uint256)")).
    */
-  bytes4 constant MAGIC_ON_MIGRATE_RECEIVED = 0xc5b97e06;
-
+  bytes4 constant MAGIC_ON_MIGRATION_RECEIVED = 0xc5b97e06;
 
   /**
    * @dev Enum of available signature kinds.
@@ -163,17 +169,17 @@ contract DappToken is
   );
 
   /**
-   * Trigger of any change of whitelisting.
+   * @dev Trigger of any change of a whitelisted recipient.
    */
-  event Whitelist(
+  event WhitelistedRecipient(
     address indexed _target,
     bool state
   );
 
   /**
-   * Trigger of any change of migrators.
+   * @dev Trigger of any change of a approved migrator.
    */
-  event MigrationCaller(
+  event ApprovedMigrator(
     address indexed _target,
     bool state
   );
@@ -270,7 +276,7 @@ contract DappToken is
    * @param _state State we are setting. True means the address is whitelisted while false the
    * oposite.
    */
-  function setWhitelist(
+  function setWhitelistedRecipient(
     address _target,
     bool _state
   )
@@ -278,62 +284,65 @@ contract DappToken is
     hasAbilities(ABILITY_SET_WHITELISTED)
   {
     whitelistedRecipients[_target] = _state;
-    emit Whitelist(_target, _state);
+    emit WhitelistedRecipient(_target, _state);
   }
 
   /**
-   * @dev Sets migration caller state to an address
+   * @dev Sets migration caller state to an address.
    * @param _target Address we are setting the migration caller state.
    * @param _state State we are setting. True means the address is a migration caller while false
    * the oposite.
    */
-  function seMigrationCaller(
+  function setApprovedMigrator(
     address _target,
     bool _state
   )
     external
     hasAbilities(ABILITY_SET_MIGRATOR_ADDRESS)
   {
-    migrationCallers[_target] = _state;
-    emit MigrationCaller(_target, _state);
+    approvedMigrators[_target] = _state;
+    emit ApprovedMigrator(_target, _state);
   }
 
   /**
    * @dev Sets address to which migration is done.
    * @param _target Targeted address.
    */
-  function setMigrateAddress(
+  function startMigration(
     address _target
   )
     external
     hasAbilities(ABILITY_SET_MIGRATE_ADDRESS)
   {
-    require(_target != address(0), NULL_ADDRESS);
-    migrateAddress = _target;
+    require(_target != address(0), MIGRATE_STARTED);
+    migrationAddress = _target;
   }
 
   /**
-   * Migrate to a new Dapp token.
+   * @dev Migrate to a new Dapp token smart contract. Senders bartered tokens get transfered to the
+   * new Dapp token where tokens in the same amount get created. Tokens on this smart contract get
+   * destoyed.
    */
   function migrate()
     external
   {
-    require(migrateAddress != address(0), NULL_ADDRESS);
+    require(migrationAddress != address(0), MIGRATE_STARTED);
     tokenTotalSupply = tokenTotalSupply.sub(balances[msg.sender]);
-    barteredToken.transfer(migrateAddress, balances[msg.sender]);
+    barteredToken.transfer(migrationAddress, balances[msg.sender]);
     require(
-      MigrationReceiver(migrateAddress)
-        .onMigrationReceived(msg.sender, balances[msg.sender]) == MAGIC_ON_MIGRATE_RECEIVED,
+      MigrationReceiver(migrationAddress)
+        .onMigrationReceived(msg.sender, balances[msg.sender]) == MAGIC_ON_MIGRATION_RECEIVED,
       NOT_ABLE_TO_MIGRATE
     );
     balances[msg.sender] = 0;
   }
 
   /**
-   * @dev Handle the receipt of a migration. The dapp token calls this function on the migration
+   * @dev Handles the receipt of a migration. The dapp token calls this function on the migration
    * address when migrating. Return of other than the magic value MUST result in the transaction
    * being reverted. Returns `bytes4(keccak256("onMigrationReceived(address,uint256)"))` unless
-   * throwing.
+   * throwing. This method registers receiving bartered tokens and creates new tokens for the
+   * migrator.
    * @param _migrator The address which called `migrate` function.
    * @param _amount Amount of tokens being migrated.
    * @return Returns `bytes4(keccak256("onMigrationReceived(address,uint256)"))`.
@@ -345,11 +354,11 @@ contract DappToken is
     external
     returns(bytes4)
   {
-    require(migrationCallers[msg.sender], NOT_ABLE_TO_MIGRATE);
+    require(approvedMigrators[msg.sender], NOT_ABLE_TO_MIGRATE);
     tokenTotalSupply = tokenTotalSupply.add(_amount);
     balances[_migrator] = balances[_migrator].add(_amount);
     allowed[_migrator][tokenTransferProxy] = allowed[_migrator][tokenTransferProxy].add(_amount);
-    return MAGIC_ON_MIGRATE_RECEIVED;
+    return MAGIC_ON_MIGRATION_RECEIVED;
   }
 
   /**
@@ -366,7 +375,7 @@ contract DappToken is
     public
     returns (bool _success)
   {
-    require(migrateAddress == address(0), MIGRATION_STARTED);
+    require(migrationAddress == address(0), MIGRATION_STARTED);
     require(whitelistedRecipients[_to], NOT_WHITELISTED_ADDRESS);
     require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
@@ -460,7 +469,7 @@ contract DappToken is
   }
 
   /**
-   * Generates hash representing the approve definition.
+   * @dev Generates hash representing the approve definition.
    * @param _approver Approving address from which the spender will be able to transfer tokens.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
@@ -562,7 +571,7 @@ contract DappToken is
     public
     returns (bool _success)
   {
-    require(migrateAddress == address(0), MIGRATION_STARTED);
+    require(migrationAddress == address(0), MIGRATION_STARTED);
     require(whitelistedRecipients[_to], NOT_WHITELISTED_ADDRESS);
     require(_value <= balances[_from], NOT_ENOUGH_BALANCE);
     require(_value <= allowed[_from][msg.sender], NOT_ENOUGH_ALLOWANCE);
@@ -576,15 +585,17 @@ contract DappToken is
   }
 
   /**
-   * Deposit bartered token into the contract.
+   * @dev Deposit bartered token into the contract. Calling this function will transfer bartered
+   * token into the dapp token and create the same amount of dapp tokens to the caller.
    * This auto approves TokenTransferProxy contract.
+   * @param _value Amount of bartered token we are depositing.
    */
   function deposit(
     uint256 _value
   )
     public
   {
-    require(migrateAddress == address(0), MIGRATION_STARTED);
+    require(migrationAddress == address(0), MIGRATION_STARTED);
     tokenTotalSupply = tokenTotalSupply.add(_value);
     balances[msg.sender] = balances[msg.sender].add(_value);
     barteredToken.transferFrom(msg.sender, address(this), _value);
@@ -593,7 +604,9 @@ contract DappToken is
   }
 
   /**
-   * Withdraw bartered token from the contract.
+   * @dev Withdraw bartered token from the contract. Calling this function will destroy dapp tokens
+   * and transfer the bartered token back to the caller.
+   * @param _value The amount of bartered token we are withdrawing.
    */
   function withdraw(
     uint256 _value

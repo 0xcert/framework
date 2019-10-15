@@ -159,8 +159,8 @@ spec.test('sucessfully whitelists an address', async (ctx) => {
   const ttProxy = ctx.get('ttProxy');
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  const logs = await dappToken.instance.methods.setWhitelist(ttProxy, true).send({ from: owner });
-  ctx.not(logs.events.Whitelist, undefined);
+  const logs = await dappToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
+  ctx.not(logs.events.WhitelistedRecipient, undefined);
   const isTTProxyWhitelisted = await dappToken.instance.methods.whitelistedRecipients(ttProxy).call();
   ctx.true(isTTProxyWhitelisted);
 });
@@ -174,7 +174,7 @@ spec.test('sucessfully transfers to a whitelisted address', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await dappToken.instance.methods.setWhitelist(ttProxy, true).send({ from: owner });
+  await dappToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
   const logs = await dappToken.instance.methods.transfer(ttProxy, tokenAmount.toString()).send({ from: owner });
@@ -196,7 +196,7 @@ spec.test('sucessfully transfersFrom to a whitelisted address', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await dappToken.instance.methods.setWhitelist(ttProxy, true).send({ from: owner });
+  await dappToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.approve(ttProxy, tokenAmount.toString()).send({ from: owner });
@@ -251,10 +251,10 @@ spec.test('succesfully migrates migrateToken to dappToken', async (ctx) => {
   await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
 
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
-  await migrationToken.instance.methods.setMigrateAddress(dappToken.receipt._address).send({ from: owner });
+  await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATION_CALLER).send({ from: owner });
-  await dappToken.instance.methods.seMigrationCaller(migrationToken.receipt._address, true).send({ from: owner });
+  await dappToken.instance.methods.setApprovedMigrator(migrationToken.receipt._address, true).send({ from: owner });
 
   await migrationToken.instance.methods.migrate().send({ from: owner });
 
@@ -299,7 +299,7 @@ spec.test('fails to migrate if migration caller is not set', async (ctx) => {
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
-  await migrationToken.instance.methods.setMigrateAddress(dappToken.receipt._address).send({ from: owner });
+  await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
   await ctx.reverts(() => migrationToken.instance.methods.migrate().send({ from: owner }), '010006');
 });
@@ -313,7 +313,7 @@ spec.test('fails to deposit after migration started', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
-  await migrationToken.instance.methods.setMigrateAddress(dappToken.receipt._address).send({ from: owner });
+  await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await ctx.reverts(() => migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner }), '010005');
@@ -331,9 +331,9 @@ spec.test('fails to transfer after migration started', async (ctx) => {
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await migrationToken.instance.methods.setWhitelist(ttProxy, true).send({ from: owner });
+  await migrationToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
-  await migrationToken.instance.methods.setMigrateAddress(dappToken.receipt._address).send({ from: owner });
+  await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
   await ctx.reverts(() => migrationToken.instance.methods.transfer(ttProxy, tokenAmount.toString()).send({ from: owner }), '010005');
 });
@@ -350,9 +350,9 @@ spec.test('fails to transferFrom after migration started', async (ctx) => {
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await migrationToken.instance.methods.setWhitelist(ttProxy, true).send({ from: owner });
+  await migrationToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
-  await migrationToken.instance.methods.setMigrateAddress(dappToken.receipt._address).send({ from: owner });
+  await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
   await migrationToken.instance.methods.approve(ttProxy, tokenAmount.toString()).send({ from: owner });
 
   await ctx.reverts(() => migrationToken.instance.methods.transferFrom(owner, ttProxy, tokenAmount.toString()).send({ from: ttProxy }), '010005');
@@ -510,7 +510,7 @@ spec.test('throws when trying to transfer more than available balance', async (c
   const moreThanBalance = tokenAmount.add(new ctx.web3.utils.BN('1'));
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await dappToken.instance.methods.setWhitelist(bob, true).send({ from: owner });
+  await dappToken.instance.methods.setWhitelistedRecipient(bob, true).send({ from: owner });
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
@@ -567,7 +567,7 @@ spec.test('throws when trying to transferFrom more than allowed amount', async (
   const tokenAmountAllowed = decimalsMul.mul(new ctx.web3.utils.BN('99'));
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await dappToken.instance.methods.setWhitelist(sara, true).send({ from: owner });
+  await dappToken.instance.methods.setWhitelistedRecipient(sara, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
 
@@ -586,7 +586,7 @@ spec.test('throws an error when trying to transferFrom more than _from has', asy
   const tokenAmountToSend = decimalsMul.mul(new ctx.web3.utils.BN('101'));
 
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
-  await dappToken.instance.methods.setWhitelist(sara, true).send({ from: owner });
+  await dappToken.instance.methods.setWhitelistedRecipient(sara, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
 
