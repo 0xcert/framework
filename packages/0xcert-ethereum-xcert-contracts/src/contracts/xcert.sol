@@ -288,7 +288,7 @@ contract XcertToken is
   }
 
   /**
-   * Generates hash of the set approval for.
+   * @dev Generates hash of the set approval for.
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
    * @param _approved True if the operators is approved, false to revoke approval.
