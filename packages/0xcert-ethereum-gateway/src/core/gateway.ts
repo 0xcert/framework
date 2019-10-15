@@ -297,7 +297,7 @@ export class Gateway implements GatewayBase {
       },
       {
         name: 'Perform', // actions order
-        topic: '0xe8d9861dbc9c663ed3accd261bbe2fe01e0d3d9e5f51fa38523b265c7757a93a',
+        topic: '0xa4be90ab47bcea0c591eaa7dd28b8ba0329e7ebddac48c5f2ca9fed68d08cf08',
         types: [
           {
             kind: MutationEventTypeKind.INDEXED,
@@ -308,7 +308,7 @@ export class Gateway implements GatewayBase {
       },
       {
         name: 'Cancel', // actions order
-        topic: '0xa4be90ab47bcea0c591eaa7dd28b8ba0329e7ebddac48c5f2ca9fed68d08cf08',
+        topic: '0xe8d9861dbc9c663ed3accd261bbe2fe01e0d3d9e5f51fa38523b265c7757a93a',
         types: [
           {
             kind: MutationEventTypeKind.INDEXED,
