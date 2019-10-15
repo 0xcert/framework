@@ -101,7 +101,7 @@ export default {
         symbol: 'fundin',
         uriPrefix: 'https://www.example.com/',
         uriPostfix: '.json',
-        schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
+        schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
         capabilities: [3, 1]
       }).then((mutation) => {
         return mutation.complete();
