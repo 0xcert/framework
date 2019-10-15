@@ -34,7 +34,7 @@ const mutation = await AssetLedger.deploy(provider, {
   symbol: 'MCC',
   uriPrefix: 'https://0xcert.org/assets/',
   uriPostfix: '.json',
-  schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
+  schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
   capabilities: [
     AssetLedgerCapability.TOGGLE_TRANSFERS,
   ],

@@ -29,7 +29,7 @@ spec.test('returns ledger info (Xcert smart contract)', async (ctx) => {
     symbol: 'Xcert',
     uriPrefix: 'https://0xcert.org/',
     uriPostfix: '.json',
-    schemaId: '0x0500000000000000000000000000000000000000000000000000000000000000',
+    schemaId: '0500000000000000000000000000000000000000000000000000000000000000',
     supply: '0',
   });
 });
