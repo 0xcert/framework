@@ -589,18 +589,20 @@ contract DappToken is
    * token into the dapp token and create the same amount of dapp tokens to the caller.
    * This auto approves TokenTransferProxy contract.
    * @param _value Amount of bartered token we are depositing.
+   * @param _receiver Receiver of dapp tokens.
    */
   function deposit(
-    uint256 _value
+    uint256 _value,
+    address _receiver
   )
     public
   {
     require(migrationAddress == address(0), MIGRATION_STARTED);
     tokenTotalSupply = tokenTotalSupply.add(_value);
-    balances[msg.sender] = balances[msg.sender].add(_value);
+    balances[_receiver] = balances[_receiver].add(_value);
     barteredToken.transferFrom(msg.sender, address(this), _value);
-    allowed[msg.sender][tokenTransferProxy] = allowed[msg.sender][tokenTransferProxy].add(_value);
-    emit Approval(msg.sender, tokenTransferProxy, allowed[msg.sender][tokenTransferProxy]);
+    allowed[_receiver][tokenTransferProxy] = allowed[_receiver][tokenTransferProxy].add(_value);
+    emit Approval(_receiver, tokenTransferProxy, allowed[_receiver][tokenTransferProxy]);
   }
 
   /**

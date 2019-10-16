@@ -111,7 +111,7 @@ spec.test('sucessfully deposits token into dapp token', async (ctx) => {
   const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(tokenAmount);
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
   const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();
@@ -120,6 +120,34 @@ spec.test('sucessfully deposits token into dapp token', async (ctx) => {
   const proxyAllowance = await dappToken.instance.methods.allowance(owner, ttProxy).call();
 
   ctx.is(dappTokenOwnerBalance.toString(), tokenAmount.toString());
+  ctx.is(tokenDappTokenBalance.toString(), tokenAmount.toString());
+  ctx.is(tokenOwnerBalance.toString(), actualTokenOwnerBalance.toString());
+  ctx.is(actualSupply.toString(), tokenAmount.toString());
+  ctx.is(proxyAllowance.toString(), tokenAmount.toString());
+});
+
+spec.test('sucessfully deposits token into dapp token with another receiver', async (ctx) => {
+  const token = ctx.get('token');
+  const dappToken = ctx.get('dappToken');
+  const owner = ctx.get('owner');
+  const sara = ctx.get('sara');
+  const ttProxy = ctx.get('ttProxy');
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+  const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(tokenAmount);
+
+  await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), sara).send({ from: owner });
+
+  const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
+  const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();
+  const dappTokenSaraBalance = await dappToken.instance.methods.balanceOf(sara).call();
+  const actualTokenOwnerBalance = await token.instance.methods.balanceOf(owner).call();
+  const actualSupply = await dappToken.instance.methods.totalSupply().call();
+  const proxyAllowance = await dappToken.instance.methods.allowance(sara, ttProxy).call();
+
+  ctx.is(dappTokenOwnerBalance.toString(), '0');
+  ctx.is(dappTokenSaraBalance.toString(), tokenAmount.toString());
   ctx.is(tokenDappTokenBalance.toString(), tokenAmount.toString());
   ctx.is(tokenOwnerBalance.toString(), actualTokenOwnerBalance.toString());
   ctx.is(actualSupply.toString(), tokenAmount.toString());
@@ -137,7 +165,7 @@ spec.test('sucessfully withdraws token from dapp token', async (ctx) => {
   const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(halfTokenAmount);
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await dappToken.instance.methods.withdraw(halfTokenAmount.toString()).send({ from: owner });
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
@@ -176,7 +204,7 @@ spec.test('sucessfully transfers to a whitelisted address', async (ctx) => {
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await dappToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   const logs = await dappToken.instance.methods.transfer(ttProxy, tokenAmount.toString()).send({ from: owner });
 
   const ttProxyBalance = await dappToken.instance.methods.balanceOf(ttProxy).call();
@@ -198,7 +226,7 @@ spec.test('sucessfully transfersFrom to a whitelisted address', async (ctx) => {
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await dappToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await dappToken.instance.methods.approve(ttProxy, tokenAmount.toString()).send({ from: owner });
   const logs = await dappToken.instance.methods.transferFrom(owner, ttProxy, tokenAmount.toString()).send({ from: ttProxy });
 
@@ -219,7 +247,7 @@ spec.test('fails transfering to a non whitelisted address', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.transfer(ttProxy, tokenAmount.toString()).send({ from: owner }), '010003');
 });
 
@@ -232,7 +260,7 @@ spec.test('fails transfersFrom to a non whitelisted address', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await dappToken.instance.methods.approve(ttProxy, tokenAmount.toString()).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.transferFrom(owner, ttProxy, tokenAmount.toString()).send({ from: ttProxy }), '010003');
 });
@@ -248,7 +276,7 @@ spec.test('succesfully migrates migrateToken to dappToken', async (ctx) => {
   const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(tokenAmount);
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
   await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
@@ -283,7 +311,7 @@ spec.test('fails to migrate if migration address not set', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   await ctx.reverts(() => migrationToken.instance.methods.migrate().send({ from: owner }), '010004');
 });
@@ -297,7 +325,7 @@ spec.test('fails to migrate if migration caller is not set', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
   await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
@@ -316,7 +344,7 @@ spec.test('fails to deposit after migration started', async (ctx) => {
   await migrationToken.instance.methods.startMigration(dappToken.receipt._address).send({ from: owner });
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await ctx.reverts(() => migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner }), '010005');
+  await ctx.reverts(() => migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner }), '010005');
 });
 
 spec.test('fails to transfer after migration started', async (ctx) => {
@@ -329,7 +357,7 @@ spec.test('fails to transfer after migration started', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await migrationToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
@@ -348,7 +376,7 @@ spec.test('fails to transferFrom after migration started', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await token.instance.methods.approve(migrationToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await migrationToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await migrationToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await migrationToken.instance.methods.setWhitelistedRecipient(ttProxy, true).send({ from: owner });
   await migrationToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATE_ADDRESS).send({ from: owner });
@@ -371,7 +399,7 @@ spec.test('correctly approves with signature', async (ctx) => {
   const expiration = common.getCurrentTime() + 3600;
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const claim = await dappToken.instance.methods.generateClaim(owner, sara, tokenAmount.toString(), feeAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, owner);
@@ -404,7 +432,7 @@ spec.test('fails approving with signature if signature is invalid', async (ctx) 
   const expiration = common.getCurrentTime() + 3600;
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const claim = await dappToken.instance.methods.generateClaim(owner, sara, tokenAmount.toString(), feeAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, bob);
@@ -431,7 +459,7 @@ spec.test('fails approving with signature if claim has expired', async (ctx) => 
   const expiration = common.getCurrentTime() - 3600;
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const claim = await dappToken.instance.methods.generateClaim(owner, sara, tokenAmount.toString(), feeAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, owner);
@@ -458,7 +486,7 @@ spec.test('fails approving with signature if claim has already been performed', 
   const expiration = common.getCurrentTime() + 3600;
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const claim = await dappToken.instance.methods.generateClaim(owner, sara, tokenAmount.toString(), feeAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, owner);
@@ -486,7 +514,7 @@ spec.test('fails approving with signature if signature kind is invalid', async (
   const expiration = common.getCurrentTime() + 3600;
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   const claim = await dappToken.instance.methods.generateClaim(owner, sara, tokenAmount.toString(), feeAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, owner);
@@ -513,7 +541,7 @@ spec.test('throws when trying to transfer more than available balance', async (c
   await dappToken.instance.methods.setWhitelistedRecipient(bob, true).send({ from: owner });
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.transfer(bob, moreThanBalance.toString()).send({ from: owner }), '010001');
 });
 
@@ -569,7 +597,7 @@ spec.test('throws when trying to transferFrom more than allowed amount', async (
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await dappToken.instance.methods.setWhitelistedRecipient(sara, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   await dappToken.instance.methods.approve(bob, tokenAmountAllowed.toString()).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.transferFrom(owner, sara, tokenAmount.toString()).send({ from: bob }), '010002');
@@ -588,7 +616,7 @@ spec.test('throws an error when trying to transferFrom more than _from has', asy
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_WHITELISTED).send({ from: owner });
   await dappToken.instance.methods.setWhitelistedRecipient(sara, true).send({ from: owner });
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString()).send({ from: owner });
+  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
 
   await dappToken.instance.methods.approve(bob, tokenAmount.toString()).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.transferFrom(bob, sara, tokenAmountToSend.toString()).send({ from: sara }), '010001');
