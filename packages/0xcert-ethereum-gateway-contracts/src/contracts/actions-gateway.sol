@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-revoke-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-type.sol";
 
@@ -27,6 +28,7 @@ contract ActionsGateway is
   uint8 constant ABILITY_ALLOW_MANAGE_ABILITITES = 2;
   uint16 constant ABILITY_ALLOW_CREATE_ASSET = 512;
   uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 1024;
+  uint16 constant ABILITY_ALLOW_REVOKE_ASSET = 2048;
 
   /**
    * @dev Error constants.
@@ -58,6 +60,8 @@ contract ActionsGateway is
   uint8 constant ACTION_MANAGE_ABILITIES_BYTES_FROM_INDEX = 53;
   uint8 constant ACTION_MANAGE_ABILITIES_BYTES_RECEIVER = 52;
   uint8 constant ACTION_MANAGE_ABILITIES_BYTES_ABILITIES = 32;
+  uint8 constant ACTION_REVOKE_BYTES_FROM_INDEX = 33;
+  uint8 constant ACTION_REVOKE_BYTES_ID = 32;
 
   /**
    * @dev Enum of available signature kinds.
@@ -87,7 +91,8 @@ contract ActionsGateway is
     create,
     transfer,
     update,
-    manage_abilities
+    manage_abilities,
+    revoke
   }
 
   /**
@@ -517,6 +522,23 @@ contract ActionsGateway is
           _order.actions[i].contractAddress,
           to,
           BytesType.toUint256(ACTION_MANAGE_ABILITIES_BYTES_ABILITIES, _order.actions[i].params)
+        );
+      }
+      else if (proxies[_order.actions[i].proxyId].kind == ActionKind.revoke)
+      {
+        require(
+          Abilitable(_order.actions[i].contractAddress).isAble(
+            _order.signers[
+              BytesType.toUint8(ACTION_REVOKE_BYTES_FROM_INDEX, _order.actions[i].params)
+            ],
+            ABILITY_ALLOW_REVOKE_ASSET
+          ),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        XcertRevokeProxy(proxies[_order.actions[i].proxyId].proxyAddress).revoke(
+          _order.actions[i].contractAddress,
+          BytesType.toUint256(ACTION_REVOKE_BYTES_ID, _order.actions[i].params)
         );
       }
     }
