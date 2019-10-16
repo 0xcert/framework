@@ -34,6 +34,11 @@ contract XcertToken is
   /// ABILITY_ALLOW_UPDATE_ASSET = 1024 - A specific ability that is bounded to atomic orders.
   /// When updating imprint of an Xcert trough `ActionsGateway`, the order maker has to have this
   /// ability.
+  /// ABILITY_ALLOW_REVOKE_ASSET = 2048 - A specific ability that is bounded to atomic orders.
+  /// When revoking an Xcert trough `ActionsGateway`, the order maker has to have this ability.
+  /// ABILITY_ALLOW_TOGGLE_TRANSFERS = 4096 - A specific ability that is bounded to atomic
+  /// orders. When changing transfer state of an Xcert contract trough `ActionsGateway`, the order
+  /// maker has to have this ability.
 
   /**
    * @dev List of capabilities (supportInterface bytes4 representations).
@@ -244,14 +249,14 @@ contract XcertToken is
      * {
      *   require(!isPaused, TRANSFERS_DISABLED);
      * }
-     * There is no need to check for pausable capability here since by using logical deduction we 
+     * There is no need to check for pausable capability here since by using logical deduction we
      * can say based on code above that:
      * !supportedInterfaces[0xbedb86fb] => !isPaused
      * isPaused => supportedInterfaces[0xbedb86fb]
-     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused. 
+     * (supportedInterfaces[0xbedb86fb] ∧ isPaused) <=> isPaused.
      * This saves 200 gas.
      */
-    require(!isPaused, TRANSFERS_DISABLED); 
+    require(!isPaused, TRANSFERS_DISABLED);
     super._transferFrom(_from, _to, _tokenId);
   }
 }

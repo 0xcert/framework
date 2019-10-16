@@ -7,6 +7,8 @@ import "../xcert.sol";
  */
 contract XcertMock is XcertToken {
 
+  uint16 constant ABILITY_ALL = 4095;
+
   /**
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
@@ -37,7 +39,7 @@ contract XcertMock is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender] = 2047; // Assigns all available abilities to creator. 
+    addressToAbility[msg.sender] = ABILITY_ALL; // Assigns all available abilities to creator.
   }
-  
+
 }

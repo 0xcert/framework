@@ -5,9 +5,9 @@ pragma solidity 0.5.11;
  */
 interface XcertRevokable // is Xcert
 {
-  
+
   /**
-   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized 
+   * @dev Revokes a specified Xcert. Reverts if not called from contract owner or authorized
    * address.
    * @param _tokenId Id of the Xcert we want to destroy.
    */

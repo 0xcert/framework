@@ -14,5 +14,5 @@ interface XcertPausable // is Xcert
     bool _isPaused
   )
     external;
-    
+
 }
