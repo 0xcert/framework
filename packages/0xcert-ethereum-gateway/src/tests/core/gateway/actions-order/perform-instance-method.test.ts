@@ -69,19 +69,25 @@ spec.before(async (stage) => {
   const sara = stage.get('sara');
 
   const xcert = stage.get('protocol').xcertMutable;
+  const xcertRevokable = stage.get('protocol').xcertRevokable;
   const erc20 = stage.get('protocol').erc20;
   const nftokenSafeTransferProxy = stage.get('protocol').nftokenSafeTransferProxy.instance.options.address;
   const tokenTransferProxy = stage.get('protocol').tokenTransferProxy.instance.options.address;
   const xcertCreateProxy = stage.get('protocol').xcertCreateProxy.instance.options.address;
   const xcertUpdateProxy = stage.get('protocol').xcertUpdateProxy.instance.options.address;
   const abilitableManageProxy = stage.get('protocol').abilitableManageProxy.instance.options.address;
+  const xcertRevokeProxy = stage.get('protocol').xcertRevokeProxy.instance.options.address;
 
   await erc20.instance.methods.transfer(sara, 100000).send({ form: coinbase });
   await xcert.instance.methods.create(coinbase, '100', '0x0').send({ form: coinbase });
   await xcert.instance.methods.create(bob, '101', '0x0').send({ form: coinbase });
-  await xcert.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
+  await xcertRevokable.instance.methods.create(sara, '1000', '0x0').send({ form: coinbase });
+  await xcertRevokable.instance.methods.create(sara, '1001', '0x0').send({ form: coinbase });
+  await xcertRevokable.instance.methods.create(sara, '1002', '0x0').send({ form: coinbase });
+  await xcertRevokable.instance.methods.create(sara, '1003', '0x0').send({ form: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(xcertCreateProxy, GeneralAssetLedgerAbility.CREATE_ASSET).send({ from: coinbase });
+  await xcertRevokable.instance.methods.grantAbilities(xcertRevokeProxy, GeneralAssetLedgerAbility.REVOKE_ASSET).send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(xcertUpdateProxy, GeneralAssetLedgerAbility.UPDATE_ASSET).send({ from: coinbase });
   await xcert.instance.methods.grantAbilities(abilitableManageProxy, SuperAssetLedgerAbility.MANAGE_ABILITIES).send({ from: coinbase });
   await xcert.instance.methods.setApprovalForAll(nftokenSafeTransferProxy, true).send({ from: bob });
@@ -95,6 +101,8 @@ spec.test('submits gateway fixed actions order to the network which executes tra
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+  const xcertRevokable = ctx.get('protocol').xcertRevokable;
+  const xcertRevokableId = ctx.get('protocol').xcertRevokable.instance.options.address;
 
   const order: FixedActionsOrder = {
     kind: OrderKind.FIXED_ACTIONS_ORDER,
@@ -138,6 +146,12 @@ spec.test('submits gateway fixed actions order to the network which executes tra
         receiverId: bob,
         abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
       },
+      {
+        kind: ActionsOrderActionKind.REVOKE_ASSET,
+        senderId: coinbase,
+        ledgerId: xcertRevokableId,
+        assetId: '1000',
+      },
     ],
   };
 
@@ -155,6 +169,7 @@ spec.test('submits gateway fixed actions order to the network which executes tra
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
+  await ctx.reverts(() => xcertRevokable.instance.methods.ownerOf('1000').call());
 });
 
 spec.test('submits gateway fixed signed actions order to the network which executes transfers', async (ctx) => {
@@ -165,6 +180,8 @@ spec.test('submits gateway fixed signed actions order to the network which execu
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+  const xcertRevokable = ctx.get('protocol').xcertRevokable;
+  const xcertRevokableId = ctx.get('protocol').xcertRevokable.instance.options.address;
 
   const order: SignedFixedActionsOrder = {
     kind: OrderKind.SIGNED_FIXED_ACTIONS_ORDER,
@@ -208,6 +225,12 @@ spec.test('submits gateway fixed signed actions order to the network which execu
         receiverId: bob,
         abilities: [GeneralAssetLedgerAbility.CREATE_ASSET],
       },
+      {
+        kind: ActionsOrderActionKind.REVOKE_ASSET,
+        senderId: coinbase,
+        ledgerId: xcertRevokableId,
+        assetId: '1001',
+      },
     ],
   };
 
@@ -227,6 +250,7 @@ spec.test('submits gateway fixed signed actions order to the network which execu
   ctx.is(await xcert.instance.methods.ownerOf('103').call(), bob);
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
+  await ctx.reverts(() => xcertRevokable.instance.methods.ownerOf('1001').call());
 });
 
 spec.test('submits gateway dynamic actions order to the network which executes transfers', async (ctx) => {
@@ -236,6 +260,8 @@ spec.test('submits gateway dynamic actions order to the network which executes t
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+  const xcertRevokable = ctx.get('protocol').xcertRevokable;
+  const xcertRevokableId = ctx.get('protocol').xcertRevokable.instance.options.address;
 
   const order: DynamicActionsOrder = {
     kind: OrderKind.DYNAMIC_ACTIONS_ORDER,
@@ -275,6 +301,12 @@ spec.test('submits gateway dynamic actions order to the network which executes t
         ledgerId: xcertId,
         abilities: [GeneralAssetLedgerAbility.UPDATE_ASSET],
       },
+      {
+        kind: ActionsOrderActionKind.REVOKE_ASSET,
+        senderId: coinbase,
+        ledgerId: xcertRevokableId,
+        assetId: '1002',
+      },
     ],
   };
 
@@ -291,6 +323,7 @@ spec.test('submits gateway dynamic actions order to the network which executes t
   ctx.is(await xcert.instance.methods.ownerOf('104').call(), bob);
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.UPDATE_ASSET).call());
+  await ctx.reverts(() => xcertRevokable.instance.methods.ownerOf('1002').call());
 });
 
 spec.test('submits gateway signed dynamic actions order to the network which executes transfers', async (ctx) => {
@@ -301,6 +334,8 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
   const coinbase = ctx.get('coinbase');
   const xcert = ctx.get('protocol').xcertMutable;
   const xcertId = ctx.get('protocol').xcertMutable.instance.options.address;
+  const xcertRevokable = ctx.get('protocol').xcertRevokable;
+  const xcertRevokableId = ctx.get('protocol').xcertRevokable.instance.options.address;
 
   const order: SignedDynamicActionsOrder = {
     kind: OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER,
@@ -341,6 +376,12 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
         ledgerId: xcertId,
         abilities: [GeneralAssetLedgerAbility.REVOKE_ASSET],
       },
+      {
+        kind: ActionsOrderActionKind.REVOKE_ASSET,
+        senderId: coinbase,
+        ledgerId: xcertRevokableId,
+        assetId: '1003',
+      },
     ],
   };
 
@@ -360,6 +401,7 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
   ctx.is(await xcert.instance.methods.ownerOf('105').call(), bob);
   ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x3000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.REVOKE_ASSET).call());
+  await ctx.reverts(() => xcertRevokable.instance.methods.ownerOf('1003').call());
 });
 
 spec.test('handles incorrect dynamic actions order', async (ctx) => {
