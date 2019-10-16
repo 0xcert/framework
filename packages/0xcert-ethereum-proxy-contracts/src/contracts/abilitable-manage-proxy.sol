@@ -13,7 +13,7 @@ contract AbilitableManageProxy is
 
   /**
    * @dev List of abilities:
-   * 16 - Ability to execute transfer. 
+   * 16 - Ability to execute transfer.
    */
   uint8 constant ABILITY_TO_EXECUTE = 16;
 
@@ -33,5 +33,5 @@ contract AbilitableManageProxy is
   {
     Abilitable(_target).setAbilities(_to, _abilities);
   }
-  
+
 }
