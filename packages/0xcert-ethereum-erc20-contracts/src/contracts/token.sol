@@ -182,7 +182,7 @@ contract Token is
   /**
    * @dev Allows _spender to withdraw from your account multiple times, up to the _value amount. If
    * this function is called again it overwrites the current allowance with _value.
-   * @notice To prevent attack vectors like the one described here: 
+   * @notice To prevent attack vectors like the one described here:
    * https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit and
    * discussed here: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729, clients
    * SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0

@@ -28,5 +28,5 @@ interface ERC721TokenReceiver
   )
     external
     returns(bytes4);
-    
+
 }

@@ -8,6 +8,7 @@ import "./ixcert-pausable.sol";
 import "./ixcert-revokable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/nf-token-metadata-enumerable.sol";
+import "@0xcert/ethereum-erc20-contracts/src/contracts/erc20.sol";
 
 /**
  * @dev Xcert implementation.
@@ -251,6 +252,8 @@ contract XcertToken is
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
    * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _feeToken The token then will be tranfered to the executor of this method.
+   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    * @param _signature Data from the signature.
@@ -259,6 +262,8 @@ contract XcertToken is
     address _owner,
     address _operator,
     bool _approved,
+    address _feeToken,
+    uint256 _feeValue,
     uint256 _seed,
     uint256 _expiration,
     SignatureData calldata _signature
@@ -269,6 +274,8 @@ contract XcertToken is
       _owner,
       _operator,
       _approved,
+      _feeToken,
+      _feeValue,
       _seed,
       _expiration
     );
@@ -284,6 +291,7 @@ contract XcertToken is
     require(_expiration >= now, CLAIM_EXPIRED);
     claimPerformed[claim] = true;
     ownerToOperators[_owner][_operator] = _approved;
+    ERC20(_feeToken).transferFrom(_owner, msg.sender, _feeValue);
     emit ApprovalForAll(_owner, _operator, _approved);
   }
 
@@ -292,6 +300,8 @@ contract XcertToken is
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
    * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _feeToken The token then will be tranfered to the executor of this method.
+   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
   */
@@ -299,6 +309,8 @@ contract XcertToken is
     address _owner,
     address _operator,
     bool _approved,
+    address _feeToken,
+    uint256 _feeValue,
     uint256 _seed,
     uint256 _expiration
   )
@@ -312,6 +324,8 @@ contract XcertToken is
         _owner,
         _operator,
         _approved,
+        _feeToken,
+        _feeValue,
         _seed,
         _expiration
       )
