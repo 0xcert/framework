@@ -7,7 +7,7 @@ import "./erc20.sol";
 /**
  * @title ERC20 standard token implementation.
  * @dev This interface uses the official ERC-20 specification from
- * https://eips.ethereum.org/EIPS/eip-20 and also implements every optional 
+ * https://eips.ethereum.org/EIPS/eip-20 and also implements every optional
  * function.
  */
 contract Token is

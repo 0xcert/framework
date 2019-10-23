@@ -60,7 +60,7 @@ export default async function(ledger: AssetLedger) {
     symbol: info[1],
     uriPrefix: info[2],
     uriPostfix: info[3],
-    schemaId: info[4],
+    schemaId: info[4] ? info[4].substr(2) : null, // not prefixed with 0x
     supply: info[5],
   };
 }

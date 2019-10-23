@@ -109,8 +109,8 @@ contract NFToken is
    * @notice Throws unless `msg.sender` is the current owner, an authorized operator, or the
    * approved address for this NFT. Throws if `_from` is not the current owner. Throws if `_to` is
    * the zero address. Throws if `_tokenId` is not a valid NFT. When transfer is complete, this
-   * function checks if `_to` is a smart contract (code size > 0). If so, it calls 
-   * `onERC721Received` on `_to` and throws if the return value is not 
+   * function checks if `_to` is a smart contract (code size > 0). If so, it calls
+   * `onERC721Received` on `_to` and throws if the return value is not
    * `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
@@ -398,5 +398,5 @@ contract NFToken is
 
     _transferFrom(_from, _to, _tokenId);
   }
-  
+
 }

@@ -1,7 +1,7 @@
 ---
 issue: 87
 title: Asset evidence schema
-id: 331b2de5f698fe579b1c7e735e8dfb96f98026a54ea1a17bae1e292932818df8
+id: ba47537e90fbfd7e33779556471e9122f3abc33016f96c2234ec29fb57315487
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 1.0.0
 category: conventions
@@ -36,13 +36,13 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
             "description": "A list of binary tree hash values.",
             "items": {
               "properties": {
-                "index": {
-                  "description": "A number representing the hash index in a binary tree.",
-                  "type": "integer"
-                },
                 "hash": {
                   "description": "A string representing the hash value in a binary tree.",
                   "type": "string"
+                },
+                "index": {
+                  "description": "A number representing the hash index in a binary tree.",
+                  "type": "integer"
                 }
               },
               "type": "object"
@@ -64,12 +64,12 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
                   "description": "A number representing the value index in a binary tree.",
                   "type": "integer"
                 },
-                "value": {
-                  "description": "A string representing the value in a binary tree.",
-                  "type": "string"
-                },
                 "nonce": {
                   "description": "A string representing value secret.",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "A string representing the value in a binary tree.",
                   "type": "string"
                 }
               },
@@ -82,9 +82,9 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
       "type": "array"
     }
   },
+  "required": ["$schema", "data"],
   "title": "Asset evidence",
-  "type": "object",
-  "required": ["$schema"]
+  "type": "object"
 }
 ```
 

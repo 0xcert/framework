@@ -1,7 +1,7 @@
 ---
 issue: 86
 title: Base asset schema
-id: 3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d
+id: 3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71
 author: Kristijan Sedlak <kristijan@0xcert.org>, William Entriken <github.com@phor.net>
 version: 1.0.0
 category: conventions
@@ -46,10 +46,6 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
       "description": "A path to JSON Schema definition file.",
       "type": "string"
     },
-    "name": {
-      "description": "A property that holds a name of an asset.",
-      "type": "string"
-    },
     "description": {
       "description": "A property that holds a detailed description of an asset.",
       "type": "string"
@@ -57,11 +53,15 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
     "image": {
       "description": "A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this digital assets represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.",
       "type": "string"
+    },
+    "name": {
+      "description": "A property that holds a name of an asset.",
+      "type": "string"
     }
   },
+  "required": ["$schema"],
   "title": "Asset",
-  "type": "object",
-  "required": ["$schema"]
+  "type": "object"
 }
 ```
 
@@ -79,8 +79,8 @@ A more human-friendly description of this above specification follows. This is p
 {
   "$evidence": "https://troopersgame.com/dog/evidence.json",
   "$schema": "https://conventions.0xcert.org/86-base-asset-schema.json",
+  "name": "Magic Sword",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
-  "image": "https://troopersgame.com/dog.jpg",
-  "name": "Magic Sword"
+  "image": "https://troopersgame.com/dog.jpg"
 }
 ```

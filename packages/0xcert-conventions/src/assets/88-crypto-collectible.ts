@@ -1,9 +1,9 @@
-import { Object86, schema86 } from './86-base-asset';
+import { Schema86, schema86 } from './86-base-asset';
 
 /**
  * Crypto collectible asset data object interface.
  */
-export interface Object88 extends Object86 {
+export interface Schema88 extends Schema86 {
   $evidence?: string;
   $schema: string;
   description: string;
@@ -20,7 +20,6 @@ export const schema88 = {
   properties: {
     ...schema86.properties,
   },
-  required: ['$schema'],
   title: 'Crypto Collectible',
   type: 'object',
 };

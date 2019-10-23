@@ -35,7 +35,7 @@ spec.test('deploys new asset ledger', async (ctx) => {
     symbol: 'Bar',
     uriPrefix: 'https://example.com',
     uriPostfix: '.json',
-    schemaId: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    schemaId: '0000000000000000000000000000000000000000000000000000000000000000',
   };
   const ledger = await AssetLedger.deploy(provider, { ...info, capabilities }).then((mutation) => {
     return mutation.complete();
