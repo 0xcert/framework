@@ -1,115 +1,129 @@
-import { XcertUpdateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
-import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
+import { NFTokenSafeTransferProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { ActionsGatewayAbilities } from '../../../core/types';
 import * as common from '../../helpers/common';
+import { getSignature } from '../../helpers/signature';
 
 /**
  * Test definition.
- * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ *
+ * ERC-721: Cat
+ */
+
+/**
+ * Spec context interfaces.
  */
 
 interface Data {
   actionsGateway?: any;
-  updateProxy?: any;
+  nftSafeProxy?: any;
   cat?: any;
   owner?: string;
   bob?: string;
+  jane?: string;
   sara?: string;
-  id1?: string;
-  imprint1?: string;
-  imprint2?: string;
   signatureTuple?: any;
   dataTuple?: any;
+  id1: any;
 }
+
+/**
+ * Spec stack instances.
+ */
 
 const spec = new Spec<Data>();
 
-spec.beforeEach(async (ctx) => {
+spec.before(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
+  ctx.set('id1', '0x0000000000000000000000000000000000000000000000000000000000000001');
   ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
+  ctx.set('jane', accounts[2]);
   ctx.set('sara', accounts[3]);
-});
-
-spec.beforeEach(async (ctx) => {
-  ctx.set('id1', '1');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
-  ctx.set('imprint2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
 });
 
 /**
  * Cat
- * Jane owns: #1
+ * Jane owns: #1, #4
+ * Bob owns: #2, #3
  */
 spec.beforeEach(async (ctx) => {
-  const bob = ctx.get('bob');
-  const owner = ctx.get('owner');
-  const imprint1 = ctx.get('imprint1');
-  const id = ctx.get('id1');
   const cat = await ctx.deploy({
-    src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
-    contract: 'XcertMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    src: '@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-enumerable-mock.json',
+    contract: 'NFTokenMetadataEnumerableMock',
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json'],
   });
   await cat.instance.methods
-  .create(bob, id, imprint1)
-  .send({
-    from: owner,
-  });
+    .create(ctx.get('jane'), 1)
+    .send({
+      from: ctx.get('owner'),
+      gas: 4000000,
+    });
+  await cat.instance.methods
+    .create(ctx.get('jane'), 4)
+    .send({
+      from: ctx.get('owner'),
+      gas: 4000000,
+    });
+  await cat.instance.methods
+    .create(ctx.get('bob'), 2)
+    .send({
+      from: ctx.get('owner'),
+      gas: 4000000,
+    });
+  await cat.instance.methods
+    .create(ctx.get('bob'), 3)
+    .send({
+      from: ctx.get('owner'),
+      gas: 4000000,
+    });
   ctx.set('cat', cat);
 });
 
 spec.beforeEach(async (ctx) => {
-  const updateProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/xcert-update-proxy.json',
-    contract: 'XcertUpdateProxy',
+  const nftSafeProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
+    contract: 'NFTokenSafeTransferProxy',
   });
-  ctx.set('updateProxy', updateProxy);
+  ctx.set('nftSafeProxy', nftSafeProxy);
 });
 
 spec.beforeEach(async (ctx) => {
-  const updateProxy = ctx.get('updateProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const owner = ctx.get('owner');
   const actionsGateway = await ctx.deploy({
     src: './build/actions-gateway.json',
     contract: 'ActionsGateway',
   });
   await actionsGateway.instance.methods.grantAbilities(owner, ActionsGatewayAbilities.SET_PROXIES).send();
-  await actionsGateway.instance.methods.addProxy(updateProxy.receipt._address).send({ from: owner });
+  await actionsGateway.instance.methods.addProxy(nftSafeProxy.receipt._address, 1).send({ from: owner });
   ctx.set('actionsGateway', actionsGateway);
 });
 
 spec.beforeEach(async (ctx) => {
-  const updateProxy = ctx.get('updateProxy');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
   const actionsGateway = ctx.get('actionsGateway');
   const owner = ctx.get('owner');
-  await updateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE).send({ from: owner });
+  await nftSafeProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, NFTokenSafeTransferProxyAbilities.EXECUTE).send({ from: owner });
 });
 
 spec.beforeEach(async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
+  const nftSafeProxy = ctx.get('nftSafeProxy');
+  const jane = ctx.get('jane');
   const bob = ctx.get('bob');
   const cat = ctx.get('cat');
-  const imprint2 = ctx.get('imprint2');
-  const id = ctx.get('id1');
-  const owner = ctx.get('owner');
-  const updateProxy = ctx.get('updateProxy');
+  const id1 = ctx.get('id1');
 
   const actions = [
     {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${id1}${bob.substring(2)}00`,
     },
   ];
   const orderData = {
-    maker: owner,
-    taker: bob,
+    signers: [jane],
     actions,
     seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,
@@ -117,16 +131,10 @@ spec.beforeEach(async (ctx) => {
   const orderDataTuple = ctx.tuple(orderData);
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(orderDataTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature = await getSignature(ctx.web3, claim, jane);
+  const signatureDataTuple = ctx.tuple([signature]);
 
-  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
+  await cat.instance.methods.approve(nftSafeProxy.receipt._address, 1).send({ from: jane });
 
   ctx.set('signatureTuple', signatureDataTuple);
   ctx.set('dataTuple', orderDataTuple);
@@ -136,10 +144,10 @@ spec.test('succeeds', async (ctx) => {
   const signatureTuple = ctx.get('signatureTuple');
   const dataTuple = ctx.get('dataTuple');
   const actionsGateway = ctx.get('actionsGateway');
-  const owner = ctx.get('owner');
+  const jane = ctx.get('jane');
   const bob = ctx.get('bob');
 
-  const logs = await actionsGateway.instance.methods.cancel(dataTuple).send({ from: owner });
+  const logs = await actionsGateway.instance.methods.cancel(dataTuple).send({ from: jane });
   ctx.not(logs.events.Cancel, undefined);
   await ctx.reverts(() => actionsGateway.instance.methods.perform(dataTuple, signatureTuple).send({ from: bob }), '015007');
 });
@@ -148,11 +156,11 @@ spec.test('throws when trying to cancel an already performed atomic swap', async
   const signatureTuple = ctx.get('signatureTuple');
   const dataTuple = ctx.get('dataTuple');
   const actionsGateway = ctx.get('actionsGateway');
-  const owner = ctx.get('owner');
+  const jane = ctx.get('jane');
   const bob = ctx.get('bob');
 
   await actionsGateway.instance.methods.perform(dataTuple, signatureTuple).send({ from: bob });
-  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: owner }), '015008');
+  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: jane }), '015008');
 });
 
 spec.test('throws when a third party tries to cancel an atomic swap', async (ctx) => {

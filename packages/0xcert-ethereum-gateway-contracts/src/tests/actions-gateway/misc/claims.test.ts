@@ -1,5 +1,5 @@
 import { Spec } from '@specron/spec';
-import * as common from '../helpers/common';
+import * as common from '../../helpers/common';
 
 /**
  * Spec context interfaces.
@@ -57,16 +57,12 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   const action = {
-    kind: 1,
-    proxy: 0,
-    token: ctx.get('cat').receipt._address,
-    param1: ctx.get('jane'),
-    to: ctx.get('sara'),
-    value: 1,
+    proxyId: 0,
+    contractAddress: ctx.get('cat').receipt._address,
+    params: `${ctx.get('jane')}${ctx.get('sara').substr(2)}`,
   };
   const claim = {
-    maker: ctx.get('jane'),
-    taker: ctx.get('sara'),
+    signers: [ctx.get('jane'), ctx.get('sara')],
     actions: [action],
     seed: common.getCurrentTime(),
     expiration: common.getCurrentTime() + 600,

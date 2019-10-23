@@ -15,7 +15,7 @@ export class GatewayMock implements GatewayBase {
   public claim(order: Order): Promise<string> {
     throw new Error('Method not implemented.');
   }
-  public perform(order: Order, claim: string): Promise<MutationBase> {
+  public perform(order: Order, claim: string | string[]): Promise<MutationBase> {
     throw new Error('Method not implemented.');
   }
   public cancel(order: Order): Promise<MutationBase> {

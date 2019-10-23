@@ -1,24 +1,22 @@
-import { TokenTransferProxyAbilities, XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
+import { XcertCreateProxyAbilities } from '@0xcert/ethereum-proxy-contracts/src/core/types';
 import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types';
 import { Spec } from '@specron/spec';
 import { ActionsGatewayAbilities } from '../../../core/types';
 import * as common from '../../helpers/common';
+import { getSignature } from '../../helpers/signature';
 
 /**
  * Test definition.
- * ERC20: ZXC
- * ERC721: Cat
+ * ERC-721: Cat
  */
 
 interface Data {
   actionsGateway?: any;
-  tokenProxy?: any;
   createProxy?: any;
   cat?: any;
   owner?: string;
   jane?: string;
   sara?: string;
-  zxc?: any;
   id1?: string;
   imprint1?: string;
 }
@@ -49,29 +47,6 @@ spec.beforeEach(async (ctx) => {
   ctx.set('cat', cat);
 });
 
-/**
- * ZXC
- * Jane owns: all
- */
-spec.beforeEach(async (ctx) => {
-  const jane = ctx.get('jane');
-  const zxc = await ctx.deploy({
-    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
-    contract: 'TokenMock',
-    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
-    from: jane,
-  });
-  ctx.set('zxc', zxc);
-});
-
-spec.beforeEach(async (ctx) => {
-  const tokenProxy = await ctx.deploy({
-    src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
-    contract: 'TokenTransferProxy',
-  });
-  ctx.set('tokenProxy', tokenProxy);
-});
-
 spec.beforeEach(async (ctx) => {
   const createProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy.json',
@@ -81,7 +56,6 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
-  const tokenProxy = ctx.get('tokenProxy');
   const createProxy = ctx.get('createProxy');
   const owner = ctx.get('owner');
   const actionsGateway = await ctx.deploy({
@@ -89,53 +63,36 @@ spec.beforeEach(async (ctx) => {
     contract: 'ActionsGateway',
   });
   await actionsGateway.instance.methods.grantAbilities(owner, ActionsGatewayAbilities.SET_PROXIES).send();
-  await actionsGateway.instance.methods.addProxy(tokenProxy.receipt._address).send({ from: owner });
-  await actionsGateway.instance.methods.addProxy(createProxy.receipt._address).send({ from: owner });
+  await actionsGateway.instance.methods.addProxy(createProxy.receipt._address, 0).send({ from: owner });
   ctx.set('actionsGateway', actionsGateway);
 });
 
 spec.beforeEach(async (ctx) => {
-  const tokenProxy = ctx.get('tokenProxy');
   const actionsGateway = ctx.get('actionsGateway');
   const owner = ctx.get('owner');
   const createProxy = ctx.get('createProxy');
-  await tokenProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, TokenTransferProxyAbilities.EXECUTE).send({ from: owner });
   await createProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-spec.test('fails if msg.sender is not the receiver', async (ctx) => {
+spec.test('fails if a signature is missing', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
   const createProxy = ctx.get('createProxy');
-  const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
+  const owner = ctx.get('owner');
   const sara = ctx.get('sara');
-  const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
   const imprint = ctx.get('imprint1');
 
   const actions = [
     {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: owner,
-    to: jane,
+    signers: [owner, jane, sara],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
@@ -144,133 +101,16 @@ spec.test('fails if msg.sender is not the receiver', async (ctx) => {
 
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature1 = await getSignature(ctx.web3, claim, owner);
+  const signature2 = await getSignature(ctx.web3, claim, jane);
+  const signatureDataTuple = ctx.tuple([signature1, signature2]);
 
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: sara }), '015003');
-});
-
-spec.test('fails when trying to perform already performed creation', async (ctx) => {
-  const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
-  const tokenProxy = ctx.get('tokenProxy');
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
-
-  const actions = [
-    {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
-    },
-  ];
-  const orderData = {
-    from: owner,
-    to: jane,
-    actions,
-    seed: common.getCurrentTime(),
-    expirationTimestamp: common.getCurrentTime() + 3600,
-  };
-  const createTuple = ctx.tuple(orderData);
-
-  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015008');
-});
-
-spec.test('fails when approved token value is not sufficient', async (ctx) => {
-  const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
-  const tokenProxy = ctx.get('tokenProxy');
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
-
-  const actions = [
-    {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
-    },
-  ];
-  const orderData = {
-    from: owner,
-    to: jane,
-    actions,
-    seed: common.getCurrentTime(),
-    expirationTimestamp: common.getCurrentTime() + 3600,
-  };
-  const createTuple = ctx.tuple(orderData);
-
-  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 4999).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '001002');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }));
 });
 
 spec.test('fails when proxy does not have the create rights', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
-  const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
@@ -279,105 +119,29 @@ spec.test('fails when proxy does not have the create rights', async (ctx) => {
 
   const actions = [
     {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: owner,
-    to: jane,
+    signers: [owner],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
   const createTuple = ctx.tuple(orderData);
-
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature1 = await getSignature(ctx.web3, claim, owner);
+  const signatureDataTuple = ctx.tuple([signature1]);
 
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '017001');
-});
-
-spec.test('fails if current time is after expirationTimestamp', async (ctx) => {
-  const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
-  const createProxy = ctx.get('createProxy');
-  const tokenProxy = ctx.get('tokenProxy');
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
-
-  const actions = [
-    {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
-    },
-  ];
-  const orderData = {
-    from: owner,
-    to: jane,
-    actions,
-    seed: common.getCurrentTime(),
-    expirationTimestamp: common.getCurrentTime() - 1000,
-  };
-  const createTuple = ctx.tuple(orderData);
-
-  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015005');
 });
 
 spec.test('fails if maker does not have asset creating ability', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
-  const zxc = ctx.get('zxc');
   const createProxy = ctx.get('createProxy');
-  const tokenProxy = ctx.get('tokenProxy');
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
@@ -386,45 +150,25 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
 
   const actions = [
     {
-      kind: 0,
-      proxy: 1,
-      token: cat.receipt._address,
-      param1: imprint,
-      to: jane,
-      value: id,
-    },
-    {
-      kind: 1,
-      proxy: 0,
-      token: zxc.receipt._address,
-      param1: jane,
-      to: owner,
-      value: 5000,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: owner,
-    to: jane,
+    signers: [owner],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
   };
   const createTuple = ctx.tuple(orderData);
-
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature1 = await getSignature(ctx.web3, claim, owner);
+  const signatureDataTuple = ctx.tuple([signature1]);
 
   await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_CREATE_ASSET).send({ from: owner });
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await zxc.instance.methods.approve(tokenProxy.receipt._address, 5000).send({ from: jane });
   await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
 });
 

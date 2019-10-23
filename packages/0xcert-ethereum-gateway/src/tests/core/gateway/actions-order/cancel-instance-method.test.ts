@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrderActionKind, FixedActionsOrder, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../../core/gateway';
 
@@ -8,7 +8,7 @@ interface Data {
   protocol: Protocol;
   makerGenericProvider: GenericProvider;
   takerGenericProvider: GenericProvider;
-  order: ActionsOrder;
+  order: FixedActionsOrder;
   claim: string;
   coinbase: string;
   bob: string;
@@ -34,17 +34,17 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const coinbase = stage.get('coinbase');
-  const bob = stage.get('bob');
+  const sara = stage.get('sara');
+  const jane = stage.get('jane');
 
   const makerGenericProvider = new GenericProvider({
     client: stage.web3,
-    accountId: coinbase,
+    accountId: sara,
     requiredConfirmations: 0,
   });
   const takerGenericProvider = new GenericProvider({
     client: stage.web3,
-    accountId: bob,
+    accountId: jane,
     requiredConfirmations: 0,
   });
 
@@ -67,16 +67,13 @@ spec.before(async (stage) => {
 });
 
 spec.before(async (stage) => {
-  const coinbase = stage.get('coinbase');
-  const bob = stage.get('bob');
   const sara = stage.get('sara');
   const jane = stage.get('jane');
   const xcertId = stage.get('protocol').xcert.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: FixedActionsOrder = {
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: [sara, jane],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [
@@ -127,7 +124,7 @@ spec.test('marks gateway order as canceled on the network which prevents an tran
   ctx.is((mutation.logs[0]).event, 'Cancel');
 
   const takerGateway = new Gateway(takerGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  await ctx.throws(() => takerGateway.perform(order, claim).then(() => ctx.sleep(200)));
+  await ctx.throws(() => takerGateway.perform(order, [claim]).then(() => ctx.sleep(200)));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), jane);

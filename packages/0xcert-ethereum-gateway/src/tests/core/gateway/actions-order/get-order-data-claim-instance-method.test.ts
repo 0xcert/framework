@@ -1,6 +1,6 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
-import { ActionsOrder, ActionsOrderActionKind, OrderKind } from '@0xcert/scaffold';
+import { ActionsOrderActionKind, FixedActionsOrder, OrderKind } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../../core/gateway';
 import { createOrderHash } from '../../../../lib/actions-order';
@@ -17,7 +17,6 @@ const spec = new Spec<Data>();
 
 spec.before(async (stage) => {
   const protocol = new Protocol(stage.web3);
-
   stage.set('protocol', await protocol.deploy());
 });
 
@@ -44,10 +43,9 @@ spec.test('gets order data claim', async (ctx) => {
   const bob = ctx.get('bob');
   const xcertId = ctx.get('protocol').xcert.instance.options.address;
 
-  const order: ActionsOrder = {
-    kind: OrderKind.ACTIONS_ORDER,
-    makerId: coinbase,
-    takerId: bob,
+  const order: FixedActionsOrder = {
+    kind: OrderKind.FIXED_ACTIONS_ORDER,
+    signers: [coinbase, bob],
     seed: 1535113220.12345, // should handle floats
     expiration: Date.now() * 60.1234, // should handle floats
     actions: [

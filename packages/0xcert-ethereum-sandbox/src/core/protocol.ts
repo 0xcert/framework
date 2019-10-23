@@ -314,12 +314,12 @@ export class Protocol {
     });
 
     await actionsGateway.instance.methods.grantAbilities(from, 16).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.xcertCreateProxy.receipt._address).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address).send({ from });
-    await actionsGateway.instance.methods.addProxy(this.abilitableManageProxy.receipt._address).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertCreateProxy.receipt._address, 0).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address, 2).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.abilitableManageProxy.receipt._address, 3).send({ from });
     await this.tokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.nftokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.xcertCreateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
@@ -339,7 +339,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertDeployGateway.abi,
       bytecode: contracts.xcertDeployGateway.bytecode,
-      args: [this.tokenTransferProxy.receipt._address, this.xcertCreateProxy.receipt._address],
+      args: [this.tokenTransferProxy.receipt._address, this.xcertCreateProxy.receipt._address, this.xcertUpdateProxy.receipt._address, this.abilitableManageProxy.receipt._address],
       from,
     });
 

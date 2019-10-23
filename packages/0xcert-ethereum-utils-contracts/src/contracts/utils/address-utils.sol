@@ -30,7 +30,7 @@ library AddressUtils
     // for accounts without code, i.e. `keccak256('')`
     bytes32 codehash;
     bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-    assembly { codehash := extcodehash(_addr) } // solhint-disable-line
+    assembly { codehash := extcodehash(_addr) } // solhint-disable-line no-inline-assembly
     addressCheck = (codehash != 0x0 && codehash != accountHash);
   }
 

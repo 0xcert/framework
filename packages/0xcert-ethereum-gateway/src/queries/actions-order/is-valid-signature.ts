@@ -12,13 +12,13 @@ const outputTypes = ['bool'];
  * @param order Order data.
  * @param claim Claim data.
  */
-export default async function(gateway: Gateway, order: ActionsOrder, claim: string) {
+export default async function(gateway: Gateway, order: ActionsOrder, claim: string, signer: string) {
   const orderHash = createOrderHash(gateway, order);
   const signatureTuple = createSignatureTuple(claim);
   try {
     const attrs = {
       to: gateway.config.actionsOrderId,
-      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [order.makerId, orderHash, signatureTuple]).substr(2),
+      data: functionSignature + gateway.provider.encoder.encodeParameters(inputTypes, [signer, orderHash, signatureTuple]).substr(2),
     };
     const res = await gateway.provider.post({
       method: 'eth_call',

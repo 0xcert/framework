@@ -3,11 +3,12 @@ import { XcertAbilities } from '@0xcert/ethereum-xcert-contracts/src/core/types'
 import { Spec } from '@specron/spec';
 import { ActionsGatewayAbilities } from '../../../core/types';
 import * as common from '../../helpers/common';
+import { getSignature } from '../../helpers/signature';
 
 /**
  * Test definition.
  * ERC20: ZXC, BNB, OMG, BAT, GNT
- * ERC721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
+ * ERC-721: Cat, Dog, Fox, Bee, Ant, Ape, Pig
  */
 
 interface Data {
@@ -79,7 +80,7 @@ spec.beforeEach(async (ctx) => {
     contract: 'ActionsGateway',
   });
   await actionsGateway.instance.methods.grantAbilities(owner, ActionsGatewayAbilities.SET_PROXIES).send();
-  await actionsGateway.instance.methods.addProxy(updateProxy.receipt._address).send({ from: owner });
+  await actionsGateway.instance.methods.addProxy(updateProxy.receipt._address, 2).send({ from: owner });
   ctx.set('actionsGateway', actionsGateway);
 });
 
@@ -90,7 +91,7 @@ spec.beforeEach(async (ctx) => {
   await updateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE).send({ from: owner });
 });
 
-spec.test('throws when maker does not have ability to sign an update asset', async (ctx) => {
+spec.test('throws when signer does not have ability to sign an update asset', async (ctx) => {
   const actionsGateway = ctx.get('actionsGateway');
   const jane = ctx.get('jane');
   const bob = ctx.get('bob');
@@ -102,17 +103,13 @@ spec.test('throws when maker does not have ability to sign an update asset', asy
 
   const actions = [
     {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint2}${id.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: jane,
-    to: bob,
+    signers: [jane],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
@@ -121,14 +118,8 @@ spec.test('throws when maker does not have ability to sign an update asset', asy
 
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, jane);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature = await getSignature(ctx.web3, claim, jane);
+  const signatureDataTuple = ctx.tuple([signature]);
 
   await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
   await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: bob }), '015010');
@@ -144,17 +135,13 @@ spec.test('throws when proxy does not have ability to update assets', async (ctx
 
   const actions = [
     {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint2}${id.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: owner,
-    to: jane,
+    signers: [owner],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
@@ -163,14 +150,8 @@ spec.test('throws when proxy does not have ability to update assets', async (ctx
 
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature = await getSignature(ctx.web3, claim, owner);
+  const signatureDataTuple = ctx.tuple([signature]);
 
   await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '017001');
 });
@@ -186,17 +167,13 @@ spec.test('throws when proxy does not have ability to execute', async (ctx) => {
 
   const actions = [
     {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
+      proxyId: 0,
+      contractAddress: cat.receipt._address,
+      params: `${imprint2}${id.substring(2)}00`,
     },
   ];
   const orderData = {
-    from: owner,
-    to: jane,
+    signers: [owner],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
@@ -205,109 +182,13 @@ spec.test('throws when proxy does not have ability to execute', async (ctx) => {
 
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
+  const signature = await getSignature(ctx.web3, claim, owner);
+  const signatureDataTuple = ctx.tuple([signature]);
 
   await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
 
   await updateProxy.instance.methods.revokeAbilities(actionsGateway.receipt._address, XcertUpdateProxyAbilities.EXECUTE).send({ from: owner });
   await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '017001');
-});
-
-spec.test('throws when trying to perform and already performed update', async (ctx) => {
-  const actionsGateway = ctx.get('actionsGateway');
-  const updateProxy = ctx.get('updateProxy');
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint2 = ctx.get('imprint2');
-
-  const actions = [
-    {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
-    },
-  ];
-  const orderData = {
-    from: owner,
-    to: jane,
-    actions,
-    seed: common.getCurrentTime(),
-    expirationTimestamp: common.getCurrentTime() + 3600,
-  };
-  const createTuple = ctx.tuple(orderData);
-
-  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
-  const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
-  ctx.not(logs.events.Perform, undefined);
-
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015008');
-});
-
-spec.test('when current time is after expirationTimestamp', async (ctx) => {
-  const actionsGateway = ctx.get('actionsGateway');
-  const updateProxy = ctx.get('updateProxy');
-  const jane = ctx.get('jane');
-  const owner = ctx.get('owner');
-  const cat = ctx.get('cat');
-  const id = ctx.get('id1');
-  const imprint2 = ctx.get('imprint2');
-
-  const actions = [
-    {
-      kind: 2,
-      proxy: 0,
-      token: cat.receipt._address,
-      param1: imprint2,
-      to: '0x0000000000000000000000000000000000000000',
-      value: id,
-    },
-  ];
-  const orderData = {
-    from: owner,
-    to: jane,
-    actions,
-    seed: common.getCurrentTime(),
-    expirationTimestamp: common.getCurrentTime() - 3600,
-  };
-  const createTuple = ctx.tuple(orderData);
-
-  const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
-
-  const signature = await ctx.web3.eth.sign(claim, owner);
-  const signatureData = {
-    r: signature.substr(0, 66),
-    s: `0x${signature.substr(66, 64)}`,
-    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
-    kind: 0,
-  };
-  const signatureDataTuple = ctx.tuple(signatureData);
-
-  await cat.instance.methods.grantAbilities(updateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
-
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015005');
 });
 
 export default spec;

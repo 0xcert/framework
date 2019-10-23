@@ -25,6 +25,8 @@ contract XcertCustom is XcertToken {
    * corresponding capabilities.
    * @param _owner Owner of the contract. This address will get all available permissions(abilities).
    * @param _assetCreateProxy Address of asset create proxy.
+   * @param _assetUpdateProxy Address of asset create proxy.
+   * @param _abilitableManageProxy Address of asset create proxy.
    */
   constructor(
     string memory _name,
@@ -34,7 +36,9 @@ contract XcertCustom is XcertToken {
     bytes32 _schemaId,
     bytes4[] memory _capabilities,
     address _owner,
-    address _assetCreateProxy
+    address _assetCreateProxy,
+    address _assetUpdateProxy,
+    address _abilitableManageProxy
   )
     public
   {
@@ -48,6 +52,8 @@ contract XcertCustom is XcertToken {
       supportedInterfaces[_capabilities[i]] = true;
     }
     addressToAbility[_assetCreateProxy] = ABILITY_CREATE_ASSET; // Gives createProxy ability to create a new asset.
+    addressToAbility[_assetUpdateProxy] = ABILITY_UPDATE_ASSET_IMPRINT; // Gives updateProxy ability to update an asset.
+    addressToAbility[_abilitableManageProxy] = SUPER_ABILITY; // Gives manage abilitable proxy ability to manage abilities.
     addressToAbility[msg.sender] = ABILITY_NONE;
     addressToAbility[_owner] = ABILITY_ALL;
   }
