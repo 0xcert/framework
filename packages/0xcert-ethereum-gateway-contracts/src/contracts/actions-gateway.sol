@@ -243,7 +243,7 @@ contract ActionsGateway is
     // signatures.
     uint256 signersLength = _data.signers.length - 1;
     // Address with which we are replacing zero address in case of any taker/signer.
-    address replaceAddress = address(0);
+    address anyAddress = address(0);
     // If the last signer is zero address then we treat this as an any taker/signer order.
     // This means we replace zero address with the last signer or the order executor.
     if (_data.signers[signersLength] == address(0))
@@ -251,11 +251,11 @@ contract ActionsGateway is
       // If the last signature is missing then the address we are replacing with is the msg.sender
       // else the address associated with the last signature is used.
       if (signersLength == _signatures.length) {
-        replaceAddress = msg.sender;
+        anyAddress = msg.sender;
       } else {
-        replaceAddress = recoverSigner(claim, _signatures[signersLength]);
+        anyAddress = recoverSigner(claim, _signatures[signersLength]);
       }
-      _data.signers[signersLength] = replaceAddress;
+      _data.signers[signersLength] = anyAddress;
       // If it is not an any taker/signature order and the last signature is missing then the
       // executor (msg.sender) has to be the last signer.
     } else if (signersLength == _signatures.length) {
@@ -281,7 +281,7 @@ contract ActionsGateway is
     require(!orderPerformed[claim], ORDER_ALREADY_PERFORMED);
 
     orderPerformed[claim] = true;
-    _doActionsReplaceZeroAddress(_data, replaceAddress);
+    _doActionsReplaceZeroAddress(_data, anyAddress);
 
     emit Perform(claim);
   }
@@ -427,7 +427,7 @@ contract ActionsGateway is
    */
   function _doActionsReplaceZeroAddress(
     OrderData memory _order,
-    address _replaceAddress
+    address _anyAddress
   )
     private
   {
@@ -452,7 +452,7 @@ contract ActionsGateway is
 
         address to = BytesType.toAddress(ACTION_CREATE_BYTES_RECEIVER, _order.actions[i].params);
         if (to == address(0)) {
-          to = _replaceAddress;
+          to = _anyAddress;
         }
 
         XcertCreateProxy(proxies[_order.actions[i].proxyId].proxyAddress).create(
@@ -469,7 +469,7 @@ contract ActionsGateway is
         ];
         address to = BytesType.toAddress(ACTION_TRANSFER_BYTES_RECEIVER, _order.actions[i].params);
         if (to == address(0)) {
-          to = _replaceAddress;
+          to = _anyAddress;
         }
 
         Proxy(proxies[_order.actions[i].proxyId].proxyAddress).execute(
@@ -515,7 +515,7 @@ contract ActionsGateway is
         );
 
         if (to == address(0)) {
-          to = _replaceAddress;
+          to = _anyAddress;
         }
 
         AbilitableManageProxy(proxies[_order.actions[i].proxyId].proxyAddress).set(

@@ -6,7 +6,7 @@ import "../token.sol";
  * @dev This is an example contract implementation of Token.
  */
 contract TokenMock is
-  Token 
+  Token
 {
   constructor(
     string memory _name,

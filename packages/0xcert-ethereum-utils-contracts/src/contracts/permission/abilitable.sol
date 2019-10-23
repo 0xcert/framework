@@ -75,7 +75,7 @@ contract Abilitable
    */
   modifier hasAbilities(
     uint256 _abilities
-  ) 
+  )
   {
     require(_abilities > 0, INVALID_INPUT);
     require(
