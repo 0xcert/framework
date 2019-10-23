@@ -171,8 +171,10 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
     return ActionsGatewayProxy.MANAGE_ABILITIES;
   } else if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
     return ActionsGatewayProxy.XCERT_UPDATE;
-  } else {
+  } else if (action.kind == ActionsOrderActionKind.REVOKE_ASSET) {
     return ActionsGatewayProxy.XCERT_REVOKE;
+  } else {
+    throw new Error('unimplemented');
   }
 }
 
