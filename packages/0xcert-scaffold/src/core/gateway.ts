@@ -28,7 +28,7 @@ export interface GatewayBase {
    * @param order Order data.
    * @param claim Claim data.
    */
-  perform(order: Order, claim: string): Promise<MutationBase>;
+  perform(order: Order, claim: string | string[]): Promise<MutationBase>;
 
   /**
    * Cancels an order.
@@ -40,13 +40,18 @@ export interface GatewayBase {
 /**
  * Different order actions.
  */
-export type ActionsOrderAction = ActionsOrderActionCreateAsset | ActionsOrderActionTransferAsset
-  | ActionsOrderActionTransferValue | ActionsOrderActionUpdateAssetImprint | ActionsOrderActionSetAbilities;
+export type ActionsOrderAction = DynamicActionsOrderAction | FixedActionsOrderAction;
+
+/**
+ * Different dynamic order actions.
+ */
+export type DynamicActionsOrderAction = DynamicActionsOrderActionCreateAsset | DynamicActionsOrderActionTransferAsset
+  | DynamicActionsOrderActionTransferValue | DynamicActionsOrderActionUpdateAssetImprint | DynamicActionsOrderActionSetAbilities;
 
 /**
  * Order create asset data definitio.
  */
-export interface ActionsOrderActionSetAbilities {
+export interface DynamicActionsOrderActionSetAbilities {
 
   /**
    * Type od order action.
@@ -57,6 +62,11 @@ export interface ActionsOrderActionSetAbilities {
    * Id (address) of the smart contract that represents the assetLedger.
    */
   ledgerId: string;
+
+  /**
+   * Id (address) of the sender - setter of abilitites.
+   */
+  senderId?: string;
 
   /**
    * Id (address) of account we are setting abilitites to.
@@ -72,7 +82,7 @@ export interface ActionsOrderActionSetAbilities {
 /**
  * Order create asset data definitio.
  */
-export interface ActionsOrderActionCreateAsset {
+export interface DynamicActionsOrderActionCreateAsset {
 
   /**
    * Type od order action.
@@ -83,6 +93,11 @@ export interface ActionsOrderActionCreateAsset {
    * Id (address) of the smart contract that represents the assetLedger.
    */
   ledgerId: string;
+
+  /**
+   * Id (address) of the sender - creator.
+   */
+  senderId?: string;
 
   /**
    * Id (address) of the receiver.
@@ -103,7 +118,7 @@ export interface ActionsOrderActionCreateAsset {
 /**
  * Order transfer asset data definition.
  */
-export interface ActionsOrderActionTransferAsset {
+export interface DynamicActionsOrderActionTransferAsset {
 
   /**
    * Type od order action.
@@ -134,7 +149,7 @@ export interface ActionsOrderActionTransferAsset {
 /**
  * Order transfer asset data definition.
  */
-export interface ActionsOrderActionUpdateAssetImprint {
+export interface DynamicActionsOrderActionUpdateAssetImprint {
 
   /**
    * Type od order action.
@@ -145,6 +160,11 @@ export interface ActionsOrderActionUpdateAssetImprint {
    * Id (address) of the smart contract that represents the assetLedger.
    */
   ledgerId: string;
+
+  /**
+   * Id (address) of the sender - updator.
+   */
+  senderId?: string;
 
   /**
    * Merkle tree root of asset proof.
@@ -160,7 +180,7 @@ export interface ActionsOrderActionUpdateAssetImprint {
 /**
  * Order transfer value data definition.
  */
-export interface ActionsOrderActionTransferValue {
+export interface DynamicActionsOrderActionTransferValue {
 
   /**
    * Type od order action.
@@ -189,43 +209,303 @@ export interface ActionsOrderActionTransferValue {
 }
 
 /**
+ * Different fixed order actions.
+ */
+export type FixedActionsOrderAction = FixedActionsOrderActionCreateAsset | FixedActionsOrderActionTransferAsset
+  | FixedActionsOrderActionTransferValue | FixedActionsOrderActionUpdateAssetImprint | FixedActionsOrderActionSetAbilities;
+
+/**
+ * Order create asset data definitio.
+ */
+export interface FixedActionsOrderActionSetAbilities {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.SET_ABILITIES;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender - setter of abilitites.
+   */
+  senderId?: string;
+
+  /**
+   * Id (address) of account we are setting abilitites to.
+   */
+  receiverId: string;
+
+  /**
+   * Abilities we want to set.
+   */
+  abilities: AssetLedgerAbility[];
+}
+
+/**
+ * Order create asset data definitio.
+ */
+export interface FixedActionsOrderActionCreateAsset {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.CREATE_ASSET;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender - creator.
+   */
+  senderId?: string;
+
+  /**
+   * Id (address) of the receiver.
+   */
+  receiverId: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
+
+  /**
+   * Merkle tree root of asset proof.
+   */
+  assetImprint: string;
+}
+
+/**
+ * Order transfer asset data definition.
+ */
+export interface FixedActionsOrderActionTransferAsset {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.TRANSFER_ASSET;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender.
+   */
+  senderId: string;
+
+  /**
+   * Id (address) of the receiver.
+   */
+  receiverId: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
+}
+
+/**
+ * Order transfer asset data definition.
+ */
+export interface FixedActionsOrderActionUpdateAssetImprint {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender - updator.
+   */
+  senderId?: string;
+
+  /**
+   * Merkle tree root of asset proof.
+   */
+  assetImprint: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
+}
+
+/**
+ * Order transfer value data definition.
+ */
+export interface FixedActionsOrderActionTransferValue {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.TRANSFER_VALUE;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender.
+   */
+  senderId: string;
+
+  /**
+   * Id (address) of the receiver.
+   */
+  receiverId: string;
+
+  /**
+   * The amount of value(erc20 tokens).
+   */
+  value: string; // TODO BN.js
+}
+
+export type ActionsOrder = FixedActionsOrder | SignedFixedActionsOrder |
+  SignedDynamicActionsOrder | DynamicActionsOrder;
+
+/**
  * Different order actions.
  */
-export type Order = ActionsOrder | AssetLedgerDeployOrder | ValueLedgerDeployOrder;
+export type Order = AssetLedgerDeployOrder | ValueLedgerDeployOrder | ActionsOrder;
 
 /**
  * List of available order kinds.
  */
 export enum OrderKind {
-  ACTIONS_ORDER = 1,
-  ASSET_LEDGER_DEPLOY_ORDER = 2,
-  VALUE_LEDGER_DEPLOY_ORDER = 3,
+  ASSET_LEDGER_DEPLOY_ORDER = 1,
+  VALUE_LEDGER_DEPLOY_ORDER = 2,
+  FIXED_ACTIONS_ORDER = 3,
+  DYNAMIC_ACTIONS_ORDER = 4,
+  SIGNED_FIXED_ACTIONS_ORDER = 5,
+  SIGNED_DYNAMIC_ACTIONS_ORDER = 6,
 }
 
 /**
  * Order definition.
  */
-export class ActionsOrder {
+export class DynamicActionsOrder {
 
   /**
    * Type of order.
    */
-  public kind: OrderKind.ACTIONS_ORDER;
+  public kind: OrderKind.DYNAMIC_ACTIONS_ORDER;
 
   /**
-   * Address of the order maker.
+   * Array of order signers.
    */
-  public makerId: string;
-
-  /**
-   * Address of the order taker.
-   */
-  public takerId?: string;
+  public signers: string[];
 
   /**
    * Array of actions that will execute in this order.
    */
-  public actions: ActionsOrderAction[];
+  public actions: DynamicActionsOrderAction[];
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
+}
+
+/**
+ * Order definition.
+ */
+export class SignedDynamicActionsOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER;
+
+  /**
+   * Array of order signers.
+   */
+  public signers: string[];
+
+  /**
+   * Array of actions that will execute in this order.
+   */
+  public actions: DynamicActionsOrderAction[];
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
+}
+
+/**
+ * Order definition.
+ */
+export class FixedActionsOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.FIXED_ACTIONS_ORDER;
+
+  /**
+   * Array of order signers.
+   */
+  public signers: string[];
+
+  /**
+   * Array of actions that will execute in this order.
+   */
+  public actions: FixedActionsOrderAction[];
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
+}
+
+/**
+ * Order definition.
+ */
+export class SignedFixedActionsOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.SIGNED_FIXED_ACTIONS_ORDER;
+
+  /**
+   * Array of order signers.
+   */
+  public signers: string[];
+
+  /**
+   * Array of actions that will execute in this order.
+   */
+  public actions: FixedActionsOrderAction[];
 
   /**
    * Nonce for hash generation - usually current timestamp.

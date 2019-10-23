@@ -2,8 +2,8 @@ import { ActionsOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { createRecipeTuple } from '../../lib/actions-order';
 
-const functionSignature = '0xd1c87f30';
-const inputTypes = ['tuple(address, address, tuple[](uint8, uint32, address, bytes32, address, uint256), uint256, uint256)'];
+const functionSignature = '0x5f2aa503';
+const inputTypes = ['tuple(address[], tuple[](uint32, address, bytes), uint256, uint256)'];
 const outputTypes = ['bytes32'];
 
 /**

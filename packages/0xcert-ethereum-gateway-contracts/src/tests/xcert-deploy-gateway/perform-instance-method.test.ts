@@ -8,6 +8,8 @@ interface Data {
   xcertDeployGateway?: any;
   tokenProxy?: any;
   createProxy?: any;
+  updateProxy?: any;
+  manageProxy?: any;
   zxc?: any;
   jane?: string;
   sara?: string;
@@ -55,12 +57,30 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const updateProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-update-proxy.json',
+    contract: 'XcertUpdateProxy',
+  });
+  ctx.set('updateProxy', updateProxy);
+});
+
+spec.beforeEach(async (ctx) => {
+  const manageProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/abilitable-manage-proxy.json',
+    contract: 'AbilitableManageProxy',
+  });
+  ctx.set('manageProxy', manageProxy);
+});
+
+spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const createProxy = ctx.get('createProxy');
+  const updateProxy = ctx.get('updateProxy');
+  const manageProxy = ctx.get('manageProxy');
   const xcertDeployGateway = await ctx.deploy({
     src: './build/xcert-deploy-gateway.json',
     contract: 'XcertDeployGateway',
-    args: [tokenProxy.receipt._address, createProxy.receipt._address],
+    args: [tokenProxy.receipt._address, createProxy.receipt._address, updateProxy.receipt._address, manageProxy.receipt._address],
   });
   ctx.set('xcertDeployGateway', xcertDeployGateway);
 });
