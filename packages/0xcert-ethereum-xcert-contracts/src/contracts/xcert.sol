@@ -36,9 +36,6 @@ contract XcertToken is
   /// ability.
   /// ABILITY_ALLOW_REVOKE_ASSET = 2048 - A specific ability that is bounded to atomic orders.
   /// When revoking an Xcert trough `ActionsGateway`, the order maker has to have this ability.
-  /// ABILITY_ALLOW_TOGGLE_TRANSFERS = 4096 - A specific ability that is bounded to atomic
-  /// orders. When changing transfer state of an Xcert contract trough `ActionsGateway`, the order
-  /// maker has to have this ability.
 
   /**
    * @dev List of capabilities (supportInterface bytes4 representations).
