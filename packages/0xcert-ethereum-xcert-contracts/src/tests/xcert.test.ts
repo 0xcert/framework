@@ -321,7 +321,7 @@ spec.skip('correctly sets an operator with signature', async (ctx) => {
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
-  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const claim = await xcert.instance.methods.generateApprovalClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -353,7 +353,7 @@ spec.test('fails setting an operator with signature if signature kind is invalid
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
-  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const claim = await xcert.instance.methods.generateApprovalClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -379,7 +379,7 @@ spec.test('fails setting an operator with signature if signature is from a third
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
-  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const claim = await xcert.instance.methods.generateApprovalClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, owner);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -409,7 +409,7 @@ spec.skip('fails setting an operator with signature if claim was already used', 
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
-  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const claim = await xcert.instance.methods.generateApprovalClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
     r: signature.substr(0, 66),
@@ -436,7 +436,7 @@ spec.test('fails setting an operator with signature if claim has expired', async
   const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
 
   await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
-  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const claim = await xcert.instance.methods.generateApprovalClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
   const signature = await ctx.web3.eth.sign(claim, bob);
   const signatureData = {
     r: signature.substr(0, 66),
