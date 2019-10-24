@@ -26,7 +26,7 @@ export function createOrderHash(gateway: Gateway, order: AssetLedgerDeployOrder)
       stringToHex(order.assetLedgerData.uriPostfix),
       order.assetLedgerData.schemaId,
       capabilities,
-      order.assetLedgerData.owner.substr(2),
+      order.assetLedgerData.ownerId.substr(2),
     ].join('')),
   );
 
@@ -76,7 +76,7 @@ export function createRecipeTuple(order: AssetLedgerDeployOrder) {
       uriPostfix: order.assetLedgerData.uriPostfix,
       schemaId: `0x${order.assetLedgerData.schemaId}`,
       capabilities: order.assetLedgerData.capabilities.map((c) => { return getInterfaceCode(c); }),
-      owner: order.assetLedgerData.owner,
+      owner: order.assetLedgerData.ownerId,
     },
     transferData: {
       token: order.tokenTransferData.ledgerId,
@@ -137,6 +137,6 @@ export function normalizeOrderIds(order: AssetLedgerDeployOrder, provider: Gener
   } else {
     order.tokenTransferData.receiverId = provider.encoder.normalizeAddress(order.tokenTransferData.receiverId);
   }
-  order.assetLedgerData.owner = provider.encoder.normalizeAddress(order.assetLedgerData.owner);
+  order.assetLedgerData.ownerId = provider.encoder.normalizeAddress(order.assetLedgerData.ownerId);
   return order;
 }
