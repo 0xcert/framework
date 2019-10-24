@@ -257,7 +257,7 @@ contract XcertToken is
       tokenOwner == _destroyer || ownerToOperators[tokenOwner][_destroyer],
       NOT_OWNER_OR_OPERATOR
     );
-    ERC20(_feeToken).transferFrom(_destroyer, msg.sender, _feeValue);
+    // ERC20(_feeToken).transferFrom(_destroyer, msg.sender, _feeValue);
     delete idToImprint[_tokenId];
   }
 

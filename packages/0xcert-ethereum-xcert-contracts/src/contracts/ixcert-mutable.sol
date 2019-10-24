@@ -5,7 +5,7 @@ pragma solidity 0.5.11;
  */
 interface XcertMutable // is Xcert
 {
-  
+
   /**
    * @dev Updates Xcert imprint.
    * @param _tokenId Id of the Xcert.
