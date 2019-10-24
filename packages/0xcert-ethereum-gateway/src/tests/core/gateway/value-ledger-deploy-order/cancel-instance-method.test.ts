@@ -74,7 +74,7 @@ spec.test('marks tokenDeployGateway order as canceled on the network which preve
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: tokenId,

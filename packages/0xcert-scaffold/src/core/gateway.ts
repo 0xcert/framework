@@ -642,7 +642,7 @@ export interface AssetLedgerData {
   /**
    * Id (address) of the owner of this asset ledger.
    */
-  owner: string;
+  ownerId: string;
 }
 
 /**
@@ -673,7 +673,7 @@ export interface ValueLedgerData {
   /**
    * Id (address) of the owner of this value ledger (will own the whole supply at deploy).
    */
-  owner: string;
+  ownerId: string;
 }
 
 /**

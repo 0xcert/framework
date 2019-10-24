@@ -53,7 +53,7 @@ spec.test('check if signature is valid', async (ctx) => {
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: token,
