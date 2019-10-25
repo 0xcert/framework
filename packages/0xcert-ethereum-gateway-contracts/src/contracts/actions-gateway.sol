@@ -3,10 +3,12 @@ pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-burn-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-update-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-revoke-proxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/abilitable-manage-proxy.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-type.sol";
+import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";
 
 /**
  * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
@@ -62,6 +64,8 @@ contract ActionsGateway is
   uint8 constant ACTION_MANAGE_ABILITIES_BYTES_ABILITIES = 32;
   uint8 constant ACTION_REVOKE_BYTES_FROM_INDEX = 33;
   uint8 constant ACTION_REVOKE_BYTES_ID = 32;
+  uint8 constant ACTION_BURN_BYTES_FROM_INDEX = 33;
+  uint8 constant ACTION_BURN_BYTES_ID = 32;
 
   /**
    * @dev Enum of available signature kinds.
@@ -92,7 +96,8 @@ contract ActionsGateway is
     transfer,
     update,
     manage_abilities,
-    revoke
+    revoke,
+    burn
   }
 
   /**
@@ -539,6 +544,21 @@ contract ActionsGateway is
         XcertRevokeProxy(proxies[_order.actions[i].proxyId].proxyAddress).revoke(
           _order.actions[i].contractAddress,
           BytesType.toUint256(ACTION_REVOKE_BYTES_ID, _order.actions[i].params)
+        );
+      }
+      else if (proxies[_order.actions[i].proxyId].kind == ActionKind.burn)
+      {
+        uint256 id = BytesType.toUint256(ACTION_BURN_BYTES_ID, _order.actions[i].params);
+        require(
+          _order.signers[
+            BytesType.toUint8(ACTION_BURN_BYTES_FROM_INDEX, _order.actions[i].params)
+          ] == ERC721(_order.actions[i].contractAddress).ownerOf(id),
+          SIGNER_NOT_AUTHORIZED
+        );
+
+        XcertBurnProxy(proxies[_order.actions[i].proxyId].proxyAddress).destroy(
+          _order.actions[i].contractAddress,
+          id
         );
       }
     }
