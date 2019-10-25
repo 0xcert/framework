@@ -5,18 +5,18 @@ import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /** 
- * @title NFTokenTransferProxy - Transfers none-fundgible tokens on behalf of contracts that have 
+ * @title NFTokenTransferProxy - Transfers none-fundgible tokens on behalf of contracts that have
  * been approved via decentralized governance.
  * @dev based on:https://github.com/0xProject/contracts/blob/master/contracts/TokenTransferProxy.sol
  */
-contract NFTokenTransferProxy is 
+contract NFTokenTransferProxy is
   Proxy,
-  Abilitable 
+  Abilitable
 {
 
   /**
    * @dev List of abilities:
-   * 16 - Ability to execute transfer. 
+   * 16 - Ability to execute transfer.
    */
   uint8 constant ABILITY_TO_EXECUTE = 16;
 
@@ -38,5 +38,5 @@ contract NFTokenTransferProxy is
   {
     ERC721(_target).transferFrom(_a, _b, _c);
   }
-  
+
 }

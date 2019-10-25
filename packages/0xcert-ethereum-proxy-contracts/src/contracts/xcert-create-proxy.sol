@@ -7,13 +7,13 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol
  * @title XcertCreateProxy - creates a token on behalf of contracts that have been approved via
  * decentralized governance.
  */
-contract XcertCreateProxy is 
-  Abilitable 
+contract XcertCreateProxy is
+  Abilitable
 {
 
   /**
    * @dev List of abilities:
-   * 16 - Ability to execute create. 
+   * 16 - Ability to execute create.
    */
   uint8 constant ABILITY_TO_EXECUTE = 16;
 
