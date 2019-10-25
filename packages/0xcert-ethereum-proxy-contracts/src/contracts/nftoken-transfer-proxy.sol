@@ -4,7 +4,7 @@ import "./iproxy.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
-/** 
+/**
  * @title NFTokenTransferProxy - Transfers none-fundgible tokens on behalf of contracts that have
  * been approved via decentralized governance.
  * @dev based on:https://github.com/0xProject/contracts/blob/master/contracts/TokenTransferProxy.sol
