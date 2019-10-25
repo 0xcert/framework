@@ -33,3 +33,9 @@ export enum AbilitableManageProxyAbilities {
   ALLOW_MANAGE_ABILITIES = 2,
   EXECUTE = 16,
 }
+
+export enum XcertBurnProxyAbilities {
+  MANAGE_ABILITIES = 1,
+  ALLOW_MANAGE_ABILITIES = 2,
+  EXECUTE = 16,
+}
