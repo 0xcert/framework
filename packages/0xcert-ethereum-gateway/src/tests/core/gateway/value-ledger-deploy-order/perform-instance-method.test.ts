@@ -77,7 +77,7 @@ spec.test('submits gateway value ledger deploy order to the network which execut
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: tokenId,
@@ -124,7 +124,7 @@ spec.test('submits dynamic value ledger deploy order to the network which execut
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: tokenId,
@@ -170,7 +170,7 @@ spec.test('handles fixed deploy with dynamic token transfer receiver', async (ct
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: tokenId,

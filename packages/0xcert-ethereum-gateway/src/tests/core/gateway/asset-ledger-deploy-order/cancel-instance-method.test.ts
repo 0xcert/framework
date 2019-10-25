@@ -75,7 +75,7 @@ spec.test('marks xcertDeployGateway deploy as canceled on the network which prev
       uriPostfix: '.json',
       schemaId: '9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
       capabilities: [AssetLedgerCapability.TOGGLE_TRANSFERS, AssetLedgerCapability.DESTROY_ASSET],
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: tokenId,

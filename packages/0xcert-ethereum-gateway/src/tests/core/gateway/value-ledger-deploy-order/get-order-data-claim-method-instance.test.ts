@@ -54,7 +54,7 @@ spec.test('check if order data claim equals locally created one', async (ctx) =>
       symbol: 'TST',
       supply: '5000000000000000000000000',
       decimals: '18',
-      owner: bob,
+      ownerId: bob,
     },
     tokenTransferData: {
       ledgerId: token,

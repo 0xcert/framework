@@ -18,7 +18,7 @@ export function createOrderHash(gateway: Gateway, order: ValueLedgerDeployOrder)
       stringToHex(order.valueLedgerData.symbol),
       getValue(order.valueLedgerData.supply).substr(2),
       leftPad(bigNumberify(order.valueLedgerData.decimals).toHexString(), 2, '0', false),
-      order.valueLedgerData.owner.substr(2),
+      order.valueLedgerData.ownerId.substr(2),
     ].join('')),
   );
 
@@ -66,7 +66,7 @@ export function createRecipeTuple(order: ValueLedgerDeployOrder) {
       symbol: order.valueLedgerData.symbol,
       supply: order.valueLedgerData.supply,
       decimals: order.valueLedgerData.decimals,
-      owner: order.valueLedgerData.owner,
+      owner: order.valueLedgerData.ownerId,
     },
     transferData: {
       token: order.tokenTransferData.ledgerId,
@@ -127,6 +127,6 @@ export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: Gener
   } else {
     order.tokenTransferData.receiverId = provider.encoder.normalizeAddress(order.tokenTransferData.receiverId);
   }
-  order.valueLedgerData.owner = provider.encoder.normalizeAddress(order.valueLedgerData.owner);
+  order.valueLedgerData.ownerId = provider.encoder.normalizeAddress(order.valueLedgerData.ownerId);
   return order;
 }

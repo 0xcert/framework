@@ -71,6 +71,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha9",
     "@0xcert/ethereum-utils-contracts": "2.0.0-alpha9",
     "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha9",
     "@specron/cli": "0.9.0",
