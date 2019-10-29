@@ -41,10 +41,6 @@ contract DappToken is
   string constant MIGRATE_STARTED = "010004";
   string constant MIGRATION_STARTED = "010005";
   string constant NOT_ABLE_TO_MIGRATE = "010006";
-  string constant INVALID_SIGNATURE = "010007";
-  string constant CLAIM_PERFORMED = "010008";
-  string constant CLAIM_EXPIRED = "010009";
-  string constant INVALID_SIGNATURE_KIND = "010010";
 
   /**
    * @dev Token name.
@@ -109,41 +105,6 @@ contract DappToken is
    * Equal to: bytes4(keccak256("onMigrationReceived(address,uint256)")).
    */
   bytes4 constant MAGIC_ON_MIGRATION_RECEIVED = 0xc5b97e06;
-
-  /**
-   * @dev Enum of available signature kinds.
-   * @param eth_sign Signature using eth sign.
-   * @param trezor Signature from Trezor hardware wallet.
-   * It differs from web3.eth_sign in the encoding of message length
-   * (Bitcoin varint encoding vs ascii-decimal, the latter is not
-   * self-terminating which leads to ambiguities).
-   * See also:
-   * https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer
-   * https://github.com/trezor/trezor-mcu/blob/master/firmware/ethereum.c#L602
-   * https://github.com/trezor/trezor-mcu/blob/master/firmware/crypto.c#L36a
-   * @param no_prefix Signatures that do not need a prefix.
-   */
-  enum SignatureKind
-  {
-    eth_sign,
-    trezor,
-    no_prefix
-  }
-
-  /**
-   * @dev Structure representing the signature parts.
-   * @param r ECDSA signature parameter r.
-   * @param s ECDSA signature parameter s.
-   * @param v ECDSA signature parameter v.
-   * @param kind Type of signature.
-   */
-  struct SignatureData
-  {
-    bytes32 r;
-    bytes32 s;
-    uint8 v;
-    SignatureKind kind;
-  }
 
   /**
    * @dev Mapping of all performed claims.
@@ -409,151 +370,6 @@ contract DappToken is
 
     emit Approval(msg.sender, _spender, _value);
     _success = true;
-  }
-
-  /**
-   * @dev Allows _spender to withdraw from your account multiple times, up to the _value amount. If
-   * this function is called again it overwrites the current allowance with _value.
-   * @notice To prevent attack vectors like the one described here:
-   * https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit and
-   * discussed here: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729, clients
-   * SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0
-   * before setting it to another value for the same spender. THOUGH The contract itself shouldn’t
-   * enforce it, to allow backwards compatibility with contracts deployed before.
-   * @param _approver Approving address from which the spender will be able to transfer tokens.
-   * @param _spender The address of the account able to transfer the tokens.
-   * @param _value The amount of tokens to be approved for transfer.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
-   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
-   * @param _expiration Timestamp of when the claim expires.
-   * @param _signature Data from the signature.
-   */
-  function approveWithSignature(
-    address _approver,
-    address _spender,
-    uint256 _value,
-    uint256 _feeValue,
-    uint256 _seed,
-    uint256 _expiration,
-    SignatureData memory _signature
-  )
-    public
-  {
-    bytes32 claim = generateClaim(
-      _approver,
-      _spender,
-      _value,
-      _feeValue,
-      _seed,
-      _expiration
-    );
-    require(
-      isValidSignature(
-        _approver,
-        claim,
-        _signature
-      ),
-      INVALID_SIGNATURE
-    );
-    require(!claimPerformed[claim], CLAIM_PERFORMED);
-    require(_expiration > now, CLAIM_EXPIRED);
-    claimPerformed[claim] = true;
-
-    allowed[_approver][_spender] = _value;
-    emit Approval(_approver, _spender, _value);
-
-    require(_feeValue <= balances[_approver], NOT_ENOUGH_BALANCE);
-    balances[_approver] = balances[_approver].sub(_feeValue);
-    balances[msg.sender] = balances[msg.sender].add(_feeValue);
-    emit Transfer(_approver, msg.sender, _feeValue);
-  }
-
-  /**
-   * @dev Generates hash representing the approve definition.
-   * @param _approver Approving address from which the spender will be able to transfer tokens.
-   * @param _spender The address of the account able to transfer the tokens.
-   * @param _value The amount of tokens to be approved for transfer.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
-   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
-   * @param _expiration Timestamp of when the claim expires.
-   */
-  function generateClaim(
-    address _approver,
-    address _spender,
-    uint256 _value,
-    uint256 _feeValue,
-    uint256 _seed,
-    uint256 _expiration
-  )
-    public
-    view
-    returns (bytes32 _claim)
-  {
-    _claim = keccak256(
-      abi.encodePacked(
-        address(this),
-        _approver,
-        _spender,
-        _value,
-        _feeValue,
-        _seed,
-        _expiration
-      )
-    );
-  }
-
-  /**
-   * @dev Verifies if claim signature is valid.
-   * @param _signer address of signer.
-   * @param _claim Signed Keccak-256 hash.
-   * @param _signature Signature data.
-   */
-  function isValidSignature(
-    address _signer,
-    bytes32 _claim,
-    SignatureData memory _signature
-  )
-    public
-    pure
-    returns (bool)
-  {
-    if (_signature.kind == SignatureKind.eth_sign)
-    {
-      return _signer == ecrecover(
-        keccak256(
-          abi.encodePacked(
-            "\x19Ethereum Signed Message:\n32",
-            _claim
-          )
-        ),
-        _signature.v,
-        _signature.r,
-        _signature.s
-      );
-    } else if (_signature.kind == SignatureKind.trezor)
-    {
-      return _signer == ecrecover(
-        keccak256(
-          abi.encodePacked(
-            "\x19Ethereum Signed Message:\n\x20",
-            _claim
-          )
-        ),
-        _signature.v,
-        _signature.r,
-        _signature.s
-      );
-    } else if (_signature.kind == SignatureKind.no_prefix)
-    {
-      return _signer == ecrecover(
-        _claim,
-        _signature.v,
-        _signature.r,
-        _signature.s
-      );
-    }
-
-    revert(INVALID_SIGNATURE_KIND);
   }
 
   /**
