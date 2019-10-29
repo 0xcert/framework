@@ -106,7 +106,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  public async isApprovedValue(value: string, accountId: string, spenderId: string | GatewayBase): Promise<Boolean> {
+  public async isApprovedValue(value: string, accountId: string, spenderId: string | GatewayBase): Promise<boolean> {
     if (typeof spenderId !== 'string') {
       spenderId = await (spenderId as any).getProxyAccountId(1);
     }
