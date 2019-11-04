@@ -8,4 +8,5 @@ export enum ActionsGatewayProxy {
   NFTOKEN_SAFE_TRANSFER = 3,
   XCERT_UPDATE = 4,
   MANAGE_ABILITIES = 5,
+  XCERT_BURN = 6,
 }

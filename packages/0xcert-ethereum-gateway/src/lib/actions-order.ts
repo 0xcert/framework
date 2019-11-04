@@ -83,6 +83,9 @@ export function getActionParams(action: ActionsOrderAction, signers: string[]) {
     params = rightPad(`0x${action['assetImprint']}`, 64);
     params += leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', false);
     params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
+    params = leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', true);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
   }
   return params;
 }
@@ -166,8 +169,12 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
     return ActionsGatewayProxy.XCERT_CREATE;
   } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
     return ActionsGatewayProxy.MANAGE_ABILITIES;
-  } else {
+  } else if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
     return ActionsGatewayProxy.XCERT_UPDATE;
+  } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
+    return ActionsGatewayProxy.XCERT_BURN;
+  } else {
+    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
   }
 }
 
@@ -194,7 +201,7 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
       action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = zeroAddress;
-      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
         action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = zeroAddress;
         if (action['senderId'] === zeroAddress && action['receiverId'] === zeroAddress) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');
