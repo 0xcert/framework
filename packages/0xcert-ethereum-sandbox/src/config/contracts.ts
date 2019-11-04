@@ -5,6 +5,7 @@ const { NFTokenMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-toke
 const { XcertMock } = require('@0xcert/ethereum-xcert-contracts/build/xcert-mock');
 const { XcertCreateProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy');
 const { XcertUpdateProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-update-proxy');
+const { XcertBurnProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-burn-proxy');
 const { TokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy');
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
@@ -100,6 +101,14 @@ export const nftokenSafeTransferProxy = {
 export const xcertUpdateProxy = {
   abi: XcertUpdateProxy.abi,
   bytecode: XcertUpdateProxy.evm.bytecode.object,
+};
+
+/**
+ * Xcert burn proxy data.
+ */
+export const xcertBurnProxy = {
+  abi: XcertBurnProxy.abi,
+  bytecode: XcertBurnProxy.evm.bytecode.object,
 };
 
 /**
