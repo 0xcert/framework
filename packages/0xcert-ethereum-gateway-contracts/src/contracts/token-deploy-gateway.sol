@@ -143,7 +143,7 @@ contract TokenDeployGateway
   {
     tokenTransferProxy = Proxy(_tokenTransferProxy);
   }
-  
+
   /**
    * @dev Performs the atomic swap that deploys a new token smart contract and at the same time
    * transfers tokens.
