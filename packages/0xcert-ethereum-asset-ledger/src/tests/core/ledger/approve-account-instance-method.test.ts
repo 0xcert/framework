@@ -2,12 +2,10 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
-import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: GatewayMock;
   protocol: Protocol;
   bob: string;
   coinbase: string;
@@ -36,9 +34,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -56,15 +52,6 @@ spec.test('approves account for token transfer', async (ctx) => {
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'Approval');
   ctx.is(await xcert.instance.methods.getApproved('1').call(), bob);
-});
-
-spec.test('approves gateway proxy for token transfer', async (ctx) => {
-  const xcert = ctx.get('protocol').xcert;
-  const ledger = ctx.get('ledger');
-  const gateway = ctx.get('gateway');
-  const proxyId = ctx.get('protocol').nftokenSafeTransferProxy.instance.options.address;
-  await ledger.approveAccount('2', gateway);
-  ctx.is(await xcert.instance.methods.getApproved('2').call(), proxyId);
 });
 
 export default spec;

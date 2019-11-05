@@ -23,7 +23,7 @@ import valueLedgerDeployOrderClaimEthSign from '../queries/value-ledger-deploy-o
 import valueLedgerDeployOrderClaimPersonalSign from '../queries/value-ledger-deploy-order/claim-personal-sign';
 import getValueLedgerDeployOrderDataClaim from '../queries/value-ledger-deploy-order/get-order-data-claim';
 import valueLedgerDeployOrderisValidSignature from '../queries/value-ledger-deploy-order/is-valid-signature';
-import { ActionsGatewayProxy } from './types';
+import { ProxyId, ProxyKind } from './types';
 
 /**
  * Ethereum gateway implementation.
@@ -208,10 +208,48 @@ export class Gateway implements GatewayBase {
   }
 
   /**
-   * Gets address of the proxy based on the id.
-   * @param proxyId Id of the proxy.
+   * Gets address of the proxy based on the kind.
+   * @param proxyKind Kind of the proxy.
    */
-  public async getProxyAccountId(proxyId: ActionsGatewayProxy) {
+  public async getProxyAccountId(proxyId: ProxyKind.TRANSFER_ASSET, ledgerId?: string);
+  public async getProxyAccountId(proxyId: ProxyKind.CREATE_ASSET);
+  public async getProxyAccountId(proxyId: ProxyKind.DESTROY_ASSET);
+  public async getProxyAccountId(proxyId: ProxyKind.MANAGE_ABILITIES);
+  public async getProxyAccountId(proxyId: ProxyKind.TRANSFER_TOKEN);
+  public async getProxyAccountId(proxyId: ProxyKind.UPDATE_ASSET);
+  public async getProxyAccountId(...args: any[]) {
+    let proxyId = ProxyId.NFTOKEN_SAFE_TRANSFER;
+    switch (args[0]) {
+      case ProxyKind.TRANSFER_ASSET: {
+        if (typeof args[1] !== 'undefined' && this.provider.unsafeRecipientIds.indexOf(args[1]) !== -1) {
+          proxyId = ProxyId.NFTOKEN_TRANSFER;
+        }
+        break;
+      }
+      case ProxyKind.CREATE_ASSET: {
+        proxyId = ProxyId.XCERT_CREATE;
+        break;
+      }
+      case ProxyKind.DESTROY_ASSET: {
+        proxyId = ProxyId.XCERT_BURN;
+        break;
+      }
+      case ProxyKind.MANAGE_ABILITIES: {
+        proxyId = ProxyId.MANAGE_ABILITIES;
+        break;
+      }
+      case ProxyKind.TRANSFER_TOKEN: {
+        proxyId = ProxyId.TOKEN_TRANSFER;
+        break;
+      }
+      case ProxyKind.UPDATE_ASSET: {
+        proxyId = ProxyId.XCERT_UPDATE;
+        break;
+      }
+      default: {
+        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+      }
+    }
     return getProxyAccountId(this, proxyId);
   }
 
@@ -375,4 +413,5 @@ export class Gateway implements GatewayBase {
     order.signers.push(zeroAddress);
     return order;
   }
+
 }

@@ -10,7 +10,7 @@ spec.test('exposes objects', (ctx) => {
   ctx.true(!!exchange.SignedDynamicActionsOrder);
   ctx.true(!!exchange.SignedFixedActionsOrder);
   ctx.true(!!exchange.AssetLedgerDeployOrder);
-  ctx.true(!!exchange.ActionsGatewayProxy);
+  ctx.true(!!exchange.ProxyKind);
 });
 
 export default spec;

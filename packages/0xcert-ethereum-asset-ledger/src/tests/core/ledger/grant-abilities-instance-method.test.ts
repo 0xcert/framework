@@ -3,12 +3,10 @@ import { Protocol } from '@0xcert/ethereum-sandbox';
 import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
-import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: GatewayMock;
   protocol: Protocol;
   bob: string;
 }>();
@@ -30,9 +28,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -48,24 +44,6 @@ spec.test('grants ledger abilities for an account', async (ctx) => {
   ctx.is((mutation.logs[0]).event, 'SetAbilities');
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.TOGGLE_TRANSFERS]);
-});
-
-spec.test('grants ledger create asset ability to the gateway', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const gateway = ctx.get('gateway');
-  const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
-  await ledger.grantAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]);
-  const abilities = await ledger.getAbilities(proxyId);
-  ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
-});
-
-spec.test('grants ledger manage abilities ability to the gateway', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const gateway = ctx.get('gateway');
-  const proxyId = ctx.get('protocol').abilitableManageProxy.instance.options.address;
-  await ledger.grantAbilities(gateway, [SuperAssetLedgerAbility.MANAGE_ABILITIES]);
-  const abilities = await ledger.getAbilities(proxyId);
-  ctx.deepEqual(abilities, [SuperAssetLedgerAbility.MANAGE_ABILITIES]);
 });
 
 export default spec;
