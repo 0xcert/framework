@@ -1501,9 +1501,10 @@
     },
     "@rush-temp/ethereum-erc20-contracts": {
       "version": "file:projects/ethereum-erc20-contracts.tgz",
-      "integrity": "sha512-cbFiHNJN4IEHbB1Jt1rUh7k9gdEjnTZDN3qmYHSjt5bNKTvC/M9LV2oU659mRV3zdzjbTXLEDMY4SMkemdmhQA==",
+      "integrity": "sha512-m5oLmSV53TUp8rKKb8C9F9635GWKUBWGua67po586rJAdrj8QOVXjBwbNfo0j3FjpNVQ049NvUTb+jRlohA89Q==",
       "requires": {
         "@specron/cli": "0.9.0",
+        "@specron/flattener": "0.9.0",
         "@specron/spec": "0.9.0",
         "solc": "0.5.11",
         "solhint": "2.3.0",
