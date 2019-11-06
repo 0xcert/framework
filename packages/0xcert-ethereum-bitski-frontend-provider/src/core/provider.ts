@@ -147,7 +147,7 @@ export class BitskiProvider extends GenericProvider {
       const bitski = require('bitski');
       this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
       const bitskiOptions = {};
-      if (options.network === 'undefined') {
+      if (typeof options.network === 'undefined') {
         bitskiOptions['networkName'] = 'mainnet';
       } else if (typeof options.network === 'string') {
         bitskiOptions['networkName'] = options.network;
