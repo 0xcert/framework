@@ -47,7 +47,7 @@ NOTE: New packages must be published manually!
 
 ```
 $ rush version --bump --override-bump minor
-$ rush update --all
+$ rush update --full
 $ rush rebuild
 $ rush test
 $ rush publish --publish --include-all
