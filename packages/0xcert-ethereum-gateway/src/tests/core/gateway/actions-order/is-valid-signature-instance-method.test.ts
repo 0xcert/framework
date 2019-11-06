@@ -7,7 +7,7 @@ import { Gateway } from '../../../../core/gateway';
 interface Data {
   protocol: Protocol;
   makerGenericProvider: GenericProvider;
-  claim: string;
+  sign: string;
   coinbase: string;
   bob: string;
 }
@@ -70,8 +70,8 @@ spec.test('check if signature is valid', async (ctx) => {
   const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
 
   const gateway = new Gateway(provider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  const claim = await gateway.claim(order);
-  ctx.true(await gateway.isValidSignature(order, claim, coinbase));
+  const sign = await gateway.sign(order);
+  ctx.true(await gateway.isValidSignature(order, sign, coinbase));
 });
 
 export default spec;

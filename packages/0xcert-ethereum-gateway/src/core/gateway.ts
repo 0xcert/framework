@@ -1,9 +1,9 @@
 import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerDeployOrder, DynamicActionsOrder, FixedActionsOrder, GatewayBase, Order, OrderKind, ProviderError, ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, ValueLedgerDeployOrder } from '@0xcert/scaffold';
-import { normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
-import { normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
+import { createOrderHash as createActionsOrderHash, normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
+import { createOrderHash as createAssetLedgerDeployOrderHash, normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
 import { zeroAddress } from '../lib/utils';
-import { normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
+import { createOrderHash as createValueLedgerDeployOrderHash, normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
 import actionsOrderCancel from '../mutations/actions-order/cancel';
 import actionsOrderPerform from '../mutations/actions-order/perform';
 import assetLedgerDeployOrderCancel from '../mutations/asset-ledger-deploy-order/cancel';
@@ -89,10 +89,37 @@ export class Gateway implements GatewayBase {
   }
 
   /**
+   * Gets hash of an order.
+   * @param order Order data.
+   */
+  public async hash(order: Order): Promise<string> {
+    if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
+    ) {
+      order = this.createDynamicOrder(order);
+      order = normalizeActionsOrderIds(order, this._provider);
+      return createActionsOrderHash(this, order);
+    } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER
+      || order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER
+    ) {
+      order = normalizeActionsOrderIds(order, this._provider);
+      return createActionsOrderHash(this, order);
+    } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
+      order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
+      return createAssetLedgerDeployOrderHash(this, order);
+    } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
+      order = normalizeValueLedgerDeployOrderIds(order, this._provider);
+      return createValueLedgerDeployOrderHash(this, order);
+    } else {
+      throw new Error('Not implemented');
+    }
+  }
+
+  /**
    * Gets signed claim for an order.
    * @param order Order data.
    */
-  public async claim(order: Order): Promise<string> {
+  public async sign(order: Order): Promise<string> {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER
       || order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER
     ) {

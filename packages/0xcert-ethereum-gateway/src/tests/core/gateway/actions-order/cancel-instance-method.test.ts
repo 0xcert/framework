@@ -9,7 +9,7 @@ interface Data {
   makerGenericProvider: GenericProvider;
   takerGenericProvider: GenericProvider;
   order: FixedActionsOrder;
-  claim: string;
+  sign: string;
   coinbase: string;
   bob: string;
   sara: string;
@@ -103,7 +103,7 @@ spec.before(async (stage) => {
   const gateway = new Gateway(provider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
   const order = stage.get('order');
 
-  stage.set('claim', await gateway.claim(order));
+  stage.set('sign', await gateway.sign(order));
 });
 
 spec.test('marks gateway order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
@@ -111,7 +111,7 @@ spec.test('marks gateway order as canceled on the network which prevents an tran
   const makerGenericProvider = ctx.get('makerGenericProvider');
   const takerGenericProvider = ctx.get('takerGenericProvider');
   const order = ctx.get('order');
-  const claim = ctx.get('claim');
+  const sign = ctx.get('sign');
   const sara = ctx.get('sara');
   const jane = ctx.get('jane');
   const xcert = ctx.get('protocol').xcert;
@@ -124,7 +124,7 @@ spec.test('marks gateway order as canceled on the network which prevents an tran
   ctx.is((mutation.logs[0]).event, 'Cancel');
 
   const takerGateway = new Gateway(takerGenericProvider, { actionsOrderId: actionsGatewayId, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
-  await ctx.throws(() => takerGateway.perform(order, [claim]).then(() => ctx.sleep(200)));
+  await ctx.throws(() => takerGateway.perform(order, [sign]).then(() => ctx.sleep(200)));
 
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), sara);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), jane);

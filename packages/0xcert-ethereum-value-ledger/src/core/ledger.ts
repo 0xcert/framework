@@ -1,6 +1,6 @@
 import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
 import { bigNumberify } from '@0xcert/ethereum-utils';
-import { GatewayBase, ProviderError, ProviderIssue, ValueLedgerBase,
+import { ProviderError, ProviderIssue, ValueLedgerBase,
   ValueLedgerDeployRecipe, ValueLedgerInfo, ValueLedgerTransferRecipe } from '@0xcert/scaffold';
 import approveAccount from '../mutations/approve-account';
 import deploy from '../mutations/deploy';
@@ -72,11 +72,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param spenderId Account id of the spender.
    */
-  public async getApprovedValue(accountId: string, spenderId: string | GatewayBase): Promise<string> {
-    if (typeof spenderId !== 'string') {
-      spenderId = await (spenderId as any).getProxyAccountId(1);
-    }
-
+  public async getApprovedValue(accountId: string, spenderId: string): Promise<string> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
     spenderId = this._provider.encoder.normalizeAddress(spenderId as string);
 
@@ -106,11 +102,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param spenderId Account id of spender.
    * @param value Value amount we are checking against.
    */
-  public async isApprovedValue(value: string, accountId: string, spenderId: string | GatewayBase): Promise<boolean> {
-    if (typeof spenderId !== 'string') {
-      spenderId = await (spenderId as any).getProxyAccountId(1);
-    }
-
+  public async isApprovedValue(value: string, accountId: string, spenderId: string): Promise<boolean> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
     spenderId = this._provider.encoder.normalizeAddress(spenderId as string);
 
@@ -123,11 +115,7 @@ export class ValueLedger implements ValueLedgerBase {
    * @param accountId Account id.
    * @param value Value amount.
    */
-  public async approveValue(value: string, accountId: string | GatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
-    }
-
+  public async approveValue(value: string, accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
 
     const approvedValue = await this.getApprovedValue(this.provider.accountId, accountId);
@@ -142,13 +130,8 @@ export class ValueLedger implements ValueLedgerBase {
    * Disapproves account for operating with your value.
    * @param accountId Account id.
    */
-  public async disapproveValue(accountId: string | GatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(1);
-    }
-
+  public async disapproveValue(accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return approveAccount(this, accountId, '0');
   }
 
