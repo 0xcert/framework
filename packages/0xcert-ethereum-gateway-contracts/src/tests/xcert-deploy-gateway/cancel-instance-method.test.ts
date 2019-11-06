@@ -8,6 +8,8 @@ interface Data {
   createProxy?: any;
   updateProxy?: any;
   manageProxy?: any;
+  nftTransferProxy?: any;
+  burnProxy?: any;
   zxc?: any;
   jane?: string;
   sara?: string;
@@ -71,14 +73,39 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const nftTransferProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy.json',
+    contract: 'NFTokenSafeTransferProxy',
+  });
+  ctx.set('nftTransferProxy', nftTransferProxy);
+});
+
+spec.beforeEach(async (ctx) => {
+  const burnProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-burn-proxy.json',
+    contract: 'XcertBurnProxy',
+  });
+  ctx.set('burnProxy', burnProxy);
+});
+
+spec.beforeEach(async (ctx) => {
   const tokenProxy = ctx.get('tokenProxy');
   const createProxy = ctx.get('createProxy');
   const updateProxy = ctx.get('updateProxy');
   const manageProxy = ctx.get('manageProxy');
+  const nftTransferProxy = ctx.get('nftTransferProxy');
+  const burnProxy = ctx.get('burnProxy');
   const xcertDeployGateway = await ctx.deploy({
     src: './build/xcert-deploy-gateway.json',
     contract: 'XcertDeployGateway',
-    args: [tokenProxy.receipt._address, createProxy.receipt._address, updateProxy.receipt._address, manageProxy.receipt._address],
+    args: [
+      tokenProxy.receipt._address,
+      createProxy.receipt._address,
+      updateProxy.receipt._address,
+      manageProxy.receipt._address,
+      nftTransferProxy.receipt._address,
+      burnProxy.receipt._address,
+    ],
   });
   ctx.set('xcertDeployGateway', xcertDeployGateway);
 });

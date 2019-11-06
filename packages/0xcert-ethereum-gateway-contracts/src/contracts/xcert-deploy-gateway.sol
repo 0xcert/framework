@@ -106,19 +106,29 @@ contract XcertDeployGateway
   Proxy public tokenTransferProxy;
 
   /**
-   * @dev Address of asset create proxy.
+   * @dev Address of xcert create proxy.
    */
-  address public assetCreateProxy;
+  address public xcertCreateProxy;
 
   /**
-   * @dev Address of asset update proxy.
+   * @dev Address of xcert update proxy.
    */
-  address public assetUpdateProxy;
+  address public xcertUpdateProxy;
 
   /**
    * @dev Address of abilitable manage proxy.
    */
   address public abilitableManageProxy;
+
+  /**
+   * @dev Address of nft safe transfer proxy.
+   */
+  address public nftSafeTransferProxy;
+
+  /**
+   * @dev Address of xcert burn proxy.
+   */
+  address public xcertBurnProxy;
 
   /**
    * @dev Mapping of all cancelled deploys.
@@ -152,19 +162,28 @@ contract XcertDeployGateway
   /**
    * @dev Constructor sets token transfer proxy address.
    * @param _tokenTransferProxy Address of token transfer proxy.
+   * @param _xcertCreateProxy Address of token transfer proxy.
+   * @param _xcertUpdateProxy Address of token transfer proxy.
+   * @param _abilitableManageProxy Address of token transfer proxy.
+   * @param _nftSafeTransferProxy Address of token transfer proxy.
+   * @param _xcertBurnProxy Address of token transfer proxy.
    */
   constructor(
     address _tokenTransferProxy,
-    address _assetCreateProxy,
-    address _assetUpdateProxy,
-    address _abilitableManageProxy
+    address _xcertCreateProxy,
+    address _xcertUpdateProxy,
+    address _abilitableManageProxy,
+    address _nftSafeTransferProxy,
+    address _xcertBurnProxy
   )
     public
   {
     tokenTransferProxy = Proxy(_tokenTransferProxy);
-    assetCreateProxy = _assetCreateProxy;
-    assetUpdateProxy = _assetUpdateProxy;
+    xcertCreateProxy = _xcertCreateProxy;
+    xcertUpdateProxy = _xcertUpdateProxy;
     abilitableManageProxy = _abilitableManageProxy;
+    nftSafeTransferProxy = _nftSafeTransferProxy;
+    xcertBurnProxy = _xcertBurnProxy;
   }
 
   /**
@@ -399,9 +418,13 @@ contract XcertDeployGateway
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,
-        assetCreateProxy,
-        assetUpdateProxy,
-        abilitableManageProxy
+        [
+          xcertCreateProxy,
+          xcertUpdateProxy,
+          abilitableManageProxy,
+          nftSafeTransferProxy,
+          xcertBurnProxy
+        ]
       )
     );
   }
@@ -437,9 +460,13 @@ contract XcertDeployGateway
         _deploy.xcertData.schemaId,
         _deploy.xcertData.capabilities,
         _deploy.xcertData.owner,
-        assetCreateProxy,
-        assetUpdateProxy,
-        abilitableManageProxy
+        [
+          xcertCreateProxy,
+          xcertUpdateProxy,
+          abilitableManageProxy,
+          nftSafeTransferProxy,
+          xcertBurnProxy
+        ]
       )
     );
   }
