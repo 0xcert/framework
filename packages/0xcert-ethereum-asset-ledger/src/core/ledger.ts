@@ -2,7 +2,7 @@ import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKin
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, GatewayBase, GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe } from '@0xcert/scaffold';
 import { getBitfieldFromAbilities } from '..';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
@@ -93,7 +93,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getAbilities(this, accountId);
   }
 
@@ -127,7 +126,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getBalance(accountId: string): Promise<string> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getBalance(this, accountId);
   }
 
@@ -160,7 +158,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getAccountAssetIdAt(accountId: string, index: number): Promise<number> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getAccountAssetIdAt(this, accountId, index);
   }
 
@@ -169,13 +166,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async isApprovedAccount(assetId: string, accountId: string | GatewayBase): Promise<boolean> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async isApprovedAccount(assetId: string, accountId: string): Promise<boolean> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return accountId === await getApprovedAccount(this, assetId);
   }
 
@@ -191,13 +183,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async approveAccount(assetId: string, accountId: string | GatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async approveAccount(assetId: string, accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return approveAccount(this, accountId, assetId);
   }
 
@@ -214,15 +201,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async grantAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1 ?
-        await (accountId as any).getProxyAccountId(5) : // ActionsGatewayProxy.SET_ABILITIES
-        await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
-    }
-
+  public async grantAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return grantAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
@@ -231,13 +211,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async setAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
-    }
-
+  public async setAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return setAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
@@ -264,13 +239,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async revokeAbilities(accountId: string | GatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // ActionsGatewayProxy.XCERT_CREATE
-    }
-
+  public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return revokeAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
@@ -334,13 +304,8 @@ export class AssetLedger implements AssetLedgerBase {
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  public async approveOperator(accountId: string | GatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async approveOperator(accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return setApprovalForAll(this, accountId, true);
   }
 
@@ -348,13 +313,8 @@ export class AssetLedger implements AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  public async disapproveOperator(accountId: string | GatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async disapproveOperator(accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return setApprovalForAll(this, accountId, false);
   }
 
@@ -363,24 +323,10 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  public async isApprovedOperator(accountId: string, operatorId: string | GatewayBase): Promise<boolean> {
-    if (typeof operatorId !== 'string') {
-      operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async isApprovedOperator(accountId: string, operatorId: string): Promise<boolean> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
     operatorId = this._provider.encoder.normalizeAddress(operatorId as string);
-
     return isApprovedForAll(this, accountId, operatorId);
-  }
-
-  /**
-   * Helper function that gets the right proxy id depending on the asset.
-   */
-  protected getProxyId(): number {
-    return this.provider.unsafeRecipientIds.indexOf(this.id) === -1
-      ? 3 // ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : 2; // ActionsGatewayProxy.NFTOKEN_TRANSFER;
   }
 
   /**

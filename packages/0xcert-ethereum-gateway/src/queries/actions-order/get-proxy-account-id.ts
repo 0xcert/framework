@@ -1,5 +1,5 @@
 import { Gateway } from '../../core/gateway';
-import { ActionsGatewayProxy } from '../../core/types';
+import { ProxyId } from '../../core/types';
 
 const functionSignature = '0xabd90f85';
 const inputTypes = ['uint8'];
@@ -10,7 +10,7 @@ const outputTypes = ['address'];
  * @param gateway Order gateway instance.
  * @param proxyId Proxy id.
  */
-export default async function(gateway: Gateway, proxyId: ActionsGatewayProxy) {
+export default async function(gateway: Gateway, proxyId: ProxyId) {
   try {
     const attrs = {
       to: gateway.config.actionsOrderId,

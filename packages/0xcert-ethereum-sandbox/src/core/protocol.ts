@@ -18,6 +18,7 @@ export class Protocol {
   public xcert;
   public xcertCreateProxy;
   public xcertUpdateProxy;
+  public xcertBurnProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
@@ -65,6 +66,7 @@ export class Protocol {
     this.xcert = await this.deployXcert(from);
     this.xcertCreateProxy = await this.deployXcertCreateProxy(from);
     this.xcertUpdateProxy = await this.deployXcertUpdateProxy(from);
+    this.xcertBurnProxy = await this.deployXcertBurnProxy(from);
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
@@ -236,6 +238,20 @@ export class Protocol {
       from,
     });
   }
+
+  /**
+   * Deploys the Xcert burn proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployXcertBurnProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.xcertBurnProxy.abi,
+      bytecode: contracts.xcertBurnProxy.bytecode,
+      from,
+    });
+  }
+
   /**
    * Deploys the token transfer proxy contract.
    * @param from Contract owner's address.
@@ -320,11 +336,13 @@ export class Protocol {
     await actionsGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address, 1).send({ from });
     await actionsGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address, 2).send({ from });
     await actionsGateway.instance.methods.addProxy(this.abilitableManageProxy.receipt._address, 3).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertBurnProxy.receipt._address, 4).send({ from });
     await this.tokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.nftokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.xcertCreateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.xcertUpdateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.xcertBurnProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
     await this.abilitableManageProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
 
     return actionsGateway;

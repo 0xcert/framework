@@ -4,7 +4,7 @@ import { bigNumberify } from '@0xcert/ethereum-utils';
 import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, OrderKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
-import { ActionsGatewayProxy } from '../core/types';
+import { ProxyId } from '../core/types';
 import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
 
 /**
@@ -83,6 +83,9 @@ export function getActionParams(action: ActionsOrderAction, signers: string[]) {
     params = rightPad(`0x${action['assetImprint']}`, 64);
     params += leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', false);
     params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
+  } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
+    params = leftPad(bigNumberify(action['assetId']).toHexString(), 64, '0', true);
+    params += leftPad(bigNumberify(signerIndex).toHexString(), 2, '0', false);
   }
   return params;
 }
@@ -157,17 +160,21 @@ export function createSignatureTuple(claim: string[] | string) {
  */
 export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
   if (action.kind == ActionsOrderActionKind.TRANSFER_VALUE) {
-    return ActionsGatewayProxy.TOKEN_TRANSFER;
+    return ProxyId.TOKEN_TRANSFER;
   } else if (action.kind == ActionsOrderActionKind.TRANSFER_ASSET) {
     return gateway.provider.unsafeRecipientIds.indexOf(action.ledgerId) === -1
-      ? ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : ActionsGatewayProxy.NFTOKEN_TRANSFER;
+      ? ProxyId.NFTOKEN_SAFE_TRANSFER
+      : ProxyId.NFTOKEN_TRANSFER;
   } else if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
-    return ActionsGatewayProxy.XCERT_CREATE;
+    return ProxyId.XCERT_CREATE;
   } else if (action.kind == ActionsOrderActionKind.SET_ABILITIES) {
-    return ActionsGatewayProxy.MANAGE_ABILITIES;
+    return ProxyId.MANAGE_ABILITIES;
+  } else if (action.kind == ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+    return ProxyId.XCERT_UPDATE;
+  } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
+    return ProxyId.XCERT_BURN;
   } else {
-    return ActionsGatewayProxy.XCERT_UPDATE;
+    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
   }
 }
 
@@ -194,7 +201,7 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
       action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = zeroAddress;
-      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
         action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = zeroAddress;
         if (action['senderId'] === zeroAddress && action['receiverId'] === zeroAddress) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');

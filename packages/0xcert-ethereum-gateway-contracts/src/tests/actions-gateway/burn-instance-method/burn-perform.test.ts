@@ -171,11 +171,11 @@ spec.test('Destroys cat #1 with any signer', async (ctx) => {
     {
       proxyId: 0,
       contractAddress: cat.receipt._address,
-      params: `${id}00`,
+      params: `${id}01`,
     },
   ];
   const orderData = {
-    signers: [jane, zeroAddress],
+    signers: [bob, zeroAddress],
     actions,
     seed: common.getCurrentTime(),
     expirationTimestamp: common.getCurrentTime() + 3600,
@@ -184,8 +184,8 @@ spec.test('Destroys cat #1 with any signer', async (ctx) => {
 
   const claim = await actionsGateway.instance.methods.getOrderDataClaim(createTuple).call();
 
-  const signature = await getSignature(ctx.web3, claim, jane);
-  const signature2 = await getSignature(ctx.web3, claim, bob);
+  const signature = await getSignature(ctx.web3, claim, bob);
+  const signature2 = await getSignature(ctx.web3, claim, jane);
   const signatureDataTuple = ctx.tuple([signature, signature2]);
 
   await cat.instance.methods.setApprovalForAll(burnProxy.receipt._address, true).send({ from: jane });

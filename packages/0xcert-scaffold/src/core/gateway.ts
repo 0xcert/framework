@@ -10,6 +10,7 @@ export enum ActionsOrderActionKind {
   TRANSFER_VALUE = 3,
   UPDATE_ASSET_IMPRINT = 4,
   SET_ABILITIES = 5,
+  DESTROY_ASSET = 6,
 }
 
 /**
@@ -46,7 +47,8 @@ export type ActionsOrderAction = DynamicActionsOrderAction | FixedActionsOrderAc
  * Different dynamic order actions.
  */
 export type DynamicActionsOrderAction = DynamicActionsOrderActionCreateAsset | DynamicActionsOrderActionTransferAsset
-  | DynamicActionsOrderActionTransferValue | DynamicActionsOrderActionUpdateAssetImprint | DynamicActionsOrderActionSetAbilities;
+  | DynamicActionsOrderActionTransferValue | DynamicActionsOrderActionUpdateAssetImprint | DynamicActionsOrderActionSetAbilities
+  | DynamicActionsOrderActionDestroyAsset;
 
 /**
  * Order create asset data definitio.
@@ -113,6 +115,32 @@ export interface DynamicActionsOrderActionCreateAsset {
    * Merkle tree root of asset proof.
    */
   assetImprint: string;
+}
+
+/**
+ * Order destory asset data definitio.
+ */
+export interface DynamicActionsOrderActionDestroyAsset {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.DESTROY_ASSET;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender - destroyer.
+   */
+  senderId?: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
 }
 
 /**
@@ -212,7 +240,8 @@ export interface DynamicActionsOrderActionTransferValue {
  * Different fixed order actions.
  */
 export type FixedActionsOrderAction = FixedActionsOrderActionCreateAsset | FixedActionsOrderActionTransferAsset
-  | FixedActionsOrderActionTransferValue | FixedActionsOrderActionUpdateAssetImprint | FixedActionsOrderActionSetAbilities;
+  | FixedActionsOrderActionTransferValue | FixedActionsOrderActionUpdateAssetImprint | FixedActionsOrderActionSetAbilities
+  | FixedActionsOrderActionDestroyAsset;
 
 /**
  * Order create asset data definitio.
@@ -279,6 +308,32 @@ export interface FixedActionsOrderActionCreateAsset {
    * Merkle tree root of asset proof.
    */
   assetImprint: string;
+}
+
+/**
+ * Order destory asset data definitio.
+ */
+export interface FixedActionsOrderActionDestroyAsset {
+
+  /**
+   * Type od order action.
+   */
+  kind: ActionsOrderActionKind.DESTROY_ASSET;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  ledgerId: string;
+
+  /**
+   * Id (address) of the sender - destroyer.
+   */
+  senderId: string;
+
+  /**
+   * Unique asset Id.
+   */
+  assetId: string;
 }
 
 /**

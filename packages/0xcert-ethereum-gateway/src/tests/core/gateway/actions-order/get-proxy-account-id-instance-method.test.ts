@@ -1,11 +1,12 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
-import { ActionsGatewayProxy, Gateway } from '../../../..';
+import { Gateway, ProxyKind } from '../../../..';
 
 interface Data {
   protocol: Protocol;
   provider: GenericProvider;
+  bob?: string;
 }
 
 const spec = new Spec<Data>();
@@ -21,13 +22,13 @@ spec.before(async (stage) => {
 
   stage.set('coinbase', accounts[0]);
   stage.set('bob', accounts[1]);
-  stage.set('sara', accounts[2]);
-  stage.set('jane', accounts[3]);
 });
 
 spec.before(async (stage) => {
+  const bob = stage.get('bob');
   const provider = new GenericProvider({
     client: stage.web3,
+    unsafeRecipientIds: [bob],
   });
 
   stage.set('provider', provider);
@@ -36,14 +37,15 @@ spec.before(async (stage) => {
 spec.test('returns proxy account address', async (ctx) => {
   const protocol = ctx.get('protocol');
   const provider = ctx.get('provider');
+  const bob = ctx.get('bob');
   const id = protocol.actionsGateway.instance.options.address;
 
   const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const tokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.TOKEN_TRANSFER);
-  const nftokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.NFTOKEN_TRANSFER);
-  const nftokenSafeTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.NFTOKEN_SAFE_TRANSFER);
-  const xcertCreateProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.XCERT_CREATE);
+  const tokenTransferProxy = await gateway.getProxyAccountId(ProxyKind.TRANSFER_TOKEN);
+  const nftokenTransferProxy = await gateway.getProxyAccountId(ProxyKind.TRANSFER_ASSET, bob);
+  const nftokenSafeTransferProxy = await gateway.getProxyAccountId(ProxyKind.TRANSFER_ASSET);
+  const xcertCreateProxy = await gateway.getProxyAccountId(ProxyKind.CREATE_ASSET);
 
   ctx.is(tokenTransferProxy, protocol.tokenTransferProxy.instance.options.address);
   ctx.is(nftokenTransferProxy, protocol.nftokenTransferProxy.instance.options.address);
@@ -58,7 +60,7 @@ spec.test('returns null when calling getProxyAccountId on a contract that does n
 
   const gateway = new Gateway(provider, { actionsOrderId: id, assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: '' });
 
-  const tokenTransferProxy = await gateway.getProxyAccountId(ActionsGatewayProxy.TOKEN_TRANSFER);
+  const tokenTransferProxy = await gateway.getProxyAccountId(ProxyKind.TRANSFER_TOKEN);
   ctx.is(tokenTransferProxy, null);
 });
 
