@@ -160,10 +160,10 @@ spec.test('submits gateway fixed actions order to the network which executes tra
 
   const coinbaseGenericProvider = ctx.get('coinbaseGenericProvider');
   const coinbaseGateway = new Gateway(coinbaseGenericProvider);
-  const claim = await coinbaseGateway.claim(order);
+  const sign = await coinbaseGateway.sign(order);
 
   const gateway = new Gateway(bobGenericProvider);
-  const mutation = await gateway.perform(order, [claim]);
+  const mutation = await gateway.perform(order, [sign]);
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'Perform');
 
@@ -238,13 +238,13 @@ spec.test('submits gateway fixed signed actions order to the network which execu
   };
 
   const coinbaseGateway = new Gateway(coinbaseGenericProvider);
-  const coinbaseClaim = await coinbaseGateway.claim(order);
+  const coinbaseSign = await coinbaseGateway.sign(order);
 
   const bobGateway = new Gateway(bobGenericProvider);
-  const bobClaim = await bobGateway.claim(order);
+  const bobSign = await bobGateway.sign(order);
 
   const saraGateway = new Gateway(saraGenericProvider);
-  const mutation = await saraGateway.perform(order, [coinbaseClaim, bobClaim]);
+  const mutation = await saraGateway.perform(order, [coinbaseSign, bobSign]);
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'Perform');
 
@@ -313,10 +313,10 @@ spec.test('submits gateway dynamic actions order to the network which executes t
   };
 
   const coinbaseGateway = new Gateway(coinbaseGenericProvider);
-  const coinbaseClaim = await coinbaseGateway.claim(order);
+  const coinbaseSign = await coinbaseGateway.sign(order);
 
   const bobGateway = new Gateway(bobGenericProvider);
-  const mutation = await bobGateway.perform(order, [coinbaseClaim]);
+  const mutation = await bobGateway.perform(order, [coinbaseSign]);
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'Perform');
 
@@ -387,13 +387,13 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
   };
 
   const coinbaseGateway = new Gateway(coinbaseGenericProvider);
-  const coinbaseClaim = await coinbaseGateway.claim(order);
+  const coinbaseSign = await coinbaseGateway.sign(order);
 
   const bobGateway = new Gateway(bobGenericProvider);
-  const bobClaim = await bobGateway.claim(order);
+  const bobSign = await bobGateway.sign(order);
 
   const saraGateway = new Gateway(saraGenericProvider);
-  const mutation = await saraGateway.perform(order, [coinbaseClaim, bobClaim]);
+  const mutation = await saraGateway.perform(order, [coinbaseSign, bobSign]);
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'Perform');
 
@@ -426,7 +426,7 @@ spec.test('handles incorrect dynamic actions order', async (ctx) => {
 
   const coinbaseGateway = new Gateway(coinbaseGenericProvider);
   let error = null;
-  await coinbaseGateway.claim(order).catch((e) => {
+  await coinbaseGateway.sign(order).catch((e) => {
     error = e;
   });
   ctx.is(error.original, 'Both senderId and receiverId missing.');

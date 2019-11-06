@@ -2,12 +2,10 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
-import { GatewayMock } from '../../mock/gateway-mock';
 
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  gateway: GatewayMock;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -38,7 +36,6 @@ spec.before(async (stage) => {
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
   const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new GatewayMock(provider, actionsGatewayId));
 });
 
 spec.test('disapproves account for value transfer', async (ctx) => {
@@ -52,18 +49,6 @@ spec.test('disapproves account for value transfer', async (ctx) => {
   await mutation.complete();
   ctx.is(mutation.logs[0].event, 'Approval');
   ctx.is(await token.instance.methods.allowance(coinbase, bob).call(), '0');
-});
-
-spec.test('disapproves gateway proxy for value transfer', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const coinbase = ctx.get('coinbase');
-  const gateway = ctx.get('gateway');
-  const proxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  const token = ctx.get('protocol').erc20;
-  const value = '300000000000000000000000';
-  await token.instance.methods.approve(proxyId, value).send({ from: coinbase });
-  await ledger.disapproveValue(gateway);
-  ctx.is(await token.instance.methods.allowance(coinbase, proxyId).call(), '0');
 });
 
 export default spec;
