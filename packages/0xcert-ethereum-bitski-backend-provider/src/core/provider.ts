@@ -65,7 +65,7 @@ export interface BitskiProviderOptions {
   /**
    * Ethereum network Bitski is connected to. Mainnet by default.
    */
-  networkName?: string;
+  network?: string;
 
   /**
    * Gas price multiplier. Defaults to 1.1.
@@ -123,7 +123,7 @@ export class BitskiProvider extends GenericProvider {
    * @param options.clientId Required Bitski client ID.
    * @param options.credentialsId Required Bitski credentials ID.
    * @param options.credentialsSecret Required Bitski credentials secret.
-   * @param options.networkName Optional name of Ethereum network Bitski is connected to. Mainnet by
+   * @param options.network Optional name of Ethereum network Bitski is connected to. Mainnet by
    * default.
    */
   public constructor(options: BitskiProviderOptions) {
@@ -132,7 +132,7 @@ export class BitskiProvider extends GenericProvider {
     this._options = options;
     this._client = this;
     this._provider = Bitski.getProvider(options.clientId, {
-      networkName: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
+      network: typeof options.network === 'undefined' ? 'mainnet' : options.network,
       credentials: {
         id: options.credentialsId,
         secret: options.credentialsSecret,

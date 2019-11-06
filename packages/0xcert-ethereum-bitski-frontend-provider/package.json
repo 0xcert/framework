@@ -75,6 +75,6 @@
   },
   "dependencies": {
     "@0xcert/ethereum-generic-provider": "2.0.0-alpha9",
-    "bitski": "0.10.5"
+    "bitski": "0.10.6"
   }
 }
