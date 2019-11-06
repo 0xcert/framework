@@ -357,7 +357,14 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcertDeployGateway.abi,
       bytecode: contracts.xcertDeployGateway.bytecode,
-      args: [this.tokenTransferProxy.receipt._address, this.xcertCreateProxy.receipt._address, this.xcertUpdateProxy.receipt._address, this.abilitableManageProxy.receipt._address],
+      args: [
+        this.tokenTransferProxy.receipt._address,
+        this.xcertCreateProxy.receipt._address,
+        this.xcertUpdateProxy.receipt._address,
+        this.abilitableManageProxy.receipt._address,
+        this.nftokenSafeTransferProxy.receipt._address,
+        this.xcertBurnProxy.receipt._address,
+      ],
       from,
     });
 
