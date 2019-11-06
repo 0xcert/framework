@@ -87,10 +87,10 @@ spec.test('submits gateway value ledger deploy order to the network which execut
   };
 
   const gatewayBob = new Gateway(bobGenericProvider);
-  const claim = await gatewayBob.claim(order);
+  const sign = await gatewayBob.sign(order);
 
   const gatewayCoinbase = new Gateway(coinbaseGenericProvider);
-  const mutation = await gatewayCoinbase.perform(order, claim);
+  const mutation = await gatewayCoinbase.perform(order, sign);
   await mutation.complete();
 
   ctx.is((mutation.logs[0]).event, 'Perform');
@@ -133,10 +133,10 @@ spec.test('submits dynamic value ledger deploy order to the network which execut
   };
 
   const gatewayBob = new Gateway(bobGenericProvider);
-  const claim = await gatewayBob.claim(order);
+  const sign = await gatewayBob.sign(order);
 
   const gatewayCoinbase = new Gateway(coinbaseGenericProvider);
-  const mutation = await gatewayCoinbase.perform(order, claim);
+  const mutation = await gatewayCoinbase.perform(order, sign);
   const receipt = await ctx.web3.eth.getTransactionReceipt(mutation.id);
 
   const performEvent = receipt.logs.filter((r) => { return r.topics[0] === '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2'; });
@@ -179,7 +179,7 @@ spec.test('handles fixed deploy with dynamic token transfer receiver', async (ct
   };
 
   const gatewayCoinbase = new Gateway(coinbaseGenericProvider);
-  await ctx.throws(() => gatewayCoinbase.claim(order));
+  await ctx.throws(() => gatewayCoinbase.sign(order));
 });
 
 export default spec;

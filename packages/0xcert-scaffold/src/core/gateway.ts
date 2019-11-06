@@ -22,7 +22,13 @@ export interface GatewayBase {
    * Gets signed claim for an order.
    * @param order Order data.
    */
-  claim(order: Order): Promise<string>;
+  sign(order: Order): Promise<string>;
+
+  /**
+   * Generates hash of an order.
+   * @param order Order data.
+   */
+  hash(order: Order): Promise<string>;
 
   /**
    * Performs an order.

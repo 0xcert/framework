@@ -86,14 +86,14 @@ spec.test('marks tokenDeployGateway order as canceled on the network which preve
   const tokenDeployGatewayId = ctx.get('protocol').tokenDeployGateway.instance.options.address;
 
   const tokenDeployGatewayBob = new Gateway(bobGenericProvider, { actionsOrderId: '', assetLedgerDeployOrderId: '', valueLedgerDeployOrderId: tokenDeployGatewayId });
-  const claim = await tokenDeployGatewayBob.claim(order);
+  const sign = await tokenDeployGatewayBob.sign(order);
   const mutation = await tokenDeployGatewayBob.cancel(order);
   await mutation.complete();
 
   ctx.is((mutation.logs[0]).event, 'Cancel');
 
   const xcertDeployGatewayCoinbase = new Gateway(coinbaseGenericProvider, tokenDeployGatewayId);
-  await ctx.throws(() => xcertDeployGatewayCoinbase.perform(order, claim));
+  await ctx.throws(() => xcertDeployGatewayCoinbase.perform(order, sign));
 
   ctx.is(await token.instance.methods.balanceOf(bob).call(), '100000');
 });
