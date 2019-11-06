@@ -1486,11 +1486,11 @@
     },
     "@rush-temp/ethereum-bitski-frontend-provider": {
       "version": "file:projects/ethereum-bitski-frontend-provider.tgz",
-      "integrity": "sha512-z8W7T2rw4RUPtAsGTyGJSt5HoX7/y338f6Cx0JfyES7MHMinrnxRxxh2s3eqGFYqQwxo/lMOmmhDgG6MP735kA==",
+      "integrity": "sha512-A12n0oDTaXVHYb/+I8ko1A3u5zHfLHFaESxkXHoP2kldwvNrrbatuQ81Kfr1zqFvbEnGYIGdwAtb818bYqoNKA==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "bitski": "0.10.5",
+        "bitski": "0.10.6",
         "nyc": "14.1.1",
         "solc": "0.5.11",
         "ts-node": "8.4.1",
@@ -3001,14 +3001,27 @@
       "integrity": "sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow=="
     },
     "bitski": {
-      "version": "0.10.5",
-      "resolved": "https://registry.npmjs.org/bitski/-/bitski-0.10.5.tgz",
-      "integrity": "sha512-aTW4i7ZIvAuJ54+DHlNkc/IZYH5eQYR3uhdQLqZXfpFf7AMw5UYgmSV6FmagdaeG6A/vfKRgnX7Yk8lpncMzfQ==",
+      "version": "0.10.6",
+      "resolved": "https://registry.npmjs.org/bitski/-/bitski-0.10.6.tgz",
+      "integrity": "sha512-dNeY0bS/xjoCm1cy6SpequyC8aHPE5DJPAoFcSmBKpXpVlT34F/uLYCLtK2RjTNrsrOI1G77S/JkX53ljsq5+Q==",
       "requires": {
         "@bitski/provider-engine": "^0.6.3",
-        "@openid/appauth": "^1.2.0",
-        "bitski-provider": "^0.10.5",
-        "uuid": "^3.3.2"
+        "@openid/appauth": "^1.2.6",
+        "bitski-provider": "^0.10.6",
+        "uuid": "^3.3.3"
+      },
+      "dependencies": {
+        "bitski-provider": {
+          "version": "0.10.6",
+          "resolved": "https://registry.npmjs.org/bitski-provider/-/bitski-provider-0.10.6.tgz",
+          "integrity": "sha512-Oz7pqvivZbRhAeNYnOBtuB0lESVnmnsbL43okJnHSoBxnckbifpyENcvHdiCl98kWjLdR/EIYl9ZEHY7R3NMWQ==",
+          "requires": {
+            "@bitski/provider-engine": "^0.6.3",
+            "async": "3.0.1",
+            "bn.js": "^4.11.8",
+            "json-rpc-error": "^2.0.0"
+          }
+        }
       }
     },
     "bitski-node": {
