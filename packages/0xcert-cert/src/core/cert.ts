@@ -74,7 +74,7 @@ export class Cert {
   }
 
   /**
-   * Generates an evidence object which descres a complete data object.
+   * Generates an evidence object which describes a complete data object.
    * @param data Complete data object.
    */
   public async notarize(data: any): Promise<Schema87> {
@@ -416,7 +416,7 @@ export class Cert {
    */
   protected sortSchema(obj) {
     return Object.keys(obj).sort().reduce((acc, key) => {
-      if (Array.isArray(obj[key])) { // sport arrays
+      if (Array.isArray(obj[key])) { // suport arrays
         acc[key] = obj[key].sort();
       } else if (typeof obj[key] === 'object') { // sort object keys
         acc[key] = this.sortSchema(obj[key]);
