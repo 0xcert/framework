@@ -38,5 +38,5 @@ contract NFTokenSafeTransferProxy is
   {
     ERC721(_target).safeTransferFrom(_a, _b, _c);
   }
-  
+
 }
