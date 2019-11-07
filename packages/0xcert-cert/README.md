@@ -13,10 +13,10 @@ const cert = new Cert({ schema: { ... } });
 const id = await cert.identify();
 
 // Notarize data object (returns all recipes for all data keys).
-const recipes = await cert.notarize(data);
+const evidence = await cert.notarize(data);
 
 // Expose selected data keys (returns recipes and exposed values from which an imprint can be calculated).
-const recipes = await cert.disclose(data, [ ...paths ]);
+const evidence = await cert.disclose(data, [ ...paths ]);
 
 // Verify data object against recipes generated with function `disclose` (if object is valid, an imprint is the root hash).
 const imprint = await cert.calculate(data, recipes);
