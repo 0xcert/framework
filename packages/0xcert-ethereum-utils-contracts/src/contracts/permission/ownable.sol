@@ -7,7 +7,7 @@ pragma solidity 0.5.11;
  */
 contract Ownable
 {
-  
+
   /**
    * @dev Error constants.
    */
@@ -15,7 +15,7 @@ contract Ownable
   string constant ZERO_ADDRESS = "018002";
 
   /**
-   * @dev Address of the owner. 
+   * @dev Address of the owner.
    */
   address public owner;
 
@@ -61,5 +61,5 @@ contract Ownable
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }
-  
+
 }

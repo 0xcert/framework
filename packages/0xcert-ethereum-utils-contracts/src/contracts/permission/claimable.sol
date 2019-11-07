@@ -59,5 +59,5 @@ contract Claimable is
     pendingOwner = address(0);
     emit OwnershipTransferred(previousOwner, owner);
   }
-  
+
 }

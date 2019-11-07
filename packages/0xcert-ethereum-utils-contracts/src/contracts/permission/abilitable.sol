@@ -6,13 +6,13 @@ import "../math/safe-math.sol";
  * @title Contract for setting abilities.
  * @dev For optimization purposes the abilities are represented as a bitfield. Maximum number of
  * abilities is therefore 256. This is an example(for simplicity is made for max 8 abilities) of how
- * this works. 
+ * this works.
  * 00000001 Ability A - number representation 1
  * 00000010 Ability B - number representation 2
  * 00000100 Ability C - number representation 4
  * 00001000 Ability D - number representation 8
  * 00010000 Ability E - number representation 16
- * etc ... 
+ * etc ...
  * To grant abilities B and C, we would need a bitfield of 00000110 which is represented by number
  * 6, in other words, the sum of abilities B and C. The same concept works for revoking abilities
  * and checking if someone has multiple abilities.
@@ -159,5 +159,5 @@ contract Abilitable
     require(_abilities > 0, INVALID_INPUT);
     return (addressToAbility[_target] & _abilities) == _abilities;
   }
-  
+
 }
