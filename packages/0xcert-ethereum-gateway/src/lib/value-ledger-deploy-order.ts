@@ -105,6 +105,7 @@ export function createSignatureTuple(claim: string) {
 /**
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
+ * @param provider Provider instance.
  */
 export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: GenericProvider): ValueLedgerDeployOrder {
   order = JSON.parse(JSON.stringify(order));

@@ -6,9 +6,9 @@ import { AssetLedgerAbility } from '@0xcert/scaffold';
  * @param abilities Array of abilitites.
  */
 export function getBitfieldFromAbilities(abilities: AssetLedgerAbility[]): string {
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-    return bitAbilities.toHexString();
+  let bitAbilities = bigNumberify(0);
+  abilities.forEach((ability) => {
+    bitAbilities = bitAbilities.add(ability);
+  });
+  return bitAbilities.toHexString();
 }

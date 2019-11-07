@@ -181,6 +181,7 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
 /**
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
+ * @param provider Provider instance.
  */
 export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider): ActionsOrder {
   order = JSON.parse(JSON.stringify(order));
