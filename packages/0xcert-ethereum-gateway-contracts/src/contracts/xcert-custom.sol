@@ -9,10 +9,10 @@ import "@0xcert/ethereum-xcert-contracts/src/contracts/xcert.sol";
 contract XcertCustom is XcertToken {
 
   /**
-   * Contant presenting all and none currently available Xcert abilities.
+   * @dev Constant presenting all and none currently available Xcert abilities.
    */
   uint8 constant ABILITY_NONE = 0;
-  uint16 constant ABILITY_ALL = 2047;
+  uint16 constant ABILITY_ALL = 2047; // Sum of all available abilitites.
 
   /**
    * @dev Contract constructor.
@@ -24,7 +24,8 @@ contract XcertCustom is XcertToken {
    * convention.
    * @param _capabilities Array of bytes4 representing supported interfaces which activate the
    * corresponding capabilities.
-   * @param _owner Owner of the contract. This address will get all available permissions(abilities).
+   * @param _owner Owner of the contract. This address will get all available
+   * permissions(abilities).
    * @param _proxies Array of proxy addresses which need to be in following order: xcertCreateProxy,
    * xcertUpdateProxy, abilitableManageProxy, nftSafeTransferProxy, xcertBurnProxy.
    */
@@ -49,13 +50,16 @@ contract XcertCustom is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[_proxies[0]] = ABILITY_CREATE_ASSET; // Gives createProxy ability to create a new asset.
-    addressToAbility[_proxies[1]] = ABILITY_UPDATE_ASSET_IMPRINT; // Gives updateProxy ability to update an asset.
-    addressToAbility[_proxies[2]] = SUPER_ABILITY; // Gives manage abilitable proxy ability to manage abilities.
+    addressToAbility[_proxies[0]] = ABILITY_CREATE_ASSET; /// Gives createProxy ability to create a
+    /// new asset.
+    addressToAbility[_proxies[1]] = ABILITY_UPDATE_ASSET_IMPRINT; /// Gives updateProxy ability to
+    /// update an asset.
+    addressToAbility[_proxies[2]] = SUPER_ABILITY; /// Gives manage abilitable proxy ability to
+    /// manage abilities.
     addressToAbility[msg.sender] = ABILITY_NONE;
     addressToAbility[_owner] = ABILITY_ALL;
-    ownerToOperators[_owner][_proxies[3]] = true;
-    ownerToOperators[_owner][_proxies[4]] = true;
+    ownerToOperators[_owner][_proxies[3]] = true; /// Sets nft safe transfer proxy as an operator.
+    ownerToOperators[_owner][_proxies[4]] = true; /// Sets burtn proxy as an operator.
   }
 
 }

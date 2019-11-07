@@ -18,7 +18,7 @@ contract ActionsGateway is
 {
 
   /**
-   * @dev List of abilities:
+   * @dev List of this contract abilities:
    * 16 - Ability to set proxies.
    */
   uint8 constant ABILITY_TO_SET_PROXIES = 16;
@@ -80,7 +80,7 @@ contract ActionsGateway is
   {
     eth_sign,
     trezor,
-    eip712
+    no_prefix
   }
 
   /**
@@ -243,7 +243,7 @@ contract ActionsGateway is
     // signatures.
     uint256 signersLength = _data.signers.length - 1;
     // Address with which we are replacing zero address in case of any taker/signer.
-    address anyAddress = address(0);
+    address anyAddress;
     // If the last signer is zero address then we treat this as an any taker/signer order.
     // This means we replace zero address with the last signer or the order executor.
     if (_data.signers[signersLength] == address(0))
@@ -408,7 +408,7 @@ contract ActionsGateway is
         _signature.r,
         _signature.s
       );
-    } else if (_signature.kind == SignatureKind.eip712)
+    } else if (_signature.kind == SignatureKind.no_prefix)
     {
       return ecrecover(
         _claim,

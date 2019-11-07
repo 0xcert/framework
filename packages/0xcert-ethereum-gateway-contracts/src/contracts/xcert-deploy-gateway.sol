@@ -38,7 +38,7 @@ contract XcertDeployGateway
   {
     eth_sign,
     trezor,
-    eip712
+    no_prefix
   }
 
   /**
@@ -227,7 +227,7 @@ contract XcertDeployGateway
   }
 
   /**
-   * @dev @dev Performs the atomic swap that deploys a new Xcert smart contract and at the same time
+   * @dev Performs the atomic swap that deploys a new Xcert smart contract and at the same time
    * transfers tokens where performing address does not need to be known before
    * hand.
    * @notice When using this function, be aware that the zero address is reserved for replacement
@@ -379,7 +379,7 @@ contract XcertDeployGateway
         _signature.r,
         _signature.s
       );
-    } else if (_signature.kind == SignatureKind.eip712)
+    } else if (_signature.kind == SignatureKind.no_prefix)
     {
       return _signer == ecrecover(
         _claim,
