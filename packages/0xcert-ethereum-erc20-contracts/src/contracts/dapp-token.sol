@@ -38,7 +38,7 @@ contract DappToken is
   string constant NOT_ENOUGH_BALANCE = "010001";
   string constant NOT_ENOUGH_ALLOWANCE = "010002";
   string constant NOT_WHITELISTED_ADDRESS = "010003";
-  string constant MIGRATE_STARTED = "010004";
+  string constant MIGRATION_NOT_STARTED = "010004";
   string constant MIGRATION_STARTED = "010005";
   string constant NOT_ABLE_TO_MIGRATE = "010006";
 
@@ -105,11 +105,6 @@ contract DappToken is
    * Equal to: bytes4(keccak256("onMigrationReceived(address,uint256)")).
    */
   bytes4 constant MAGIC_ON_MIGRATION_RECEIVED = 0xc5b97e06;
-
-  /**
-   * @dev Mapping of all performed claims.
-   */
-  mapping(bytes32 => bool) public claimPerformed;
 
   /**
    * @dev Trigger when tokens are transferred, including zero value transfers.
@@ -275,7 +270,7 @@ contract DappToken is
     external
     hasAbilities(ABILITY_SET_MIGRATE_ADDRESS)
   {
-    require(_target != address(0), MIGRATE_STARTED);
+    require(_target != address(0), MIGRATION_NOT_STARTED);
     migrationAddress = _target;
   }
 
@@ -287,15 +282,16 @@ contract DappToken is
   function migrate()
     external
   {
-    require(migrationAddress != address(0), MIGRATE_STARTED);
-    tokenTotalSupply = tokenTotalSupply.sub(balances[msg.sender]);
-    barteredToken.transfer(migrationAddress, balances[msg.sender]);
+    require(migrationAddress != address(0), MIGRATION_NOT_STARTED);
+    uint256 balance = balances[msg.sender];
+    balances[msg.sender] = 0;
+    tokenTotalSupply = tokenTotalSupply.sub(balance);
+    barteredToken.transfer(migrationAddress, balance);
     require(
       MigrationReceiver(migrationAddress)
-        .onMigrationReceived(msg.sender, balances[msg.sender]) == MAGIC_ON_MIGRATION_RECEIVED,
+        .onMigrationReceived(msg.sender, balance) == MAGIC_ON_MIGRATION_RECEIVED,
       NOT_ABLE_TO_MIGRATE
     );
-    balances[msg.sender] = 0;
   }
 
   /**
@@ -319,6 +315,7 @@ contract DappToken is
     tokenTotalSupply = tokenTotalSupply.add(_amount);
     balances[_migrator] = balances[_migrator].add(_amount);
     allowed[_migrator][tokenTransferProxy] = allowed[_migrator][tokenTransferProxy].add(_amount);
+    emit Approval(_migrator, tokenTransferProxy, allowed[_migrator][tokenTransferProxy]);
     return MAGIC_ON_MIGRATION_RECEIVED;
   }
 
