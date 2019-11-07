@@ -1,8 +1,8 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
+import { zeroAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { createRecipeTuple, createSignatureTuple } from '../../lib/asset-ledger-deploy-order';
-import { zeroAddress } from '../../lib/utils';
 
 const inputTypes = ['tuple(address, address, tuple(string, string, string, string, bytes32, bytes4[], address), tuple(address, address, uint256), uint256, uint256)', 'tuple(bytes32, bytes32, uint8, uint8)'];
 

@@ -1,10 +1,9 @@
 import { getInterfaceCode } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, rightPad, stringToHex, zeroAddress } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployOrder, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
-import { hexToBytes, leftPad, rightPad, stringToHex, zeroAddress } from './utils';
 
 /**
  * Generates order hash from input data.

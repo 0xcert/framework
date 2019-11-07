@@ -1,9 +1,8 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, stringToHex, zeroAddress } from '@0xcert/ethereum-utils';
 import { ProviderError, ProviderIssue, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
-import { hexToBytes, leftPad, stringToHex, zeroAddress } from './utils';
 
 /**
  * Generates order hash from input data.
