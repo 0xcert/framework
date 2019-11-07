@@ -1,5 +1,5 @@
 import { Mutation } from '@0xcert/ethereum-generic-provider';
-import { zeroAddress } from '@0xcert/ethereum-utils';
+import { ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { createRecipeTuple, createSignatureTuple } from '../../lib/asset-ledger-deploy-order';
@@ -13,7 +13,7 @@ const inputTypes = ['tuple(address, address, tuple(string, string, string, strin
  * @param claim Claim data.
  */
 export default async function(gateway: Gateway, order: AssetLedgerDeployOrder, claim: string) {
-  const functionSignature = order.takerId === zeroAddress ? '0xef48e40c' : '0xb2a9e276'; // performAnyTaker or perform
+  const functionSignature = order.takerId === ZERO_ADDRESS ? '0xef48e40c' : '0xb2a9e276'; // performAnyTaker or perform
   const recipeTuple = createRecipeTuple(order);
   const signatureTuple = createSignatureTuple(claim);
   const attrs = {

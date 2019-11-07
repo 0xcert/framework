@@ -1,5 +1,5 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, hexToBytes, leftPad, stringToHex, zeroAddress } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, stringToHex, ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { ProviderError, ProviderIssue, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
@@ -111,7 +111,7 @@ export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: Gener
   let dynamic = false;
 
   if (!order.takerId) {
-    order.takerId = zeroAddress;
+    order.takerId = ZERO_ADDRESS;
     dynamic = true;
   } else {
     order.takerId = provider.encoder.normalizeAddress(order.takerId);
@@ -123,7 +123,7 @@ export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: Gener
     if (!dynamic) {
       throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
     }
-    order.tokenTransferData.receiverId = zeroAddress;
+    order.tokenTransferData.receiverId = ZERO_ADDRESS;
   } else {
     order.tokenTransferData.receiverId = provider.encoder.normalizeAddress(order.tokenTransferData.receiverId);
   }

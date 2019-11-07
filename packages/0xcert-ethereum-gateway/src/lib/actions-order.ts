@@ -1,6 +1,6 @@
 import { getBitfieldFromAbilities } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify, hexToBytes, leftPad, rightPad, zeroAddress } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, rightPad, ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, OrderKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
@@ -200,10 +200,10 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
   } else {
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-      action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = zeroAddress;
+      action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = ZERO_ADDRESS;
       if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
-        action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = zeroAddress;
-        if (action['senderId'] === zeroAddress && action['receiverId'] === zeroAddress) {
+        action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = ZERO_ADDRESS;
+        if (action['senderId'] === ZERO_ADDRESS && action['receiverId'] === ZERO_ADDRESS) {
           throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');
         }
       }

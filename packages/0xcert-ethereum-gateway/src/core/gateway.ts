@@ -1,5 +1,5 @@
 import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { zeroAddress } from '@0xcert/ethereum-utils';
+import { ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { AssetLedgerDeployOrder, DynamicActionsOrder, FixedActionsOrder, GatewayBase, Order, OrderKind, ProviderError, ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { createOrderHash as createActionsOrderHash, normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
 import { createOrderHash as createAssetLedgerDeployOrderHash, normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
@@ -437,7 +437,7 @@ export class Gateway implements GatewayBase {
    */
   protected createDynamicOrder(order: DynamicActionsOrder | SignedDynamicActionsOrder) {
     order = JSON.parse(JSON.stringify(order));
-    order.signers.push(zeroAddress);
+    order.signers.push(ZERO_ADDRESS);
     return order;
   }
 
