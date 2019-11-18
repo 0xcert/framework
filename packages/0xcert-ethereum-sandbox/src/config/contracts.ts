@@ -5,11 +5,15 @@ const { NFTokenMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-toke
 const { XcertMock } = require('@0xcert/ethereum-xcert-contracts/build/xcert-mock');
 const { XcertCreateProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-create-proxy');
 const { XcertUpdateProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-update-proxy');
+const { XcertBurnProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-burn-proxy');
 const { TokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy');
 const { NFTokenTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-transfer-proxy');
 const { NFTokenSafeTransferProxy } = require('@0xcert/ethereum-proxy-contracts/build/nftoken-safe-transfer-proxy');
+const { AbilitableManageProxy } = require('@0xcert/ethereum-proxy-contracts/build/abilitable-manage-proxy');
 const { NFTokenReceiverTestMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-receiver-test-mock');
-const { OrderGateway } = require('@0xcert/ethereum-order-gateway-contracts/build/order-gateway');
+const { ActionsGateway } = require('@0xcert/ethereum-gateway-contracts/build/actions-gateway');
+const { XcertDeployGateway } = require('@0xcert/ethereum-gateway-contracts/build/xcert-deploy-gateway');
+const { TokenDeployGateway } = require('@0xcert/ethereum-gateway-contracts/build/token-deploy-gateway');
 
 /**
  * ERC20 contract data.
@@ -100,9 +104,41 @@ export const xcertUpdateProxy = {
 };
 
 /**
- * Decentralized orderGateway contract data.
+ * Xcert burn proxy data.
  */
-export const orderGateway = {
-  abi: OrderGateway.abi,
-  bytecode: OrderGateway.evm.bytecode.object,
+export const xcertBurnProxy = {
+  abi: XcertBurnProxy.abi,
+  bytecode: XcertBurnProxy.evm.bytecode.object,
+};
+
+/**
+ * Decentralized actionsGateway contract data.
+ */
+export const actionsGateway = {
+  abi: ActionsGateway.abi,
+  bytecode: ActionsGateway.evm.bytecode.object,
+};
+
+/**
+ * Decentralized xcertDeployGateway contract data.
+ */
+export const xcertDeployGateway = {
+  abi: XcertDeployGateway.abi,
+  bytecode: XcertDeployGateway.evm.bytecode.object,
+};
+
+/**
+ * Decentralized tokenDeployGateway contract data.
+ */
+export const tokenDeployGateway = {
+  abi: TokenDeployGateway.abi,
+  bytecode: TokenDeployGateway.evm.bytecode.object,
+};
+
+/**
+ * Decentralized tokenDeployGateway contract data.
+ */
+export const abilitableManageProxy = {
+  abi: AbilitableManageProxy.abi,
+  bytecode: AbilitableManageProxy.evm.bytecode.object,
 };

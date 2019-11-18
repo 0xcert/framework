@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-sandbox",
-  "version": "1.9.0",
+  "version": "2.0.0-alpha11",
   "description": "Test server for local running testing of modules on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,22 +64,22 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.8.3",
-    "@hayspec/spec": "^0.8.3",
-    "@types/node": "^10.12.24",
-    "nyc": "^14.1.1",
-    "supertest": "^3.3.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.1.1",
-    "web3": "1.0.0-beta.37"
+    "@hayspec/cli": "0.9.0",
+    "@hayspec/spec": "0.9.0",
+    "@types/node": "12.7.8",
+    "nyc": "14.1.1",
+    "supertest": "4.0.2",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3",
+    "web3": "1.2.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-order-gateway-contracts": "1.9.0",
-    "@0xcert/ethereum-erc20-contracts": "1.9.0",
-    "@0xcert/ethereum-erc721-contracts": "1.9.0",
-    "@0xcert/ethereum-proxy-contracts": "1.9.0",
-    "@0xcert/ethereum-xcert-contracts": "1.9.0",
-    "ganache-core": "2.5.3"
+    "@0xcert/ethereum-gateway-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-proxy-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha11",
+    "ganache-core": "2.8.0"
   }
 }

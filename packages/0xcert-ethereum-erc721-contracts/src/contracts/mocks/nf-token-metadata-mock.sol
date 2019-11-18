@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "../nf-token-metadata.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
@@ -15,18 +15,21 @@ contract NFTokenMetadataMock is
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFTokens.
-   * @param _uriBase Base of uri for token metadata uris. 
+   * @param _uriPrefix Prefix of URI for token metadata URIs. 
+   * @param _uriPostfix Postfix of URI for token metadata URIs. 
    */
   constructor(
     string memory _name,
     string memory _symbol,
-    string memory _uriBase
+    string memory _uriPrefix,
+    string memory _uriPostfix
   )
     public
   {
     nftName = _name;
     nftSymbol = _symbol;
-    uriBase = _uriBase;
+    uriPrefix = _uriPrefix;
+    uriPostfix = _uriPostfix;
   }
 
   /**
@@ -58,16 +61,18 @@ contract NFTokenMetadataMock is
   }
 
   /**
-   * @dev Change URI base.
-   * @param _uriBase New uriBase.
+   * @dev Change URI.
+   * @param _uriPrefix New uriPrefix.
+   * @param _uriPostfix New uriPostfix.
    */
-  function setUriBase(
-    string calldata _uriBase
+  function setUri(
+    string calldata _uriPrefix,
+    string calldata _uriPostfix
   )
     external
     onlyOwner
   {
-    super._setUriBase(_uriBase);
+    super._setUri(_uriPrefix, _uriPostfix);
   }
   
 }

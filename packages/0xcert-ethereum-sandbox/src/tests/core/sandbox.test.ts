@@ -33,7 +33,10 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.nftokenTransferProxy);
   ctx.true(!!sandbox.protocol.nftokenSafeTransferProxy);
   ctx.true(!!sandbox.protocol.nftokenReceiver);
-  ctx.true(!!sandbox.protocol.orderGateway);
+  ctx.true(!!sandbox.protocol.actionsGateway);
+  ctx.true(!!sandbox.protocol.xcertDeployGateway);
+  ctx.true(!!sandbox.protocol.tokenDeployGateway);
+  ctx.true(!!sandbox.protocol.abilitableManageProxy);
 });
 
 spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {

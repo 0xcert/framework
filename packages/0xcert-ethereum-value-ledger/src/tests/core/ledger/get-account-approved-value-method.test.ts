@@ -1,5 +1,4 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
@@ -50,24 +49,6 @@ spec.test('returns null when calling getApprovedValue on contract that does not 
   const bob = ctx.get('bob');
   const approvedValue = await ledger.getApprovedValue(coinbase, bob);
   ctx.is(approvedValue, null);
-});
-
-spec.test('returns gateway approved amount', async (ctx) => {
-  const provider = ctx.get('provider');
-  const ledgerId = ctx.get('protocol').erc20.instance.options.address;
-  const ledger =  new ValueLedger(provider, ledgerId);
-  const coinbase = ctx.get('coinbase');
-  const token = ctx.get('protocol').erc20;
-
-  const approveAmount = '5000000000000000000';
-  const orderGatewayId = ctx.get('protocol').orderGateway.instance.options.address;
-  const gateway = new OrderGateway(provider, orderGatewayId);
-
-  const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
-
-  const approvedValue = await ledger.getApprovedValue(coinbase, gateway);
-  ctx.is(approvedValue, approveAmount);
 });
 
 export default spec;

@@ -18,11 +18,15 @@ export class Protocol {
   public xcert;
   public xcertCreateProxy;
   public xcertUpdateProxy;
+  public xcertBurnProxy;
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
   public nftokenReceiver;
-  public orderGateway;
+  public actionsGateway;
+  public xcertDeployGateway;
+  public tokenDeployGateway;
+  public abilitableManageProxy;
 
   /**
    * Instantiates the protocol class and deploys the contracts.
@@ -62,11 +66,15 @@ export class Protocol {
     this.xcert = await this.deployXcert(from);
     this.xcertCreateProxy = await this.deployXcertCreateProxy(from);
     this.xcertUpdateProxy = await this.deployXcertUpdateProxy(from);
+    this.xcertBurnProxy = await this.deployXcertBurnProxy(from);
     this.tokenTransferProxy = await this.deployTokenTransferProxy(from);
     this.nftokenTransferProxy = await this.deployNFTokenTransferProxy(from);
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
+    this.abilitableManageProxy = await this.deployAbilitableManageProxy(from);
     this.nftokenReceiver = await this.deployNFTokenReceiver(from);
-    this.orderGateway = await this.deployOrderGateway(from);
+    this.actionsGateway = await this.deployActionsGateway(from);
+    this.xcertDeployGateway = await this.deployXcertDeployGateway(from);
+    this.tokenDeployGateway = await this.deployTokenDeployGateway(from);
 
     return this;
   }
@@ -107,7 +115,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.erc721Metadata.abi,
       bytecode: contracts.erc721Metadata.bytecode,
-      args: ['ERC721 Metadata', 'ERC721Metadata', 'http://0xcert.org/'],
+      args: ['ERC721 Metadata', 'ERC721Metadata', 'https://0xcert.org/', '.json'],
       from,
     });
   }
@@ -134,7 +142,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Destroyable Xcert', 'DestroyableXcert', 'http://0xcert.org/', '0x1', ['0x9d118770']],
+      args: ['Destroyable Xcert', 'DestroyableXcert', 'https://0xcert.org/', '.json', '0x1', ['0x9d118770']],
       from,
     });
 
@@ -150,7 +158,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Mutable Xcert', 'MutableXcert', 'http://0xcert.org/', '0x2', ['0xbda0e852']],
+      args: ['Mutable Xcert', 'MutableXcert', 'https://0xcert.org/', '.json', '0x2', ['0xbda0e852']],
       from,
     });
 
@@ -166,7 +174,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Pausable Xcert', 'PausableXcert', 'http://0xcert.org/', '0x3', ['0xbedb86fb']],
+      args: ['Pausable Xcert', 'PausableXcert', 'https://0xcert.org/', '.json', '0x3', ['0xbedb86fb']],
       from,
     });
 
@@ -182,7 +190,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Revokable Xcert', 'RevokableXcert', 'http://0xcert.org/', '0x4', ['0x20c5429b']],
+      args: ['Revokable Xcert', 'RevokableXcert', 'https://0xcert.org/', '.json', '0x4', ['0x20c5429b']],
       from,
     });
 
@@ -198,7 +206,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Xcert', 'Xcert', 'http://0xcert.org/', '0x5', []],
+      args: ['Xcert', 'Xcert', 'https://0xcert.org/', '.json', '0x5', []],
       from,
     });
 
@@ -230,6 +238,20 @@ export class Protocol {
       from,
     });
   }
+
+  /**
+   * Deploys the Xcert burn proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployXcertBurnProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.xcertBurnProxy.abi,
+      bytecode: contracts.xcertBurnProxy.bytecode,
+      from,
+    });
+  }
+
   /**
    * Deploys the token transfer proxy contract.
    * @param from Contract owner's address.
@@ -270,6 +292,19 @@ export class Protocol {
   }
 
   /**
+   * Deploys the abilitable manage proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployAbilitableManageProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.abilitableManageProxy.abi,
+      bytecode: contracts.abilitableManageProxy.bytecode,
+      from,
+    });
+  }
+
+  /**
    * Deploys the non-fungible token receiver contract.
    * @param from Contract owner's address.
    */
@@ -283,29 +318,74 @@ export class Protocol {
   }
 
   /**
-   * Deploys the decentralized orderGateway contract.
+   * Deploys the decentralized actionsGateway contract.
    * @param from Contract owner's address.
    */
-  protected async deployOrderGateway(from: string) {
-    const orderGateway = await deploy({
+  protected async deployActionsGateway(from: string) {
+    const actionsGateway = await deploy({
       web3: this.web3,
-      abi: contracts.orderGateway.abi,
-      bytecode: contracts.orderGateway.bytecode,
+      abi: contracts.actionsGateway.abi,
+      bytecode: contracts.actionsGateway.bytecode,
       from,
     });
 
-    await orderGateway.instance.methods.grantAbilities(from, 2).send({ from });
-    await orderGateway.instance.methods.addProxy(this.xcertCreateProxy.receipt._address).send({ from });
-    await orderGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address).send({ from });
-    await orderGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address).send({ from });
-    await orderGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address).send({ from });
-    await orderGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address).send({ from });
-    await this.tokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.nftokenTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.xcertCreateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
-    await this.xcertUpdateProxy.instance.methods.grantAbilities(orderGateway.receipt._address, 2).send({ from });
+    await actionsGateway.instance.methods.grantAbilities(from, 16).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertCreateProxy.receipt._address, 0).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.tokenTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.nftokenTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.nftokenSafeTransferProxy.receipt._address, 1).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertUpdateProxy.receipt._address, 2).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.abilitableManageProxy.receipt._address, 3).send({ from });
+    await actionsGateway.instance.methods.addProxy(this.xcertBurnProxy.receipt._address, 4).send({ from });
+    await this.tokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.nftokenTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.xcertCreateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.nftokenSafeTransferProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.xcertUpdateProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.xcertBurnProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
+    await this.abilitableManageProxy.instance.methods.grantAbilities(actionsGateway.receipt._address, 16).send({ from });
 
-    return orderGateway;
+    return actionsGateway;
+  }
+
+  /**
+   * Deploys the decentralized xcertDeployGateway contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployXcertDeployGateway(from: string) {
+    const xcertDeployGateway = await deploy({
+      web3: this.web3,
+      abi: contracts.xcertDeployGateway.abi,
+      bytecode: contracts.xcertDeployGateway.bytecode,
+      args: [
+        this.tokenTransferProxy.receipt._address,
+        this.xcertCreateProxy.receipt._address,
+        this.xcertUpdateProxy.receipt._address,
+        this.abilitableManageProxy.receipt._address,
+        this.nftokenSafeTransferProxy.receipt._address,
+        this.xcertBurnProxy.receipt._address,
+      ],
+      from,
+    });
+
+    await this.tokenTransferProxy.instance.methods.grantAbilities(xcertDeployGateway.receipt._address, 16).send({ from });
+    return xcertDeployGateway;
+  }
+
+  /**
+   * Deploys the decentralized tokenDeployGateway contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployTokenDeployGateway(from: string) {
+    const tokenDeployGateway = await deploy({
+      web3: this.web3,
+      abi: contracts.tokenDeployGateway.abi,
+      bytecode: contracts.tokenDeployGateway.bytecode,
+      args: [this.tokenTransferProxy.receipt._address],
+      from,
+    });
+
+    await this.tokenTransferProxy.instance.methods.grantAbilities(tokenDeployGateway.receipt._address, 16).send({ from });
+    return tokenDeployGateway;
   }
 }

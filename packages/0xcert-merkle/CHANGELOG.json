@@ -2,26 +2,8 @@
   "name": "@0xcert/merkle",
   "entries": [
     {
-      "version": "1.9.0",
-      "tag": "@0xcert/merkle_v1.9.0",
-      "date": "Sun, 01 Sep 2019 16:02:20 GMT",
-      "comments": {}
-    },
-    {
-      "version": "1.8.1",
-      "tag": "@0xcert/merkle_v1.8.1",
-      "date": "Sun, 01 Sep 2019 15:46:11 GMT",
-      "comments": {}
-    },
-    {
-      "version": "1.8.0",
-      "tag": "@0xcert/merkle_v1.8.0",
-      "date": "Tue, 30 Jul 2019 10:46:40 GMT",
-      "comments": {}
-    },
-    {
-      "version": "1.7.4",
-      "tag": "@0xcert/merkle_v1.7.4",
+      "version": "2.0.0-alpha11",
+      "tag": "@0xcert/merkle_v2.0.0-alpha11",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },

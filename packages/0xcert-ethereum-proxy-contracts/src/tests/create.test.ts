@@ -37,7 +37,7 @@ spec.test('adds authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const logs = await xcertProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
@@ -48,8 +48,8 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await xcertProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  const logs = await xcertProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE, false).send({ from: owner });
-  ctx.not(logs.events.RevokeAbilities, undefined);
+  const logs = await xcertProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);
@@ -66,7 +66,7 @@ spec.test('creates an Xcert', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', []],
   });
 
   await cat.instance.methods.grantAbilities(xcertProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
@@ -87,7 +87,7 @@ spec.test('creates an Xcert with high ID', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', []],
   });
 
   await cat.instance.methods.grantAbilities(xcertProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
@@ -106,7 +106,7 @@ spec.test('fails if create is triggered by an unauthorized address', async (ctx)
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', []],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', []],
   });
 
   await cat.instance.methods.grantAbilities(xcertProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });

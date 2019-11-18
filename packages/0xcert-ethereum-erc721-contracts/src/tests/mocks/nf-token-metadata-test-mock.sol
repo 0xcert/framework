@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "../../contracts/mocks/nf-token-metadata-mock.sol";
 
@@ -9,9 +9,10 @@ contract NFTokenMetadataTestMock is
   constructor(
     string memory _name,
     string memory _symbol,
-    string memory _uriBase
+    string memory _uriPrefix,
+    string memory _uriPostfix
   )
-    NFTokenMetadataMock(_name, _symbol, _uriBase)
+    NFTokenMetadataMock(_name, _symbol, _uriPrefix, _uriPostfix)
     public
   {}
   

@@ -1,5 +1,5 @@
+import { GatewayBase } from './gateway';
 import { MutationBase } from './mutation';
-import { OrderGatewayBase } from './order-gateway';
 
 export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbility;
 
@@ -8,13 +8,13 @@ export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbi
  * abilities that can not change other account's abilities.
  */
 export enum GeneralAssetLedgerAbility {
-  CREATE_ASSET = 2,
-  REVOKE_ASSET = 4,
-  TOGGLE_TRANSFERS = 8,
-  UPDATE_ASSET = 16,
-  ALLOW_CREATE_ASSET = 32,
-  UPDATE_URI_BASE = 64,
-  ALLOW_UPDATE_ASSET_IMPRINT = 128,
+  CREATE_ASSET = 16,
+  REVOKE_ASSET = 32,
+  TOGGLE_TRANSFERS = 64,
+  UPDATE_ASSET = 128,
+  UPDATE_URI_BASE = 256,
+  ALLOW_CREATE_ASSET = 512,
+  ALLOW_UPDATE_ASSET_IMPRINT = 1024,
 }
 
 /**
@@ -23,6 +23,7 @@ export enum GeneralAssetLedgerAbility {
  */
 export enum SuperAssetLedgerAbility {
   MANAGE_ABILITIES = 1,
+  ALLOW_MANAGE_ABILITIES = 2,
 }
 
 /**
@@ -50,13 +51,13 @@ export interface AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveAccount(assetId: string, accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  approveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  approveOperator(accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Grants abilities of an account.
@@ -87,7 +88,7 @@ export interface AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  disapproveOperator(accountId: string | OrderGatewayBase): Promise<MutationBase>;
+  disapproveOperator(accountId: string | GatewayBase): Promise<MutationBase>;
 
   /**
    * Disables transfers of asset on the asset ledger.
@@ -135,7 +136,7 @@ export interface AssetLedgerBase {
   getCapabilities(): Promise<AssetLedgerCapability[]>;
 
   /**
-   * Gets information about the asset ledger (name, symbol, uriBase, schemaId, supply).
+   * Gets information about the asset ledger (name, symbol, uriPrefix, schemaId, supply).
    */
   getInfo(): Promise<AssetLedgerInfo>;
 
@@ -144,14 +145,14 @@ export interface AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean>;
+  isApprovedAccount(assetId: string, accountId: string | GatewayBase): Promise<boolean>;
 
   /**
    * Checks if specific account is the operator for specific account.
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean>;
+  isApprovedOperator(accountId: string, operatorId: string | GatewayBase): Promise<boolean>;
 
   /**
    * Checks if transfers on the asset ledger are enabled.
@@ -208,11 +209,18 @@ export interface AssetLedgerDeployRecipe {
   symbol: string;
 
   /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended foo each asset.
+   * Uri prefix for metadata URI-s. At the end of the prefix the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
-   * Asset 1 URI will become: https://example.com/id/1
+   * Asset 1 URI will become: https://example.com/id/1 + postfix
    */
-  uriBase: string;
+  uriPrefix: string;
+
+  /**
+   * URI postfix for metadata URIs. After uriPrefix and assetId, postfix is automatically appended for each asset..
+   * Example: .json
+   * Asset 1 URI will become: uriPrefix + 1.json
+   */
+  uriPostfix: string;
 
   /**
    * Hashed representation of JSON schema defining this object.
@@ -262,11 +270,18 @@ export interface AssetLedgerInfo {
   symbol: string;
 
   /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended foo each asset.
+   * Uri prefix for metadata URI-s. At the end of the prefix the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
-   * Asset 1 URI will become: https://example.com/id/1
+   * Asset 1 URI will become: https://example.com/id/1 + postfix
    */
-  uriBase: string;
+  uriPrefix: string;
+
+  /**
+   * URI postfix for metadata URIs. After uriPrefix and assetId, postfix is automatically appended for each asset..
+   * Example: .json
+   * Asset 1 URI will become: uriPrefix + 1.json
+   */
+  uriPostfix: string;
 
   /**
    * Hashed representation of JSON schema defining this object.
@@ -343,9 +358,16 @@ export interface AssetLedgerObjectUpdateRecipe {
 export interface AssetLedgerUpdateRecipe {
 
   /**
-   * Uri base for metadata URI-s. At the end of the base the assetId is automatically appended foo each asset.
+   * Uri prefix for metadata URI-s. At the end of the prefix the assetId is automatically appended for each asset.
    * Example: https://example.com/id/
-   * Asset 1 URI will become: https://example.com/id/1
+   * Asset 1 URI will become: https://example.com/id/1 + postfix
    */
-  uriBase: string;
+  uriPrefix: string;
+
+  /**
+   * URI postfix for metadata URIs. After uriPrefix and assetId, postfix is automatically appended for each asset..
+   * Example: .json
+   * Asset 1 URI will become: uriPrefix + 1.json
+   */
+  uriPostfix: string;
 }

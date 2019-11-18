@@ -1,4 +1,5 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
+pragma experimental ABIEncoderV2;
 
 import "../xcert.sol";
 
@@ -11,7 +12,8 @@ contract XcertMock is XcertToken {
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFT.
-   * @param _uriBase Base of uri for token metadata uris.
+   * @param _uriPrefix Prefix of URI for token metadata URIs.
+   * @param _uriPostfix Postfix of URI for token metadata URIs.
    * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
    * convention.
    * @param _capabilities Array of bytes4 representing supported interfaces which activate the
@@ -20,7 +22,8 @@ contract XcertMock is XcertToken {
   constructor(
     string memory _name,
     string memory _symbol,
-    string memory _uriBase,
+    string memory _uriPrefix,
+    string memory _uriPostfix,
     bytes32 _schemaId,
     bytes4[] memory _capabilities
   )
@@ -28,13 +31,14 @@ contract XcertMock is XcertToken {
   {
     nftName = _name;
     nftSymbol = _symbol;
-    uriBase = _uriBase;
+    uriPrefix = _uriPrefix;
+    uriPostfix = _uriPostfix;
     nftSchemaId = _schemaId;
     for(uint256 i = 0; i < _capabilities.length; i++)
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[msg.sender] = 255; // Assigns all available abilities to creator. 
+    addressToAbility[msg.sender] = 2047; // Assigns all available abilities to creator.
   }
-  
+
 }

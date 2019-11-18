@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "../ixcert.sol";
 import "../ixcert-burnable.sol";
@@ -27,7 +27,7 @@ contract Selector
       i.create.selector
       ^ i.schemaId.selector
       ^ i.tokenImprint.selector
-      ^ i.setUriBase.selector
+      ^ i.setUri.selector
     );
   }
 

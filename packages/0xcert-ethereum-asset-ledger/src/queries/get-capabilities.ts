@@ -3,7 +3,7 @@ import { AssetLedger } from '../core/ledger';
 import { getInterfaceCode } from '../lib/capabilities';
 
 const functionSignature = '0x01ffc9a7';
-const inputTypes = ['bytes8'];
+const inputTypes = ['bytes4'];
 const outputTypes = ['bool'];
 
 /**

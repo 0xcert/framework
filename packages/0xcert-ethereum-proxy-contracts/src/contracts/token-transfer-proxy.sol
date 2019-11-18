@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc20-contracts/src/contracts/erc20.sol";
@@ -9,16 +9,16 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol
  * decentralized governance.
  * @dev Based on:https://github.com/0xProject/contracts/blob/master/contracts/TokenTransferProxy.sol
  */
-contract TokenTransferProxy is 
+contract TokenTransferProxy is
   Proxy,
-  Abilitable 
+  Abilitable
 {
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute transfer. 
+   * 16 - Ability to execute transfer.
    */
-  uint8 constant ABILITY_TO_EXECUTE = 2;
+  uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
    * @dev Error constants.
@@ -46,5 +46,5 @@ contract TokenTransferProxy is
       TRANSFER_FAILED
     );
   }
-  
+
 }

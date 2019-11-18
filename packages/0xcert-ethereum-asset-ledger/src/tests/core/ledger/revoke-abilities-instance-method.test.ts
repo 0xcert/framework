@@ -1,5 +1,4 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { GeneralAssetLedgerAbility, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
@@ -8,7 +7,6 @@ import { AssetLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
   protocol: Protocol;
   bob: string;
   jane: string;
@@ -24,6 +22,7 @@ spec.before(async (stage) => {
   const provider = new GenericProvider({
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -31,9 +30,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -47,19 +44,11 @@ spec.test('revokes ledger abilities for an account', async (ctx) => {
   const ledger = ctx.get('ledger');
   const bob = ctx.get('bob');
   await ledger.grantAbilities(bob, [GeneralAssetLedgerAbility.CREATE_ASSET, GeneralAssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
-  await ledger.revokeAbilities(bob, [GeneralAssetLedgerAbility.UPDATE_URI_BASE]).then(() => ctx.sleep(200));
+  const mutation = await ledger.revokeAbilities(bob, [GeneralAssetLedgerAbility.UPDATE_URI_BASE]);
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'SetAbilities');
   const abilities = await ledger.getAbilities(bob);
   ctx.deepEqual(abilities, [GeneralAssetLedgerAbility.CREATE_ASSET]);
-});
-
-spec.test('revokes ledger abilities for an order gateway', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const gateway = ctx.get('gateway');
-  const proxyId = ctx.get('protocol').xcertCreateProxy.instance.options.address;
-  await ledger.grantAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]);
-  await ledger.revokeAbilities(gateway, [GeneralAssetLedgerAbility.CREATE_ASSET]).then(() => ctx.sleep(200));
-  const abilities = await ledger.getAbilities(proxyId);
-  ctx.deepEqual(abilities, []);
 });
 
 spec.test('revokes ledger super abilities for an account', async (ctx) => {
@@ -81,8 +70,8 @@ spec.test('revokes own super ability', async (ctx) => {
     GeneralAssetLedgerAbility.REVOKE_ASSET,
     GeneralAssetLedgerAbility.TOGGLE_TRANSFERS,
     GeneralAssetLedgerAbility.UPDATE_ASSET,
-    GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
     GeneralAssetLedgerAbility.UPDATE_URI_BASE,
+    GeneralAssetLedgerAbility.ALLOW_CREATE_ASSET,
     GeneralAssetLedgerAbility.ALLOW_UPDATE_ASSET_IMPRINT,
   ]);
 });

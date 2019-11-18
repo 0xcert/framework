@@ -1,5 +1,4 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { AssetLedger } from '../../../core/ledger';
@@ -8,7 +7,6 @@ const spec = new Spec<{
   protocol: Protocol;
   provider: GenericProvider;
   ledger: AssetLedger;
-  gateway: OrderGateway;
   coinbase: string;
   bob: string;
 }>();
@@ -35,9 +33,7 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').xcert.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
   stage.set('ledger', new AssetLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
 spec.before(async (stage) => {
@@ -56,17 +52,6 @@ spec.test('checks if account is approved', async (ctx) => {
   ctx.true(await ledger.isApprovedAccount('1', bob));
   await ledger.approveAccount('1', coinbase);
   ctx.false(await ledger.isApprovedAccount('1', bob));
-});
-
-spec.test('checks if gateway proxy is approved', async (ctx) => {
-  const coinbase = ctx.get('coinbase');
-  const ledger = ctx.get('ledger');
-  const gateway = ctx.get('gateway');
-  ctx.false(await ledger.isApprovedAccount('2', gateway));
-  await ledger.approveAccount('2', gateway);
-  ctx.true(await ledger.isApprovedAccount('2', gateway));
-  await ledger.approveAccount('2', coinbase);
-  ctx.false(await ledger.isApprovedAccount('2', gateway));
 });
 
 export default spec;

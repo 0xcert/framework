@@ -43,7 +43,7 @@ spec.test('returns asset info (xcert contract)', async (ctx) => {
     .send({ from: coinbase });
   ctx.deepEqual(await ledger.getAsset('1'), {
     id: '1',
-    uri: 'http://0xcert.org/1',
+    uri: 'https://0xcert.org/1.json',
     imprint: '973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
   });
 });

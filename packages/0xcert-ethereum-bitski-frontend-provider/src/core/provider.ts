@@ -1,4 +1,20 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
+
+/**
+ * Network inteface for custom chain.
+ */
+export interface BitskiProviderNetwork {
+
+  /**
+   * Url to RPC provider.
+   */
+  rpcUrl: string;
+
+  /**
+   * Chain id.
+   */
+  chainId: number;
+}
 
 /**
  * Configuration interface for generic provider.
@@ -31,9 +47,9 @@ export interface BitskiProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * ID (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -53,12 +69,17 @@ export interface BitskiProviderOptions {
   /**
    * Ethereum network Bitski is connected to. Mainnet by default.
    */
-  networkName?: string;
+  network?: string | BitskiProviderNetwork;
 
   /**
    * Gas price multiplier. Defaults to 1.1.
    */
   gasPriceMultiplier?: number;
+
+  /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  retryGasPriceMultiplier?: number;
 
   /**
    * Sandbox mode. False by default.
@@ -110,12 +131,12 @@ export class BitskiProvider extends GenericProvider {
    * located.
    * @param options.requiredConfirmations Optional number of confirmations that are necessary to
    * mark a mutation complete.
-   * @param options.orderGatewayId Optional ID (address) of order gateway.
+   * @param options.gatewayConfig Gateway configuration.
    * @param options.mutationTimeout Optional number of milliseconds in which a mutation times out.
    * @param options.clientId Required Bitski client ID.
    * @param options.redirectUrl Required Bitski redirect url.
-   * @param options.networkName Optional name of Ethereum network Bitski is connected to. Mainnet by
-   * default.
+   * @param options.network Optional name of Ethereum network or custom network object Bitski is
+   * connected to. Mainnet by default.
    */
   public constructor(options: BitskiProviderOptions) {
     super(options);
@@ -125,9 +146,16 @@ export class BitskiProvider extends GenericProvider {
     if (this.isSupported()) {
       const bitski = require('bitski');
       this._bitski = new bitski.Bitski(options.clientId, options.redirectUrl);
-      this._provider = this._bitski.getProvider({
-        networkName: typeof options.networkName === 'undefined' ? 'mainnet' : options.networkName,
-      });
+      const bitskiOptions = {};
+      if (typeof options.network === 'undefined') {
+        bitskiOptions['networkName'] = 'mainnet';
+      } else if (typeof options.network === 'string') {
+        bitskiOptions['networkName'] = options.network;
+      } else {
+        bitskiOptions['network'] = options.network;
+      }
+
+      this._provider = this._bitski.getProvider(bitskiOptions);
     }
   }
 

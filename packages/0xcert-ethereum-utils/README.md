@@ -42,12 +42,12 @@ const encoded = '0x' +
 const values = decodeParameters(types, values);
 ```
 
-## BigNumber and bigNumberify
+## Big umbers
 
 Here is a basic example adapted from [the ethers.js documentation](https://docs.ethers.io/ethers.js/html/api-utils.html?highlight=bignumberify#big-numbers).
 
 ```ts
-import { BigNumber, bigNumberify } from '0xcert/ethereum-utils/big-number';
+import { bigNumberify } from '0xcert/ethereum-utils/big-number';
 
 let gasPriceWei = bigNumberify("20902747399");
 let gasLimit = bigNumberify(3000000);

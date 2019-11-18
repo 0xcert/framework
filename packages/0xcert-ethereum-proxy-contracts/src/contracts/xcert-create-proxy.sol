@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "@0xcert/ethereum-xcert-contracts/src/contracts/ixcert.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
@@ -7,15 +7,15 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol
  * @title XcertCreateProxy - creates a token on behalf of contracts that have been approved via
  * decentralized governance.
  */
-contract XcertCreateProxy is 
-  Abilitable 
+contract XcertCreateProxy is
+  Abilitable
 {
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute create. 
+   * 16 - Ability to execute create.
    */
-  uint8 constant ABILITY_TO_EXECUTE = 2;
+  uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
    * @dev Creates a new Xcert.

@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/cert",
-  "version": "1.9.0",
+  "version": "2.0.0-alpha11",
   "description": "Asset certification module for 0xcert Framework.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,16 +64,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "^0.8.3",
-    "@hayspec/spec": "^0.8.3",
-    "nyc": "^14.1.1",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.1.1"
+    "@hayspec/cli": "0.9.0",
+    "@hayspec/spec": "0.9.0",
+    "nyc": "14.1.1",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3"
   },
   "dependencies": {
-    "@0xcert/utils": "1.9.0",
-    "@0xcert/merkle": "1.9.0",
-    "@0xcert/conventions": "1.9.0"
+    "@0xcert/utils": "2.0.0-alpha11",
+    "@0xcert/merkle": "2.0.0-alpha11",
+    "@0xcert/conventions": "2.0.0-alpha11"
   }
 }

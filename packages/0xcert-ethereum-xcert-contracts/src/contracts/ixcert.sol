@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 /**
  * @dev Xcert interface.
@@ -20,11 +20,13 @@ interface Xcert // is ERC721 metadata enumerable
     external;
 
   /**
-   * @dev Change URI base.
-   * @param _uriBase New uriBase.
+   * @dev Change URI.
+   * @param _uriPrefix New URI prefix.
+   * @param _uriPostfix New URI postfix.
    */
-  function setUriBase(
-    string calldata _uriBase
+  function setUri(
+    string calldata _uriPrefix,
+    string calldata _uriPostfix
   )
     external;
 

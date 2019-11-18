@@ -1,5 +1,4 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
-import { OrderGateway } from '@0xcert/ethereum-order-gateway';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
@@ -7,7 +6,6 @@ import { ValueLedger } from '../../../core/ledger';
 const spec = new Spec<{
   provider: GenericProvider
   ledger: ValueLedger;
-  gateway: OrderGateway;
   protocol: Protocol;
   coinbase: string;
   bob: string;
@@ -34,9 +32,8 @@ spec.before(async (stage) => {
 spec.before(async (stage) => {
   const provider = stage.get('provider');
   const ledgerId = stage.get('protocol').erc20.instance.options.address;
-  const orderGatewayId = stage.get('protocol').orderGateway.instance.options.address;
+  const actionsGatewayId = stage.get('protocol').actionsGateway.instance.options.address;
   stage.set('ledger', new ValueLedger(provider, ledgerId));
-  stage.set('gateway', new OrderGateway(provider, orderGatewayId));
 });
 
 spec.test('returns if account has the approved amount', async (ctx) => {
@@ -48,20 +45,6 @@ spec.test('returns if account has the approved amount', async (ctx) => {
   ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), false);
   await token.instance.methods.approve(bob, approveAmount).send({from: coinbase});
   ctx.is(await ledger.isApprovedValue(approveAmount, coinbase, bob), true);
-});
-
-spec.test('checks if gateway proxy is approved', async (ctx) => {
-  const ledger = ctx.get('ledger');
-  const coinbase = ctx.get('coinbase');
-  const token = ctx.get('protocol').erc20;
-  const approveAmount = '5000000000000000000';
-  const gateway = ctx.get('gateway');
-  const tokenTransferProxyId = ctx.get('protocol').tokenTransferProxy.instance.options.address;
-  ctx.false(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
-  await token.instance.methods.approve(tokenTransferProxyId, approveAmount).send({from: coinbase});
-  ctx.true(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
-  await token.instance.methods.approve(tokenTransferProxyId, '0').send({from: coinbase});
-  ctx.false(await ledger.isApprovedValue(approveAmount, coinbase, gateway));
 });
 
 export default spec;

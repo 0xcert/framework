@@ -37,7 +37,7 @@ spec.test('adds authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const logs = await xcertUpdateProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertUpdateProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, true);
@@ -48,8 +48,8 @@ spec.test('removes authorized address', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   await xcertUpdateProxy.instance.methods.grantAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
-  const logs = await xcertUpdateProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE, false).send({ from: owner });
-  ctx.not(logs.events.RevokeAbilities, undefined);
+  const logs = await xcertUpdateProxy.instance.methods.revokeAbilities(bob, XcertCreateProxyAbilities.EXECUTE).send({ from: owner });
+  ctx.not(logs.events.SetAbilities, undefined);
 
   const bobHasAbilityToExecute = await xcertUpdateProxy.instance.methods.isAble(bob, XcertCreateProxyAbilities.EXECUTE).call();
   ctx.is(bobHasAbilityToExecute, false);
@@ -68,7 +68,7 @@ spec.test('updates an Xcert', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
   });
 
   await cat.instance.methods.grantAbilities(xcertUpdateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
@@ -92,7 +92,7 @@ spec.test('fails if update is triggered by an unauthorized address', async (ctx)
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'http://0xcert.org/', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
   });
 
   await cat.instance.methods.grantAbilities(xcertUpdateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });

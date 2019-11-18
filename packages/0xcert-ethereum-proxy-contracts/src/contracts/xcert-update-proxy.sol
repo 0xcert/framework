@@ -1,4 +1,4 @@
-pragma solidity 0.5.6;
+pragma solidity 0.5.11;
 
 import "@0xcert/ethereum-xcert-contracts/src/contracts/ixcert-mutable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
@@ -15,9 +15,9 @@ contract XcertUpdateProxy is
 
   /**
    * @dev List of abilities:
-   * 2 - Ability to execute create.
+   * 16 - Ability to execute create.
    */
-  uint8 constant ABILITY_TO_EXECUTE = 2;
+  uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
    * @dev Updates imprint of an existing Xcert.

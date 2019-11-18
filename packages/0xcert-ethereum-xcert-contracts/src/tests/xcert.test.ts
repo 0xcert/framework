@@ -1,8 +1,11 @@
 import { Spec } from '@specron/spec';
 import { XcertAbilities } from '../core/types';
+import * as common from './helpers/common';
 
 interface Data {
   xcert?: any;
+  zxc?: any;
+  decimalsMul?: any;
   owner?: string;
   bob?: string;
   jane?: string;
@@ -11,7 +14,8 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  uriBase?: string;
+  uriPrefix?: string;
+  uriPostfix?: string;
   imprint1?: string;
   imprint2?: string;
   imprint3?: string;
@@ -21,32 +25,51 @@ const spec = new Spec<Data>();
 
 spec.beforeEach(async (ctx) => {
   const accounts = await ctx.web3.eth.getAccounts();
+  const BN = ctx.web3.utils.BN;
   ctx.set('owner', accounts[0]);
   ctx.set('bob', accounts[1]);
   ctx.set('jane', accounts[2]);
   ctx.set('sara', accounts[3]);
   ctx.set('zeroAddress', '0x0000000000000000000000000000000000000000');
+  ctx.set('decimalsMul', new BN('1000000000000000000'));
 });
 
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '123');
   ctx.set('id2', '124');
   ctx.set('id3', '125');
-  ctx.set('uriBase', 'http://0xcert.org/');
+  ctx.set('uriPrefix', 'https://0xcert.org/');
+  ctx.set('uriPostfix', '.json');
   ctx.set('imprint1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
   ctx.set('imprint2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
   ctx.set('imprint3', '0xc77a290be17f8a4ef301c4ca46497c5beb4a0556ec2d5a04dce4ce6ebd439ad1');
 });
 
 spec.beforeEach(async (ctx) => {
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
   const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo', 'F', uriBase, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []],
+    args: ['Foo', 'F', uriPrefix, uriPostfix, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', []],
   });
 
   ctx.set('xcert', xcert);
+});
+
+/**
+ * ZXC
+ * Bob owns: all
+ */
+spec.beforeEach(async (ctx) => {
+  const bob = ctx.get('bob');
+  const zxc = await ctx.deploy({
+    src: '@0xcert/ethereum-erc20-contracts/build/token-mock.json',
+    contract: 'TokenMock',
+    args: ['ERC20', 'ERC', 18, '300000000000000000000000000'],
+    from: bob,
+  });
+  ctx.set('zxc', zxc);
 });
 
 spec.test('returns correct convention', async (ctx) => {
@@ -123,9 +146,9 @@ spec.test('corectly grants create ability', async (ctx) => {
   const bob = ctx.get('bob');
 
   const logs =  await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  ctx.not(logs.events.GrantAbilities, undefined);
+  ctx.not(logs.events.SetAbilities, undefined);
 
-  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, 2).call();
+  const bobHasAbility1 = await xcert.instance.methods.isAble(bob, XcertAbilities.CREATE_ASSET).call();
   ctx.is(bobHasAbility1, true);
 });
 
@@ -160,7 +183,7 @@ spec.test('throws trying to create from address which authorization got revoked'
   const imprint = ctx.get('imprint1');
 
   await xcert.instance.methods.grantAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET, false).send({ from: owner });
+  await xcert.instance.methods.revokeAbilities(bob, XcertAbilities.CREATE_ASSET).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.create(sara, id, imprint).send({ from: bob }), '017001');
 });
 
@@ -280,6 +303,151 @@ spec.test('correctly sets then cancels an operator', async (ctx) => {
   await xcert.instance.methods.setApprovalForAll(sara, false).send({ from: bob });
   const isApprovedForAll = await xcert.instance.methods.isApprovedForAll(bob, sara).call();
   ctx.is(isApprovedForAll, false);
+});
+
+/**
+ * @notice This test is skipped because ganache cannot handle emmiting Tranfer event from ERC20
+ * where there is Transfer event already defined in Xcert.
+ */
+spec.skip('correctly sets an operator with signature', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  const logs = await xcert.instance.methods
+    .setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple)
+    .send({ from: owner });
+  ctx.not(logs.events.ApprovalForAll, undefined);
+  const isApprovedForAll = await xcert.instance.methods.isApprovedForAll(bob, sara).call();
+  ctx.is(isApprovedForAll, true);
+
+  const ownerBalance = await zxc.instance.methods.balanceOf(owner).call();
+  ctx.is(ownerBalance.toString(), tokenAmount.toString());
+});
+
+spec.test('fails setting an operator with signature if signature kind is invalid', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 3,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await ctx.reverts(
+    () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple)
+    .send({ from: owner }));
+});
+
+spec.test('fails setting an operator with signature if signature is from a third party', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, owner);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await ctx.reverts(
+    () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple)
+    .send({ from: owner }), '007005');
+});
+
+/**
+ * @notice This test is skipped because ganache cannot handle emmiting Tranfer event from ERC20
+ * where there is Transfer event already defined in Xcert.
+ */
+spec.skip('fails setting an operator with signature if claim was already used', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple).send({ from: owner });
+  await ctx.reverts(
+    () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple)
+    .send({ from: owner }), '007007');
+});
+
+spec.test('fails setting an operator with signature if claim has expired', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() - 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await ctx.reverts(
+    () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), seed, expiration, signatureDataTuple)
+    .send({ from: owner }), '007008');
 });
 
 spec.test('corectly transfers Xcert from owner', async (ctx) => {
@@ -490,54 +658,95 @@ spec.test('return the correct URI', async (ctx) => {
   const imprint1 = ctx.get('imprint1');
   const imprint2 = ctx.get('imprint2');
   const imprint3 = ctx.get('imprint3');
-  const uriBase = ctx.get('uriBase');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
   await xcert.instance.methods.create(bob, id2, imprint2).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id2).call();
-  ctx.is(uri, uriBase + id2);
+  ctx.is(uri, uriPrefix + id2 + uriPostfix);
 
   const bigId = new ctx.web3.utils.BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
   await xcert.instance.methods.create(bob, bigId, imprint3).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(bigId).call();
-  ctx.is(uri, uriBase + bigId);
+  ctx.is(uri, uriPrefix + bigId + uriPostfix);
 });
 
-spec.test('succesfully changes URI base', async (ctx) => {
+spec.test('succesfully changes URI prefix', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = 'http://test.com/';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = 'https://example.com/';
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await xcert.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, newUriBase + id1);
+  ctx.is(uri, newUriPrefix + id1 + uriPostfix);
 });
 
-spec.test('return empty thing if URI base is empty', async (ctx) => {
+spec.test('succesfully changes URI postfix', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const imprint1 = ctx.get('imprint1');
-  const uriBase = ctx.get('uriBase');
-  const newUriBase = '';
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '/metadata';
 
   await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
   let uri = await xcert.instance.methods.tokenURI(id1).call();
-  ctx.is(uri, uriBase + id1);
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
 
-  await xcert.instance.methods.setUriBase(newUriBase).send({ from: owner });
+  await xcert.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('succesfully changes URI postfix to empty', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const imprint1 = ctx.get('imprint1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newPostfix = '';
+
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await xcert.instance.methods.setUri(uriPrefix, newPostfix).send({ from: owner });
+  uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + newPostfix);
+});
+
+spec.test('return empty string if URI prefix is empty', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const id1 = ctx.get('id1');
+  const imprint1 = ctx.get('imprint1');
+  const uriPrefix = ctx.get('uriPrefix');
+  const uriPostfix = ctx.get('uriPostfix');
+  const newUriPrefix = '';
+
+  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  let uri = await xcert.instance.methods.tokenURI(id1).call();
+  ctx.is(uri, uriPrefix + id1 + uriPostfix);
+
+  await xcert.instance.methods.setUri(newUriPrefix, uriPostfix).send({ from: owner });
   uri = await xcert.instance.methods.tokenURI(id1).call();
   ctx.is(uri, '');
 });

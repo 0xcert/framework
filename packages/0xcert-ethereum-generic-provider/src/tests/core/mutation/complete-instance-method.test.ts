@@ -31,7 +31,7 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.test('resolves mutation', async (ctx) => {
+spec.test('completes mutation', async (ctx) => {
   const provider = ctx.get('provider');
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
@@ -54,9 +54,15 @@ spec.test('resolves mutation', async (ctx) => {
   ctx.is(mutation.id, transactionHash);
   ctx.is(mutation.senderId, coinbase);
   ctx.is(mutation.receiverId, bob);
+
+  await ctx.web3.eth.sendTransaction({ from: coinbase, to: bob, value: 0 }); // simulate new block
+  await mutation.complete();
+
+  ctx.true(mutation.isCompleted());
+  ctx.is(mutation.confirmations, 2);
 });
 
-spec.test('resolves mutation in sandbox mode', async (ctx) => {
+spec.test('completes mutation in sandbox mode', async (ctx) => {
   const provider = ctx.get('provider');
   provider.sandbox = true;
   const coinbase = ctx.get('coinbase');

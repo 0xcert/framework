@@ -1,0 +1,77 @@
+{
+  "name": "@0xcert/wanchain-gateway",
+  "version": "2.0.0-alpha11",
+  "description": "Order gateway module for executing atomic operations on the Wanchain blockchain.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npx tsc",
+    "clean": "rm -Rf ./dist",
+    "lint": "npx tslint 'src/**/*.ts?(x)'",
+    "test": "npm run lint && npx nyc npx hayspec test"
+  },
+  "hayspec": {
+    "require": [
+      "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
+    ]
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "exclude": [
+      "src/tests"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xcert/framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xcert/framework/issues"
+  },
+  "homepage": "https://github.com/0xcert/framework#readme",
+  "keywords": [
+    "0xcert",
+    "framework",
+    "protocol",
+    "asset",
+    "value",
+    "values",
+    "currency",
+    "token",
+    "non-fungible",
+    "fungible",
+    "erc-721",
+    "erc-20",
+    "blockchain",
+    "javascript",
+    "typescript",
+    "nodejs",
+    "vuejs",
+    "nuxtjs",
+    "npm",
+    "libraries",
+    "smart-contract",
+    "wanchain",
+    "zxc"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@hayspec/cli": "0.9.0",
+    "@hayspec/spec": "0.9.0",
+    "nyc": "14.1.1",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3"
+  },
+  "dependencies": {
+    "@0xcert/ethereum-gateway": "2.0.0-alpha11"
+  }
+}

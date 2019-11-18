@@ -16,7 +16,7 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.only('signs a message', async (ctx) => {
+spec.test('signs a message', async (ctx) => {
   const provider = ctx.get('provider');
   const signature = await provider.sign('test');
   ctx.true(!!signature);

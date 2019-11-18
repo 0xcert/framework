@@ -1,0 +1,91 @@
+{
+  "name": "@0xcert/ethereum-gateway-contracts",
+  "version": "2.0.0-alpha11",
+  "description": "Smart contracts used by the gateway on the Ethereum blockchain.",
+  "scripts": {
+    "build": "npm run clean && npx specron compile && npx tsc",
+    "clean": "rm -Rf ./build",
+    "lint": "npm run tslint && npm run solhint",
+    "sandbox": "npx specron sandbox",
+    "solhint": "npx solhint 'src/contracts/**/*.sol'",
+    "test": "npm run lint && npm run clean && npx specron compile && npx specron test",
+    "tslint": "npx tslint 'src/**/*.ts?(x)'"
+  },
+  "specron": {
+    "compiler": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ]
+    },
+    "flattener": {
+      "build": "./build",
+      "match": [
+        "./src/**/*.sol"
+      ],
+      "severities": [
+        "error",
+        "warning"
+      ]
+    },
+    "test": {
+      "port": 8501,
+      "match": [
+        "./src/tests/**/*.test.ts"
+      ]
+    },
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xcert/framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0xcert/framework/issues"
+  },
+  "homepage": "https://github.com/0xcert/framework#readme",
+  "keywords": [
+    "0xcert",
+    "framework",
+    "protocol",
+    "asset",
+    "value",
+    "values",
+    "currency",
+    "token",
+    "non-fungible",
+    "fungible",
+    "erc-721",
+    "erc-20",
+    "blockchain",
+    "javascript",
+    "typescript",
+    "nodejs",
+    "vuejs",
+    "nuxtjs",
+    "npm",
+    "libraries",
+    "smart-contract",
+    "ethereum",
+    "zxc"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha11",
+    "@0xcert/ethereum-proxy-contracts": "2.0.0-alpha11",
+    "@specron/cli": "0.9.0",
+    "@specron/spec": "0.9.0",
+    "@specron/flattener": "0.9.0",
+    "solc": "0.5.11",
+    "solhint": "2.3.0",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3",
+    "web3": "1.2.1"
+  }
+}

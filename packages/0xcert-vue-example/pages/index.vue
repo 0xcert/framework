@@ -56,18 +56,18 @@ export default {
       console.log('Is metamask enabled:', isEnabled)
     },
     async claim() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const signature = await exchange.claim(this.orderData)
       console.log('Signed order claim:', signature)
     },
     async perform() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const signature = await exchange.claim(this.orderData)
       const mutation = await exchange.perform(this.orderData, signature)
       console.log('Performed order mutation:', mutation)
     },
     async cancel() {
-      const exchange = await this.$0xcert.getOrderGateway(this.exchangeId)
+      const exchange = await this.$0xcert.getGateway(this.exchangeId)
       const mutation = await exchange.cancel(this.orderData)
       console.log('Canceled order mutation:', mutation)
     },
@@ -99,8 +99,9 @@ export default {
       const mutation = await this.$0xcert.deployAssetLedger({
         name: 'fundin',
         symbol: 'fundin',
-        uriBase: 'http://www.fundin.us',
-        schemaId: '0x3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
+        uriPrefix: 'https://www.example.com/',
+        uriPostfix: '.json',
+        schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d',
         capabilities: [3, 1]
       }).then((mutation) => {
         return mutation.complete();

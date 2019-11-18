@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/conventions",
-  "version": "1.9.0",
+  "version": "2.0.0-alpha11",
   "description": "Module with implementation of all confirmed conventions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,12 +64,11 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/utils": "1.9.0",
-    "@hayspec/cli": "^0.8.3",
-    "@hayspec/spec": "^0.8.3",
-    "ajv": "^6.7.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.12.1",
-    "typescript": "^3.1.1"
+    "@hayspec/cli": "0.9.0",
+    "@hayspec/spec": "0.9.0",
+    "ajv": "6.10.2",
+    "ts-node": "8.4.1",
+    "tslint": "5.20.0",
+    "typescript": "3.6.3"
   }
 }

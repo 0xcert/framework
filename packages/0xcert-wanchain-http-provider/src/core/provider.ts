@@ -1,6 +1,5 @@
-import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { fetch } from '@0xcert/utils';
-import { Encoder } from '@0xcert/wanchain-utils';
+import { fetchJson } from '@0xcert/utils';
+import { GatewayConfig, GenericProvider, SignMethod } from '@0xcert/wanchain-generic-provider';
 
 /**
  * HTTP RPC client options interface.
@@ -63,9 +62,9 @@ export interface HttpProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -81,6 +80,11 @@ export interface HttpProviderOptions {
    * Gas price multiplier. Defaults to 1.1.
    */
   gasPriceMultiplier?: number;
+
+  /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  retryGasPriceMultiplier?: number;
 
   /**
    * Sandbox mode. False by default.
@@ -110,10 +114,7 @@ export class HttpProvider extends GenericProvider {
    * Class constructor.
    */
   public constructor(options: HttpProviderOptions) {
-    super({
-      encoder: new Encoder(),
-      ...options,
-    });
+    super(options);
 
     this._options = options;
     this._client = this;
@@ -136,13 +137,13 @@ export class HttpProvider extends GenericProvider {
       ...this._options,
     };
 
-    return fetch(url, {
+    return fetchJson(url, {
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
     }).then((res) => {
-      return res.json();
+      return res;
     }).then((res) => {
       return callback(null, res);
     }).catch((err) => {

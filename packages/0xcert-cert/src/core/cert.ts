@@ -1,3 +1,4 @@
+import { Schema87 } from '@0xcert/conventions';
 import { Merkle, MerkleHasher, MerkleNoncer } from '@0xcert/merkle';
 import { sha } from '@0xcert/utils';
 import { cloneObject, readPath, stepPaths, toString, writePath } from '../utils/data';
@@ -7,16 +8,37 @@ import { PropPath, PropRecipe } from './prop';
  * Certification class configuration interface.
  */
 export interface CertConfig {
+
+  /**
+   * JSON schema object.
+   */
   schema: any;
+
+  /**
+   * Custom hash generator function.
+   */
   hasher?: MerkleHasher;
+
+  /**
+   * Custom nonce generator function.
+   */
   noncer?: MerkleNoncer;
+
 }
 
 /**
  * Main certification class.
  */
 export class Cert {
+
+  /**
+   * JSON schema object.
+   */
   protected schema: any;
+
+  /**
+   * Merkle class instance.
+   */
   protected merkle: Merkle;
 
   /**
@@ -42,19 +64,32 @@ export class Cert {
   }
 
   /**
-   * Returns a complete list of recipes for the entiry data object.
+   * Calculates schema ID.
+   * @param normalize Sort objct keys alphabetically (backward compatibility).
+   */
+  public async identify(normalize?: boolean): Promise<string> {
+    return sha(256, JSON.stringify(
+      normalize !== false ? this.sortSchema(this.schema) : this.schema,
+    ));
+  }
+
+  /**
+   * Generates an evidence object which describes a complete data object.
    * @param data Complete data object.
    */
-  public async notarize(data: any): Promise<PropRecipe[]> {
+  public async notarize(data: any): Promise<Schema87> {
     const schemaProps = this.buildSchemaProps(data);
     const compoundProps = await this.buildCompoundProps(schemaProps);
     const schemaRecipes = await this.buildRecipes(compoundProps);
 
-    return schemaRecipes.map((recipe: PropRecipe) => ({
-      path: recipe.path,
-      nodes: recipe.nodes,
-      values: recipe.values,
-    }));
+    return {
+      $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+      data: schemaRecipes.map((recipe) => ({
+        path: recipe.path,
+        nodes: recipe.nodes,
+        values: recipe.values,
+      })),
+    };
   }
 
   /**
@@ -79,16 +114,19 @@ export class Cert {
    * @param data Complete data object.
    * @param paths Property paths to be disclosed to a user.
    */
-  public async disclose(data: any, paths: PropPath[]): Promise<PropRecipe[]> {
+  public async disclose(data: any, paths: PropPath[]): Promise<Schema87> {
     const schemaProps = this.buildSchemaProps(data);
     const compoundProps = await this.buildCompoundProps(schemaProps);
     const schemaRecipes = await this.buildRecipes(compoundProps, paths);
 
-    return schemaRecipes.map((recipe: PropRecipe) => ({
-      path: recipe.path,
-      nodes: recipe.nodes,
-      values: recipe.values,
-    }));
+    return {
+      $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+      data: schemaRecipes.map((recipe) => ({
+        path: recipe.path,
+        nodes: recipe.nodes,
+        values: recipe.values,
+      })),
+    };
   }
 
   /**
@@ -96,12 +134,12 @@ export class Cert {
    * described with the `recipes`. Note that custom data properties will always
    * be ignored and will thus always pass.
    * @param data Complete data object.
-   * @param recipes Data object recipes.
+   * @param evidence Evidence object.
    */
-  public async calculate(data: any, recipes: PropRecipe[]): Promise<string> {
+  public async calculate(data: any, evidence: Schema87): Promise<string> {
     try {
-      if (this.checkDataInclusion(data, recipes)) {
-        return this.imprintRecipes(recipes);
+      if (this.checkDataInclusion(data, evidence.data)) {
+        return this.imprintRecipes(evidence.data);
       } else {
         return null;
       }
@@ -116,7 +154,8 @@ export class Cert {
    */
   public async imprint(data: any): Promise<string> {
     return this.notarize(data)
-      .then((n: PropRecipe[]) => n[0].nodes[0].hash);
+      .then((s: Schema87) => s.data[0].nodes[0].hash)
+      .catch(() => null);
   }
 
   /**
@@ -193,7 +232,7 @@ export class Cert {
    * @param props List of schema properties.
    * @param paths Required propertiy paths.
    */
-  protected async buildRecipes(props, paths = null): Promise<any> {
+  protected async buildRecipes(props, paths = null): Promise<PropRecipe[]> {
     const keys = paths ? stepPaths(paths).map((p: any) => p.join('.')) : null;
 
     const groups = {};
@@ -369,6 +408,23 @@ export class Cert {
     });
 
     return groups;
+  }
+
+  /**
+   * Returns sorted schema object.
+   * @param obj Schema object.
+   */
+  protected sortSchema(obj) {
+    return Object.keys(obj).sort().reduce((acc, key) => {
+      if (Array.isArray(obj[key])) { // suport arrays
+        acc[key] = obj[key].sort();
+      } else if (typeof obj[key] === 'object') { // sort object keys
+        acc[key] = this.sortSchema(obj[key]);
+      } else { // attach value
+        acc[key] = obj[key];
+      }
+      return acc;
+    }, {});
   }
 
 }

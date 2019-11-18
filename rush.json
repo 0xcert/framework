@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.5.4",
-  "npmVersion": "6.7.0",
-  "nodeSupportedVersionRange": ">=11.0.0",
+  "rushVersion": "5.13.1",
+  "npmVersion": "6.11.3",
+  "nodeSupportedVersionRange": ">=10.0.0",
   "gitPolicy": {},
   "repository": {},
   "eventHooks": {
@@ -88,13 +88,13 @@
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-order-gateway-contracts",
-      "projectFolder": "packages/0xcert-ethereum-order-gateway-contracts",
+      "packageName": "@0xcert/ethereum-gateway-contracts",
+      "projectFolder": "packages/0xcert-ethereum-gateway-contracts",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/ethereum-order-gateway",
-      "projectFolder": "packages/0xcert-ethereum-order-gateway",
+      "packageName": "@0xcert/ethereum-gateway",
+      "projectFolder": "packages/0xcert-ethereum-gateway",
       "versionPolicyName": "patchAll"
     },
     {
@@ -138,13 +138,18 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/wanchain-generic-provider",
+      "projectFolder": "packages/0xcert-wanchain-generic-provider",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/wanchain-http-provider",
       "projectFolder": "packages/0xcert-wanchain-http-provider",
       "versionPolicyName": "patchAll"
     },
     {
-      "packageName": "@0xcert/wanchain-order-gateway",
-      "projectFolder": "packages/0xcert-wanchain-order-gateway",
+      "packageName": "@0xcert/wanchain-gateway",
+      "projectFolder": "packages/0xcert-wanchain-gateway",
       "versionPolicyName": "patchAll"
     },
     {

@@ -1,9 +1,9 @@
-import { GenericProvider, Mutation } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind } from '@0xcert/ethereum-generic-provider';
 import { AssetLedgerAbility, AssetLedgerBase, AssetLedgerCapability, AssetLedgerDeployRecipe,
   AssetLedgerInfo, AssetLedgerItem, AssetLedgerItemRecipe,
   AssetLedgerObjectUpdateRecipe, AssetLedgerTransferRecipe,
-  AssetLedgerUpdateRecipe, OrderGatewayBase, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  AssetLedgerUpdateRecipe } from '@0xcert/scaffold';
+import { getBitfieldFromAbilities } from '..';
 import approveAccount from '../mutations/approve-account';
 import createAsset from '../mutations/create-asset';
 import deploy from '../mutations/deploy';
@@ -12,6 +12,7 @@ import grantAbilities from '../mutations/grant-abilities';
 import revokeAbilities from '../mutations/revoke-abilities';
 import revokeAsset from '../mutations/revoke-asset';
 import safeTransfer from '../mutations/safe-transfer';
+import setAbilities from '../mutations/set-abilities';
 import setApprovalForAll from '../mutations/set-approval-for-all';
 import setEnabled from '../mutations/set-enabled';
 import transfer from '../mutations/transfer';
@@ -92,7 +93,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getAbilities(this, accountId);
   }
 
@@ -126,7 +126,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getBalance(accountId: string): Promise<string> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getBalance(this, accountId);
   }
 
@@ -138,7 +137,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets information about the asset ledger (name, symbol, uriBase, schemaId, supply).
+   * Gets information about the asset ledger (name, symbol, uriPrefix, schemaId, supply).
    */
   public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
@@ -159,7 +158,6 @@ export class AssetLedger implements AssetLedgerBase {
    */
   public async getAccountAssetIdAt(accountId: string, index: number): Promise<number> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
-
     return getAccountAssetIdAt(this, accountId, index);
   }
 
@@ -168,13 +166,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async isApprovedAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<boolean> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async isApprovedAccount(assetId: string, accountId: string): Promise<boolean> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return accountId === await getApprovedAccount(this, assetId);
   }
 
@@ -190,13 +183,8 @@ export class AssetLedger implements AssetLedgerBase {
    * @param assetId Id of the asset.
    * @param accountId Id of the account.
    */
-  public async approveAccount(assetId: string, accountId: string | OrderGatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async approveAccount(assetId: string, accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return approveAccount(this, accountId, assetId);
   }
 
@@ -213,19 +201,19 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async grantAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
-    }
-
+  public async grantAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
+    return grantAbilities(this, accountId, getBitfieldFromAbilities(abilities));
+  }
 
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return grantAbilities(this, accountId, bitAbilities);
+  /**
+   * Sets abilities of an account.
+   * @param accountId Id of the account.
+   * @param abilities List of the abilities.
+   */
+  public async setAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
+    accountId = this._provider.encoder.normalizeAddress(accountId as string);
+    return setAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -251,24 +239,9 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Id of the account.
    * @param abilities List of the abilities.
    */
-  public async revokeAbilities(accountId: string | OrderGatewayBase, abilities: AssetLedgerAbility[]): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(0); // OrderGatewayProxy.XCERT_CREATE
-    }
-
-    let allowSuperRevoke = false;
-    if (abilities.indexOf(SuperAssetLedgerAbility.MANAGE_ABILITIES) !== -1) {
-      allowSuperRevoke = true;
-    }
-
+  public async revokeAbilities(accountId: string, abilities: AssetLedgerAbility[]): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
-    let bitAbilities = bigNumberify(0);
-    abilities.forEach((ability) => {
-      bitAbilities = bitAbilities.add(ability);
-    });
-
-    return revokeAbilities(this, accountId, bitAbilities, allowSuperRevoke);
+    return revokeAbilities(this, accountId, getBitfieldFromAbilities(abilities));
   }
 
   /**
@@ -324,20 +297,15 @@ export class AssetLedger implements AssetLedgerBase {
    * @param recipe Data to update asset ledger with.
    */
   public async update(recipe: AssetLedgerUpdateRecipe): Promise<Mutation> {
-    return update(this, recipe.uriBase);
+    return update(this, recipe.uriPrefix, recipe.uriPostfix);
   }
 
   /**
    * Approves an account as an operator (meaning he has full controll of all of your assets).
    * @param accountId Account id.
    */
-  public async approveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async approveOperator(accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return setApprovalForAll(this, accountId, true);
   }
 
@@ -345,13 +313,8 @@ export class AssetLedger implements AssetLedgerBase {
    * Disapproves an account as an operator.
    * @param accountId Account id.
    */
-  public async disapproveOperator(accountId: string | OrderGatewayBase): Promise<Mutation> {
-    if (typeof accountId !== 'string') {
-      accountId = await (accountId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async disapproveOperator(accountId: string): Promise<Mutation> {
     accountId = this._provider.encoder.normalizeAddress(accountId as string);
-
     return setApprovalForAll(this, accountId, false);
   }
 
@@ -360,24 +323,125 @@ export class AssetLedger implements AssetLedgerBase {
    * @param accountId Account id.
    * @param operatorId Operator account id.
    */
-  public async isApprovedOperator(accountId: string, operatorId: string | OrderGatewayBase): Promise<boolean> {
-    if (typeof operatorId !== 'string') {
-      operatorId = await (operatorId as any).getProxyAccountId(this.getProxyId());
-    }
-
+  public async isApprovedOperator(accountId: string, operatorId: string): Promise<boolean> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
     operatorId = this._provider.encoder.normalizeAddress(operatorId as string);
-
     return isApprovedForAll(this, accountId, operatorId);
   }
 
   /**
-   * Helper function that gets the right proxy id depending on the asset.
+   * Gets context for mutation event parsing.
+   * This are event definitions for Asset Ledger smart contract event parsing. This method is used
+   * by the Mutation class to provide log information.
    */
-  protected getProxyId(): number {
-    return this.provider.unsafeRecipientIds.indexOf(this.id) === -1
-      ? 3 // OrderGatewayProxy.NFTOKEN_SAFE_TRANSFER
-      : 2; // OrderGatewayProxy.NFTOKEN_TRANSFER;
+  public getContext(): MutationEventSignature[] {
+    return [
+      {
+        name: 'Transfer',
+        topic: '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'from',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'to',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'Approval',
+        topic: '0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'approved',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+        ],
+      },
+      {
+        name: 'ApprovalForAll',
+        topic: '0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'owner',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'operator',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'approved',
+            type: 'bool',
+          },
+        ],
+      },
+      {
+        name: 'IsPaused',
+        topic: '0xff4a5dbbab6b1963d10f5edd139f33a7987ecb3c4f65969be77ddba28d946594',
+        types: [
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'isPaused',
+            type: 'bool',
+          },
+        ],
+      },
+      {
+        name: 'TokenImprintUpdate',
+        topic: '0xba32aa36aaa193aeb79242c133083dec069f5b402cafe1740c9fae59a1a4cedb',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'tokenId',
+            type: 'uint256',
+          },
+          {
+            kind: MutationEventTypeKind.NORMAL,
+            name: 'imprint',
+            type: 'bytes32',
+          },
+        ],
+      },
+      {
+        name: 'SetAbilities',
+        topic: '0xd1d59d2d212a435434e7a4a4676427610dfe2b6268b01e541d280d65bf3d6b90',
+        types: [
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'target',
+            type: 'address',
+          },
+          {
+            kind: MutationEventTypeKind.INDEXED,
+            name: 'abilities',
+            type: 'uint256',
+          },
+        ],
+      },
+    ];
   }
-
 }

@@ -22,6 +22,7 @@ spec.before(async (stage) => {
     client: stage.web3,
     accountId: await stage.web3.eth.getCoinbase(),
     unsafeRecipientIds: [stage.get('protocol').tokenTransferProxy.instance.options.address],
+    requiredConfirmations: 0,
   });
   stage.set('provider', provider);
 });
@@ -45,10 +46,12 @@ spec.test('transfer asset', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   await xcert.instance.methods.create(coinbase, '1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9').send({ from: coinbase });
-  await ledger.transferAsset({
+  const mutation = await ledger.transferAsset({
     receiverId: bob,
     id: '1',
   });
+  await mutation.complete();
+  ctx.is((mutation.logs[0]).event, 'Transfer');
   ctx.is(await xcert.instance.methods.ownerOf('1').call(), bob);
 });
 

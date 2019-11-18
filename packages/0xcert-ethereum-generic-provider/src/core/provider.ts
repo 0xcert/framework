@@ -2,7 +2,7 @@ import { Encode, Encoder } from '@0xcert/ethereum-utils';
 import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
-import { RpcResponse, SendOptions, SignMethod } from './types';
+import { GatewayConfig, RpcResponse, SendOptions, SignMethod } from './types';
 
 /**
  * Configuration interface for generic provider.
@@ -45,9 +45,9 @@ export interface GenericProviderOptions {
   requiredConfirmations?: number;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  orderGatewayId?: string;
+  gatewayConfig?: GatewayConfig;
 
   /**
    * The number of milliseconds in which a mutation times out.
@@ -63,6 +63,11 @@ export interface GenericProviderOptions {
    * Gas price multiplier. Defaults to 1.1.
    */
   gasPriceMultiplier?: number;
+
+  /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  retryGasPriceMultiplier?: number;
 
   /**
    * Sandbox mode. False by default.
@@ -111,14 +116,19 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public gasPriceMultiplier?: number;
 
   /**
+   * Retry gas price multiplier. Defaults to 2.
+   */
+  public retryGasPriceMultiplier?: number;
+
+  /**
    * Sandbox mode. False by default.
    */
   public sandbox: Boolean;
 
   /**
-   * Id (address) of order gateway.
+   * Gateway configuration.
    */
-  protected _orderGatewayId: string;
+  protected _gatewayConfig: GatewayConfig;
 
   /**
    * Default account from which all mutations are made.
@@ -149,7 +159,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     super();
     this.encoder = typeof options.encoder !== 'undefined' ? options.encoder : new Encoder();
     this.accountId = options.accountId;
-    this.orderGatewayId = options.orderGatewayId;
+    this.gatewayConfig = options.gatewayConfig;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
     this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/xcert-mock.json';
     this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/token-mock.json';
@@ -157,6 +167,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
     this.gasPriceMultiplier = typeof options.gasPriceMultiplier !== 'undefined' ? options.gasPriceMultiplier : 1.1;
+    this.retryGasPriceMultiplier = typeof options.retryGasPriceMultiplier !== 'undefined' ? options.retryGasPriceMultiplier : 2;
     this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
 
     this._client = options.client && options.client.currentProvider
@@ -199,17 +210,25 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
-   * Returns order gateway ID (address).
+   * Returns gateway config.
    */
-  public get orderGatewayId(): string {
-    return this._orderGatewayId || null;
+  public get gatewayConfig(): GatewayConfig {
+    return this._gatewayConfig;
   }
 
   /**
-   * Sets and normalizes account ID.
+   * Sets and normalizes gateway config.
    */
-  public set orderGatewayId(id: string) {
-    this._orderGatewayId = this.encoder.normalizeAddress(id);
+  public set gatewayConfig(config: GatewayConfig) {
+    if (typeof config !== 'undefined') {
+      this._gatewayConfig = {
+        actionsOrderId: this.encoder.normalizeAddress(config.actionsOrderId),
+        assetLedgerDeployOrderId: this.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
+        valueLedgerDeployOrderId: this.encoder.normalizeAddress(config.valueLedgerDeployOrderId),
+      };
+    } else {
+      this._gatewayConfig = null;
+    }
   }
 
   /**
@@ -331,7 +350,6 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     const payload = { ...options };
 
     if (payload.method === 'eth_sendTransaction' && payload.params.length) {
-
       if (this.sandbox || typeof payload.params[0].gas === 'undefined') {
         const res = await this.request({
           ...payload,
