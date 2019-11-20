@@ -12,7 +12,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 
 ## Requirements
 
-* Node.js > v8.x
+* Node.js [Active LTS releases](https://nodejs.org/en/about/releases/) v10+
 * NPM > v6.x
 * Browser with ES6 and MetaMask support
 
