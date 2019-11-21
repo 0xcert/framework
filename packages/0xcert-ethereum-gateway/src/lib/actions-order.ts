@@ -192,7 +192,7 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
   if (order.kind === OrderKind.FIXED_ACTIONS_ORDER || order.kind == OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
         action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
       }
       action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
