@@ -58,7 +58,7 @@ export function getActionParams(action: ActionsOrderAction, signers: string[]) {
   let params = '';
   const signerIndex = signers.indexOf(action['senderId']);
   if (signerIndex === -1) {
-    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'SenderId not a signer.');
+    throw new ProviderError(ProviderIssue.SENDER_ID_NOT_A_SIGNER);
   }
   if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
     params = rightPad(`0x${action['assetImprint']}`, 64);
@@ -173,7 +173,7 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
   } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
     return ProxyId.XCERT_BURN;
   } else {
-    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+    throw new ProviderError(ProviderIssue.ACTION_KIND_NOT_SUPPORTED);
   }
 }
 
@@ -204,7 +204,7 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
       if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
         action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = ZERO_ADDRESS;
         if (action['senderId'] === ZERO_ADDRESS && action['receiverId'] === ZERO_ADDRESS) {
-          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');
+          throw new ProviderError(ProviderIssue.SENDER_ID_AND_RECEIVER_ID_MISSING);
         }
       }
     });

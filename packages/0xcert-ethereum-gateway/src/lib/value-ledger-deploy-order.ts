@@ -121,7 +121,7 @@ export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: Gener
 
   if (!order.tokenTransferData.receiverId) {
     if (!dynamic) {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+      throw new ProviderError(ProviderIssue.NO_RECEIVER_ID);
     }
     order.tokenTransferData.receiverId = ZERO_ADDRESS;
   } else {
