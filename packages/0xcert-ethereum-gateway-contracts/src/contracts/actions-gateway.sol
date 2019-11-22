@@ -35,14 +35,13 @@ contract ActionsGateway is
    */
   string constant INVALID_SIGNATURE_KIND = "015001";
   string constant INVALID_PROXY = "015002";
-  string constant SIGNATURES_LENGTH_INVALID = "015003";
-  string constant SENDER_NOT_A_SIGNER = "015004";
-  string constant CLAIM_EXPIRED = "015005";
-  string constant INVALID_SIGNATURE = "015006";
-  string constant ORDER_CANCELED = "015007";
-  string constant ORDER_ALREADY_PERFORMED = "015008";
-  string constant SIGNERS_DOES_NOT_INCLUDE_SENDER = "015009";
-  string constant SIGNER_NOT_AUTHORIZED = "015010";
+  string constant SENDER_NOT_A_SIGNER = "015003";
+  string constant CLAIM_EXPIRED = "015004";
+  string constant INVALID_SIGNATURE = "015005";
+  string constant ORDER_CANCELED = "015006";
+  string constant ORDER_ALREADY_PERFORMED = "015007";
+  string constant SIGNERS_DOES_NOT_INCLUDE_SENDER = "015008";
+  string constant SIGNER_NOT_AUTHORIZED = "015009";
 
   /**
    * @dev Constants for decoding bytes depending on ActionKind.
