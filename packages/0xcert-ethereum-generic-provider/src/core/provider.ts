@@ -362,17 +362,12 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
         } catch (err) {
           if (err && err.original && err.original.code === -32603) {
             payload.params.push('latest');
-            // We are expecting eth_call to throw. If it does not throw we need to trigger it
-            // manually.
-            try {
-              const res = await this.request({
-                ...payload,
-                method: 'eth_call',
-              });
-              throw new ProviderError(ProviderIssue.CONTRACT_ERROR, res.result);
-            } catch (err) {
-              throw err;
-            }
+            const res = await this.request({
+              ...payload,
+              method: 'eth_call',
+            });
+            // We are expecting eth_call to throw. If it does not throw we need to trigger it manually.
+            throw new ProviderError(ProviderIssue.CONTRACT_ERROR, res.result);
           } else {
             throw err;
           }
