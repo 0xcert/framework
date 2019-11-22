@@ -1,5 +1,5 @@
 import { Encode, Encoder } from '@0xcert/ethereum-utils';
-import { ProviderBase, ProviderEvent } from '@0xcert/scaffold';
+import { ProviderBase, ProviderError, ProviderEvent, ProviderIssue } from '@0xcert/scaffold';
 import { EventEmitter } from 'events';
 import { parseError } from './errors';
 import { GatewayConfig, RpcResponse, SendOptions, SignMethod } from './types';
@@ -351,29 +351,40 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
 
     if (payload.method === 'eth_sendTransaction' && payload.params.length) {
       if (this.sandbox || typeof payload.params[0].gas === 'undefined') {
-        const res = await this.request({
-          ...payload,
-          method: 'eth_estimateGas',
-        });
-        // estimate gas is sometimes inaccurate (depends on the node). So to be
-        // sure we have enough gas, we multiply result with a factor.
-        payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
-      }
+        try {
+          const res = await this.request({
+            ...payload,
+            method: 'eth_estimateGas',
+          });
+          // estimate gas is sometimes inaccurate (depends on the node). So to be
+          // sure we have enough gas, we multiply result with a factor.
+          payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
+        } catch (err) {
+          if (err && err.original && err.original.code === -32603) {
+            payload.params.push('latest');
+            await this.request({
+              ...payload,
+              method: 'eth_call',
+            });
+          } else {
+            throw err;
+          }
+        }
 
-      if (this.sandbox) {
-        return { id: null, jsonrpc: null, result: payload.params[0].gas };
-      }
+        if (this.sandbox) {
+          return { id: null, jsonrpc: null, result: payload.params[0].gas };
+        }
 
-      if (typeof payload.params[0].gasPrice === 'undefined') {
-        const res = await this.request({
-          ...payload,
-          method: 'eth_gasPrice',
-          params: [],
-        });
-        payload.params[0].gasPrice = `0x${Math.ceil(res.result * this.gasPriceMultiplier).toString(16)}`;
+        if (typeof payload.params[0].gasPrice === 'undefined') {
+          const res = await this.request({
+            ...payload,
+            method: 'eth_gasPrice',
+            params: [],
+          });
+          payload.params[0].gasPrice = `0x${Math.ceil(res.result * this.gasPriceMultiplier).toString(16)}`;
+        }
       }
     }
-
     return this.request(payload);
   }
 
@@ -404,7 +415,14 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
         return resolve(res);
       });
     }).catch((err) => {
-      throw parseError(err);
+      throw new ProviderError(ProviderIssue.GENERAL, err);
+    }).then((value) => {
+      // 0x08c379a0 = Function selector (bytes4 of Error(string));
+      if (payload.method === 'eth_call' && value && value.result && value.result.indexOf('0x08c379a0') !== -1) {
+        const errorCode = this.encoder.decodeParameters(['string'], `0x${value.result.substring(10)}`);
+        throw parseError(errorCode[0]);
+      }
+      return value;
     });
   }
 

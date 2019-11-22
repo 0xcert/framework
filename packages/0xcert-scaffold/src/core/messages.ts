@@ -11,7 +11,6 @@ export default {
   [ProviderIssue.SENDER_ID_AND_RECEIVER_ID_MISSING]: 'Both senderId and receiverId missing.',
   [ProviderIssue.ACTION_KIND_NOT_SUPPORTED]: 'Not implemented.',
   [ProviderIssue.ERC20_APPROVAL_RACE_CONDITION]: 'First set approval to 0. ERC-20 token potential attack.',
-
   [ProviderIssue.ERC20_NOT_ENOUGH_BALANCE]: 'Sender does not have enough balance.',
   [ProviderIssue.ERC20_NOT_ENOUGH_ALLOWANCE]: 'You do not have enough allowance.',
   [ProviderIssue.ERC721_ZERO_ADDRESS]: 'Provided address cannot be zero address.',
