@@ -107,7 +107,7 @@ spec.test('when current time is after expirationTimestamp', async (ctx) => {
   const signatureDataTuple = ctx.tuple([signature]);
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmountHex).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015005');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015004');
 });
 
 spec.test('when signature is invalid', async (ctx) => {
@@ -139,7 +139,7 @@ spec.test('when signature is invalid', async (ctx) => {
   const signatureDataTuple = ctx.tuple([signature]);
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmountHex).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015006');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015005');
 });
 
 spec.test('trying to perform an alredy pefromed swap', async (ctx) => {
@@ -170,7 +170,7 @@ spec.test('trying to perform an alredy pefromed swap', async (ctx) => {
 
   await zxc.instance.methods.approve(tokenProxy.receipt._address, zxcAmountHex).send({ from: jane });
   await actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015008');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(orderDataTuple, signatureDataTuple).send({ from: bob }), '015007');
 });
 
 export default spec;

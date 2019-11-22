@@ -127,7 +127,7 @@ spec.test('fails if maker does not have allow manage ability', async (ctx) => {
 
   await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_MANAGE_ABILITIES).send({ from: owner });
   await cat.instance.methods.grantAbilities(abilitableManageProxy.receipt._address, XcertAbilities.MANAGE_ABILITIES).send({ from: owner });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015011');
 });
 
 export default spec;
