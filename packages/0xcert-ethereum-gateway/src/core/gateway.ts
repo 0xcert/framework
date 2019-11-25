@@ -173,26 +173,26 @@ export class Gateway implements GatewayBase {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER) {
       order = this.createDynamicOrder(order);
       if (order.signers.length !== claim.length + 1) {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.');
+        throw new ProviderError(ProviderIssue.DYNAMIC_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim);
     } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER) {
       if (order.signers.length !== claim.length + 1) {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.');
+        throw new ProviderError(ProviderIssue.FIXED_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim as string[]);
     } else if (order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER) {
       order = this.createDynamicOrder(order);
       if (order.signers.length !== claim.length) {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.');
+        throw new ProviderError(ProviderIssue.SIGNED_DYNAMIC_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim as string[]);
     } else if (order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
       if (order.signers.length !== claim.length) {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.');
+        throw new ProviderError(ProviderIssue.SIGNED_FIXED_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
       return actionsOrderPerform(this, order, claim as string[]);
@@ -203,7 +203,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderPerform(this, order, claim);
     } else {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+      throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
   }
 
@@ -230,7 +230,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderCancel(this, order);
     } else {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+      throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
   }
 
@@ -274,7 +274,7 @@ export class Gateway implements GatewayBase {
         break;
       }
       default: {
-        throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+        throw new ProviderError(ProviderIssue.PROXY_KIND_NOT_SUPPORTED);
       }
     }
     return getProxyAccountId(this, proxyId);
@@ -306,7 +306,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return valueLedgerDeployOrderisValidSignature(this, order, claim);
     } else {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+      throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
   }
 
@@ -333,7 +333,7 @@ export class Gateway implements GatewayBase {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
       return getValueLedgerDeployOrderDataClaim(this, order);
     } else {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+      throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
   }
 

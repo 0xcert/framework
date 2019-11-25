@@ -169,7 +169,7 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
 
   await cat.instance.methods.revokeAbilities(owner, XcertAbilities.ALLOW_CREATE_ASSET).send({ from: owner });
   await cat.instance.methods.grantAbilities(createProxy.receipt._address, XcertAbilities.CREATE_ASSET).send({ from: owner });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015010');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane }), '015009');
 });
 
 export default spec;

@@ -149,7 +149,7 @@ spec.test('succeeds', async (ctx) => {
 
   const logs = await actionsGateway.instance.methods.cancel(dataTuple).send({ from: jane });
   ctx.not(logs.events.Cancel, undefined);
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(dataTuple, signatureTuple).send({ from: bob }), '015007');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(dataTuple, signatureTuple).send({ from: bob }), '015006');
 });
 
 spec.test('throws when trying to cancel an already performed atomic swap', async (ctx) => {
@@ -160,7 +160,7 @@ spec.test('throws when trying to cancel an already performed atomic swap', async
   const bob = ctx.get('bob');
 
   await actionsGateway.instance.methods.perform(dataTuple, signatureTuple).send({ from: bob });
-  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: jane }), '015008');
+  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: jane }), '015007');
 });
 
 spec.test('throws when a third party tries to cancel an atomic swap', async (ctx) => {
@@ -168,7 +168,7 @@ spec.test('throws when a third party tries to cancel an atomic swap', async (ctx
   const actionsGateway = ctx.get('actionsGateway');
   const sara = ctx.get('sara');
 
-  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: sara }), '015009');
+  await ctx.reverts(() => actionsGateway.instance.methods.cancel(dataTuple).send({ from: sara }), '015008');
 });
 
 export default spec;

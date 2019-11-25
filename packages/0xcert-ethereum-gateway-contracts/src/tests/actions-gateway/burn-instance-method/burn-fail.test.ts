@@ -118,7 +118,7 @@ spec.test('throws when signer is not the owner', async (ctx) => {
   const signatureDataTuple = ctx.tuple([signature]);
 
   await cat.instance.methods.setApprovalForAll(burnProxy.receipt._address, true).send({ from: jane });
-  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: owner }), '015010');
+  await ctx.reverts(() => actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: owner }), '015012');
 });
 
 spec.test('throws when proxy does not have approval do destory an asset', async (ctx) => {
