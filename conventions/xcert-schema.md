@@ -13,9 +13,18 @@ created: 2019-11-26
 
 ## About
 
-TODO
+Every digital asset in the 0xcert Protocol is defined by a subset of JSON Schema - the Xcert Schema, which is a data model that determines the data to be defined in the creation of an Xcert digital asset.
+
+JSON Schema is the base data vocabulary that describes and validates the capabilities of the Xcert Schema to which all Xcerts (digital assets) MUST conform.
 
 ## Specification
+
+The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in RFC 2119.
+
+0xcert Protocol uses Xcert Schema, which is a subset of JSON Schema, to define asset schemas. By rule, every asset schema MUST follow the Xcert Schema specification.
+
+This specification is provided in a machine-readable format using the JSON Schema format.
+
 
 ```json
 {
