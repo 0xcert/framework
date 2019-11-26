@@ -25,7 +25,7 @@ export interface GatewayConfig {
 export enum SignMethod {
   ETH_SIGN = 0,
   TREZOR = 1,
-  EIP712 = 2,
+  NO_PREFIX = 2,
   PERSONAL_SIGN = 3,
 }
 

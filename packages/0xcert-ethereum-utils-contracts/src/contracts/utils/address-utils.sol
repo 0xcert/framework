@@ -2,7 +2,7 @@ pragma solidity 0.5.11;
 
 /**
  * @dev Utility library of inline functions on addresses.
- * @notice Based on: 
+ * @notice Based on:
  * https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol
  * Requires EIP-1052.
  */

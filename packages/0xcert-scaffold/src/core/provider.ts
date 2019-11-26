@@ -1,3 +1,6 @@
+import { ProviderIssue } from './issues';
+import messages from './messages';
+
 /**
  * A provider is a connection to a blockchain or other database store.
  */
@@ -11,14 +14,6 @@ export interface ProviderBase {
 export enum ProviderEvent {
   ACCOUNT_CHANGE = 'accountChanged',
   NETWORK_CHANGE = 'networkChanged',
-}
-
-/**
- * Error codes.
- */
-export enum ProviderIssue {
-  GENERAL = 0,
-  WRONG_INPUT = 1,
 }
 
 /**
@@ -47,7 +42,7 @@ export class ProviderError extends Error {
     this.name = 'ProviderError';
     this.issue = issue;
     this.original = original;
-    this.message = `GenericProvider error [issue: ${issue}]`;
+    this.message = messages[issue] || `GenericProvider error [issue: ${issue}]`;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);

@@ -18,7 +18,7 @@ contract ActionsGateway is
 {
 
   /**
-   * @dev List of abilities:
+   * @dev List of this contract abilities:
    * 16 - Ability to set proxies.
    */
   uint8 constant ABILITY_TO_SET_PROXIES = 16;
@@ -26,7 +26,7 @@ contract ActionsGateway is
   /**
    * @dev Xcert abilities.
    */
-  uint8 constant ABILITY_ALLOW_MANAGE_ABILITITES = 2;
+  uint8 constant ABILITY_ALLOW_MANAGE_ABILITIES = 2;
   uint16 constant ABILITY_ALLOW_CREATE_ASSET = 512;
   uint16 constant ABILITY_ALLOW_UPDATE_ASSET = 1024;
 
@@ -35,14 +35,16 @@ contract ActionsGateway is
    */
   string constant INVALID_SIGNATURE_KIND = "015001";
   string constant INVALID_PROXY = "015002";
-  string constant SIGNATURES_LENGTH_INVALID = "015003";
-  string constant SENDER_NOT_A_SIGNER = "015004";
-  string constant CLAIM_EXPIRED = "015005";
-  string constant INVALID_SIGNATURE = "015006";
-  string constant ORDER_CANCELED = "015007";
-  string constant ORDER_ALREADY_PERFORMED = "015008";
-  string constant SIGNERS_DOES_NOT_INCLUDE_SENDER = "015009";
-  string constant SIGNER_NOT_AUTHORIZED = "015010";
+  string constant SENDER_NOT_A_SIGNER = "015003";
+  string constant CLAIM_EXPIRED = "015004";
+  string constant INVALID_SIGNATURE = "015005";
+  string constant ORDER_CANCELED = "015006";
+  string constant ORDER_ALREADY_PERFORMED = "015007";
+  string constant SIGNERS_DOES_NOT_INCLUDE_SENDER = "015008";
+  string constant SIGNER_DOES_NOT_HAVE_ALLOW_CREATE_ASSET_ABILITY = "015009";
+  string constant SIGNER_DOES_NOT_HAVE_ALLOW_UPDATE_ASSET_ABILITY = "015010";
+  string constant SIGNER_DOES_NOT_HAVE_ALLOW_MANAGE_ABILITIES_ABILITY = "015011";
+  string constant SIGNER_IS_NOT_DESTROY_ASSET_OWNER = "015012";
 
   /**
    * @dev Constants for decoding bytes depending on ActionKind.
@@ -80,7 +82,7 @@ contract ActionsGateway is
   {
     eth_sign,
     trezor,
-    eip712
+    no_prefix
   }
 
   /**
@@ -243,7 +245,7 @@ contract ActionsGateway is
     // signatures.
     uint256 signersLength = _data.signers.length - 1;
     // Address with which we are replacing zero address in case of any taker/signer.
-    address anyAddress = address(0);
+    address anyAddress;
     // If the last signer is zero address then we treat this as an any taker/signer order.
     // This means we replace zero address with the last signer or the order executor.
     if (_data.signers[signersLength] == address(0))
@@ -408,7 +410,7 @@ contract ActionsGateway is
         _signature.r,
         _signature.s
       );
-    } else if (_signature.kind == SignatureKind.eip712)
+    } else if (_signature.kind == SignatureKind.no_prefix)
     {
       return ecrecover(
         _claim,
@@ -447,7 +449,7 @@ contract ActionsGateway is
             ],
             ABILITY_ALLOW_CREATE_ASSET
           ),
-          SIGNER_NOT_AUTHORIZED
+          SIGNER_DOES_NOT_HAVE_ALLOW_CREATE_ASSET_ABILITY
         );
 
         address to = BytesType.toAddress(ACTION_CREATE_BYTES_RECEIVER, _order.actions[i].params);
@@ -488,7 +490,7 @@ contract ActionsGateway is
             ],
             ABILITY_ALLOW_UPDATE_ASSET
           ),
-          SIGNER_NOT_AUTHORIZED
+          SIGNER_DOES_NOT_HAVE_ALLOW_UPDATE_ASSET_ABILITY
         );
 
         XcertUpdateProxy(proxies[_order.actions[i].proxyId].proxyAddress).update(
@@ -504,9 +506,9 @@ contract ActionsGateway is
             _order.signers[
               BytesType.toUint8(ACTION_MANAGE_ABILITIES_BYTES_FROM_INDEX, _order.actions[i].params)
             ],
-            ABILITY_ALLOW_MANAGE_ABILITITES
+            ABILITY_ALLOW_MANAGE_ABILITIES
           ),
-          SIGNER_NOT_AUTHORIZED
+          SIGNER_DOES_NOT_HAVE_ALLOW_MANAGE_ABILITIES_ABILITY
         );
 
         address to = BytesType.toAddress(
@@ -530,7 +532,7 @@ contract ActionsGateway is
           _order.signers[
             BytesType.toUint8(ACTION_BURN_BYTES_FROM_INDEX, _order.actions[i].params)
           ] == ERC721(_order.actions[i].contractAddress).ownerOf(id),
-          SIGNER_NOT_AUTHORIZED
+          SIGNER_IS_NOT_DESTROY_ASSET_OWNER
         );
 
         XcertBurnProxy(proxies[_order.actions[i].proxyId].proxyAddress).destroy(

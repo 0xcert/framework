@@ -1,9 +1,8 @@
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, stringToHex, ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { ProviderError, ProviderIssue, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
-import { hexToBytes, leftPad, stringToHex, zeroAddress } from './utils';
 
 /**
  * Generates order hash from input data.
@@ -105,13 +104,14 @@ export function createSignatureTuple(claim: string) {
 /**
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
+ * @param provider Provider instance.
  */
 export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: GenericProvider): ValueLedgerDeployOrder {
   order = JSON.parse(JSON.stringify(order));
   let dynamic = false;
 
   if (!order.takerId) {
-    order.takerId = zeroAddress;
+    order.takerId = ZERO_ADDRESS;
     dynamic = true;
   } else {
     order.takerId = provider.encoder.normalizeAddress(order.takerId);
@@ -121,9 +121,9 @@ export function normalizeOrderIds(order: ValueLedgerDeployOrder, provider: Gener
 
   if (!order.tokenTransferData.receiverId) {
     if (!dynamic) {
-      throw new ProviderError(ProviderIssue.WRONG_INPUT, 'receiverId is not set.');
+      throw new ProviderError(ProviderIssue.NO_RECEIVER_ID);
     }
-    order.tokenTransferData.receiverId = zeroAddress;
+    order.tokenTransferData.receiverId = ZERO_ADDRESS;
   } else {
     order.tokenTransferData.receiverId = provider.encoder.normalizeAddress(order.tokenTransferData.receiverId);
   }

@@ -1,17 +1,24 @@
 ---
 language: node_js
 node_js:
-  - 11
+  # See LTS at https://nodejs.org/en/about/releases/
+  - 10
+  - 12
+  - lts/*
 script:
   # use latest npm to work on node9
   - npm install -g npm
   # install required global npm packages
   - npm install -g codecov
   - npm install -g @microsoft/rush
+  # backup checked-in dist dir to avoid overwriting
+  - mv ./dist ./dist-checked-in
   # testing
   - rush update --full
   - rush rebuild --verbose
   - rush test --verbose
+  - diff -r ./dist ./dist-checked-in
+
 after_success:
   # code coverage & codecov upload
   - rm -Rf .nyc_output && mkdir -p .nyc_output

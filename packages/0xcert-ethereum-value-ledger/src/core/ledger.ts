@@ -120,7 +120,7 @@ export class ValueLedger implements ValueLedgerBase {
 
     const approvedValue = await this.getApprovedValue(this.provider.accountId, accountId);
     if (!bigNumberify(value).isZero() && !bigNumberify(approvedValue).isZero()) {
-      throw new ProviderError(ProviderIssue.GENERAL, 'First set approval to 0. ERC20 token potential attack.');
+      throw new ProviderError(ProviderIssue.ERC20_APPROVAL_RACE_CONDITION);
     }
 
     return approveAccount(this, accountId, value);

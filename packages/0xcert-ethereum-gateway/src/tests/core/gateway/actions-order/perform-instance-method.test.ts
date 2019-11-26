@@ -1,7 +1,7 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 import { Protocol } from '@0xcert/ethereum-sandbox';
 import { ActionsOrderActionKind, DynamicActionsOrder, FixedActionsOrder, GeneralAssetLedgerAbility,
-  OrderKind, SignedDynamicActionsOrder, SignedFixedActionsOrder, SuperAssetLedgerAbility } from '@0xcert/scaffold';
+  OrderKind, ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, SuperAssetLedgerAbility } from '@0xcert/scaffold';
 import { Spec } from '@specron/spec';
 import { Gateway } from '../../../..';
 
@@ -429,7 +429,7 @@ spec.test('handles incorrect dynamic actions order', async (ctx) => {
   await coinbaseGateway.sign(order).catch((e) => {
     error = e;
   });
-  ctx.is(error.original, 'Both senderId and receiverId missing.');
+  ctx.is(error.issue, ProviderIssue.SENDER_ID_AND_RECEIVER_ID_MISSING);
 });
 
 spec.test('handles incorrect amount of signatures in fixed order', async (ctx) => {
@@ -459,7 +459,7 @@ spec.test('handles incorrect amount of signatures in fixed order', async (ctx) =
   await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.is(error.original, 'Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.');
+  ctx.is(error.issue, ProviderIssue.FIXED_ACTIONS_ORDER_SIGNATURES);
 });
 
 spec.test('handles incorrect amount of signatures in signed fixed order', async (ctx) => {
@@ -489,7 +489,7 @@ spec.test('handles incorrect amount of signatures in signed fixed order', async 
   await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.is(error.original, 'Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.');
+  ctx.is(error.issue, ProviderIssue.SIGNED_FIXED_ACTIONS_ORDER_SIGNATURES);
 });
 
 spec.test('handles incorrect amount of signatures in dynamic order', async (ctx) => {
@@ -518,7 +518,7 @@ spec.test('handles incorrect amount of signatures in dynamic order', async (ctx)
   await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.is(error.original, 'Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.');
+  ctx.is(error.issue, ProviderIssue.DYNAMIC_ACTIONS_ORDER_SIGNATURES);
 });
 
 spec.test('handles incorrect amount of signatures in signed dynamic order', async (ctx) => {
@@ -547,7 +547,7 @@ spec.test('handles incorrect amount of signatures in signed dynamic order', asyn
   await coinbaseGateway.perform(order, []).catch((e) => {
     error = e;
   });
-  ctx.is(error.original, 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.');
+  ctx.is(error.issue, ProviderIssue.SIGNED_DYNAMIC_ACTIONS_ORDER_SIGNATURES);
 });
 
 export default spec;

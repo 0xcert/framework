@@ -1,11 +1,10 @@
 import { getBitfieldFromAbilities } from '@0xcert/ethereum-asset-ledger';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { bigNumberify } from '@0xcert/ethereum-utils';
+import { bigNumberify, hexToBytes, leftPad, rightPad, ZERO_ADDRESS } from '@0xcert/ethereum-utils';
 import { ActionsOrder, ActionsOrderAction, ActionsOrderActionKind, OrderKind, ProviderError, ProviderIssue } from '@0xcert/scaffold';
 import { keccak256, toInteger, toSeconds, toTuple } from '@0xcert/utils';
 import { Gateway } from '../core/gateway';
 import { ProxyId } from '../core/types';
-import { hexToBytes, leftPad, rightPad, zeroAddress } from './utils';
 
 /**
  * Generates order hash from input data.
@@ -59,7 +58,7 @@ export function getActionParams(action: ActionsOrderAction, signers: string[]) {
   let params = '';
   const signerIndex = signers.indexOf(action['senderId']);
   if (signerIndex === -1) {
-    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'SenderId not a signer.');
+    throw new ProviderError(ProviderIssue.SENDER_ID_NOT_A_SIGNER);
   }
   if (action.kind == ActionsOrderActionKind.CREATE_ASSET) {
     params = rightPad(`0x${action['assetImprint']}`, 64);
@@ -174,13 +173,14 @@ export function getActionProxy(gateway: Gateway, action: ActionsOrderAction) {
   } else if (action.kind == ActionsOrderActionKind.DESTROY_ASSET) {
     return ProxyId.XCERT_BURN;
   } else {
-    throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Not implemented.');
+    throw new ProviderError(ProviderIssue.ACTION_KIND_NOT_SUPPORTED);
   }
 }
 
 /**
  * Normalizes order IDs and returns a new order object.
  * @param order Order instance.
+ * @param provider Provider instance.
  */
 export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider): ActionsOrder {
   order = JSON.parse(JSON.stringify(order));
@@ -192,7 +192,7 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
   if (order.kind === OrderKind.FIXED_ACTIONS_ORDER || order.kind == OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT) {
+      if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
         action['receiverId'] = provider.encoder.normalizeAddress(action['receiverId']);
       }
       action['senderId'] = provider.encoder.normalizeAddress(action['senderId']);
@@ -200,11 +200,11 @@ export function normalizeOrderIds(order: ActionsOrder, provider: GenericProvider
   } else {
     order.actions.forEach((action) => {
       action.ledgerId = provider.encoder.normalizeAddress(action.ledgerId);
-      action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = zeroAddress;
+      action['senderId'] = action['senderId'] ? provider.encoder.normalizeAddress(action['senderId']) : action['senderId'] = ZERO_ADDRESS;
       if (action.kind !== ActionsOrderActionKind.UPDATE_ASSET_IMPRINT && action.kind !== ActionsOrderActionKind.DESTROY_ASSET) {
-        action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = zeroAddress;
-        if (action['senderId'] === zeroAddress && action['receiverId'] === zeroAddress) {
-          throw new ProviderError(ProviderIssue.WRONG_INPUT, 'Both senderId and receiverId missing.');
+        action['receiverId'] = action['receiverId'] ? provider.encoder.normalizeAddress(action['receiverId']) : action['receiverId'] = ZERO_ADDRESS;
+        if (action['senderId'] === ZERO_ADDRESS && action['receiverId'] === ZERO_ADDRESS) {
+          throw new ProviderError(ProviderIssue.SENDER_ID_AND_RECEIVER_ID_MISSING);
         }
       }
     });
