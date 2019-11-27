@@ -5,6 +5,7 @@ import * as common from '../helpers/common';
 
 interface Data {
   tokenDeployGateway?: any;
+  tokenDeployProxy?: any;
   tokenProxy?: any;
   zxc?: any;
   jane?: string;
@@ -39,6 +40,14 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const tokenDeployProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/token-deploy-proxy.json',
+    contract: 'TokenDeployProxy',
+  });
+  ctx.set('tokenDeployProxy', tokenDeployProxy);
+});
+
+spec.beforeEach(async (ctx) => {
   const tokenProxy = await ctx.deploy({
     src: '@0xcert/ethereum-proxy-contracts/build/token-transfer-proxy.json',
     contract: 'TokenTransferProxy',
@@ -47,11 +56,15 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const tokenDeployProxy = ctx.get('tokenDeployProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const tokenDeployGateway = await ctx.deploy({
     src: './build/token-deploy-gateway.json',
     contract: 'TokenDeployGateway',
-    args: [tokenProxy.receipt._address],
+    args: [
+      tokenDeployProxy.receipt._address,
+      tokenProxy.receipt._address,
+    ],
   });
   ctx.set('tokenDeployGateway', tokenDeployGateway);
 });
