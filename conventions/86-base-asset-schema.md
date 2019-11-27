@@ -19,7 +19,7 @@ Every digital asset in the 0xcert Protocol is defined using a *convention*. Conv
 
 This convention is the base specification to which all other conventions MUST conform.
 
-This convention is minimal and adopts only the specification for digital assets from [ERC-721](https://eips.ethereum.org/EIPS/eip-721) while adding the requirement that every digital asset specfiy to which convention it conforms.
+This convention is minimal and adopts only the specification for digital assets from [ERC-721](https://eips.ethereum.org/EIPS/eip-721) while adding the requirement that every digital asset specify to which convention it conforms.
 
 ## Specification
 
