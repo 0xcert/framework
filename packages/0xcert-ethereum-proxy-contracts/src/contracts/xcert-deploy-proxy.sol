@@ -1,22 +1,12 @@
 pragma solidity 0.5.11;
 
 import "./xcert-custom.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /**
- * @title XcertDeployProxy - Deploys a new token on behalf of contracts that have been approved via
- * decentralized governance.
+ * @title XcertDeployProxy - Deploys a new xcert.
  */
-contract XcertDeployProxy is
-  Abilitable
+contract XcertDeployProxy
 {
-
-  /**
-   * @dev List of abilities:
-   * 16 - Ability to execute create.
-   */
-  uint8 constant ABILITY_TO_EXECUTE = 16;
-
   /**
    * @dev Deploys a new Xcert.
    * @param _name A descriptive name for a collection of NFTs.
@@ -41,7 +31,6 @@ contract XcertDeployProxy is
     address[6] memory _addresses
   )
     public
-    hasAbilities(ABILITY_TO_EXECUTE)
     returns (address xcert)
   {
     xcert = address(

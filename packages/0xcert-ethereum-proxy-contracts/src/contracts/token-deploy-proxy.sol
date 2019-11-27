@@ -1,22 +1,13 @@
 pragma solidity 0.5.11;
 
 import "./token-custom.sol";
-import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /**
  * @title TokenDeployProxy - Deploys a new token on behalf of contracts that have been approved via
  * decentralized governance.
  */
-contract TokenDeployProxy is
-  Abilitable
+contract TokenDeployProxy
 {
-
-  /**
-   * @dev List of abilities:
-   * 16 - Ability to execute create.
-   */
-  uint8 constant ABILITY_TO_EXECUTE = 16;
-
   /**
    * @dev Deploys a new Token.
    * @param _name Token name.
@@ -33,7 +24,6 @@ contract TokenDeployProxy is
     address _owner
   )
     public
-    hasAbilities(ABILITY_TO_EXECUTE)
     returns (address token)
   {
     token = address(
