@@ -120,7 +120,7 @@ spec.test('performs a deploy', async (ctx) => {
   ctx.not(logs.events.Perform, undefined);
 
   const tokenAddress = logs.events.Perform.returnValues._createdContract;
-  const src = path.resolve(process.cwd(), './build/token-custom.json');
+  const src = path.resolve(process.cwd(), 'node_modules', '@0xcert', 'ethereum-proxy-contracts', 'build', 'token-custom.json');
   const data = require(src);
   const abi = data['TokenCustom'].abi;
   const token = new ctx.web3.eth.Contract(abi, tokenAddress);
