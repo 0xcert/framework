@@ -5,13 +5,13 @@ import "../../contracts/utils/address-utils.sol";
 contract AddressUtilsMock {
   using AddressUtils for address;
 
-  function isContract(
+  function isDeployedContract(
     address _addr
   )
     external
     view
     returns (bool addressCheck)
   {
-    addressCheck = _addr.isContract();
+    addressCheck = _addr.isDeployedContract();
   }
 }
