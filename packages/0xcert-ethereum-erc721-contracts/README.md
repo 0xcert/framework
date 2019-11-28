@@ -9,3 +9,7 @@ This module is one of the bricks of the [0xcert Framework](https://docs.0xcert.o
 ## Package explanation
 
 This package is based on our [**official ERC-721 implementation**](https://github.com/0xcert/ethereum-erc721), but while the official implementation focuses on nice architecture for better readability and understanding for programmers, this package focuses mainly on the best [gas efficiency](https://github.com/0xcert/ethereum-erc721/issues/188). For this reason, we also have some opinionated implementations of, for example, how we handle token URIs.
+
+# Build
+
+By default, the contracts in this package are built for Constantinople EVM. If you would like to use these smart contracts for `Wanchain` or other blockchains using EVM for a different version, you will need to rebuild them for the desired version.
