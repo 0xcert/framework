@@ -1,5 +1,5 @@
 import { Spec } from '@hayspec/spec';
-import { buildGatewayConfig, GenericProvider, NetworkKind } from '../..';
+import { buildGatewayConfig, GenericProvider, NetworkKind } from '../../../';
 
 const spec = new Spec();
 
