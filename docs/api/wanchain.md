@@ -39,7 +39,7 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 **Usage**
 
 ```ts
-import { HttpProvider } from '@0xcert/wachain-http-provider';
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
 
 const provider = new HttpProvider({
     accountId: '0x...',
