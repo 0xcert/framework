@@ -54,3 +54,7 @@ This allows you to check whether any address is a normal account or if it is a s
 ## ERC-165 -- `erc165.sol` and `supports-interface.sol`
 
 [ERC-165](https://eips.ethereum.org/EIPS/eip-165) is a standard for publishing interfaces which your smart contract supports. If you are implementing a standard interface then it is best practice for your contract to identify this with ERC-165. This makes it simple for other contracts to detect how it works so they can cooperate as expected.
+
+# Build
+
+By default, the contracts in this package are built for Constantinople EVM. If you would like to use these smart contracts for `Wanchain` or other blockchains using EVM for a different version, you will need to rebuild them for the desired version.

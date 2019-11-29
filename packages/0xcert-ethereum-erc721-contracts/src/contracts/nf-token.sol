@@ -374,6 +374,8 @@ contract NFToken is
 
   /**
    * @dev Helper function that actually does the safeTransfer.
+   * @notice Limitation of this safeTransferFrom implementation is that contract cannot receiver NFT
+   * tokens inside its constructor.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.
@@ -387,7 +389,7 @@ contract NFToken is
   )
     internal
   {
-    if (_to.isContract())
+    if (_to.isDeployedContract())
     {
       require(
         ERC721TokenReceiver(_to)

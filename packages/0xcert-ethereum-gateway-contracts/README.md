@@ -13,3 +13,7 @@ To prevent from replay attacks (signed order created on testnet can be executed 
 Ethereum [`CREATE2`](http://eips.ethereum.org/EIPS/eip-1014) and other methods provide ways of deploying the same contract on different networks that end up with the same contract address. This is the reason this warning exists. If you are deploying the Gateway yourself or if you are using a third-party deployment that you do not trust, this could become a possible vulnerability. 
 
 All 0xcert-deployed addresses are available in [Documentation](https://docs.0xcert.org/api/ethereum.html#public-addresses). We will never deploy smart contract on different networks in a way that would assign it the same contract addresses.
+
+# Build
+
+By default, the contracts in this package are built for Constantinople EVM. If you would like to use these smart contracts for `Wanchain` or other blockchains using EVM for a different version, you will need to rebuild them for the desired version.
