@@ -416,7 +416,9 @@ export class Mutation extends EventEmitter implements MutationBase {
         this._logs.push(obj);
       });
     } catch (e) {
-      // We don't do anything.
+      if (this._provider.verbose) {
+        console.log(e);
+      }
     }
   }
 

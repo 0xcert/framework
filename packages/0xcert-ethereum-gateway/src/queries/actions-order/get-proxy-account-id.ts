@@ -22,6 +22,9 @@ export default async function(gateway: Gateway, proxyId: ProxyId) {
     });
     return gateway.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
+    if (gateway.provider.verbose) {
+      console.log(error);
+    }
     return null;
   }
 }

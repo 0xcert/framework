@@ -41,6 +41,9 @@ export default async function(ledger: ValueLedger) {
         });
         return ledger.provider.encoder.decodeParameters(f.outputTypes, res.result)[0].toString();
       } catch (error) {
+        if (ledger.provider.verbose) {
+          console.log(error);
+        }
         return null;
       }
     }),

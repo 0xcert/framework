@@ -32,6 +32,9 @@ export default async function(ledger: AssetLedger, assetId: string) {
         });
         return ledger.provider.encoder.decodeParameters(f.outputTypes, res.result)[0];
       } catch (error) {
+        if (ledger.provider.verbose) {
+          console.log(error);
+        }
         return null;
       }
     }),

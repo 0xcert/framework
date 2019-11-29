@@ -81,6 +81,11 @@ export interface BitskiProviderOptions {
    * Sandbox mode. False by default.
    */
   sandbox?: Boolean;
+
+  /**
+   * Verbose mode. False by default.
+   */
+  verbose?: Boolean;
 }
 
 /**

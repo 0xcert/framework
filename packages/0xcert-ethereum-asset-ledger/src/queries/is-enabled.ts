@@ -20,6 +20,9 @@ export default async function(ledger: AssetLedger) {
     });
     return !ledger.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
+    if (ledger.provider.verbose) {
+      console.log(error);
+    }
     return null;
   }
 }
