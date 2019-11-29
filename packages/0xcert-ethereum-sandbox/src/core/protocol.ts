@@ -22,6 +22,8 @@ export class Protocol {
   public tokenTransferProxy;
   public nftokenTransferProxy;
   public nftokenSafeTransferProxy;
+  public xcertDeployProxy;
+  public tokenDeployProxy;
   public nftokenReceiver;
   public actionsGateway;
   public xcertDeployGateway;
@@ -72,6 +74,8 @@ export class Protocol {
     this.nftokenSafeTransferProxy = await this.deployNFTokenSafeTransferProxy(from);
     this.abilitableManageProxy = await this.deployAbilitableManageProxy(from);
     this.nftokenReceiver = await this.deployNFTokenReceiver(from);
+    this.xcertDeployProxy = await this.deployXcertDeployProxy(from);
+    this.tokenDeployProxy = await this.deployTokenDeployProxy(from);
     this.actionsGateway = await this.deployActionsGateway(from);
     this.xcertDeployGateway = await this.deployXcertDeployGateway(from);
     this.tokenDeployGateway = await this.deployTokenDeployGateway(from);
@@ -305,6 +309,32 @@ export class Protocol {
   }
 
   /**
+   * Deploys the abilitable manage proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployXcertDeployProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.xcertDeployProxy.abi,
+      bytecode: contracts.xcertDeployProxy.bytecode,
+      from,
+    });
+  }
+
+  /**
+   * Deploys the abilitable manage proxy contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployTokenDeployProxy(from: string) {
+    return deploy({
+      web3: this.web3,
+      abi: contracts.tokenDeployProxy.abi,
+      bytecode: contracts.tokenDeployProxy.bytecode,
+      from,
+    });
+  }
+
+  /**
    * Deploys the non-fungible token receiver contract.
    * @param from Contract owner's address.
    */
@@ -358,6 +388,7 @@ export class Protocol {
       abi: contracts.xcertDeployGateway.abi,
       bytecode: contracts.xcertDeployGateway.bytecode,
       args: [
+        this.xcertDeployProxy.receipt._address,
         this.tokenTransferProxy.receipt._address,
         this.xcertCreateProxy.receipt._address,
         this.xcertUpdateProxy.receipt._address,
@@ -381,7 +412,10 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.tokenDeployGateway.abi,
       bytecode: contracts.tokenDeployGateway.bytecode,
-      args: [this.tokenTransferProxy.receipt._address],
+      args: [
+        this.tokenDeployProxy.receipt._address,
+        this.tokenTransferProxy.receipt._address,
+      ],
       from,
     });
 

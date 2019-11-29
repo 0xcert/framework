@@ -2,36 +2,28 @@ pragma solidity 0.5.11;
 
 /**
  * @dev Utility library of inline functions on addresses.
- * @notice Based on:
- * https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol
- * Requires EIP-1052.
  */
 library AddressUtils
 {
 
   /**
-   * @dev Returns whether the target address is a contract.
+   * @dev Returns whether the target address is a deployed contract.
+   * @notice If a contract constructor calls this method with its own address the returned value
+   * will be false. If you want to check if an address is a contract (in whatever state) you can do
+   * so using extcodehash after constantinople fork.
    * @param _addr Address to check.
-   * @return True if _addr is a contract, false if not.
+   * @return True if _addr is a deployed contract, false if not.
    */
-  function isContract(
+  function isDeployedContract(
     address _addr
   )
     internal
     view
     returns (bool addressCheck)
   {
-    // This method relies in extcodesize, which returns 0 for contracts in
-    // construction, since the code is only stored at the end of the
-    // constructor execution.
-
-    // According to EIP-1052, 0x0 is the value returned for not-yet created accounts
-    // and 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 is returned
-    // for accounts without code, i.e. `keccak256('')`
-    bytes32 codehash;
-    bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-    assembly { codehash := extcodehash(_addr) } // solhint-disable-line no-inline-assembly
-    addressCheck = (codehash != 0x0 && codehash != accountHash);
+    uint256 size;
+    assembly { size := extcodesize(_addr) } // solhint-disable-line
+    addressCheck = size > 0;
   }
 
 }

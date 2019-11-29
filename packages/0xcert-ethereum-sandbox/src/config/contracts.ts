@@ -14,6 +14,8 @@ const { NFTokenReceiverTestMock } = require('@0xcert/ethereum-erc721-contracts/b
 const { ActionsGateway } = require('@0xcert/ethereum-gateway-contracts/build/actions-gateway');
 const { XcertDeployGateway } = require('@0xcert/ethereum-gateway-contracts/build/xcert-deploy-gateway');
 const { TokenDeployGateway } = require('@0xcert/ethereum-gateway-contracts/build/token-deploy-gateway');
+const { XcertDeployProxy } = require('@0xcert/ethereum-proxy-contracts/build/xcert-deploy-proxy');
+const { TokenDeployProxy } = require('@0xcert/ethereum-proxy-contracts/build/token-deploy-proxy');
 
 /**
  * ERC20 contract data.
@@ -141,4 +143,20 @@ export const tokenDeployGateway = {
 export const abilitableManageProxy = {
   abi: AbilitableManageProxy.abi,
   bytecode: AbilitableManageProxy.evm.bytecode.object,
+};
+
+/**
+ * Xcert deploy proxy contract data.
+ */
+export const xcertDeployProxy = {
+  abi: XcertDeployProxy.abi,
+  bytecode: XcertDeployProxy.evm.bytecode.object,
+};
+
+/**
+ * Token deploy proxy contract data.
+ */
+export const tokenDeployProxy = {
+  abi: TokenDeployProxy.abi,
+  bytecode: TokenDeployProxy.evm.bytecode.object,
 };

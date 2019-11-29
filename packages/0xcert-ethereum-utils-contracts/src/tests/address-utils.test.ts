@@ -23,8 +23,8 @@ spec.beforeEach(async (ctx) => {
 spec.test('correctly checks account', async (ctx) => {
   const addressUtils = ctx.get('addressUtils');
   const owner = ctx.get('owner');
-  const isContract = await addressUtils.instance.methods.isContract(owner).call();
-  ctx.false(isContract);
+  const isDeployedContract = await addressUtils.instance.methods.isDeployedContract(owner).call();
+  ctx.false(isDeployedContract);
 });
 
 spec.test('correctly checks smart contract', async (ctx) => {
@@ -33,8 +33,8 @@ spec.test('correctly checks smart contract', async (ctx) => {
     src: './build/abilitable-test-mock.json',
     contract: 'AbilitableTestMock',
   });
-  const isContract = await addressUtils.instance.methods.isContract(abilitable.receipt._address).call();
-  ctx.true(isContract);
+  const isDeployedContract = await addressUtils.instance.methods.isDeployedContract(abilitable.receipt._address).call();
+  ctx.true(isDeployedContract);
 });
 
 export default spec;

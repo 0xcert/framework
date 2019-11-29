@@ -590,7 +590,7 @@ contract NFTokenMetadataEnumerable is
   )
     internal
   {
-    if (_to.isContract())
+    if (_to.isDeployedContract())
     {
       require(
         ERC721TokenReceiver(_to)

@@ -6,6 +6,7 @@ import * as common from '../helpers/common';
 
 interface Data {
   xcertDeployGateway?: any;
+  deployProxy?: any;
   tokenProxy?: any;
   createProxy?: any;
   updateProxy?: any;
@@ -40,6 +41,14 @@ spec.beforeEach(async (ctx) => {
     from: jane,
   });
   ctx.set('zxc', zxc);
+});
+
+spec.beforeEach(async (ctx) => {
+  const deployProxy = await ctx.deploy({
+    src: '@0xcert/ethereum-proxy-contracts/build/xcert-deploy-proxy.json',
+    contract: 'XcertDeployProxy',
+  });
+  ctx.set('deployProxy', deployProxy);
 });
 
 spec.beforeEach(async (ctx) => {
@@ -91,6 +100,7 @@ spec.beforeEach(async (ctx) => {
 });
 
 spec.beforeEach(async (ctx) => {
+  const deployProxy = ctx.get('deployProxy');
   const tokenProxy = ctx.get('tokenProxy');
   const createProxy = ctx.get('createProxy');
   const updateProxy = ctx.get('updateProxy');
@@ -101,6 +111,7 @@ spec.beforeEach(async (ctx) => {
     src: './build/xcert-deploy-gateway.json',
     contract: 'XcertDeployGateway',
     args: [
+      deployProxy.receipt._address,
       tokenProxy.receipt._address,
       createProxy.receipt._address,
       updateProxy.receipt._address,
@@ -167,7 +178,7 @@ spec.test('performs a deploy', async (ctx) => {
   ctx.not(logs.events.Perform, undefined);
 
   const xcertAddress = logs.events.Perform.returnValues._createdContract;
-  const src = path.resolve(process.cwd(), './build/xcert-custom.json');
+  const src = path.resolve(process.cwd(), 'node_modules', '@0xcert', 'ethereum-proxy-contracts', 'build', 'xcert-custom.json');
   const data = require(src);
   const abi = data['XcertCustom'].abi;
   const xcert = new ctx.web3.eth.Contract(abi, xcertAddress);

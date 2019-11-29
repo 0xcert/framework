@@ -2,13 +2,20 @@ pragma solidity 0.5.11;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
-import "./token-custom.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/token-deploy-proxy.sol";
+import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /**
  * @dev Atomic deploy of a new token (erc20 fungible) smart contract with a token transfer.
  */
-contract TokenDeployGateway
+contract TokenDeployGateway is
+  Abilitable
 {
+  /**
+   * @dev List of this contract abilities:
+   * 16 - Ability to set deploy proxy.
+   */
+  uint8 constant ABILITY_TO_SET_PROXY = 16;
 
   /**
    * @dev Error constants.
@@ -99,6 +106,11 @@ contract TokenDeployGateway
   }
 
   /**
+   * @dev Instance of token deploy proxy.
+   */
+  TokenDeployProxy public tokenDeployProxy;
+
+  /**
    * @dev Instance of token transfer proxy.
    */
   Proxy public tokenTransferProxy;
@@ -133,15 +145,39 @@ contract TokenDeployGateway
   );
 
   /**
+   * @dev This event emits when proxy address is changed.
+   */
+  event ProxyChange(
+    address _proxy
+  );
+
+  /**
    * @dev Constructor sets token transfer proxy address.
+   * @param _tokenDeployProxy Address of token deploy proxy.
    * @param _tokenTransferProxy Address of token transfer proxy.
    */
   constructor(
+    address _tokenDeployProxy,
     address _tokenTransferProxy
   )
     public
   {
+    tokenDeployProxy = TokenDeployProxy(_tokenDeployProxy);
     tokenTransferProxy = Proxy(_tokenTransferProxy);
+  }
+
+  /**
+   * @dev Sets deploy proxy address.
+   * @param _tokenDeployProxy Address of deploy proxy.
+   */
+  function setDeployProxy(
+    address _tokenDeployProxy
+  )
+    external
+    hasAbilities(ABILITY_TO_SET_PROXY)
+  {
+    tokenDeployProxy = TokenDeployProxy(_tokenDeployProxy);
+    emit ProxyChange(_tokenDeployProxy);
   }
 
   /**
@@ -365,14 +401,12 @@ contract TokenDeployGateway
       _deploy.transferData.value
     );
 
-    _token = address(
-      new TokenCustom(
-        _deploy.tokenData.name,
-        _deploy.tokenData.symbol,
-        _deploy.tokenData.supply,
-        _deploy.tokenData.decimals,
-        _deploy.tokenData.owner
-      )
+    _token = tokenDeployProxy.deploy(
+      _deploy.tokenData.name,
+      _deploy.tokenData.symbol,
+      _deploy.tokenData.supply,
+      _deploy.tokenData.decimals,
+      _deploy.tokenData.owner
     );
   }
 
@@ -398,14 +432,12 @@ contract TokenDeployGateway
       _deploy.transferData.value
     );
 
-    _token = address(
-      new TokenCustom(
-        _deploy.tokenData.name,
-        _deploy.tokenData.symbol,
-        _deploy.tokenData.supply,
-        _deploy.tokenData.decimals,
-        _deploy.tokenData.owner
-      )
+    _token = tokenDeployProxy.deploy(
+      _deploy.tokenData.name,
+      _deploy.tokenData.symbol,
+      _deploy.tokenData.supply,
+      _deploy.tokenData.decimals,
+      _deploy.tokenData.owner
     );
   }
 }

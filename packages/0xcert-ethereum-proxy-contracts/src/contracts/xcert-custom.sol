@@ -24,10 +24,9 @@ contract XcertCustom is XcertToken {
    * convention.
    * @param _capabilities Array of bytes4 representing supported interfaces which activate the
    * corresponding capabilities.
-   * @param _owner Owner of the contract. This address will get all available
-   * permissions(abilities).
-   * @param _proxies Array of proxy addresses which need to be in following order: xcertCreateProxy,
-   * xcertUpdateProxy, abilitableManageProxy, nftSafeTransferProxy, xcertBurnProxy.
+   * @param _addresses Array of addresses which need to be in following order: owner,
+   * xcertCreateProxy, xcertUpdateProxy, abilitableManageProxy, nftSafeTransferProxy,
+   * xcertBurnProxy.
    */
   constructor(
     string memory _name,
@@ -36,8 +35,7 @@ contract XcertCustom is XcertToken {
     string memory _uriPostfix,
     bytes32 _schemaId,
     bytes4[] memory _capabilities,
-    address _owner,
-    address[5] memory _proxies
+    address[6] memory _addresses
   )
     public
   {
@@ -50,16 +48,17 @@ contract XcertCustom is XcertToken {
     {
       supportedInterfaces[_capabilities[i]] = true;
     }
-    addressToAbility[_proxies[0]] = ABILITY_CREATE_ASSET; /// Gives createProxy ability to create a
-    /// new asset.
-    addressToAbility[_proxies[1]] = ABILITY_UPDATE_ASSET_IMPRINT; /// Gives updateProxy ability to
+    addressToAbility[_addresses[1]] = ABILITY_CREATE_ASSET; /// Gives createProxy ability to create
+    /// a new asset.
+    addressToAbility[_addresses[2]] = ABILITY_UPDATE_ASSET_IMPRINT; /// Gives updateProxy ability to
     /// update an asset.
-    addressToAbility[_proxies[2]] = SUPER_ABILITY; /// Gives manage abilitable proxy ability to
+    addressToAbility[_addresses[3]] = SUPER_ABILITY; /// Gives manage abilitable proxy ability to
     /// manage abilities.
     addressToAbility[msg.sender] = ABILITY_NONE;
-    addressToAbility[_owner] = ABILITY_ALL;
-    ownerToOperators[_owner][_proxies[3]] = true; /// Sets nft safe transfer proxy as an operator.
-    ownerToOperators[_owner][_proxies[4]] = true; /// Sets burtn proxy as an operator.
+    addressToAbility[_addresses[0]] = ABILITY_ALL; /// Gives owner all abilities.
+    ownerToOperators[_addresses[0]][_addresses[4]] = true; /// Sets nft safe transfer proxy as an
+    /// operator.
+    ownerToOperators[_addresses[0]][_addresses[5]] = true; /// Sets burtn proxy as an operator.
   }
 
 }

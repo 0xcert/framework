@@ -2,13 +2,19 @@ pragma solidity 0.5.11;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
-import "./xcert-custom.sol";
+import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-deploy-proxy.sol";
 
 /**
  * @dev Atomic deploy of a new Xcert (non fungible) smart contract with a token transfer.
  */
-contract XcertDeployGateway
+contract XcertDeployGateway is
+  Abilitable
 {
+  /**
+   * @dev List of this contract abilities:
+   * 16 - Ability to set deploy proxy.
+   */
+  uint8 constant ABILITY_TO_SET_PROXY = 16;
 
   /**
    * @dev Error constants.
@@ -101,6 +107,11 @@ contract XcertDeployGateway
   }
 
   /**
+   * @dev Instance of xcert deploy proxy.
+   */
+  XcertDeployProxy public xcertDeployProxy;
+
+  /**
    * @dev Instance of token transfer proxy.
    */
   Proxy public tokenTransferProxy;
@@ -160,7 +171,15 @@ contract XcertDeployGateway
   );
 
   /**
+   * @dev This event emits when proxy address is changed.
+   */
+  event ProxyChange(
+    address _proxy
+  );
+
+  /**
    * @dev Constructor sets token transfer proxy address.
+   * @param _xcertDeployProxy Address of xcert deploy proxy.
    * @param _tokenTransferProxy Address of token transfer proxy.
    * @param _xcertCreateProxy Address of token transfer proxy.
    * @param _xcertUpdateProxy Address of token transfer proxy.
@@ -169,6 +188,7 @@ contract XcertDeployGateway
    * @param _xcertBurnProxy Address of token transfer proxy.
    */
   constructor(
+    address _xcertDeployProxy,
     address _tokenTransferProxy,
     address _xcertCreateProxy,
     address _xcertUpdateProxy,
@@ -178,12 +198,27 @@ contract XcertDeployGateway
   )
     public
   {
+    xcertDeployProxy = XcertDeployProxy(_xcertDeployProxy);
     tokenTransferProxy = Proxy(_tokenTransferProxy);
     xcertCreateProxy = _xcertCreateProxy;
     xcertUpdateProxy = _xcertUpdateProxy;
     abilitableManageProxy = _abilitableManageProxy;
     nftSafeTransferProxy = _nftSafeTransferProxy;
     xcertBurnProxy = _xcertBurnProxy;
+  }
+
+  /**
+   * @dev Sets deploy proxy address.
+   * @param _xcertDeployProxy Address of deploy proxy.
+   */
+  function setDeployProxy(
+    address _xcertDeployProxy
+  )
+    external
+    hasAbilities(ABILITY_TO_SET_PROXY)
+  {
+    xcertDeployProxy = XcertDeployProxy(_xcertDeployProxy);
+    emit ProxyChange(_xcertDeployProxy);
   }
 
   /**
@@ -409,23 +444,21 @@ contract XcertDeployGateway
       _deploy.transferData.value
     );
 
-    _xcert = address(
-      new XcertCustom(
-        _deploy.xcertData.name,
-        _deploy.xcertData.symbol,
-        _deploy.xcertData.uriPrefix,
-        _deploy.xcertData.uriPostfix,
-        _deploy.xcertData.schemaId,
-        _deploy.xcertData.capabilities,
+    _xcert = xcertDeployProxy.deploy(
+      _deploy.xcertData.name,
+      _deploy.xcertData.symbol,
+      _deploy.xcertData.uriPrefix,
+      _deploy.xcertData.uriPostfix,
+      _deploy.xcertData.schemaId,
+      _deploy.xcertData.capabilities,
+      [
         _deploy.xcertData.owner,
-        [
-          xcertCreateProxy,
-          xcertUpdateProxy,
-          abilitableManageProxy,
-          nftSafeTransferProxy,
-          xcertBurnProxy
-        ]
-      )
+        xcertCreateProxy,
+        xcertUpdateProxy,
+        abilitableManageProxy,
+        nftSafeTransferProxy,
+        xcertBurnProxy
+      ]
     );
   }
 
@@ -451,23 +484,21 @@ contract XcertDeployGateway
       _deploy.transferData.value
     );
 
-    _xcert = address(
-      new XcertCustom(
-        _deploy.xcertData.name,
-        _deploy.xcertData.symbol,
-        _deploy.xcertData.uriPrefix,
-        _deploy.xcertData.uriPostfix,
-        _deploy.xcertData.schemaId,
-        _deploy.xcertData.capabilities,
+    _xcert = xcertDeployProxy.deploy(
+      _deploy.xcertData.name,
+      _deploy.xcertData.symbol,
+      _deploy.xcertData.uriPrefix,
+      _deploy.xcertData.uriPostfix,
+      _deploy.xcertData.schemaId,
+      _deploy.xcertData.capabilities,
+      [
         _deploy.xcertData.owner,
-        [
-          xcertCreateProxy,
-          xcertUpdateProxy,
-          abilitableManageProxy,
-          nftSafeTransferProxy,
-          xcertBurnProxy
-        ]
-      )
+        xcertCreateProxy,
+        xcertUpdateProxy,
+        abilitableManageProxy,
+        nftSafeTransferProxy,
+        xcertBurnProxy
+      ]
     );
   }
 }
