@@ -22,6 +22,7 @@ export default async function(ledger: AssetLedger, accountId: string, index: num
     });
     return ledger.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
+    ledger.provider.log(error);
     return null;
   }
 }
