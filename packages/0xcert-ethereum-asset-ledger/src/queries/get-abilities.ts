@@ -34,9 +34,7 @@ export default async function(ledger: AssetLedger, accountId: string) {
   ).then((abilities) => {
     return abilities.filter((a) => a !== -1).sort((a, b) => a - b);
   }).catch((error) => {
-    if (ledger.provider.verbose) {
-      console.log(error);
-    }
+    ledger.provider.log(error);
     return [];
   });
 }

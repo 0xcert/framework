@@ -187,6 +187,16 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
+   * Console logs message if verbose is active.
+   * @param message Message.
+   */
+  public log(message: any) {
+    if (this.verbose) {
+      console.log(message);
+    }
+  }
+
+  /**
    * Returns account ID (address).
    */
   public get accountId() {
@@ -419,14 +429,10 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     return new Promise<RpcResponse>((resolve, reject) => {
       this._client.send(payload, (err, res) => {
         if (err) { // client error
-          if (this.verbose) {
-            console.log(err);
-          }
+          this.log(err);
           return reject(err);
         } else if (res.error) { // RPC error
-          if (this.verbose) {
-            console.log(res);
-          }
+          this.log(err);
           return reject(res.error);
         } else if (res.id !== payload.id) { // anomaly
           return reject('Invalid RPC id');
