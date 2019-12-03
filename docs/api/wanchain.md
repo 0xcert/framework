@@ -35,6 +35,7 @@ A `class` providing communication with the Wanchain blockchain using the HTTP/HT
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Wanchain node's JSON RPC.
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
+| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
 
 **Usage**
 
@@ -189,6 +190,16 @@ const isUnsafe = provider.isUnsafeRecipientId(unsafeId);
 
 [unsafeRecipientIds](#unsaferecipientids-2)
 
+### log(message)
+
+A `synchronous` class instance `function` which logs message to console if verbose mode is active otherwise does nothing.
+
+**Example:**
+
+```ts
+provider.log('message');
+```
+
 ### mutationTimeout
 
 A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
@@ -282,6 +293,14 @@ provider.off(ProviderEvent.NETWORK_CHANGE);
 
 A class instance `variable` holding a `string` which represents the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 
+### retryGasPriceMultiplier
+
+A class instance `variable` holding a `number` representing a multiplier of the current gas price when performing a retry action on mutation.
+
+### sandbox
+
+A class instance `variable` holding a `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
+
 ### sign(message)
 
 An `asynchronous` class instance `function` which signs a message using `signMethod` set in provider.
@@ -314,6 +333,10 @@ A class instance `variable` holding a `string` which represents smart contract a
 
 A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
+### verbose
+
+A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+
 ## Provider events
 
 We can listen to different provider events. Note that not all the providers are able to emit all the events listed here.
@@ -340,7 +363,7 @@ provider.on(ProviderEvent.NETWORK_CHANGE, (networkVersion) => {
 
 The 0xcert Framework performs mutations for any request that changes the state on the Wanchain blockchain.
 
-### Mutation(provider, mutationId)
+### Mutation(provider, mutationId, context?)
 
 A `class` which handles transaction-related operations on the Wanchain blockchain.
 
@@ -348,8 +371,9 @@ A `class` which handles transaction-related operations on the Wanchain blockchai
 
 | Argument | Description
 |-|-|-
+| context | An instance of `AssetLedger`, `ValueLedger` or `Gateway`. The context of a mutation informs of the kind of a mutation and will be able to parse `Logs` based on that information. If context is not provided, the logs will be left blank.
 | mutationId | [required] A `string` representing a hash string of a Wanchain transaction.
-| provider | [required] An instance of an HTTP provider.
+| provider | [required] An instance of provider.
 
 **Usage**
 
@@ -613,7 +637,7 @@ A `class` which represents a smart contract on the Wanchain blockchain.
 | Argument | Description
 |-|-
 | ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Wanchain blockchain.
-| provider | [required] An instance of an HTTP provider.
+| provider | [required] An instance of provider.
 
 **Example:**
 
@@ -642,7 +666,7 @@ Only one account per `assetId` can be approved at the same time thus running thi
 | Argument | Description
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
-| accountId | [required] A `string` representing the new owner's Wanchain account address or an instance of the `Gateway` class.
+| accountId | [required] A `string` representing the new owner's Wanchain account address.
 
 **Result:**
 
@@ -675,7 +699,7 @@ Multiple operators can exist.
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing a Wanchain account address or an instance of the `Gateway` class that will receive new management permissions on this ledger.
+| accountId | [required] A `string` representing a Wanchain account address that will receive new management permissions on this ledger.
 
 **Result:**
 
@@ -746,7 +770,7 @@ All ledger abilities are automatically granted to the account that performs this
 
 | Argument | Description
 |-|-
-| provider | [required] An instance of an HTTP provider.
+| provider | [required] An instance of provider.
 | recipe.name | [required] A `string` representing asset ledger name.
 | recipe.symbol | [required] A `string` representing asset ledger symbol.
 | recipe.uriPrefix | [required] A `string` representing prefix of asset URI.
@@ -761,7 +785,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { HttpProcider } from '@0xcert/wanchain-http-provider';
+import { HttpProvider } from '@0xcert/wanchain-http-provider';
 import { AssetLedger, AssetLedgerCapability } from '@0xcert/wanchain-asset-ledger';
 
 // arbitrary data
@@ -855,7 +879,7 @@ An `asynchronous` class instance `function` which removes the third-party `accou
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the new Wanchain account address or an instance of the `Gateway` class.
+| accountId | [required] A `string` representing the new Wanchain account address.
 
 **Result:**
 
@@ -924,6 +948,12 @@ const mutation = await ledger.enableTransfers();
 ### getAbilities(accountId)
 
 An `asynchronous` class instance `function` which returns `accountId` abilities.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| accountId | [required] A `string` representing the Ethereum account address for which we want to get abilities.
 
 **Result:**
 
@@ -1176,7 +1206,7 @@ The `MANAGE_ABILITIES` super ability of the ledger is required to perform this f
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing a Wanchain account address or an instance of the `Gateway` class that will receive new management permissions on this ledger.
+| accountId | [required] A `string` representing a Wanchain account address that will receive new management permissions on this ledger.
 | abilities | [required] An array of `integers` representing this ledger's smart contract abilities.
 
 **Result:**
@@ -1213,7 +1243,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the Wanchain account address or an instance of the `Gateway` class.
+| accountId | [required] A `string` representing the Wanchain account address.
 | assetId | [required] A `string` representing an asset ID.
 
 **Result:**
@@ -1244,7 +1274,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the Wanchain account address that owns assets.
-| operatorId | [required] A `string` representing a third-party Wanchain account address or an instance of the `Gateway` class.
+| operatorId | [required] A `string` representing a third-party Wanchain account address.
 
 **Result:**
 
@@ -1589,7 +1619,7 @@ A `class` which represents a smart contract on the Wanchain blockchain.
 | Argument | Description
 |-|-
 | ledgerId | [required] A string representing an address of the ERC-20 related smart contract on the Wanchain blockchain.
-| provider | [required] An instance of an HTTP provider.
+| provider | [required] An instance of provider.
 
 **Example:**
 
@@ -1613,7 +1643,7 @@ An `asynchronous` class instance `function` which approves a third-party `accoun
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing an account address or an instance of the `Gateway` class.
+| accountId | [required] A `string` representing an account address.
 | value | [required] An `integer` number representing the approved amount.
 
 **Result:**
@@ -1643,7 +1673,7 @@ An `asynchronous` static class `function` which deploys a new value ledger to th
 
 | Argument | Description
 |-|-
-| provider | [required] An instance of an HTTP provider.
+| provider | [required] An instance of provider.
 | recipe.name | [required] A `string` representing value ledger name.
 | recipe.symbol | [required] A `string` representing value ledger symbol.
 | recipe.decimals | [required] A big number `string` representing the number of decimals.
@@ -1714,7 +1744,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender or an instance of the `Gateway` class.
+| spenderId | [required] A `string` representing the account ID of a spender.
 
 **Result:**
 
@@ -1814,7 +1844,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 | Argument | Description
 |-|-|-
 | accountId | [required] A `string` representing the Wanchain account address that owns the funds.
-| spenderId | [required] A `string` representing the approved Wanchain account address or an instance of the `Gateway` class.
+| spenderId | [required] A `string` representing the approved Wanchain account address.
 | value | [required] A big number `string` representing the amount allowed to transfer.
 
 **Result:**
@@ -1868,61 +1898,68 @@ const mutation = await ledger.transferValue(recipe);
 
 ## Gateway
 
-The Gateway allows for performing multiple actions in a single atomic swap.
-To perform an atomic order through `Gateway`, you need to follow its flow:
+The Gateway allows for performing multiple actions in a single atomic swap. The gateway always operate with an order.
+There are different kinds of order depending on what action you want to perform. We can seperate them in two groups
+based on their functionality and their flow. First there are orders for deploying a new `ValueLedger` and `AssetLedger`. 
+These two orders only perform the deployment of a new smart contract to the blockchain plus a transfer of erc20 (value). 
+They are primarily targeted for delegating a deployment to a third party. For example you want to deploy a new `AssetLedger`
+but you do not want to do that yourself you can pay someone some erc20 tokens to perfom that for you. This tho orders have a flow
+which is as follows:
 
-1. Maker (address creating an order) defines the order (who will transfer what to who).
-2. Maker generates the order claim and signs it (claims functions).
-3. Maker approves/assigns abilities for all the assets if necessary.
-4. Maker sends the order and signature to the taker.
-5. Taker approves/assigns abilities for all the required assets if necessary.
-6. Taker performs the order.
+1. Maker (address creating an order) defines the order (who will be the owner of the newly deployed ledger, who will receive token etc.).
+2. Maker generates the order claim and signs it (`sign` function).
+3. Maker approves value transfer if necessary
+4. Maker sends the order and signature to the taker (trough arbitrary ways).
+5. Taker performs the order.
 
-`Order` class is responsible for defining what will happen in the atomic swap. We currently support three different order kinds:
+In this case it is possible that taker can also be defined as "anyone" meaning you can define an order basically saying I am willing to pay x tokens to anyone wanting to create this ledger for me.
 
-1. `ASSET_LEDGER_DEPLOY_ORDER`
-Is meant for delegating deployment of `AssetLedger`.
-- Deploys a new asset ledger
-- Transfers value
-2. `VALUE_LEDGER_DEPLOY_ORDER`
-Is meant for delegating deployment of `ValueLedger`.
-- Deploys a new value ledger
-- Transfers value
-3. `MULTI_ORDER`
-Can perform multiple actions between multiple actors such as:
+Order kinds that fit into this group are:
+- `DeployAssetLedgerOrder`
+- `DeployValueLedgerOrder` 
+
+Then we have orders for performing actions on existing ledgers. This orders are really powerfull but that makes them a bit more complex.
+Unlike deploy orders that have a specific maker and taker the actions order are more dynamic allowing X participants that need to sign an order for it to be valid.
+That also means that we can have multiple participants performing actions in a single atomic order. Actions that can be performed are the following:
 - Transfer asset
 - Transfer value
 - Create new asset
 - Update existing asset imprint
+- Destroy an asset
+- Update account abilities
 
-All orders can be configured in two ways, specifically with a fixed order and a dynamic order.
+Because we have multiple participants in an order there are 4 different ways how we interact with is resulting in 4 `ActionsOrder`s differentiating only in how participants interact with it. Namely:
+- `FixedActionsOrder` - All participants are known and set in the order. Only the last defined participant can peform the order, others have to provide signatures.
+- `SignedFixedActionsOrder` - All participants are known and set in the order. All participants have to provide signatures. Anyone can perform the order.
+- `DynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures any can peform the order and he automatically becomes the last participant.
+- `SignedDynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures as well as the last "any" participant. Anyone can perform the order.
 
-In a fixed order, the taker of the order (its wallet address) is known, and we want to make an atomic order specifically with the taker and no-one else. For this, we need to set `order.takerId` and all variables that present the receiver or the sender.
+To better explain the above in an example. Lets say I want to sell two CryptoKitties for 5000 ZXC. Any I want so that anyone can buy it I would use a `DynamicActionsOrder` since I do not need to set the `receiverId` of the CryptoKitties and neither the `senderId` of ZXC. Meaning anyone that want to peform the order will automatically become the empty recipient/sender and we will exchange the goods. If I use the same case but know exactly that I want to sell My CryptoKitties to Bob for 5000 ZXC I will use `FixedActionsOrder` so that I can specify exactly who will be the receiver. Now lets say that Bob in this case does not have any ETH and is unable to perform the order but he has tons of ZXC tokens but his friend Sara is willing to help him out. Then we can use a `SignedFixedActionsOrder` so that Bob only needs to sign the order and Sara can peform it. If he wanted to pay Sara some ZXC for doing this, he could also specify this in the order.
 
-In a dynamic order, we do not care who performs the order as long as they have the assets we specified. In this case, we do not set an `order.takerId`. Instead, we need to set either the sender or the receiver or both, but we are not allowed to leave those parameters blank - if we do, any function called with this order will throw an error. A dynamic order allows any account (wallet) to perform such an order and automatically become its taker - this will replace every empty parameter with the taker's address.
+Basically `signed` orders are meant for third party services provided order execution for someone else which can come in handy when developing DAPPs.
 
 ::: warning
 When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
 :::
 
-### Gateway(provider, gatewayConfig)
+### Gateway(provider, gatewayConfig?)
 
-A `class` representing a smart contract on the Wanchain blockchain.
+A `class` representing a smart contract on the Ethereum blockchain.
 
 **Arguments**
 
 | Argument | Description
 |-|-
-| gatewayConfig.assetLedgerDeployOrderId | A `string` representing a Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.actionsOrderId | A `string` representing a Wanchain address of the [actions gateway](/#public-addresses).
-| gatewayConfig.valueLedgerDeployOrderId | A `string` representing a Wanchain address of the [value ledger deploy gateway](/#public-addresses).
-| provider | [required] An instance of an HTTP provider.
+| gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
+| gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
+| provider | [required] An instance of provider.
 
 **Usage**
 
 ```ts
-import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
-import { Gateway } from '@0xcert/wanchain-gateway';
+import { HttpProvider, buildGatewayConfig } from '@0xcert/ethereum-http-provider';
+import { Gateway } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const provider = new HttpProvider();
@@ -1948,11 +1985,12 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { ActionsOrderActionKind } from '@0xcert/wanchain-gateway';
+import { ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
 
 // arbitrary data
 const order = {
-    kind: OrderKind.ACTIONS_ORDER,
+    kind: OrderKind.FixedActionsOrder,
+    signers: ['0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce', '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce'],
     actions: [
         {
             kind: ActionsOrderActionKind.TRANSFER_ASSET,
@@ -1964,8 +2002,6 @@ const order = {
     ],
     expiration: Date.now() + 60 * 60 * 24, // 1 day
     seed: 12345,
-    makerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
 // perform mutation
@@ -1974,14 +2010,145 @@ const mutation = await gateway.cancel(order);
 
 **See also:**
 
-[claim](#claim), [perform](#perform)
+[claim](#sign), [perform](#perform)
 
-### claim(order)
+### config
+
+A class instance `variable` holding the configuration of gateway smart contracts.
+
+### getInstance(provider, gatewayConfig?)
+
+A static class `function` that returns a new instance of the `Gateway` class (alias for `new Gateway`).
+
+**Arguments**
+
+See the class [constructor](#gateway) for details.
+
+**Usage**
+
+```ts
+import { HttpProvider, buildGatewayConfig } from '@0xcert/ethereum-http-provider';
+import { Gateway } from '@0xcert/ethereum-gateway';
+
+// arbitrary data
+const provider = new HttpProvider();
+
+// create gateway instance
+const gateway = Gateway.getInstance(provider, buildGatewayConfig(NetworkType.ROPSTEN));
+```
+
+## getProxyAccountId(proxyKind, ledgerId?)
+
+An `asynchronous` class instance `function` which gets the accountId of desired proxy from the gateway smart contract infrastructure.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| proxyKind | [required] An `ProxyKind` option.
+
+**Result:**
+
+A `string` representing proxy accountId.
+
+**Example:**
+
+```ts
+// perform query
+const proxyAccountId = await gateway.getProxyAccountId(ProxyKind.CREATE_ASSET);
+```
+
+### hash(order)
+
+An `asynchronous` class instance `function` which returns a hash of the provided `order`.
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| order | [required] An [`Order` object](#order-kinds).
+
+**Result:**
+
+A `string` representing order hash.
+
+**Example:**
+
+```ts
+// arbitrary data
+const order = {
+    kind: OrderKind.FixedActionsOrder,
+    signers: ['0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce', '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce'],
+    actions: [
+        {
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
+            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
+            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            assetId: '100',
+        },
+    ],
+    expiration: Date.now() + 60 * 60 * 24, // 1 day
+    seed: 12345,
+};
+
+// perform query
+const hash = await gateway.hash(order);
+```
+
+### perform(order, signature)
+
+An `asynchronous` class instance `function` which submits the `order` with a `signature`. 
+
+::: warning
+The executor of this operation varies depending on the `OrderKind`.
+:::
+
+**Arguments:**
+
+| Argument | Description
+|-|-
+| signature | [required] A `string` or `string[]` representing order signatures.
+| order | [required] An [`Order` object](#order-kinds).
+
+**Result:**
+
+An instance of the same mutation class.
+
+**Example:**
+
+```ts
+// arbitrary data
+const order = {
+    kind: OrderKind.FixedActionsOrder,
+    signers: ['0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce', '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce'],
+    actions: [
+        {
+            kind: ActionsOrderActionKind.TRANSFER_ASSET,
+            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
+            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
+            assetId: '100',
+        },
+    ],
+    expiration: Date.now() + 60 * 60 * 24, // 1 day
+    seed: 12345,
+};
+
+// perform mutation
+const mutation = await gateway.perform(order, signature);
+```
+
+**See also:**
+
+[cancel](#cancel)
+
+### sign(order)
 
 An `asynchronous` class instance `function` which cryptographically signs the provided `order` and returns a signature.
 
 ::: warning
-This operation must be executed by the maker of the order.
+This operation must be executed by the maker or one of the signers of the order.
 :::
 
 **Arguments:**
@@ -1999,7 +2166,8 @@ A `string` representing order signature.
 ```ts
 // arbitrary data
 const order = {
-    kind: OrderKind.ACTIONS_ORDER,
+    kind: OrderKind.FixedActionsOrder,
+    signers: ['0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce', '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce'],
     actions: [
         {
             kind: ActionsOrderActionKind.TRANSFER_ASSET,
@@ -2011,85 +2179,11 @@ const order = {
     ],
     expiration: Date.now() + 60 * 60 * 24, // 1 day
     seed: 12345,
-    makerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
 };
 
 // perform query
-const signature = await gateway.claim(order);
+const signature = await gateway.sign(order);
 ```
-
-### getInstance(provider, gatewayConfig)
-
-A static class `function` that returns a new instance of the `Gateway` class (alias for `new Gateway`).
-
-**Arguments**
-
-See the class [constructor](#gateway) for details.
-
-**Usage**
-
-```ts
-import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
-import { Gateway } from '@0xcert/wanchain-gateway';
-
-// arbitrary data
-const provider = new HttpProvider();
-
-// create gateway instance
-const gateway = Gateway.getInstance(provider, buildGatewayConfig(NetworkType.ROPSTEN));
-```
-
-### id
-
-A class instance `variable` holding the address of gateway's smart contract on the Wanchain blockchain.
-
-### perform(order, signature)
-
-An `asynchronous` class instance `function` which submits the `order` with a `signature` from the maker.
-
-::: warning
-This operation must be executed by the taker of the order.
-:::
-
-**Arguments:**
-
-| Argument | Description
-|-|-
-| signature | [required] A `string` representing order signature created by the maker.
-| order | [required] An [`Order` object](#order-kinds).
-
-**Result:**
-
-An instance of the same mutation class.
-
-**Example:**
-
-```ts
-// arbitrary data
-const signature = 'fe3ea95fa6bda2001c58fd13d5c7655f83b8c8bf225b9dfa7b8c7311b8b68933';
-const order = {
-    actions: [
-        {
-            kind: ActionsOrderActionKind.TRANSFER_ASSET,
-            ledgerId: '0xcc377f78e8821fb8d19f7e6240f44553ce3dbfce',
-            senderId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-            receiverId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-            assetId: '100',
-        },
-    ],
-    expiration: Date.now() + 60 * 60 * 24, // 1 day
-    seed: 12345,
-    takerId: '0xcc567f78e8821fb8d19f7e6240f44553ce3dbfce',
-};
-
-// perform mutation
-const mutation = await gateway.perform(order, signature);
-```
-
-**See also:**
-
-[cancel](#cancel)
 
 ## Order kinds
 
@@ -2103,32 +2197,71 @@ This order kind is used for delegating `AssetLedger` deploy.
 |-|-
 | assetLedgerData.capabilities | [required] A list of `integers` representing ledger capabilities.
 | assetLedgerData.name | [required] A `string` representing asset ledger name.
-| assetLedgerData.owner | [required] A `string` representing Wanchain wallet, which will be the owner of the asset ledger.
+| assetLedgerData.owner | [required] A `string` representing Ethereum wallet, which will be the owner of the asset ledger.
 | assetLedgerData.schemaId | [required] A `string` representing data schema ID.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
 | assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
 | assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
 
-### Multi-order
+### DynamicActionsOrder
 
-This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update.
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
+Participants (signers) are defined but the last one is not defined meaning anyone with the order and signatures from other participants can perform the order and by doing so becomes the last "unknown" participant.
 
 | Argument | Description
 |-|-
-| signature | [required] A `string` representing order signature created by the maker.
-| order.actions | [required] An `array` of [actions order action objects](#actions order-actions).
-| order.expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
-| order.makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
-| order.seed | [required] An `integer` number representing a unique order number.
-| order.takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| actions | [required] An `array` of [dynamic actions order action objects](#actions order-actions).
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| kind | [required] An `integer` number that equals to `OrderKind.DYNAMIC_ACTIONS_ORDER`.
+| seed | [required] An `integer` number representing a unique order number.
+| signers | [required] A `string[]` representing order signers.
+
+### FixedActionsOrder
+
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
+All participants(signers) have to be known beforehand and the last defined signer can peform the order (his signature is not needed since he is the one performing the order).
+
+| Argument | Description
+|-|-
+| actions | [required] An `array` of [fixed actions order action objects](#actions order-actions).
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| kind | [required] An `integer` number that equals to `OrderKind.FIXED_ACTIONS_ORDER`.
+| seed | [required] An `integer` number representing a unique order number.
+| signers | [required] A `string[]` representing order signers.
+
+### SignedDynamicActionsOrder
+
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
+Participants (signers) are defined but the last one is not defined meaning anyone can provide the last signature and by doing so becomes the last participant. Anyone that has all of the signatures is able to perform the order.
+
+| Argument | Description
+|-|-
+| actions | [required] An `array` of [dynamic actions order action objects](#actions order-actions).
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| kind | [required] An `integer` number that equals to `OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER`.
+| seed | [required] An `integer` number representing a unique order number.
+| signers | [required] A `string[]` representing order signers.
+
+### SignedFixedActionsOrder
+
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
+All participants(signers) have to be known beforehand and with all signatures provided anyone can perform the order.
+
+| Argument | Description
+|-|-
+| actions | [required] An `array` of [fixed actions order action objects](#actions order-actions).
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| kind | [required] An `integer` number that equals to `OrderKind.SIGNED_FIXED_ACTIONS_ORDER`.
+| seed | [required] An `integer` number representing a unique order number.
+| signers | [required] A `string[]` representing order signers.
 
 ### Value ledger deploy order
 
@@ -2138,27 +2271,28 @@ This order kind is used for delegating `ValueLedger` deploy.
 |-|-
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing a Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
 | valueLedgerData.decimals | [required] A big number `string` representing the number of decimals.
 | valueLedgerData.name | [required] A `string` representing value ledger name.
-| valueLedgerData.owner | [required] A `string` representing the Wanchain wallet that will be the owner of the asset ledger.
+| valueLedgerData.owner | [required] A `string` representing the Ethereum wallet that will be the owner of the asset ledger.
 | valueLedgerData.supply | [required] A big number `string` representing the total supply of a ledger.
 | valueLedgerData.symbol | [required] A `string` representing value ledger symbol.
 
-## Multi-order actions
+## ActionsOrder actions
 
-Multi-order actions define the atomic operations of the actions order.
+ActionsOrder actions define the atomic operations of the actions order.
 
 **Options:**
 
 | Name | Value | Description
 |-|-|-
 | CREATE_ASSET | 1 | Create a new asset.
+| DESTROY_ASSET | 6 | Destroy an asset.
 | UPDATE_ASSET_IMPRINT | 4 | Update asset imprint.
 | SET_ABILITIES | 5 | Set abilities.
 | TRANSFER_ASSET | 2 | Transfer an asset.
@@ -2172,7 +2306,7 @@ There is a possibility of unintentional behavior where asset imprint can be over
 There is a possibility of unintentional behavior where account abilities could be overwritten if more than one `SET_ABILITIES` action per account is active. Be aware of this when implementing.
 :::
 
-### Create asset action
+### DynamicActionsOrderActionCreateAsset
 
 | Property | Description
 |-|-
@@ -2181,17 +2315,18 @@ There is a possibility of unintentional behavior where account abilities could b
 | kind | [required] An `integer` number that equals to `ActionsOrderActionKind.CREATE_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing the receiver's address.
+| senderId | A `string` representing the sender's address.
 
-### Update asset imprint action
+### DynamicActionsOrderActionDestroyAsset
 
 | Property | Description
 |-|-
 | assetId | [required] A `string` representing an ID of an asset.
-| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
-| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.DESTROY_ASSET`.
 | ledgerId | [required] A `string` representing asset ledger address.
+| senderId | A `string` representing the sender's address.
 
-### Set account abilities action
+### DynamicActionsOrderActionSetAbilities
 
 | Property | Description
 |-|-
@@ -2199,8 +2334,19 @@ There is a possibility of unintentional behavior where account abilities could b
 | kind | [required] An `integer` number that equals to `ActionsOrderActionKind.SET_ABILITIES`.
 | ledgerId | [required] A `string` representing asset ledger address.
 | receiverId | A `string` representing the receiver's (account of which we are setting abilities) address.
+| senderId | A `string` representing the sender's address.
 
-### Transfer asset action
+### DynamicActionsOrderActionUpdateAssetImprint
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| senderId | A `string` representing the sender's address.
+
+### DynamicActionsOrderActionTransferAsset
 
 | Property | Description
 |-|-
@@ -2210,7 +2356,7 @@ There is a possibility of unintentional behavior where account abilities could b
 | receiverId | A `string` representing the receiver's address.
 | senderId | A `string` representing the sender's address.
 
-### Transfer value action
+### DynamicActionsOrderActionTransferValue
 
 | Property | Description
 |-|-
@@ -2220,52 +2366,96 @@ There is a possibility of unintentional behavior where account abilities could b
 | senderId | A `string` representing the sender's address.
 | value | [required] A big number `string` representing the transferred amount.
 
+### FixedActionsOrderActionCreateAsset
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.CREATE_ASSET`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing the receiver's address.
+| senderId | [required] A `string` representing the sender's address.
+
+### FixedActionsOrderActionDestroyAsset
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.DESTROY_ASSET`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| senderId | [required] A `string` representing the sender's address.
+
+### FixedActionsOrderActionSetAbilities
+
+| Property | Description
+|-|-
+| abilities[] | [required] An array of `AssetLedgerAbility` representing abilities of an account.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.SET_ABILITIES`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing the receiver's (account of which we are setting abilities) address.
+| senderId | [required] A `string` representing the sender's address.
+
+### FixedActionsOrderActionUpdateAssetImprint
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| assetImprint | [required] A `string` representing a cryptographic imprint of an asset.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.UPDATE_ASSET_IMPRINT`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| senderId | [required] A `string` representing the sender's address.
+
+### FixedActionsOrderActionTransferAsset
+
+| Property | Description
+|-|-
+| assetId | [required] A `string` representing an ID of an asset.
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.TRANSFER_ASSET`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing the receiver's address.
+| senderId | [required] A `string` representing the sender's address.
+
+### FixedActionsOrderActionTransferValue
+
+| Property | Description
+|-|-
+| kind | [required] An `integer` number that equals to `ActionsOrderActionKind.TRANSFER_VALUE`.
+| ledgerId | [required] A `string` representing asset ledger address.
+| receiverId | [required] A `string` representing the receiver's address.
+| senderId | [required] A `string` representing the sender's address.
+| value | [required] A big number `string` representing the transferred amount.
+
 ## Public addresses
 
-This are latest addresses that work with version 1.5.0. For older addresses that may not be fully compatible with 1.5.0 check under archive.
+This are latest addresses that work with version 2.0.0 For older addresses check docs v1.
 
 ### Mainnet
 
 | Contract | Address
-|-|-|-
-| ActionsGateway | [0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16](http://wanscan.org/address/0x333eFcCB3e4f670bDAeC697c76A47BC30bC9AE16)
-| TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
-| NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
-| NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
-| XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
-| XcertUpdateProxy | [0xf2A432F872922dA97C0dD9F29E55E45962233f06](http://wanscan.org/address/0xf2A432F872922dA97C0dD9F29E55E45962233f06)
+|-|-
+| AbilitableManageProxy | []()
+| ActionsGateway | []()
+| NFTokenTransferProxy | []()
+| NFTokenSafeTransferProxy | []()
+| TokenDeployGateway | []()
+| TokenTransferProxy | []()
+| XcertCreateProxy | []()
+| XcertDeployGateway | []()
+| XcertDestroyProxy | []()
+| XcertUpdateProxy | []()
 
 ### Testnet
 
 | Contract | Address
-|-|-|-
-| ActionsGateway | [0x90A8D7e2138ABB28393906Ae162238B5A18fE846](http://testnet.wanscan.org/address/0x90A8D7e2138ABB28393906Ae162238B5A18fE846)
-| TokenTransferProxy | [0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA](http://testnet.wanscan.org/address/0x7E8c8e87e548598A1e318Bc105f91A94b814d6fA)
-| NFTokenTransferProxy | [0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC](http://testnet.wanscan.org/address/0xE1d56574ea7af7A20cA83FB3cdB68b52bb1d9EAC)
-| NFTokenSafeTransferProxy | [0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08](http://testnet.wanscan.org/address/0xE2AFE8d5131B25Eba0410f68eC620bF43BbaAC08)
-| XcertCreateProxy | [0xF3e68b923FEaEB6F2fa6Fa84025910018a6092c6](http://testnet.wanscan.org/address/0xF3e68b923FEaEB6F2fa6Fa84025910018a6092c6)
-| XcertUpdateProxy | [0x4B6eFA47223a14d22fDBD47ce617E0Ade90aD053](http://testnet.wanscan.org/address/0x4B6eFA47223a14d22fDBD47ce617E0Ade90aD053)
-
-### Archive
-
-#### 1.0.0 - 1.4.0
-
-##### Mainnet
-
-| Contract | Address
-|-|-|-
-| ActionsGateway | [0x06aF4893D6Da522B3889C7F0A35fcb3999541f96](http://wanscan.org/address/0x06aF4893D6Da522B3889C7F0A35fcb3999541f96)
-| TokenTransferProxy | [0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf](http://wanscan.org/address/0x3Eb31150d3faa44d78B4e7Af3142335aFdd5Fcaf)
-| NFTokenTransferProxy | [0xd950c70104d6073B1b8ed6dF57a10E2256b58D54](http://wanscan.org/address/0xd950c70104d6073B1b8ed6dF57a10E2256b58D54)
-| NFTokenSafeTransferProxy | [0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850](http://wanscan.org/address/0x0Eb7eD5799179D51F0FdC8332f87CE03414D7850)
-| XcertCreateProxy | [0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383](http://wanscan.org/address/0xE76E3B6A60Ef78da9a737E4241c7Bb17ED953383)
-
-##### Testnet
-
-| Contract | Address
-|-|-|-
-| ActionsGateway | [0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714](http://testnet.wanscan.org/address/0xCbD15dFc9fb38E3283f5c122CF94eA0767b45714)
-| TokenTransferProxy | [0xB827222B89BA5237c432c47B4ef7d2079641A075](http://testnet.wanscan.org/address/0xB827222B89BA5237c432c47B4ef7d2079641A075)
-| NFTokenTransferProxy | [0xB59A801024393eB92b38a0711a54579c0136347A](http://testnet.wanscan.org/address/0xB59A801024393eB92b38a0711a54579c0136347A)
-| NFTokenSafeTransferProxy | [0x84907deF46A2D0fc80035f1c08A722f2432e9801](http://testnet.wanscan.org/address/0x84907deF46A2D0fc80035f1c08A722f2432e9801)
-| XcertCreateProxy | [0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D](http://testnet.wanscan.org/address/0xB56F60874aCC5a0b0D318Bf7D15A63CA0122118D)
+|-|-
+| AbilitableManageProxy | []()
+| ActionsGateway | []()
+| NFTokenTransferProxy | []()
+| NFTokenSafeTransferProxy | []()
+| TokenDeployGateway | []()
+| TokenTransferProxy | []()
+| XcertCreateProxy | []()
+| XcertDeployGateway | []()
+| XcertDestroyProxy | []()
+| XcertUpdateProxy | []()
