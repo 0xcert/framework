@@ -73,6 +73,11 @@ export interface GenericProviderOptions {
    * Sandbox mode. False by default.
    */
   sandbox?: Boolean;
+
+  /**
+   * Verbose mode. False by default.
+   */
+  verbose?: Boolean;
 }
 
 /**
@@ -126,6 +131,11 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public sandbox: Boolean;
 
   /**
+   * Verbose mode. False by default.
+   */
+  public verbose: Boolean;
+
+  /**
    * Gateway configuration.
    */
   protected _gatewayConfig: GatewayConfig;
@@ -169,10 +179,21 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.gasPriceMultiplier = typeof options.gasPriceMultiplier !== 'undefined' ? options.gasPriceMultiplier : 1.1;
     this.retryGasPriceMultiplier = typeof options.retryGasPriceMultiplier !== 'undefined' ? options.retryGasPriceMultiplier : 2;
     this.sandbox = typeof options.sandbox !== 'undefined' ? options.sandbox : false;
+    this.verbose = typeof options.verbose !== 'undefined' ? options.verbose : false;
 
     this._client = options.client && options.client.currentProvider
       ? options.client.currentProvider
       : options.client;
+  }
+
+  /**
+   * Console logs message if verbose is active.
+   * @param message Message.
+   */
+  public log(message: any) {
+    if (this.verbose) {
+      console.log(message);
+    }
   }
 
   /**
@@ -408,8 +429,10 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     return new Promise<RpcResponse>((resolve, reject) => {
       this._client.send(payload, (err, res) => {
         if (err) { // client error
+          this.log(err);
           return reject(err);
         } else if (res.error) { // RPC error
+          this.log(err);
           return reject(res.error);
         } else if (res.id !== payload.id) { // anomaly
           return reject('Invalid RPC id');
