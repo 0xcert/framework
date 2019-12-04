@@ -44,6 +44,7 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 The release manager will publish packages to NPM using these commands.
 
 NOTE: New packages must be published manually!
+IMPORTANT: Make sure that buildGatewayConfig parameters under generic providers are set to correct values.
 
 ```
 $ rush version --bump --override-bump minor
