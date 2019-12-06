@@ -1659,11 +1659,11 @@
     },
     "@rush-temp/ethereum-utils": {
       "version": "file:projects/ethereum-utils.tgz",
-      "integrity": "sha512-qPP9KN2hHzOeB5+jjY7/1o/ga7HKRLVL6IzzifYPQLcSCYWaPmQYb2D6dSHjP+Oe0U3y2PQWzy9fRLVnxqeQfQ==",
+      "integrity": "sha512-6bVosHyRgA/A1mOzvN/BnesDKmxJsGBDoZY+PtlZEKOpq899sGZvPXv9hqmdyt4+ykDIEUEBEtIlxYiwzlUbmg==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "ethers": "4.0.37",
+        "ethers": "4.0.38",
         "ts-node": "8.4.1",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
@@ -1826,11 +1826,11 @@
     },
     "@rush-temp/wanchain-utils": {
       "version": "file:projects/wanchain-utils.tgz",
-      "integrity": "sha512-Tb9A9EbmCWk840yccKNoESYU9gwpTqA1IlXMY3TPq28rQTsnH0Ib3X0PilpVCURCErCa9LQ6oCAiAWJUpVOIkw==",
+      "integrity": "sha512-KDicIc33Dh0E6aD8iyxdt1JUOkgj825WfIzqg+3e0UiOVynOKA3EROD/0OVnKzgKKD0yDS+wivyeKK91qd5ATA==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "ethers": "4.0.37",
+        "ethers": "4.0.38",
         "ts-node": "8.4.1",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
@@ -5064,9 +5064,9 @@
       }
     },
     "ethers": {
-      "version": "4.0.37",
-      "resolved": "https://registry.npmjs.org/ethers/-/ethers-4.0.37.tgz",
-      "integrity": "sha512-B7bDdyQ45A5lPr6k2HOkEKMtYOuqlfy+nNf8glnRvWidkDQnToKw1bv7UyrwlbsIgY2mE03UxTVtouXcT6Vvcw==",
+      "version": "4.0.38",
+      "resolved": "https://registry.npmjs.org/ethers/-/ethers-4.0.38.tgz",
+      "integrity": "sha512-l7l7RIfk2/rIFgRRVLFY3H06S9dhXXPUdMlYm6SCelB6oG+ABmoRig7xSVOLcHLayBfSwssjAAYLKxf1jWhbuQ==",
       "requires": {
         "@types/node": "^10.3.2",
         "aes-js": "3.0.0",
