@@ -1659,11 +1659,11 @@
     },
     "@rush-temp/ethereum-utils": {
       "version": "file:projects/ethereum-utils.tgz",
-      "integrity": "sha512-6bVosHyRgA/A1mOzvN/BnesDKmxJsGBDoZY+PtlZEKOpq899sGZvPXv9hqmdyt4+ykDIEUEBEtIlxYiwzlUbmg==",
+      "integrity": "sha512-F8V5jI9AwJRafyFCgADaIksHPsXMyL9gB5EQJP+VEYNBGh3+fKgOwLwKsktoBcCJxNcU4hl+GHubzU1CSmUUGw==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "ethers": "4.0.38",
+        "ethers": "4.0.40",
         "ts-node": "8.4.1",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
@@ -1826,11 +1826,11 @@
     },
     "@rush-temp/wanchain-utils": {
       "version": "file:projects/wanchain-utils.tgz",
-      "integrity": "sha512-KDicIc33Dh0E6aD8iyxdt1JUOkgj825WfIzqg+3e0UiOVynOKA3EROD/0OVnKzgKKD0yDS+wivyeKK91qd5ATA==",
+      "integrity": "sha512-kpvwRwxU4hpvzCIgyiq/kwuNn7blT+ciFcv/CKLfcZs6DhG7iCW7uj9CHcGIdX9bkZt2XiSNhgl3JHC5ispAcg==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "ethers": "4.0.38",
+        "ethers": "4.0.40",
         "ts-node": "8.4.1",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
@@ -5064,14 +5064,13 @@
       }
     },
     "ethers": {
-      "version": "4.0.38",
-      "resolved": "https://registry.npmjs.org/ethers/-/ethers-4.0.38.tgz",
-      "integrity": "sha512-l7l7RIfk2/rIFgRRVLFY3H06S9dhXXPUdMlYm6SCelB6oG+ABmoRig7xSVOLcHLayBfSwssjAAYLKxf1jWhbuQ==",
+      "version": "4.0.40",
+      "resolved": "https://registry.npmjs.org/ethers/-/ethers-4.0.40.tgz",
+      "integrity": "sha512-MC9BtV7Hpq4dgFONEfanx9aU9GhhoWU270F+/wegHZXA7FR+2KXFdt36YIQYLmVY5ykUWswDxd+f9EVkIa7JOA==",
       "requires": {
-        "@types/node": "^10.3.2",
         "aes-js": "3.0.0",
         "bn.js": "^4.4.0",
-        "elliptic": "6.3.3",
+        "elliptic": "6.5.2",
         "hash.js": "1.1.3",
         "js-sha3": "0.5.7",
         "scrypt-js": "2.0.4",
@@ -5080,22 +5079,6 @@
         "xmlhttprequest": "1.8.0"
       },
       "dependencies": {
-        "@types/node": {
-          "version": "10.17.6",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-10.17.6.tgz",
-          "integrity": "sha512-0a2X6cgN3RdPBL2MIlR6Lt0KlM7fOFsutuXcdglcOq6WvLnYXgPQSh0Mx6tO1KCAE8MxbHSOSTWDoUxRq+l3DA=="
-        },
-        "elliptic": {
-          "version": "6.3.3",
-          "resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.3.3.tgz",
-          "integrity": "sha1-VILZZG1UvLif19mU/J4ulWiHbj8=",
-          "requires": {
-            "bn.js": "^4.4.0",
-            "brorand": "^1.0.1",
-            "hash.js": "^1.0.0",
-            "inherits": "^2.0.1"
-          }
-        },
         "hash.js": {
           "version": "1.1.3",
           "resolved": "https://registry.npmjs.org/hash.js/-/hash.js-1.1.3.tgz",
