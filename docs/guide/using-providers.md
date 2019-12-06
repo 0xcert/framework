@@ -7,7 +7,7 @@ Each provider operates on the same principles, but can also have its own distinc
 Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about other providers for Ethereum such as Bitski, please click [here](/api/ethereum.html#api-ethereum), and to learn more about providers for Wanchain, please click [here](/api/wanchain.html#api-wanchain).
 
 ::: card Learn by example
-Click [here](https://stackblitz.com/edit/using-providers-example) to check the live example for this section.
+Click [here](https://codesandbox.io/s/github/0xcert/example-using-providers?module=%2FREADME.md) to check the live example for this section.
 :::
 
 ## Installation process
