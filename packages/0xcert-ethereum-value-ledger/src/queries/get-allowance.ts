@@ -22,6 +22,7 @@ export default async function(ledger: ValueLedger, accountId: string, spenderId:
     });
     return ledger.provider.encoder.decodeParameters(outputTypes, res.result)[0].toString();
   } catch (error) {
+    ledger.provider.log(error);
     return null;
   }
 }

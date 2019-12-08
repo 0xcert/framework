@@ -54,6 +54,11 @@ export interface MetamaskProviderOptions {
    * Sandbox mode. False by default.
    */
   sandbox?: Boolean;
+
+  /**
+   * Verbose mode. False by default.
+   */
+  verbose?: Boolean;
 }
 
 /**

@@ -25,6 +25,7 @@ export default async function(gateway: Gateway, order: AssetLedgerDeployOrder) {
     });
     return gateway.provider.encoder.decodeParameters(outputTypes, res.result)[0];
   } catch (error) {
+    gateway.provider.log(error);
     return null;
   }
 }
