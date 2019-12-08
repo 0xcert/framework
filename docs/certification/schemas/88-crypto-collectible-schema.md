@@ -56,7 +56,7 @@ This convention represents a digital asset that represents a crypto-collectible.
 ```json
 {
   "$evidence": "https://troopersgame.com/dog/evidence.json",
-  "$schema": "https://conventions.0xcert.org/88-crypto-collectible-schema.json",
+  "$schema": "https://0xcert.org/conventions/88-crypto-collectible-schema.json",
   "name": "Magic Sword",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"

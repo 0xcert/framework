@@ -78,7 +78,7 @@ A more human-friendly description of this above specification follows. This is p
 ```json
 {
   "$evidence": "https://troopersgame.com/dog/evidence.json",
-  "$schema": "https://conventions.0xcert.org/86-base-asset-schema.json",
+  "$schema": "https://0xcert.org/conventions/86-base-asset-schema.json",
   "name": "Magic Sword",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"

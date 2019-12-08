@@ -158,7 +158,7 @@ This specification is provided in a machine-readable format using the JSON Schem
 
 ```json
 {
-  "$schema": "https://conventions.0xcert.org/json-schema.json",
+  "$schema": "https://0xcert.org/conventions/json-schema.json",
   "properties": {
     "fullName": {
       "description": "",
