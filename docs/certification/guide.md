@@ -191,6 +191,4 @@ const imprintByJohn = await cert.calculate(exposedMetadata, exposedEvidence);
 
 John now verifies that the calculated imprint equals the imprint stored in the asset with ID `12` stored in the asset ledger owned by the Troopers Game Studio. If the imprint is a match it prooves that we are telling the truth. He can now go ahead and perform the purchase because he was able to matematically prove that the asset `12` really is the magic sward he wants. 
 
-## Unveiling 0xcert algorithms
-
-// TODO
+Ofcourse, in reality John would use a dapp where the whole process would be automated and nothing would have to be done by hand. Dapps would also provide other features like issuing and updating such certificates, burning and revoking of certificates, tracking and loging and more.
