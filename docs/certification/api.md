@@ -13,8 +13,8 @@ A `class` which allows for creating and managing certification artifacts.
 | Argument | Description
 |-|-
 | schema | [required] An `object` representing the JSON-Schema definition.
-| hasher | An `asynchronous` or `synchronous` `function` which accepts a value, path and merkle tree position and returns value hash. By default, the value is converted into SHA256 hash.
-| noncer | An `asynchronous` or `synchronous` `function` which accepts value path and returns a nonce. By default, the value path is  converted into SHA256 hash.
+| hasher | An `asynchronous` or `synchronous` `function` which accepts a value, path, and Merkle tree position and returns value hash. By default, the value is converted into SHA256 hash.
+| noncer | An `asynchronous` or `synchronous` `function` which accepts value path and returns a nonce. By default, the value path is converted into SHA256 hash.
 
 **Usage**
 
@@ -46,7 +46,7 @@ An `asynchronous` class instance `function` which returns asset imprint when all
 
 **Result:**
 
-A `string` representing asset imprint or `null` when metadata don't match.
+A `string` representing asset imprint or `null` when metadata doesn't match.
 
 **Example:**
 
@@ -115,7 +115,7 @@ It's a good practice to always include `$schema` and `$evidence` properties in t
 
 **Result:**
 
-A truncated metadata object with selected keys.
+Truncated metadata object with selected keys.
 
 **Example:**
 
@@ -141,7 +141,7 @@ An `asynchronous` class instance `function` which calculates the schema ID.
 
 | Argument | Description
 |-|-
-| normalize | A `boolean` which can disable object struction normalization (`true` by default).
+| normalize | A `boolean` which can disable object structure normalization (`true` by default).
 
 **Result:**
 
@@ -283,7 +283,7 @@ The artifacts are created based on several rules:
 * Nonced values are hashed through `sha256` hash function.
 * Each array is hashed to a root hash of a binary tree.
 * The last value of each array is an empty string. 
-* Binary tree structure details are pushed to `evidence` object for each property path which holds an object.
+* Binary tree structure details are pushed to `evidence` object for each property path that holds an object.
 * The root hash of the binary tree of the root object represents an `imprint`.
 
 Let's see how this works in practice for a simple imprint. We will be using a static nonces `@` so you can easily follow the steps.
@@ -302,7 +302,7 @@ const evidence = {
 };
 ```
 
-Processing starts at leafs. The process will follow the rules described earlier and will start by calculate the binary tree of the `evidence.skills` property. The following graph illystrates the hashing mechanism (`v` = value, `h` = hash, `r` = nonce, `n` = node,).
+Processing starts at leaves. The process will follow the rules described earlier and will start by calculating the binary tree of the `evidence.skills` property. The following graph illustrates the hashing mechanism (`v` = value, `h` = hash, `r` = nonce, `n` = node,).
 
 ```
        n0
@@ -385,7 +385,7 @@ const evidence = {
 };
 ```
 
-Finnaly, the process is repeated for the root properties.
+Finally, the process is repeated for the root properties.
 
 ```ts
 const metadata = {
