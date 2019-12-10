@@ -267,7 +267,7 @@ export interface FixedActionsOrderActionSetAbilities {
   /**
    * Id (address) of the sender - setter of abilitites.
    */
-  senderId?: string;
+  senderId: string;
 
   /**
    * Id (address) of account we are setting abilitites to.
@@ -298,7 +298,7 @@ export interface FixedActionsOrderActionCreateAsset {
   /**
    * Id (address) of the sender - creator.
    */
-  senderId?: string;
+  senderId: string;
 
   /**
    * Id (address) of the receiver.
@@ -391,7 +391,7 @@ export interface FixedActionsOrderActionUpdateAssetImprint {
   /**
    * Id (address) of the sender - updator.
    */
-  senderId?: string;
+  senderId: string;
 
   /**
    * Merkle tree root of asset proof.
