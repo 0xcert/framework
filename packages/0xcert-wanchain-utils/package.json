@@ -71,7 +71,7 @@
     "typescript": "3.6.3"
   },
   "dependencies": {
-    "ethers": "4.0.37",
+    "ethers": "4.0.40",
     "@0xcert/ethereum-utils": "2.0.0-alpha12"
   }
 }
