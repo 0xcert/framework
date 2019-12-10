@@ -285,7 +285,7 @@ We incentivise the community to agree on standard schema conventions. Schema con
 
 ## 0xcert algorithms
 
-The 0xcert Protocol provides two hashing algorithms. The Asset Imprint Hashing algorithm (AIH) is used for generating asset footprints and the Asset Schema Hashing algorithm (ASH) generates a schema unique identifier.
+The 0xcert Protocol provides two hashing algorithms. The Asset Imprint Hashing algorithm (AIH) is used for generating asset fingerprints and the Asset Schema Hashing algorithm (ASH) generates a schema unique identifier.
 
 ### Asset Imprint Hashing algorithm (AIH)
 

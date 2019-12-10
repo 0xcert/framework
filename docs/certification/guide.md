@@ -19,7 +19,7 @@ To create such proof for an arbitrary asset we need to first prepare
 - asset `schema` which describes asset context and metadata structure.
 
 From these two objects, we then generate 
-- asset `imporint` string representing a cryptographic footprint of asset metadata generated through the 0xcert AIH algorithm,
+- asset `imporint` string representing a cryptographic fingerprint of asset metadata generated through the 0xcert AIH algorithm,
 - asset `evidence` JSON object which describes disclosed asset metadata and
 - asset `schema ID` string which uniquely identifies asset schema object and is generated through the 0xcert ASH algorithm.
 
@@ -115,7 +115,7 @@ Did you notice that a `description` property is not included in the schema? We d
 
 The previous section explained how a context and metadata structure information are attached to an asset. In this chapter, we dive into the core mistery of certification and calculate the `imprint`, `evidence` and `schema ID` artifacts. These are the main products of the certification process defined by the 0xcert Protocol which allows for third party users to verify asset metadata information without an intermediary.
 
-An imprint represents a cryptographic footprint of a complete asset metadata object. It is calculated through the SXH2 algorithm and represents a mathematical proof of asset metadata existence, where at the same time ensures metadata confidentiality. The imprint is one of the decentralized artifacts of the certification process and should thus be stored on immutable storage like permissionless public blockchain (e.g. Ethereum) where trust is not an issue and third-party users can autonomously read data.
+An imprint represents a cryptographic fingerprint of a complete asset metadata object. It is calculated through the SXH2 algorithm and represents a mathematical proof of asset metadata existence, where at the same time ensures metadata confidentiality. The imprint is one of the decentralized artifacts of the certification process and should thus be stored on immutable storage like permissionless public blockchain (e.g. Ethereum) where trust is not an issue and third-party users can autonomously read data.
 
 Unlike the imprint string, the evidence object represents a centralized artifact of the certification process and holds disclosed metadata information. Yes, we used the word "disclosed" because the 0xcert Profocol allows selective metadata verification. This means we can create a subset of metadata including only the selected properties we want to disclose to a third party. We will describe this concept in more detail in one of the following chapters. At this point, we only need to understand that the evidence object holds disclosed metadata property values together with all the required cryptographic proofs needed for someone to verify the asset information.
 
