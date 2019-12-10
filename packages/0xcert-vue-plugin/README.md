@@ -1,6 +1,6 @@
 <img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
 
-> Implementation of VueJS plug-in.
+> Implementation of Vue.js plug-in.
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
 
@@ -42,14 +42,14 @@ export default {
 }
 ```
 
-The plugin gives you access the 0xcert VueJS client.
+The plugin gives you access the 0xcert Vue.js client.
 
 ```ts
 const client = this.$0xcert; // 0xcert client
 const provider = this.$0xcert.provider; // current provider
 ```
 
-VueJS and NuxtJS use Webpack for compiling modules. Webpack can sometimes render the source code in a strange way, ignoring code conditions, thus you may encounter the "missing module" error. The fix for this is to set `node.{module-name} = 'empty'` property in the webpack configuration. The example below shows how you should do this in NuxtJS:
+Vue.js and Nuxt.js use Webpack for compiling modules. Webpack can sometimes render the source code in a strange way, ignoring code conditions, thus you may encounter the "missing module" error. The fix for this is to set `node.{module-name} = 'empty'` property in the webpack configuration. The example below shows how you should do this in Nuxt.js:
 
 ```ts
 export default {

@@ -59,7 +59,6 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
       "type": "string"
     }
   },
-  "required": ["$schema"],
   "title": "Asset",
   "type": "object"
 }

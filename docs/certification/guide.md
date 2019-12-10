@@ -19,7 +19,7 @@ To create such proof for an arbitrary asset we need to first prepare
 - asset `schema` which describes asset context and metadata structure.
 
 From these two objects, we then generate 
-- asset `imporint` string representing a cryptographic fingerprint of asset metadata generated through the 0xcert AIH algorithm,
+- asset `imprint` string representing a cryptographic fingerprint of asset metadata generated through the 0xcert AIH algorithm,
 - asset `evidence` JSON object which describes disclosed asset metadata and
 - asset `schema ID` string which uniquely identifies asset schema object and is generated through the 0xcert ASH algorithm.
 
@@ -39,7 +39,7 @@ On our official open-source [GitHub repository](https://github.com/0xcert/framew
 
 ### Defining asset metadata
 
-Asset metadata represents a digital object which holds asset information. It is described in the form of a common JSON object, which conforms to [RFC-7159](https://en.wikipedia.org/wiki/JSON specification. 
+Asset metadata represents a digital object which holds asset information. It is described in the form of a common JSON object, which conforms to [RFC-7159](https://en.wikipedia.org/wiki/JSON) specification. 
 
 A simple metadata object for a crypto collectible which represents a magic sword item in the imaginary Troopers game can be described with an `id`, `name`, `description`, `image` URL and `power` properties.
 

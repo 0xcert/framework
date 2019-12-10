@@ -12,7 +12,7 @@ A `class` which allows for creating and managing certification artifacts.
 
 | Argument | Description
 |-|-
-| schema | [required] An `object` representing the JSON-Schema definition.
+| schema | [required] An `object` representing the JSON Schema definition.
 | hasher | An `asynchronous` or `synchronous` `function` which accepts a value, path, and Merkle tree position and returns value hash. By default, the value is converted into SHA256 hash.
 | noncer | An `asynchronous` or `synchronous` `function` which accepts value path and returns a nonce. By default, the value path is converted into SHA256 hash.
 
@@ -77,7 +77,7 @@ It's a good practice to always include `$schema` and `$evidence` properties in t
 | Argument | Description
 |-|-
 | metadata | [required] An `object` with asset information which follows schema definition.
-| paths | [required] An `array` of `strings` representing JSON key paths.
+| paths | [required] An `array` of `string`s representing JSON key paths.
 
 **Result:**
 
@@ -111,7 +111,7 @@ It's a good practice to always include `$schema` and `$evidence` properties in t
 | Argument | Description
 |-|-
 | metadata | [required] An `object` with asset information which follows schema definition.
-| paths | [required] An `array` of `strings` representing JSON key paths.
+| paths | [required] An `array` of `string`s representing JSON key paths.
 
 **Result:**
 
@@ -263,7 +263,9 @@ const evidence = {
 
 ## @0xcert/conventions
 
-The 0xcert Framework provides some basic schema conventions which you can use in your projects.
+This module provides interfaces for all the confirmed application data conventions.
+
+Yes, the 0xcert Conventions are just simply JSON objects and you could create them yourself. But we have created this simple module to bring you type-safe TypeScript goodness.
 
 | Issue | Id | Description
 |-|-|-
@@ -436,7 +438,7 @@ const evidence = {
 };
 ```
 
-The `data[0].nodes[0].hash` path is the root hash which represents asset imprint and should be saved to tthe blockchain
+The `data[0].nodes[0].hash` path is the root hash which represents asset imprint and should be saved to the blockchain
 
 ### Asset Schema Hashing algorithm (ASH)
 
