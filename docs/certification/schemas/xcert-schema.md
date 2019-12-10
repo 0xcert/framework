@@ -1,5 +1,6 @@
 ---
 title: Xcert JSON Schema
+id: e1823a17bb5dd039e2aff7d997223efed50dbeebb0fcb60cf7bba2a9b6f90140
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 1.0.0
 category: conventions
@@ -24,7 +25,6 @@ The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL N
 0xcert Protocol uses Xcert Schema, which is a subset of JSON Schema, to define asset schemas. By rule, every asset schema MUST follow the Xcert Schema specification.
 
 This specification is provided in a machine-readable format using the JSON Schema format.
-
 
 ```json
 {
