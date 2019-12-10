@@ -15,7 +15,7 @@ export interface Schema88 extends Schema86 {
  * Crypto collectible asset data object JSON Schema.
  */
 export const schema88 = {
-  $schema: 'http://0xcert.org/conventions/xcert-schema.json',
+  $schema: 'https://0xcert.org/conventions/xcert-schema.json',
   description: 'An abstract digital asset schema.',
   properties: {
     ...schema86.properties,

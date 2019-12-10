@@ -1,13 +1,13 @@
 import { Spec } from '@hayspec/spec';
-import * as Ajv from 'ajv';
+import { Validator } from 'jsonschema';
 import { SchemaErc721, schemaErc721 } from '../assets/erc721';
 
 const spec = new Spec<{
-  validate: any;
+  validator: Validator;
 }>();
 
 spec.before((stage) => {
-  stage.set('validate', new Ajv({ allErrors: true }).compile(schemaErc721));
+  stage.set('validator', new Validator());
 });
 
 spec.test('passes for valid data', (ctx) => {
@@ -16,7 +16,7 @@ spec.test('passes for valid data', (ctx) => {
     'image': 'https://troopersgame.com/dog.jpg',
     'name': 'Troopers game',
   };
-  ctx.true(ctx.get('validate')(data));
+  ctx.true(ctx.get('validator').validate(data, schemaErc721).valid);
 });
 
 spec.test('fails for valid data', (ctx) => {
@@ -25,7 +25,7 @@ spec.test('fails for valid data', (ctx) => {
     'image': 'https://troopersgame.com/dog.jpg',
     'name': 12,
   };
-  ctx.false(ctx.get('validate')(data));
+  ctx.false(ctx.get('validator').validate(data, schemaErc721).valid);
 });
 
 export default spec;

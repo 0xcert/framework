@@ -81,7 +81,7 @@ We incentivize the community to agree on standard schema conventions. Schema con
 
 ```json
 {
-  "$schema": "http://0xcert.org/conventions/xcert-schema.json",
+  "$schema": "https://0xcert.org/conventions/xcert-schema.json",
   "properties": {
     "$evidence": {
       "type": "string"

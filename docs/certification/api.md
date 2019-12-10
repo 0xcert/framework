@@ -450,7 +450,7 @@ Let's see how this works in practice for a simple schema.
 
 ```ts
 const schema = {
-  '$schema': 'http://0xcert.org/conventions/xcert-schema.json',
+  '$schema': 'https://0xcert.org/conventions/xcert-schema.json',
   'properties': {
     '$schema': {
       'type': 'string',
@@ -480,7 +480,7 @@ The algorithm first sorts all the keys in alphabetic order.
 
 ```ts
 const schema = {
-  '$schema': 'http://0xcert.org/conventions/xcert-schema.json',
+  '$schema': 'https://0xcert.org/conventions/xcert-schema.json',
   'properties': {
     '$evidence': { ... },
     '$schema': { ... },

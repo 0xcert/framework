@@ -1,13 +1,13 @@
 import { Spec } from '@hayspec/spec';
-import * as Ajv from 'ajv';
+import { Validator } from 'jsonschema';
 import { XcertSchema, xcertSchema } from '../assets/xcert-schema';
 
 const spec = new Spec<{
-  validate: any;
+  validator: Validator;
 }>();
 
 spec.before((stage) => {
-  stage.set('validate', new Ajv({ allErrors: true }).compile(xcertSchema));
+  stage.set('validator', new Validator());
 });
 
 spec.test('allows simple types', (ctx) => {
@@ -97,7 +97,7 @@ spec.test('allows simple types', (ctx) => {
     'title': '',
     'type': 'object',
   };
-  ctx.true(ctx.get('validate')(data));
+  ctx.true(ctx.get('validator').validate(data, xcertSchema).valid);
 });
 
 export default spec;

@@ -1469,11 +1469,11 @@
     },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
-      "integrity": "sha512-Tv4pwPnCzDe3fSS6VQee6Mh6qjJop4HyjwwvhSY1zZsdVgHDmdmPCf5LFD7hATOODuGOl+SqxinDodjue6RUxg==",
+      "integrity": "sha512-EqQBPOExi2cCdCsIXngdvMV4btxjMldATXcosRyR2RrhFSPSGwtHwxc1RmCLDZMC8nCqh6sm8R4mUanGcpnJjg==",
       "requires": {
         "@hayspec/cli": "0.9.0",
         "@hayspec/spec": "0.9.0",
-        "ajv": "6.10.2",
+        "jsonschema": "1.2.5",
         "ts-node": "8.4.1",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
@@ -20920,6 +20920,11 @@
       "version": "0.0.0",
       "resolved": "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz",
       "integrity": "sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM="
+    },
+    "jsonschema": {
+      "version": "1.2.5",
+      "resolved": "https://registry.npmjs.org/jsonschema/-/jsonschema-1.2.5.tgz",
+      "integrity": "sha512-kVTF+08x25PQ0CjuVc0gRM9EUPb0Fe9Ln/utFOgcdxEIOHuU7ooBk/UPTd7t1M91pP35m0MU1T8M5P7vP1bRRw=="
     },
     "jsprim": {
       "version": "1.4.1",
