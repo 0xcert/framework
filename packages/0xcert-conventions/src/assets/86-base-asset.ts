@@ -15,7 +15,7 @@ export interface Schema86 extends SchemaErc721 {
  * Base asset data object JSON Schema.
  */
 export const schema86 = {
-  $schema: 'http://json-schema.org/draft-07/schema',
+  $schema: 'https://0xcert.org/conventions/xcert-schema.json',
   description: 'An abstract digital asset schema.',
   properties: {
     $evidence: {

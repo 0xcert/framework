@@ -1,7 +1,7 @@
 ---
 issue: 88
 title: Crypto Collectible Asset
-id: b17216d996781173f5c97e36610d173a85335dfcccf785dcaaf4a3d1f71f5169
+id: cd3d7fce94669724f964061572f42ae0391996b0e348c7431251f9ab1bab0f49
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 1.0.0
 category: conventions
@@ -56,7 +56,7 @@ This convention represents a digital asset that represents a crypto-collectible.
 ```json
 {
   "$evidence": "https://troopersgame.com/dog/evidence.json",
-  "$schema": "https://conventions.0xcert.org/88-crypto-collectible-schema.json",
+  "$schema": "https://0xcert.org/conventions/88-crypto-collectible-schema.json",
   "name": "Magic Sword",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"

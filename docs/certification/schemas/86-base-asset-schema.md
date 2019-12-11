@@ -1,7 +1,7 @@
 ---
 issue: 86
 title: Base asset schema
-id: 3c065f842bf043fb2380b968b3c22e105daaa24042c25fedc73445fd34f30e71
+id: 9a7531dd7ac3ed4e3d2fa61d20a825cfd4be7f3e6bc540c82d9dc94b526c5123
 author: Kristijan Sedlak <kristijan@0xcert.org>, William Entriken <github.com@phor.net>
 version: 1.0.0
 category: conventions
@@ -59,7 +59,6 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
       "type": "string"
     }
   },
-  "required": ["$schema"],
   "title": "Asset",
   "type": "object"
 }
@@ -78,7 +77,7 @@ A more human-friendly description of this above specification follows. This is p
 ```json
 {
   "$evidence": "https://troopersgame.com/dog/evidence.json",
-  "$schema": "https://conventions.0xcert.org/86-base-asset-schema.json",
+  "$schema": "https://0xcert.org/conventions/86-base-asset-schema.json",
   "name": "Magic Sword",
   "description": "A weapon for the Troopers game which can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"

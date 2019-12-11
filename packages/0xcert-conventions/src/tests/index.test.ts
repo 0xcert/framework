@@ -8,6 +8,7 @@ spec.test('exposes objects', (ctx) => {
   ctx.true(!!conventions.schema87);
   ctx.true(!!conventions.schema88);
   ctx.true(!!conventions.schemaErc721);
+  ctx.true(!!conventions.xcertSchema);
 });
 
 export default spec;
