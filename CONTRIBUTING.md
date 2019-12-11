@@ -75,26 +75,3 @@ You can build and deploy the documentation to the server.
 ```
 $ npm run deploy
 ```
-
-# 0xcert conventions
-
-We are using VuePress for building the conventions pages. Files are built locally from `.md` files located in `/conventions` folder and generated into a `/convntions/.vuepress/dist` folder.
-
-First, navigate to the root directory and install dependencies.
-
-```
-$ cd ./conventions/.vuepress
-$ npm i
-```
-
-You can start VuePress in development mode.
-
-```
-$ npm run dev
-```
-
-You can build and deploy the conventions to the server.
-
-```
-$ npm run deploy
-```
