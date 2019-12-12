@@ -381,7 +381,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
           // sure we have enough gas, we multiply result with a factor.
           payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
         } catch (err) {
-          if (err && err.original && err.original.code === -32603) {
+          if (err && err.original && (err.original.code === -32603 || err.original.code === -32000)) {
             payload.params.push('latest');
             const res = await this.request({
               ...payload,
