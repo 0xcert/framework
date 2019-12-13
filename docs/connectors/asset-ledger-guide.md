@@ -15,7 +15,7 @@ AssetLedger directly connects to a Xcert smart contract on the blockchain. Meani
 TLDR: An asset ledger is a containter defining how assets in it look like. While an asset is a unique digital representation of an item that is created on an asset ledger and follows its definition.
 
 ::: card Live example
-Click [here](https://codesandbox.io/s/github/0xcert/example-using-providers?module=%2FREADME.md) to check the live example for this section.
+Click [here](https://codesandbox.io/s/github/0xcert/example-asset-management?module=%2FREADME.md) to check the live example for this section.
 :::
 
 ## Installation
@@ -30,3 +30,58 @@ On our official [GitHub repository](https://github.com/0xcert/framework), we als
 
 ## Creating a new AssetLedger
 
+We begin by importing the modules.
+
+```ts
+import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
+```
+
+Now lets define the AssetLedger that we want to deploy.
+
+```ts
+const assetLedgerDefinition = {
+  name: 'Math Course Certificate',
+  symbol: 'MCC',
+  uriPrefix: 'https://0xcert.org/assets/',
+  uriPostfix: '.json',
+  schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', // base asset schemaId
+  capabilities: [
+    AssetLedgerCapability.REVOKE_ASSET,
+  ],
+};
+```
+Here we name and set an symbol to our asset ledger. We decide where asset metadata will live (off chain descriptive data about each asset) by defining the `uriPrefix` and `uriPostfix`. Combining `uriPrefix` with asset ID and `uriPostfix` we get the URI of each assets metadata location. Through [Certification guide]() we define the schemaId and trough [capabilities]() we decide what additional functionalities will the asset ledger possess (this cannot be changed after a ledger is deployed).
+
+Finally we actually deploy the asset ledger.
+
+```ts
+const mutation = await AssetLedger.deploy(provider, assetLedgerDefinition);
+```
+
+Deployment is an asynchronous action that is performed on the blockchain so deployment returns a [Mutation]() object which allows us to properly react to this in a way that is most beneficial to the application and user experiance we want to create.
+
+For this example lets first show the user transaction hash so he can see that something is happening and can check it on a block explorer
+
+```ts
+const transactionHash = mutation.id;
+```
+
+Now since we cannot do anything until the asset ledger is actually deployed we can wait for the transaction to be accepted onto the blockchain and then get the created asset ledger smart contract address.
+
+```ts
+await mutation.complete();
+const assetLedgerId = mutation.receiverId;
+```
+
+Now that a new asset ledger has been deployed on the network, you can create a new instance of it.
+
+```ts
+const assetLedger = AssetLedger.getInstance(provider, assetLedgerId);
+```
+
+And to check if everything was deployed as we wanted it lets read the asest ledger information.
+
+```ts
+const assetLedgerInfo = await assetLedger.getInfo();
+//=> { name: 'Math Course Certificate', symbol: 'MCC', uriPrefix: 'https://0xcert.org/assets/', uriPostfix: '.json', schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', supply: '0' }
+```
