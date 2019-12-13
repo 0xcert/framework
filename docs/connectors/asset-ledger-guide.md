@@ -112,3 +112,29 @@ Now that the asset is created lets check who its owner is.
 const ownerId = await assetLedger.getAssetAccount('100');
 //=> 0x...
 ```
+
+## Transfer an asset
+
+::: tip
+You can only transfer an asset if you are either the asset owner or that you have been approved by the asset owner to operate with it in its name.
+:::
+
+To transfer an asset you only need to know the `id` of the asset you want to transfer and who you want to transfer it to.
+
+```ts
+const mutation = await assetLedger.transferAsset({
+    receiverId: provider.accountId,
+    id: '100',
+}).then((mutation) => {
+    return mutation.complete();
+});
+```
+
+Here we specified `receiverId` as `provider.accountId` meaning we are transfering this asset to ourselfs. Change the receiverId to some other address so that the asset will actually change ownership.
+
+Then you can again check if it was succesfully transfered by checking who the new owner is.
+
+```ts
+const ownerId = await assetLedger.getAssetAccount('100');
+//=> 0x...
+```
