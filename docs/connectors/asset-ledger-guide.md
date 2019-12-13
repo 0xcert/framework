@@ -85,3 +85,30 @@ And to check if everything was deployed as we wanted it lets read the asest ledg
 const assetLedgerInfo = await assetLedger.getInfo();
 //=> { name: 'Math Course Certificate', symbol: 'MCC', uriPrefix: 'https://0xcert.org/assets/', uriPostfix: '.json', schemaId: '3f4a0870cd6039e6c987b067b0d28de54efea17449175d7a8cd6ec10ab23cc5d', supply: '0' }
 ```
+
+## Creating a new asset
+
+To create a new asset lets first trough the [Certification guide]() generate its imprint. With that we can create it.
+
+```ts
+const mutation = await assetLedger.createAsset({
+  id: '100',
+  imprint: 'aa431acea5ded5d83ea45f1caf39da9783775c8c8c65d30795f41ed6eff45e1b',
+  receiverId: provider.accountId,
+}).then((mutation) => {
+    return mutation.complete();
+});
+```
+
+We set the assets `id` to `100` and for the `receiverId` we set `provider.accountId` meaning we are creating it for ourself. We are also waiting for the transaction to complete before we move onto the next stage.
+
+::: tip
+The `provider.accountId` is your currently selected MetaMask account. If you want someone else to be the receiver, enter their address instead.
+:::
+
+Now that the asset is created lets check who its owner is.
+
+```ts
+const ownerId = await assetLedger.getAssetAccount('100');
+//=> 0x...
+```
