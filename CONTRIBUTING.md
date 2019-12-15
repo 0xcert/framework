@@ -44,6 +44,7 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 The release manager will publish packages to NPM using these commands.
 
 NOTE: New packages must be published manually!
+IMPORTANT: Make sure that buildGatewayConfig parameters under generic providers are set to correct values.
 
 ```
 $ rush version --bump --override-bump minor
@@ -71,29 +72,6 @@ $ npm run dev
 ```
 
 You can build and deploy the documentation to the server.
-
-```
-$ npm run deploy
-```
-
-# 0xcert conventions
-
-We are using VuePress for building the conventions pages. Files are built locally from `.md` files located in `/conventions` folder and generated into a `/convntions/.vuepress/dist` folder.
-
-First, navigate to the root directory and install dependencies.
-
-```
-$ cd ./conventions/.vuepress
-$ npm i
-```
-
-You can start VuePress in development mode.
-
-```
-$ npm run dev
-```
-
-You can build and deploy the conventions to the server.
 
 ```
 $ npm run deploy

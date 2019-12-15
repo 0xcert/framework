@@ -52,7 +52,7 @@ export class Gateway implements GatewayBase {
   /**
    * Initialize gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
-   * @param id Address of the gateway smart contract.
+   * @param config Gateway config.
    */
   public constructor(provider: GenericProvider, config?: GatewayConfig) {
     this._provider = provider;
@@ -161,47 +161,47 @@ export class Gateway implements GatewayBase {
   /**
    * Performs an order.
    * @param order Order data.
-   * @param claim Claim data.
+   * @param signature Signature data.
    */
-  public async perform(order: DynamicActionsOrder, claim: string[]): Promise<Mutation>;
-  public async perform(order: SignedDynamicActionsOrder, claim: string[]): Promise<Mutation>;
-  public async perform(order: FixedActionsOrder, claim: string[]): Promise<Mutation>;
-  public async perform(order: SignedFixedActionsOrder, claim: string[]): Promise<Mutation>;
-  public async perform(order: AssetLedgerDeployOrder, claim: string): Promise<Mutation>;
-  public async perform(order: ValueLedgerDeployOrder, claim: string): Promise<Mutation>;
-  public async perform(order: any, claim: any): Promise<Mutation> {
+  public async perform(order: DynamicActionsOrder, signature: string[]): Promise<Mutation>;
+  public async perform(order: SignedDynamicActionsOrder, signature: string[]): Promise<Mutation>;
+  public async perform(order: FixedActionsOrder, signature: string[]): Promise<Mutation>;
+  public async perform(order: SignedFixedActionsOrder, signature: string[]): Promise<Mutation>;
+  public async perform(order: AssetLedgerDeployOrder, signature: string): Promise<Mutation>;
+  public async perform(order: ValueLedgerDeployOrder, signature: string): Promise<Mutation>;
+  public async perform(order: any, signature: any): Promise<Mutation> {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER) {
       order = this.createDynamicOrder(order);
-      if (order.signers.length !== claim.length + 1) {
+      if (order.signers.length !== signature.length + 1) {
         throw new ProviderError(ProviderIssue.DYNAMIC_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
-      return actionsOrderPerform(this, order, claim);
+      return actionsOrderPerform(this, order, signature);
     } else if (order.kind === OrderKind.FIXED_ACTIONS_ORDER) {
-      if (order.signers.length !== claim.length + 1) {
+      if (order.signers.length !== signature.length + 1) {
         throw new ProviderError(ProviderIssue.FIXED_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
-      return actionsOrderPerform(this, order, claim as string[]);
+      return actionsOrderPerform(this, order, signature as string[]);
     } else if (order.kind === OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER) {
       order = this.createDynamicOrder(order);
-      if (order.signers.length !== claim.length) {
+      if (order.signers.length !== signature.length) {
         throw new ProviderError(ProviderIssue.SIGNED_DYNAMIC_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
-      return actionsOrderPerform(this, order, claim as string[]);
+      return actionsOrderPerform(this, order, signature as string[]);
     } else if (order.kind === OrderKind.SIGNED_FIXED_ACTIONS_ORDER) {
-      if (order.signers.length !== claim.length) {
+      if (order.signers.length !== signature.length) {
         throw new ProviderError(ProviderIssue.SIGNED_FIXED_ACTIONS_ORDER_SIGNATURES);
       }
       order = normalizeActionsOrderIds(order, this._provider);
-      return actionsOrderPerform(this, order, claim as string[]);
+      return actionsOrderPerform(this, order, signature as string[]);
     } else if (order.kind === OrderKind.ASSET_LEDGER_DEPLOY_ORDER) {
       order = normalizeAssetLedgerDeployOrderIds(order, this._provider);
-      return assetLedgerDeployOrderPerform(this, order, claim);
+      return assetLedgerDeployOrderPerform(this, order, signature);
     } else if (order.kind === OrderKind.VALUE_LEDGER_DEPLOY_ORDER) {
       order = normalizeValueLedgerDeployOrderIds(order, this._provider);
-      return valueLedgerDeployOrderPerform(this, order, claim);
+      return valueLedgerDeployOrderPerform(this, order, signature);
     } else {
       throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
@@ -238,12 +238,12 @@ export class Gateway implements GatewayBase {
    * Gets address of the proxy based on the kind.
    * @param proxyKind Kind of the proxy.
    */
-  public async getProxyAccountId(proxyId: ProxyKind.TRANSFER_ASSET, ledgerId?: string);
-  public async getProxyAccountId(proxyId: ProxyKind.CREATE_ASSET);
-  public async getProxyAccountId(proxyId: ProxyKind.DESTROY_ASSET);
-  public async getProxyAccountId(proxyId: ProxyKind.MANAGE_ABILITIES);
-  public async getProxyAccountId(proxyId: ProxyKind.TRANSFER_TOKEN);
-  public async getProxyAccountId(proxyId: ProxyKind.UPDATE_ASSET);
+  public async getProxyAccountId(proxyKind: ProxyKind.TRANSFER_ASSET, ledgerId?: string);
+  public async getProxyAccountId(proxyKind: ProxyKind.CREATE_ASSET);
+  public async getProxyAccountId(proxyKind: ProxyKind.DESTROY_ASSET);
+  public async getProxyAccountId(proxyKind: ProxyKind.MANAGE_ABILITIES);
+  public async getProxyAccountId(proxyKind: ProxyKind.TRANSFER_TOKEN);
+  public async getProxyAccountId(proxyKind: ProxyKind.UPDATE_ASSET);
   public async getProxyAccountId(...args: any[]) {
     let proxyId = ProxyId.NFTOKEN_SAFE_TRANSFER;
     switch (args[0]) {
