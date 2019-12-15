@@ -1,13 +1,13 @@
 import { Spec } from '@hayspec/spec';
-import * as Ajv from 'ajv';
+import { Validator } from 'jsonschema';
 import { Schema87, schema87 } from '../assets/87-asset-evidence';
 
 const spec = new Spec<{
-  validate: any;
+  validator: Validator;
 }>();
 
 spec.before((stage) => {
-  stage.set('validate', new Ajv({ allErrors: true }).compile(schema87));
+  stage.set('validator', new Validator());
 });
 
 spec.test('passes for valid data', (ctx) => {
@@ -32,7 +32,7 @@ spec.test('passes for valid data', (ctx) => {
       },
     ],
   };
-  ctx.true(ctx.get('validate')(schema));
+  ctx.true(ctx.get('validator').validate(schema, schema87).valid);
 });
 
 spec.test('fails for valid data', (ctx) => {
@@ -55,7 +55,7 @@ spec.test('fails for valid data', (ctx) => {
       },
     ],
   };
-  ctx.false(ctx.get('validate')(schema));
+  ctx.false(ctx.get('validator').validate(schema, schema87).valid);
 });
 
 export default spec;

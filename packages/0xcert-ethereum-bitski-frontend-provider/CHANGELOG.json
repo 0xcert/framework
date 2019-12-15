@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-bitski-frontend-provider",
   "entries": [
     {
-      "version": "2.0.0-alpha12",
-      "tag": "@0xcert/ethereum-bitski-frontend-provider_v2.0.0-alpha12",
+      "version": "2.0.0-alpha14",
+      "tag": "@0xcert/ethereum-bitski-frontend-provider_v2.0.0-alpha14",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },

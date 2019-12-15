@@ -171,8 +171,8 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
     this.accountId = options.accountId;
     this.gatewayConfig = options.gatewayConfig;
     this.unsafeRecipientIds = options.unsafeRecipientIds;
-    this.assetLedgerSource = options.assetLedgerSource || 'https://conventions.0xcert.org/ethereum/xcert-mock.json';
-    this.valueLedgerSource = options.valueLedgerSource || 'https://conventions.0xcert.org/ethereum/token-mock.json';
+    this.assetLedgerSource = options.assetLedgerSource || 'https://0xcert.org/conventions/ethereum/xcert-mock.json';
+    this.valueLedgerSource = options.valueLedgerSource || 'https://0xcert.org/conventions/ethereum/token-mock.json';
     this.signMethod = typeof options.signMethod !== 'undefined' ? options.signMethod : SignMethod.ETH_SIGN;
     this.requiredConfirmations = typeof options.requiredConfirmations !== 'undefined' ? options.requiredConfirmations : 1;
     this.mutationTimeout = typeof options.mutationTimeout !== 'undefined' ? options.mutationTimeout : 3600000; // 1 h
@@ -381,7 +381,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
           // sure we have enough gas, we multiply result with a factor.
           payload.params[0].gas = `0x${Math.ceil(res.result * 1.1).toString(16)}`;
         } catch (err) {
-          if (err && err.original && err.original.code === -32603) {
+          if (err && err.original && (err.original.code === -32603 || err.original.code === -32000)) {
             payload.params.push('latest');
             const res = await this.request({
               ...payload,

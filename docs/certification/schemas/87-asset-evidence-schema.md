@@ -1,7 +1,7 @@
 ---
 issue: 87
 title: Asset evidence schema
-id: ba47537e90fbfd7e33779556471e9122f3abc33016f96c2234ec29fb57315487
+id: 02edbb4f2d07017d0ae9148af683a63d4b86d0d357a5019dd794d377a1523e9e
 author: Kristijan Sedlak <kristijan@0xcert.org>
 version: 1.0.0
 category: conventions
@@ -92,7 +92,7 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
 
 ```json
 {
-    "$schema": "https://conventions.0xcert.org/87-asset-evidence-schema.json",
+    "$schema": "https://0xcert.org/conventions/87-asset-evidence-schema.json",
     "data": [
         {
             "path": [],

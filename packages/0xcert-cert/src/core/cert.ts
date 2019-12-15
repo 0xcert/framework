@@ -83,7 +83,7 @@ export class Cert {
     const schemaRecipes = await this.buildRecipes(compoundProps);
 
     return {
-      $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+      $schema: 'https://0xcert.org/conventions/87-asset-evidence-schema.json',
       data: schemaRecipes.map((recipe) => ({
         path: recipe.path,
         nodes: recipe.nodes,
@@ -120,7 +120,7 @@ export class Cert {
     const schemaRecipes = await this.buildRecipes(compoundProps, paths);
 
     return {
-      $schema: 'https://conventions.0xcert.org/87-asset-evidence-schema.json',
+      $schema: 'https://0xcert.org/conventions/87-asset-evidence-schema.json',
       data: schemaRecipes.map((recipe) => ({
         path: recipe.path,
         nodes: recipe.nodes,
