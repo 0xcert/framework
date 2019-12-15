@@ -19,7 +19,7 @@ Every digital asset in the 0xcert Protocol is defined using a *convention*. Conv
 
 This convention is the base specification to which all other conventions MUST conform.
 
-This convention is minimal and adopts only the specification for digital assets from [ERC-721](https://eips.ethereum.org/EIPS/eip-721) while adding the requirement that every digital asset specify to which convention it conforms.
+This convention is minimal and adopts only the specification for digital assets from [ERC-721](https://eips.ethereum.org/EIPS/eip-721) while adding the requirement that every digital asset MUST specify to which convention it conforms.
 
 ## Specification
 
@@ -27,7 +27,7 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 
 Every digital asset in the 0xcert Protocol MUST follow this convention. Every other convention MUST extend this specification at a minimum.
 
-This specification is provided in a machine-readable format using the [JSON Schema](https://json-schema.org) format also using [JSON-LD](https://json-ld.org/) to connect the digital asset to an optional *evidence* file.
+This specification is provided in a machine-readable format using the [JSON Schema](https://json-schema.org) format and also uses [JSON-LD](https://json-ld.org/) to connect the digital asset to an optional *evidence* file.
 
 The naming of JSON properties SHOULD follow the [schema.org](http://schema.org/) specification when possible. This enables an easy way to convert a digital asset data object into [JSON-LD](https://json-ld.org/) format.
 
@@ -51,7 +51,7 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
       "type": "string"
     },
     "image": {
-      "description": "A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this digital assets represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.",
+      "description": "A public property that can be a valid URI pointing to a resource with mime type image/* representing the digital asset. Consider making any images at a width between 320 and 1080 pixels and an aspect ratio between 1.91:1 and 4:5 inclusive.",
       "type": "string"
     },
     "name": {
@@ -64,13 +64,13 @@ This schema extends [ERC721 Metadata JSON Schema](https://eips.ethereum.org/EIPS
 }
 ```
 
-A more human-friendly description of this above specification follows. This is provided to help the reader however only the above machine-readable description is authoritative.
+A more human-friendly description of the above specification follows. This is provided to help the reader. However, only the above machine-readable description is authoritative.
 
 * The data model is a JSON object.
 * The JSON object MUST include a `$schema` string property on the root of the object.
 * The JSON object MAY include an `$evidence` string property on the root of the object, and if so this will be interpreted as a URI pointing to an evidence file which certifies any imprints of this digital asset.
-* The JSON object MAY include `name`, `description` and `image` string property on the root of the object, which if present will be interpreted as specified in ERC721 Metadata JSON Schema.
-* For the optional string properties above, the JSON object MUST NOT include a property on the root of the object with a non-string type using any of those names.
+* The JSON object MAY include `name`, `description` and `image` string properties on the root of the object, which if present will be interpreted as specified in the ERC721 Metadata JSON Schema.
+* For the optional string properties above, the JSON object MUST NOT include a property on the root of the object with a non-string type that uses any of those names.
 
 ## Examples
 
@@ -79,7 +79,7 @@ A more human-friendly description of this above specification follows. This is p
   "$evidence": "https://troopersgame.com/dog/evidence.json",
   "$schema": "https://0xcert.org/conventions/86-base-asset-schema.json",
   "name": "Magic Sword",
-  "description": "A weapon for the Troopers game which can severely injure the enemy.",
+  "description": "A weapon for the Troopers game that can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"
 }
 ```

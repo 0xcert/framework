@@ -124,7 +124,7 @@ export class Merkle {
    * Returns partial recipe object that includes only data for exposed values
    * from which we can still recreate the imprint. This method expects a
    * complete recipe (returned by the notarize function) then deletes nodes and
-   * values that are not needed to recalculate the merkle root (imprint).
+   * values that are not needed to recalculate the Merkle root (imprint).
    * @param recipe A complete data recipe.
    * @param expose Value indexes to expose.
    */
@@ -151,7 +151,7 @@ export class Merkle {
   }
 
   /**
-   * Returns the root merkle tree hash built from the provided recipe object.
+   * Returns the root Merkle tree hash built from the provided recipe object.
    * @param recipe Recipe object with nodes and values.
    */
   public async imprint(recipe: MerkleRecipe) {
