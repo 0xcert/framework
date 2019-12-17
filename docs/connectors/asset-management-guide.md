@@ -2,7 +2,7 @@
 
 When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver license, credit cards, etc. While this items can all be classified as assets, when talking about an asset in the context of 0xcert framework **an asset must be unique**.
 
-So if take the items described above some of them no longer fall into the catagory of an asset. Namely banknotes and coins. Why is that? That is because if I exchange a 10$ bill with Saras 10$ bill we will both retain the same value. But if I exchange my ID card with Saras that ceases to be true.
+So if take the items described above some of them no longer fall into the catagory of an asset. Namely banknotes and coins. Why is that? That is because if I exchange a 10$ bill with Saras 10$ bill we will both retain the same value. But if I exchange my ID card with Saras that ceases to be true. If you would like to know how to work with this kind of items as banknotes and coins then check out the [Value management guide]().
 
 Another thing is to consider is that what we are discussing are pyshical items. While 0xcert framework operates with digital unique (non fungible) assets. Luckily most physical items can be simply represented in a digital shape using IDs and meta descriptions. 
 
