@@ -1,0 +1,136 @@
+# Atomic orders
+
+If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orderr are the way to go.
+
+Atomic order is a way of creating an [atomic swap](https://0xcert.org/news/dex-series-7-atomic-swaps/) within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all participants will receive their assets, or the mutation will fail and the operation will return to its starting point.
+
+Atomic orders can be performed between multiple parties and can contain multiple actions. 
+
+List of available actions:
+- Transfer asset
+- Transfer value
+- Create new asset
+- Update existing asset imprint
+- Destroy an asset
+- Update account abilities
+
+Because atomic orders can be between multiple parties there are 4 different ways of how to interact with them. In this guide we will go trough all of them and explain each and everyone. But here you can see a quick overview: 
+- `FixedActionsOrder` - All participants are known and set in the order. Only the last defined participant can peform the order, others have to provide signatures.
+- `SignedFixedActionsOrder` - All participants are known and set in the order. All participants have to provide signatures. Anyone can perform the order.
+- `DynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures any can peform the order and he automatically becomes the last participant.
+- `SignedDynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures as well as the last "any" participant. Anyone can perform the order.
+
+::: card More about atomic swaps
+For more information on the actual process of atomic operation, please check [this article](https://0xcert.org/news/dex-series-7-atomic-swaps/).
+:::
+
+## Gateway 
+
+All atomic orders in 0xcert framework are performed through `Gateway` package. `Gateway` package is as the name suggests the gateway to multiple smart contract that already live (and are maintained by 0xcert) on the blockchain that make atomic swaps with such broad functionalitites possible. There are multiple main smart contracts depending on what kind of atomic order we are performing as well as multiple proxies that take care of specific actions. [Here]() you can see all deployed smart contracts and their addresses. 
+
+Since `Gateway` is a single point of entry for all kinds of atomic orders each order is defined trough a `Order` interace and has a unique `OrderKind` to differentiate.
+
+To start the guide off we will create a `FixedActionsOrder` since it is the simplest.
+
+## Prequisites
+
+In this guide we will assume you have gone trough the [Asset Management]() guide and have an `AssetLedger` deployed as well an asset with id `100` created. You will also need three Metamask accounts(create them trough your metamask plugin) that all have some ETH available.
+
+## Installation
+
+We recommend you employ the package as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-gateway
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/core.html) section to learn more about gateway.
+
+## Initialization
+
+As usual, we first import a module into the application. This time, we import the `Gateway` class which represents a wrapper around a specific pre-deployed structure on the Ethereum network.
+
+```ts
+import { Gateway } from '@0xcert/ethereum-gateway';
+```
+
+Then, we create a new instance of the `Gateway` class with an ID that points to a pre-deployed gateway on the Ethereum Ropsten network (this option can also be configured in the provider).
+
+```ts
+const gateway = Gateway.getInstance(provider, getGatewayConfig(NetworkKind.ROPSTEN));
+```
+
+`getGatewayConfig` wil always return the latest contract versions for specific package version. If you want to configure gateway config on your own using our already deployed addresses from [here]().
+
+## Fixed actions order
+
+::: card Live example
+Click [here](https://codesandbox.io/s/github/0xcert/example-fixed-actions-order?module=%2FREADME.md) to check the live example for fixed actions order.
+:::
+
+We will have two participants, one will be the account we used for creating the `AssetLedger` the other will be a second account from the metamask. For simplicity lets name them account1 and account2.
+
+We will create a fixed actions order with two actions. First action will be transfer of our already created asset with ID `100` from account1 to account2. Another is that we will create a new asset with ID `101` to account2.
+
+First we start with defining the order.
+
+```ts
+const order = {
+  kind: OrderKind.FIXED_ACTIONS_ORDER, // defining order kind
+  signers: ['0x...', '0x...'], // account1, account2
+  seed: Date.now(), // unique order identification
+  expiration: Date.now() + 86400000, // 1 day
+  actions: [ // actions we want to perform in this order
+    {
+      kind: ActionsOrderActionKind.TRANSFER_ASSET, // transfer asset action
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      receiverId: '0x..', // account2
+      assetId: '100', // asset id
+    },
+    {
+      kind: ActionsOrderActionKind.CREATE_ASSET,
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      receiverId: '0x..', // account2
+      assetId: '101', // asset id
+      assetImprint: 'c6c14772f269bed1161d4350403f4c867c749b3cce7abe84c6d0605068cd8a87', // asset imprint
+    }
+  ]
+} as FixedActionsOrder
+```
+
+In the order we are creating a new asset and transfering an existing one. But this actions first require our approval. So we will first give approval for asset transfer. For this we will make an instance of `AssetLedger` like we learned in [Asset Management guide]() and set gateway proxy as an operator.
+
+```ts
+const transferProxy = await gateway.getProxyAccountId(ProxyKind.TRANSFER_ASSET);
+const mutation = await assetLedger.approveOperator(transferProxy);
+await mutation.complete();
+```
+
+Then give create proxy the permission to create a new asset in our name.
+
+```ts
+const createProxy = await gateway.getProxyAccountId(ProxyKind.CREATE_ASSET);
+const mutation = await assetLedger.grantAbilities(createProxy, [GeneralAssetLedgerAbility.CREATE_ASSET]);
+await mutation.complete();
+```
+
+We only need to grant permissions and set operator the first time (per ledger).
+
+Now since there are two participants (`signers`) this means that the first one has to sign the order while the second one can perform it.
+Meaning you have to have account1 selected in the metamask when signing.
+
+```ts
+const signature = await gateway.sign(order); 
+```
+
+The first participant can now send his signature and order definition to second participant through arbitrary channels.
+When the second participant (account2) receives this data he can perform it.
+
+```ts
+const mutation = await gateway.perform(order, [signature]);
+await mutation.complete();
+```
+
+If we did everything correct the atomic swap will peform succesfully otherwise an error will be thrown telling us what went wrong.
