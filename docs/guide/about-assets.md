@@ -14,15 +14,15 @@ Let's start with an example. Your driver license is an asset. You own it. Genera
 
 A distributed ledger can be thought of as a folder, containing different assets of a specific issuer and related owners. Only the users authorized by the ledger owner are allowed to manage the ledger. Depending on its configuration, authorized persons can handle the ledger and thus create and manage its assets.
 
-An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to the [RFC-7159](https://tools.ietf.org/html/rfc7159) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. This schema shows data conventions and the structure of asset database.
+An asset is defined in the form of a specifically designed [JSON](https://en.wikipedia.org/wiki/JSON) object, which conforms to [RFC-7159](https://tools.ietf.org/html/rfc7159) and follows the mapping format defined by the [JSON Schema](http://json-schema.org/) specification. This schema shows data conventions and the structure of an asset database.
 
-Therefore, within the 0xcert Framework, every asset is structured based on a particular schema. Some part of the data can be public, others can stay private. Asset data objects are stored in a centralized or decentralized database. The issuer is the one who created the asset; and the data can be known by both the issuer and the current owner of the asset.
+Therefore, within the 0xcert Framework, every asset is structured based on a particular schema. Some part of the data can be public, others can stay private. Asset data objects are stored in a centralized or decentralized database. The issuer is the one who created the asset, and the data can be known by both the issuer and the current owner of the asset.
 
 Every asset is stored in the platform as an ERC-721 non-fungible token. The 0xcert Framework has additional functions to manage the ledger and its assets, which are not included in the ERC-721 Standard.
 
-Every asset is identified by a unique ID that describes an asset within a ledger. Every asset also has its own cryptographical proof. This proof is called an `imprint` and is created from the original asset data object. The imprint, along with its asset ID, are stored within a non-fungible token. The issuer and the owner can reveal certain data from the block to third parties. Thus, a non-fungible token can serve as a publicly available proof, which allows third-party data verification. This concept is further explained in the [Certification](/guide/certification.html) section.
+Every asset is identified by a unique ID that describes an asset within a ledger. Every asset also has its own cryptographical proof. This proof is called an `imprint` and is created from the original asset data object. The imprint, along with its asset ID, is stored within a non-fungible token. The issuer and the owner can reveal certain data from the block to third parties. Thus, a non-fungible token can serve as a publicly available proof, which allows third-party data verification. This concept is further explained in the [Certification](/guide/certification.html) section.
 
-Apart from the imprint, every asset also includes a URI, pointing to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset. This information is intended for public listing on different online services.
+Apart from the imprint, every asset also includes a URI, pointing to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset. This information is intended for a public listing on different online services.
 
 ---
 

@@ -19,7 +19,7 @@ Help us find any problems with the [0xcert Framework](https://docs.0xcert.org). 
 - Issues that have already been published here or are already disclosed to the 0xcert team are not eligible for rewards (a corollary, the 0xcert team members are ineligible for rewards).
 - Social engineering, XKCD#538 attacks, bringing down Mainnet/Infura, and other issues that are beyond the realm of the Framework are not in scope and will NOT be paid a reward.
 - Source code of all the packages, readme files, and documentation of the Framework are in scope.
-- Only the latest released version of each package in this Framework are in scope.
+- Only the latest released version of each package in this Framework is in scope.
 - [GitHub Issues](https://github.com/0xcert/framework/issues) is the only way to report issues and request rewards.
 - The 0xcert team has complete and final judgment on the acceptability of bug reports.
 - This program is governed under the laws of the Republic of Slovenia, if there is a party that we are unable to pay due to trade embargoes or other restrictions, then we won't pay. But we are happy to cooperate by making alternate arrangements.
@@ -58,7 +58,7 @@ Examples of likelihood:
 
 How to win:
 
-- Be descriptive and detailed when describing your issue,
+- Be descriptive and detailed when reporting your issue,
 - Fix it — recommend a way to solve the problem,
 - Include a [Specron test](https://specron.github.io/framework/) case that we can reproduce.
 
@@ -76,6 +76,6 @@ Rules for bounty sponsor:
   * Yes, we will update the code and redeploy the contract. So, click [:star: STAR and :eye: WATCH](https://github.com/0xcert/framework/) above on this repo for updates.
 
 - Taxes?
-  - If you earn so much money that you will need to fill out a tax form, then we will ask you to fill out a tax form. This whole program is subject to the laws of the Republic of Slovenia.
+  - If you earn so much money that you will need to fill out a tax form, then we will ask you to do so. This program is subject to the laws of the Republic of Slovenia.
 
 Released under the [MIT License](LICENSE).

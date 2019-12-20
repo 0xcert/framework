@@ -15,14 +15,14 @@ A convention describing crypto collectible asset.
 
 ## About
 
-This convention represents a digital asset that represents a crypto-collectible. Crypto-collectibles are a type of digital assets that have a unique combination of different properties. This makes them indivisible or non-fungible and thus extremely applicable for managing a range of digital (or real-world) valuables - from art to video game content. The most famous example of crypto-collectibles are CryptoKitties, virtual pets with unique attributes - they are all digital kitties, but each kitty is one-of-a-kind and not interchangeable. The present convention represents a basic crypto-collectible which adheres to the ERC-721 standard for non-fungible tokens.
+This convention constitutes a digital asset that represents a crypto-collectible. Crypto-collectibles are a type of digital asset that have a unique combination of different properties. This makes them indivisible or non-fungible and thus extremely applicable for managing a range of digital (or real-world) valuables - from art to video game content. The most famous example of crypto-collectibles are CryptoKitties, virtual pets with unique attributes - they are all digital kitties, but each kitty is one-of-a-kind and not interchangeable. The present convention represents a basic crypto-collectible which adheres to the ERC-721 standard for non-fungible tokens.
 
 ## Specification
 
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "description": "A digital assets that have a unique combination of different properties.",
+  "description": "A digital asset that has a unique combination of different properties.",
   "properties": {
     "$evidence": {
       "description": "A URI pointing to the evidence JSON with data needed to certify this asset.",
@@ -37,11 +37,11 @@ This convention represents a digital asset that represents a crypto-collectible.
       "type": "string"
     },
     "image": {
-      "description": "A public property that can be a valid URI pointing to a resource with mime type image/* representing the asset to which this digital assets represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.",
+      "description": "A public property that can be a valid URI pointing to a resource with mime type image/* representing this digital asset. Consider making any image at a width between 320 and 1080 pixels and an aspect ratio between 1.91:1 and 4:5 inclusive.",
       "type": "string"
     },
     "name": {
-      "description": "A property that holds a name of an asset.",
+      "description": "A property that holds the name of an asset.",
       "type": "string"
     }
   },
@@ -58,7 +58,7 @@ This convention represents a digital asset that represents a crypto-collectible.
   "$evidence": "https://troopersgame.com/dog/evidence.json",
   "$schema": "https://0xcert.org/conventions/88-crypto-collectible-schema.json",
   "name": "Magic Sword",
-  "description": "A weapon for the Troopers game which can severely injure the enemy.",
+  "description": "A weapon for the Troopers game that can severely injure the enemy.",
   "image": "https://troopersgame.com/dog.jpg"
 }
 ```
