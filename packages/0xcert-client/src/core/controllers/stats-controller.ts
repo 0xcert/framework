@@ -1,7 +1,7 @@
-import clientFetch from '../helpers/client-fetch';
-import { Client } from '../client';
 import { URLSearchParams } from 'url';
-import { GetStatsTrafficOptions, GetStatsCostsOptions } from '../types';
+import { Client } from '../client';
+import clientFetch from '../helpers/client-fetch';
+import { GetStatsCostsOptions, GetStatsTrafficOptions } from '../types';
 
 /**
  * Stats controller class with stats related actions.
@@ -17,7 +17,7 @@ export class StatsController {
    * Stats controller class constructor.
    * @param context Provider instance.
    */
-  constructor(context: Client) {
+  public constructor(context: Client) {
     this.context = context;
   }
 
@@ -39,7 +39,7 @@ export class StatsController {
 
     return clientFetch(`${this.context.apiUrl}/stats/traffic?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -63,7 +63,7 @@ export class StatsController {
 
     return clientFetch(`${this.context.apiUrl}/stats/costs?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },

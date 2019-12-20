@@ -1,13 +1,16 @@
-import clientFetch from './helpers/client-fetch';
 import { GenericProvider, SignMethod } from '@0xcert/ethereum-generic-provider';
-import { ClientOptions, Priority, AssetLedgerDeploymentData, ActionsOrder, WebhookEventKind, Payment, DefaultListingOptions, GetRequestsOptions, GetOrdersOptions, GetDeploymentsOptions, GetLedgersOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetStatsTrafficOptions } from './types';
+import { sha } from '@0xcert/utils';
 import { AccountsController } from './controllers/accounts-controller';
 import { DeploymentsController } from './controllers/deployments-controller';
-import { OrdersController } from './controllers/orders-controller';
 import { LedgersController } from './controllers/ledgers-controller';
-import { StatsController } from './controllers/stats-controller';
+import { OrdersController } from './controllers/orders-controller';
 import { RequestsController } from './controllers/requests-controller';
-import { sha } from '@0xcert/utils';
+import { StatsController } from './controllers/stats-controller';
+import clientFetch from './helpers/client-fetch';
+import { ActionsOrder, AssetLedgerDeploymentData, ClientOptions, DefaultListingOptions,
+  GetDeploymentsOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions,
+  GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions, GetRequestsOptions,
+  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind } from './types';
 
 /**
  * Client class.
@@ -15,7 +18,7 @@ import { sha } from '@0xcert/utils';
 export class Client {
 
   /**
-   * Instance of 0xcert framework provider that will be used for message signing. 
+   * Instance of 0xcert framework provider that will be used for message signing.
    */
   public provider: GenericProvider;
 
@@ -88,7 +91,7 @@ export class Client {
    * @param options.provider Provider for connection to the blockchain.
    * @param options.apiUrl Url of API. Defaults to https://api.0xcert.org.
    */
-  constructor(options: ClientOptions) {
+  public constructor(options: ClientOptions) {
     this.provider = options.provider;
     this.apiUrl = typeof options.apiUrl !== 'undefined' ? options.apiUrl : 'https://api.0xcert.org';
   }
@@ -105,12 +108,12 @@ export class Client {
     const signature = await this.provider.sign(`0x${msg}`);
     const signatureType = this.provider.signMethod;
     this.authentication = `${signatureType}:${signature}`;
-    
+
     let data = null;
     try {
       const accountData = await clientFetch(`${this.apiUrl}/account`, {
         method: 'GET',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': this.authentication,
         },
@@ -120,9 +123,8 @@ export class Client {
       throw new Error('There was an error while initializing client.');
     }
 
-
     if (!(data && data.id && data.payment)) {
-      throw new Error('There was an error while initializing client.')
+      throw new Error('There was an error while initializing client.');
     }
 
     this.payment.tokenAddress = data.payment.tokenAddress;
@@ -200,7 +202,7 @@ export class Client {
     return this.deploymentsController.createDeployment(deployData, priority);
   }
 
-    /**
+  /**
    * Returns currently authenticated account's orders.
    * @param options Query listing options.
    */
@@ -316,7 +318,6 @@ export class Client {
   public async getCostsStats(options: GetStatsTrafficOptions = {}) {
     return this.statsController.getCostStats(options);
   }
-
 
   /**
    * Returns currently authenticated account's list of requests.

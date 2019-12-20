@@ -1,7 +1,7 @@
-import clientFetch from '../helpers/client-fetch';
-import { Client } from '../client';
-import { GetLedgersOptions, GetLedgersAccountsOptions, GetLedgersAbilitiesOptions, GetLedgersAssetsOptions } from '../types';
 import { URLSearchParams } from 'url';
+import { Client } from '../client';
+import clientFetch from '../helpers/client-fetch';
+import { GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions } from '../types';
 
 /**
  * Ledgers controller class with ledgers related actions.
@@ -17,7 +17,7 @@ export class LedgersController {
    * Ledgers controller class constructor.
    * @param context Provider instance.
    */
-  constructor(context: Client) {
+  public constructor(context: Client) {
     this.context = context;
   }
 
@@ -32,7 +32,7 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -54,13 +54,12 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
     });
   }
-
 
   /**
    * Returns specific ledger's account.
@@ -79,7 +78,7 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/accounts?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -103,7 +102,7 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/abilities?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -129,7 +128,7 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/assets?${params.toString()}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -147,7 +146,7 @@ export class LedgersController {
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/assets/${assetId}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },

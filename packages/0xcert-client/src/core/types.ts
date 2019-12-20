@@ -1,4 +1,4 @@
-import { GenericProvider } from "@0xcert/ethereum-generic-provider";
+import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 
 /**
  * List of available order request priorities.
@@ -65,16 +65,16 @@ export interface AssetLedgerDeploymentData {
  * Signer definition.
  */
 export interface Signer {
-  
+
   /**
    * Signer's account ID (address).
    */
-  accountId: string,
+  accountId: string;
 
   /**
    * Signer's claim.
    */
-  claim?: string,
+  claim?: string;
 }
 
 /**
@@ -85,17 +85,17 @@ export interface ActionsOrder {
   /**
    * List of order's actions.
    */
-  actions: Action[],
+  actions: Action[];
 
   /**
    * List of order's signers IDs (addresses).
    */
-  signersIds: string[],
+  signersIds: string[];
 
   /**
    * Order's payer ID (address).
    */
-  payerId: string,
+  payerId: string;
 
   /**
    * Wildcard signer tag.
@@ -131,22 +131,22 @@ export interface ActionDestroyAsset {
   /**
    * Type od order action.
    */
-  kind: ActionKind.DESTROY_ASSET,
+  kind: ActionKind.DESTROY_ASSET;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
    */
-  assetLedgerId: string,
+  assetLedgerId: string;
 
   /**
    * Address of the sender.
    */
-  senderId: string,
+  senderId: string;
 
   /**
    * Asset id.
    */
-  id: string
+  id: string;
 
 }
 
@@ -157,27 +157,27 @@ export interface ActionSetAbilities {
   /**
    * Type od order action.
    */
-  kind: ActionKind.SET_ABILITIES,
+  kind: ActionKind.SET_ABILITIES;
 
   /**
    * Id (address) of the smart contract that represents the assetLedger.
    */
-  assetLedgerId: string,
+  assetLedgerId: string;
 
   /**
    * Address of the sender.
    */
-  senderId?: string,
+  senderId?: string;
 
   /**
    * Id (address) of account we are setting abilities to.
    */
-  receiverId?: string,
+  receiverId?: string;
 
   /**
    * Abilities we want to set.
    */
-  abilities: AssetLedgerAbility[]
+  abilities: AssetLedgerAbility[];
 }
 
 /**
@@ -187,27 +187,27 @@ export interface ActionTransferValue {
   /**
    * Action kind.
    */
-  kind: ActionKind.TRANSFER_VALUE,
+  kind: ActionKind.TRANSFER_VALUE;
 
   /**
    * Address of erc20 compliant smart contract.
    */
-  valueLedgerId: string,
+  valueLedgerId: string;
 
   /**
    * Address of the sender.
    */
-  senderId?: string,
+  senderId?: string;
 
   /**
    * Address of the receiver.
    */
-  receiverId?: string,
+  receiverId?: string;
 
   /**
    * Amount of value to transfer.
    */
-  value: number
+  value: number;
 }
 
 /**
@@ -217,27 +217,27 @@ export interface ActionTransferAsset {
   /**
    * Action kind.
    */
-  kind: ActionKind.TRANSFER_ASSET,
+  kind: ActionKind.TRANSFER_ASSET;
 
   /**
    * Address of erc721 compliant smart contract.
    */
-  assetLedgerId: string,
+  assetLedgerId: string;
 
   /**
    * Address of the sender.
    */
-  senderId?: string,
+  senderId?: string;
 
   /**
    * Address of the receiver.
    */
-  receiverId?: string,
+  receiverId?: string;
 
   /**
    * Asset id.
    */
-  id: string
+  id: string;
 }
 
 /**
@@ -248,32 +248,32 @@ export interface ActionCreateAsset {
   /**
    * Order kind.
    */
-  kind: ActionKind.CREATE_ASSET,
+  kind: ActionKind.CREATE_ASSET;
 
   /**
    * Address of erc721 compliant smart contract.
    */
-  assetLedgerId: string,
+  assetLedgerId: string;
 
   /**
    * Address of the sender.
    */
-  senderId?: string,
+  senderId?: string;
 
   /**
    * Address of the receiver.
    */
-  receiverId?: string,
+  receiverId?: string;
 
   /**
    * Asset's imprint.
    */
-  imprint?: string,
+  imprint?: string;
 
   /**
    * Asset id.
    */
-  id: string
+  id: string;
 }
 
 /**
@@ -282,16 +282,15 @@ export interface ActionCreateAsset {
 export interface ClientOptions {
 
   /**
-   * Instance of 0xcert framework provider that will be used for message signing. 
+   * Instance of 0xcert framework provider that will be used for message signing.
    */
-  provider: GenericProvider,
+  provider: GenericProvider;
 
   /**
    * Url to 0xcert api. Defaults to https://api.0xcert.org.
    */
-  apiUrl?: string,
+  apiUrl?: string;
 }
-
 
 export type AssetLedgerAbility = SuperAssetLedgerAbility | GeneralAssetLedgerAbility;
 
@@ -385,7 +384,6 @@ export interface GetLedgersAssetsOptions extends DefaultListingOptions {
   sort?: AssetSort;
 }
 
-
 /**
  * Requests listing options.
  */
@@ -417,37 +415,37 @@ export interface GetStatsTrafficOptions extends DefaultListingOptions {
  */
 export interface Payment {
   /**
-   * Cost of minting an asset. 
+   * Cost of minting an asset.
    */
   assetCreateCost: number;
 
   /**
-   * Cost of transferring an asset. 
+   * Cost of transferring an asset.
    */
   assetTransferCost: number;
 
   /**
-   * Cost of transferring value. 
+   * Cost of transferring value.
    */
   valueTransferCost: number;
 
   /**
-   * Cost of deployment value. 
+   * Cost of deployment value.
    */
   assetDeployCost: number;
 
   /**
-   * Cost of setting abilities. 
+   * Cost of setting abilities.
    */
   setAbilitiesCost: number;
 
   /**
-   * Cost of revoking asset. 
+   * Cost of revoking asset.
    */
   assetRevokeCost: number;
 
   /**
-   * Cost of updating asset. 
+   * Cost of updating asset.
    */
   assetUpdateCost: number;
 
@@ -496,4 +494,3 @@ export enum RequestStatus {
   CANCELED = 6,
   FINALIZED = 7,
 }
-

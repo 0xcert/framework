@@ -86,7 +86,6 @@
       "property-declaration"
     ],
     "no-inferrable-types": true,
-    "no-object-literal-type-assertion": true,
     "no-angle-bracket-type-assertion": true,
     "callable-types": true,
     "no-non-null-assertion": true,

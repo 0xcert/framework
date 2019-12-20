@@ -1,4 +1,4 @@
-import { ClientFetchError } from "./client-fetch-error";
+import { ClientFetchError } from './client-fetch-error';
 
 /**
  * Universal fetch method reads remote or local file.

@@ -1,6 +1,6 @@
+import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
 import { WebhookEventKind } from '../types';
-import { Client } from '../client';
 
 /**
  * Accounts controller class with accounts related actions.
@@ -16,7 +16,7 @@ export class AccountsController {
    * Accounts controller class constructor.
    * @param context Provider instance.
    */
-  constructor(context: Client) {
+  public constructor(context: Client) {
     this.context = context;
   }
 
@@ -30,7 +30,7 @@ export class AccountsController {
 
     return clientFetch(`${this.context.apiUrl}/account`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -47,7 +47,7 @@ export class AccountsController {
 
     return clientFetch(`${this.context.apiUrl}/account/abilities`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -64,7 +64,7 @@ export class AccountsController {
 
     return clientFetch(`${this.context.apiUrl}/account/webhook`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -85,7 +85,7 @@ export class AccountsController {
         url,
         events,
       }),
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },

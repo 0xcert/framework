@@ -1,15 +1,16 @@
+import { ActionsOrder as FrameworkActionsOrder, ActionsOrderAction as FrameworkActionsOrderAction, ActionsOrderActionKind,
+  Gateway, OrderKind } from '@0xcert/ethereum-gateway';
 import BigNumber from 'bignumber.js';
-import clientFetch from '../helpers/client-fetch';
-import { Priority, ActionsOrder, ActionKind, Signer, GetOrdersOptions } from '../types';
-import { Gateway, ActionsOrder as FrameworkActionsOrder, ActionsOrderAction as FrameworkActionsOrderAction, ActionsOrderActionKind, OrderKind } from '@0xcert/ethereum-gateway';
-import { Client } from '../client';
 import { URLSearchParams } from 'url';
+import { Client } from '../client';
+import clientFetch from '../helpers/client-fetch';
+import { ActionKind, ActionsOrder, GetOrdersOptions, Priority, Signer } from '../types';
 
 /**
  * Orders controller class with orders related actions.
  */
 export class OrdersController {
-  
+
   /**
    * Client's context.
    */
@@ -19,7 +20,7 @@ export class OrdersController {
    * Orders controller class constructor.
    * @param context Provider instance.
    */
-  constructor(context: Client) {
+  public constructor(context: Client) {
     this.context = context;
   }
 
@@ -43,7 +44,7 @@ export class OrdersController {
     return clientFetch(`${this.context.apiUrl}/orders?${params.toString()}`, {
       method: 'GET',
       query: {},
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -62,7 +63,7 @@ export class OrdersController {
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {
       method: 'GET',
       query: {},
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -94,12 +95,11 @@ export class OrdersController {
     }
 
     const multiplier = new BigNumber(1000000000000000000);
-    const orderActions : FrameworkActionsOrderAction[] = [];
+    const orderActions: FrameworkActionsOrderAction[] = [];
     const date = Date.now();
     let paymentAmount = 0;
 
-    for (let i = 0; i < order.actions.length; i++) {
-      const action = order.actions[i];
+    for (const action of order.actions) {
       switch (action.kind) {
         case (ActionKind.CREATE_ASSET): {
           orderActions.push({
@@ -108,7 +108,7 @@ export class OrdersController {
             receiverId: action.receiverId,
             assetId: action.id,
             assetImprint: action.imprint,
-            ledgerId: action.assetLedgerId
+            ledgerId: action.assetLedgerId,
           } as FrameworkActionsOrderAction);
           paymentAmount += this.context.payment.assetCreateCost;
           break;
@@ -175,7 +175,7 @@ export class OrdersController {
     } as FrameworkActionsOrderAction);
 
     // Parse signers into valid API structure.
-    const signers: Signer[] = order.signersIds.map((s) => { return { accountId: s, claim: ''} });
+    const signers: Signer[] = order.signersIds.map((s) => { return { accountId: s, claim: '' }; });
 
     // Check if account is specified as signer and generate its claim.
     const accountSignerIndex = signers.findIndex((s) => s.accountId.toLowerCase() === this.context.provider.accountId.toLowerCase());
@@ -197,14 +197,14 @@ export class OrdersController {
         priority,
         order: {
           seed: date,
-          signers: signers,
+          signers,
           expiration,
           actions: orderActions,
         },
         automatedPerform: order.automatedPerform,
         wildcardSigner: order.wildcardSigner,
       }),
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -219,12 +219,12 @@ export class OrdersController {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
-    
+
     let order = null;
     try {
       const orderData = await clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {
         method: 'GET',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': this.context.authentication,
         },
@@ -234,7 +234,7 @@ export class OrdersController {
       throw new Error('There was a problem while fetching order data.');
     }
 
-    if(!order) {
+    if (!order) {
       throw new Error('Order doesn\'t. exists');
     }
 
@@ -254,7 +254,7 @@ export class OrdersController {
       body: JSON.stringify({
         claim,
       }),
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -269,10 +269,10 @@ export class OrdersController {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
-    
+
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}/perform`, {
       method: 'PUT',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },
@@ -287,10 +287,10 @@ export class OrdersController {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
-    
+
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {
       method: 'DELETE',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
       },

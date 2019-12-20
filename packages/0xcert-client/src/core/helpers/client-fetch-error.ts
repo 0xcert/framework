@@ -3,7 +3,7 @@
  */
 export class ClientFetchError extends Error {
   public result: any;
-  public status: number
+  public status: number;
 
   /**
    * Class constructor.
