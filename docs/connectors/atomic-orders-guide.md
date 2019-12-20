@@ -198,3 +198,57 @@ Now anyone that posses both signatures can execute this order:
 const mutation = await gateway.perform(order, [signatureFromAccount1, signatureFromAccount2]);
 await mutation.complete();
 ```
+
+## Dynamic actions order
+
+::: card Live example
+Click [here](https://codesandbox.io/s/github/0xcert/example-dynamic-actions-order?module=%2FREADME.md) to check the live example for dynamic actions order.
+:::
+
+The difference between fixes and dynamic actions order is in knowing the participants beforehand. In the fixed order we had to specify both participants when defining an order as well as the senderId and receiverId in both actions. But dynamic orders allows us for a undefined participant. Meaning that anyone can become that last participant and automatically becomes either the `senderId` or `receiverId` in actions if they are `undefined`. This allows us to make marketplace like order where you for example can say that you are selling an asset to anyone who is willing to pay some value for it.
+
+For this guide however we will be using the same scenario as in previous guides.
+
+::: tip
+If you already transfered and creates an asset in the previous section on this specific `AssetLedger` then you will not be able to do the same again since account1 is no longer the owner of asset `100` and asset `101` is already created. You can either deploy a new `AssetLedger` and recreate the same starting conditions or send asset `100` back to account 1 and instead of creating asset `101` create an asset `102`.
+:::
+
+Now to define the order. Unlike fixed order we will only define only one signer and will not define a `receiverId` in actions.
+
+```ts
+const order = {
+  kind: OrderKind.DYNAMIC_ACTIONS_ORDER, // defining order kind
+  signers: ['0x...'], // account1
+  seed: Date.now(), // unique order identification
+  expiration: Date.now() + 86400000, // 1 day
+  actions: [ // actions we want to perform in this order
+    {
+      kind: ActionsOrderActionKind.TRANSFER_ASSET, // transfer asset action
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      assetId: '100', // asset id
+    },
+    {
+      kind: ActionsOrderActionKind.CREATE_ASSET,
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      assetId: '101', // asset id
+      assetImprint: 'c6c14772f269bed1161d4350403f4c867c749b3cce7abe84c6d0605068cd8a87', // asset imprint
+    }
+  ]
+} as DynamicActionsOrder
+```
+
+We still need to grant permission the same way as in previous guides and the specified signer needs to sign the order.
+
+```ts
+const signature = await gateway.sign(order); 
+```
+
+Now anyone that has the order definition and order signature from the account 1 can perform the order and will automatically become the last participant and receiver of both assets.
+
+```ts
+const mutation = await gateway.perform(order, [signature]);
+await mutation.complete();
+```
+
