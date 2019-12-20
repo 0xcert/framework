@@ -209,7 +209,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `id` is unsafe recipient.
+A `boolean` which tells if the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -609,7 +609,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `id` is unsafe recipient.
+A `boolean` which tells if the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -819,7 +819,7 @@ A MetaMask provider is applied for in-browser use. The user should have the [Met
 
 ### MetamaskProvider(options)
 
-A `class` providing the communication with the Ethereum blockchain through [MetaMask](https://metamask.io/).
+A `class` providing communication with the Ethereum blockchain through [MetaMask](https://metamask.io/).
 
 **Arguments**
 
@@ -853,7 +853,7 @@ const provider = new MetamaskProvider();
 
 ### accountId
 
-A class instance `variable` holding a `string` which represents user's current Ethereum wallet address.
+A class instance `variable` holding a `string` which represents the user's current Ethereum wallet address.
 
 ### assetLedgerSource
 
@@ -986,11 +986,11 @@ const matches = provider.isCurrentAccount(walletId);
 
 ### isEnabled()
 
-A `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
+An `asynchronous` class instance `function` which returns `true` when the provider is authorized by the website.
 
 **Result:**
 
-A `boolean` which tells if provider is enabled.
+A `boolean` that tells if the provider is enabled.
 
 **Example:**
 
@@ -1034,7 +1034,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `id` is unsafe recipient.
+A `boolean` which tells if the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -1299,11 +1299,11 @@ const provider = HttpProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g. `1` for Ethereum Mainnet).
 
 **Result:**
 
-A `string` representing Ethereum network version.
+A `string` representing the Ethereum network version.
 
 **Example:**
 
@@ -1363,7 +1363,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `id` is unsafe recipient.
+A `boolean` which tells if the `id` is an unsafe recipient.
 
 **Example:**
 
