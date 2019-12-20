@@ -125,7 +125,7 @@ const version = await provider.getNetworkVersion();
 
 ### isCurrentAccount(accountId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `accountId` maches the currently set account ID.
+A `synchronous` class instance `function` which returns `true` when the provided `accountId` matches the currently set account ID.
 
 **Arguments:**
 
@@ -135,7 +135,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` maches the currently set account ID.
+A `boolean` which tells if the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -144,7 +144,7 @@ A `boolean` which tells if the `accountId` maches the currently set account ID.
 const walletId = '0x...';
 
 // perform query
-const maches = provider.isCurrentAccount(walletId);
+const matches = provider.isCurrentAccount(walletId);
 ```
 
 ### isSupported()
@@ -174,7 +174,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `id` is unsafe recipient.
+A `boolean` which tells if the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -346,7 +346,7 @@ We can listen to different provider events. Note that not all the providers are 
 | Name | Value | Description
 |-|-|-
 | ACCOUNT_CHANGE | accountChange | Triggered when an `accountId` is changed.
-| NETWORK_CHANGE | networkChange | Triggered when network version is changed.
+| NETWORK_CHANGE | networkChange | Triggered when the network version is changed.
 
 **Example:**
 
@@ -365,7 +365,7 @@ The 0xcert Framework performs mutations for any request that changes the state o
 
 ### Mutation(provider, mutationId, context?)
 
-A `class` which handles transaction-related operations on the Wanchain blockchain.
+A `class` that handles transaction-related operations on the Wanchain blockchain.
 
 **Arguments**
 
@@ -396,7 +396,7 @@ An `asynchronous` class instance `function` which attempts to cancel a mutation.
 An `asynchronous` class instance `function` which waits until a mutation reaches a specified number of confirmations.
 
 ::: tip
-Number of required confirmations is configurable through the provider instance.
+The number of required confirmations is configurable through the provider instance.
 :::
 
 **Result:**
@@ -416,7 +416,7 @@ await mutation.complete();
 
 ### confirmations
 
-A class instance `variable` holding an `integer` number of confirmations reached. Default is `0`.
+A class instance `variable` holding an `integer` number of confirmations reached. The Default is `0`.
 
 ### emit(event, options);
 
@@ -508,7 +508,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [mutation event](#mutation-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise, the current `Mutation` instance is received.
 
 **Result:**
 
@@ -537,7 +537,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [mutation event](#mutation-events) name.
-| handler | A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+| handler | A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise, the current `Mutation` instance is received.
 
 **Result:**
 
@@ -606,7 +606,7 @@ A class instance `variable` holding a `string` which represents a Wanchain accou
 
 ## Mutation events
 
-We can listen to different mutation events which are emitted by the mutation in the process of completion.
+We can listen to different mutation events that are emitted by the mutation in the process of completion.
 
 **Options:**
 
@@ -873,7 +873,7 @@ const mutation = await ledger.disapproveAccount(assetId);
 
 ### disapproveOperator(accountId)
 
-An `asynchronous` class instance `function` which removes the third-party `accountId` the ability of managing assets of the account that performed this mutation.
+An `asynchronous` class instance `function` which removes the third-party `accountId` and the ability to manage assets of the account that performed this mutation.
 
 **Arguments:**
 
@@ -953,7 +953,7 @@ An `asynchronous` class instance `function` which returns `accountId` abilities.
 
 | Argument | Description
 |-|-
-| accountId | [required] A `string` representing the Ethereum account address for which we want to get abilities.
+| accountId | [required] A `string` representing the Wanchain account address for which we want to get abilities.
 
 **Result:**
 
@@ -1364,7 +1364,7 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 ### revokeAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account and all queries about it will be invalid. The function is ment to be used by ledger owners to destroy assets of other accounts. This function is similar to `destroyAsset` but it differs in who can trigger it.
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account and all queries about it will be invalid. The function is meant to be used by ledger owners to destroy assets of other accounts. This function is similar to `destroyAsset` but it differs in who can trigger it.
 
 ::: warning
 The `REVOKE_ASSET` ledger capability is needed to perform this function.
@@ -1513,7 +1513,7 @@ const mutation = await ledger.updateAsset(assetId, recipe);
 
 ### transferAsset(recipe)
 
-An `asynchronous` class instance `function` which transfers asset to another account.
+An `asynchronous` class instance `function` which transfers the asset to another account.
 
 **Arguments:**
 
@@ -1543,7 +1543,7 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
+Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields and enums are values of 2**n.
 We have two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities whereas super abilities can.
 This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control.
 
@@ -1876,7 +1876,7 @@ An `asynchronous` class instance `function` which transfers asset to another acc
 | Argument | Description
 |-|-
 | recipe.receiverId | [required] A `string` representing account ID that will receive the value.
-| recipe.senderId | A `string` representing account ID that will send the value. It defaults to provider's accountId.
+| recipe.senderId | A `string` representing account ID that will send the value. It defaults to the provider's accountId.
 | recipe.value | [required] A big number `string` representing the transferred amount.
 
 **Result:**
@@ -1944,15 +1944,15 @@ When using dynamic order, you cannot send any of the assets to the zero address 
 
 ### Gateway(provider, gatewayConfig?)
 
-A `class` representing a smart contract on the Ethereum blockchain.
+A `class` representing a smart contract on the Wanchain blockchain.
 
 **Arguments**
 
 | Argument | Description
 |-|-
-| gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
-| gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
-| gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
+| gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Wanchain address of the [asset ledger deploy gateway](/#public-addresses).
+| gatewayConfig.actionsOrderId | A `string` representing an Wanchain address of the [actions gateway](/#public-addresses).
+| gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Wanchain address of the [value ledger deploy gateway](/#public-addresses).
 | provider | [required] An instance of provider.
 
 **Usage**
@@ -2187,7 +2187,7 @@ const signature = await gateway.sign(order);
 
 ## Order kinds
 
-Order defines what an atomic swap will do. There are three different order kinds with different use cases and definitions.
+Orders define what an atomic swap will do. There are three different order kinds with different use cases and definitions.
 
 ### Asset ledger deploy order
 
@@ -2197,16 +2197,16 @@ This order kind is used for delegating `AssetLedger` deploy.
 |-|-
 | assetLedgerData.capabilities | [required] A list of `integers` representing ledger capabilities.
 | assetLedgerData.name | [required] A `string` representing asset ledger name.
-| assetLedgerData.owner | [required] A `string` representing Ethereum wallet, which will be the owner of the asset ledger.
+| assetLedgerData.owner | [required] A `string` representing the Wanchain wallet, which will be the owner of the asset ledger.
 | assetLedgerData.schemaId | [required] A `string` representing data schema ID.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
 | assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
 | assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing an Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
@@ -2271,9 +2271,9 @@ This order kind is used for delegating `ValueLedger` deploy.
 |-|-
 | expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
-| makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
+| makerId | [required] A `string` representing an Wanchain account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
-| takerId | A `string` representing the Ethereum account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
+| takerId | A `string` representing the Wanchain account address which will be able to perform the order on the blockchain. This account also pays the gas cost.
 | tokenTransferData.ledgerId | [required] A `string` representing asset ledger address.
 | tokenTransferData.receiverId | A `string` representing the receiver's address.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.

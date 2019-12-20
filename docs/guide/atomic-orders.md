@@ -2,11 +2,11 @@
 
 If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orders are the way to go.
 
-Atomic order is a way of creating an atomic swap within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all participants will receive their assets, or the mutation will fail and the operation will return to its starting point.
+An atomic order is a way of creating an atomic swap within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all participants will receive their assets, or the mutation will fail and the operation will return to its starting point.
 
 ## How it works
 
-An Atomic swap operation is always an order between a maker and a taker. A maker is the one who creates an order, signs it and sends it to the taker, who in turn executes the order and pays the execution fee. There are two different models when defining an order:
+An atomic swap operation is always an order between a maker and a taker. A maker is the one who creates an order, signs it and sends it to the taker, who in turn executes the order and pays the execution fee. There are two different models when defining an order:
 
 1. You know who will execute the order and you want them any only them to execute it. For example, you want to send a diploma to a specific receiver.
 2. You do not care who will execute the order. For example, you are selling a digital artwork to anyone who wants to buy it.
@@ -17,18 +17,18 @@ In case 2, only the Maker is defined, and in the actions either sender or receiv
 
 ![Atomic swap](../assets/atomic-swap.svg)
 
-Multiple actions can be performed in such a manner. Currently supported actions include transferring assets, transferring value, or creating new assets. Using atomic orders provides multiple advantages in addition to trustlessness and safety. You can delegate paying storage fees to another user as well as delegate the time when a mutation should be made.
+Multiple actions can be performed in such a manner. Currently supported actions include transferring assets, transferring value, or creating new assets. Using atomic orders provides multiple advantages in addition to trustlessness and safety. You can delegate paying storage fees to another user as well as delegate the time during which a mutation should be made.
 
 The 0xcert Framework provides automatization to ensure that a specific agreement among multiple parties is reached. There are only two possible outcomes for an atomic swap:
 
 * Successful completion of the trade for all parties involved; or
 * Abolition of the process and returning to the starting point if the swap operation encounters issues in its settlement.
 
-There is no middle ground for an atomic swap's outcome which reduces the possibility of one party taking advantage over the other.
+There is no middle ground for an atomic swap's outcome which reduces the possibility of one party taking advantage of the other.
 
 Atomic swaps are performed through the Order Gateway structure which is permanently deployed on the 0xcert platform and is publicly available to everyone. A fixed sequence of required steps and conditions is secured by cryptography embedded in the gateway. Once all steps are completed, the swap is confirmed and successfully settled. If not, the atomic swap process is abolished and canceled, with no effect on the assets that were subject to swap.
 
-While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by atomic swap is performed entirely on-chain. This makes every single step of the operation trackable and verifiable.
+While the trade agreement is created in an off-chain environment between trading parties, the settlement of the trade done by an atomic swap is performed entirely on-chain. This makes every single step of the operation trackable and verifiable.
 
 ::: card More about atomic swaps
 For more information on the actual process of atomic operation, please check [this article](https://0xcert.org/news/dex-series-7-atomic-swaps/).
@@ -46,7 +46,7 @@ We recommend you employ the package as an NPM package in your application.
 $ npm i --save @0xcert/ethereum-gateway
 ```
 
-On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented in your website. Please refer to the [API](/api/core.html) section to learn more about gateway.
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented on your website. Please refer to the [API](/api/core.html) section to learn more about gateway.
 
 ## Usage overview
 
@@ -66,7 +66,7 @@ Then, we create a new instance of the `Gateway` class with an ID that points to 
 const gateway = Gateway.getInstance(provider, getGatewayConfig(NetworkKind.ROPSTEN));
 ```
 
-Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/guide/asset-management.html) section into our second MetaMask wallet. In the second action, we create a new asset with ID `200` and imprint created in the [Certification](/guide/certification.html) section.
+Now, we can define an order with two actions: the first action transfers an existing asset that we created in the [Asset management](/guide/asset-management.html) section into our second MetaMask wallet. With the second action, we create a new asset with ID `200` and imprint created in the [Certification](/guide/certification.html) section.
 
 ::: warning
 For the purpose of simplicity of this guide, we will be both the maker and the taker of the order. For the `makerId` and `takerId`, we will employ our current MetaMask account.
@@ -131,7 +131,7 @@ Don't forget to create an instance of `assetLedger` and to import `GeneralAssetL
 :::
 
 ::: card Why instance of Gateway?
-Gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however the instance of `Gateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the gateway, but we recommend using `Gateway` instance and let the framework handle it for you.
+Gateway is comprised of multiple smart contracts. To save your time from having to know their addresses, we handle it under the hood; however, the instance of `Gateway` is required so that we know how to process it. You can also do this manually by finding the exact proxy contracts for the gateway, but we recommend using the `Gateway` instance and letting the framework handle it for you.
 :::
 
 The following step is done only by the taker, who executes the order on the network and pays the execution fees. For the purpose of this guide, we define the same account for both maker and taker, since we are present on both sides.
@@ -156,4 +156,4 @@ To learn more about atomic operations on Ethereum, please refer to the [API for 
 
 ---
 
-We have now come to the end of our basic guide. Hopefully, you have grasped the basic concepts of the framework, for further information, you may check how the features work in the [API section](/api/core.html).
+We have now come to the end of our basic guide. Hopefully, you have grasped the basic concepts of the framework. For further information, you may check how the features work in the [API section](/api/core.html).

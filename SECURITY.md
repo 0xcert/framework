@@ -13,4 +13,4 @@ Only the latest minor version of 0xcert Framework is supported with security upd
 
 ## Reporting a vulnerability
 
-We really appreciate your help in finding bugs and vulnerabilities in this repository. Please report bugs and vulnerabilities using [GitHub Issues](https://github.com/0xcert/framework/issues) and we will pay you according to [our bug bounty](BUG_BOUNTY.md). If you wish to report issues privately to us then you are still eligible for our bug bounty program and can see additional details on that page.
+We really appreciate your help in finding bugs and vulnerabilities in this repository. Please report bugs and vulnerabilities using [GitHub Issues](https://github.com/0xcert/framework/issues) and we will pay you according to [our bug bounty](BUG_BOUNTY.md). If you wish to report issues privately, you can still enter into our bug bounty program. Please see additional details on the above-mentioned page.

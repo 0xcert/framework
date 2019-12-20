@@ -1,20 +1,18 @@
-# Using providers
+# Providers
 
-As explained previously, the 0xcert Framework tends to be platform-agnostic, meaning that it is not created for merely one blockchain or one specific platform. It aims to provide a consistently optimal developing experience, regardless of the platform you employ.
+As explained previously, the 0xcert Framework tends to be platform-agnostic, meaning that it is not created for merely one blockchain or one specific platform. It aims to provide a consistently optimal developing experience, regardless of the platform you employ. To achieve this the 0xcert framework is made out of module and each module need a provider object to tell him how to operate. 
 
 Each provider operates on the same principles, but can also have its own distinctive characteristics. The current version of the Framework supports the Ethereum and the Wanchain blockchain. Soon, more platforms will be added.
 
 Even within the same blockchain, multiple providers are available depending on your needs. If you would like to communicate with blockchain on the front-end, you would use [MetamaskProvider](/api/ethereum.html#metamask-provider), while for communication on the back-end you would use [HttpProvider](/api/ethereum.html#http-provider). For more information about other providers for Ethereum such as Bitski, please click [here](/api/ethereum.html#api-ethereum), and to learn more about providers for Wanchain, please click [here](/api/wanchain.html#api-wanchain).
 
-::: card Learn by example
+For this guide we will be using Metamask provider for ethereum blockchain. [MetaMask](https://metamask.io/) is a popular plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge between your browser and the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with hardware wallets such as [Ledger](https://www.ledger.com/) or [Trezor](https://trezor.io/).
+
+::: card Live example
 Click [here](https://codesandbox.io/s/github/0xcert/example-using-providers?module=%2FREADME.md) to check the live example for this section.
 :::
 
 ## Installation process
-
-The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide, we will employ an example of the most common and straightforward blockchain provider called [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
-
-[MetaMask](https://metamask.io/) is a popular plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge between your browser and the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with hardware wallets such as [Ledger](https://www.ledger.com/) or [Trezor](https://trezor.io/).
 
 We recommend you employ the provider module as an NPM package in your application.
 
@@ -56,6 +54,17 @@ Make sure your MetaMask is connected to the Ethereum Ropsten network.
 To perform this deployment step, you'll need to pay some gas on the Ethereum network. You can get free Ether into your wallet on the Ropsten network via [this link](https://faucet.ropsten.be/).
 :::
 
----
+## Error handling
 
-Our connection to the blockchain is now successfully established. Next off, we will learn about [assets and how to use them](/guide/about-assets.html#assets-are-non-fungible) within our framework.
+If any kind of error happens on the blockchain, providers are able to handle them and throw a meaningfull error so you know what happens.
+
+Error example: 
+
+```ts
+{
+  name: 'ProviderError',
+  issue: '001001',
+  original: '', // optional
+  message: 'Sender does not have sufficient balance.'
+}
+```
