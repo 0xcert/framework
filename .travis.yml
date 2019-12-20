@@ -6,8 +6,6 @@ node_js:
   - 12
   - lts/*
 script:
-  # use latest npm to work on node9
-  - npm install -g npm
   # install required global npm packages
   - npm install -g codecov
   - npm install -g @microsoft/rush
