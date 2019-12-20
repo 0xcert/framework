@@ -252,3 +252,53 @@ const mutation = await gateway.perform(order, [signature]);
 await mutation.complete();
 ```
 
+## Signed dynamic actions order
+
+In the same maner that signed fixed order differentiates with fixed order the signed dynamic order differentiates with dynamic order.
+Meaning that instead of anyone beeing able to perform the order and become the receiver anyone can provide the last signature and anyone with both signatures can execute the order.
+
+So lets define the order.
+
+```ts
+const order = {
+  kind: OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER, // defining order kind
+  signers: ['0x...'], // account1
+  seed: Date.now(), // unique order identification
+  expiration: Date.now() + 86400000, // 1 day
+  actions: [ // actions we want to perform in this order
+    {
+      kind: ActionsOrderActionKind.TRANSFER_ASSET, // transfer asset action
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      assetId: '100', // asset id
+    },
+    {
+      kind: ActionsOrderActionKind.CREATE_ASSET,
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      assetId: '101', // asset id
+      assetImprint: 'c6c14772f269bed1161d4350403f4c867c749b3cce7abe84c6d0605068cd8a87', // asset imprint
+    }
+  ]
+} as SignedDynamicActionsOrder
+```
+
+The way we grant permissions stays the same as in the guide above. 
+
+The difference now comes in signing the order. In the case above only the first participant needed to sign the order and anyone could perform it (making him the recipient). In this case both have to sign the order anyone can execute.
+
+```ts
+const signatureFromAccount1 = await gateway.sign(order); 
+const signatureFromAnyone = await gateway.sign(order); 
+```
+
+::: tip
+If you are not using `MetamaskProvider` where you only need to change the account in the metamask extension you will need to create two providers with different default accounts and two gateways each with a different provider for signatures to be made from different accounts.
+:::
+
+Now anyone that posses both signatures can execute this order and whoever is the address that created the second signature will become the receiver.
+
+```ts
+const mutation = await gateway.perform(order, [signatureFromAccount1, signatureFromAnyone]);
+await mutation.complete();
+```
