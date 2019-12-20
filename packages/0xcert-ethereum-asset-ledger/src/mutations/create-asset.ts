@@ -9,7 +9,7 @@ const inputTypes = ['address', 'uint256', 'bytes32'];
  * @param ledger Asset ledger instance.
  * @param receiverId Address that will receive the new asset.
  * @param id Asset id.
- * @param imprint Imprint (merkle tree root) of the asset.
+ * @param imprint Imprint (Merkle tree root) of the asset.
  */
 export default async function(ledger: AssetLedger, receiverId: string, id: string, imprint: string) {
   const attrs = {

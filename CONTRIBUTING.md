@@ -1,6 +1,6 @@
 # Contributing
 
-The 0xcert Framework is a mono repository with all framework related packages stored in the  `/packages` folder.
+The 0xcert Framework is a mono repository with all framework-related packages stored in the `/packages` folder.
 
 ## Development
 
@@ -29,7 +29,7 @@ The above notes will help you decide which commands to run during development on
 
 ## Issues
 
-We use GitHub issues to track bugs. Please ensure your description is clear and has sufficient instructions to be able to reproduce the issue.
+We use GitHub issues to track bugs. Please ensure your description is clear and has sufficient instructions so that we can reproduce the issue.
 
 ## Pull requests
 
@@ -56,9 +56,9 @@ $ rush publish --publish --include-all
 
 # 0xcert documentation
 
-We are using VuePress for building the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
+We are using VuePress to build the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
 
-First, navigate to the root directory and install dependencies.
+First, navigate to the root directory and then install dependencies.
 
 ```
 $ cd ./docs/.vuepress

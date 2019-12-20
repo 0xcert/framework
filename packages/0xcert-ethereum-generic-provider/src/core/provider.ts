@@ -345,7 +345,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   }
 
   /**
-   * Returns true if the provided accountId maches current class accountId.
+   * Returns true if the provided accountId matches current class accountId.
    */
   public isCurrentAccount(accountId: string) {
     return this.accountId === this.encoder.normalizeAddress(accountId);

@@ -12,7 +12,7 @@ Click [here](https://codesandbox.io/s/github/0xcert/example-using-providers?modu
 
 ## Installation process
 
-The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide, we will employ an example on the most common and straightforward blockchain provider called [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
+The 0xcert Framework supports multiple providers that enable the communication with platforms. However, in this guide, we will employ an example of the most common and straightforward blockchain provider called [MetaMask](https://metamask.io/), which allows for communication with the Ethereum network in the browser.
 
 [MetaMask](https://metamask.io/) is a popular plug-in that allows you to create and store the private keys for your Ethereum account inside your browser or mobile device. It works as a bridge between your browser and the Ethereum blockchain through its own infrastructure. MetaMask can also be paired with hardware wallets such as [Ledger](https://www.ledger.com/) or [Trezor](https://trezor.io/).
 

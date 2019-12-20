@@ -16,7 +16,7 @@ First, make sure you use the latest software.
 * NPM > v6.x
 * Browser with ES6 support
 
-This guide assumes an intermediate level knowledge of TypeScript and at least a basic understanding of difference between currencies and assets. Basic comprehension of blockchain technology and framework systems is welcome but not required.
+This guide assumes an intermediate level knowledge of TypeScript and at least a basic understanding of the difference between currencies and assets. Basic comprehension of blockchain technology and framework systems is welcome but not required.
 
 ---
 

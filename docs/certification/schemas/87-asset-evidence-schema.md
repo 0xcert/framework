@@ -15,7 +15,7 @@ The evidence schema definition of an asset.
 
 ## About
 
-The 0xcert framework provides an algorithm for creates proofs from asset data object which allows selective verification of data by a third party. The file that holds enough information to verify the disclosed content is called the evidence. An asset usually provides additional information about the asset through the public metadata file which should include a URI to the public evidence file which further provides enough information to verify the public metadata.
+The 0xcert framework provides an algorithm for creating proofs from asset data objects and allows selective verification of data by a third party. The file that holds enough information to verify the disclosed content is called the evidence. An asset usually provides additional information through the public metadata file which should include a URI to the public evidence file that further provides enough information to verify the public metadata.
 
 ## Specification
 
@@ -113,7 +113,7 @@ The 0xcert framework provides an algorithm for creates proofs from asset data ob
             "values": [
                 {
                     "index": 2,
-                    "value": "A weapon for the Troopers game which can severely injure the enemy.",
+                    "value": "A weapon for the Troopers game that can severely injure the enemy.",
                     "nonce": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
                 },
                 {
