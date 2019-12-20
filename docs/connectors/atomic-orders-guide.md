@@ -116,6 +116,10 @@ const mutation = await assetLedger.grantAbilities(createProxy, [GeneralAssetLedg
 await mutation.complete();
 ```
 
+::: tip
+Don't forget to create an instance of `assetLedger` and to import `GeneralAssetLedgerAbility`.
+:::
+
 We only need to grant permissions and set operator the first time (per ledger).
 
 Now since there are two participants (`signers`) this means that the first one has to sign the order while the second one can perform it.
@@ -134,3 +138,63 @@ await mutation.complete();
 ```
 
 If we did everything correct the atomic swap will peform succesfully otherwise an error will be thrown telling us what went wrong.
+
+## Signed fixed actions order
+
+::: card Live example
+Click [here](https://codesandbox.io/s/github/0xcert/example-signed-fixed-actions-order?module=%2FREADME.md) to check the live example for signed fixed actions order.
+:::
+
+The same way as in fixed actions order we will also have two participants and we will create an asset with id `101` and transfer an existing asset with id `100`. 
+
+::: tip
+If you already transfered and creates an asset in the previous section on this specific `AssetLedger` then you will not be able to do the same again since account1 is no longer the owner of asset `100` and asset `101` is already created. You can either deploy a new `AssetLedger` and recreate the same starting conditions or send asset `100` back to account 1 and instead of creating asset `101` create an asset `102`.
+:::
+
+The order will be defined almost the same as with a fixed order but the execution process will be different. We will only showcase the differences between fixed action order and signed fixed action order.
+
+```ts
+const order = {
+  kind: OrderKind.SIGNED_FIXED_ACTIONS_ORDER, // defining order kind
+  signers: ['0x...', '0x...'], // account1, account2
+  seed: Date.now(), // unique order identification
+  expiration: Date.now() + 86400000, // 1 day
+  actions: [ // actions we want to perform in this order
+    {
+      kind: ActionsOrderActionKind.TRANSFER_ASSET, // transfer asset action
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      receiverId: '0x..', // account2
+      assetId: '100', // asset id
+    },
+    {
+      kind: ActionsOrderActionKind.CREATE_ASSET,
+      ledgerId: '0x..', // assetLedgerId that we created in the previous guide
+      senderId: '0x..', // account1
+      receiverId: '0x..', // account2
+      assetId: '101', // asset id
+      assetImprint: 'c6c14772f269bed1161d4350403f4c867c749b3cce7abe84c6d0605068cd8a87', // asset imprint
+    }
+  ]
+} as SignedFixedActionsOrder
+```
+
+The way we grant permissions stays the same as in the guide above. 
+
+The difference now comes in signing the order. In the case above only the first participant needed to sign the order and the second one could then execute it. While in this case both need to sign the order and anyone can execute the order.
+
+```ts
+const signatureFromAccount1 = await gateway.sign(order); 
+const signatureFromAccount2 = await gateway.sign(order); 
+```
+
+::: tip
+If you are not using `MetamaskProvider` where you only need to change the account in the metamask extension you will need to create two providers with different default accounts and two gateways each with a different provider for signatures to be made from different accounts.
+:::
+
+Now anyone that posses both signatures can execute this order:
+
+```ts
+const mutation = await gateway.perform(order, [signatureFromAccount1, signatureFromAccount2]);
+await mutation.complete();
+```
