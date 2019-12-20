@@ -1,0 +1,95 @@
+import clientFetch from '../helpers/client-fetch';
+import { WebhookEventKind } from '../types';
+import { Client } from '../client';
+
+/**
+ * Accounts controller class with accounts related actions.
+ */
+export class AccountsController {
+
+  /**
+   * Client's context.
+   */
+  public context: Client;
+
+  /**
+   * Accounts controller class constructor.
+   * @param context Provider instance.
+   */
+  constructor(context: Client) {
+    this.context = context;
+  }
+
+  /**
+   * Returns currently authenticated account's information.
+   */
+  public async getAccount() {
+    if (!this.context.authentication) {
+      throw new Error('Client not connected. Please initialize your client first.');
+    }
+
+    return clientFetch(`${this.context.apiUrl}/account`, {
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': this.context.authentication,
+      },
+    });
+  }
+
+  /**
+   * Returns a list of current authenticated account's ledger abilities.
+   */
+  public async getAccountAbilities() {
+    if (!this.context.authentication) {
+      throw new Error('Client not connected. Please initialize your client first.');
+    }
+
+    return clientFetch(`${this.context.apiUrl}/account/abilities`, {
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': this.context.authentication,
+      },
+    });
+  }
+
+  /**
+   * Returns currently authenticated account's webhook.
+   */
+  public async getAccountWebhook() {
+    if (!this.context.authentication) {
+      throw new Error('Client not connected. Please initialize your client first.');
+    }
+
+    return clientFetch(`${this.context.apiUrl}/account/webhook`, {
+      method: 'GET',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': this.context.authentication,
+      },
+    });
+  }
+
+  /**
+   * Updates currently authenticated account's webhook.
+   */
+  public async setAccountWebhook(url: string, events: WebhookEventKind[]) {
+    if (!this.context.authentication) {
+      throw new Error('Client not connected. Please initialize your client first.');
+    }
+
+    return clientFetch(`${this.context.apiUrl}/account/webhook`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        url,
+        events,
+      }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': this.context.authentication,
+      },
+    });
+  }
+
+}

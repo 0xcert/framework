@@ -1467,6 +1467,23 @@
         "typescript": "3.6.3"
       }
     },
+    "@rush-temp/client": {
+      "version": "file:projects/client.tgz",
+      "integrity": "sha512-e5opNKkeLtG6pm4iVtYRuv4V+wbTD895Z6hYwYJxHL/DGTHiB8g+vVq2ma9VNTXZF9TAEAGP0JnQhRZhDtS1xw==",
+      "requires": {
+        "@hayspec/cli": "0.9.0",
+        "@hayspec/spec": "0.9.0",
+        "@specron/cli": "0.10.0",
+        "@specron/spec": "0.10.0",
+        "bignumber.js": "9.0.0",
+        "ganache-core": "2.8.0",
+        "node-fetch": "2.6.0",
+        "solc": "0.5.11",
+        "ts-node": "8.4.1",
+        "typescript": "3.6.3",
+        "web3": "1.2.1"
+      }
+    },
     "@rush-temp/conventions": {
       "version": "file:projects/conventions.tgz",
       "integrity": "sha512-EqQBPOExi2cCdCsIXngdvMV4btxjMldATXcosRyR2RrhFSPSGwtHwxc1RmCLDZMC8nCqh6sm8R4mUanGcpnJjg==",
@@ -3018,6 +3035,11 @@
       "version": "5.2.2",
       "resolved": "https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz",
       "integrity": "sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ=="
+    },
+    "bignumber.js": {
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.0.0.tgz",
+      "integrity": "sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A=="
     },
     "binary-extensions": {
       "version": "2.0.0",
