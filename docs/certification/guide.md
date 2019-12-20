@@ -27,6 +27,10 @@ These are the main products of the certification process and together hold all t
 
 [FULL EXAMPLE](https://gist.github.com/xpepermint/5e69e2654aaa78035db4e3c26cbbab0e)
 
+::: card Live example
+Click [here](https://codesandbox.io/s/github/0xcert/example-certification?module=%2FREADME.md) to check the live example for this section.
+:::
+
 ### Installation
 
 We recommend you employ the certification module as an NPM package in your application.
