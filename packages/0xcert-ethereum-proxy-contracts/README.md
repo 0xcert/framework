@@ -1,4 +1,4 @@
-<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
+<img src="../../assets/cover-sub.png" />
 
 > Proxy smart contracts used by the gateway when communicating with the Ethereum blockchain.
 
