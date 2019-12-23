@@ -18,6 +18,11 @@
       "versionPolicyName": "patchAll"
     },
     {
+      "packageName": "@0xcert/client",
+      "projectFolder": "packages/0xcert-client",
+      "versionPolicyName": "patchAll"
+    },
+    {
       "packageName": "@0xcert/merkle",
       "projectFolder": "packages/0xcert-merkle",
       "versionPolicyName": "patchAll"
