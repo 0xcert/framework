@@ -1,7 +1,7 @@
 pragma solidity 0.5.11;
 
 /**
- * @dev Standard interface for a dex proxy contract.
+ * @dev Standard interface for a distributed exchange proxy contract.
  */
 interface Proxy {
 
