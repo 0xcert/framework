@@ -7,6 +7,7 @@ export default {
   [ProviderIssue.SIGNED_DYNAMIC_ACTIONS_ORDER_SIGNATURES]: 'Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.',
   [ProviderIssue.SIGNED_FIXED_ACTIONS_ORDER_SIGNATURES]: 'Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.',
   [ProviderIssue.NO_RECEIVER_ID]: 'ReceiverId is not set.',
+  [ProviderIssue.PROXY_KIND_NOT_SUPPORTED]: 'Invalid proxy kind.',
   [ProviderIssue.SENDER_ID_NOT_A_SIGNER]: 'SenderId is not a signer.',
   [ProviderIssue.SENDER_ID_AND_RECEIVER_ID_MISSING]: 'Both senderId and receiverId are missing.',
   [ProviderIssue.ACTION_KIND_NOT_SUPPORTED]: 'Not implemented.',
