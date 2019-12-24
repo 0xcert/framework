@@ -1,4 +1,4 @@
-<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
+<img src="../../assets/cover-sub.png" />
 
 > Test server for local running testing of modules on the Ethereum blockchain.
 

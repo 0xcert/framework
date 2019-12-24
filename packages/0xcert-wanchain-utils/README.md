@@ -1,4 +1,4 @@
-<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
+<img src="../../assets/cover-sub.png" />
 
 > General Ethereum utility module with helper functions for the Ethereum blockchain.
 
