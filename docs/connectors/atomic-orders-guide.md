@@ -2,7 +2,7 @@
 
 If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orders are the way to go.
 
-Atomic order is a way of creating an [atomic swap](https://0xcert.org/news/dex-series-7-atomic-swaps/) within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all participants will receive their assets, or the mutation will fail and the operation will return to its starting point.
+Atomic order is a way of creating an [atomic swap](https://0xcert.org/news/dex-series-7-atomic-swaps/) within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results. Either the mutation will succeed and all actions will be executed, or the mutation will fail and nothing will change. There's no middlew way.
 
 Atomic orders can be performed between multiple parties and can contain multiple actions. 
 
@@ -26,7 +26,7 @@ For more information on the actual process of atomic operation, please check [th
 
 ## Gateway 
 
-All atomic orders in 0xcert framework are performed through `Gateway` package. `Gateway` package is as the name suggests the gateway to multiple smart contract that already live (and are maintained by 0xcert) on the blockchain that make atomic swaps with such broad functionalites possible. There are multiple main smart contracts depending on what kind of atomic order we are performing as well as multiple proxies that take care of specific actions. [Here]() you can see all deployed smart contracts and their addresses. 
+All atomic orders in 0xcert framework are performed through a `Gateway`. Gateway is as the name suggests the gateway to multiple smart contract that already live (and are maintained by 0xcert) on the blockchain that make atomic swaps with such broad functionalites possible. There are multiple main smart contracts depending on what kind of atomic order we are performing as well as multiple proxies that take care of specific actions. [Here]() you can see all deployed smart contracts and their addresses. 
 
 Since `Gateway` is a single point of entry for all kinds of atomic orders each order is defined trough a `Order` interace and has a unique `OrderKind` to differentiate them.
 
