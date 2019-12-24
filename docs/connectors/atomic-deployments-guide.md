@@ -1,10 +1,10 @@
 # Atomic deployments
 
-The main purpose of atomic deployments is to delegate ETH execution fee to a third party enabling ETH less transactions.
+The main purpose of atomic deployments is to delegate ETH execution to a third party enabling ETH less transactions.
 
-So the difference between doing a normal `AssetLedger`/`ValueLedger` deploy is that in an atomic deploy you specify what kind of ledger you are creating (same as doing a normal deploy) as well as receiver of a value transaction and who can execute the order (can be set to a direct address or as anyone). This enables deployment in a fashion that user defines deploy order and value transfer of some token and anyone that is willing to execute the deployment for the value fee can do it.
+So the difference between doing a normal `AssetLedger`/`ValueLedger` deploy is that in an atomic deploy you specify what kind of ledger you are creating (same as doing a normal deploy) as well as receiver of a value transaction (fee) and who can execute the order (can be set to a direct address or as anyone). This enables deployment in a fashion that user defines deploy order and value transfer of some token and anyone that is willing to execute the deployment for the value fee can do it.
 
-Atomic deployment like atomic orders are created through the `Gateway` package which as its name suggests is the gateway to the 0xcert protocol smart contract deployed on the network that enable atomic operations.
+Atomic deployment like atomic orders are created through the `Gateway` which as its name suggests is the gateway to the 0xcert protocol smart contract deployed on the network that enable atomic operations.
 
 Lets check out an example of both atomic deployments.
 
@@ -57,18 +57,17 @@ const order = {
     symbol: "TST", // ledger symbol
     uriPrefix: "https://base.com/", // uri template prefix
     uriPostfix: ".json", // uri template prefix
-    schemaId:
-      "9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658", // schemaId calculated trough the certification guide
+    schemaId: "9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658", // schemaId calculated trough the certification guide
     capabilities: [
       AssetLedgerCapability.TOGGLE_TRANSFERS,
-      AssetLedgerCapability.DESTROY_ASSET
+      AssetLedgerCapability.DESTROY_ASSET,
     ],
     ownerId: '0x...', // account1 which will get all abilities for this ledger
   },
   tokenTransferData: {
     ledgerId: '0x..', // valueLedgerId that we created in the previous guide
     value: "100000000000000000000" // 100 tokens
-  }
+  },
 } as AssetLedgerDeployOrder;
 ```
 
@@ -122,8 +121,8 @@ const order = {
   },
   tokenTransferData: {
     ledgerId: '0x..', // valueLedgerId that we created in the previous guide
-    value: "100000000000000000000" // 100 tokens
-  }
+    value: "100000000000000000000", // 100 tokens
+  },
 } as ValueLedgerDeployOrder;
 ```
 
