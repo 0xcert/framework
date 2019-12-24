@@ -3672,3 +3672,120 @@ This are latest addresses that work with version 2.0.0 For older addresses check
 | XcertDeployGateway | []()
 | XcertDestroyProxy | []()
 | XcertUpdateProxy | []()
+
+## Possible errors
+
+The 0xcert framework handles anykind of error that happens either from smart contracts or from the framework itself and provides a meaningfull description if possible.
+
+Error example: 
+
+```ts
+{
+  name: 'ProviderError',
+  issue: '001001',
+  original: '', // optional
+  message: 'Sender does not have sufficient balance.'
+}
+```
+
+This is a list of all possible errors that can be thrown by the 0xcert framework. The list is split into two categories depending on where the error originates.
+
+### Framework errors
+
+| Code | Description
+|-|-
+| 0 | Generic provider error
+| 5000001 | Actions order kind not supported.
+| 5000002 | Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.
+| 5000003 | Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.
+| 5000004 | Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.
+| 5000005 | Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.
+| 5000006 | ReceiverId is not set.
+| 5000007 | SenderId is not a signer.
+| 5000008 | SenderId is not a signer.
+| 5000009 | Both senderId and receiverId are missing.
+| 5000010 | Not implemented.
+| 5000011 | First set approval to 0. ERC-20 token potential attack.
+
+### Smart contract errors
+
+| Code | Description
+|-|-
+| 1 | Generic smart contract error
+| 001001 | Sender does not have sufficient balance.
+| 001002 | You do not have sufficient allowance.
+| 003001 | Provided address cannot be zero address.
+| 003002 | Asset with this ID does not exist.
+| 003003 | Sender is neither asset owner nor operator.
+| 003004 | Sender is neither asset owner, approved nor operator.
+| 003005 | Receiver is not able to safely receive the asset.
+| 003006 | Asset with provided ID already exists.
+| 004001 | Provided address cannot be zero address.
+| 004002 | Asset with this ID does not exist.
+| 004003 | Sender is neither asset owner nor operator.
+| 004004 | Sender is neither asset owner, approved nor operator.
+| 004005 | Receiver is not able to safely receive the asset.
+| 004006 | Asset with provided ID already exists.
+| 005001 | Provided address cannot be zero address.
+| 005002 | Asset with this ID does not exist.
+| 005003 | Sender is neither asset owner nor operator.
+| 005004 | Sender is neither asset owner, approved nor operator.
+| 005005 | Receiver is not able to safely receive the asset.
+| 005006 | Asset with provided ID already exists.
+| 005007 | There is no asset at provided index.
+| 006001 | Provided address cannot be zero address.
+| 006002 | Asset with this ID does not exist.
+| 006003 | Sender is neither asset owner nor operator.
+| 006004 | Sender is neither asset owner, approved nor operator.
+| 006005 | Receiver is not able to safely receive the asset.
+| 006006 | Asset with provided ID already exists.
+| 006007 | There is no asset at provided index.
+| 007001 | Asset ledger does not have capability for this action.
+| 007002 | Transfers on this asset ledger are currently disabled.
+| 007003 | Asset with this ID does not exist.
+| 007004 | Sender is neither asset owner nor operator.
+| 007005 | Provided signature is invalid.
+| 007006 | Provided signature kind is invalid.
+| 007007 | This order was already performed.
+| 007008 | This order has expired.
+| 008001 | This action caused a math error: overflow.
+| 008002 | This action caused a math error: subtrahend is greater than minuend.
+| 008003 | This action caused a math error: division by zero.
+| 009001 | Provided signature kind is invalid.
+| 009002 | Sender is not allowed to execute this order.
+| 009003 | This order has expired.
+| 009004 | Provided signature is invalid.
+| 009005 | This order was canceled.
+| 009006 | This order was already performed.
+| 009007 | Sender is not the creator of this order.
+| 010001 | Sender does not have sufficient balance.
+| 010002 | You do not have sufficient allowance.
+| 010003 | Tokens cannot be sent to this recipient. Recipients are limited.
+| 010004 | Migration is not in progress.
+| 010005 | Migration is in progress.
+| 010006 | Migration cannot be performed. Please notify token owner.
+| 011001 | Provided signature kind is invalid.
+| 011002 | Sender is not allowed to execute this order.
+| 011003 | This order has expired.
+| 011004 | Provided signature is invalid.
+| 011005 | This order was canceled.
+| 011006 | This order was already performed.
+| 011007 | Sender is not the creator of this order.
+| 012001 | Transfer failed.
+| 015001 | Provided signature kind is invalid.
+| 015002 | Invalid proxy.
+| 015003 | Sender is not one of the signers.
+| 015004 | This order has expired.
+| 015005 | Provided signature is invalid.
+| 015006 | This order was canceled.
+| 015007 | This order was already performed.
+| 015008 | Sender is not one of the signers.
+| 015009 | Signer of CREATE_ASSET action does not have ALLOW_CREATE_ASSET ability.
+| 015010 | Signer of UPDATE_ASSET action does not have ALLOW_UPDATE_ASSET ability.
+| 015011 | Signer of SET_ASSET_LEDGER_ABILITY action does not have ALLOW_MANAGE_ABILITIES ability.
+| 015012 | Signer of DESTROY_ASSET action is not the asset owner.
+| 017001 | Sender does not have specified ability.
+| 017002 | Ability 0 is not a valid ability.
+| 018001 | Sender is not an owner.
+| 018002 | Provided address cannot be zero address.
+| 019001 | Sender cannot claim ownership.
