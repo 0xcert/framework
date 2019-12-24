@@ -1,6 +1,6 @@
 # Value Management
 
-If we take the example from [Asset Management guide] we said that banknotes and coins are not asset since they are fungible (interchangeable while retaining the same value). Value is what we use to describe exactly this kinds of items. Value management is all around currencies, tokens, etc. 
+If we take the example from [Asset Management guide]() we said that banknotes and coins are not asset since they are fungible (interchangeable while retaining the same value). Value is what we use to describe exactly this kinds of items. Value management is all about currencies, tokens, etc. 
 
 Fungible tokens are represented on the Ethereum blockchain in the form of [ERC-20](https://eips.ethereum.org/EIPS/eip-20) standard. This standard defines how the basic smart contract looks like and how each fungible tokens are defined. The 0xcert framework allows you to simply create and manage your own token.
 
@@ -30,7 +30,7 @@ We begin by importing the modules.
 import { ValueLedger } from '@0xcert/ethereum-value-ledger';
 ```
 
-Now lets define kind of ValueLedger we want to deploy.
+Now lets define what kind of `ValueLedger` we want to deploy.
 
 ```ts
 const valueLedgerDefinition = {
