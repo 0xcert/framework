@@ -36,7 +36,7 @@ MetaMask needs to be authorized and unlocked to be used on the website. This is 
 
 ```ts
 if (!await provider.isEnabled()) {
-    await provider.enable();
+  await provider.enable();
 }
 ```
 
