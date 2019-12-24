@@ -1,4 +1,4 @@
-<img src="https://github.com/0xcert/framework/raw/master/assets/cover-sub.png" />
+<img src="../../assets/cover-sub.png" />
 
 > Basic implementation of communication provider for the Ethereum blockchain.
 

@@ -2,9 +2,9 @@
 
 When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver license, credit cards, etc. While this items can all be classified as assets, when talking about an asset in the context of 0xcert framework **an asset must be unique**.
 
-So if take the items described above some of them no longer fall into the catagory of an asset. Namely banknotes and coins. Why is that? That is because if I exchange a 10$ bill with Saras 10$ bill we will both retain the same value. But if I exchange my ID card with Saras that ceases to be true. If you would like to know how to work with this kind of items as banknotes and coins then check out the [Value management guide]().
+So if we take the items described above some of them no longer fall into the catagory of an asset. Namely banknotes and coins. Why is that? That is because if I exchange a $10 bill with Saras $10 bill we will both retain the same value. But if I exchange my ID card with Saras that ceases to be true. If you would like to know how to work with this kind of items as banknotes and coins then check out the [Value management guide]().
 
-Another thing is to consider is that what we are discussing are pyshical items. While 0xcert framework operates with digital unique (non fungible) assets. Luckily most physical items can be simply represented in a digital shape using IDs and meta descriptions. 
+Another thing to consider is that what we are discussing are pyshical items while 0xcert framework operates with digital unique (non fungible) assets. Luckily most physical items can be simply represented in a digital shape using IDs and meta descriptions. 
 
 Unique digital assets are represented on the Ethereum blockchain in the form of [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. This standard defines how the basic smart contract looks like and how each non fungible token is defined. To incorporate full range functionalities the 0xcert framework offers the base ERC-721 code had to be enhanced with additional functionalities that became what we now call an Xcert. Xcert is fully ERC-721 compatible and adds [certification]() and other usefull functionalitites.
 
@@ -50,6 +50,7 @@ const assetLedgerDefinition = {
   ],
 };
 ```
+
 Here we name and set a symbol to our asset ledger. We decide where asset metadata will live (off chain descriptive data about each asset) by defining the `uriPrefix` and `uriPostfix`. Combining `uriPrefix` with asset ID and `uriPostfix` we get the URI of each assets metadata location. Through [Certification guide]() we define the schemaId and trough [capabilities]() we decide what additional functionalities the asset ledger will possess (this cannot be changed after a ledger is deployed).
 
 Finally we actually deploy the asset ledger.
@@ -88,7 +89,7 @@ const assetLedgerInfo = await assetLedger.getInfo();
 
 ## Creating a new asset
 
-To create a new asset lets first trough the [Certification guide]() generate its imprint. With that we can create it.
+To create a new asset lets first trough the [Certification guide]() and generate an imprint. With that we can create it.
 
 ```ts
 const mutation = await assetLedger.createAsset({
