@@ -1,18 +1,18 @@
 # Asset Management
 
-When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver license, credit cards, etc. While this items can all be classified as assets, when talking about an asset in the context of 0xcert framework **an asset must be unique**.
+When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver's license, credit cards, etc. While these items can all be classified as assets, when talking about an asset in the context of the 0xcert Framework, **an asset represents something unique**.
 
-So if we take the items described above some of them no longer fall into the catagory of an asset. Namely banknotes and coins. Why is that? That is because if I exchange a $10 bill with Saras $10 bill we will both retain the same value. But if I exchange my ID card with Saras that ceases to be true. If you would like to know how to work with this kind of items as banknotes and coins then check out the [Value management guide]().
+So if we reconsider the items described above, some of them no longer fall into the category of an asset - namely banknotes and coins. Why is that? That is because if you exchange a $10 bill with Sara's $10 bill, you both will retain the same value. But if you exchange your ID card with Sara's, that ceases to be true. If you would like to know how to work with the kind of items holding the same value, such as banknotes and coins, check out the [Value management guide]().
 
-Another thing to consider is that what we are discussing are pyshical items while 0xcert framework operates with digital unique (non fungible) assets. Luckily most physical items can be simply represented in a digital shape using IDs and meta descriptions. 
+Another thing to consider is that the example above illustrated the use of physical items, whereas the 0xcert Framework allows for operations with digital unique (non-fungible) assets. Luckily, most physical items can be simply represented in a digital format using IDs and meta descriptions. 
 
-Unique digital assets are represented on the Ethereum blockchain in the form of [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. This standard defines how the basic smart contract looks like and how each non fungible token is defined. To incorporate full range functionalities the 0xcert framework offers the base ERC-721 code had to be enhanced with additional functionalities that became what we now call an Xcert. Xcert is fully ERC-721 compatible and adds [certification]() and other usefull functionalitites.
+Unique digital assets are represented on the Ethereum blockchain following the [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. This standard defines how the basic smart contract looks like and how every non-fungible token is defined. To incorporate full-range functionalities, the 0xcert Framework enhanced the base ERC-721 code with additional functionalities to create what we now call an Xcert. Xcert is a fully ERC-721-compatible non-fungible token format with added [certification]() and other useful functionalities.
 
-Xcert is a smart contract that contains assets of a specific kind. Meaning when creating an Xcert you define what properties assets created whitin it will have. For an example lets say you are a KYC provider. You define what properties a KYC asset needs and you create an Xcert with this properties defined. Now each KYC asset you issue on this smart contract needs to follow its rules. For more about this check the [certification]() section.
+Xcert is a smart contract that contains assets of a specific kind. When creating an Xcert, you define what properties the assets created within it will have. For example, let's say you are a KYC provider. You define what properties a KYC asset needs, and you create an Xcert with these properties defined. Now each KYC asset you issue on this smart contract needs to follow its rules. To learn more about this, check the [certification]() section.
 
-AssetLedger directly connects to a Xcert smart contract on the blockchain. Meaning things you do with an Asset ledger are directly reflected on the blockchain. An asset you create on an `AssetLedger` directly translate to an asset created on the underlying `Xcert` smart contract.
+An asset ledger connects directly to an Xcert smart contract on the blockchain. Thus, the things you do with an asset ledger are directly reflected on the blockchain. An asset you create on an `AssetLedger` directly translates to an asset created on the underlying `Xcert` smart contract.
 
-TLDR: An asset ledger is a containter defining how assets in it look like. While an asset is a unique digital representation of an item that is created on an asset ledger and follows its definition.
+TLDR: An asset ledger is a container defining how assets in it look like. An asset, however, is a unique digital representation of an item that is created on an asset ledger and follows its definition.
 
 ::: card Live example
 Click [here](https://codesandbox.io/s/github/0xcert/example-asset-management?module=%2FREADME.md) to check the live example for this section.
@@ -36,7 +36,7 @@ We begin by importing the modules.
 import { AssetLedger, AssetLedgerCapability } from '@0xcert/ethereum-asset-ledger';
 ```
 
-Now lets define the AssetLedger that we want to deploy.
+Now let's define the AssetLedger that we want to deploy.
 
 ```ts
 const assetLedgerDefinition = {
@@ -51,23 +51,23 @@ const assetLedgerDefinition = {
 };
 ```
 
-Here we name and set a symbol to our asset ledger. We decide where asset metadata will live (off chain descriptive data about each asset) by defining the `uriPrefix` and `uriPostfix`. Combining `uriPrefix` with asset ID and `uriPostfix` we get the URI of each assets metadata location. Through [Certification guide]() we define the schemaId and trough [capabilities]() we decide what additional functionalities the asset ledger will possess (this cannot be changed after a ledger is deployed).
+Here, we name and set a symbol to our asset ledger. We decide where the asset metadata will live (off-chain descriptive data about each asset) by defining the `uriPrefix` and `uriPostfix`. Combining the `uriPrefix` with asset ID and `uriPostfix`, we get the URI of each asset's metadata location. Through the [Certification guide](), we define the schemaId, and through [capabilities](), we decide what additional functionalities the asset ledger will possess (this cannot be changed once a ledger is deployed).
 
-Finally we actually deploy the asset ledger.
+Finally, we deploy the asset ledger.
 
 ```ts
 const mutation = await AssetLedger.deploy(provider, assetLedgerDefinition);
 ```
 
-Deployment is an asynchronous action that is performed on the blockchain so deployment returns a [Mutation]() object which allows us to properly react to this in a way that is most beneficial to the application and user experiance we want to create.
+Deployment is an asynchronous action that is performed on the blockchain. Deployment thus returns a [Mutation]() object, which allows us to properly react to this in a way that is most beneficial to the application and the user experience we want to create.
 
-For this example lets first show the user transaction hash so he can see that something is happening and can check it on a block explorer
+For this example, let's first show our user a transaction hash so they can see that something is happening and can check it in a block explorer.
 
 ```ts
 const transactionHash = mutation.id;
 ```
 
-Now since we cannot do anything until the asset ledger is actually deployed we can wait for the transaction to be accepted onto the blockchain and then get the created asset ledger smart contract address.
+Now, since we cannot do anything until the asset ledger is deployed, we can wait for the transaction to be accepted onto the blockchain and then get the smart contract address of the newly created asset ledger.
 
 ```ts
 await mutation.complete();
@@ -80,7 +80,7 @@ Now that a new asset ledger has been deployed on the network, you can create a n
 const assetLedger = AssetLedger.getInstance(provider, assetLedgerId);
 ```
 
-And to check if everything was deployed as we wanted it we can read the asest ledger information.
+To check if everything has been deployed as we wanted it, let's read the asset ledger information.
 
 ```ts
 const assetLedgerInfo = await assetLedger.getInfo();
@@ -89,7 +89,7 @@ const assetLedgerInfo = await assetLedger.getInfo();
 
 ## Creating a new asset
 
-To create a new asset lets first trough the [Certification guide]() and generate an imprint. With that we can create it.
+To create a new asset, let's first go through the [Certification guide]() and generate an imprint. Now, we can create a new asset.
 
 ```ts
 const mutation = await assetLedger.createAsset({
@@ -101,13 +101,13 @@ const mutation = await assetLedger.createAsset({
 });
 ```
 
-We set the assets `id` to `100` and for the `receiverId` we set `provider.accountId` meaning we are creating it for ourself. We are also waiting for the transaction to complete before we move onto the next stage.
+We set the asset's `id` to `100`, and for the `receiverId`, we set `provider.accountId`, which means we are creating it for ourselves. We are also waiting for the transaction to complete before we move onto the next stage.
 
 ::: tip
 The `provider.accountId` is your currently selected MetaMask account. If you want someone else to be the receiver, enter their address instead.
 :::
 
-Now that the asset is created lets check who its owner is.
+Now that the asset is created, let's check who its owner is.
 
 ```ts
 const ownerId = await assetLedger.getAssetAccount('100');
@@ -117,10 +117,10 @@ const ownerId = await assetLedger.getAssetAccount('100');
 ## Transfer an asset
 
 ::: tip
-You can only transfer an asset if you are either the asset owner or that you have been approved by the asset owner to operate with it in its name.
+You can only transfer an asset if you are either the asset owner or if you have been authorized by the asset owner to operate with it on their behalf.
 :::
 
-To transfer an asset you only need to know the `id` of the asset you want to transfer and who you want to transfer it to.
+To transfer an asset, you only need to know the `id` of the asset you want to transfer and who you want to transfer it to.
 
 ```ts
 const mutation = await assetLedger.transferAsset({
@@ -131,9 +131,9 @@ const mutation = await assetLedger.transferAsset({
 });
 ```
 
-Here we specified `receiverId` as `provider.accountId` meaning we are transfering this asset to ourselfs. Change the receiverId to some other address so that the asset will actually change ownership.
+Here, we specified `receiverId` as `provider.accountId`, which means we are transferring this asset to ourselves. Change the receiverId to another address so that the asset will change ownership.
 
-Then you can again check if it was succesfully transfered by checking who the new owner is.
+Verify that the asset has been successfully transferred by checking who its new owner is.
 
 ```ts
 const ownerId = await assetLedger.getAssetAccount('100');
