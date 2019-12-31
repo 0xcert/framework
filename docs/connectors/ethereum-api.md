@@ -13,11 +13,11 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | Argument | Description
 |-|-
 | options.accountId | A `string` representing the Ethereum account that will perform actions.
-| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
+| options.gasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
 | options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
@@ -28,8 +28,8 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.signMethod | An `integer` representing the signature type. Available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
 | options.unsafeRecipientIds | A list of strings representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
-| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
-| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
+| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 
 **Usage**
@@ -54,7 +54,7 @@ A class instance `variable` holding a `string` which represents the user's curre
 
 ### assetLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
 ### buildGatewayConfig(networkKind)
 
@@ -145,7 +145,7 @@ const provider = BitskiProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns the Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g., `1` for Ethereum Mainnet).
 
 **Result:**
 
@@ -170,7 +170,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` matches the currently set account ID.
+A `boolean` which tells whether the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -188,7 +188,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 **Result:**
 
-A `boolean` which tells if the provider can be used.
+A `boolean` which tells whether the provider can be used.
 
 **Example:**
 
@@ -205,11 +205,11 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A `string` representing an address of the ERC-721-related smart contract on the Ethereum blockchain.
 
 **Result:**
 
-A `boolean` which tells if the `id` is an unsafe recipient.
+A `boolean` which tells whether the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -227,7 +227,7 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 
 ### log(message)
 
-A `synchronous` class instance `function` which logs message to console if verbose mode is active otherwise does nothing.
+A `synchronous` class instance `function` which logs a message to console if verbose mode is active, otherwise it does nothing.
 
 **Example:**
 
@@ -243,11 +243,11 @@ provider.log('message');
 
 ### mutationTimeout
 
-A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
+A class instance `variable` holding an `integer` number of milliseconds after which a mutation times out.
 
 ### network
 
-A class instance `variable` holding a `string` representing the ethereum network bitski is connected to.
+A class instance `variable` holding a `string` representing the Ethereum network Bitski is connected to.
 
 ### on(event, handler);
 
@@ -258,7 +258,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -287,7 +287,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID, and the second argument is the old ID, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second argument is the old version.
 
 **Result:**
 
@@ -368,7 +368,7 @@ const signature = await provider.sign('test');
 
 ### signMethod
 
-A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
+A class instance `variable` holding a `string` which holds the type of signature that will be used (e.g., when creating claims).
 
 ### unsafeRecipientIds
 
@@ -376,15 +376,15 @@ A class instance `variable` holding a `string` which represents smart contract a
 
 ### valueLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 ### verbose
 
-A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+A class instance `variable` holding a `boolean` which represents whether you are in a verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 ## Bitski front-end provider
 
-A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log into his Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider, you first need to create a [development account](https://developer.bitski.com/) on Bitski, you will also need to host a call-back page like [this](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html), and authorize its URL on previously created development account.
+A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log in to their Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider, you first need to create a [development account](https://developer.bitski.com/) on Bitski, you will also need to host a callback page like [this](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html), and authorize its URL on previously created development account.
 
 ### BitskiProvider(options)
 
@@ -394,13 +394,13 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 
 | Argument | Description
 |-|-
-| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
+| options.gasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
 | options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
-| options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.`
+| options.mutationTimeout | The `number` of milliseconds after which a mutation times out. Defaults to `3600000`. You can set it to `-1` to disable the timeout.
 | options.network | A `string` or instance of `BitskiProviderNetwork` representing the Ethereum network we will connect to.
 | options.redirectUrl | A `string` representing Bitski redirect URL. For Bitski front-end integration, you will need to create a call back to the website for OAuth2 and host it. Here is an [example](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html). The URL to this HTML page also needs to be the app's authorized redirect URL in [Bitski Developer Portal](https://developer.bitski.com/).
 | options.retryGasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a retry action on mutation. It defaults to `2`.
@@ -408,8 +408,8 @@ A `class` providing communication with the Ethereum blockchain through [Bitski](
 | options.signMethod | An `integer` representing the signature type. Available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
-| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
-| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
+| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 **Usage**
 
@@ -432,7 +432,7 @@ A class instance `variable` holding a `string` which represents the user's curre
 
 ### assetLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
 ### buildGatewayConfig(networkKind)
 
@@ -498,11 +498,11 @@ const accountIds = await provider.getAvailableAccounts();
 
 ### getConnectedUser()
 
-An `asynchronous` class instance `function` which returns data of the currently signed in Bitski user. Will throw if no user is signed in.
+An `asynchronous` class instance `function` which returns data of the currently signed-in Bitski user. Will throw error if no user is signed in.
 
 **Result:**
 
-An object representing Bitski user.
+An object representing a Bitski user.
 
 **Example:**
 
@@ -555,7 +555,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` matches the currently set account ID.
+A `boolean` which tells whether the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -573,7 +573,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 **Result:**
 
-A `boolean` which tells if the provider can be used.
+A `boolean` which tells whether the provider can be used.
 
 **Example:**
 
@@ -584,11 +584,11 @@ const isSupported = provider.isSupported();
 
 ### isSignedIn()
 
-A `synchronous` class instance `function` which returns `true` when user is signed into Bitski.
+A `synchronous` class instance `function` which returns `true` when a user is signed into Bitski.
 
 **Result:**
 
-A `boolean` which tells if the user is signed into Bitski.
+A `boolean` which tells whether the user is signed into Bitski.
 
 **Example:**
 
@@ -605,11 +605,11 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A `string` representing an address of the ERC-721-related smart contract on the Ethereum blockchain.
 
 **Result:**
 
-A `boolean` which tells if the `id` is an unsafe recipient.
+A `boolean` which tells whether the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -627,7 +627,7 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 
 ### log(message)
 
-A `synchronous` class instance `function` which logs message to console if verbose mode is active otherwise does nothing.
+A `synchronous` class instance `function` which logs message to console if verbose mode is active, otherwise it does nothing.
 
 **Example:**
 
@@ -637,18 +637,18 @@ provider.log('message');
 
 ### mutationTimeout
 
-A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
+A class instance `variable` holding an `integer` number of milliseconds after which a mutation times out.
 
 ### network
 
-A class instance `variable` holding a `string` or instance of `BitskiProviderNetwork` representing the ethereum network bitski is connected to.
+A class instance `variable` holding a `string` or instance of `BitskiProviderNetwork` representing the Ethereum network Bitski is connected to.
 
 `BitskiProviderNetwork` is defined as:
 
 | Argument | Description
 |-|-
-| rpcUrl | A `string` representing an Url to RPC provider.
-| chainId | A `number` representing the ID of ethereum chain.
+| rpcUrl | A `string` representing a URL to RPC provider.
+| chainId | A `number` representing the ID of the Ethereum chain.
 
 ### on(event, handler);
 
@@ -776,7 +776,7 @@ const signature = await provider.sign('test');
 An `asynchronous` class instance `function` which signs in the user and authorizes the provider.
 
 ::: warning
-Calling this method should always be performed by a click handler (user-generated request) so the pop-up will not get blocked by the browser.
+Calling this method should always be performed by a click handler (user-generated request) to prevent the pop-up from getting blocked by the browser.
 :::
 
 **Example:**
@@ -807,15 +807,15 @@ A class instance `variable` holding a `string` which represents smart contract a
 
 ### valueLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 ### verbose
 
-A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 ## MetaMask provider
 
-A MetaMask provider is applied for in-browser use. The user should have the [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel to MetaMask which further performs communication with the Ethereum blockchain.
+A MetaMask provider is applied for in-browser use. The user should have [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel to MetaMask which further performs communication with the Ethereum blockchain.
 
 ### MetamaskProvider(options)
 
@@ -825,7 +825,7 @@ A `class` providing communication with the Ethereum blockchain through [MetaMask
 
 | Argument | Description
 |-|-
-| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 | options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
 | options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
@@ -835,9 +835,9 @@ A `class` providing communication with the Ethereum blockchain through [MetaMask
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. Available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
-| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g. CryptoKitties address should be listed here).
-| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
-| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
+| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
+| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 **Usage**
 
@@ -857,7 +857,7 @@ A class instance `variable` holding a `string` which represents the user's curre
 
 ### assetLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
 ### buildGatewayConfig(networkKind)
 
@@ -947,11 +947,11 @@ const provider = MetamaskProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g., `1` for Ethereum Mainnet).
 
 **Result:**
 
-A `string` representing Ethereum network version.
+A `string` representing the Ethereum network version.
 
 **Example:**
 
@@ -972,7 +972,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` matches the currently set account ID.
+A `boolean` which tells whether the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -990,7 +990,7 @@ An `asynchronous` class instance `function` which returns `true` when the provid
 
 **Result:**
 
-A `boolean` that tells if the provider is enabled.
+A `boolean` that tells whether the provider is enabled.
 
 **Example:**
 
@@ -1009,7 +1009,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 **Result:**
 
-A `boolean` which tells if the provider can be used.
+A `boolean` which tells whether the provider can be used.
 
 **Example:**
 
@@ -1024,17 +1024,17 @@ const isSupported = provider.isSupported();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `id` is listed among unsafe recipient IDs on the provider.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A `string` representing an address of the ERC-721-related smart contract on the Ethereum blockchain.
 
 **Result:**
 
-A `boolean` which tells if the `id` is an unsafe recipient.
+A `boolean` which tells whether the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -1052,7 +1052,7 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 
 ### log(message)
 
-A `synchronous` class instance `function` which logs message to console if verbose mode is active otherwise does nothing.
+A `synchronous` class instance `function` which logs message to console if verbose mode is active, otherwise it does nothing.
 
 **Example:**
 
@@ -1062,7 +1062,7 @@ provider.log('message');
 
 ### mutationTimeout
 
-A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
+A class instance `variable` holding an `integer` number of milliseconds after which a mutation times out.
 
 ### on(event, handler);
 
@@ -1073,7 +1073,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -1102,7 +1102,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [provider event](./ethereum.md#provider-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ACCOUNT_CHANGE`, the first argument is a new account ID and the second is the old one, and when the `event` equals `NETWORK_CHANGE`, the first argument is a new network version and the second is the old one.
 
 **Result:**
 
@@ -1135,7 +1135,7 @@ A `synchronous` class instance `function` which removes an existing event handle
 
 **Result:**
 
-An instance of the same provider  class.
+An instance of the same provider class.
 
 **Example:**
 
@@ -1183,7 +1183,7 @@ const signature = await provider.sign('test');
 
 ### signMethod
 
-A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
 
 ### unsafeRecipientIds
 
@@ -1191,11 +1191,11 @@ A class instance `variable` holding a `string` which represents smart contract a
 
 ### valueLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 ### verbose
 
-A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+A class instance `variable` holding a `boolean` which represents whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 ## HTTP provider
 
@@ -1214,10 +1214,10 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | Argument | Description
 |-|-
 | options.accountId | A `string` representing the Ethereum account that will perform actions.
-| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721 related smart contract definition file.
+| options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721-related smart contract definition file.
 | options.cache | A `string` representing request cache type. It defaults to `no-cache`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 | options.credentials | A `string` representing request credentials. It defaults to `omit`. Please see more details [here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
-| options.gasPriceMultiplier | A `number` represents a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
+| options.gasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
 | options.gatewayConfig.actionsOrderId | A `string` representing an Ethereum address of the [actions gateway](/#public-addresses).
 | options.gatewayConfig.valueLedgerDeployOrderId | A `string` representing an Ethereum address of the [value ledger deploy gateway](/#public-addresses).
@@ -1231,8 +1231,8 @@ A `class` providing communication with the Ethereum blockchain using the HTTP/HT
 | options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers.
 | options.url | [required] A `string` representing the URL to the Ethereum node's JSON RPC.
-| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20 related smart contract definition file.
-| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means you will get more detailed information in the console about what is going on. It defaults to `false`.
+| options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file.
+| options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
 **Usage**
 
@@ -1255,7 +1255,7 @@ Please note, when using [Infura](https://infura.io/), only queries are supported
 
 ### assetLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721 related smart contract definition file. This file is used when deploying new asset ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
 
 ### buildGatewayConfig(networkKind)
 
@@ -1299,7 +1299,7 @@ const provider = HttpProvider.getInstance();
 
 ### getNetworkVersion()
 
-An `asynchronous` class instance `function` which returns the Ethereum network version (e.g. `1` for Ethereum Mainnet).
+An `asynchronous` class instance `function` which returns the Ethereum network version (e.g., `1` for Ethereum Mainnet).
 
 **Result:**
 
@@ -1324,7 +1324,7 @@ A `synchronous` class instance `function` which returns `true` when the provided
 
 **Result:**
 
-A `boolean` which tells if the `accountId` matches the currently set account ID.
+A `boolean` which tells whether the `accountId` matches the currently set account ID.
 
 **Example:**
 
@@ -1342,7 +1342,7 @@ A `synchronous` class instance `function` which returns `true` when the provider
 
 **Result:**
 
-A `boolean` which tells if the provider can be used.
+A `boolean` which tells whether the provider can be used.
 
 **Example:**
 
@@ -1353,17 +1353,17 @@ const isSupported = provider.isSupported();
 
 ### isUnsafeRecipientId(ledgerId)
 
-A `synchronous` class instance `function` which returns `true` when the provided `ledgerId` is listed among unsafe recipient ids on the provided.
+A `synchronous` class instance `function` which returns `true` when the provided `ledgerId` is listed among unsafe recipient IDs on the provider.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A `string` representing an address of the ERC-721-related smart contract on the Ethereum blockchain.
 
 **Result:**
 
-A `boolean` which tells if the `id` is an unsafe recipient.
+A `boolean` which tells whether the `id` is an unsafe recipient.
 
 **Example:**
 
@@ -1381,7 +1381,7 @@ const isUnsafe = provider.isUnsafeRecipientId(criptoKittiesId);
 
 ### log(message)
 
-A `synchronous` class instance `function` which logs message to console if verbose mode is active otherwise does nothing.
+A `synchronous` class instance `function` which logs message to console if verbose mode is active, otherwise it does nothing.
 
 **Example:**
 
@@ -1391,7 +1391,7 @@ provider.log('message');
 
 ### mutationTimeout
 
-A class instance `variable` holding an `integer` number of milliseconds in which a mutation times out.
+A class instance `variable` holding an `integer` number of milliseconds after which a mutation times out.
 
 ### on(event, handler);
 
@@ -1464,7 +1464,7 @@ A `synchronous` class instance `function` which removes an existing event handle
 
 **Result:**
 
-An instance of the same provider  class.
+An instance of the same provider class.
 
 **Example:**
 
@@ -1512,7 +1512,7 @@ const signature = await provider.sign('test');
 
 ### signMethod
 
-A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g. when creating claims).
+A class instance `variable` holding a `string` which holds a type of signature that will be used (e.g., when creating claims).
 
 ### unsafeRecipientIds
 
@@ -1520,7 +1520,7 @@ A class instance `variable` holding a `string` which represents smart contract a
 
 ### valueLedgerSource
 
-A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20 related smart contract definition file. This file is used when deploying new value ledgers to the network.
+A class instance `variable` holding a `string` which represents the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 
 ### verbose
 
@@ -1787,7 +1787,7 @@ An `asynchronous` class instance `function` which resubmits the same mutation to
 
 ### resolve()
 
-An `asynchronous` class instance `function` which resolves current mutation status.
+An `asynchronous` class instance `function` which resolves the current mutation status.
 
 **Result:**
 
@@ -1830,7 +1830,7 @@ mutation.on(MutationEvent.COMPLETE, () => {
 
 ## Asset ledger
 
-Asset ledger represents ERC-721 related smart contract on the Ethereum blockchain.
+Asset ledger represents ERC-721-related smart contract on the Ethereum blockchain.
 
 ### AssetLedger(provider, ledgerId)
 
@@ -1840,7 +1840,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A `string` representing an address of the ERC-721 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A `string` representing an address of the ERC-721-related smart contract on the Ethereum blockchain.
 | provider | [required] An instance of provider.
 
 **Example:**
@@ -1862,7 +1862,7 @@ const ledger = new AssetLedger(provider, ledgerId);
 An `asynchronous` class instance `function` which approves a third-party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner.
 
 ::: tip
-Only one account per `assetId` can be approved at the same time thus running this function multiple times will override previously set data.
+Only one account per `assetId` can be approved at the same time thus running this function multiple times will override the previously set data.
 :::
 
 **Arguments:**
@@ -2172,10 +2172,10 @@ const abilities = await ledger.getAbilities(accountId);
 
 ### getAccountAssetIdAt(accountId, index)
 
-An `asynchronous` class instance `function` which returns the asset id at specified `index` for desired `accountId`.
+An `asynchronous` class instance `function` which returns the asset ID at specified `index` for desired `accountId`.
 
 ::: warning
-The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+The function might fail in some third-party ERC-721 contracts. If the token contract is not enumerable, this function will always return `null`.
 :::
 
 **Arguments:**
@@ -2187,7 +2187,7 @@ The function might fail on some third party ERC721 contracts. If the token contr
 
 **Result:**
 
-A `number` representing the asset id.
+A `number` representing the asset ID.
 
 **Example:**
 
@@ -2236,7 +2236,7 @@ An `asynchronous` class instance `function` which returns `assetId` data.
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` representing the asset ID.
+| assetId | [required] A `string` representing an asset ID.
 
 **Result:**
 
@@ -2264,7 +2264,7 @@ An `asynchronous` class instance `function` which returns an account ID that own
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` representing the asset ID.
+| assetId | [required] A `string` representing asset ID.
 
 **Result:**
 
@@ -2282,10 +2282,10 @@ const accountId = await ledger.getAssetAccount(assetId);
 
 ### getAssetIdAt(index)
 
-An `asynchronous` class instance `function` which returns the asset id at specified `index`.
+An `asynchronous` class instance `function` which returns the asset ID at specified `index`.
 
 ::: warning
-The function might fail on some third party ERC721 contracts. If the token contract is not enumerable, this function will always return `null`.
+The function might fail in some third-party ERC-721 contracts. If the token contract is not enumerable, this function will always return `null`.
 :::
 
 **Arguments:**
@@ -2296,7 +2296,7 @@ The function might fail on some third party ERC721 contracts. If the token contr
 
 **Result:**
 
-A `number` representing the asset id.
+A `number` representing the asset ID.
 
 **Example:**
 
@@ -2449,7 +2449,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 **Result:**
 
-A `boolean` which tells if the `accountId` is approved for `assetId`.
+A `boolean` which tells whether the `accountId` is approved for `assetId`.
 
 **Example:**
 
@@ -2479,7 +2479,7 @@ An `asynchronous` class instance `function` which returns `true` when the `accou
 
 **Result:**
 
-A `boolean` which tells if the `operatorId` can manage assets of `accountId`.
+A `boolean` which tells whether the `operatorId` can manage assets of `accountId`.
 
 **Example:**
 
@@ -2506,7 +2506,7 @@ The `TOGGLE_TRANSFERS` ledger capability is required to perform this function.
 
 **Result:**
 
-A `boolean` which tells if ledger asset transfers are enabled.
+A `boolean` which tells whether ledger asset transfers are enabled.
 
 **Example:**
 
@@ -2714,7 +2714,7 @@ const mutation = await ledger.updateAsset(assetId, recipe);
 
 ### transferAsset(recipe)
 
-An `asynchronous` class instance `function` which transfers asset to another account.
+An `asynchronous` class instance `function` which transfers an asset to another account.
 
 **Arguments:**
 
@@ -2744,8 +2744,8 @@ const mutation = await ledger.transferAsset(recipe);
 
 ## Ledger abilities
 
-Ledger abilities represent account-level permissions. For optimization reasons abilities are managed as bitfields for that reason enums are values of 2**n.
-We have two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities whereas super abilities can.
+Ledger abilities represent account-level permissions. For optimization reasons, the abilities are managed as bitfields, and for that reason, enums are values of 2^n.
+There are two categories of abilities, general and super. General abilities are abilities that can not change other account's abilities, whereas super abilities can.
 This categorization is for safety purposes since revoking your own super ability can lead to unintentional loss of control.
 
 **Super abilities options:**
@@ -2753,14 +2753,14 @@ This categorization is for safety purposes since revoking your own super ability
 | Name | Value | Description
 |-|-|-
 | MANAGE_ABILITIES | 1 | Allows an account to further grant abilities.
-| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bounded to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
+| ALLOW_MANAGE_ABILITIES | 2 | A specific ability that is bound to atomic orders. When granting or revoking abilities through `Gateway`, the order maker has to have this ability.
 
 **General abilities options:**
 
 | Name | Value | Description
 |-|-|-
-| ALLOW_CREATE_ASSET | 512 | A specific ability that is bounded to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
-| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bounded to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
+| ALLOW_CREATE_ASSET | 512 | A specific ability that is bound to atomic orders. When creating a new asset through `Gateway`, the order maker has to have this ability.
+| ALLOW_UPDATE_ASSET_IMPRINT | 1024 | A specific ability that is bound to atomic orders. When updating asset imprint through `Gateway`, the order maker has to have this ability.
 | CREATE_ASSET | 16 | Allows an account to create a new asset.
 | REVOKE_ASSET | 32 | Allows management accounts to revoke assets.
 | TOGGLE_TRANSFERS | 64 | Allows an account to stop and start asset transfers.
@@ -2809,7 +2809,7 @@ const capabilities = [
 
 ## Value ledger
 
-Value ledger represents an ERC-20 related smart contract on the Ethereum blockchain.
+Value ledger represents an ERC-20-related smart contract on the Ethereum blockchain.
 
 ### ValueLedger(provider, ledgerId)
 
@@ -2819,7 +2819,7 @@ A `class` which represents a smart contract on the Ethereum blockchain.
 
 | Argument | Description
 |-|-
-| ledgerId | [required] A string representing an address of the ERC-20 related smart contract on the Ethereum blockchain.
+| ledgerId | [required] A string representing an address of the ERC-20-related smart contract on the Ethereum blockchain.
 | provider | [required] An instance of provider.
 
 **Example:**
@@ -2942,7 +2942,7 @@ An `asynchronous` class instance `function` which returns the approved value tha
 | Argument | Description
 |-|-
 | accountId | [required] A `string` representing the holder's account ID.
-| spenderId | [required] A `string` representing the account ID of a spender.
+| spenderId | [required] A `string` representing the spender's account ID.
 
 **Result:**
 
@@ -2965,7 +2965,7 @@ const value = await ledger.getApprovedValue(accountId, spenderId);
 
 ### getBalance(accountId)
 
-An `asynchronous` class instance `function` which returns the total posessed amount of the `accountId`.
+An `asynchronous` class instance `function` which returns the total possessed amount of the `accountId`.
 
 **Arguments:**
 
@@ -3047,7 +3047,7 @@ An `asynchronous` class instance `function` which returns `true` when the `spend
 
 **Result:**
 
-A `boolean` which tells if the `spenderId` is approved to move `value` from `accountId`.
+A `boolean` which tells whether the `spenderId` is approved to move `value` from `accountId`.
 
 **Example:**
 
@@ -3067,14 +3067,14 @@ const isApproved = await ledger.isApprovedAccount(value, accountId, spenderId);
 
 ### transferValue(recipe)
 
-An `asynchronous` class instance `function` which transfers asset to another account.
+An `asynchronous` class instance `function` which transfers an asset to another account.
 
 **Arguments:**
 
 | Argument | Description
 |-|-
 | recipe.receiverId | [required] A `string` representing account ID that will receive the value.
-| recipe.senderId | A `string` representing account ID that will send the value. It defaults to provider's accountId.
+| recipe.senderId | A `string` representing account ID that will send the value. It defaults to the provider's accountId.
 | recipe.value | [required] A big number `string` representing the transferred amount.
 
 **Result:**
@@ -3096,28 +3096,27 @@ const mutation = await ledger.transferValue(recipe);
 
 ## Gateway
 
-The Gateway allows for performing multiple actions in a single atomic swap. The gateway always operate with an order.
-There are different kinds of order depending on what action you want to perform. We can seperate them in two groups
-based on their functionality and their flow. First there are orders for deploying a new `ValueLedger` and `AssetLedger`. 
-These two orders only perform the deployment of a new smart contract to the blockchain plus a transfer of erc20 (value). 
-They are primarily targeted for delegating a deployment to a third party. For example you want to deploy a new `AssetLedger`
-but you do not want to do that yourself you can pay someone some erc20 tokens to perfom that for you. This tho orders have a flow
-which is as follows:
+The Gateway allows for performing multiple actions in a single atomic swap. The gateway always operates with an order.
+There are different kinds of order, depending on the type of action you want to perform. We can separate them into two groups
+based on their functionality and their flow. First, there are orders for deploying a new `ValueLedger` and `AssetLedger`. 
+These two orders only perform the deployment of a new smart contract to the blockchain plus a transfer of ERC-20 tokens (value). 
+They are primarily targeted to delegating a deployment to a third party. For example, if you want to deploy a new `AssetLedger`
+but you do not want to do that yourself, you can pay someone some ERC-20 tokens to perform that for you. These two orders have the following flow:
 
-1. Maker (address creating an order) defines the order (who will be the owner of the newly deployed ledger, who will receive token etc.).
+1. Maker (address creating an order) defines the order (defines who will be the owner of the newly deployed ledger, who will receive tokens, etc.).
 2. Maker generates the order claim and signs it (`sign` function).
-3. Maker approves value transfer if necessary
-4. Maker sends the order and signature to the taker (trough arbitrary ways).
+3. Maker approves value transfer if necessary.
+4. Maker sends the order and signature to the taker (through arbitrary ways).
 5. Taker performs the order.
 
-In this case it is possible that taker can also be defined as "anyone" meaning you can define an order basically saying I am willing to pay x tokens to anyone wanting to create this ledger for me.
+In this case, the taker can also be defined as "anyone", meaning you can define an order saying basically, "I am willing to pay X tokens to anyone willing to create this ledger for me".
 
 Order kinds that fit into this group are:
 - `DeployAssetLedgerOrder`
 - `DeployValueLedgerOrder` 
 
-Then we have orders for performing actions on existing ledgers. This orders are really powerfull but that makes them a bit more complex.
-Unlike deploy orders that have a specific maker and taker the actions order are more dynamic allowing X participants that need to sign an order for it to be valid.
+Then, there are orders for performing actions on existing ledgers. These orders are really powerful, but this makes them more complicated, too.
+Unlike deploy orders that have a specific maker and taker, the actions order are more dynamic, allowing an X number of participants to join but need to sign an order for it to be valid.
 That also means that we can have multiple participants performing actions in a single atomic order. Actions that can be performed are the following:
 - Transfer asset
 - Transfer value
@@ -3126,15 +3125,15 @@ That also means that we can have multiple participants performing actions in a s
 - Destroy an asset
 - Update account abilities
 
-Because we have multiple participants in an order there are 4 different ways how we interact with is resulting in 4 `ActionsOrder`s differentiating only in how participants interact with it. Namely:
-- `FixedActionsOrder` - All participants are known and set in the order. Only the last defined participant can peform the order, others have to provide signatures.
-- `SignedFixedActionsOrder` - All participants are known and set in the order. All participants have to provide signatures. Anyone can perform the order.
-- `DynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures any can peform the order and he automatically becomes the last participant.
-- `SignedDynamicActionsOrder` - The last participant can be an unknown - "any". All defined participants have to provide signatures as well as the last "any" participant. Anyone can perform the order.
+Since we have multiple participants in an order, there are four different ways to interact with it, resulting in four `ActionsOrder`s differentiating only in the way participants interact with it, namely:
+- `FixedActionsOrder` - All participants are known and set in the order. Only the last defined participant can perform the order, other participants have to provide signatures.
+- `SignedFixedActionsOrder` - All participants are known and set in the order. All participants have to provide signatures. Any participant can perform the order.
+- `DynamicActionsOrder` - The last participant can be unknown or "any". All defined participants have to provide signatures. Any participant can peform the order and automatically becomes the last participant.
+- `SignedDynamicActionsOrder` - The last participant can be unknown or "any". All defined participants have to provide signatures, the last or "any" participant, as well. Any participant can perform the order.
 
-To better explain the above in an example. Lets say I want to sell two CryptoKitties for 5000 ZXC. Any I want so that anyone can buy it I would use a `DynamicActionsOrder` since I do not need to set the `receiverId` of the CryptoKitties and neither the `senderId` of ZXC. Meaning anyone that want to peform the order will automatically become the empty recipient/sender and we will exchange the goods. If I use the same case but know exactly that I want to sell My CryptoKitties to Bob for 5000 ZXC I will use `FixedActionsOrder` so that I can specify exactly who will be the receiver. Now lets say that Bob in this case does not have any ETH and is unable to perform the order but he has tons of ZXC tokens but his friend Sara is willing to help him out. Then we can use a `SignedFixedActionsOrder` so that Bob only needs to sign the order and Sara can peform it. If he wanted to pay Sara some ZXC for doing this, he could also specify this in the order.
+Let's illustrate the above concepts through an example. Let's say we want to sell two CryptoKitties for 5.000 ZXC. To allow anyone to buy it, we would use a `DynamicActionsOrder`, since we do not need to set the `receiverId` of the CryptoKitties and neither the `senderId` of ZXC. This means that anyone that wants to perform the order will automatically become the empty recipient/sender with whom we will exchange the assets. If we use the same case, but this time, we want to sell our CryptoKitties to Bob for 5.000 ZXC, we will use `FixedActionsOrder`, so that we can specify the exact receiver. Now, let's say that Bob does not have any ETH and is unable to perform the order, but he has tons of ZXC tokens, and his friend Sara is willing to help him out. In this case, we can use a `SignedFixedActionsOrder`, so that Bob only needs to sign the order, and Sara can perform it. If he wanted to pay Sara some ZXC for doing this, he could specify this in the order.
 
-Basically `signed` orders are meant for third party services provided order execution for someone else which can come in handy when developing DAPPs.
+Therefore, `signed` orders are perfect for third-party services providing order execution for someone else. This can come handy in a variety of dApps.
 
 ::: warning
 When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
@@ -3237,7 +3236,7 @@ const gateway = Gateway.getInstance(provider, buildGatewayConfig(NetworkType.ROP
 
 ## getProxyAccountId(proxyKind, ledgerId?)
 
-An `asynchronous` class instance `function` which gets the accountId of desired proxy from the gateway smart contract infrastructure.
+An `asynchronous` class instance `function` which gets the accountId of the desired proxy from the gateway smart contract infrastructure.
 
 **Arguments:**
 
@@ -3385,7 +3384,7 @@ const signature = await gateway.sign(order);
 
 ## Order kinds
 
-Order defines what an atomic swap will do. There are three different order kinds with different use cases and definitions.
+The order defines what an atomic swap will do. There are three different order kinds with different use cases and definitions.
 
 ### Asset ledger deploy order
 
@@ -3400,7 +3399,7 @@ This order kind is used for delegating `AssetLedger` deploy.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
 | assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
 | assetLedgerData.uriPostfix | [required] A `string` representing postfix of asset URI.
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
 | makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
@@ -3411,52 +3410,52 @@ This order kind is used for delegating `AssetLedger` deploy.
 
 ### DynamicActionsOrder
 
-This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
-Participants (signers) are defined but the last one is not defined meaning anyone with the order and signatures from other participants can perform the order and by doing so becomes the last "unknown" participant.
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities, and destroying assets.
+All participants (signers) except for the last one are defined. This means that any participant with the order and signatures from other participants can perform the order and, by doing so, becomes the last "unknown" participant.
 
 | Argument | Description
 |-|-
 | actions | [required] An `array` of [dynamic actions order action objects](#actions order-actions).
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.DYNAMIC_ACTIONS_ORDER`.
 | seed | [required] An `integer` number representing a unique order number.
 | signers | [required] A `string[]` representing order signers.
 
 ### FixedActionsOrder
 
-This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
-All participants(signers) have to be known beforehand and the last defined signer can peform the order (his signature is not needed since he is the one performing the order).
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities, and destroying assets.
+All participants (signers) have to be known beforehand, and the last defined signer can peform the order (the last signer's signature is not needed since he is the one performing the order).
 
 | Argument | Description
 |-|-
 | actions | [required] An `array` of [fixed actions order action objects](#actions order-actions).
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.FIXED_ACTIONS_ORDER`.
 | seed | [required] An `integer` number representing a unique order number.
 | signers | [required] A `string[]` representing order signers.
 
 ### SignedDynamicActionsOrder
 
-This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
-Participants (signers) are defined but the last one is not defined meaning anyone can provide the last signature and by doing so becomes the last participant. Anyone that has all of the signatures is able to perform the order.
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities, and destroying assets.
+All participants (signers) except for the last one are defined. This means that any participant can provide the last signature and, by doing so, becomes the last participant. Any participant with all the signatures is able to perform the order.
 
 | Argument | Description
 |-|-
 | actions | [required] An `array` of [dynamic actions order action objects](#actions order-actions).
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.SIGNED_DYNAMIC_ACTIONS_ORDER`.
 | seed | [required] An `integer` number representing a unique order number.
 | signers | [required] A `string[]` representing order signers.
 
 ### SignedFixedActionsOrder
 
-This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities and destorying assets.
-All participants(signers) have to be known beforehand and with all signatures provided anyone can perform the order.
+This order kind can perform multiple operations such as value transfer, asset transfer, asset creation, asset update, setting user abilities, and destroying assets.
+All participants (signers) have to be known beforehand, and any participant with all signatures provided can perform the order.
 
 | Argument | Description
 |-|-
 | actions | [required] An `array` of [fixed actions order action objects](#actions order-actions).
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.SIGNED_FIXED_ACTIONS_ORDER`.
 | seed | [required] An `integer` number representing a unique order number.
 | signers | [required] A `string[]` representing order signers.
@@ -3467,7 +3466,7 @@ This order kind is used for delegating `ValueLedger` deploy.
 
 | Argument | Description
 |-|-
-| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed any more.
+| expiration | [required] An `integer` number representing the timestamp in milliseconds after which the order expires and can not be performed anymore.
 | kind | [required] An `integer` number that equals to `OrderKind.ASSET_LEDGER_DEPLOY_ORDER`.
 | makerId | [required] A `string` representing an Ethereum account address which makes the order. It defaults to the `accountId` of a provider.
 | seed | [required] An `integer` number representing a unique order number.
@@ -3626,7 +3625,7 @@ There is a possibility of unintentional behavior where account abilities could b
 
 ## Public addresses
 
-This are latest addresses that work with version 2.0.0 For older addresses check docs v1.
+These are the latest addresses that work with the 0xcert Framework version 2.0.0. For older addresses, check [Documentation v1]().
 
 ### Mainnet
 
@@ -3675,7 +3674,7 @@ This are latest addresses that work with version 2.0.0 For older addresses check
 
 ## Possible errors
 
-The 0xcert framework handles anykind of error that happens either from smart contracts or from the framework itself and provides a meaningfull description if possible.
+The 0xcert Framework handles any kind of error that happens either in smart contracts or in the Framework itself and provides a thorough description wherever possible.
 
 Error example: 
 
@@ -3688,7 +3687,7 @@ Error example:
 }
 ```
 
-This is a list of all possible errors that can be thrown by the 0xcert framework. The list is split into two categories depending on where the error originates.
+This is a list of all possible errors that can be thrown by the 0xcert Framework. The list is split into two categories depending on the origin of the error.
 
 ### Framework errors
 
