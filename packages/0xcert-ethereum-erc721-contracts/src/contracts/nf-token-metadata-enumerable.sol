@@ -547,6 +547,7 @@ contract NFTokenMetadataEnumerable is
     uint256 _tokenId
   )
     internal
+    virtual
   {
     // valid NFT
     require(_from != address(0), ZERO_ADDRESS);
@@ -604,6 +605,7 @@ contract NFTokenMetadataEnumerable is
     bytes memory _data
   )
     internal
+    virtual
   {
     if (_to.isDeployedContract())
     {
