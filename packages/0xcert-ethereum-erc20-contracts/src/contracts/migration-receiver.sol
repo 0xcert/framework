@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * Interface for accepting migrations.
@@ -12,12 +12,12 @@ interface MigrationReceiver {
    * throwing.
    * @param _migrator The address which called `migrate` function.
    * @param _amount Amount of tokens being migrated.
-   * @return Returns `bytes4(keccak256("onMigrationReceived(address,uint256)"))`.
+   * @return magicValue Returns `bytes4(keccak256("onMigrationReceived(address,uint256)"))`.
    */
   function onMigrationReceived(
     address _migrator,
     uint256 _amount
   )
     external
-    returns(bytes4);
+    returns(bytes4 magicValue);
 }
