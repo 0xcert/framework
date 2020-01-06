@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./erc721.sol";
 import "./erc721-metadata.sol";
@@ -134,8 +134,8 @@ contract NFTokenMetadata is
    * @notice Throws unless `msg.sender` is the current owner, an authorized operator, or the
    * approved address for this NFT. Throws if `_from` is not the current owner. Throws if `_to` is
    * the zero address. Throws if `_tokenId` is not a valid NFT. When transfer is complete, this
-   * function checks if `_to` is a smart contract (code size > 0). If so, it calls 
-   * `onERC721Received` on `_to` and throws if the return value is not 
+   * function checks if `_to` is a smart contract (code size > 0). If so, it calls
+   * `onERC721Received` on `_to` and throws if the return value is not
    * `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
@@ -149,6 +149,7 @@ contract NFTokenMetadata is
     bytes calldata _data
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, _data);
   }
@@ -167,6 +168,7 @@ contract NFTokenMetadata is
     uint256 _tokenId
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, "");
   }
@@ -187,6 +189,7 @@ contract NFTokenMetadata is
     uint256 _tokenId
   )
     external
+    override
   {
     _transferFrom(_from, _to, _tokenId);
   }
@@ -203,6 +206,7 @@ contract NFTokenMetadata is
     uint256 _tokenId
   )
     external
+    override
   {
     // can operate
     address tokenOwner = idToOwner[_tokenId];
@@ -227,6 +231,7 @@ contract NFTokenMetadata is
     bool _approved
   )
     external
+    override
   {
     ownerToOperators[msg.sender][_operator] = _approved;
     emit ApprovalForAll(msg.sender, _operator, _approved);
@@ -242,6 +247,7 @@ contract NFTokenMetadata is
     address _owner
   )
     external
+    override
     view
     returns (uint256)
   {
@@ -253,12 +259,13 @@ contract NFTokenMetadata is
    * @dev Returns the address of the owner of the NFT. NFTs assigned to zero address are considered
    * invalid, and queries about them do throw.
    * @param _tokenId The identifier for an NFT.
-   * @return Address of _tokenId owner.
+   * @return _owner Address of _tokenId owner.
    */
   function ownerOf(
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address _owner)
   {
@@ -270,12 +277,13 @@ contract NFTokenMetadata is
    * @dev Get the approved address for a single NFT.
    * @notice Throws if `_tokenId` is not a valid NFT.
    * @param _tokenId ID of the NFT to query the approval of.
-   * @return Address that _tokenId is approved for. 
+   * @return Address that _tokenId is approved for.
    */
   function getApproved(
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address)
   {
@@ -294,6 +302,7 @@ contract NFTokenMetadata is
     address _operator
   )
     external
+    override
     view
     returns (bool)
   {
@@ -302,10 +311,11 @@ contract NFTokenMetadata is
 
   /**
    * @dev Returns a descriptive name for a collection of NFTs.
-   * @return Representing name. 
+   * @return _name Representing name.
    */
   function name()
     external
+    override
     view
     returns (string memory _name)
   {
@@ -314,10 +324,11 @@ contract NFTokenMetadata is
 
   /**
    * @dev Returns an abbreviated name for NFTs.
-   * @return Representing symbol. 
+   * @return _symbol Representing symbol.
    */
   function symbol()
     external
+    override
     view
     returns (string memory _symbol)
   {
@@ -335,6 +346,7 @@ contract NFTokenMetadata is
     uint256 _tokenId
   )
     external
+    override
     view
     returns (string memory)
   {
@@ -495,11 +507,11 @@ contract NFTokenMetadata is
 
   /**
    * @dev Helper function that changes uint to string representation.
-   * @return String representation.
+   * @return str String representation.
    */
   function _uint2str(
     uint256 _i
-  ) 
+  )
     internal
     pure
     returns (string memory str)
@@ -525,5 +537,5 @@ contract NFTokenMetadata is
     }
     str = string(bstr);
   }
-  
+
 }

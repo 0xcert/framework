@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./erc721.sol";
 import "./erc721-enumerable.sol";
@@ -128,8 +128,8 @@ contract NFTokenEnumerable is
    * @notice Throws unless `msg.sender` is the current owner, an authorized operator, or the
    * approved address for this NFT. Throws if `_from` is not the current owner. Throws if `_to` is
    * the zero address. Throws if `_tokenId` is not a valid NFT. When transfer is complete, this
-   * function checks if `_to` is a smart contract (code size > 0). If so, it calls 
-   * `onERC721Received` on `_to` and throws if the return value is not 
+   * function checks if `_to` is a smart contract (code size > 0). If so, it calls
+   * `onERC721Received` on `_to` and throws if the return value is not
    * `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
@@ -143,6 +143,7 @@ contract NFTokenEnumerable is
     bytes calldata _data
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, _data);
   }
@@ -161,6 +162,7 @@ contract NFTokenEnumerable is
     uint256 _tokenId
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, "");
   }
@@ -181,6 +183,7 @@ contract NFTokenEnumerable is
     uint256 _tokenId
   )
     external
+    override
   {
     _transferFrom(_from, _to, _tokenId);
   }
@@ -197,6 +200,7 @@ contract NFTokenEnumerable is
     uint256 _tokenId
   )
     external
+    override
   {
     // can operate
     address tokenOwner = idToOwner[_tokenId];
@@ -221,6 +225,7 @@ contract NFTokenEnumerable is
     bool _approved
   )
     external
+    override
   {
     ownerToOperators[msg.sender][_operator] = _approved;
     emit ApprovalForAll(msg.sender, _operator, _approved);
@@ -236,6 +241,7 @@ contract NFTokenEnumerable is
     address _owner
   )
     external
+    override
     view
     returns (uint256)
   {
@@ -247,12 +253,13 @@ contract NFTokenEnumerable is
    * @dev Returns the address of the owner of the NFT. NFTs assigned to zero address are considered
    * invalid, and queries about them do throw.
    * @param _tokenId The identifier for an NFT.
-   * @return Address of _tokenId owner.
+   * @return _owner Address of _tokenId owner.
    */
   function ownerOf(
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address _owner)
   {
@@ -264,12 +271,13 @@ contract NFTokenEnumerable is
    * @dev Get the approved address for a single NFT.
    * @notice Throws if `_tokenId` is not a valid NFT.
    * @param _tokenId ID of the NFT to query the approval of.
-   * @return Address that _tokenId is approved for. 
+   * @return Address that _tokenId is approved for.
    */
   function getApproved(
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address)
   {
@@ -288,6 +296,7 @@ contract NFTokenEnumerable is
     address _operator
   )
     external
+    override
     view
     returns (bool)
   {
@@ -300,6 +309,7 @@ contract NFTokenEnumerable is
    */
   function totalSupply()
     external
+    override
     view
     returns (uint256)
   {
@@ -315,6 +325,7 @@ contract NFTokenEnumerable is
     uint256 _index
   )
     external
+    override
     view
     returns (uint256)
   {
@@ -333,6 +344,7 @@ contract NFTokenEnumerable is
     uint256 _index
   )
     external
+    override
     view
     returns (uint256)
   {
@@ -360,12 +372,12 @@ contract NFTokenEnumerable is
     // add NFT
     idToOwner[_tokenId] = _to;
 
-    uint256 length = ownerToIds[_to].push(_tokenId);
-    idToOwnerIndex[_tokenId] = length - 1;
+    ownerToIds[_to].push(_tokenId);
+    idToOwnerIndex[_tokenId] = ownerToIds[_to].length - 1;
 
     // add to tokens array
-    length = tokens.push(_tokenId);
-    idToIndex[_tokenId] = length - 1;
+    tokens.push(_tokenId);
+    idToIndex[_tokenId] = tokens.length - 1;
 
     emit Transfer(address(0), _to, _tokenId);
   }
@@ -407,7 +419,7 @@ contract NFTokenEnumerable is
 
     delete idToOwner[_tokenId];
     delete idToOwnerIndex[_tokenId];
-    ownerToIds[owner].length--;
+    ownerToIds[owner].pop();
 
     // remove from tokens array
     assert(tokens.length > 0);
@@ -418,7 +430,7 @@ contract NFTokenEnumerable is
 
     tokens[tokenIndex] = lastToken;
 
-    tokens.length--;
+    tokens.pop();
     // Consider adding a conditional check for the last token in order to save GAS.
     idToIndex[lastToken] = tokenIndex;
     idToIndex[_tokenId] = 0;
@@ -471,12 +483,12 @@ contract NFTokenEnumerable is
       idToOwnerIndex[lastToken] = tokenToRemoveIndex;
     }
 
-    ownerToIds[_from].length--;
+    ownerToIds[_from].pop();
 
     // add NFT
     idToOwner[_tokenId] = _to;
-    uint256 length = ownerToIds[_to].push(_tokenId);
-    idToOwnerIndex[_tokenId] = length - 1;
+    ownerToIds[_to].push(_tokenId);
+    idToOwnerIndex[_tokenId] = ownerToIds[_to].length - 1;
 
     emit Transfer(_from, _to, _tokenId);
   }
@@ -507,5 +519,5 @@ contract NFTokenEnumerable is
 
     _transferFrom(_from, _to, _tokenId);
   }
-  
+
 }
