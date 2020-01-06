@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./erc165.sol";
 
@@ -32,6 +32,7 @@ contract SupportsInterface is
     bytes4 _interfaceID
   )
     external
+    override
     view
     returns (bool)
   {

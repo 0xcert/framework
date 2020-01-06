@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * @dev The contract has an owner address, and provides basic authorization control whitch
@@ -55,6 +55,7 @@ contract Ownable
     address _newOwner
   )
     public
+    virtual
     onlyOwner
   {
     require(_newOwner != address(0), ZERO_ADDRESS);

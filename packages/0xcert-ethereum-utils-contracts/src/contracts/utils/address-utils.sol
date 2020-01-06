@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * @dev Utility library of inline functions on addresses.
@@ -12,7 +12,7 @@ library AddressUtils
    * will be false. If you want to check if an address is a contract (in whatever state) you can do
    * so using extcodehash after constantinople fork.
    * @param _addr Address to check.
-   * @return True if _addr is a deployed contract, false if not.
+   * @return addressCheck True if _addr is a deployed contract, false if not.
    */
   function isDeployedContract(
     address _addr
