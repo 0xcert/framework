@@ -15,7 +15,7 @@ export class LedgersController {
 
   /**
    * Ledgers controller class constructor.
-   * @param context Provider instance.
+   * @param context Client context instance.
    */
   public constructor(context: Client) {
     this.context = context;

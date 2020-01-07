@@ -17,7 +17,7 @@ export class DeploymentsController {
 
   /**
    * Deployments controller class constructor.
-   * @param context Provider instance.
+   * @param context Client context instance.
    */
   public constructor(context: Client) {
     this.context = context;
@@ -42,7 +42,6 @@ export class DeploymentsController {
 
     return clientFetch(`${this.context.apiUrl}/deployments?${params.toString()}`, {
       method: 'GET',
-      query: {},
       headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
@@ -61,7 +60,6 @@ export class DeploymentsController {
 
     return clientFetch(`${this.context.apiUrl}/deployments/${deploymentRef}`, {
       method: 'GET',
-      query: {},
       headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
@@ -78,6 +76,7 @@ export class DeploymentsController {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
+  
     const deployGateway = new Gateway(this.context.provider);
     const date = Date.now();
     const multiplier = new BigNumber(1000000000000000000);
@@ -96,7 +95,8 @@ export class DeploymentsController {
       assetLedgerData: deployData,
     };
     const claim = await deployGateway.sign(assetLedgerDeployOrder as AssetLedgerDeployOrder);
-    delete assetLedgerDeployOrder.kind; // kind will be automatically assigned in the API
+    delete assetLedgerDeployOrder.kind; // kind will be automatically assigned by the API
+
     return clientFetch(`${this.context.apiUrl}/deployments`, {
       method: 'POST',
       body: JSON.stringify({
