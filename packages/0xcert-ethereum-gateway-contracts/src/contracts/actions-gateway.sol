@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
@@ -206,8 +206,8 @@ contract ActionsGateway is
     external
     hasAbilities(ABILITY_TO_SET_PROXIES)
   {
-    uint256 length = proxies.push(ProxyData(_proxy, _kind));
-    emit ProxyChange(length - 1, _proxy);
+    proxies.push(ProxyData(_proxy, _kind));
+    emit ProxyChange(proxies.length - 1, _proxy);
   }
 
   /**
