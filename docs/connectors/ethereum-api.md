@@ -1,3 +1,7 @@
+---
+sidebarDepth: 2
+---
+
 # API / Ethereum
 
 ## Bitski back-end provider

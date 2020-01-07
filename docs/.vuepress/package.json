@@ -8,15 +8,15 @@
   },
   "dependencies": {
     "axios": "0.19.0",
-    "vee-validate": "3.0.8",
-    "vue-axios": "2.1.4",
-    "vuepress": "1.1.0"
+    "vee-validate": "3.2.1",
+    "vue-axios": "2.1.5",
+    "vuepress": "1.2.0"
   },
   "devDependencies": {
-    "@vuepress/plugin-google-analytics": "1.1.0",
-    "@vuepress/plugin-pwa": "1.1.0",
+    "@vuepress/plugin-google-analytics": "1.2.0",
+    "@vuepress/plugin-pwa": "1.2.0",
     "markdown-it-container": "2.0.0",
-    "node-sass": "4.12.0",
+    "node-sass": "4.13.0",
     "sass-loader": "8.0.0"
   }
 }
