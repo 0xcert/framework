@@ -11,7 +11,6 @@ import { ActionsOrder, AssetLedgerDeploymentData, ClientOptions, DefaultListingO
   GetDeploymentsOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions,
   GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions, GetRequestsOptions,
   GetStatsTrafficOptions, Payment, Priority, WebhookEventKind, AccountInformation, GetStatsTickersOptions } from './types';
-import { DepositsController } from './controllers/deposits-controller';
 
 /**
  * Client class.
@@ -80,11 +79,6 @@ export class Client {
   protected requestsController: RequestsController;
 
   /**
-   * Deposits controller class instance.
-   */
-  protected depositsController: DepositsController;
-
-  /**
    * Default pagination configuration.
    */
   public defaultPagination: DefaultListingOptions = {
@@ -150,7 +144,6 @@ export class Client {
     this.ledgersController = new LedgersController(this);
     this.statsController = new StatsController(this);
     this.requestsController = new RequestsController(this);
-    this.depositsController = new DepositsController(this);
 
   }
 
@@ -357,14 +350,6 @@ export class Client {
    */
   public async getRequest(requestRef: string) {
     return this.requestsController.getRequest(requestRef);
-  }
-
-  /**
-   * Creates a stripe deposit intent trough which a credit card deposit resulting in receiving DXC tokens can be made.
-   * @param amount Amount of EUR to deposit in cents (e.g. 100 cents = 1€). Minimum amount is 1000 cents (10€). 
-   */
-  public async createDeposit(amount: number) {
-    return this.depositsController.createDeposit(amount);
   }
 
 }
