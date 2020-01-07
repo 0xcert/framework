@@ -10,7 +10,7 @@ import clientFetch from './helpers/client-fetch';
 import { ActionsOrder, AssetLedgerDeploymentData, ClientOptions, DefaultListingOptions,
   GetDeploymentsOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions,
   GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions, GetRequestsOptions,
-  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind } from './types';
+  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind, AccountInformation, GetStatsTickersOptions } from './types';
 
 /**
  * Client class.
@@ -173,8 +173,16 @@ export class Client {
    * @param url Webhook url.
    * @param events List of webhook event.
    */
-  public async setAccountWebhook(url: string, events: WebhookEventKind[]) {
-    return this.accountsController.setAccountWebhook(url, events);
+  public async updateAccountWebhook(url: string, events: WebhookEventKind[]) {
+    return this.accountsController.updateAccountWebhook(url, events);
+  }
+
+  /**
+   * Updates currently authenticated account's information.
+   * @param accountInformation Account's information.
+   */
+  public async updateAccountInformation(accountInformation: AccountInformation) {
+    return this.accountsController.updateAccountInformation(accountInformation);
   }
 
   /**
@@ -317,6 +325,14 @@ export class Client {
    */
   public async getCostsStats(options: GetStatsTrafficOptions = {}) {
     return this.statsController.getCostStats(options);
+  }
+
+  /**
+   * Returns information about ZXC price.
+   * @param options Query listing options.
+   */
+  public async getTickerStats(options: GetStatsTickersOptions = {}) {
+    return this.statsController.getTickerStats(options);
   }
 
   /**
