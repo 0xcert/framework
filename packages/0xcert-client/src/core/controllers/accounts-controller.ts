@@ -73,6 +73,8 @@ export class AccountsController {
 
   /**
    * Updates currently authenticated account's webhook.
+   * @param url Webhook url.
+   * @param events List of webhook event.
    */
   public async updateAccountWebhook(url: string, events: WebhookEventKind[]) {
     if (!this.context.authentication) {
@@ -94,6 +96,7 @@ export class AccountsController {
 
   /**
    * Updates currently authenticated account's information.
+   * @param accountInformation Account's information.
    */
   public async updateAccountInformation(accountInformation: AccountInformation) {
     if (!this.context.authentication) {

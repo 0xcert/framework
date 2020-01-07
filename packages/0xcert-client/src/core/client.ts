@@ -179,8 +179,7 @@ export class Client {
 
   /**
    * Updates currently authenticated account's information.
-   * @param url Webhook url.
-   * @param events List of webhook event.
+   * @param accountInformation Account's information.
    */
   public async updateAccountInformation(accountInformation: AccountInformation) {
     return this.accountsController.updateAccountInformation(accountInformation);
