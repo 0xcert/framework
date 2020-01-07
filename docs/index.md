@@ -43,7 +43,9 @@ pageClass: homepage
   <li><a href="https://nonfungiblealliance.org" target="_blank"><img src="./assets/logo_alliance.svg"/></a></li>
 </ul>
 
-<Subscription/>
+<ClientOnly>
+  <Subscription />
+</ClientOnly>
 
 <div class="blockchains">
   <h4>Supported blockchains:</h4>  
