@@ -18,8 +18,8 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 |-|-
 | options.accountId | A `string` representing the Ethereum account that will perform actions.
 | options.assetLedgerSource | A `string` representing the URL to the compiled ERC-721-related smart contract definition file. This file is used when deploying new asset ledgers to the network.
-| options.clientId | A string representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
-| options.credentialsId | A string representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.clientId | A `string` representing the Bitski client ID. You get the client ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
+| options.credentialsId | A `string` representing the Bitski credentials ID. You get the credentials ID by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.credentialsSecret | A `string` representing the Bitski secret. You get the credentials secret by creating a [developer account](https://developer.bitski.com/) on Bitski.
 | options.gasPriceMultiplier | A `number` representing a multiplier of the current gas price when performing a mutation. It defaults to `1.1`.
 | options.gatewayConfig.assetLedgerDeployOrderId | A `string` representing an Ethereum address of the [asset ledger deploy gateway](/#public-addresses).
@@ -31,7 +31,7 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.requiredConfirmations | An `integer` representing the number of confirmations needed for mutations to be considered confirmed. It defaults to `1`.
 | options.signMethod | An `integer` representing the signature type. Available options are `0` (eth_sign) or `2` (EIP-712) or `3` (personal_sign). It defaults to `0`.
 | options.sandbox | A `boolean` indicating whether you are in sandbox mode. Sandbox mode means you don't make an actual mutation to the blockchain, but you only check whether a mutation would succeed or not.
-| options.unsafeRecipientIds | A list of strings representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
+| options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 | options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
 
@@ -1658,7 +1658,7 @@ A `synchronous` class instance `function` which returns `true` if a mutation has
 
 **Result:**
 
-A `boolean` telling if the mutation has been completed.
+A `boolean` telling whether the mutation has been completed.
 
 **Example:**
 
@@ -1676,7 +1676,7 @@ A `synchronous` class instance `function` which returns `true` when a mutation i
 
 **Result:**
 
-A `boolean` telling if the mutation is waiting to be confirmed.
+A `boolean` telling whether the mutation is waiting to be confirmed.
 
 **Example:**
 
@@ -1701,7 +1701,7 @@ A `synchronous` class instance `function` which attaches a new event handler.
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
-| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+| handler | [required] A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise, the current `Mutation` instance is received.
 
 **Result:**
 
@@ -1730,7 +1730,7 @@ A `synchronous` class instance `function` which attaches a new event handler. Th
 | Argument | Description
 |-|-
 | event | [required] A `string` representing a [mutation event](./ethereum.md#mutation-events) name.
-| handler | A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise the current `Mutation` instance is received.
+| handler | A callback `function` which is triggered on each `event`. When the `event` equals `ERROR`, the first argument is an `Error`, otherwise, the current `Mutation` instance is received.
 
 **Result:**
 
@@ -1866,7 +1866,7 @@ const ledger = new AssetLedger(provider, ledgerId);
 An `asynchronous` class instance `function` which approves a third-party `accountId` to take over a specific `assetId`. This function succeeds only when performed by the asset's owner.
 
 ::: tip
-Only one account per `assetId` can be approved at the same time thus running this function multiple times will override the previously set data.
+Only one account per `assetId` can be approved at the same time, thus running this function multiple times will override the previously set data.
 :::
 
 **Arguments:**
@@ -2240,7 +2240,7 @@ An `asynchronous` class instance `function` which returns `assetId` data.
 
 | Argument | Description
 |-|-
-| assetId | [required] A `string` representing an asset ID.
+| assetId | [required] A `string` representing the asset ID.
 
 **Result:**
 
@@ -2353,7 +2353,7 @@ const capabilities = await ledger.getCapabilities();
 
 ### getInfo()
 
-An `asynchronous` class instance `function` that returns an object with general information about the ledger.
+An `asynchronous` class instance `function` which returns an object with general information about the ledger.
 
 **Result:**
 
@@ -2569,7 +2569,7 @@ const mutation = await ledger.revokeAbilities(accountId, abilities);
 
 ### revokeAsset(assetId)
 
-An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account and all queries about it will be invalid. The function is ment to be used by ledger owners to destroy assets of other accounts. This function is similar to `destroyAsset` but it differs in who can trigger it.
+An `asynchronous` class instance `function` which destroys a specific `assetId` of an account. The asset is removed from the account and all queries about it will be invalid. The function is meant to be used by ledger owners to destroy assets of other accounts. This function is similar to `destroyAsset`, but it differs in who can trigger it.
 
 ::: warning
 The `REVOKE_ASSET` ledger capability is needed to perform this function.
@@ -2685,7 +2685,7 @@ const mutation = await ledger.update(recipe);
 An `asynchronous` class instance `function` which updates `assetId` data.
 
 ::: warning
-You need `UPDATE_ASSET_IMPRINT` ledger capability and `UPDATE_ASSET` ledger ability to update asset `imprint` property.
+You need the `UPDATE_ASSET_IMPRINT` ledger capability and the `UPDATE_ASSET` ledger ability to update the asset `imprint` property.
 :::
 
 **Arguments:**
@@ -3101,7 +3101,7 @@ const mutation = await ledger.transferValue(recipe);
 ## Gateway
 
 The Gateway allows for performing multiple actions in a single atomic swap. The gateway always operates with an order.
-There are different kinds of order, depending on the type of action you want to perform. We can separate them into two groups
+There are different kinds of order, depending on the type of action you want to perform. We can separate orders into two groups
 based on their functionality and their flow. First, there are orders for deploying a new `ValueLedger` and `AssetLedger`. 
 These two orders only perform the deployment of a new smart contract to the blockchain plus a transfer of ERC-20 tokens (value). 
 They are primarily targeted to delegating a deployment to a third party. For example, if you want to deploy a new `AssetLedger`
@@ -3120,7 +3120,7 @@ Order kinds that fit into this group are:
 - `DeployValueLedgerOrder` 
 
 Then, there are orders for performing actions on existing ledgers. These orders are really powerful, but this makes them more complicated, too.
-Unlike deploy orders that have a specific maker and taker, the actions order are more dynamic, allowing an X number of participants to join but need to sign an order for it to be valid.
+Unlike deploy orders that have a specific maker and taker, the actions order are more dynamic, allowing an X number of participants to join but who need to sign an order for it to be valid.
 That also means that we can have multiple participants performing actions in a single atomic order. Actions that can be performed are the following:
 - Transfer asset
 - Transfer value
@@ -3246,7 +3246,7 @@ An `asynchronous` class instance `function` which gets the accountId of the desi
 
 | Argument | Description
 |-|-
-| proxyKind | [required] An `ProxyKind` option.
+| proxyKind | [required] A `ProxyKind` option.
 
 **Result:**
 
@@ -3398,7 +3398,7 @@ This order kind is used for delegating `AssetLedger` deploy.
 |-|-
 | assetLedgerData.capabilities | [required] A list of `integers` representing ledger capabilities.
 | assetLedgerData.name | [required] A `string` representing asset ledger name.
-| assetLedgerData.owner | [required] A `string` representing Ethereum wallet, which will be the owner of the asset ledger.
+| assetLedgerData.owner | [required] A `string` representing  the Ethereum wallet, which will be the owner of the asset ledger.
 | assetLedgerData.schemaId | [required] A `string` representing data schema ID.
 | assetLedgerData.symbol | [required] A `string` representing asset ledger symbol.
 | assetLedgerData.uriPrefix | [required] A `string` representing prefix of asset URI.
