@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { WebhookEventKind } from '../types';
+import { WebhookEventKind, AccountInformation } from '../types';
 
 /**
  * Accounts controller class with accounts related actions.
@@ -14,7 +14,7 @@ export class AccountsController {
 
   /**
    * Accounts controller class constructor.
-   * @param context Provider instance.
+   * @param context Client context instance.
    */
   public constructor(context: Client) {
     this.context = context;
@@ -74,7 +74,7 @@ export class AccountsController {
   /**
    * Updates currently authenticated account's webhook.
    */
-  public async setAccountWebhook(url: string, events: WebhookEventKind[]) {
+  public async updateAccountWebhook(url: string, events: WebhookEventKind[]) {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
@@ -84,6 +84,26 @@ export class AccountsController {
       body: JSON.stringify({
         url,
         events,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': this.context.authentication,
+      },
+    });
+  }
+
+  /**
+   * Updates currently authenticated account's information.
+   */
+  public async updateAccountInformation(accountInformation: AccountInformation) {
+    if (!this.context.authentication) {
+      throw new Error('Client not connected. Please initialize your client first.');
+    }
+
+    return clientFetch(`${this.context.apiUrl}/account`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        ...accountInformation,
       }),
       headers: {
         'Content-Type': 'application/json',

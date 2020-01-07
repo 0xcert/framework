@@ -15,7 +15,7 @@ export class RequestsController {
 
   /**
    * Requests controller class constructor.
-   * @param context Provider instance.
+   * @param context Client context instance.
    */
   public constructor(context: Client) {
     this.context = context;
@@ -59,7 +59,6 @@ export class RequestsController {
 
     return clientFetch(`${this.context.apiUrl}/requests/${requestRef}`, {
       method: 'GET',
-      query: {},
       headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
