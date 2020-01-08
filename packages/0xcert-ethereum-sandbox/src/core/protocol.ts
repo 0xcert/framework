@@ -29,6 +29,7 @@ export class Protocol {
   public xcertDeployGateway;
   public tokenDeployGateway;
   public abilitableManageProxy;
+  public dappToken;
 
   /**
    * Instantiates the protocol class and deploys the contracts.
@@ -79,6 +80,7 @@ export class Protocol {
     this.actionsGateway = await this.deployActionsGateway(from);
     this.xcertDeployGateway = await this.deployXcertDeployGateway(from);
     this.tokenDeployGateway = await this.deployTokenDeployGateway(from);
+    this.dappToken = await this.deployDappToken(from);
 
     return this;
   }
@@ -421,5 +423,28 @@ export class Protocol {
 
     await this.tokenTransferProxy.instance.methods.grantAbilities(tokenDeployGateway.receipt._address, 16).send({ from });
     return tokenDeployGateway;
+  }
+
+  /**
+   * Deploys the dappToken contract.
+   * @param from Contract owner's address.
+   */
+  protected async deployDappToken(from: string) {
+    const dappToken = await deploy({
+      web3: this.web3,
+      abi: contracts.dappToken.abi,
+      bytecode: contracts.dappToken.bytecode,
+      args: [
+        'Dapp token',
+        'DXC',
+        18,
+        this.erc20.receipt._address,
+        this.tokenTransferProxy.receipt._address,
+      ],
+      from,
+    });
+
+    await this.erc20.instance.methods.approve(dappToken.receipt._address, '5000000000000000000000000000').send({ from });
+    return dappToken;
   }
 }
