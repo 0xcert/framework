@@ -1,4 +1,5 @@
 const { TokenMock } = require('@0xcert/ethereum-erc20-contracts/build/token-mock');
+const { DappTokenMock } = require('@0xcert/ethereum-erc20-contracts/build/dapp-token-mock');
 const { NFTokenEnumerableMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-enumerable-mock');
 const { NFTokenMetadataMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-metadata-mock');
 const { NFTokenMock } = require('@0xcert/ethereum-erc721-contracts/build/nf-token-mock');
@@ -23,6 +24,14 @@ const { TokenDeployProxy } = require('@0xcert/ethereum-proxy-contracts/build/tok
 export const erc20 = {
   abi: TokenMock.abi,
   bytecode: TokenMock.evm.bytecode.object,
+};
+
+/**
+ * Dapp token contract data.
+ */
+export const dappToken = {
+  abi: DappTokenMock.abi,
+  bytecode: DappTokenMock.evm.bytecode.object,
 };
 
 /**
