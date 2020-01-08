@@ -7,10 +7,10 @@ import { OrdersController } from './controllers/orders-controller';
 import { RequestsController } from './controllers/requests-controller';
 import { StatsController } from './controllers/stats-controller';
 import clientFetch from './helpers/client-fetch';
-import { ActionsOrder, AssetLedgerDeploymentData, ClientOptions, DefaultListingOptions,
-  GetDeploymentsOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions,
-  GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions, GetRequestsOptions,
-  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind, AccountInformation, GetStatsTickersOptions } from './types';
+import { AccountInformation, ActionsOrder, AssetLedgerDeploymentData, ClientOptions,
+  DefaultListingOptions, GetDeploymentsOptions, GetLedgersAbilitiesOptions,
+  GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions,
+  GetRequestsOptions, GetStatsTickersOptions, GetStatsTrafficOptions, Payment, Priority, WebhookEventKind } from './types';
 
 /**
  * Client class.

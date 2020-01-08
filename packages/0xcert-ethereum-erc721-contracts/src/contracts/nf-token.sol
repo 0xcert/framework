@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./erc721.sol";
 import "./erc721-token-receiver.sol";
@@ -124,6 +124,7 @@ contract NFToken is
     bytes calldata _data
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, _data);
   }
@@ -142,6 +143,7 @@ contract NFToken is
     uint256 _tokenId
   )
     external
+    override
   {
     _safeTransferFrom(_from, _to, _tokenId, "");
   }
@@ -162,6 +164,7 @@ contract NFToken is
     uint256 _tokenId
   )
     external
+    override
   {
     _transferFrom(_from, _to, _tokenId);
   }
@@ -178,6 +181,7 @@ contract NFToken is
     uint256 _tokenId
   )
     external
+    override
   {
     // can operate
     address tokenOwner = idToOwner[_tokenId];
@@ -202,6 +206,7 @@ contract NFToken is
     bool _approved
   )
     external
+    override
   {
     ownerToOperators[msg.sender][_operator] = _approved;
     emit ApprovalForAll(msg.sender, _operator, _approved);
@@ -217,6 +222,7 @@ contract NFToken is
     address _owner
   )
     external
+    override
     view
     returns (uint256)
   {
@@ -228,12 +234,13 @@ contract NFToken is
    * @dev Returns the address of the owner of the NFT. NFTs assigned to zero address are considered
    * invalid, and queries about them do throw.
    * @param _tokenId The identifier for an NFT.
-   * @return Address of _tokenId owner.
+   * @return _owner Address of _tokenId owner.
    */
   function ownerOf(
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address _owner)
   {
@@ -251,6 +258,7 @@ contract NFToken is
     uint256 _tokenId
   )
     external
+    override
     view
     returns (address)
   {
@@ -269,6 +277,7 @@ contract NFToken is
     address _operator
   )
     external
+    override
     view
     returns (bool)
   {
@@ -341,6 +350,7 @@ contract NFToken is
     uint256 _tokenId
   )
     internal
+    virtual
   {
     // valid NFT
     require(_from != address(0), ZERO_ADDRESS);
@@ -388,6 +398,7 @@ contract NFToken is
     bytes memory _data
   )
     internal
+    virtual
   {
     if (_to.isDeployedContract())
     {

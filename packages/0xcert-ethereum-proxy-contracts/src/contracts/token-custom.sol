@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "@0xcert/ethereum-erc20-contracts/src/contracts/token.sol";
 

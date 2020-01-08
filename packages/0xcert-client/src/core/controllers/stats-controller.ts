@@ -1,7 +1,7 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { GetStatsCostsOptions, GetStatsTrafficOptions, GetStatsTickersOptions } from '../types';
+import { GetStatsCostsOptions, GetStatsTickersOptions, GetStatsTrafficOptions } from '../types';
 
 /**
  * Stats controller class with stats related actions.

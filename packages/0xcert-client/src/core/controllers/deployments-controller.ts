@@ -76,7 +76,7 @@ export class DeploymentsController {
     if (!this.context.authentication) {
       throw new Error('Client not connected. Please initialize your client first.');
     }
-  
+
     const deployGateway = new Gateway(this.context.provider);
     const date = Date.now();
     const multiplier = new BigNumber(1000000000000000000);

@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { WebhookEventKind, AccountInformation } from '../types';
+import { AccountInformation, WebhookEventKind } from '../types';
 
 /**
  * Accounts controller class with accounts related actions.

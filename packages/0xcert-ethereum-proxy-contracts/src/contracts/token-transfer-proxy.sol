@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc20-contracts/src/contracts/erc20.sol";
@@ -39,6 +39,7 @@ contract TokenTransferProxy is
     uint256 _c
   )
     public
+    override
     hasAbilities(ABILITY_TO_EXECUTE)
   {
     require(
