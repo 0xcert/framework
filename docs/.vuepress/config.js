@@ -32,18 +32,14 @@ module.exports = {
     ],
     sidebar: [
       {
-        title: 'Guide',
+        title: 'Introduction',
         collapsable: false,
         children: [          
-          '/guide/introduction',
-          '/guide/getting-started',          
-          '/guide/communication',
-          '/guide/using-providers',
-          '/guide/about-assets',
-          '/guide/asset-management',
-          '/guide/about-cryptocurrency',
-          '/guide/value-management',
-          '/guide/atomic-orders',
+          '/introduction/overview',
+          '/introduction/getting-started',          
+          '/introduction/about-assets',
+          '/introduction/about-cryptocurrency',
+          ['/introduction/threat-models', 'Threat Models']
         ],
       },
       {
@@ -51,20 +47,21 @@ module.exports = {
         collapsable: false,
         children: [
           ['/certification/guide', 'Guide'],
-          ['/certification/api', 'API']
+          ['/certification/api', 'API'],
         ],
       },
       {
         title: 'Connectors',
         collapsable: false,
         children: [
+          '/connectors/communication',
           '/connectors/providers-guide',
-          ['/connectors/ethereum-api', 'Ethereum'],
-          ['/connectors/wanchain-api', 'Wanchain'],
           '/connectors/asset-management-guide',
           '/connectors/value-management-guide',
           '/connectors/atomic-deployments-guide',
-          '/connectors/atomic-orders-guide',
+          '/connectors/atomic-actions-guide',
+          ['/connectors/ethereum-api', 'Ethereum API'],
+          ['/connectors/wanchain-api', 'Wanchain API'],
         ],
       },
       {
