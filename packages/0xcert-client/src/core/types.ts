@@ -1,6 +1,17 @@
 import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 
 /**
+ * Client error code.
+ */
+export enum ClientErrorCode {
+  CLIENT_INITIALIZATION_FAILED = 7000001,
+  CLIENT_NOT_CONNECTION = 7000002,
+  PAYER_NOT_AN_ORDER_SIGNER = 7000003,
+  PAYER_NOT_LISTED_AS_ORDER_SIGNER = 7000004,
+  ORDER_FETCHING_FAILED = 7000005,
+}
+
+/**
  * List of available order request priorities.
  */
 export enum Priority {

@@ -1,7 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions } from '../types';
+import { GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions, ClientErrorCode } from '../types';
+import { ClientError } from '../helpers/client-error';
 
 /**
  * Ledgers controller class with ledgers related actions.
@@ -27,7 +28,7 @@ export class LedgersController {
    */
   public async getLedger(ledgerRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}`, {
@@ -44,7 +45,7 @@ export class LedgersController {
    */
   public async getLedgers(options: GetLedgersOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -67,7 +68,7 @@ export class LedgersController {
    */
   public async getLedgerAccounts(ledgerRef: string, options: GetLedgersAccountsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -91,7 +92,7 @@ export class LedgersController {
    */
   public async getLedgerAbilities(ledgerRef: string, options: GetLedgersAbilitiesOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -115,7 +116,7 @@ export class LedgersController {
    */
   public async getLedgerAssets(ledgerRef: string, options: GetLedgersAssetsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -141,7 +142,7 @@ export class LedgersController {
    */
   public async getLedgerAsset(ledgerRef: string, assetId: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/assets/${assetId}`, {

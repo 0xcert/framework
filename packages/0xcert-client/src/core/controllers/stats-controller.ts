@@ -1,7 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { GetStatsCostsOptions, GetStatsTrafficOptions, GetStatsTickersOptions } from '../types';
+import { GetStatsCostsOptions, GetStatsTrafficOptions, GetStatsTickersOptions, ClientErrorCode } from '../types';
+import { ClientError } from '../helpers/client-error';
 
 /**
  * Stats controller class with stats related actions.
@@ -26,7 +27,7 @@ export class StatsController {
    */
   public async getTrafficStats(options: GetStatsTrafficOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -51,7 +52,7 @@ export class StatsController {
    */
   public async getCostStats(options: GetStatsCostsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({

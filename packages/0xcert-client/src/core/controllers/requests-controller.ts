@@ -1,7 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
 import clientFetch from '../helpers/client-fetch';
-import { GetRequestsOptions } from '../types';
+import { GetRequestsOptions, ClientErrorCode } from '../types';
+import { ClientError } from '../helpers/client-error';
 
 /**
  * Requests controller class with requests related actions.
@@ -26,7 +27,7 @@ export class RequestsController {
    */
   public async getRequests(options: GetRequestsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -54,7 +55,7 @@ export class RequestsController {
    */
   public async getRequest(requestRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/requests/${requestRef}`, {

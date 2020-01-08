@@ -10,7 +10,8 @@ import clientFetch from './helpers/client-fetch';
 import { ActionsOrder, AssetLedgerDeploymentData, ClientOptions, DefaultListingOptions,
   GetDeploymentsOptions, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions,
   GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions, GetRequestsOptions,
-  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind, AccountInformation, GetStatsTickersOptions } from './types';
+  GetStatsTrafficOptions, Payment, Priority, WebhookEventKind, AccountInformation, GetStatsTickersOptions, ClientErrorCode } from './types';
+import { ClientError } from './helpers/client-error';
 
 /**
  * Client class.
@@ -120,11 +121,11 @@ export class Client {
       });
       data = accountData.data;
     } catch (error) {
-      throw new Error('There was an error while initializing client.');
+      throw new ClientError(ClientErrorCode.CLIENT_INITIALIZATION_FAILED, error);
     }
 
     if (!(data && data.id && data.payment)) {
-      throw new Error('There was an error while initializing client.');
+      throw new ClientError(ClientErrorCode.CLIENT_INITIALIZATION_FAILED);
     }
 
     this.payment.tokenAddress = data.payment.tokenAddress;
