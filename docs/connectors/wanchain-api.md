@@ -1,3 +1,7 @@
+---
+sidebarDepth: 2
+---
+
 # API / Wanchain
 
 ## HTTP provider
