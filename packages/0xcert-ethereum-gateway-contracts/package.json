@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-gateway-contracts",
-  "version": "2.0.0-alpha14",
+  "version": "2.0.0-alpha15",
   "description": "Smart contracts used by the gateway on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -73,11 +73,11 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha14",
-    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha14",
-    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha14",
-    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha14",
-    "@0xcert/ethereum-proxy-contracts": "2.0.0-alpha14",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha15",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha15",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha15",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha15",
+    "@0xcert/ethereum-proxy-contracts": "2.0.0-alpha15",
     "@specron/cli": "0.11.0",
     "@specron/spec": "0.11.0",
     "@specron/flattener": "0.11.0",
