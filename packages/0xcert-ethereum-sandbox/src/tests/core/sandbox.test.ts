@@ -37,6 +37,7 @@ spec.test('deploys protocol contracts', async (ctx) => {
   ctx.true(!!sandbox.protocol.xcertDeployGateway);
   ctx.true(!!sandbox.protocol.tokenDeployGateway);
   ctx.true(!!sandbox.protocol.abilitableManageProxy);
+  ctx.true(!!sandbox.protocol.dappToken);
 });
 
 spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {
