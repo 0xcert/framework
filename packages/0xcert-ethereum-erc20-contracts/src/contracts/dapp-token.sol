@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
@@ -157,6 +157,7 @@ contract DappToken is
    */
   function name()
     external
+    override
     view
     returns (string memory _name)
   {
@@ -168,6 +169,7 @@ contract DappToken is
    */
   function symbol()
     external
+    override
     view
     returns (string memory _symbol)
   {
@@ -179,6 +181,7 @@ contract DappToken is
    */
   function decimals()
     external
+    override
     view
     returns (uint8 _decimals)
   {
@@ -190,6 +193,7 @@ contract DappToken is
    */
   function totalSupply()
     external
+    override
     view
     returns (uint256 _totalSupply)
   {
@@ -204,6 +208,7 @@ contract DappToken is
     address _owner
   )
     external
+    override
     view
     returns (uint256 _balance)
   {
@@ -220,6 +225,7 @@ contract DappToken is
     address _spender
   )
     external
+    override
     view
     returns (uint256 _remaining)
   {
@@ -309,6 +315,7 @@ contract DappToken is
     uint256 _amount
   )
     external
+    override
     returns(bytes4)
   {
     require(approvedMigrators[msg.sender], NOT_ABLE_TO_MIGRATE);
@@ -331,6 +338,7 @@ contract DappToken is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     require(migrationAddress == address(0), MIGRATION_STARTED);
@@ -361,6 +369,7 @@ contract DappToken is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     allowed[msg.sender][_spender] = _value;
@@ -382,6 +391,7 @@ contract DappToken is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     require(migrationAddress == address(0), MIGRATION_STARTED);

@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "../nf-token-metadata.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
@@ -55,6 +55,7 @@ contract NFTokenMetadataMock is
     uint256 _tokenId
   )
     external
+    virtual
     onlyOwner
   {
     super._destroy(_tokenId);

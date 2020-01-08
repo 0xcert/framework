@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "../../contracts/mocks/nf-token-metadata-enumerable-mock.sol";
 
@@ -56,7 +56,7 @@ contract NFTokenMetadataEnumerableTestMock is
   {
     return idToIndex[_tokenId];
   }
-  
+
   /**
    * @dev Removes a NFT from owner.
    * @param _tokenId Which NFT we want to remove.
@@ -69,5 +69,5 @@ contract NFTokenMetadataEnumerableTestMock is
   {
     super._destroy(_tokenId);
   }
-  
+
 }

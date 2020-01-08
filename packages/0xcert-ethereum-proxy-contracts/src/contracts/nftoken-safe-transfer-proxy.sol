@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";
@@ -34,6 +34,7 @@ contract NFTokenSafeTransferProxy is
     uint256 _c
   )
     external
+    override
     hasAbilities(ABILITY_TO_EXECUTE)
   {
     ERC721(_target).safeTransferFrom(_a, _b, _c);

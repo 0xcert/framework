@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 pragma experimental ABIEncoderV2;
 
 import "./ixcert.sol";
@@ -51,7 +51,7 @@ contract XcertToken is
   string constant CAPABILITY_NOT_SUPPORTED = "007001";
   string constant TRANSFERS_DISABLED = "007002";
   string constant NOT_VALID_XCERT = "007003";
-  string constant NOT_OWNER_OR_OPERATOR = "007004";
+  string constant NOT_XCERT_OWNER_OR_OPERATOR = "007004";
   string constant INVALID_SIGNATURE = "007005";
   string constant INVALID_SIGNATURE_KIND = "007006";
   string constant CLAIM_PERFORMED = "007007";
@@ -156,6 +156,7 @@ contract XcertToken is
     bytes32 _imprint
   )
     external
+    override
     hasAbilities(ABILITY_CREATE_ASSET)
   {
     super._create(_to, _id);
@@ -172,6 +173,7 @@ contract XcertToken is
     string calldata _uriPostfix
   )
     external
+    override
     hasAbilities(ABILITY_UPDATE_URI)
   {
     super._setUri(_uriPrefix, _uriPostfix);
@@ -186,6 +188,7 @@ contract XcertToken is
     uint256 _tokenId
   )
     external
+    override
     hasAbilities(ABILITY_REVOKE_ASSET)
   {
     require(supportedInterfaces[REVOKABLE], CAPABILITY_NOT_SUPPORTED);
@@ -201,6 +204,7 @@ contract XcertToken is
     bool _isPaused
   )
     external
+    override
     hasAbilities(ABILITY_TOGGLE_TRANSFERS)
   {
     require(supportedInterfaces[PAUSABLE], CAPABILITY_NOT_SUPPORTED);
@@ -218,6 +222,7 @@ contract XcertToken is
     bytes32 _imprint
   )
     external
+    override
     hasAbilities(ABILITY_UPDATE_ASSET_IMPRINT)
   {
     require(supportedInterfaces[MUTABLE], CAPABILITY_NOT_SUPPORTED);
@@ -234,13 +239,14 @@ contract XcertToken is
     uint256 _tokenId
   )
     external
+    override
   {
     require(supportedInterfaces[BURNABLE], CAPABILITY_NOT_SUPPORTED);
     address tokenOwner = idToOwner[_tokenId];
     super._destroy(_tokenId);
     require(
       tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
-      NOT_OWNER_OR_OPERATOR
+      NOT_XCERT_OWNER_OR_OPERATOR
     );
     delete idToImprint[_tokenId];
   }
@@ -388,10 +394,11 @@ contract XcertToken is
 
   /**
    * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention.
-   * @return Schema id.
+   * @return _schemaId Schema id.
    */
   function schemaId()
     external
+    override
     view
     returns (bytes32 _schemaId)
   {
@@ -401,12 +408,13 @@ contract XcertToken is
   /**
    * @dev Returns imprint for Xcert.
    * @param _tokenId Id of the Xcert.
-   * @return Token imprint.
+   * @return imprint Token imprint.
    */
   function tokenImprint(
     uint256 _tokenId
   )
     external
+    override
     view
     returns(bytes32 imprint)
   {
@@ -425,6 +433,7 @@ contract XcertToken is
     uint256 _tokenId
   )
     internal
+    override
   {
     /**
      * if (supportedInterfaces[0xbedb86fb])
