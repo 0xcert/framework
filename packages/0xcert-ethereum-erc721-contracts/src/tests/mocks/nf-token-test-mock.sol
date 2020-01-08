@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "../../contracts/mocks/nf-token-mock.sol";
 
@@ -18,5 +18,5 @@ contract NFTokenTestMock is
   {
     super._destroy(_tokenId);
   }
-  
+
 }

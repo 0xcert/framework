@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";

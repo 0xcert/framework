@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "./ownable.sol";
 
@@ -41,6 +41,7 @@ contract Claimable is
     address _newOwner
   )
     public
+    override
     onlyOwner
   {
     pendingOwner = _newOwner;
