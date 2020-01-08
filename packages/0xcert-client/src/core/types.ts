@@ -411,6 +411,16 @@ export interface GetStatsTrafficOptions extends DefaultListingOptions {
 }
 
 /**
+ * Stats tickers listing options.
+ */
+export interface GetStatsTickersOptions extends DefaultListingOptions {
+  fromDate?: Date;
+  toDate?: Date;
+  filterIds?: string[];
+  sort?: TickerSort;
+}
+
+/**
  * Account's payment definition.
  */
 export interface Payment {
@@ -466,6 +476,98 @@ export interface Payment {
 }
 
 /**
+ * Account information definition.
+ */
+export interface AccountInformation {
+
+  /**
+   * Account's first name.
+   */
+  firstName: string;
+
+  /**
+   * Account's last name.
+   */
+  lastName: string;
+
+  /**
+   * Account's email.
+   */
+  email: string;
+
+  /**
+   * Account's street address.
+   */
+  streetAddress: string;
+
+  /**
+   * Account's postal code.
+   */
+  postalCode: string;
+
+  /**
+   * Account's city.
+   */
+  city: string;
+
+  /**
+   * Account's country.
+   */
+  country: string;
+
+  /**
+   * Tells if account is used by a company.
+   */
+  isCompany: boolean;
+
+  /**
+   * Account's company information.
+   */
+  companyInformation?: CompanyInformation;
+}
+
+/**
+ * Account company information definition.
+ */
+export interface CompanyInformation {
+
+  /**
+   * Account's company name.
+   */
+  name: string;
+
+  /**
+   * Account's company street address.
+   */
+  streetAddress: string;
+
+  /**
+   * Account's company postal code.
+   */
+  postalCode: string;
+
+  /**
+   * Account's company city.
+   */
+  city: string;
+
+  /**
+   * Account's company country.
+   */
+  country: string;
+
+  /**
+   * Account's company tax number.
+   */
+  taxNumber: string;
+
+  /**
+   * Account's company phone number.
+   */
+  phoneNumber: number;
+}
+
+/**
  * Requests sorting options.
  */
 export enum RequestSort {
@@ -479,6 +581,14 @@ export enum RequestSort {
 export enum AssetSort {
   CREATED_AT_ASC = 1,
   CREATED_AT_DESC = 2,
+}
+
+/**
+ * Ticker sorting options.
+ */
+export enum TickerSort {
+  CREATED_AT_ASC = 1,
+  CREATED_AT_DESC = -1,
 }
 
 /**

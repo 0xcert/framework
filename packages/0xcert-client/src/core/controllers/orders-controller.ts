@@ -18,7 +18,7 @@ export class OrdersController {
 
   /**
    * Orders controller class constructor.
-   * @param context Provider instance.
+   * @param context Client context instance.
    */
   public constructor(context: Client) {
     this.context = context;
@@ -43,7 +43,6 @@ export class OrdersController {
 
     return clientFetch(`${this.context.apiUrl}/orders?${params.toString()}`, {
       method: 'GET',
-      query: {},
       headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
@@ -62,7 +61,6 @@ export class OrdersController {
 
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {
       method: 'GET',
-      query: {},
       headers: {
         'Content-Type': 'application/json',
         'Authorization': this.context.authentication,
