@@ -36,7 +36,7 @@ import isEnabled from '../queries/is-enabled';
 export class AssetLedger implements AssetLedgerBase {
 
   /**
-   * AssetLedger Id. Address pointing at the smartcontract.
+   * AssetLedger Id. Address pointing at the smart contract.
    */
   protected _id: string;
 
@@ -47,7 +47,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Deploys a new smart contract representing asset ledger to the blockchain.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param recipe Data needed to deploy a new asset ledger.
    */
   public static async deploy(provider: GenericProvider, recipe: AssetLedgerDeployRecipe): Promise<Mutation> {
@@ -56,7 +56,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Gets an instance of already deployed asset ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Address of the erc721/Xcert smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): AssetLedger {
@@ -65,7 +65,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Initialize asset ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Address of the erc721/Xcert smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
@@ -81,7 +81,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets the provider that is used to comunicate with blockchain.
+   * Gets the provider that is used to communicate with blockchain.
    */
   public get provider(): GenericProvider {
     return this._provider;
@@ -89,7 +89,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Gets a list of abilities an account has for this asset ledger.
-   * @param accountId Account address for wich we want to get abilities.
+   * @param accountId Account address for which we want to get abilities.
    */
   public async getAbilities(accountId: string): Promise<AssetLedgerAbility[]> {
     accountId = this._provider.encoder.normalizeAddress(accountId);
@@ -246,7 +246,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Destroys an existing asset (only someone with asset ledger revoke ability can do this).
-   * @param assetId If of the asset.
+   * @param assetId Id of the asset.
    */
   public async revokeAsset(assetId: string): Promise<Mutation> {
     return revokeAsset(this, assetId);
@@ -331,7 +331,7 @@ export class AssetLedger implements AssetLedgerBase {
 
   /**
    * Gets context for mutation event parsing.
-   * This are event definitions for Asset Ledger smart contract event parsing. This method is used
+   * These are event definitions for Asset Ledger smart contract event parsing. This method is used
    * by the Mutation class to provide log information.
    */
   public getContext(): MutationEventSignature[] {

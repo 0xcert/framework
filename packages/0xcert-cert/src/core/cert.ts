@@ -175,7 +175,7 @@ export class Cert {
         .reduce((a, b) => a.concat(b), []);
       return items.length > 0
         ? items
-        : [this.buildSchemaProps(undefined, {}, [...prepend])]; // add empty object to preserve keys sequence
+        : [this.buildSchemaProps(undefined, {}, [...prepend])]; // add an empty object to preserve key sequence
     } else if (schema.type === 'object') {
       return Object.keys(schema.properties)
         .sort()
@@ -226,11 +226,11 @@ export class Cert {
   }
 
   /**
-   * Calculates and returns recipes build for each data property. When providing
+   * Calculates and returns recipes built for each data property. When providing
    * the `paths` only the recipes and recipe data needed for the required
    * properties are included in the result.
    * @param props List of schema properties.
-   * @param paths Required propertiy paths.
+   * @param paths Required property paths.
    */
   protected async buildRecipes(props, paths = null): Promise<PropRecipe[]> {
     const keys = paths ? stepPaths(paths).map((p: any) => p.join('.')) : null;
@@ -315,7 +315,7 @@ export class Cert {
   }
 
   /**
-   * Calculates merkle tree root node from the provided recipes.
+   * Calculates Merkle tree root node from the provided recipes.
    * @param recipes Data recipes.
    */
   protected async imprintRecipes(recipes: PropRecipe[]): Promise<string> {
@@ -416,7 +416,7 @@ export class Cert {
    */
   protected sortSchema(obj) {
     return Object.keys(obj).sort().reduce((acc, key) => {
-      if (Array.isArray(obj[key])) { // suport arrays
+      if (Array.isArray(obj[key])) { // support arrays
         acc[key] = obj[key].sort();
       } else if (typeof obj[key] === 'object') { // sort object keys
         acc[key] = this.sortSchema(obj[key]);

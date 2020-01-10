@@ -5,7 +5,7 @@ const functionSignature = '0xb0e329e4';
 const inputTypes = ['address', 'uint256', 'bytes32'];
 
 /**
- * Creates a new asset and gives ownership to the specifies account.
+ * Creates a new asset and gives ownership to the specified account.
  * @param ledger Asset ledger instance.
  * @param receiverId Address that will receive the new asset.
  * @param id Asset id.
