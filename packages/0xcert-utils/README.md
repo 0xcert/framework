@@ -8,4 +8,4 @@ This module is one of the bricks of the [0xcert Framework](https://docs.0xcert.o
 
 # Utilities
 
-This small collection of functions are a convenience for common situations programming in TypeScript.
+This small collection of functions is a convenience for common situations programming in TypeScript.

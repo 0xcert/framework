@@ -1,18 +1,18 @@
 <img src="../../assets/cover-sub.png" />
 
-> General Ethereum utility module with helper functions for the Ethereum blockchain.
+> General Wanchain utility module with helper functions for the Wanchain blockchain.
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
 
 This module is one of the bricks of the [0xcert Framework](https://docs.0xcert.org). It's written with [TypeScript](https://www.typescriptlang.org) and it's actively maintained. The source code is available on [GitHub](https://github.com/0xcert/framework) where you can also find our [issue tracker](https://github.com/0xcert/framework/issues).
 
-# Ethereum Utilities
+# Wanchain Utilities
 
-This module wraps several useful Ethereum functions which will be useful through the 0xcert Framework. Currently supported are these functions and classes from [ethers.js](https://github.com/ethers-io/ethers.js):
+This module wraps several useful Wanchain functions which will be useful through the 0xcert Framework. Currently supported are these functions and classes from [ethers.js](https://github.com/ethers-io/ethers.js):
 
 ## ABI coder
 
-This converts value to and from the packed [Ethereum ABI encoding](https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding).
+This converts the value to and from the packed [Ethereum ABI encoding](https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding).
 
 * `encodeParameters`(types: `any`, values: `Array<any>`): `string`
 * `decodeParameters`(types: `any`, data: `any`): `any`
