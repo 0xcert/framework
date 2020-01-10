@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/supports-interface.sol";
@@ -87,6 +87,7 @@ contract Token is
    */
   function name()
     external
+    override
     view
     returns (string memory _name)
   {
@@ -98,6 +99,7 @@ contract Token is
    */
   function symbol()
     external
+    override
     view
     returns (string memory _symbol)
   {
@@ -109,6 +111,7 @@ contract Token is
    */
   function decimals()
     external
+    override
     view
     returns (uint8 _decimals)
   {
@@ -120,6 +123,7 @@ contract Token is
    */
   function totalSupply()
     external
+    override
     view
     returns (uint256 _totalSupply)
   {
@@ -134,6 +138,7 @@ contract Token is
     address _owner
   )
     external
+    override
     view
     returns (uint256 _balance)
   {
@@ -150,6 +155,7 @@ contract Token is
     address _spender
   )
     external
+    override
     view
     returns (uint256 _remaining)
   {
@@ -168,6 +174,7 @@ contract Token is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
@@ -196,6 +203,7 @@ contract Token is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     allowed[msg.sender][_spender] = _value;
@@ -217,6 +225,7 @@ contract Token is
     uint256 _value
   )
     public
+    override
     returns (bool _success)
   {
     require(_value <= balances[_from], NOT_ENOUGH_BALANCE);

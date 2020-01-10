@@ -77,7 +77,7 @@ export class DeploymentsController {
     if (!this.context.authentication) {
       throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
-  
+
     const deployGateway = new Gateway(this.context.provider);
     const date = Date.now();
     const multiplier = new BigNumber(1000000000000000000);

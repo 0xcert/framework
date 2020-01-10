@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * @dev Standard interface for a distributed exchange proxy contract.

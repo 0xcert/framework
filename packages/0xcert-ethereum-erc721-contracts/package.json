@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-erc721-contracts",
-  "version": "2.0.0-alpha14",
+  "version": "2.0.0-alpha15",
   "description": "Smart contract implementation of the ERC-721 standard on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -73,11 +73,11 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha14",
-    "@specron/cli": "0.10.0",
-    "@specron/spec": "0.10.0",
-    "@specron/flattener": "0.10.0",
-    "solc": "0.5.11",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha15",
+    "@specron/cli": "0.11.0",
+    "@specron/spec": "0.11.0",
+    "@specron/flattener": "0.11.0",
+    "solc": "0.6.1",
     "solhint": "2.3.0",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",

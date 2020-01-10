@@ -1,10 +1,10 @@
-# Atomic orders
+# Atomic actions
 
-If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic orders are the way to go.
+If you want to exchange assets with someone in a trustless way, not depending on a third party nor accepting counterparty risk, atomic actions are the way to go.
 
 Atomic order is a way of creating an [atomic swap](https://0xcert.org/news/dex-series-7-atomic-swaps/) within the 0xcert Framework. It is a set of instructions for what you will execute in a single mutation and with only two possible results: either the mutation will succeed with all actions executed, or the mutation will fail and nothing will change. Atomic order leaves no middle way.
 
-Atomic orders can be performed between multiple parties and can contain multiple actions.
+Atomic actions can be performed between multiple parties and can contain multiple actions.
 
 List of available actions:
 - Transfer asset
@@ -14,7 +14,7 @@ List of available actions:
 - Destroy an asset
 - Update account abilities
 
-Since atomic orders can be performed between multiple parties, there are four different ways of how to interact with them. In this guide, we will go through all of them and explain each and every one. Here is a quick overview:
+Since atomic actions can be performed between multiple parties, there are four different ways of how to interact with them. In this guide, we will go through all of them and explain each and every one. Here is a quick overview:
 - `FixedActionsOrder` - All participants are known and set in the order. Only the last defined participant can perform the order; others have to provide signatures.
 - `SignedFixedActionsOrder` - All participants are known and set in the order. All participants have to provide signatures. Anyone can perform the order.
 - `DynamicActionsOrder` - The last participant can be unknown or "any". All defined participants have to provide signatures, anyone can perform the order. The one that performs the order, automatically becomes the last participant.
@@ -26,11 +26,11 @@ For more information on the actual process of atomic operation, please check [th
 
 ## Gateway 
 
-All atomic orders within the 0xcert Framework are performed through a `Gateway`. Gateway is, as the name suggests, the gateway to multiple smart contracts that already live (and are maintained by 0xcert) on the blockchain and that enable atomic swaps with a broad array of functionalities. Depending on what kind of atomic order we are performing, there are multiple main smart contracts, as well as multiple proxies that take care of specific actions. [Here](), you can see all the already deployed smart contracts and their addresses. 
+All atomic actions within the 0xcert Framework are performed through a `Gateway`. Gateway is, as the name suggests, the gateway to multiple smart contracts that already live (and are maintained by 0xcert) on the blockchain and that enable atomic swaps with a broad array of functionalities. Depending on what kind of atomic order we are performing, there are multiple main smart contracts, as well as multiple proxies that take care of specific actions. [Here](), you can see all the already deployed smart contracts and their addresses. 
 
-Since `Gateway` is a single point of entry for all kinds of atomic orders, each order is defined through an `Order` interface and has a unique `OrderKind` for the sake of differentiation.
+Since `Gateway` is a single point of entry for all kinds of atomic actions, each order is defined through an `Order` interface and has a unique `OrderKind` for the sake of differentiation.
 
-For the beginning of this guide, we will create a `FixedActionsOrder`, the simplest type of atomic orders.
+For the beginning of this guide, we will create a `FixedActionsOrder`, the simplest type of atomic actions.
 
 ## Prerequisites
 

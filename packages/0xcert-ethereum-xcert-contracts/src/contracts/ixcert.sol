@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * @dev Xcert interface.
@@ -32,7 +32,7 @@ interface Xcert // is ERC721 metadata enumerable
 
   /**
    * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
-   * @return Schema id.
+   * @return _schemaId Schema id.
    */
   function schemaId()
     external
@@ -42,7 +42,7 @@ interface Xcert // is ERC721 metadata enumerable
   /**
    * @dev Returns imprint for Xcert.
    * @param _tokenId Id of the Xcert.
-   * @return Token imprint.
+   * @return imprint Token imprint.
    */
   function tokenImprint(
     uint256 _tokenId

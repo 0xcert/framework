@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 /**
  * @dev The contract has an owner address, and provides basic authorization control whitch
@@ -12,7 +12,7 @@ contract Ownable
    * @dev Error constants.
    */
   string constant NOT_OWNER = "018001";
-  string constant ZERO_ADDRESS = "018002";
+  string constant ZERO_ADDRESS_NOT_ALLOWED = "018002";
 
   /**
    * @dev Address of the owner.
@@ -55,9 +55,10 @@ contract Ownable
     address _newOwner
   )
     public
+    virtual
     onlyOwner
   {
-    require(_newOwner != address(0), ZERO_ADDRESS);
+    require(_newOwner != address(0), ZERO_ADDRESS_NOT_ALLOWED);
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }

@@ -1,6 +1,6 @@
 module.exports = {
-  title: '0xcert Docs',
-  description: 'Create, own, and validate unique assets on the blockchain. 0xcert is the first open protocol built to support the future of digital assets, powered by the non-fungible tokens.',
+  title: '0xcert Framework v2.0 - beta',
+  description: 'Leverage the most advanced open-source framework to create, manage and swap digital assets (ERC-721) and value tokens (ERC-20) on the blockchain.',
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
@@ -12,18 +12,12 @@ module.exports = {
     '@vuepress/google-analytics': {
       'ga': 'UA-114983924-2'
     },
-    '@vuepress/last-updated': {},
-    'register-components': {
-      components: [{
-        name: 'Subscription',
-        path: './components/Subscription.vue'
-      }]
-    }
+    '@vuepress/last-updated': {}
   },
   themeConfig: {
     logo: '/0xcert-logo.svg',
     displayAllHeaders: false,
-    lastUpdated: 'Last Updated', // string | boolean
+    lastUpdated: 'Last Updated',
     repo: '0xcert/framework',
     repoLabel: 'GitHub',
     docsRepo: '0xcert/framework',
@@ -32,32 +26,42 @@ module.exports = {
     editLinks: true,
     editLinkText: 'Help us improve this page.',
     nav: [
+      { text: 'Guide', link: '/guide/introduction' },
+      { text: 'v1.0', link: 'https://v1.docs.0xcert.org' },
       { text: '0xcert Home', link: 'https://0xcert.org' },
     ],
     sidebar: [
       {
-        title: 'Guide',
+        title: 'Introduction',
         collapsable: false,
-        children: [
-          ['/guide/introduction', 'Introduction'],
-          ['/guide/getting-started', 'Getting started'],
-          ['/guide/communication', 'Communication'],
-          ['/guide/using-providers', 'Using providers'],
-          ['/guide/about-assets', 'About assets'],
-          ['/guide/certification', 'Certification'],
-          ['/guide/asset-management', 'Asset management'],
-          ['/guide/about-cryptocurrency', 'About cryptocurrency'],
-          ['/guide/value-management', 'Value management'],
-          ['/guide/atomic-orders', 'Atomic orders'],
+        children: [          
+          '/introduction/overview',
+          '/introduction/getting-started',          
+          '/introduction/about-assets',
+          '/introduction/about-cryptocurrency',
+          ['/introduction/threat-models', 'Threat Models']
         ],
       },
       {
-        title: 'API',
+        title: 'Certification',
         collapsable: false,
         children: [
-          ['/api/core', 'Core'],
-          ['/api/ethereum', 'Ethereum'],
-          ['/api/wanchain', 'Wanchain'],
+          ['/certification/guide', 'Guide'],
+          ['/certification/api', 'API'],
+        ],
+      },
+      {
+        title: 'Connectors',
+        collapsable: false,
+        children: [
+          '/connectors/communication',
+          '/connectors/providers-guide',
+          '/connectors/asset-management-guide',
+          '/connectors/value-management-guide',
+          '/connectors/atomic-deployments-guide',
+          '/connectors/atomic-actions-guide',
+          ['/connectors/ethereum-api', 'Ethereum API'],
+          ['/connectors/wanchain-api', 'Wanchain API'],
         ],
       },
       {

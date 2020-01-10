@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity 0.6.1;
 
 import "../nf-token-metadata-enumerable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/claimable.sol";
@@ -11,13 +11,13 @@ contract NFTokenMetadataEnumerableMock is
   NFTokenMetadataEnumerable,
   Claimable
 {
-  
+
   /**
    * @dev Contract constructor.
    * @param _name A descriptive name for a collection of NFTs.
    * @param _symbol An abbreviated name for NFTokens.
-   * @param _uriPrefix Prefix of URI for token metadata URIs. 
-   * @param _uriPostfix Postfix of URI for token metadata URIs. 
+   * @param _uriPrefix Prefix of URI for token metadata URIs.
+   * @param _uriPostfix Postfix of URI for token metadata URIs.
    */
   constructor(
     string memory _name,
