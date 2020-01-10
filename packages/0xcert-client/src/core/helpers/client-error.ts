@@ -1,4 +1,4 @@
-import messages from "../messages";
+import messages from '../messages';
 
 /**
  * Client error.
@@ -8,7 +8,7 @@ export class ClientError extends Error {
   /**
    * Client error message.
    */
-  public message : string;
+  public message: string;
 
   /**
    * Client error code.
@@ -18,7 +18,7 @@ export class ClientError extends Error {
   /**
    * Original thrown error.
    */
-  public original : any;
+  public original: any;
 
   /**
    * Class constructor.
@@ -35,5 +35,3 @@ export class ClientError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-
-

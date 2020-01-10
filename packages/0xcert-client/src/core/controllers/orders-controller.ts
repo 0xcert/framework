@@ -3,9 +3,9 @@ import { ActionsOrder as FrameworkActionsOrder, ActionsOrderAction as FrameworkA
 import BigNumber from 'bignumber.js';
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
-import clientFetch from '../helpers/client-fetch';
-import { ActionKind, ActionsOrder, GetOrdersOptions, Priority, Signer, ClientErrorCode } from '../types';
 import { ClientError } from '../helpers/client-error';
+import clientFetch from '../helpers/client-fetch';
+import { ActionKind, ActionsOrder, ClientErrorCode, GetOrdersOptions, Priority, Signer } from '../types';
 
 /**
  * Orders controller class with orders related actions.

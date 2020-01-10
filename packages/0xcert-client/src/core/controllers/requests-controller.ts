@@ -1,8 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
-import clientFetch from '../helpers/client-fetch';
-import { GetRequestsOptions, ClientErrorCode } from '../types';
 import { ClientError } from '../helpers/client-error';
+import clientFetch from '../helpers/client-fetch';
+import { ClientErrorCode, GetRequestsOptions } from '../types';
 
 /**
  * Requests controller class with requests related actions.

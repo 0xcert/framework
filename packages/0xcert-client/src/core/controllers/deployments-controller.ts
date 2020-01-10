@@ -2,9 +2,9 @@ import { AssetLedgerDeployOrder, Gateway, OrderKind } from '@0xcert/ethereum-gat
 import BigNumber from 'bignumber.js';
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
-import clientFetch from '../helpers/client-fetch';
-import { AssetLedgerDeploymentData, GetDeploymentsOptions, Priority, ClientErrorCode } from '../types';
 import { ClientError } from '../helpers/client-error';
+import clientFetch from '../helpers/client-fetch';
+import { AssetLedgerDeploymentData, ClientErrorCode, GetDeploymentsOptions, Priority } from '../types';
 
 /**
  * Deployments controller class with deployments related actions.

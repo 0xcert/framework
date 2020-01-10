@@ -1,8 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
-import clientFetch from '../helpers/client-fetch';
-import { GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions, ClientErrorCode } from '../types';
 import { ClientError } from '../helpers/client-error';
+import clientFetch from '../helpers/client-fetch';
+import { ClientErrorCode, GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions } from '../types';
 
 /**
  * Ledgers controller class with ledgers related actions.
