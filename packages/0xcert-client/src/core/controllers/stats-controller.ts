@@ -33,7 +33,6 @@ export class StatsController {
     const params = new URLSearchParams({
       ...options.fromDate ? { fromDate: options.fromDate.toISOString() } : {},
       ...options.toDate ? { toDate: options.toDate.toISOString() } : {},
-      ...options.accountId ? { accountId: options.accountId } : {},
       ...options.skip ? { skip: options.skip.toString() } : { skip: this.context.defaultPagination.skip.toString() },
       ...options.limit ? { limit: options.limit.toString() } : { limit: this.context.defaultPagination.limit.toString() },
     });
@@ -75,6 +74,10 @@ export class StatsController {
    * Returns information about ZXC price.
    */
   public async getTickerStats(options: GetStatsTickersOptions) {
+    if (!this.context.authentication) {
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
+    }
+
     const params = new URLSearchParams({
       ...options.fromDate ? { fromDate: options.fromDate.toISOString() } : {},
       ...options.toDate ? { toDate: options.toDate.toISOString() } : {},

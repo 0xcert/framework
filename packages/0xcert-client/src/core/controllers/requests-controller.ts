@@ -33,7 +33,7 @@ export class RequestsController {
     const params = new URLSearchParams({
       ...options.fromDate ? { fromDate: options.fromDate.toISOString() } : {},
       ...options.toDate ? { toDate: options.toDate.toISOString() } : {},
-      ...options.status ? { status: options.status } : {},
+      ...options.status ? { status: options.status.toString() } : {},
       ...options.methods ? { methods: options.methods } : {},
       ...options.sort ? { sort: options.sort.toString() } : {},
       ...options.skip ? { skip: options.skip.toString() } : { skip: this.context.defaultPagination.skip.toString() },

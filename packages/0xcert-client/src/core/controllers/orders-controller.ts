@@ -80,12 +80,12 @@ export class OrdersController {
     }
     const orderGateway = new Gateway(this.context.provider);
 
-    // Set order's payer.
+    // Checks if payer is specified if `wildcardSigner` is set to `false`.
     if (!order.payerId && !order.wildcardSigner) {
-      throw new ClientError(ClientErrorCode.PAYER_NOT_AN_ORDER_SIGNER);
+      throw new ClientError(ClientErrorCode.PAYER_NOT_SPECIFIED);
     }
 
-    // Checks if payer id is order's signer.
+    // Checks if payer is order's signer.
     if (order.payerId) {
       const isPayerSigner = order.signersIds.find((s) => s.toLowerCase() === order.payerId.toLowerCase());
       if (!isPayerSigner) {
@@ -132,6 +132,17 @@ export class OrdersController {
             ledgerId: action.valueLedgerId,
           } as FrameworkActionsOrderAction);
           paymentAmount += this.context.payment.valueTransferCost;
+          break;
+        }
+        case (ActionKind.UPDATE_ASSET_IMPRINT): {
+          orderActions.push({
+            kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+            ledgerId: action.assetLedgerId,
+            senderId: action.senderId,
+            assetId: action.id,
+            assetImprint: action.imprint,
+          } as FrameworkActionsOrderAction);
+          paymentAmount += this.context.payment.assetUpdateCost;
           break;
         }
         case (ActionKind.SET_ABILITIES): {

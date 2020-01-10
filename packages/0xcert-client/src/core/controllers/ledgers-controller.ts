@@ -124,7 +124,6 @@ export class LedgersController {
       ...options.limit ? { limit: options.limit.toString() } : { limit: this.context.defaultPagination.limit.toString() },
       ...options.filterIds ? { filterIds: options.filterIds } : {},
       ...options.sort ? { sort: options.sort.toString() } : {},
-      ...options.ledgerRef ? { ledgerRef: options.ledgerRef } : {},
     });
 
     return clientFetch(`${this.context.apiUrl}/ledgers/${ledgerRef}/assets?${params.toString()}`, {

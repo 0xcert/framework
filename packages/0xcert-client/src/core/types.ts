@@ -6,7 +6,7 @@ import { GenericProvider } from '@0xcert/ethereum-generic-provider';
 export enum ClientErrorCode {
   CLIENT_INITIALIZATION_FAILED = 7000001,
   CLIENT_NOT_CONNECTION = 7000002,
-  PAYER_NOT_AN_ORDER_SIGNER = 7000003,
+  PAYER_NOT_SPECIFIED = 7000003,
   PAYER_NOT_LISTED_AS_ORDER_SIGNER = 7000004,
   ORDER_FETCHING_FAILED = 7000005,
 }
@@ -57,7 +57,7 @@ export interface AssetLedgerDeploymentData {
   uriPostfix: string;
 
   /**
-   * JSON schema representing asset ledger.
+   * JSON schema ID representing asset ledger.
    */
   schemaId: any;
 
@@ -106,7 +106,7 @@ export interface ActionsOrder {
   /**
    * Order's payer ID (address).
    */
-  payerId: string;
+  payerId?: string;
 
   /**
    * Wildcard signer tag.
@@ -122,7 +122,7 @@ export interface ActionsOrder {
 /**
  * Action definition.
  */
-export type Action = ActionCreateAsset | ActionTransferAsset | ActionTransferValue | ActionSetAbilities | ActionDestroyAsset;
+export type Action = ActionCreateAsset | ActionTransferAsset | ActionTransferValue | ActionSetAbilities | ActionDestroyAsset | ActionUpdateAssetImprint;
 
 /**
  * Available action kinds.
@@ -131,6 +131,7 @@ export enum ActionKind {
   CREATE_ASSET = 1,
   TRANSFER_ASSET = 2,
   TRANSFER_VALUE = 3,
+  UPDATE_ASSET_IMPRINT = 4,
   SET_ABILITIES = 5,
   DESTROY_ASSET = 6,
 }
@@ -252,6 +253,36 @@ export interface ActionTransferAsset {
 }
 
 /**
+ * Update asset imprint action definition.
+ */
+export interface ActionUpdateAssetImprint {
+  /**
+   * Action kind.
+   */
+  kind: ActionKind.UPDATE_ASSET_IMPRINT;
+
+  /**
+   * Address of erc721 compliant smart contract.
+   */
+  assetLedgerId: string;
+
+  /**
+   * Address of the sender.
+   */
+  senderId?: string;
+
+  /**
+   * Asset's imprint.
+   */
+  imprint?: string;
+
+  /**
+   * Asset id.
+   */
+  id: string;
+}
+
+/**
  * Create asset action definition.
  */
 export interface ActionCreateAsset {
@@ -352,7 +383,7 @@ export interface DefaultListingOptions {
 export interface GetRequestsOptions extends DefaultListingOptions {
   methods?: string[];
   sort?: RequestSort;
-  status?: string;
+  status?: number;
   fromDate?: Date;
   toDate?: Date;
 }
@@ -362,8 +393,8 @@ export interface GetRequestsOptions extends DefaultListingOptions {
  */
 export interface GetDeploymentsOptions extends DefaultListingOptions {
   filterIds?: string[];
-  statuses?: number[];
-  sort?: RequestSort;
+  statuses?: RequestStatus[];
+  sort?: DeploymentSort;
 }
 
 /**
@@ -391,7 +422,6 @@ export interface GetLedgersAbilitiesOptions extends DefaultListingOptions {
  */
 export interface GetLedgersAssetsOptions extends DefaultListingOptions {
   filterIds?: string[];
-  ledgerRef?: string;
   sort?: AssetSort;
 }
 
@@ -401,7 +431,7 @@ export interface GetLedgersAssetsOptions extends DefaultListingOptions {
 export interface GetOrdersOptions extends DefaultListingOptions {
   filterIds?: string[];
   statuses?: RequestStatus[];
-  sort?: RequestSort;
+  sort?: OrderSort;
 }
 
 /**
@@ -418,7 +448,6 @@ export interface GetStatsCostsOptions extends DefaultListingOptions {
 export interface GetStatsTrafficOptions extends DefaultListingOptions {
   fromDate?: Date;
   toDate?: Date;
-  accountId?: string;
 }
 
 /**
@@ -599,7 +628,23 @@ export enum AssetSort {
  */
 export enum TickerSort {
   CREATED_AT_ASC = 1,
-  CREATED_AT_DESC = -1,
+  CREATED_AT_DESC = 2,
+}
+
+/**
+ * Deployment requests sorting options.
+ */
+export enum DeploymentSort {
+  CREATED_AT_ASC = 1,
+  CREATED_AT_DESC = 2,
+}
+
+/**
+ * Order sorting options.
+ */
+export enum OrderSort {
+  CREATED_AT_ASC = 1,
+  CREATED_AT_DESC = 2,
 }
 
 /**
