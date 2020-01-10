@@ -1,4 +1,4 @@
-pragma solidity 0.6.1;
+pragma solidity 0.6.2;
 
 import "../ixcert.sol";
 import "../ixcert-burnable.sol";
@@ -22,12 +22,11 @@ contract Selector
     pure
     returns (bytes4)
   {
-    Xcert i;
     return (
-      i.create.selector
-      ^ i.schemaId.selector
-      ^ i.tokenImprint.selector
-      ^ i.setUri.selector
+      Xcert.create.selector
+      ^ Xcert.schemaId.selector
+      ^ Xcert.tokenImprint.selector
+      ^ Xcert.setUri.selector
     );
   }
 
@@ -39,8 +38,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertBurnable i;
-    return i.destroy.selector;
+    return XcertBurnable.destroy.selector;
   }
 
   /**
@@ -51,8 +49,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertRevokable i;
-    return i.revoke.selector;
+    return XcertRevokable.revoke.selector;
   }
 
   /**
@@ -63,8 +60,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertMutable i;
-    return i.updateTokenImprint.selector;
+    return XcertMutable.updateTokenImprint.selector;
   }
 
   /**
@@ -75,8 +71,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertPausable i;
-    return i.setPause.selector;
+    return XcertPausable.setPause.selector;
   }
   
 }
