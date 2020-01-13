@@ -9,7 +9,7 @@ import { AssetLedger } from '../core/ledger';
  * @param senderId Address that is sending the asset.
  * @param receiverId Address that will receive the asset.
  * @param id Asset id.
- * @param receiverData Addition data that will be send to the receiver.
+ * @param receiverData Additional data that will be sent to the receiver.
  */
 export default async function(ledger: AssetLedger, senderId: string,  receiverId: string, id: string, receiverData?: string) {
   const functionSignature = typeof receiverData !== 'undefined' ? '0xb88d4fde' : '0x42842e0e';

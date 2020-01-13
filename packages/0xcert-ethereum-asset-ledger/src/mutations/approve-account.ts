@@ -5,7 +5,7 @@ const functionSignature = '0x095ea7b3';
 const inputTypes = ['address', 'uint256'];
 
 /**
- * Approves an account for transfering a specific token.
+ * Approves an account for transferring a specific token.
  * @param ledger Asset ledger instance.
  * @param accountId Account address.
  * @param assetId Token id.
