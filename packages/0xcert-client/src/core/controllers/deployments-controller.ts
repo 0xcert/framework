@@ -2,8 +2,9 @@ import { AssetLedgerDeployOrder, Gateway, OrderKind } from '@0xcert/ethereum-gat
 import BigNumber from 'bignumber.js';
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
+import { ClientError } from '../helpers/client-error';
 import clientFetch from '../helpers/client-fetch';
-import { AssetLedgerDeploymentData, GetDeploymentsOptions, Priority } from '../types';
+import { AssetLedgerDeploymentData, ClientErrorCode, GetDeploymentsOptions, Priority } from '../types';
 
 /**
  * Deployments controller class with deployments related actions.
@@ -29,7 +30,7 @@ export class DeploymentsController {
    */
   public async getDeployments(options: GetDeploymentsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -55,7 +56,7 @@ export class DeploymentsController {
    */
   public async getDeployment(deploymentRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/deployments/${deploymentRef}`, {
@@ -74,7 +75,7 @@ export class DeploymentsController {
    */
   public async createDeployment(deployData: AssetLedgerDeploymentData, priority: Priority) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const deployGateway = new Gateway(this.context.provider);

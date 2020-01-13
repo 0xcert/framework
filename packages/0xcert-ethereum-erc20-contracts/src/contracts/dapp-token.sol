@@ -78,7 +78,7 @@ contract DappToken is
   address public tokenTransferProxy;
 
   /**
-   * @dev Addresses to which dapp tokens can be transfered.
+   * @dev Addresses to which dapp tokens can be transferred.
    */
   mapping (address => bool) public whitelistedRecipients;
 
@@ -95,7 +95,7 @@ contract DappToken is
   address public migrationAddress;
 
   /**
-   * @dev Dapp token addresses from which tokens can migrated to the new dapp tokens. Bartered
+   * @dev Dapp token addresses from which tokens can be migrated to the new dapp tokens. Bartered
    * tokens are transfered to the new dapp token address in the process.
    */
   mapping (address => bool) public approvedMigrators;
@@ -236,7 +236,7 @@ contract DappToken is
    * @dev Sets whitelist state to an address
    * @param _target Address we are setting the whitelist state.
    * @param _state State we are setting. True means the address is whitelisted while false the
-   * oposite.
+   * opposite.
    */
   function setWhitelistedRecipient(
     address _target,
@@ -253,7 +253,7 @@ contract DappToken is
    * @dev Sets migration caller state to an address.
    * @param _target Address we are setting the migration caller state.
    * @param _state State we are setting. True means the address is a migration caller while false
-   * the oposite.
+   * the opposite.
    */
   function setApprovedMigrator(
     address _target,
@@ -281,9 +281,9 @@ contract DappToken is
   }
 
   /**
-   * @dev Migrate to a new Dapp token smart contract. Senders bartered tokens get transfered to the
+   * @dev Migrate to a new Dapp token smart contract. Senders bartered tokens get transferred to the
    * new Dapp token where tokens in the same amount get created. Tokens on this smart contract get
-   * destoyed.
+   * destroyed.
    */
   function migrate()
     external

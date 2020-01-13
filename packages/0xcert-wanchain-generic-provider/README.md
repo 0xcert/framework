@@ -1,6 +1,6 @@
 <img src="../../assets/cover-sub.png" />
 
-> Basic implementation of communication provider for the Wanchain blockchain.
+> Basic implementation of a communication provider for the Wanchain blockchain.
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
 

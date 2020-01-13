@@ -3,8 +3,9 @@ import { ActionsOrder as FrameworkActionsOrder, ActionsOrderAction as FrameworkA
 import BigNumber from 'bignumber.js';
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
+import { ClientError } from '../helpers/client-error';
 import clientFetch from '../helpers/client-fetch';
-import { ActionKind, ActionsOrder, GetOrdersOptions, Priority, Signer } from '../types';
+import { ActionKind, ActionsOrder, ClientErrorCode, GetOrdersOptions, Priority, Signer } from '../types';
 
 /**
  * Orders controller class with orders related actions.
@@ -30,7 +31,7 @@ export class OrdersController {
    */
   public async getOrders(options: GetOrdersOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -56,7 +57,7 @@ export class OrdersController {
    */
   public async getOrder(orderRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {
@@ -75,20 +76,20 @@ export class OrdersController {
    */
   public async createOrder(order: ActionsOrder, priority: Priority) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
     const orderGateway = new Gateway(this.context.provider);
 
-    // Set order's payer.
+    // Checks if payer is specified if `wildcardSigner` is set to `false`.
     if (!order.payerId && !order.wildcardSigner) {
-      throw new Error('Payer must be specified if `wildcardSigner` tag is set to false.');
+      throw new ClientError(ClientErrorCode.PAYER_NOT_SPECIFIED);
     }
 
-    // Checks if payer id is order's signer.
+    // Checks if payer is order's signer.
     if (order.payerId) {
       const isPayerSigner = order.signersIds.find((s) => s.toLowerCase() === order.payerId.toLowerCase());
       if (!isPayerSigner) {
-        throw new Error('Payer must be listed as order\'s signer.');
+        throw new ClientError(ClientErrorCode.PAYER_NOT_LISTED_AS_ORDER_SIGNER);
       }
     }
 
@@ -131,6 +132,17 @@ export class OrdersController {
             ledgerId: action.valueLedgerId,
           } as FrameworkActionsOrderAction);
           paymentAmount += this.context.payment.valueTransferCost;
+          break;
+        }
+        case (ActionKind.UPDATE_ASSET_IMPRINT): {
+          orderActions.push({
+            kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT,
+            ledgerId: action.assetLedgerId,
+            senderId: action.senderId,
+            assetId: action.id,
+            assetImprint: action.imprint,
+          } as FrameworkActionsOrderAction);
+          paymentAmount += this.context.payment.assetUpdateCost;
           break;
         }
         case (ActionKind.SET_ABILITIES): {
@@ -215,7 +227,7 @@ export class OrdersController {
    */
   public async signOrder(orderRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     let order = null;
@@ -229,11 +241,11 @@ export class OrdersController {
       });
       order = orderData.data;
     } catch (error) {
-      throw new Error('There was a problem while fetching order data.');
+      throw new ClientError(ClientErrorCode.ORDER_FETCHING_FAILED, error);
     }
 
     if (!order) {
-      throw new Error('Order doesn\'t. exists');
+      throw new ClientError(ClientErrorCode.ORDER_FETCHING_FAILED);
     }
 
     const claimOrder = {
@@ -265,7 +277,7 @@ export class OrdersController {
    */
   public async performOrder(orderRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}/perform`, {
@@ -283,7 +295,7 @@ export class OrdersController {
    */
   public async cancelOrder(orderRef: string) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/orders/${orderRef}`, {

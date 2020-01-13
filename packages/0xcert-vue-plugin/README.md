@@ -42,7 +42,7 @@ export default {
 }
 ```
 
-The plugin gives you access the 0xcert Vue.js client.
+The plugin gives you access to the 0xcert Vue.js client.
 
 ```ts
 const client = this.$0xcert; // 0xcert client

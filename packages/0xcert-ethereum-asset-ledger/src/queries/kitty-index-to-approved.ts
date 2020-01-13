@@ -5,7 +5,7 @@ const inputTypes = ['uint256'];
 const outputTypes = ['address'];
 
 /**
- * Gets the account that is approved for transfering a specific asset.
+ * Gets the account that is approved for transferring a specific asset.
  * @param ledger Asset ledger instance.
  * @param assetId Asset id.
  */
