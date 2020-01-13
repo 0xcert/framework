@@ -32,7 +32,7 @@ export interface BitskiProviderOptions {
   valueLedgerSource?: string;
 
   /**
-   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark
+   * Number of confirmations (blocks in blockchain after mutation is accepted) that are necessary to mark
    * a mutation complete.
    */
   requiredConfirmations?: number;

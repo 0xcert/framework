@@ -5,7 +5,7 @@ const functionSignature = '0xbedb86fb';
 const inputTypes = ['bool'];
 
 /**
- * Allows or freezes the option of transfering assets in specifies asset ledger.
+ * Allows or freezes the option of transferring assets in specifies asset ledger.
  * @param ledger Asset ledger instance.
  * @param enabled Enable state.
  */

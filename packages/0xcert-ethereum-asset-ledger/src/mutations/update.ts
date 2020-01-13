@@ -5,9 +5,9 @@ const functionSignature = '0x89b73ec0';
 const inputTypes = ['string', 'string'];
 
 /**
- * Updates asset ledger uri base.
+ * Updates asset ledger URI base.
  * @param ledger Asset ledger instance.
- * @param uriPrefix New uri base.
+ * @param uriPrefix New URI base.
  */
 export default async function(ledger: AssetLedger, uriPrefix: string, uriPostfix: string) {
   const attrs = {

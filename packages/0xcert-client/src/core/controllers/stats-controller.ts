@@ -1,7 +1,8 @@
 import { URLSearchParams } from 'url';
 import { Client } from '../client';
+import { ClientError } from '../helpers/client-error';
 import clientFetch from '../helpers/client-fetch';
-import { GetStatsCostsOptions, GetStatsTickersOptions, GetStatsTrafficOptions } from '../types';
+import { ClientErrorCode, GetStatsCostsOptions, GetStatsTickersOptions, GetStatsTrafficOptions } from '../types';
 
 /**
  * Stats controller class with stats related actions.
@@ -26,13 +27,12 @@ export class StatsController {
    */
   public async getTrafficStats(options: GetStatsTrafficOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
       ...options.fromDate ? { fromDate: options.fromDate.toISOString() } : {},
       ...options.toDate ? { toDate: options.toDate.toISOString() } : {},
-      ...options.accountId ? { accountId: options.accountId } : {},
       ...options.skip ? { skip: options.skip.toString() } : { skip: this.context.defaultPagination.skip.toString() },
       ...options.limit ? { limit: options.limit.toString() } : { limit: this.context.defaultPagination.limit.toString() },
     });
@@ -51,7 +51,7 @@ export class StatsController {
    */
   public async getCostStats(options: GetStatsCostsOptions) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     const params = new URLSearchParams({
@@ -74,6 +74,10 @@ export class StatsController {
    * Returns information about ZXC price.
    */
   public async getTickerStats(options: GetStatsTickersOptions) {
+    if (!this.context.authentication) {
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
+    }
+
     const params = new URLSearchParams({
       ...options.fromDate ? { fromDate: options.fromDate.toISOString() } : {},
       ...options.toDate ? { toDate: options.toDate.toISOString() } : {},

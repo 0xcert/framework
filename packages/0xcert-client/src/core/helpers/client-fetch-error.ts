@@ -2,7 +2,15 @@
  * Client fetch error.
  */
 export class ClientFetchError extends Error {
+
+  /**
+   * Error result of client fetch operation.
+   */
   public result: any;
+
+  /**
+   * Error status code of client fetch operation.
+   */
   public status: number;
 
   /**

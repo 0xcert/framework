@@ -12,7 +12,7 @@ This module wraps several useful Ethereum functions which will be useful through
 
 ## ABI coder
 
-This converts value to and from the packed [Ethereum ABI encoding](https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding).
+This converts the value to and from the packed [Ethereum ABI encoding](https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding).
 
 * `encodeParameters`(types: `any`, values: `Array<any>`): `string`
 * `decodeParameters`(types: `any`, data: `any`): `any`

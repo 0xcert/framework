@@ -5,7 +5,7 @@ const functionSignature = '0xa22cb465';
 const inputTypes = ['address', 'bool'];
 
 /**
- * Sets aproval for an account to have control over all assets.
+ * Sets approval for an account to have control over all assets.
  * @param ledger Asset ledger instance.
  * @param accountId Account id.
  * @param approved Is approved or not.

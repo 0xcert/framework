@@ -81,12 +81,13 @@
     "solc": "0.6.1",
     "ts-node": "8.4.1",
     "typescript": "3.6.3",
+    "tslint": "5.20.0",
     "web3": "1.2.1"
   },
   "dependencies": {
     "@0xcert/cert": "2.0.0-alpha15",
-    "@0xcert/ethereum-generic-provider": "2.0.0-alpha15",
     "@0xcert/ethereum-gateway": "2.0.0-alpha15",
+    "@0xcert/ethereum-generic-provider": "2.0.0-alpha15",
     "bignumber.js": "9.0.0",
     "node-fetch": "2.6.0"
   }
