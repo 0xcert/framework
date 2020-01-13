@@ -1,6 +1,6 @@
 <img src="../../assets/cover-sub.png" />
 
-> Implementation of basic functions of binary Merkle tree.
+> Implementation of basic functions of a binary Merkle tree.
 
 This module handles binary trees like this (v = value, n = node, r = nonce):
 
@@ -21,7 +21,7 @@ v0    r0   |
    v1    r1   r2
 ```
 
-A user defines an array of values where these values are hashed into an `imprint`, which is a merkle root tree hash. A user can expose selected values to a third-party by providing the evidence file which includes a recipe of `values` and `nodes`. This file holds enough information for a third-party to recreate the imprint.
+A user defines an array of values where these values are hashed into an `imprint`, which is a Merkle root tree hash. A user can expose selected values to a third-party by providing the evidence file which includes a recipe of `values` and `nodes`. This file holds enough information for a third-party to recreate the imprint.
 
 ```js
 import { sha } from '@0xcert/utils'; 
