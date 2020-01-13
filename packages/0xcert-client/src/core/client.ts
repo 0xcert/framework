@@ -6,11 +6,12 @@ import { LedgersController } from './controllers/ledgers-controller';
 import { OrdersController } from './controllers/orders-controller';
 import { RequestsController } from './controllers/requests-controller';
 import { StatsController } from './controllers/stats-controller';
+import { ClientError } from './helpers/client-error';
 import clientFetch from './helpers/client-fetch';
-import { AccountInformation, ActionsOrder, AssetLedgerDeploymentData, ClientOptions,
-  DefaultListingOptions, GetDeploymentsOptions, GetLedgersAbilitiesOptions,
-  GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions, GetOrdersOptions,
-  GetRequestsOptions, GetStatsTickersOptions, GetStatsTrafficOptions, Payment, Priority, WebhookEventKind } from './types';
+import { AccountInformation, ActionsOrder, AssetLedgerDeploymentData, ClientErrorCode,
+  ClientOptions, DefaultListingOptions, GetDeploymentsOptions,
+  GetLedgersAbilitiesOptions, GetLedgersAccountsOptions, GetLedgersAssetsOptions, GetLedgersOptions,
+  GetOrdersOptions, GetRequestsOptions, GetStatsTickersOptions, GetStatsTrafficOptions, Payment, Priority, WebhookEventKind } from './types';
 
 /**
  * Client class.
@@ -120,11 +121,11 @@ export class Client {
       });
       data = accountData.data;
     } catch (error) {
-      throw new Error('There was an error while initializing client.');
+      throw new ClientError(ClientErrorCode.CLIENT_INITIALIZATION_FAILED, error);
     }
 
     if (!(data && data.id && data.payment)) {
-      throw new Error('There was an error while initializing client.');
+      throw new ClientError(ClientErrorCode.CLIENT_INITIALIZATION_FAILED);
     }
 
     this.payment.tokenAddress = data.payment.tokenAddress;
