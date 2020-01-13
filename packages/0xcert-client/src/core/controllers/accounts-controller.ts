@@ -1,6 +1,7 @@
 import { Client } from '../client';
+import { ClientError } from '../helpers/client-error';
 import clientFetch from '../helpers/client-fetch';
-import { AccountInformation, WebhookEventKind } from '../types';
+import { AccountInformation, ClientErrorCode, WebhookEventKind } from '../types';
 
 /**
  * Accounts controller class with accounts related actions.
@@ -25,7 +26,7 @@ export class AccountsController {
    */
   public async getAccount() {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/account`, {
@@ -42,7 +43,7 @@ export class AccountsController {
    */
   public async getAccountAbilities() {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/account/abilities`, {
@@ -59,7 +60,7 @@ export class AccountsController {
    */
   public async getAccountWebhook() {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/account/webhook`, {
@@ -78,7 +79,7 @@ export class AccountsController {
    */
   public async updateAccountWebhook(url: string, events: WebhookEventKind[]) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/account/webhook`, {
@@ -100,7 +101,7 @@ export class AccountsController {
    */
   public async updateAccountInformation(accountInformation: AccountInformation) {
     if (!this.context.authentication) {
-      throw new Error('Client not connected. Please initialize your client first.');
+      throw new ClientError(ClientErrorCode.CLIENT_NOT_CONNECTION);
     }
 
     return clientFetch(`${this.context.apiUrl}/account`, {
