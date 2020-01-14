@@ -34,7 +34,7 @@ module.exports = {
       {
         title: 'Introduction',
         collapsable: false,
-        children: [          
+        children: [
           '/introduction/overview',
           '/introduction/getting-started',          
           '/introduction/about-assets',
@@ -47,14 +47,16 @@ module.exports = {
         title: 'Certification',
         collapsable: false,
         children: [
-          ['/certification/guide', 'Guide'],
-          ['/certification/interface', 'Interface'],
+          '/certification/overview',
+          '/certification/guide',
+          '/certification/interface',
         ],
       },
       {
         title: 'Connectors',
         collapsable: false,
         children: [
+          '/connectors/overview',
           '/connectors/communication',
           '/connectors/providers-guide',
           '/connectors/asset-management-guide',
@@ -69,6 +71,7 @@ module.exports = {
         title: 'Enterprise',
         collapsable: false,
         children: [
+          '/enterprise/overview',
           '/enterprise/guide',
           '/enterprise/rest-interface',
           '/enterprise/client-interface',
