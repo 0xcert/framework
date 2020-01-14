@@ -1,4 +1,5 @@
 pragma solidity 0.6.1;
+pragma experimental ABIEncoderV2;
 
 import "@0xcert/ethereum-xcert-contracts/src/contracts/ixcert-mutable.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
