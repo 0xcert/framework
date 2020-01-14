@@ -1,15 +1,20 @@
-# API Client
+# Client
 
-The 0xcert API Client is a JavaScript library that provides a complete set of tools for easier communication with the 0xcert API. 0xcert API is language independent software as a service with a RESTful API endpoint built for developers. We use `staging (Ethereum test network - Rinkeby)` and `production (Ethereum main network - Mainnet)` environments. Staging endpoint is a production endpoint replication, serving as a sandbox environment, where we test our code before we deploy it to the production servers. Production servers handle real users, real sandbox calls and hold real data.
+The 0xcert API Client is a JavaScript library written in TypeScript, that provides a complete set of tools for easier communication with the 0xcert API. 0xcert API is language independent software as a service with a RESTful API endpoint built for developers.
 
-Here is a list of available endpoints:
+## Installation
 
-* **Staging**: https://api-staging.0xcert.org
-* **Production**: https://api.0xcert.org
+We recommend you employ the certification module as an NPM package in your application.
+
+```sh
+$ npm i --save @0xcert/client
+```
+
+On our official open-source [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that can be directly implemented into your application or website. Please also refer to the [API Reference](/api/core.html) section to learn more about certification.
 
 ## Function responses
 
-Every successful function response equals to the 0xcert API (link) response. Successful response has a unique ID which helps identifying potential problems. It also includes a status code that can help identifying the cause of a potential problem.
+Every successful function response equals to the [0xcert REST API](/api/rest) response. Successful response has a unique ID which helps identifying potential problems. It also includes a status code that can help identifying the cause of a potential problem.
 
 Successful requests include a `data` key, which hold a valid response object, and a `meta` key, which holds additional information about the result.
 
@@ -21,6 +26,7 @@ Successful requests include a `data` key, which hold a valid response object, an
   "meta": { ... },
 }
 ```
+
 In case of a failure we have two different kind of error responses:
 
 ### Client fetch error
@@ -55,7 +61,7 @@ Client fetch errors include a unique code number and an error message. The code 
   ...
   "errors": [
     {
-      "code": 422000,
+      "code": 400000,
       "message": "Invalid path."
     }
   ]
@@ -64,11 +70,11 @@ Client fetch errors include a unique code number and an error message. The code 
 
 ### Client error
 
-Client error represents the error thrown by a client when error independent of 0xcert API (link) server happens.
+Client error represents an error thrown by the client unrelated to the [0xcert REST API](/api/rest).
 
 **Client error handling**
 
-Client errors include a unique code number,error message and original thrown error if it is caught by client. The code number helps identifying potential problems and points to the exact position in the system.
+Client errors include a unique code number, error message and original thrown error if it is caught by client. The code number helps identifying potential problems and points to the exact position in the system.
 
 ```js
 {
@@ -95,15 +101,14 @@ A class providing communication with the 0xcert API.
 import { Client } from '@0xcert/client';
 
 const client = new Client({
-    provider,
-    apiUrl: 'https://api.0xcert.org',
+  provider,
+  apiUrl: 'https://api.0xcert.org',
 });
 ```
 
 **See also:**
 
 [Using providers](#using-providers)
-
 
 ## init()
 
@@ -1236,7 +1241,6 @@ const requests = await client.getRequests({
   sort: RequestSort.CREATED_AT_ASC,
 });
 ```
-
 
 ##### Possible errors
 

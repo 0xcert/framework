@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-proxy-contracts",
-  "version": "2.0.0-alpha15",
+  "version": "2.0.0-alpha16",
   "description": "Proxy smart contracts used by the gateway when communicating with the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
@@ -73,14 +73,14 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-utils": "2.0.0-alpha15",
-    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha15",
-    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha15",
-    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha15",
-    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha15",
     "@specron/cli": "0.13.0",
     "@specron/spec": "0.13.0",
     "@specron/flattener": "0.13.0",
+    "@0xcert/ethereum-utils": "2.0.0-alpha16",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-alpha16",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha16",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-alpha16",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha16",
     "solc": "0.6.1",
     "solhint": "2.3.0",
     "ts-node": "8.4.1",

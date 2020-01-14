@@ -2,11 +2,21 @@
 sidebarDepth: 2
 ---
 
-# API / Ethereum
+# Ethereum interface
 
 ## Bitski back-end provider
 
 A [Bitski](https://www.bitski.com/) back-end provider is applied to back-end Node.js usage. You will be able to connect to the Ethereum blockchain and create queries and mutations via your Bitski developer wallets. To set up Bitski back-end provider, you need to first create a [development account](https://developer.bitski.com/) on Bitski.
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-bitski-backend-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### BitskiProvider(options)
 
@@ -34,7 +44,6 @@ A class providing communication with the Ethereum blockchain through [Bitski](ht
 | options.unsafeRecipientIds | A list of `strings` representing smart contract addresses that do not support safe ERC-721 transfers (e.g., CryptoKitties address should be listed here).
 | options.valueLedgerSource | A `string` representing the URL to the compiled ERC-20-related smart contract definition file. This file is used when deploying new value ledgers to the network.
 | options.verbose | A `boolean` indicating whether you are in verbose mode. Verbose mode means the console will provide more detailed information about the current state. It defaults to `false`.
-
 
 **Usage**
 
@@ -389,6 +398,16 @@ A class instance `variable` holding a `boolean` which represents whether you are
 ## Bitski front-end provider
 
 A [Bitski](https://www.bitski.com/) front-end provider is applied for in-browser use. The user will be prompted to create/log in to their Bitski account when creating mutations. The provider automatically establishes a communication channel to Bitski which further performs communication with the Ethereum blockchain. To setup Bitski front-end provider, you first need to create a [development account](https://developer.bitski.com/) on Bitski, you will also need to host a callback page like [this](https://github.com/BitskiCo/bitski-js/blob/develop/packages/browser/callback.html), and authorize its URL on previously created development account.
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-bitski-frontend-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### BitskiProvider(options)
 
@@ -821,6 +840,16 @@ A class instance `variable` holding a `boolean` which represents whether you are
 
 A MetaMask provider is applied for in-browser use. The user should have [MetaMask](https://metamask.io/) installed. The provider automatically establishes a communication channel to MetaMask which further performs communication with the Ethereum blockchain.
 
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-metamask-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
+
 ### MetamaskProvider(options)
 
 A `class` providing communication with the Ethereum blockchain through [MetaMask](https://metamask.io/).
@@ -1208,6 +1237,16 @@ HTTP provider uses HTTP and HTTPS protocol for communication with the Ethereum n
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
 :::
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-http-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### HttpProvider(options)
 
@@ -1835,6 +1874,16 @@ mutation.on(MutationEvent.COMPLETE, () => {
 ## Asset ledger
 
 Asset ledger represents ERC-721-related smart contract on the Ethereum blockchain.
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-asset-ledger
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### AssetLedger(provider, ledgerId)
 
@@ -2815,6 +2864,16 @@ const capabilities = [
 
 Value ledger represents an ERC-20-related smart contract on the Ethereum blockchain.
 
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-value-ledger
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
+
 ### ValueLedger(provider, ledgerId)
 
 A `class` which represents a smart contract on the Ethereum blockchain.
@@ -3142,6 +3201,16 @@ Therefore, `signed` orders are perfect for third-party services providing order 
 ::: warning
 When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
 :::
+
+### Installation
+
+We recommend you employ the package as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/ethereum-http-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented into your website. Please refer to the [API](/api/core.html) section to learn more about the value ledger.
 
 ### Gateway(provider, gatewayConfig?)
 
