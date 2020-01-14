@@ -74,9 +74,9 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-utils-contracts": "2.0.0-alpha15",
-    "@specron/cli": "0.12.0",
-    "@specron/spec": "0.12.0",
-    "@specron/flattener": "0.12.0",
+    "@specron/cli": "0.13.0",
+    "@specron/spec": "0.13.0",
+    "@specron/flattener": "0.13.0",
     "solc": "0.6.1",
     "solhint": "2.3.0",
     "ts-node": "8.4.1",
