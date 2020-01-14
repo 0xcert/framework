@@ -1,4 +1,4 @@
-# Getting Started
+# Getting started
 
 This guide walks you through the main features of the 0xcert Framework. It gives you an overview of the concepts and mechanics, as well as the directions on how to write your code.
 

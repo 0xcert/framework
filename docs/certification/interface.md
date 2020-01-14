@@ -1,9 +1,17 @@
 
-# Certification API
-
-## @0xcert/cert
+# Interface
 
 Certification is the process of converting digital asset metadata into cryptographic artifacts, which can be used to verify the authenticity of metadata.
+
+### Installation
+
+We recommend you employ the certification module as an NPM package in your application.
+
+```sh
+$ npm i --save @0xcert/cert
+```
+
+On our official open-source [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript files that can be directly implemented into your application or website. Please also refer to the [API Reference](/api/core.html) section to learn more about certification.
 
 ### Cert(options)
 

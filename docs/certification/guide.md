@@ -1,4 +1,4 @@
-# Certification
+# Guide
 
 Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular processor for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
