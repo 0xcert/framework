@@ -1,4 +1,4 @@
-# Value Management
+# Value management
 
 If we take the example from the [Asset Management guide](), we said that banknotes and coins are not assets since they are fungible (interchangeable while retaining the same value). To describe these kinds of items, we use the term value. Value management is all about managing currencies, tokens, etc.
 

@@ -1,4 +1,4 @@
-# Assurances and Threat Models
+# Threat models
 
 The 0xcert Framework includes a novel and efficient approach for taking arbitrary information, notarizing it, and putting the notarization on a blockchain. Doing this relies on certain cryptographic primatives and techniques and the Framework provides certain assurances.
 

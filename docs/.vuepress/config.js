@@ -39,6 +39,7 @@ module.exports = {
           '/introduction/getting-started',          
           '/introduction/about-assets',
           '/introduction/about-cryptocurrency',
+          '/introduction/atomic-orders',
           ['/introduction/threat-models', 'Threat Models']
         ],
       },
@@ -47,7 +48,7 @@ module.exports = {
         collapsable: false,
         children: [
           ['/certification/guide', 'Guide'],
-          ['/certification/api', 'API'],
+          ['/certification/interface', 'Interface'],
         ],
       },
       {
@@ -60,8 +61,17 @@ module.exports = {
           '/connectors/value-management-guide',
           '/connectors/atomic-deployments-guide',
           '/connectors/atomic-actions-guide',
-          ['/connectors/ethereum-api', 'Ethereum API'],
-          ['/connectors/wanchain-api', 'Wanchain API'],
+          ['/connectors/ethereum-interface', 'Ethereum Interface'],
+          ['/connectors/wanchain-interface', 'Wanchain Interface'],
+        ],
+      },
+      {
+        title: 'Enterprise',
+        collapsable: false,
+        children: [
+          '/enterprise/guide',
+          '/enterprise/rest-interface',
+          '/enterprise/client-interface',
         ],
       },
       {

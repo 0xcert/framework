@@ -1,4 +1,4 @@
-# Asset Management
+# Aset management
 
 When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver's license, credit cards, etc. While these items can all be classified as assets, when talking about an asset in the context of the 0xcert Framework, **an asset represents something unique**.
 
