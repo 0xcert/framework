@@ -34,11 +34,12 @@ module.exports = {
       {
         title: 'Introduction',
         collapsable: false,
-        children: [          
+        children: [
           '/introduction/overview',
           '/introduction/getting-started',          
           '/introduction/about-assets',
           '/introduction/about-cryptocurrency',
+          '/introduction/atomic-orders',
           ['/introduction/threat-models', 'Threat Models']
         ],
       },
@@ -46,22 +47,34 @@ module.exports = {
         title: 'Certification',
         collapsable: false,
         children: [
-          ['/certification/guide', 'Guide'],
-          ['/certification/api', 'API'],
+          '/certification/overview',
+          '/certification/guide',
+          '/certification/interface',
         ],
       },
       {
         title: 'Connectors',
         collapsable: false,
         children: [
+          '/connectors/overview',
           '/connectors/communication',
           '/connectors/providers-guide',
           '/connectors/asset-management-guide',
           '/connectors/value-management-guide',
           '/connectors/atomic-deployments-guide',
           '/connectors/atomic-actions-guide',
-          ['/connectors/ethereum-api', 'Ethereum API'],
-          ['/connectors/wanchain-api', 'Wanchain API'],
+          ['/connectors/ethereum-interface', 'Ethereum Interface'],
+          ['/connectors/wanchain-interface', 'Wanchain Interface'],
+        ],
+      },
+      {
+        title: 'Enterprise',
+        collapsable: false,
+        children: [
+          '/enterprise/overview',
+          '/enterprise/guide',
+          '/enterprise/rest-interface',
+          '/enterprise/client-interface',
         ],
       },
       {

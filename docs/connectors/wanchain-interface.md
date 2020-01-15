@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-# API / Wanchain
+# Wanchain interface
 
 ## HTTP provider
 
@@ -11,6 +11,16 @@ HTTP provider uses HTTP and HTTPS protocol for communication with the Wanchain n
 ::: warning
 Don't forget to manually unlock your account before performing a mutation.
 :::
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/wanchain-http-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### HttpProvider(options)
 
@@ -631,6 +641,16 @@ mutation.on(MutationEvent.COMPLETE, () => {
 ## Asset ledger
 
 Asset ledger represents ERC-721-related smart contract on the Wanchain blockchain.
+
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/wanchain-asset-ledger
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
 
 ### AssetLedger(provider, ledgerId)
 
@@ -1614,6 +1634,16 @@ const capabilities = [
 
 Value ledger represents an ERC-20-related smart contract on the Wanchain blockchain.
 
+### Installation
+
+We recommend you employ the asset ledger module as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/wanchain-value-ledger
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that you can directly include in your website. Please refer to the [API](/api/core.html) section to learn more about asset ledger.
+
 ### ValueLedger(provider, ledgerId)
 
 A `class` which represents a smart contract on the Wanchain blockchain.
@@ -1944,6 +1974,16 @@ Therefore, `signed` orders are perfect for third-party services providing order 
 ::: warning
 When using dynamic order, you cannot send any of the assets to the zero address (0x000...0), since the zero address is reserved for replacing the order taker in the smart contract.
 :::
+
+### Installation
+
+We recommend you employ the package as an NPM package in your application.
+
+```ell
+$ npm i --save @0xcert/wanchain-http-provider
+```
+
+On our official [GitHub repository](https://github.com/0xcert/framework), we also host a compiled and minimized JavaScript file that can be directly implemented into your website. Please refer to the [API](/api/core.html) section to learn more about the value ledger.
 
 ### Gateway(provider, gatewayConfig?)
 
