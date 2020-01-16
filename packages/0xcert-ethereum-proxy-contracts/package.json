@@ -73,9 +73,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "0.13.0",
-    "@specron/spec": "0.13.0",
-    "@specron/flattener": "0.13.0",
+    "@specron/cli": "0.15.0",
+    "@specron/spec": "0.15.0",
+    "@specron/flattener": "0.15.0",
     "@0xcert/ethereum-utils": "2.0.0-alpha16",
     "@0xcert/ethereum-utils-contracts": "2.0.0-alpha16",
     "@0xcert/ethereum-erc20-contracts": "2.0.0-alpha16",
