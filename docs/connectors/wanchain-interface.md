@@ -2475,6 +2475,8 @@ These are the latest addresses that work with the 0xcert Framework version 2.0.0
 
 ### Mainnet
 
+Coming soon...
+
 | Contract | Address
 |-|-
 | AbilitableManageProxy | []()
@@ -2482,9 +2484,11 @@ These are the latest addresses that work with the 0xcert Framework version 2.0.0
 | NFTokenTransferProxy | []()
 | NFTokenSafeTransferProxy | []()
 | TokenDeployGateway | []()
+| TokenDeployProxy | []()
 | TokenTransferProxy | []()
 | XcertCreateProxy | []()
 | XcertDeployGateway | []()
+| XcertDeployProxy | []()
 | XcertDestroyProxy | []()
 | XcertUpdateProxy | []()
 
@@ -2492,13 +2496,15 @@ These are the latest addresses that work with the 0xcert Framework version 2.0.0
 
 | Contract | Address
 |-|-
-| AbilitableManageProxy | []()
-| ActionsGateway | []()
-| NFTokenTransferProxy | []()
-| NFTokenSafeTransferProxy | []()
-| TokenDeployGateway | []()
-| TokenTransferProxy | []()
-| XcertCreateProxy | []()
-| XcertDeployGateway | []()
-| XcertDestroyProxy | []()
-| XcertUpdateProxy | []()
+| AbilitableManageProxy | [0x347A622e64FD972dfAEBF8C6b767cefd0926FB66](https://testnet.wanscan.org/address/0x347A622e64FD972dfAEBF8C6b767cefd0926FB66)
+| ActionsGateway | [0x52FF43a24d7046ce8EA3DcFBDb758e564853b794](https://testnet.wanscan.org/address/0x52FF43a24d7046ce8EA3DcFBDb758e564853b794)
+| NFTokenTransferProxy | [0x31196eF69828CB3b30f8a1171fFE41509046f79b](https://testnet.wanscan.org/address/0x31196eF69828CB3b30f8a1171fFE41509046f79b)
+| NFTokenSafeTransferProxy | [0x7C7562FaF8A20eF716BFF010069d14038Fe03234](https://testnet.wanscan.org/address/0x7C7562FaF8A20eF716BFF010069d14038Fe03234)
+| TokenDeployGateway | [0x3314c6003fe4e76E3a73001A000c59179D0F3239](https://testnet.wanscan.org/address/0x3314c6003fe4e76E3a73001A000c59179D0F3239)
+| TokenDeployProxy | [0xb0db425CBe18C24fee38A1FA44481B5111227560](https://testnet.wanscan.org/address/0xb0db425CBe18C24fee38A1FA44481B5111227560)
+| TokenTransferProxy | [0x970BD8F20e76207498bdE2C9d864BF40358f3a6F](https://testnet.wanscan.org/address/0x970BD8F20e76207498bdE2C9d864BF40358f3a6F)
+| XcertCreateProxy | [0xb2005dEdBbA65A94A35CfE333257a5B8216Ab92A](https://testnet.wanscan.org/address/0xb2005dEdBbA65A94A35CfE333257a5B8216Ab92A)
+| XcertDeployGateway | [0x1A549658F98ffDdc2fd5ce774205e0343F332b5a](https://testnet.wanscan.org/address/0x1A549658F98ffDdc2fd5ce774205e0343F332b5a)
+| XcertDeployProxy | [0x3A74b5A7b36e8cb1eAD919087185E197298aBC66](https://testnet.wanscan.org/address/0x3A74b5A7b36e8cb1eAD919087185E197298aBC66)
+| XcertDestroyProxy | [0xf6F4941e0B5aFaf82Ef0F5088479a57FFFB65216](https://testnet.wanscan.org/address/0xf6F4941e0B5aFaf82Ef0F5088479a57FFFB65216)
+| XcertUpdateProxy | [0xa37b825be44f241Fd2A7a454581DA037562eD302](https://testnet.wanscan.org/address/0xa37b825be44f241Fd2A7a454581DA037562eD302)
