@@ -26,7 +26,6 @@ module.exports = {
     editLinks: true,
     editLinkText: 'Help us improve this page.',
     nav: [
-      { text: 'Guide', link: '/guide/introduction' },
       { text: 'v1.0', link: 'https://v1.docs.0xcert.org' },
       { text: '0xcert Home', link: 'https://0xcert.org' },
     ],
