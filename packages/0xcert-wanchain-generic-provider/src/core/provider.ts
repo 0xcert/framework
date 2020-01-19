@@ -22,7 +22,7 @@ export interface GenericProviderOptions {
   signMethod?: SignMethod;
 
   /**
-   * List of addresses wherecd  normal transfer not safeTransfer smart contract methods will be used.
+   * List of addresses where normal transfer not safeTransfer smart contract methods will be used.
    */
   unsafeRecipientIds?: string[];
 

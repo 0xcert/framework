@@ -5,7 +5,7 @@ import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-deploy-proxy.sol";
 
 /**
- * @dev Atomic deploy of a new Xcert (non fungible) smart contract with a token transfer.
+ * @dev Atomic deploy of a new Xcert (non-fungible) smart contract with a token transfer.
  */
 contract XcertDeployGateway is
   Abilitable
@@ -93,7 +93,7 @@ contract XcertDeployGateway is
    * @param xcertData Data needed to deploy a new Xcert smart contract.
    * @param transferData Data needed to transfer tokens.
    * @param signature Data from the signed claim.
-   * @param seed Arbitrary number to facilitate uniqueness of the deploy's hash. Usually timestamp.
+   * @param seed Arbitrary number to facilitate the uniqueness of the deploy's hash. Usually, timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinite.
    */
   struct DeployData
@@ -307,7 +307,7 @@ contract XcertDeployGateway is
    * @dev Cancels deploy.
    * @notice You can cancel the same deploy multiple times. There is no check for whether the deploy
    * was already canceled due to gas optimization. You should either check deployCancelled variable
-   * or listen to Cancel event if you want to check if an deploy is already canceled.
+   * or listen to Cancel event if you want to check if a deploy is already canceled.
    * @param _data Data of deploy to cancel.
    */
   function cancel(

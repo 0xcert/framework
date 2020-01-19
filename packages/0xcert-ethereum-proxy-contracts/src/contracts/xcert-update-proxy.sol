@@ -22,7 +22,7 @@ contract XcertUpdateProxy is
 
   /**
    * @dev Updates imprint of an existing Xcert.
-   * @param _xcert Address of the Xcert contract on which the update will be perfomed.
+   * @param _xcert Address of the Xcert contract on which the update will be performed.
    * @param _id The Xcert we will update.
    * @param _imprint Cryptographic asset imprint.
    */

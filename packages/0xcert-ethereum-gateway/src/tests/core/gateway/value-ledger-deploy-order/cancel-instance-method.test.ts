@@ -55,7 +55,7 @@ spec.before(async (stage) => {
   await erc20.instance.methods.approve(tokenTransferProxy, 100000).send({ from: bob });
 });
 
-spec.test('marks tokenDeployGateway order as canceled on the network which prevents the deploy to be performed', async (ctx) => {
+spec.test('marks tokenDeployGateway order as canceled on the network which prevents the deploy from being performed', async (ctx) => {
   const coinbase = ctx.get('coinbase');
   const bob = ctx.get('bob');
   const token = ctx.get('protocol').erc20;

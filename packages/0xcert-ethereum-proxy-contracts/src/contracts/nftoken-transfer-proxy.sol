@@ -21,7 +21,7 @@ contract NFTokenTransferProxy is
   uint8 constant ABILITY_TO_EXECUTE = 16;
 
   /**
-   * @dev Transfers a NFT.
+   * @dev Transfers an NFT.
    * @param _target Address of NFT contract.
    * @param _a Address from which the NFT will be sent.
    * @param _b Address to which the NFT will be sent.

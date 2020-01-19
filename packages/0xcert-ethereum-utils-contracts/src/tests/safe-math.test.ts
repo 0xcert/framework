@@ -41,7 +41,7 @@ spec.test('subtracts correctly', async (ctx) => {
   ctx.is(result, (a - b).toString());
 });
 
-spec.test('reverts if subtraction result would is negative', async (ctx) => {
+spec.test('reverts if subtraction result is negative', async (ctx) => {
   const safeMath = ctx.get('safeMath');
   const a = 1234;
   const b = 5678;

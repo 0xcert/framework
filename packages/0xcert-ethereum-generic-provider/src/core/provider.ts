@@ -40,7 +40,7 @@ export interface GenericProviderOptions {
   valueLedgerSource?: string;
 
   /**
-   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   * Number of confirmations (blocks in blockchain after mutation is accepted) that are necessary to mark a mutation complete.
    */
   requiredConfirmations?: number;
 
@@ -101,7 +101,7 @@ export class GenericProvider extends EventEmitter implements ProviderBase {
   public valueLedgerSource: string;
 
   /**
-   * Number of confirmations (blocks in blockchain after mutation is accepted) are necessary to mark a mutation complete.
+   * Number of confirmations (blocks in blockchain after mutation is accepted) that are necessary to mark a mutation complete.
    */
   public requiredConfirmations: number;
 
