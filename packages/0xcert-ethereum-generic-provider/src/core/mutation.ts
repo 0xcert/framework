@@ -74,7 +74,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
   /**
    * Initialize mutation.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Smart contract address on which a mutation will be performed.
    * @param context Mutation context.
    */

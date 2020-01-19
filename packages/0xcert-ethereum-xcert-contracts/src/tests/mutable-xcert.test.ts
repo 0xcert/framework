@@ -51,7 +51,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('xcert', xcert);
 });
 
-spec.test('sucesfully updates imprint', async (ctx) => {
+spec.test('successfully updates imprint', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

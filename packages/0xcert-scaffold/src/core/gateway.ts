@@ -57,7 +57,7 @@ export type DynamicActionsOrderAction = DynamicActionsOrderActionCreateAsset | D
   | DynamicActionsOrderActionDestroyAsset;
 
 /**
- * Order create asset data definitio.
+ * Order create asset data definition.
  */
 export interface DynamicActionsOrderActionSetAbilities {
 
@@ -88,7 +88,7 @@ export interface DynamicActionsOrderActionSetAbilities {
 }
 
 /**
- * Order create asset data definitio.
+ * Order create asset data definition.
  */
 export interface DynamicActionsOrderActionCreateAsset {
 
@@ -124,7 +124,7 @@ export interface DynamicActionsOrderActionCreateAsset {
 }
 
 /**
- * Order destory asset data definitio.
+ * Order destory asset data definition.
  */
 export interface DynamicActionsOrderActionDestroyAsset {
 
@@ -322,7 +322,7 @@ export interface FixedActionsOrderActionCreateAsset {
 export interface FixedActionsOrderActionDestroyAsset {
 
   /**
-   * Type od order action.
+   * Type of order action.
    */
   kind: ActionsOrderActionKind.DESTROY_ASSET;
 
@@ -348,7 +348,7 @@ export interface FixedActionsOrderActionDestroyAsset {
 export interface FixedActionsOrderActionTransferAsset {
 
   /**
-   * Type od order action.
+   * Type of order action.
    */
   kind: ActionsOrderActionKind.TRANSFER_ASSET;
 
@@ -379,7 +379,7 @@ export interface FixedActionsOrderActionTransferAsset {
 export interface FixedActionsOrderActionUpdateAssetImprint {
 
   /**
-   * Type od order action.
+   * Type of order action.
    */
   kind: ActionsOrderActionKind.UPDATE_ASSET_IMPRINT;
 
@@ -410,7 +410,7 @@ export interface FixedActionsOrderActionUpdateAssetImprint {
 export interface FixedActionsOrderActionTransferValue {
 
   /**
-   * Type od order action.
+   * Type of order action.
    */
   kind: ActionsOrderActionKind.TRANSFER_VALUE;
 

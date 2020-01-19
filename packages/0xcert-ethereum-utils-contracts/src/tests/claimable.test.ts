@@ -51,7 +51,7 @@ spec.test('resets a pending owner', async (ctx) => {
   ctx.is(pendingOwner, jane);
 });
 
-spec.test('prevents non-owners from transfering', async (ctx) => {
+spec.test('prevents non-owners from transferring', async (ctx) => {
   const claimable = ctx.get('claimable');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');
@@ -62,7 +62,7 @@ spec.test('prevents non-owners from transfering', async (ctx) => {
   await ctx.reverts(() => claimable.instance.methods.transferOwnership(jane).send({ from: bob }), '018001');
 });
 
-spec.test('prevents non-owners from transfering', async (ctx) => {
+spec.test('prevents non-owners from transferring', async (ctx) => {
   const claimable = ctx.get('claimable');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');

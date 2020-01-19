@@ -19,7 +19,7 @@ contract XcertCreateProxy is
 
   /**
    * @dev Creates a new Xcert.
-   * @param _xcert Address of the Xcert contract on which the creation will be perfomed.
+   * @param _xcert Address of the Xcert contract on which the creation will be performed.
    * @param _to The address that will own the created Xcert.
    * @param _id The Xcert to be created by the msg.sender.
    * @param _imprint Cryptographic asset imprint.

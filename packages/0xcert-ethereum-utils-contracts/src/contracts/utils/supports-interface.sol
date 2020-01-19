@@ -25,7 +25,7 @@ contract SupportsInterface is
   }
 
   /**
-   * @dev Function to check which interfaces are suported by this contract.
+   * @dev Function to check which interfaces are supported by this contract.
    * @param _interfaceID Id of the interface.
    */
   function supportsInterface(

@@ -42,7 +42,7 @@ export class Gateway implements GatewayBase {
 
   /**
    * Gets an instance of gateway.
-   * @param provider  Provider class with which we comunicate with blockchain.
+   * @param provider  Provider class with which we communicate with blockchain.
    * @param config Gateway configuration.
    */
   public static getInstance(provider: GenericProvider, config?: GatewayConfig): Gateway {
@@ -82,7 +82,7 @@ export class Gateway implements GatewayBase {
   }
 
   /**
-   * Gets the provider that is used to comunicate with blockchain.
+   * Gets the provider that is used to communicate with blockchain.
    */
   public get provider() {
     return this._provider;
