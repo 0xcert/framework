@@ -149,7 +149,7 @@ export class Cert {
   }
 
   /**
-   * Calculates merkle tree root node for the provided `data`.
+   * Calculates Merkle tree root node for the provided `data`.
    * @param data Complete data object.
    */
   public async imprint(data: any): Promise<string> {
