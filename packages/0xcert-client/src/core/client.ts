@@ -101,7 +101,7 @@ export class Client {
    * Initializes client and gets authenticated account's data.
    */
   public async init() {
-    let msg = 'test';
+    let msg = 'I accept 0xcert terms of use.';
     if (this.provider.signMethod === SignMethod.ETH_SIGN) {
       msg = await sha(256, msg);
     }

@@ -104,7 +104,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | order.signers[].claim | [required] A `string` representing an ethereum signature of the order performed by the designated signer.
 | order.wildcardClaim.accountId | A `string` representing an ethereum address of the wildcard signer.
 | order.wildcardClaim.claim | A `string` representing an ethereum signature of the order performed by the wildcard accountId.
-| order.actions[] | [required] An `array` that can be of different types depending on what actions we want to perform. Option are: create asset, destroy asset, transfer asset, update asset imprint, transfer value, update ledger account permissions. You can fine the definitions of the types bellow.
+| order.actions[] | [required] An `array` that can be of different types depending on what actions we want to perform. Option are: create asset, destroy asset, transfer asset, update asset imprint, transfer value, update ledger account permissions. You can find the definitions of the types bellow.
 | order.seed | [required] A `number` representing salt for hash uniqueness. Usually UNIX timestamp.
 | order.expiration | [required] A `number` representing how long this order is valid. Must be a UNIX timestamp.
 | priority | [required] An `integer` representing the priority of the order. 
@@ -290,7 +290,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Possible errors
 
@@ -446,7 +446,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| deploymentRef | [required] An `string` representing deployment reference.
+| deploymentRef | [required] A `string` representing deployment reference.
 
 ##### Possible errors
 
