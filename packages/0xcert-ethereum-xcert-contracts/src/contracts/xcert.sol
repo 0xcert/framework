@@ -58,7 +58,7 @@ contract XcertToken is
   string constant CLAIM_EXPIRED = "007008";
 
   /**
-   * @dev This emits when ability of beeing able to transfer Xcerts changes (paused/unpaused).
+   * @dev This emits when ability of being able to transfer Xcerts changes (paused/unpaused).
    */
   event IsPaused(bool isPaused);
 
@@ -257,8 +257,8 @@ contract XcertToken is
    * @notice This works even if sender doesn't own any tokens at the time.
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
-   * @param _approved True if the operators is approved, false to revoke approval.
-   * @param _feeToken The token then will be tranfered to the executor of this method.
+   * @param _approved True if the operator is approved, false to revoke approval.
+   * @param _feeToken The token then will be tranferred to the executor of this method.
    * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
@@ -305,10 +305,10 @@ contract XcertToken is
    * @dev Generates hash of the set approval for.
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
-   * @param _approved True if the operators is approved, false to revoke approval.
-   * @param _feeToken The token then will be tranfered to the executor of this method.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
-   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param _approved True if the operator is approved, false to revoke approval.
+   * @param _feeToken The token then will be tranferred to the executor of this method.
+   * @param _feeValue The amount of token then will be tranferred to the executor of this method.
+   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually, timestamp.
    * @param _expiration Timestamp of when the claim expires.
   */
   function generateClaim(
@@ -422,7 +422,7 @@ contract XcertToken is
   }
 
   /**
-   * @dev Helper methods that actually does the transfer.
+   * @dev Helper method that actually does the transfer.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.

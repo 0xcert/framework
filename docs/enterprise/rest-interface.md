@@ -104,7 +104,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | order.signers[].claim | [required] A `string` representing an ethereum signature of the order performed by the designated signer.
 | order.wildcardClaim.accountId | A `string` representing an ethereum address of the wildcard signer.
 | order.wildcardClaim.claim | A `string` representing an ethereum signature of the order performed by the wildcard accountId.
-| order.actions[] | [required] An `array` that can be of different types depending on what actions we want to perform. Option are: create asset, destroy asset, transfer asset, update asset imprint, transfer value, update ledger account permission. You can fine the definitions of the types bellow.
+| order.actions[] | [required] An `array` that can be of different types depending on what actions we want to perform. Option are: create asset, destroy asset, transfer asset, update asset imprint, transfer value, update ledger account permissions. You can find the definitions of the types bellow.
 | order.seed | [required] A `number` representing salt for hash uniqueness. Usually UNIX timestamp.
 | order.expiration | [required] A `number` representing how long this order is valid. Must be a UNIX timestamp.
 | priority | [required] An `integer` representing the priority of the order. 
@@ -127,8 +127,8 @@ Most of the API routes restrict public access and require authentication. Authen
 | ledgerId | [required] A `string` representing Ethereum `Xcert` smart contract address on which the asset will be created.
 | receiverId | A `string` representing an Ethereum address that will receive the created asset.
 | senderId | A `string` representing an Ethereum address that has the ability to sign an asset creation order.
-| assetId | [required] A `string` representing the assets id.
-| assetImprint | [required] A `string` representing the assets imprint generated from certification.
+| assetId | [required] A `string` representing the asset's id.
+| assetImprint | [required] A `string` representing the asset's imprint generated from certification.
 
 **Destroy asset action**
 
@@ -137,7 +137,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | kind | [required] An `integer` representing action kind. Must be `6` for delete asset action.
 | ledgerId | [required] A `string` representing Ethereum `Xcert` smart contract address on which the asset will be destroyed.
 | senderId | A `string` representing an Ethereum address that is the owner of the asset.
-| assetId | [required] A `string` representing the assets id.
+| assetId | [required] A `string` representing the asset's id.
 
 **Transfer asset action**
 
@@ -147,7 +147,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | ledgerId | [required] A `string` representing Ethereum `ERC721` smart contract address on which the asset will be transferred.
 | receiverId | A `string` representing an Ethereum address that will receive the asset.
 | senderId | A `string` representing an Ethereum address that will send the asset.
-| assetId | [required] A `string` representing the assets id.
+| assetId | [required] A `string` representing the asset's id.
 
 **Update asset imprint action**
 
@@ -156,8 +156,8 @@ Most of the API routes restrict public access and require authentication. Authen
 | kind | [required] An `integer` representing action kind. Must be `4` for update asset imprint action.
 | ledgerId | [required] A `string` representing Ethereum `Xcert` smart contract address on which the asset imprint will be updated.
 | senderId | A `string` representing an Ethereum address that has the ability to sign an asset imprint update order.
-| assetId | [required] A `string` representing the assets id.
-| assetImprint | [required] A `string` representing the assets imprint generated from certification.
+| assetId | [required] A `string` representing the asset's id.
+| assetImprint | [required] A `string` representing the asset's imprint generated from certification.
 
 **Transfer value action**
 
@@ -177,7 +177,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | ledgerId | [required] A `string` representing Ethereum `Xcert` smart contract address on which account abilities will be set.
 | receiverId | A `string` representing an Ethereum address on which the ledger abilities will be set.
 | senderId | A `string` representing an Ethereum address that has the ability to sign an update abilities order.
-| abilities[] | [required] An `integer` representing the abilities we want to set. 
+| abilities | [required] An `integer[]` representing the abilities we want to set. 
 
 ##### Abilities
 
@@ -243,7 +243,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | An `string` representing order reference.
+| orderRef | A `string` representing order reference.
 
 ##### Possible errors
 
@@ -263,7 +263,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Body fields
 
@@ -290,7 +290,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Possible errors
 
@@ -319,7 +319,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | Number | Description
 |-|-
 | 1 | Sort by order reference in ascending order.
-| -1 | Sort by order reference in descending order.
+| 2 | Sort by order reference in descending order.
 
 ##### Request statuses
 
@@ -349,7 +349,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Possible errors
 
@@ -446,7 +446,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| deploymentRef | [required] An `string` representing deployment reference.
+| deploymentRef | [required] A `string` representing deployment reference.
 
 ##### Possible errors
 
@@ -475,7 +475,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | Number | Description
 |-|-
 | 1 | Sort by deployment reference in ascending order.
-| -1 | Sort by deployment reference in descending order.
+| 2 | Sort by deployment reference in descending order.
 
 ##### Request statuses
 
@@ -605,6 +605,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | 400014 | Account is not identified. Before you start using API on Ethereum mainnet you must provide information about yourself using update account route.
 | 422066 | Webhook validation failed because `events` is not valid.
 | 422067 | Webhook validation failed because `url` is not present.
+| 422114 | Webhook validation failed because `url` is not valid.
 
 #### [private] GET /account/webhook
 
@@ -742,7 +743,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | Number | Description
 |-|-
 | 1 | Sort by date of creation in ascending order.
-| -1 | Sort by date of creation in descending order.
+| 2 | Sort by date of creation in descending order.
 
 ##### Possible errors
 
@@ -795,7 +796,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | Number | Description
 |-|-
 | 1 | Sort by date of creation in ascending order.
-| -1 | Sort by date of creation in descending order.
+| 2 | Sort by date of creation in descending order.
 
 ##### Possible errors
 
@@ -886,4 +887,4 @@ Most of the API routes restrict public access and require authentication. Authen
 | Number | Description
 |-|-
 | 1 | Sort by date of creation in ascending order.
-| -1 | Sort by date of creation in descending order.
+| 2 | Sort by date of creation in descending order.

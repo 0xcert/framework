@@ -38,7 +38,7 @@ export interface ValueLedgerBase {
   getBalance(accountId: string): Promise<string>;
 
   /**
-   * Gets information(name, symbol, total supply, decimals) about the value ledger.
+   * Gets information (name, symbol, total supply, decimals) about the value ledger.
    */
   getInfo(): Promise<ValueLedgerInfo>;
 

@@ -3,7 +3,7 @@ pragma solidity 0.6.1;
 import "./ownable.sol";
 
 /**
- * @dev The contract has an owner address, and provides basic authorization control whitch
+ * @dev The contract has an owner address, and provides basic authorization control which
  * simplifies the implementation of user permissions. This contract upgrades Ownable contracts with
  * additional claim step which makes ownership transfers less prone to errors.
  */
@@ -32,7 +32,7 @@ contract Claimable is
   );
 
   /**
-   * @dev Allows the current owner to give new owner ability to claim the ownership of the contract.
+   * @dev Allows the current owner to give new owner the ability to claim the ownership of the contract.
    * This differs from the Owner's function in that it allows setting pedingOwner address to 0x0,
    * which effectively cancels an active claim.
    * @param _newOwner The address which can claim ownership of the contract.

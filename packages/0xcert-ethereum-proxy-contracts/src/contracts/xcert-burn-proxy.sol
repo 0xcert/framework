@@ -19,7 +19,7 @@ contract XcertBurnProxy is
 
   /**
    * @dev Destroys an existing Xcert.
-   * @param _xcert Address of the Xcert contract on which the token destroy will be perfomed.
+   * @param _xcert Address of the Xcert contract on which the token destroy will be performed.
    * @param _id The Xcert we will destroy.
    */
   function destroy(

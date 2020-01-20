@@ -27,7 +27,7 @@ export class ValueLedger implements ValueLedgerBase {
 
   /**
    * Deploys a new smart contract representing value ledger to the blockchain.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param recipe Data needed to deploy a new value ledger.
    */
   public static async deploy(provider: GenericProvider, recipe: ValueLedgerDeployRecipe) {
@@ -36,7 +36,7 @@ export class ValueLedger implements ValueLedgerBase {
 
   /**
    * Gets an instance of already deployed value ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Address of the erc20 smart contract.
    */
   public static getInstance(provider: GenericProvider, id: string): ValueLedger {
@@ -45,7 +45,7 @@ export class ValueLedger implements ValueLedgerBase {
 
   /**
    * Initialize value ledger.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Address of the erc20 smart contract.
    */
   public constructor(provider: GenericProvider, id: string) {
@@ -61,7 +61,7 @@ export class ValueLedger implements ValueLedgerBase {
   }
 
   /**
-   * Gets the provider that is used to comunicate with blockchain.
+   * Gets the provider that is used to communicate with blockchain.
    */
   public get provider() {
     return this._provider;

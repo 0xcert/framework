@@ -4,7 +4,7 @@ The 0xcert API Client is a JavaScript library written in TypeScript, that provid
 
 ## Installation
 
-We recommend you employ the certification module as an NPM package in your application.
+We recommend you employ the client module as an NPM package in your application.
 
 ```sh
 $ npm i --save @0xcert/client
@@ -233,7 +233,7 @@ const accountWebhook = await client.updateAccountWebhook('https://api.0xcert.org
 | 400014 | Account is not identified. Before you start using API on Ethereum mainnet you must provide information about yourself using update account route.
 | 422066 | Webhook validation failed because `events` is not valid.
 | 422067 | Webhook validation failed because `url` is not present.
-
+| 422114 | Webhook validation failed because `url` is not valid.
 
 ## updateAccountInformation(accountInformation)
 
