@@ -41,7 +41,7 @@ spec.test('changes owner after transfer', async (ctx) => {
   ctx.is(bob, contractOwner);
 });
 
-spec.test('prevents non-owners from transfering', async (ctx) => {
+spec.test('prevents non-owners from transferring', async (ctx) => {
   const ownable = ctx.get('ownable');
   const bob = ctx.get('bob');
   const jane = ctx.get('jane');

@@ -10,7 +10,7 @@ import "@0xcert/ethereum-utils-contracts/src/contracts/utils/bytes-type.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";
 
 /**
- * @dev Decentralize exchange, creating, updating and other actions for fundgible and non-fundgible
+ * @dev Decentralize exchange, creating, updating and other actions for fungible and non-fungible
  * tokens powered by atomic swaps.
  */
 contract ActionsGateway is
@@ -110,7 +110,7 @@ contract ActionsGateway is
 
   /**
    * @dev Structure representing what to send and where.
-   * @notice For update action kind to parameter is unnecessary. For this reason we recommend you
+   * @notice For update action kind to parameter is unnecessary. For this reason, we recommend you
    * set it to zero address (0x000...0) since it costs less.
    * @param proxyId Id representing approved proxy address.
    * @param contractAddress Address of the contract we are operating upon.
@@ -143,11 +143,11 @@ contract ActionsGateway is
    * @param signers Addresses of everyone that need to sign this order for it to be valid, with the
    * last address possibly being the zero address which indicates a dynamic order in which zero
    * addresses get replaced by the signer of the last signature if there are the same amount of
-   * signatures and signers or with msg.sender in case the amount of signatures is one less then
+   * signatures and signers or with msg.sender in case the amount of signatures is one less than
    * signers specified. Must have at least one signer.
    * @param actions Data of all the actions that should occur in this order.
-   * @param seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
-   * @param expiration Timestamp of when the claim expires. 0 if indefinet.
+   * @param seed Arbitrary number to facilitate the uniqueness of the order's hash. Usually, timestamp.
+   * @param expiration Timestamp of when the claim expires. 0 if undefined.
    */
   struct OrderData
   {

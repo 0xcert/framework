@@ -8,7 +8,7 @@ spec.test('sets correct config', async (ctx) => {
     requiredConfirmations: 1,
     gatewayConfig: buildGatewayConfig(NetworkKind.TESTNET),
   });
-  ctx.is(provider.gatewayConfig.actionsOrderId, '0x0000000000000000000000000000000000000000');
+  ctx.is(provider.gatewayConfig.actionsOrderId, '0x52ff43a24d7046ce8ea3dcfbdb758e564853b794');
 });
 
 export default spec;

@@ -155,7 +155,7 @@ spec.test('successfully resets allowance', async (ctx) => {
   ctx.is(actualAllowance.toString(), newTokenAmount.toString());
 });
 
-spec.test('returns correct balances after transfering from another account', async (ctx) => {
+spec.test('returns correct balances after transferring from another account', async (ctx) => {
   const token = ctx.get('token');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

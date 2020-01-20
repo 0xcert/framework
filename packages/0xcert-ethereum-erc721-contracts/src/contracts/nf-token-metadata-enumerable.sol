@@ -99,7 +99,7 @@ contract NFTokenMetadataEnumerable is
    * transfer, the approved address for that NFT (if any) is reset to none.
    * @param _from Sender of NFT (if address is zero address it indicates token creation).
    * @param _to Receiver of NFT (if address is zero address it indicates token destruction).
-   * @param _tokenId The NFT that got transfered.
+   * @param _tokenId The NFT that got transferred.
    */
   event Transfer(
     address indexed _from,
@@ -197,7 +197,7 @@ contract NFTokenMetadataEnumerable is
    * address for this NFT. Throws if `_from` is not the current owner. Throws if `_to` is the zero
    * address. Throws if `_tokenId` is not a valid NFT.
    * @notice The caller is responsible to confirm that `_to` is capable of receiving NFTs or else
-   * they maybe be permanently lost.
+   * they may be permanently lost.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.
@@ -243,7 +243,7 @@ contract NFTokenMetadataEnumerable is
    * `msg.sender`'s assets. It also emits the ApprovalForAll event.
    * @notice This works even if sender doesn't own any tokens at the time.
    * @param _operator Address to add to the set of authorized operators.
-   * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _approved True if the operator is approved, false to revoke approval.
    */
   function setApprovalForAll(
     address _operator,
@@ -480,7 +480,7 @@ contract NFTokenMetadataEnumerable is
   }
 
   /**
-   * @dev Destroys a NFT.
+   * @dev Destroys an NFT.
    * @notice This is a private function which should be called from user-implemented external
    * destroy function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
@@ -536,7 +536,7 @@ contract NFTokenMetadataEnumerable is
   }
 
   /**
-   * @dev Helper methods that actually does the transfer.
+   * @dev Helper method that actually does the transfer.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.

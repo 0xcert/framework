@@ -153,7 +153,7 @@ contract NFToken is
    * address for this NFT. Throws if `_from` is not the current owner. Throws if `_to` is the zero
    * address. Throws if `_tokenId` is not a valid NFT.
    * @notice The caller is responsible to confirm that `_to` is capable of receiving NFTs or else
-   * they maybe be permanently lost.
+   * they may be permanently lost.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.
@@ -199,7 +199,7 @@ contract NFToken is
    * `msg.sender`'s assets. It also emits the ApprovalForAll event.
    * @notice This works even if sender doesn't own any tokens at the time.
    * @param _operator Address to add to the set of authorized operators.
-   * @param _approved True if the operators is approved, false to revoke approval.
+   * @param _approved True if the operator is approved, false to revoke approval.
    */
   function setApprovalForAll(
     address _operator,
@@ -309,7 +309,7 @@ contract NFToken is
   }
 
   /**
-   * @dev Destroys a NFT.
+   * @dev Destroys an NFT.
    * @notice This is a private function which should be called from user-implemented external
    * destroy function. Its purpose is to show and properly initialize data structures when using this
    * implementation.
@@ -339,7 +339,7 @@ contract NFToken is
   }
 
   /**
-   * @dev Helper methods that actually does the transfer.
+   * @dev Helper method that actually does the transfer.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.

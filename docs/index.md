@@ -10,28 +10,25 @@ pageClass: homepage
   </p>
 </div>
 
-<a href="/guide/getting-started.html" class="button">Getting started</a>
+<a href="/introduction/getting-started.html" class="button">Getting started</a>
 
 <ul class="features">
   <li>
     <strong>Framework</strong>
     <p>
       As a JavaScript library, the 0xcert Framework provides tools for building powerful decentralized applications (dapps). 
-      <a href="/guide/introduction.html">Read more</a>
     </p>
   </li>
   <li>
     <strong>API</strong>
     <p>
       The platform-agnostic API provides the same functions on any distributed system you choose to build on. 
-      <a href="/api/core.html">Read more</a>
     </p>
   </li>
   <li>
     <strong>Plugins</strong>
     <p>
       A quick access to all 0xcert API methods is enabled through a VueJS plug-in for a faster prototyping of your dapp.
-      <a href="/plugins/vuejs.html">Read more</a>
     </p>
   </li>
 </ul>

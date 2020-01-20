@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-metamask-provider",
   "entries": [
     {
-      "version": "2.0.0-alpha17",
-      "tag": "@0xcert/ethereum-metamask-provider_v2.0.0-alpha17",
+      "version": "2.0.0-beta",
+      "tag": "@0xcert/ethereum-metamask-provider_v2.0.0-beta",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },

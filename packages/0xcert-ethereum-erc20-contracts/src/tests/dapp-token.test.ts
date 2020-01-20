@@ -238,7 +238,7 @@ spec.test('sucessfully transfersFrom to a whitelisted address', async (ctx) => {
   ctx.is(ownerBalance.toString(), '0');
 });
 
-spec.test('fails transfering to a non whitelisted address', async (ctx) => {
+spec.test('fails transferring to a non whitelisted address', async (ctx) => {
   const dappToken = ctx.get('dappToken');
   const owner = ctx.get('owner');
   const ttProxy = ctx.get('ttProxy');

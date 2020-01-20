@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Overpass+Mono:700');
 
+html 
+  background-color: #2B2B2B
+  
 h1, h2, h3, h4, h5, h6
   font-family: 'Overpass Mono', monospace
+  color: #fff !important
 
 h2, h3
-  border-bottom: 1px solid #eaecef
+  border-bottom: 1px solid rgba(255,255,255,.2);
 
 h2 
   font-size 1.7rem
@@ -14,10 +18,11 @@ h3
   padding-bottom: 0.4rem
   font-size 1.4rem
 
-td
-  line-height: 1.7
+h5 
+  font-size 1.2rem !important
 
 .page 
+  background-color: #2B2B2B
   padding-top: 4rem
 
   p img
@@ -25,13 +30,19 @@ td
     margin: 2rem auto
 
 .sidebar 
-  background-color: #f5f7f9 !important
+  background-color: #2B2B2B !important
+  color: #FFF
 
   .sidebar-sub-header
     opacity: 0.85 !important
 
 .navbar
-  box-shadow: 0 2px 14px rgba(60,59,77,.08) 
+  background-color: #2B2B2B
+  border-bottom: 0
+  box-shadow: 0 2px 14px rgba(0,0,0,.2) 
+
+  .links 
+    background-color: #2B2B2B !important
 
   .home-link
     display: flex !important
@@ -107,41 +118,76 @@ td
   .blockchains
     padding-top 1rem
     
-.content:not(.custom)
+.theme-default-content:not(.custom)
   max-width 850px !important
 
 .custom-block
   .custom-block-title
-    font-weight 600
+    font-weight bold
     margin-bottom -0.4rem
+
   &.tip, &.warning, &.danger, &.card
     padding .1rem 1.5rem
     border-left-width .5rem
     border-left-style solid
     margin 1rem 0
+
   &.tip
-    background-color #f3f5f7
+    background-color rgba(68, 185, 131, 0.25)
     border-color #42b983
-  &.warning
-    background-color rgba(255,229,100,.3)
-    border-color darken(#ffe564, 35%)
-    color darken(#ffe564, 70%)
     .custom-block-title
-      color darken(#ffe564, 50%)
-    a
-      color $textColor
+      color #42b983
+
+    a 
+      color #42b983
+
+  &.warning
+    background-color rgba(255,229,100,.2)
+    border-color darken(#ffe564, 35%)
+    color $textColor
+
+    .custom-block-title, a
+      color darken(#ffe564, 35%)
+
   &.danger
     background-color #ffe6e6
     border-color darken(red, 20%)
     color darken(red, 70%)
+    
     .custom-block-title
       color darken(red, 40%)
     a
       color $textColor
+
   &.card
-    background-color #F0F6FB
-    border-color #275F94
-    .custom-block-title
-      color $textColor
-    a
-      color $textColor
+    background-color rgba(12, 112, 254,0.2)
+    border-color rgb(12, 112, 254)
+    .custom-block-title, a
+      color rgb(12, 112, 254)
+
+.search-box input,
+.suggestions,
+.theme-container
+  background-color: #2B2B2B !important
+
+
+// Tables
+th, td
+  border: 0 !important
+  line-height: 1.7
+  text-align: left
+
+thead
+  tr
+    border: 0
+  
+td
+  border-top: 1px solid rgba(255,255,255,0.2) !important
+
+tr:nth-child(2n)
+  background-color: rgba(0,0,0,0.2) !important
+
+
+.page-edit,
+.page-nav
+  max-width: 850px !important

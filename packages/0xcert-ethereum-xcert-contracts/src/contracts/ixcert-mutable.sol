@@ -1,7 +1,7 @@
 pragma solidity 0.6.1;
 
 /**
- * @dev Xcert nutable interface.
+ * @dev Xcert mutable interface.
  */
 interface XcertMutable // is Xcert
 {

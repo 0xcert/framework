@@ -106,7 +106,7 @@ spec.before(async (stage) => {
   stage.set('sign', await gateway.sign(order));
 });
 
-spec.test('marks gateway order as canceled on the network which prevents an transfers to be swapped', async (ctx) => {
+spec.test('marks gateway order as canceled on the network which prevents transfers from being swapped', async (ctx) => {
   const actionsGatewayId = ctx.get('protocol').actionsGateway.instance.options.address;
   const makerGenericProvider = ctx.get('makerGenericProvider');
   const takerGenericProvider = ctx.get('takerGenericProvider');
