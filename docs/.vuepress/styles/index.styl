@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Overpass+Mono:700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 
 html 
   background-color: #2b2b2b
   
 h1, h2, h3, h4, h5, h6
-  font-family: 'Overpass Mono', monospace
+  font-family: 'Roboto', monospace
+  font-weight 500
   color: #fff !important
 
 h2, h3
@@ -29,17 +30,28 @@ h5
     display block
     margin: 2rem auto
 
-.sidebar 
-  background-color: #2b2b2b !important
-  color: #FFF
+*::-webkit-scrollbar
+  width: 12px
+  padding: 3px
+  height: 12px
+  background: transparent
 
-  .sidebar-sub-header
-    opacity: 0.85 !important
+*::-webkit-scrollbar-thumb
+  background: rgba(255,255,255,0.1)
+  border-radius: 12px
+  border: 2px solid transparent
+  background-clip: content-box
+
+.sidebar::-webkit-scrollbar-thumb
+  background: transparent
+  border: 2px solid #2b2b2b
+
+.sidebar:hover::-webkit-scrollbar-thumb
+  background: rgba(255,255,255,0.1)
+
 
 .navbar
   background-color: #2B2B2B
-  border-bottom: 0
-  box-shadow: 0 2px 14px rgba(0,0,0,.2) 
 
   .links 
     background-color: #2B2B2B !important
@@ -195,3 +207,6 @@ tr:nth-child(2n)
 .page-edit 
   opacity 0.5
   font-size 15px
+
+.theme-default-content code
+  background-color: rgba(255,255,255,0.05);
