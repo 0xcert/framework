@@ -23,12 +23,10 @@ export default {
 </script>
 
 <style lang="stylus">
-
 .sidebar::-webkit-scrollbar-thumb
   border 2px solid #2b2b2b
 
 .sidebar
-  background-color #2B2B2B
   color #FFF
 
   .footer 
