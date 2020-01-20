@@ -605,6 +605,7 @@ Most of the API routes restrict public access and require authentication. Authen
 | 400014 | Account is not identified. Before you start using API on Ethereum mainnet you must provide information about yourself using update account route.
 | 422066 | Webhook validation failed because `events` is not valid.
 | 422067 | Webhook validation failed because `url` is not present.
+| 422114 | Webhook validation failed because `url` is not valid.
 
 #### [private] GET /account/webhook
 
