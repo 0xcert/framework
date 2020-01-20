@@ -24,9 +24,8 @@ graph LR
     classDef good fill:lightgreen,stroke:darkgreen,stroke-width:2px;
     class Imprint good;
 ```
-<img width="310" alt="Screen Shot 2019-03-29 at 3 24 33 PM" src="https://user-images.githubusercontent.com/382183/55257651-eda16600-5236-11e9-9679-f91d83c22978.png">
 
-
+![Notarized](../assets/notarized.svg)
 
 This imprint can be published as part of an Asset in the 0xcert Framework.
 
@@ -46,8 +45,8 @@ graph LR
     classDef good fill:lightgreen,stroke:darkgreen,stroke-width:2px;
     class Proof good
 ```
-<img width="465" alt="Screen Shot 2019-03-29 at 3 24 38 PM" src="https://user-images.githubusercontent.com/382183/55257654-ef6b2980-5236-11e9-9302-8f2047e10025.png">
 
+![Part of a document being proved](../assets/part-proved.svg)
 
 ### 3. A proof convinces the recipient that the exposed part is true
 
@@ -67,8 +66,8 @@ graph LR
     classDef good fill:lightgreen,stroke:darkgreen,stroke-width:2px;
     class PartE good
 ```
-<img width="429" alt="Screen Shot 2019-03-29 at 3 24 44 PM" src="https://user-images.githubusercontent.com/382183/55257655-f09c5680-5236-11e9-9c13-3e0892f0a546.png">
 
+![Exposed part](../assets/exposed-part.svg)
 
 When we say "sure" this specifically means: if an attacker has all the resources of every computer on Earth and they used them for the next 10 years entirely for the purpose of convincing anybody that X (which is not ParteE) is in this part of the document then they are very unlikely to succeed.
 
@@ -85,8 +84,7 @@ graph LR
     classDef bad fill:lightred,stroke:darkred,stroke-width:2px;
     class Document bad;
 ```
-<img width="372" alt="Screen Shot 2019-03-29 at 3 24 49 PM" src="https://user-images.githubusercontent.com/382183/55257660-f2feb080-5236-11e9-96b7-ebf6354644d4.png">
-
+![An imprint provides zero information](../assets/zero-info.svg)
 
 When we say "cannot" this specifically means if an attacker has all the resources of every computer on Earth and they used them for the next 10 years entirely for the purpose of reverse engineering an imprint to learn any part of a document then they are very unlikely to succeed.
 
@@ -113,7 +111,8 @@ graph LR
     classDef bad fill:lightred,stroke:darkred,stroke-width:2px;
     class Something_Else bad;    
 ```
-<img width="540" alt="Screen Shot 2019-03-29 at 3 24 54 PM" src="https://user-images.githubusercontent.com/382183/55257665-f4c87400-5236-11e9-9f8e-a9dd34cd14a0.png">
+
+![No conflicting proofs](../assets/no-conflicting-proogs.svg)
 
 
 ```mermaid
@@ -129,7 +128,7 @@ graph LR
     classDef bad fill:lightred,stroke:darkred,stroke-width:2px;
     class Other_Proof bad;    
 ```
-<img width="514" alt="Screen Shot 2019-03-29 at 3 25 04 PM" src="https://user-images.githubusercontent.com/382183/55257672-f72ace00-5236-11e9-8030-0b15d8faf89e.png">
+![No conflicting proofs](../assets/conflicts-explained.svg)
 
 When we say "cannot" this specifically means if an attacker has all the resources of every computer on Earth and they used them for the next 10 years entirely for the purpose of creating the conflicting proofs described above then they are very unlikely to succeed.
 
