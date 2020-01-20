@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-value-ledger",
-  "version": "2.0.0-beta",
+  "version": "2.0.0-beta1",
   "description": "Value ledger module for currency management on the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,6 +72,6 @@
     "typescript": "3.6.3"
   },
   "dependencies": {
-    "@0xcert/ethereum-value-ledger": "2.0.0-beta"
+    "@0xcert/ethereum-value-ledger": "2.0.0-beta1"
   }
 }
