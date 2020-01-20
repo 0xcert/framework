@@ -4,6 +4,10 @@
     <slot name="top"/>
     <SidebarLinks :depth="0" :items="items"/>
     <slot name="bottom"/>
+    <div class="footer">
+      <img src="/0xcert-framework.svg" alt="">
+      <p>The 0xcert Framework is a platform that provides a complete set of tools for building powerful decentralized applications (dapps). <br/>Feel free to <a href="https://github.com/0xcert/framework/blob/master/CONTRIBUTING.md" target="_blank">contribute.</a></p>
+    </div>
   </aside>
 </template>
 
@@ -13,20 +17,30 @@ import NavLinks from '@theme/components/NavLinks.vue'
 
 export default {
   name: 'Sidebar',
-
   components: { SidebarLinks, NavLinks },
-
   props: ['items']
 }
 </script>
 
 <style lang="stylus">
-.sidebar
-  background-color: transparent !important
-  color: #FFF
 
-  .sidebar-sub-header
-    opacity: 0.85 !important
+.sidebar::-webkit-scrollbar-thumb
+  border 2px solid #2b2b2b
+
+.sidebar
+  background-color #2B2B2B
+  color #FFF
+
+  .footer 
+    text-align center
+    border-top 1px solid rgba(255,255,255,0.2)
+    padding 1.5rem 1.5rem 0
+    font-size 12px
+    color rgba(255,255,255,0.5)
+
+    img 
+      display block
+      margin 0 auto;
       
   ul
     padding 0
