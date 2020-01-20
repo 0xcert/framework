@@ -1,5 +1,5 @@
 
-# Interface
+# Certification
 
 Certification is the process of converting digital asset metadata into cryptographic artifacts, which can be used to verify the authenticity of metadata.
 

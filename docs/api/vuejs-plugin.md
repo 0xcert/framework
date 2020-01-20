@@ -1,4 +1,4 @@
-# VueJS Plug-in
+# Vue.js Plugin
 
 Create a new file `./plugins/0xcert.js` with the code below.
 
