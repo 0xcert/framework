@@ -1,4 +1,4 @@
-# Guide
+# Certification
 
 Various industries follow different standards. A standard reflects a need for defining a certain best practice and for establishing rules in a particular processor for a specific product. Today, companies and institutions mostly define their own rules of communication, operation, processes, and the format of stored and managed data. To establish more effective communication among them, the concept of system interoperability becomes increasingly valuable. As this idea develops over time, we will see companies and organizations choose interoperable systems more often.
 
@@ -8,7 +8,9 @@ The [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) has 
 
 But wait! The ERC-721 standard identifies unique assets based on IDs? What about data that these IDs represent? How can we make sure that the data under a certain ID actually represents an asset we claim it represents? How can we prove the authenticity of an asset, and how can a third party verify our claims without an intermediary? When we start asking these questions, it becomes clear that the ERC-721 lacks these functionalities and that we need something more opinionated.
 
-The 0xcert Protocol was designed to add context to these IDs. Thus, it supports the cases where non-fungible tokens must also prove metadata authenticity. The 0xcert Protocol extends the ERC-721 features and provides an opinionated, contextified, and interoperable solution that comes in the form of a unique certification process and is based on conventions. The certification is one of the unique and important parts of the 0xcert Protocol. It consists of protocol conventions that define asset certification and verification steps, unique 0xcert hashing algorithms creating verifiable asset metadata proofs and other artifacts, and the Xcert smart contract API describing the implementation part of the certification logic on immutable storage.
+The 0xcert Protocol was designed to add context to these IDs. Thus, it supports the cases where non-fungible tokens must also prove metadata authenticity. The 0xcert Protocol extends the ERC-721 features and provides an opinionated, contextified, and interoperable solution that comes in the form of a unique certification process and is based on conventions. To keep concepts truly interoperable, we introduced a new [ERC-2477](https://github.com/ethereum/EIPs/pull/2477) standard which covers the core mechanism of the 0xcert Protocol.
+
+The certification is one of the unique and important parts of the 0xcert Protocol. It consists of protocol conventions that define asset certification and verification steps, unique 0xcert hashing algorithms creating verifiable asset metadata proofs and other artifacts, and the Xcert smart contract API describing the implementation part of the certification logic on immutable storage.
 
 ## Certifying assets
 
