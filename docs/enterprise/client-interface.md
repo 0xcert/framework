@@ -4,7 +4,7 @@ The 0xcert API Client is a JavaScript library written in TypeScript, that provid
 
 ## Installation
 
-We recommend you employ the certification module as an NPM package in your application.
+We recommend you employ the client module as an NPM package in your application.
 
 ```sh
 $ npm i --save @0xcert/client
