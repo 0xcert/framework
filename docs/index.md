@@ -6,32 +6,11 @@ pageClass: homepage
 
 <div class="intro">
   <p>
-    The 0xcert Framework is a JavaScript library that provides <strong>a complete set of tools</strong> for building powerful decentralized applications (dapps). It enables management, digital representation, and ownership verification of <strong>unique assets </strong> such as certificates, artworks, and collectibles.
+    The 0xcert Framework is a platform that provides <strong>a complete set of tools</strong> for building powerful decentralized applications (dapps). It enables management, digital representation, and ownership verification of <strong>unique assets </strong> such as certificates, artworks, and collectibles.
   </p>
 </div>
 
 <a href="/introduction/getting-started.html" class="button">Getting started</a>
-
-<ul class="features">
-  <li>
-    <strong>Framework</strong>
-    <p>
-      As a JavaScript library, the 0xcert Framework provides tools for building powerful decentralized applications (dapps). 
-    </p>
-  </li>
-  <li>
-    <strong>API</strong>
-    <p>
-      The platform-agnostic API provides the same functions on any distributed system you choose to build on. 
-    </p>
-  </li>
-  <li>
-    <strong>Plugins</strong>
-    <p>
-      A quick access to all 0xcert API methods is enabled through a VueJS plug-in for a faster prototyping of your dapp.
-    </p>
-  </li>
-</ul>
 
 <ul class="products">
   <li><a href="https://0xcert.org" target="_blank"><img src="./assets/logo_0xcert.svg"/></a></li>

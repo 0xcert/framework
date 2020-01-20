@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-# Wanchain interface
+# Wanchain connectors
 
 ## HTTP provider
 
@@ -1967,7 +1967,7 @@ Since we have multiple participants in an order, there are four different ways t
 - `DynamicActionsOrder` - The last participant can be unknown or "any". All defined participants have to provide signatures. Any participant can peform the order and automatically becomes the last participant.
 - `SignedDynamicActionsOrder` - The last participant can be unknown or "any". All defined participants have to provide signatures, the last or "any" participant, as well. Any participant can perform the order.
 
-Let's illustrate the above concepts through an example. Let's say we want to sell two CryptoKitties for 5.000 ZXC. To allow anyone to buy it, we would use a `DynamicActionsOrder`, since we do not need to set the `receiverId` of the CryptoKitties and neither the `senderId` of ZXC. This means that anyone that wants to perform the order will automatically become the empty recipient/sender with whom we will exchange the assets. If we use the same case, but this time, we want to sell our CryptoKitties to Bob for 5.000 ZXC, we will use `FixedActionsOrder`, so that we can specify the exact receiver. Now, let's say that Bob does not have any ETH and is unable to perform the order, but he has tons of ZXC tokens, and his friend Sara is willing to help him out. In this case, we can use a `SignedFixedActionsOrder`, so that Bob only needs to sign the order, and Sara can perform it. If he wanted to pay Sara some ZXC for doing this, he could specify this in the order.
+Let's illustrate the above concepts through an example. Let's say we want to sell two CryptoKitties for 5.000 ZXC. To allow anyone to buy it, we would use a `DynamicActionsOrder`, since we do not need to set the `receiverId` of the CryptoKitties and neither the `senderId` of ZXC. This means that anyone that wants to perform the order will automatically become the empty recipient/sender with whom we will exchange the assets. If we use the same case, but this time, we want to sell our CryptoKitties to Bob for 5.000 ZXC, we will use `FixedActionsOrder`, so that we can specify the exact receiver. Now, let's say that Bob does not have any WAN and is unable to perform the order, but he has tons of ZXC tokens, and his friend Sara is willing to help him out. In this case, we can use a `SignedFixedActionsOrder`, so that Bob only needs to sign the order, and Sara can perform it. If he wanted to pay Sara some ZXC for doing this, he could specify this in the order.
 
 Therefore, `signed` orders are perfect for third-party services providing order execution for someone else. This can come handy in a variety of dApps.
 
@@ -2001,8 +2001,8 @@ A `class` representing a smart contract on the Wanchain blockchain.
 **Usage**
 
 ```ts
-import { HttpProvider, buildGatewayConfig } from '@0xcert/ethereum-http-provider';
-import { Gateway } from '@0xcert/ethereum-gateway';
+import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
+import { Gateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const provider = new HttpProvider();
@@ -2028,7 +2028,7 @@ An instance of the same mutation class.
 **Example:**
 
 ```ts
-import { ActionsOrderActionKind } from '@0xcert/ethereum-gateway';
+import { ActionsOrderActionKind } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const order = {
@@ -2070,8 +2070,8 @@ See the class [constructor](#gateway) for details.
 **Usage**
 
 ```ts
-import { HttpProvider, buildGatewayConfig } from '@0xcert/ethereum-http-provider';
-import { Gateway } from '@0xcert/ethereum-gateway';
+import { HttpProvider, buildGatewayConfig } from '@0xcert/wanchain-http-provider';
+import { Gateway } from '@0xcert/wanchain-gateway';
 
 // arbitrary data
 const provider = new HttpProvider();
@@ -2322,7 +2322,7 @@ This order kind is used for delegating `ValueLedger` deploy.
 | tokenTransferData.value | [required] A big number `string` representing the transferred amount.
 | valueLedgerData.decimals | [required] A big number `string` representing the number of decimals.
 | valueLedgerData.name | [required] A `string` representing value ledger name.
-| valueLedgerData.owner | [required] A `string` representing the Ethereum wallet that will be the owner of the asset ledger.
+| valueLedgerData.owner | [required] A `string` representing the Wanchain wallet that will be the owner of the asset ledger.
 | valueLedgerData.supply | [required] A big number `string` representing the total supply of a ledger.
 | valueLedgerData.symbol | [required] A `string` representing value ledger symbol.
 
@@ -2508,3 +2508,120 @@ Coming soon...
 | XcertDeployProxy | [0x3A74b5A7b36e8cb1eAD919087185E197298aBC66](https://testnet.wanscan.org/address/0x3A74b5A7b36e8cb1eAD919087185E197298aBC66)
 | XcertDestroyProxy | [0xf6F4941e0B5aFaf82Ef0F5088479a57FFFB65216](https://testnet.wanscan.org/address/0xf6F4941e0B5aFaf82Ef0F5088479a57FFFB65216)
 | XcertUpdateProxy | [0xa37b825be44f241Fd2A7a454581DA037562eD302](https://testnet.wanscan.org/address/0xa37b825be44f241Fd2A7a454581DA037562eD302)
+
+## Possible errors
+
+The 0xcert Framework handles any kind of error that happens either in smart contracts or in the Framework itself and provides a thorough description wherever possible.
+
+Error example: 
+
+```ts
+{
+  name: 'ProviderError',
+  issue: '001001',
+  original: '', // optional
+  message: 'Sender does not have sufficient balance.'
+}
+```
+
+This is a list of all possible errors that can be thrown by the 0xcert Framework. The list is split into two categories depending on the origin of the error.
+
+### Framework errors
+
+| Code | Description
+|-|-
+| 0 | Generic provider error
+| 5000001 | Actions order kind not supported.
+| 5000002 | Amount of signature not consistent with signers for DYNAMIC_ACTIONS_ORDER kind.
+| 5000003 | Amount of signature not consistent with signers for FIXED_ACTIONS_ORDER kind.
+| 5000004 | Amount of signature not consistent with signers for SIGNED_DYNAMIC_ACTIONS_ORDER kind.
+| 5000005 | Amount of signature not consistent with signers for SIGNED_FIXED_ACTIONS_ORDER kind.
+| 5000006 | ReceiverId is not set.
+| 5000007 | SenderId is not a signer.
+| 5000008 | SenderId is not a signer.
+| 5000009 | Both senderId and receiverId are missing.
+| 5000010 | Not implemented.
+| 5000011 | First set approval to 0. ERC-20 token potential attack.
+
+### Smart contract errors
+
+| Code | Description
+|-|-
+| 1 | Generic smart contract error
+| 001001 | Sender does not have sufficient balance.
+| 001002 | You do not have sufficient allowance.
+| 003001 | Provided address cannot be zero address.
+| 003002 | Asset with this ID does not exist.
+| 003003 | Sender is neither asset owner nor operator.
+| 003004 | Sender is neither asset owner, approved nor operator.
+| 003005 | Receiver is not able to safely receive the asset.
+| 003006 | Asset with provided ID already exists.
+| 004001 | Provided address cannot be zero address.
+| 004002 | Asset with this ID does not exist.
+| 004003 | Sender is neither asset owner nor operator.
+| 004004 | Sender is neither asset owner, approved nor operator.
+| 004005 | Receiver is not able to safely receive the asset.
+| 004006 | Asset with provided ID already exists.
+| 005001 | Provided address cannot be zero address.
+| 005002 | Asset with this ID does not exist.
+| 005003 | Sender is neither asset owner nor operator.
+| 005004 | Sender is neither asset owner, approved nor operator.
+| 005005 | Receiver is not able to safely receive the asset.
+| 005006 | Asset with provided ID already exists.
+| 005007 | There is no asset at provided index.
+| 006001 | Provided address cannot be zero address.
+| 006002 | Asset with this ID does not exist.
+| 006003 | Sender is neither asset owner nor operator.
+| 006004 | Sender is neither asset owner, approved nor operator.
+| 006005 | Receiver is not able to safely receive the asset.
+| 006006 | Asset with provided ID already exists.
+| 006007 | There is no asset at provided index.
+| 007001 | Asset ledger does not have capability for this action.
+| 007002 | Transfers on this asset ledger are currently disabled.
+| 007003 | Asset with this ID does not exist.
+| 007004 | Sender is neither asset owner nor operator.
+| 007005 | Provided signature is invalid.
+| 007006 | Provided signature kind is invalid.
+| 007007 | This order was already performed.
+| 007008 | This order has expired.
+| 008001 | This action caused a math error: overflow.
+| 008002 | This action caused a math error: subtrahend is greater than minuend.
+| 008003 | This action caused a math error: division by zero.
+| 009001 | Provided signature kind is invalid.
+| 009002 | Sender is not allowed to execute this order.
+| 009003 | This order has expired.
+| 009004 | Provided signature is invalid.
+| 009005 | This order was canceled.
+| 009006 | This order was already performed.
+| 009007 | Sender is not the creator of this order.
+| 010001 | Sender does not have sufficient balance.
+| 010002 | You do not have sufficient allowance.
+| 010003 | Tokens cannot be sent to this recipient. Recipients are limited.
+| 010004 | Migration is not in progress.
+| 010005 | Migration is in progress.
+| 010006 | Migration cannot be performed. Please notify token owner.
+| 011001 | Provided signature kind is invalid.
+| 011002 | Sender is not allowed to execute this order.
+| 011003 | This order has expired.
+| 011004 | Provided signature is invalid.
+| 011005 | This order was canceled.
+| 011006 | This order was already performed.
+| 011007 | Sender is not the creator of this order.
+| 012001 | Transfer failed.
+| 015001 | Provided signature kind is invalid.
+| 015002 | Invalid proxy.
+| 015003 | Sender is not one of the signers.
+| 015004 | This order has expired.
+| 015005 | Provided signature is invalid.
+| 015006 | This order was canceled.
+| 015007 | This order was already performed.
+| 015008 | Sender is not one of the signers.
+| 015009 | Signer of CREATE_ASSET action does not have ALLOW_CREATE_ASSET ability.
+| 015010 | Signer of UPDATE_ASSET action does not have ALLOW_UPDATE_ASSET ability.
+| 015011 | Signer of SET_ASSET_LEDGER_ABILITY action does not have ALLOW_MANAGE_ABILITIES ability.
+| 015012 | Signer of DESTROY_ASSET action is not the asset owner.
+| 017001 | Sender does not have specified ability.
+| 017002 | Ability 0 is not a valid ability.
+| 018001 | Sender is not an owner.
+| 018002 | Provided address cannot be zero address.
+| 019001 | Sender cannot claim ownership.

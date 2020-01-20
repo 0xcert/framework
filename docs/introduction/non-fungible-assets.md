@@ -1,4 +1,4 @@
-# About assets
+# Non-fungible assets
 
 When discussing assets, we think of different things of value. The simplest examples are the items you keep in your physical wallet, like cash in banknotes and coins, ID cards, a driver license, credit cards, etc. All of those are assets.
 
@@ -18,12 +18,10 @@ An asset is defined in the form of a specifically designed [JSON](https://en.wik
 
 Therefore, within the 0xcert Framework, every asset is structured based on a particular schema. Some part of the data can be public, others can stay private. Asset data objects are stored in a centralized or decentralized database. The issuer is the one who created the asset, and the data can be known by both the issuer and the current owner of the asset.
 
-Every asset is stored in the platform as an ERC-721 non-fungible token. The 0xcert Framework has additional functions to manage the ledger and its assets, which are not included in the ERC-721 Standard.
+Every asset is stored in the platform as an ERC-721 non-fungible token. The 0xcert Framework has additional functions to manage the ledger and its assets, which are not included in the [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) and [ERC-2477](https://github.com/ethereum/EIPs/pull/2477) standards.
 
-Every asset is identified by a unique ID that describes an asset within a ledger. Every asset also has its own cryptographical proof. This proof is called an `imprint` and is created from the original asset data object. The imprint, along with its asset ID, is stored within a non-fungible token. The issuer and the owner can reveal certain data from the block to third parties. Thus, a non-fungible token can serve as a publicly available proof, which allows third-party data verification. This concept is further explained in the [Certification](/guide/certification.html) section.
+Assets follow [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) and [ERC-2477](https://github.com/ethereum/EIPs/pull/2477) standards. Every asset is identified by a unique ID that describes an asset within a ledger. Every asset also has its own cryptographical proof. This proof is called an `imprint` and is created from the original asset data object. The imprint, along with its asset ID, is stored within a non-fungible token. The issuer and the owner can reveal certain data from the block to third parties. Thus, a non-fungible token can serve as a publicly available proof, which allows third-party data verification.
 
-Apart from the imprint, every asset also includes a URI, pointing to a publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset. This information is intended for a public listing on different online services.
+Apart from the imprint, every asset also includes a URIs, pointing to asset JSON schema and publicly available [JSON](https://en.wikipedia.org/wiki/JSON) metadata file with additional public information about the asset. This information is intended for a public listing on different online services.
 
----
-
-Now that we learned what assets are, let's see how we can [certify and validate](/guide/certification.html) them.
+This concept is further explained in the [certification](/guide/certification.html) section.

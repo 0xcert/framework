@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-# Ethereum interface
+# Ethereum connectors
 
 ## Bitski back-end provider
 

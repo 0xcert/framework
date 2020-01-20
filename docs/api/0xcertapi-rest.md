@@ -1,4 +1,4 @@
-# REST API
+# 0xcertAPI REST
 
 ## Endpoints
 

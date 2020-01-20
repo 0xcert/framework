@@ -1,6 +1,6 @@
 # Overview
 
-The 0xcert (pronounced [zeer-oh-eks-surt]) Framework is a JavaScript library that provides tools for building powerful decentralized applications (dapps).
+The 0xcert (pronounced [zeer-oh-eks-surt]) Framework provides tools for building powerful decentralized applications (dapps) and consists of open-source JavaScript libraries and closed-source APIs.
 
 ![0xcert framework](../assets/scheme_1.svg)
 
@@ -8,15 +8,19 @@ The 0xcert (pronounced [zeer-oh-eks-surt]) Framework is a JavaScript library tha
 
 The 0xcert Framework enables management of **assets** and **values**.
 
-**Assets** are non-fungible tokens (NFTs), compliant with the Ethereum's [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) standard. Assets can represent a unique, either digital or real-life item with its unique metadata stored as a data imprint on a distributed ledger.
+**Assets** are non-fungible tokens (NFTs), compliant with the Ethereum's [ERC-721](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md) and [ERC-2477]( https://github.com/ethereum/EIPs/pull/2477) standards. Assets can represent a unique, either digital or real-life item with its unique metadata stored as a data imprint on a distributed ledger.
 
-Management of **values**, on the other hand, deals with cryptocurrency tokens that are  compliant with the [ERC-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md) standard. Values represent fungible tokens that share the same value as any other of their kind which makes them optimal to serve as a monetary value token.
+Management of **values**, on the other hand, deals with cryptocurrency tokens that are compliant with the [ERC-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md) standard. Values represent fungible tokens that share the same value as any other of their kind which makes them optimal to serve as a monetary value token.
+
+The 0xcert Framework uses decentralized and distributed systems as a permanent storage. Assets and values are safely stored as immutable data and thus represent the data layer of trust. The 0xcert Framework represents an interoperable solution and thus supports multiple platforms.
 
 ![0xcert framework](../assets/scheme_2.svg)
 
 ## What does it solve?
 
-Due to the complexity of low-level blockchain solutions, the broad adoption of non-fungible tokes and blockchain, in general, is slower than it could be. The lack of conventions prevents interoperability among applications. Developers trying to develop their own decentralized application using non-fungible tokens face long development time and huge risk in their development process and security, lowering the overall efficiency and adoption rate. The resulting ecosystem of digital assets is under threat of being fragmented and of developing non-interoperable dapps for underlying data.
+Due to the complexity of low-level decentralized technologies, blockchains and other distributed systems, the broad adoption of non-fungible tokes, in general, is slower than it could be. The lack of conventions prevents interoperability among applications. Developers trying to develop their own decentralized application using non-fungible tokens face long development time and huge risk in their development process and security, lowering the overall efficiency and adoption rate.
+
+The resulting ecosystem of digital assets is under threat of being fragmented and of developing non-interoperable dapps for underlying data. The 0xcert Framework is a solution and provides libraries, conventions, and guides for fast and secure dapp development.
 
 ## Who is it for?
 
@@ -66,7 +70,3 @@ To learn more about the 0xcert Framework, the -Xcert Protocol, and the news abou
 * The 0xcert official [website](https://0xcert.org),
 * The 0xcert [GitHub Repository](https://github.com/0xcert/framework): please consider contributing to the open-source and free framework,
 * Our [News Blog](https://0xcert.org/news).
-
----
-
-Now, let's see how this works using our framework. In this guide, we will create a simple use case demonstrating the management of assets and values. Let's [get it started](/guide/getting-started.html).
