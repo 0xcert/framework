@@ -243,7 +243,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | An `string` representing order reference.
+| orderRef | A `string` representing order reference.
 
 ##### Possible errors
 
@@ -263,7 +263,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Body fields
 
@@ -290,7 +290,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Possible errors
 
@@ -349,7 +349,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| orderRef | [required] An `string` representing order reference.
+| orderRef | [required] A `string` representing order reference.
 
 ##### Possible errors
 
@@ -446,7 +446,7 @@ Most of the API routes restrict public access and require authentication. Authen
 
 | Name | Description
 |-|-
-| deploymentRef | [required] An `string` representing deployment reference.
+| deploymentRef | [required] A `string` representing deployment reference.
 
 ##### Possible errors
 
