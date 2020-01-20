@@ -4,6 +4,7 @@
   "scripts": {
     "build": "vuepress build ..",
     "dev": "vuepress dev ..",
+    "eject": "vuepress eject",
     "deploy": "./deploy.sh"
   },
   "dependencies": {
