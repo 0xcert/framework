@@ -80,9 +80,7 @@ export class DeploymentsController {
 
     const deployGateway = new Gateway(this.context.provider);
     const date = Date.now();
-    const multiplier = new BigNumber(1000000000000000000);
-    const paymentAmount = this.context.payment.assetDeployCost;
-    const value = new BigNumber(paymentAmount).multipliedBy(multiplier);
+    const value = new BigNumber(this.context.payment.assetDeployCost);
     const assetLedgerDeployOrder = {
       kind: OrderKind.ASSET_LEDGER_DEPLOY_ORDER,
       makerId: this.context.provider.accountId,
