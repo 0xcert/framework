@@ -467,42 +467,42 @@ export interface Payment {
   /**
    * Cost of minting an asset.
    */
-  assetCreateCost: number;
+  assetCreateCost: string;
 
   /**
    * Cost of transferring an asset.
    */
-  assetTransferCost: number;
+  assetTransferCost: string;
 
   /**
    * Cost of transferring value.
    */
-  valueTransferCost: number;
+  valueTransferCost: string;
 
   /**
    * Cost of deployment value.
    */
-  assetDeployCost: number;
+  assetDeployCost: string;
 
   /**
    * Cost of setting abilities.
    */
-  setAbilitiesCost: number;
+  setAbilitiesCost: string;
 
   /**
    * Cost of revoking asset.
    */
-  assetRevokeCost: number;
+  assetRevokeCost: string;
 
   /**
    * Cost of updating asset.
    */
-  assetUpdateCost: number;
+  assetUpdateCost: string;
 
   /**
    * Cost of destroying asset.
    */
-  assetDestroyCost: number;
+  assetDestroyCost: string;
 
   /**
    * Address of token for payment.

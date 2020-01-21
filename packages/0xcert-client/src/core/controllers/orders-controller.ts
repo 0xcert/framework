@@ -96,7 +96,7 @@ export class OrdersController {
     const multiplier = new BigNumber(1000000000000000000);
     const orderActions: FrameworkActionsOrderAction[] = [];
     const date = Date.now();
-    let paymentAmount = 0;
+    let paymentAmount = new BigNumber(0);
 
     for (const action of order.actions) {
       switch (action.kind) {
@@ -109,7 +109,7 @@ export class OrdersController {
             assetImprint: action.imprint,
             ledgerId: action.assetLedgerId,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.assetCreateCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.assetCreateCost));
           break;
         }
         case (ActionKind.TRANSFER_ASSET): {
@@ -120,7 +120,7 @@ export class OrdersController {
             ledgerId: action.assetLedgerId,
             senderId: action.senderId,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.assetTransferCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.assetTransferCost));
           break;
         }
         case (ActionKind.TRANSFER_VALUE): {
@@ -131,7 +131,7 @@ export class OrdersController {
             value: new BigNumber(action.value).multipliedBy(multiplier).toFixed(0),
             ledgerId: action.valueLedgerId,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.valueTransferCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.valueTransferCost));
           break;
         }
         case (ActionKind.UPDATE_ASSET_IMPRINT): {
@@ -142,7 +142,7 @@ export class OrdersController {
             assetId: action.id,
             assetImprint: action.imprint,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.assetUpdateCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.assetUpdateCost));
           break;
         }
         case (ActionKind.SET_ABILITIES): {
@@ -153,7 +153,7 @@ export class OrdersController {
             ledgerId: action.assetLedgerId,
             abilities: action.abilities,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.setAbilitiesCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.setAbilitiesCost));
           break;
         }
         case (ActionKind.DESTROY_ASSET): {
@@ -163,7 +163,7 @@ export class OrdersController {
             ledgerId: action.assetLedgerId,
             assetId: action.id,
           } as FrameworkActionsOrderAction);
-          paymentAmount += this.context.payment.assetDestroyCost;
+          paymentAmount = paymentAmount.plus(new BigNumber(this.context.payment.assetDestroyCost));
           break;
         }
         default: {
@@ -173,14 +173,13 @@ export class OrdersController {
     }
 
     // Add order payment action.
-    const value = new BigNumber(paymentAmount).multipliedBy(multiplier);
     const expiration = Date.now() + 172800000; // 2 days
 
     orderActions.push({
       kind: ActionsOrderActionKind.TRANSFER_VALUE,
       senderId: order.payerId,
       receiverId: this.context.payment.receiverAddress,
-      value: value.toFixed(0),
+      value: paymentAmount.toFixed(0),
       ledgerId: this.context.payment.tokenAddress,
     } as FrameworkActionsOrderAction);
 
