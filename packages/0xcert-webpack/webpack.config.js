@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   entry: {
     '0xcert-cert': './src/0xcert-cert.js',
+    '0xcert-client': './src/0xcert-client.js',
     '0xcert-ethereum-asset-ledger': './src/0xcert-ethereum-asset-ledger.js',
     '0xcert-ethereum-http-provider': './src/0xcert-ethereum-http-provider.js',
     '0xcert-ethereum-metamask-provider': './src/0xcert-ethereum-metamask-provider.js',
