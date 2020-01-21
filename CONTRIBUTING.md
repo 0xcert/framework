@@ -41,10 +41,7 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 
 ## Release process
 
-The release manager will publish packages to NPM using these commands.
-
-NOTE: New packages must be published manually!
-IMPORTANT: Make sure that buildGatewayConfig parameters under generic providers are set to correct values.
+1. Run the commands below to push all packages to NPM:
 
 ```
 $ rush version --bump --override-bump minor
@@ -54,25 +51,6 @@ $ rush test
 $ rush publish --publish --include-all
 ```
 
-# 0xcert documentation
+2. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation.
 
-We are using VuePress to build the documentation pages. Files are built locally from `.md` files located in `/docs` folder and generated into a `/docs/.vuepress/dist` folder.
-
-First, navigate to the root directory and then install dependencies.
-
-```
-$ cd ./docs/.vuepress
-$ npm i
-```
-
-You can start VuePress in development mode.
-
-```
-$ npm run dev
-```
-
-You can build and deploy the documentation to the server.
-
-```
-$ npm run deploy
-```
+3. Follow the guide in the [0xcert/docs](https://github.com/0xcert/www-ui/blob/master/CONTRIBUTING.md) repository to deploy conventions.
