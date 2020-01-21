@@ -103,10 +103,9 @@ export class Client {
   public async init() {
     let msg = 'I accept 0xcert terms of use.';
     if (this.provider.signMethod === SignMethod.ETH_SIGN) {
-      msg = await sha(256, msg);
+      msg = `0x${await sha(256, msg)}`;
     }
-
-    const signature = await this.provider.sign(`0x${msg}`);
+    const signature = await this.provider.sign(msg);
     const signatureType = this.provider.signMethod;
     this.authentication = `${signatureType}:${signature}`;
 
