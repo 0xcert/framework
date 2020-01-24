@@ -31,7 +31,7 @@ contract XcertToken is
   uint8 constant ABILITY_CREATE_ASSET = 16;
   uint8 constant ABILITY_REVOKE_ASSET = 32;
   uint8 constant ABILITY_TOGGLE_TRANSFERS = 64;
-  uint8 constant ABILITY_UPDATE_ASSET_INTEGRITY_DIGEST = 128;
+  uint8 constant ABILITY_UPDATE_ASSET_URI_INTEGRITY_DIGEST = 128;
   uint16 constant ABILITY_UPDATE_URI = 256;
   /// ABILITY_ALLOW_CREATE_ASSET = 512 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `ActionsGateway`, the order maker has to have this ability.
@@ -230,7 +230,7 @@ contract XcertToken is
   )
     external
     override
-    hasAbilities(ABILITY_UPDATE_ASSET_INTEGRITY_DIGEST)
+    hasAbilities(ABILITY_UPDATE_ASSET_URI_INTEGRITY_DIGEST)
   {
     require(supportedInterfaces[MUTABLE], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);

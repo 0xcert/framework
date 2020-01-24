@@ -24,17 +24,17 @@ contract XcertUpdateProxy is
    * @dev Updates imprint of an existing Xcert.
    * @param _xcert Address of the Xcert contract on which the update will be performed.
    * @param _id The Xcert we will update.
-   * @param _imprint Cryptographic asset imprint.
+   * @param _tokenURIIntegrityDigest Cryptographic asset URI integrity digest.
    */
   function update(
     address _xcert,
     uint256 _id,
-    bytes32 _imprint
+    bytes32 _tokenURIIntegrityDigest
   )
     external
     hasAbilities(ABILITY_TO_EXECUTE)
   {
-    XcertMutable(_xcert).updateTokenImprint(_id, _imprint);
+    XcertMutable(_xcert).updateTokenURIIntegrityDigest(_id, _tokenURIIntegrityDigest);
   }
 
 }

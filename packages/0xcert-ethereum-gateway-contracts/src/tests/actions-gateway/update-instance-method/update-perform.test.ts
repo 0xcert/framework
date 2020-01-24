@@ -120,7 +120,7 @@ spec.test('Updated cat #1 with signature', async (ctx) => {
   const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
-  const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
+  const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
   ctx.is(cat1Imprint, imprint2);
 });
 
@@ -153,7 +153,7 @@ spec.test('Updated cat #1 without signature', async (ctx) => {
   const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: owner });
   ctx.not(logs.events.Perform, undefined);
 
-  const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
+  const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
   ctx.is(cat1Imprint, imprint2);
 });
 

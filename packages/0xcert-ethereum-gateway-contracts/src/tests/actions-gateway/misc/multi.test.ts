@@ -387,7 +387,7 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
   ctx.is(dog2Owner, bob);
   const bobZxcBalance = await zxc.instance.methods.balanceOf(bob).call();
   ctx.is(bobZxcBalance, zxcAmountDec.toString());
-  const dog1Imprint = await dog.instance.methods.tokenImprint(id).call();
+  const dog1Imprint = await dog.instance.methods.tokenURIIntegrity(id).call();
   ctx.is(dog1Imprint, imprint2);
   const bobCreateDog = await dog.instance.methods.isAble(bob, XcertAbilities.CREATE_ASSET).call();
   ctx.true(bobCreateDog);
@@ -589,7 +589,7 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
   ctx.is(fox2Owner, bob);
   const fox3Owner = await fox.instance.methods.ownerOf(id3).call();
   ctx.is(fox3Owner, bob);
-  const fox3Imprint = await fox.instance.methods.tokenImprint(id3).call();
+  const fox3Imprint = await fox.instance.methods.tokenURIIntegrity(id3).call();
   ctx.is(fox3Imprint, imprint1);
 });
 
