@@ -18,7 +18,7 @@ interface Data {
   jane?: string;
   sara?: string;
   id1?: string;
-  imprint1?: string;
+  digest1?: string;
 }
 
 const spec = new Spec<Data>();
@@ -32,7 +32,7 @@ spec.before(async (ctx) => {
 
 spec.before(async (ctx) => {
   ctx.set('id1', '1');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
+  ctx.set('digest1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
 });
 
 /**
@@ -82,13 +82,13 @@ spec.test('fails if a signature is missing', async (ctx) => {
   const sara = ctx.get('sara');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 0,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -115,13 +115,13 @@ spec.test('fails when proxy does not have the create rights', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 0,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -146,13 +146,13 @@ spec.test('fails if maker does not have asset creating ability', async (ctx) => 
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 0,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {

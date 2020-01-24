@@ -121,7 +121,7 @@ spec.test('Updated cat #1 with signature', async (ctx) => {
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
-  ctx.is(cat1Imprint, imprint2);
+  ctx.is(cat1Imprint.digest, imprint2);
 });
 
 spec.test('Updated cat #1 without signature', async (ctx) => {
@@ -154,7 +154,7 @@ spec.test('Updated cat #1 without signature', async (ctx) => {
   ctx.not(logs.events.Perform, undefined);
 
   const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
-  ctx.is(cat1Imprint, imprint2);
+  ctx.is(cat1Imprint.digest, imprint2);
 });
 
 export default spec;

@@ -20,7 +20,7 @@ interface Data {
   jane?: string;
   sara?: string;
   id1?: string;
-  imprint1?: string;
+  digest1?: string;
   signatureTuple?: any;
   dataTuple?: any;
 }
@@ -37,7 +37,7 @@ spec.beforeEach(async (ctx) => {
 
 spec.beforeEach(async (ctx) => {
   ctx.set('id1', '0x0000000000000000000000000000000000000000000000000000000000000001');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
+  ctx.set('digest1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
 });
 
 /**
@@ -47,7 +47,7 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
-  const imprint1 = ctx.get('imprint1');
+  const digest1 = ctx.get('digest1');
   const id = ctx.get('id1');
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
@@ -55,7 +55,7 @@ spec.beforeEach(async (ctx) => {
     args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x9d118770']],
   });
   await cat.instance.methods
-  .create(jane, id, imprint1)
+  .create(jane, id, digest1)
   .send({
     from: owner,
   });
