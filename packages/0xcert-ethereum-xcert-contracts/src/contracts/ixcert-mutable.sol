@@ -5,15 +5,15 @@ pragma solidity 0.6.1;
  */
 interface XcertMutable // is Xcert
 {
-  
+
   /**
-   * @dev Updates Xcert imprint.
+   * @dev Updates Xcert tokenURIIntegrityDigest.
    * @param _tokenId Id of the Xcert.
-   * @param _imprint New imprint.
+   * @param _tokenURIIntegrityDigest New tokenURIIntegrityDigest.
    */
-  function updateTokenImprint(
+  function updateTokenURIIntegrityDigest(
     uint256 _tokenId,
-    bytes32 _imprint
+    bytes32 _tokenURIIntegrityDigest
   )
     external;
 

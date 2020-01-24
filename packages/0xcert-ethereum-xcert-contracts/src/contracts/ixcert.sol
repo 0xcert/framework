@@ -3,7 +3,7 @@ pragma solidity 0.6.1;
 /**
  * @dev Xcert interface.
  */
-interface Xcert // is ERC721 metadata enumerable
+interface Xcert // is ERC-721 metadata enumerable, is ERC-2447
 {
 
   /**
@@ -29,26 +29,5 @@ interface Xcert // is ERC721 metadata enumerable
     string calldata _uriPostfix
   )
     external;
-
-  /**
-   * @dev Returns a bytes4 of keccak256 of json schema representing 0xcert Protocol convention.
-   * @return _schemaId Schema id.
-   */
-  function schemaId()
-    external
-    view
-    returns (bytes32 _schemaId);
-
-  /**
-   * @dev Returns imprint for Xcert.
-   * @param _tokenId Id of the Xcert.
-   * @return imprint Token imprint.
-   */
-  function tokenImprint(
-    uint256 _tokenId
-  )
-    external
-    view
-    returns(bytes32 imprint);
 
 }

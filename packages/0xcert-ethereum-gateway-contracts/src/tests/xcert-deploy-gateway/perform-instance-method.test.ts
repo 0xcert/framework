@@ -149,7 +149,7 @@ spec.test('performs a deploy', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -225,7 +225,7 @@ spec.test('fails when not enough balance', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -270,7 +270,7 @@ spec.test('fails when not specified taker', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -314,7 +314,7 @@ spec.test('fails with expired claim', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -358,7 +358,7 @@ spec.test('fails with invalid signature', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -404,7 +404,7 @@ spec.test('fails with invalid signature kind', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -448,7 +448,7 @@ spec.test('fails trying to perform an already performed deploy', async (ctx) => 
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {
@@ -493,7 +493,7 @@ spec.test('fails trying to perform a canceled deploy', async (ctx) => {
       uriPrefix: 'https://base.com/',
       uriPostfix: '.json',
       schemaId: '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658',
-      capabilities: ['0x9d118770', '0xbda0e852', '0xbedb86fb', '0x20c5429b'],
+      capabilities: ['0x9d118770', '0x0d04c3b8', '0xbedb86fb', '0x20c5429b'],
       owner: jane,
     },
     paymentData: {

@@ -164,7 +164,7 @@ export class Protocol {
       web3: this.web3,
       abi: contracts.xcert.abi,
       bytecode: contracts.xcert.bytecode,
-      args: ['Mutable Xcert', 'MutableXcert', 'https://0xcert.org/', '.json', '0x2', ['0xbda0e852']],
+      args: ['Mutable Xcert', 'MutableXcert', 'https://0xcert.org/', '.json', '0x2', ['0x0d04c3b8']],
       from,
     });
 

@@ -68,7 +68,7 @@ spec.test('updates an Xcert', async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
 
   await cat.instance.methods.grantAbilities(xcertUpdateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });
@@ -92,7 +92,7 @@ spec.test('fails if update is triggered by an unauthorized address', async (ctx)
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
 
   await cat.instance.methods.grantAbilities(xcertUpdateProxy.receipt._address, XcertAbilities.UPDATE_ASSET_IMPRINT).send({ from: owner });

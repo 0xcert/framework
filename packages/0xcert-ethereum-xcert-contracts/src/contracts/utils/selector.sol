@@ -23,12 +23,7 @@ contract Selector
     returns (bytes4)
   {
     Xcert i;
-    return (
-      i.create.selector
-      ^ i.schemaId.selector
-      ^ i.tokenImprint.selector
-      ^ i.setUri.selector
-    );
+    return (i.create.selector ^ i.setUri.selector);
   }
 
   /**
@@ -64,7 +59,7 @@ contract Selector
     returns (bytes4)
   {
     XcertMutable i;
-    return i.updateTokenImprint.selector;
+    return i.updateTokenURIIntegrityDigest.selector;
   }
 
   /**
@@ -78,5 +73,5 @@ contract Selector
     XcertPausable i;
     return i.setPause.selector;
   }
-  
+
 }

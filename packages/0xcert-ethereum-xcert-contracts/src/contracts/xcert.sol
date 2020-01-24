@@ -1,6 +1,7 @@
 pragma solidity 0.6.1;
 pragma experimental ABIEncoderV2;
 
+import "./ierc-2447.sol";
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
 import "./ixcert-mutable.sol";
@@ -14,6 +15,7 @@ import "@0xcert/ethereum-erc20-contracts/src/contracts/erc20.sol";
  * @dev Xcert implementation.
  */
 contract XcertToken is
+  ERC2477,
   Xcert,
   XcertBurnable,
   XcertMutable,
@@ -29,21 +31,26 @@ contract XcertToken is
   uint8 constant ABILITY_CREATE_ASSET = 16;
   uint8 constant ABILITY_REVOKE_ASSET = 32;
   uint8 constant ABILITY_TOGGLE_TRANSFERS = 64;
-  uint8 constant ABILITY_UPDATE_ASSET_IMPRINT = 128;
+  uint8 constant ABILITY_UPDATE_ASSET_INTEGRITY_DIGEST = 128;
   uint16 constant ABILITY_UPDATE_URI = 256;
   /// ABILITY_ALLOW_CREATE_ASSET = 512 - A specific ability that is bounded to atomic orders.
   /// When creating a new Xcert trough `ActionsGateway`, the order maker has to have this ability.
   /// ABILITY_ALLOW_UPDATE_ASSET = 1024 - A specific ability that is bounded to atomic orders.
-  /// When updating imprint of an Xcert trough `ActionsGateway`, the order maker has to have this
+  /// When updating tokenURIIntegrityDigest of an Xcert trough `ActionsGateway`, the order maker has to have this
   /// ability.
 
   /**
    * @dev List of capabilities (supportInterface bytes4 representations).
    */
-  bytes4 constant MUTABLE = 0xbda0e852;
+  bytes4 constant MUTABLE = 0x0d04c3b8;
   bytes4 constant BURNABLE = 0x9d118770;
   bytes4 constant PAUSABLE = 0xbedb86fb;
   bytes4 constant REVOKABLE = 0x20c5429b;
+
+  /**
+   * Hashing function.
+   */
+  string constant HASH_ALGORITHM = 'sha256';
 
   /**
    * @dev Error constants.
@@ -63,13 +70,13 @@ contract XcertToken is
   event IsPaused(bool isPaused);
 
   /**
-   * @dev Emits when imprint of a token is changed.
+   * @dev Emits when integrity digest of a token is changed.
    * @param _tokenId Id of the Xcert.
-   * @param _imprint Cryptographic asset imprint.
+   * @param _tokenURIIntegrityDigest Cryptographic asset integrity digest.
    */
-  event TokenImprintUpdate(
+  event TokenURIIntegrityDigestUpdate(
     uint256 indexed _tokenId,
-    bytes32 _imprint
+    bytes32 _tokenURIIntegrityDigest
   );
 
   /**
@@ -116,12 +123,12 @@ contract XcertToken is
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
    * @notice Calculated as keccak256(jsonSchema).
    */
-  bytes32 internal nftSchemaId;
+  bytes32 internal schemaURIIntegrityDigest;
 
   /**
-   * @dev Maps NFT ID to imprint.
+   * @dev Maps NFT ID to tokenURIIntegrityDigest.
    */
-  mapping (uint256 => bytes32) internal idToImprint;
+  mapping (uint256 => bytes32) internal idToIntegrityDigest;
 
   /**
    * @dev Maps address to authorization of contract.
@@ -135,32 +142,32 @@ contract XcertToken is
 
   /**
    * @dev Contract constructor.
-   * @notice When implementing this contract don't forget to set nftSchemaId, nftName, nftSymbol
+   * @notice When implementing this contract don't forget to set schemaURIIntegrityDigest, nftName, nftSymbol
    * and uriPrefix.
    */
   constructor()
     public
   {
-    supportedInterfaces[0x4ecc17d1] = true; // Xcert
+    supportedInterfaces[0x39541724] = true; // Xcert
   }
 
   /**
    * @dev Creates a new Xcert.
    * @param _to The address that will own the created Xcert.
    * @param _id The Xcert to be created by the msg.sender.
-   * @param _imprint Cryptographic asset imprint.
+   * @param _tokenURIIntegrityDigest Cryptographic asset uri integrity digest.
    */
   function create(
     address _to,
     uint256 _id,
-    bytes32 _imprint
+    bytes32 _tokenURIIntegrityDigest
   )
     external
     override
     hasAbilities(ABILITY_CREATE_ASSET)
   {
     super._create(_to, _id);
-    idToImprint[_id] = _imprint;
+    idToIntegrityDigest[_id] = _tokenURIIntegrityDigest;
   }
 
   /**
@@ -193,7 +200,7 @@ contract XcertToken is
   {
     require(supportedInterfaces[REVOKABLE], CAPABILITY_NOT_SUPPORTED);
     super._destroy(_tokenId);
-    delete idToImprint[_tokenId];
+    delete idToIntegrityDigest[_tokenId];
   }
 
   /**
@@ -213,22 +220,22 @@ contract XcertToken is
   }
 
   /**
-   * @dev Updates Xcert imprint.
+   * @dev Updates Xcert integrity digest.
    * @param _tokenId Id of the Xcert.
-   * @param _imprint New imprint.
+   * @param _tokenURIIntegrityDigest New tokenURIIntegrityDigest.
    */
-  function updateTokenImprint(
+  function updateTokenURIIntegrityDigest(
     uint256 _tokenId,
-    bytes32 _imprint
+    bytes32 _tokenURIIntegrityDigest
   )
     external
     override
-    hasAbilities(ABILITY_UPDATE_ASSET_IMPRINT)
+    hasAbilities(ABILITY_UPDATE_ASSET_INTEGRITY_DIGEST)
   {
     require(supportedInterfaces[MUTABLE], CAPABILITY_NOT_SUPPORTED);
     require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
-    idToImprint[_tokenId] = _imprint;
-    emit TokenImprintUpdate(_tokenId, _imprint);
+    idToIntegrityDigest[_tokenId] = _tokenURIIntegrityDigest;
+    emit TokenURIIntegrityDigestUpdate(_tokenId, _tokenURIIntegrityDigest);
   }
 
   /**
@@ -248,7 +255,7 @@ contract XcertToken is
       tokenOwner == msg.sender || ownerToOperators[tokenOwner][msg.sender],
       NOT_XCERT_OWNER_OR_OPERATOR
     );
-    delete idToImprint[_tokenId];
+    delete idToIntegrityDigest[_tokenId];
   }
 
   /**
@@ -393,32 +400,39 @@ contract XcertToken is
   }
 
   /**
-   * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention.
-   * @return _schemaId Schema id.
+   * @dev Returns a bytes32 of sha256 of json schema representing 0xcert Protocol convention per token.
+   * @param tokenId Id of the Xcert.
+   * @return digest Bytes returned from the hash algorithm
+   * @return hashAlgorithm The name of the cryptographic hash algorithm
    */
-  function schemaId()
-    external
-    override
-    view
-    returns (bytes32 _schemaId)
-  {
-    _schemaId = nftSchemaId;
-  }
-
-  /**
-   * @dev Returns imprint for Xcert.
-   * @param _tokenId Id of the Xcert.
-   * @return imprint Token imprint.
-   */
-  function tokenImprint(
-    uint256 _tokenId
+  function tokenURISchemaIntegrity(
+    uint256 tokenId
   )
     external
     override
     view
-    returns(bytes32 imprint)
+    returns(bytes memory digest, string memory hashAlgorithm)
   {
-    imprint = idToImprint[_tokenId];
+    digest = abi.encodePacked(schemaURIIntegrityDigest);
+    hashAlgorithm = HASH_ALGORITHM;
+  }
+
+  /**
+   * @dev Returns digest for Xcert.
+   * @param tokenId Id of the Xcert.
+   * @return digest Bytes returned from the hash algorithm or "" if there is no schema
+   * @return hashAlgorithm The name of the cryptographic hash algorithm or "" if there is no schema
+   */
+  function tokenURIIntegrity(
+    uint256 tokenId
+  )
+    external
+    override
+    view
+    returns(bytes memory digest, string memory hashAlgorithm)
+  {
+    digest = abi.encodePacked(idToIntegrityDigest[tokenId]);
+    hashAlgorithm = HASH_ALGORITHM;
   }
 
   /**
