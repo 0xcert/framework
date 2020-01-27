@@ -7,9 +7,14 @@ const functions = [
     outputTypes: ['string'],
   },
   {
-    signature: '0x70c31afc',
+    signature: '0x49846680',
     inputTypes: ['uint256'],
-    outputTypes: ['bytes32'],
+    outputTypes: ['bytes', 'string'],
+  },
+  {
+    signature: '0xcaae188e',
+    inputTypes: ['uint256'],
+    outputTypes: ['bytes', 'string'],
   },
 ];
 
@@ -41,5 +46,6 @@ export default async function(ledger: AssetLedger, assetId: string) {
     id: assetId,
     uri: data[0],
     imprint: data[1] ? data[1].substr(2) : null,
+    schemaId: data[2] ? data[2].substr(2) : null,
   };
 }

@@ -252,6 +252,11 @@ export interface AssetLedgerItem {
    * Merkle tree root of asset proof.
    */
   imprint: string;
+
+  /**
+   * Hashed representation of JSON schema defining this object.
+   */
+  schemaId: string;
 }
 
 /**
@@ -282,11 +287,6 @@ export interface AssetLedgerInfo {
    * Asset 1 URI will become: uriPrefix + 1.json
    */
   uriPostfix: string;
-
-  /**
-   * Hashed representation of JSON schema defining this object.
-   */
-  schemaId: string;
 
   /**
    * Total supply of all assets in this AssetLedger.
