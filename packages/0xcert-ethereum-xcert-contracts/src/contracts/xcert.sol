@@ -1,7 +1,7 @@
 pragma solidity 0.6.1;
 pragma experimental ABIEncoderV2;
 
-import "./ierc-2447.sol";
+import "./ierc-2477.sol";
 import "./ixcert.sol";
 import "./ixcert-burnable.sol";
 import "./ixcert-mutable.sol";
@@ -413,6 +413,7 @@ contract XcertToken is
     view
     returns(bytes memory digest, string memory hashAlgorithm)
   {
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     digest = abi.encodePacked(schemaURIIntegrityDigest);
     hashAlgorithm = HASH_ALGORITHM;
   }
@@ -431,6 +432,7 @@ contract XcertToken is
     view
     returns(bytes memory digest, string memory hashAlgorithm)
   {
+    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
     digest = abi.encodePacked(idToIntegrityDigest[tokenId]);
     hashAlgorithm = HASH_ALGORITHM;
   }
