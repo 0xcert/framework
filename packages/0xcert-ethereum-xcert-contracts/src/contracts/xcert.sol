@@ -413,7 +413,7 @@ contract XcertToken is
     view
     returns(bytes memory digest, string memory hashAlgorithm)
   {
-    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
+    require(idToOwner[tokenId] != address(0), NOT_VALID_XCERT);
     digest = abi.encodePacked(schemaURIIntegrityDigest);
     hashAlgorithm = HASH_ALGORITHM;
   }
@@ -432,7 +432,7 @@ contract XcertToken is
     view
     returns(bytes memory digest, string memory hashAlgorithm)
   {
-    require(idToOwner[_tokenId] != address(0), NOT_VALID_XCERT);
+    require(idToOwner[tokenId] != address(0), NOT_VALID_XCERT);
     digest = abi.encodePacked(idToIntegrityDigest[tokenId]);
     hashAlgorithm = HASH_ALGORITHM;
   }
