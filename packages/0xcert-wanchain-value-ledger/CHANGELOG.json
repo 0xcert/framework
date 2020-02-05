@@ -2,8 +2,8 @@
   "name": "@0xcert/wanchain-value-ledger",
   "entries": [
     {
-      "version": "2.0.0-beta2",
-      "tag": "@0xcert/wanchain-value-ledger_v2.0.0-beta2",
+      "version": "2.0.0-beta3",
+      "tag": "@0xcert/wanchain-value-ledger_v2.0.0-beta3",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },

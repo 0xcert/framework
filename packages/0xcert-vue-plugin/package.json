@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/vue-plugin",
-  "version": "2.0.0-beta2",
+  "version": "2.0.0-beta3",
   "description": "Implementation of VueJS plug-in.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,6 +72,6 @@
     "typescript": "3.6.3"
   },
   "dependencies": {
-    "@0xcert/scaffold": "2.0.0-beta2"
+    "@0xcert/scaffold": "2.0.0-beta3"
   }
 }
