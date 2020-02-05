@@ -137,7 +137,7 @@ spec.test('fails if transfer is triggered by an unauthorized address', async (ct
   await ctx.reverts(() => nftProxy.instance.methods.execute(cat.receipt._address, jane, sara, 1).send({ from: bob }), '017001');
 });
 
-spec.test('fails when transfering to a contract without receiver', async (ctx) => {
+spec.test('fails when transferring to a contract without receiver', async (ctx) => {
   const nftProxy = ctx.get('nftProxy');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

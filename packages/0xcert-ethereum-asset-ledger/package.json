@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-asset-ledger",
-  "version": "2.0.0-alpha16",
+  "version": "2.0.0-beta1",
   "description": "Asset ledger module for asset management on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -67,10 +67,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "0.13.0",
-    "@specron/spec": "0.13.0",
-    "@0xcert/ethereum-sandbox": "2.0.0-alpha16",
-    "@0xcert/ethereum-xcert-contracts": "2.0.0-alpha16",
+    "@specron/cli": "0.15.0",
+    "@specron/spec": "0.15.0",
+    "@0xcert/ethereum-sandbox": "2.0.0-beta1",
+    "@0xcert/ethereum-xcert-contracts": "2.0.0-beta1",
     "nyc": "14.1.1",
     "solc": "0.6.1",
     "ts-node": "8.4.1",
@@ -79,9 +79,9 @@
     "web3": "1.2.1"
   },
   "dependencies": {
-    "@0xcert/ethereum-generic-provider": "2.0.0-alpha16",
-    "@0xcert/ethereum-utils": "2.0.0-alpha16",
-    "@0xcert/scaffold": "2.0.0-alpha16",
-    "@0xcert/utils": "2.0.0-alpha16"
+    "@0xcert/ethereum-generic-provider": "2.0.0-beta1",
+    "@0xcert/ethereum-utils": "2.0.0-beta1",
+    "@0xcert/scaffold": "2.0.0-beta1",
+    "@0xcert/utils": "2.0.0-beta1"
   }
 }

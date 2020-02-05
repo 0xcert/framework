@@ -39,7 +39,7 @@ spec.beforeEach(async (ctx) => {
   ctx.set('xcert', xcert);
 });
 
-spec.test('successfuly changes paused state', async (ctx) => {
+spec.test('successfully changes paused state', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');
 

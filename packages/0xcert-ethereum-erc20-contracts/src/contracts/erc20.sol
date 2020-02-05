@@ -4,7 +4,7 @@ pragma solidity 0.6.1;
  * @title A standard interface for tokens.
  * @dev This interface uses the official ERC-20 specification from
  * https://eips.ethereum.org/EIPS/eip-20 with the additional requirement that
- * the functions specificed as optional have become required.
+ * the functions specified as optional have become required.
  */
 interface ERC20
 {

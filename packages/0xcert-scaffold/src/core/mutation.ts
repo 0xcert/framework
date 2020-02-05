@@ -76,7 +76,7 @@ export interface MutationBase {
   once(event: MutationEvent.ERROR, handler: (e: any, m: MutationBase) => any): this;
 
   /**
-   * Dettaches from mutation events.
+   * Detaches from mutation events.
    */
   off(event: MutationEvent, handler?: () => any): this;
 

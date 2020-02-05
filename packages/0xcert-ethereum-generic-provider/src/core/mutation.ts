@@ -74,7 +74,7 @@ export class Mutation extends EventEmitter implements MutationBase {
 
   /**
    * Initialize mutation.
-   * @param provider Provider class with which we comunicate with blockchain.
+   * @param provider Provider class with which we communicate with blockchain.
    * @param id Smart contract address on which a mutation will be performed.
    * @param context Mutation context.
    */
@@ -395,12 +395,13 @@ export class Mutation extends EventEmitter implements MutationBase {
       }
       const transactionReceipt = await this.getTransactionReceipt();
       transactionReceipt.logs.forEach((log) => {
-        const eventSignature = eventSignatures.find((e) => e.topic == log.topics[0]);
+        const eventSignature = eventSignatures.find((e) => e.topic === log.topics[0]);
         if (!eventSignature) {
           return;
         }
         const obj = {};
         obj['event'] = eventSignature.name;
+        obj['address'] = log.address;
         const normal = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.NORMAL);
         const indexed = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.INDEXED);
         if (normal.length > 0) {

@@ -298,6 +298,7 @@ contract DappToken is
         .onMigrationReceived(msg.sender, balance) == MAGIC_ON_MIGRATION_RECEIVED,
       NOT_ABLE_TO_MIGRATE
     );
+    emit Transfer(msg.sender, address(0), balance);
   }
 
   /**
@@ -323,6 +324,7 @@ contract DappToken is
     balances[_migrator] = balances[_migrator].add(_amount);
     allowed[_migrator][tokenTransferProxy] = allowed[_migrator][tokenTransferProxy].add(_amount);
     emit Approval(_migrator, tokenTransferProxy, allowed[_migrator][tokenTransferProxy]);
+    emit Transfer(address(0), _migrator, _amount);
     return MAGIC_ON_MIGRATION_RECEIVED;
   }
 
@@ -425,6 +427,7 @@ contract DappToken is
     balances[_receiver] = balances[_receiver].add(_value);
     barteredToken.transferFrom(msg.sender, address(this), _value);
     allowed[_receiver][tokenTransferProxy] = allowed[_receiver][tokenTransferProxy].add(_value);
+    emit Transfer(address(0), _receiver, _value);
     emit Approval(_receiver, tokenTransferProxy, allowed[_receiver][tokenTransferProxy]);
   }
 
@@ -442,5 +445,6 @@ contract DappToken is
     tokenTotalSupply = tokenTotalSupply.sub(_value);
     balances[msg.sender] = balances[msg.sender].sub(_value);
     barteredToken.transfer(msg.sender, _value);
+    emit Transfer(msg.sender, address(0), _value);
   }
 }

@@ -46,7 +46,7 @@ export class Encoder implements Encode {
     // return [
     //   '0x',
     //   ...address.substr(2).split('').map((character) => {
-    //   return character == character.toLowerCase()
+    //   return character === character.toLowerCase()
     //      ? character.toUpperCase()
     //      : character.toLowerCase();
     //  }),

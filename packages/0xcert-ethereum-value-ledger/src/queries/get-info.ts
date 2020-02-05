@@ -24,7 +24,7 @@ const functions = [
 ];
 
 /**
- * Gets information(name, symbol, decimals, totalSupply) about value ledger.
+ * Gets information (name, symbol, decimals, totalSupply) about value ledger.
  * @param ledger Value ledger instance.
  */
 export default async function(ledger: ValueLedger) {

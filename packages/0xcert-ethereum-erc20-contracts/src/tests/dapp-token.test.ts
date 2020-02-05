@@ -111,7 +111,8 @@ spec.test('sucessfully deposits token into dapp token', async (ctx) => {
   const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(tokenAmount);
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
+  const logs = await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
+  ctx.not(logs.events.Transfer, undefined);
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
   const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();
@@ -137,7 +138,8 @@ spec.test('sucessfully deposits token into dapp token with another receiver', as
   const tokenOwnerBalance = ctx.get('totalTokenSupply').sub(tokenAmount);
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString(), sara).send({ from: owner });
+  const logs = await dappToken.instance.methods.deposit(tokenAmount.toString(), sara).send({ from: owner });
+  ctx.not(logs.events.Transfer, undefined);
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
   const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();
@@ -166,7 +168,8 @@ spec.test('sucessfully withdraws token from dapp token', async (ctx) => {
 
   await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
   await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
-  await dappToken.instance.methods.withdraw(halfTokenAmount.toString()).send({ from: owner });
+  const logs = await dappToken.instance.methods.withdraw(halfTokenAmount.toString()).send({ from: owner });
+  ctx.not(logs.events.Transfer, undefined);
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
   const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();
@@ -238,7 +241,7 @@ spec.test('sucessfully transfersFrom to a whitelisted address', async (ctx) => {
   ctx.is(ownerBalance.toString(), '0');
 });
 
-spec.test('fails transfering to a non whitelisted address', async (ctx) => {
+spec.test('fails transferring to a non whitelisted address', async (ctx) => {
   const dappToken = ctx.get('dappToken');
   const owner = ctx.get('owner');
   const ttProxy = ctx.get('ttProxy');
@@ -284,7 +287,8 @@ spec.test('succesfully migrates migrateToken to dappToken', async (ctx) => {
   await dappToken.instance.methods.grantAbilities(owner, DappTokenAbilities.SET_MIGRATION_CALLER).send({ from: owner });
   await dappToken.instance.methods.setApprovedMigrator(migrationToken.receipt._address, true).send({ from: owner });
 
-  await migrationToken.instance.methods.migrate().send({ from: owner });
+  const logs = await migrationToken.instance.methods.migrate().send({ from: owner });
+  ctx.not(logs.events.Transfer, undefined);
 
   const tokenDappTokenBalance = await token.instance.methods.balanceOf(dappToken.receipt._address).call();
   const dappTokenOwnerBalance = await dappToken.instance.methods.balanceOf(owner).call();

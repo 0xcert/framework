@@ -83,7 +83,7 @@ export class Cert {
     const schemaRecipes = await this.buildRecipes(compoundProps);
 
     return {
-      $schema: 'https://0xcert.org/conventions/87-asset-evidence-schema.json',
+      $schema: 'https://0xcert.org/conventions/87-asset-evidence.json',
       data: schemaRecipes.map((recipe) => ({
         path: recipe.path,
         nodes: recipe.nodes,
@@ -120,7 +120,7 @@ export class Cert {
     const schemaRecipes = await this.buildRecipes(compoundProps, paths);
 
     return {
-      $schema: 'https://0xcert.org/conventions/87-asset-evidence-schema.json',
+      $schema: 'https://0xcert.org/conventions/87-asset-evidence.json',
       data: schemaRecipes.map((recipe) => ({
         path: recipe.path,
         nodes: recipe.nodes,
@@ -149,7 +149,7 @@ export class Cert {
   }
 
   /**
-   * Calculates merkle tree root node for the provided `data`.
+   * Calculates Merkle tree root node for the provided `data`.
    * @param data Complete data object.
    */
   public async imprint(data: any): Promise<string> {
