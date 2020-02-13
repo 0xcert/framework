@@ -1,6 +1,8 @@
+/**
+ * @dev This is modified ZXC code so it works with latest solidity version. Contract source cam be
+ * found at: https://etherscan.io/address/0x83e2be8d114f9661221384b3a50d24b96a5653f5#code
+ */
 pragma solidity 0.6.1;
-
-// File: @0xcert/ethereum-erc20/contracts/tokens/ERC20.sol
 
 /**
  * @title A standard interface for tokens.
@@ -125,8 +127,6 @@ interface ERC20 {
 
 }
 
-// File: @0xcert/ethereum-utils/contracts/math/SafeMath.sol
-
 /**
  * @dev Math operations with safety checks that throw on error. This contract is based
  * on the source code at https://goo.gl/iyQsmU.
@@ -209,8 +209,6 @@ library SafeMath {
   }
 
 }
-
-// File: @0xcert/ethereum-erc20/contracts/tokens/Token.sol
 
 /**
  * @title ERC20 standard token implementation.
@@ -425,8 +423,6 @@ contract Token is
 
 }
 
-// File: @0xcert/ethereum-utils/contracts/ownership/Ownable.sol
-
 /**
  * @dev The contract has an owner address, and provides basic authorization control whitch
  * simplifies the implementation of user permissions. This contract is based on the source code
@@ -480,8 +476,6 @@ contract Ownable {
 
 }
 
-// File: @0xcert/ethereum-utils/contracts/ownership/Claimable.sol
-
 /**
  * @dev The contract has an owner address, and provides basic authorization control whitch
  * simplifies the implementation of user permissions. This contract is based on the source code
@@ -531,8 +525,6 @@ contract Claimable is Ownable {
     emit OwnershipTransferred(previousOwner, owner);
   }
 }
-
-// File: contracts/tokens/Zxc.sol
 
 /*
  * @title ZXC protocol token.
