@@ -4,6 +4,7 @@
   "description": "Smart contract implementation of the ERC-20 standard on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
+    "build:wanchain": "npx specron compile --evmVersion byzantium --build ./build/wanchain",
     "clean": "rm -Rf ./build",
     "lint": "npm run tslint && npm run solhint",
     "sandbox": "npx specron sandbox",

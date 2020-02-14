@@ -4,6 +4,7 @@
   "version": "2.0.0-beta3",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
+    "build:wanchain": "specron compile --evmVersion byzantium --build ./build/wanchain",
     "clean": "rm -Rf ./build",
     "lint": "npx tslint 'src/**/*.ts?(x)' && npx solhint 'src/contracts/**/*.sol'",
     "sandbox": "npx specron sandbox",
