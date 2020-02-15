@@ -1,9 +1,10 @@
 {
   "name": "@0xcert/ethereum-erc20-contracts",
-  "version": "2.0.0-beta1",
+  "version": "2.0.0-beta3",
   "description": "Smart contract implementation of the ERC-20 standard on the Ethereum blockchain.",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
+    "build:wanchain": "npx specron compile --evmVersion byzantium --build ./build/wanchain",
     "clean": "rm -Rf ./build",
     "lint": "npm run tslint && npm run solhint",
     "sandbox": "npx specron sandbox",
@@ -76,7 +77,7 @@
     "@specron/cli": "0.15.0",
     "@specron/spec": "0.15.0",
     "@specron/flattener": "0.15.0",
-    "@0xcert/ethereum-utils-contracts": "2.0.0-beta1",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-beta3",
     "solc": "0.6.1",
     "solhint": "2.3.0",
     "ts-node": "8.4.1",
