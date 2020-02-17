@@ -1,6 +1,6 @@
 pragma solidity 0.6.1;
 
-import "./mocks/zxc-mock.sol";
+import "./zxc.sol";
 
 /**
  * @title This is a contract that allows anyone to burn ZXC tokens.

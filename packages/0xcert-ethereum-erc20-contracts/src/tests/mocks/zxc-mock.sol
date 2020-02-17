@@ -1,6 +1,8 @@
 /**
- * @dev This is modified ZXC code so it works with latest solidity version. Contract source cam be
- * found at: https://etherscan.io/address/0x83e2be8d114f9661221384b3a50d24b96a5653f5#code
+ * @dev This is the exact source code for the deployed ZXC contract, deployed on Ethereum Mainnet at
+ * 0x83e2be8d114f9661221384b3a50d24b96a5653f5 on 2018-06-26. rief modifications are made just so this
+ * can compile with the latest Solidity. But otherwise it is kept as similar as possible for test
+ * cases here.
  */
 pragma solidity 0.6.1;
 
