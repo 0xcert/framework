@@ -8,7 +8,7 @@ node_js:
 script:
   # install required global npm packages
   - npm install -g codecov
-  - npm install -g @microsoft/rush@5.19.4
+  - npm install -g @microsoft/rush@5.18.0
   # backup checked-in dist dir to avoid overwriting
   - mv ./dist ./dist-checked-in
   # testing
