@@ -2,8 +2,8 @@
   "name": "@0xcert/ethereum-erc721-contracts",
   "entries": [
     {
-      "version": "2.0.0-beta1",
-      "tag": "@0xcert/ethereum-erc721-contracts_v2.0.0-beta1",
+      "version": "2.0.0-beta3",
+      "tag": "@0xcert/ethereum-erc721-contracts_v2.0.0-beta3",
       "date": "Wed, 19 Jun 2019 10:31:05 GMT",
       "comments": {}
     },
