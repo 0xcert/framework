@@ -4,7 +4,7 @@ import "./zxc.sol";
 
 /**
  * @title This is a contract that allows anyone to burn ZXC tokens.
- * @dev This contract has ownership over ZXC smart contract and as such allows anyone to burn ther
+ * @dev This contract has ownership over ZXC smart contract and as such allows anyone to burn their
  * ZXC tokens.
  */
 contract ZxcBurner
