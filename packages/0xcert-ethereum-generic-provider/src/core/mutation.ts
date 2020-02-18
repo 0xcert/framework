@@ -402,6 +402,7 @@ export class Mutation extends EventEmitter implements MutationBase {
         }
         const obj = {};
         obj['event'] = eventSignature.name;
+        obj['address'] = log.address;
         const normal = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.NORMAL);
         const indexed = eventSignature.types.filter((t) => t.kind === MutationEventTypeKind.INDEXED);
         if (normal.length > 0) {
