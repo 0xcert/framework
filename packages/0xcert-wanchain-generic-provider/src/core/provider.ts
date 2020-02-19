@@ -85,8 +85,8 @@ export class GenericProvider extends EthereumGenericProvider {
   public constructor(options: GenericProviderOptions) {
     super({
       encoder: typeof options.encoder !== 'undefined' ? options.encoder : new Encoder(),
-      assetLedgerSource: options.assetLedgerSource || 'https://0xcert.org/conventions/wanchain/xcert-mock.json',
-      valueLedgerSource: options.valueLedgerSource || 'https://0xcert.org/conventions/wanchain/token-mock.json',
+      assetLedgerSource: options.assetLedgerSource || 'https://conventions.0xcert.org/wanchain/xcert-mock.json',
+      valueLedgerSource: options.valueLedgerSource || 'https://conventions.0xcert.org/wanchain/token-mock.json',
       ...options,
     });
   }

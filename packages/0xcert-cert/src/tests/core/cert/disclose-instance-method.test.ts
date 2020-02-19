@@ -13,7 +13,7 @@ spec.test('returns recipes from exposed paths `name`', async (ctx) => {
     ['name'],
   ]);
   ctx.deepEqual(recipes, {
-    $schema: 'https://0xcert.org/conventions/87-asset-evidence.json',
+    $schema: 'https://conventions.0xcert.org/87-asset-evidence.json',
     data: [
       {
         path: [],
@@ -39,7 +39,7 @@ spec.test('returns recipes from exposed paths `event.organizer.name`', async (ct
     ['event', 'organizer', 'name'],
   ]);
   ctx.deepEqual(recipes, {
-    $schema: 'https://0xcert.org/conventions/87-asset-evidence.json',
+    $schema: 'https://conventions.0xcert.org/87-asset-evidence.json',
     data: [
       {
         path: [],

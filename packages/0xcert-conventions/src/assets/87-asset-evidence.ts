@@ -21,7 +21,7 @@ export interface Schema87 {
  * Asset evidence JSON Schema.
  */
 export const schema87 = {
-  $schema: 'https://0xcert.org/conventions/xcert-schema.json',
+  $schema: 'https://conventions.0xcert.org/xcert-schema.json',
   description: 'Asset evidence schema.',
   properties: {
     $schema: {
