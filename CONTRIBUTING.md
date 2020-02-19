@@ -56,6 +56,7 @@ $ rush publish --publish --include-all
 ```sh
 $ cd ./common/scripts
 $ ./build-conventions.sh
+$ cd ../..
 ```
 
 3. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
