@@ -43,7 +43,7 @@ Please follow the [TypeScript coding guidelines](https://github.com/Microsoft/Ty
 
 1. Run the commands below to push all packages to NPM:
 
-```
+```sh
 $ rush version --bump --override-bump minor
 $ rush update --full
 $ rush rebuild
@@ -51,6 +51,11 @@ $ rush test
 $ rush publish --publish --include-all
 ```
 
-2. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
+2. Deploy conventions to `conventions.0xcert.org`. We host v1 and v2 conventions on the same domain so make sure you don't delete the old content.
 
-3. Follow the guide in the [0xcert/www-ui](https://github.com/0xcert/www-ui/blob/master/CONTRIBUTING.md) repository to deploy conventions to conventions.0xcert.org.
+```sh
+$ cd ./common/scripts
+$ ./build-conventions.sh
+```
+
+3. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
