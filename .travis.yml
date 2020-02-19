@@ -1,6 +1,6 @@
 ---
-# os:
-# - osx
+os:
+- osx
 language: node_js
 node_js:
 # See LTS at https://nodejs.org/en/about/releases/
