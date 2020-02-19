@@ -10,7 +10,7 @@ spec.test('returns recipes for a complete a complete schema', async (ctx) => {
   });
   const recipes = await cert.notarize(defaultData);
   ctx.deepEqual(recipes, {
-    $schema: 'https://0xcert.org/conventions/87-asset-evidence.json',
+    $schema: 'https://conventions.0xcert.org/87-asset-evidence.json',
     data: [
       {
         path: [],

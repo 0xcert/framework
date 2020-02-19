@@ -12,8 +12,8 @@ spec.before((stage) => {
 
 spec.test('allows simple types', (ctx) => {
   const data: XcertSchema = {
-    '$schema': 'https://0xcert.org/conventions/json-schema.json',
-    '$evidence': 'https://0xcert.org/conventions/json-schema.json',
+    '$schema': 'https://conventions.0xcert.org/json-schema.json',
+    '$evidence': 'https://conventions.0xcert.org/json-schema.json',
     'description': '',
     'properties': {
       'string': {

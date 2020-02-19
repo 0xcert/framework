@@ -53,4 +53,4 @@ $ rush publish --publish --include-all
 
 2. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
 
-3. Follow the guide in the [0xcert/www-ui](https://github.com/0xcert/www-ui/blob/master/CONTRIBUTING.md) repository to deploy conventions to 0xcert.org/conventions.
+3. Follow the guide in the [0xcert/www-ui](https://github.com/0xcert/www-ui/blob/master/CONTRIBUTING.md) repository to deploy conventions to conventions.0xcert.org.
