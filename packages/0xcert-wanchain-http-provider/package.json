@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-http-provider",
-  "version": "2.0.0-beta3",
+  "version": "2.0.0-beta4",
   "description": "Implementation of HTTP communication provider for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -72,7 +72,7 @@
     "typescript": "3.6.3"
   },
   "dependencies": {
-    "@0xcert/wanchain-generic-provider": "2.0.0-beta3",
-    "@0xcert/utils": "2.0.0-beta3"
+    "@0xcert/wanchain-generic-provider": "2.0.0-beta4",
+    "@0xcert/utils": "2.0.0-beta4"
   }
 }

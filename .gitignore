@@ -57,6 +57,7 @@ jspm_packages/
 
 # Common toolchain intermediate files
 temp
+tmp
 
 # Rush files
 common/temp/**
