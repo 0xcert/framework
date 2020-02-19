@@ -22,11 +22,6 @@ const functions = [
     outputTypes: ['string'],
   },
   {
-    signature: '0x075b1a09',
-    inputTypes: [],
-    outputTypes: ['bytes32'],
-  },
-  {
     signature: '0x18160ddd',
     inputTypes: [],
     outputTypes: ['uint256'],
@@ -61,7 +56,6 @@ export default async function(ledger: AssetLedger) {
     symbol: info[1],
     uriPrefix: info[2],
     uriPostfix: info[3],
-    schemaId: info[4] ? info[4].substr(2) : null, // not prefixed with 0x
-    supply: info[5],
+    supply: info[4],
   };
 }

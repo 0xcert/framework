@@ -50,7 +50,7 @@ spec.beforeEach(async (ctx) => {
   const cat = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
   await cat.instance.methods
   .create(jane, 1, imprint1)
@@ -120,8 +120,8 @@ spec.test('Updated cat #1 with signature', async (ctx) => {
   const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: jane });
   ctx.not(logs.events.Perform, undefined);
 
-  const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
-  ctx.is(cat1Imprint, imprint2);
+  const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
+  ctx.is(cat1Imprint.digest, imprint2);
 });
 
 spec.test('Updated cat #1 without signature', async (ctx) => {
@@ -153,8 +153,8 @@ spec.test('Updated cat #1 without signature', async (ctx) => {
   const logs = await actionsGateway.instance.methods.perform(createTuple, signatureDataTuple).send({ from: owner });
   ctx.not(logs.events.Perform, undefined);
 
-  const cat1Imprint = await cat.instance.methods.tokenImprint(1).call();
-  ctx.is(cat1Imprint, imprint2);
+  const cat1Imprint = await cat.instance.methods.tokenURIIntegrity(1).call();
+  ctx.is(cat1Imprint.digest, imprint2);
 });
 
 export default spec;

@@ -397,6 +397,7 @@ export class Mutation extends EventEmitter implements MutationBase {
       transactionReceipt.logs.forEach((log) => {
         const eventSignature = eventSignatures.find((e) => e.topic === log.topics[0]);
         if (!eventSignature) {
+          this._provider.log(JSON.stringify(log));
           return;
         }
         const obj = {};

@@ -45,6 +45,7 @@ spec.test('returns asset info (xcert contract)', async (ctx) => {
     id: '1',
     uri: 'https://0xcert.org/1.json',
     imprint: '973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9',
+    schemaId: '0500000000000000000000000000000000000000000000000000000000000000',
   });
 });
 
@@ -59,6 +60,7 @@ spec.test('returns asset info (erc721 contract)', async (ctx) => {
     id: '1',
     uri: null,
     imprint: null,
+    schemaId: null,
   });
 });
 

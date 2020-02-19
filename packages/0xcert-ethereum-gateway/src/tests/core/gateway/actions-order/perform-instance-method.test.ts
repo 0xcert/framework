@@ -170,7 +170,7 @@ spec.test('submits gateway fixed actions order to the network which executes tra
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('102').call(), bob);
-  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.is((await xcert.instance.methods.tokenURIIntegrity('100').call()).digest, '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
   await ctx.reverts(() => xcertDestoryable.instance.methods.ownerOf('200').call(), '006002');
 });
@@ -251,7 +251,7 @@ spec.test('submits gateway fixed signed actions order to the network which execu
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('103').call(), bob);
-  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.is((await xcert.instance.methods.tokenURIIntegrity('100').call()).digest, '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.CREATE_ASSET).call());
   await ctx.reverts(() => xcertDestoryable.instance.methods.ownerOf('201').call(), '006002');
 });
@@ -323,7 +323,7 @@ spec.test('submits gateway dynamic actions order to the network which executes t
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('104').call(), bob);
-  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x2000000000000000000000000000000000000000000000000000000000000000');
+  ctx.is((await xcert.instance.methods.tokenURIIntegrity('100').call()).digest, '0x2000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.UPDATE_ASSET).call());
   await ctx.reverts(() => xcertDestoryable.instance.methods.ownerOf('202').call(), '006002');
 });
@@ -400,7 +400,7 @@ spec.test('submits gateway signed dynamic actions order to the network which exe
   ctx.is(await xcert.instance.methods.ownerOf('100').call(), coinbase);
   ctx.is(await xcert.instance.methods.ownerOf('101').call(), bob);
   ctx.is(await xcert.instance.methods.ownerOf('105').call(), bob);
-  ctx.is(await xcert.instance.methods.tokenImprint('100').call(), '0x3000000000000000000000000000000000000000000000000000000000000000');
+  ctx.is((await xcert.instance.methods.tokenURIIntegrity('100').call()).digest, '0x3000000000000000000000000000000000000000000000000000000000000000');
   ctx.true(await xcert.instance.methods.isAble(bob, GeneralAssetLedgerAbility.REVOKE_ASSET).call());
   await ctx.reverts(() => xcertDestoryable.instance.methods.ownerOf('203').call(), '006002');
 });

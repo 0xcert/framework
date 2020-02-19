@@ -14,8 +14,8 @@ contract XcertDeployProxy
    * @param _symbol An abbreviated name for NFT.
    * @param _uriPrefix Prefix of URI for token metadata URIs.
    * @param _uriPostfix Postfix of URI for token metadata URIs.
-   * @param _schemaId A bytes32 of keccak256 of json schema representing 0xcert Protocol
-   * convention.
+   * @param _schemaURIIntegrityDigest A bytes32 of keccak256 of json schema representing 0xcert
+   * Protocol convention.
    * @param _capabilities Array of bytes4 representing supported interfaces which activate the
    * corresponding capabilities.
    * @param _addresses Array of addresses which need to be in following order: owner,
@@ -27,7 +27,7 @@ contract XcertDeployProxy
     string memory _symbol,
     string memory _uriPrefix,
     string memory _uriPostfix,
-    bytes32 _schemaId,
+    bytes32 _schemaURIIntegrityDigest,
     bytes4[] memory _capabilities,
     address[6] memory _addresses
   )
@@ -36,7 +36,7 @@ contract XcertDeployProxy
   {
     xcert = address(
       new XcertCustom(
-        _name, _symbol, _uriPrefix, _uriPostfix, _schemaId, _capabilities, _addresses
+        _name, _symbol, _uriPrefix, _uriPostfix, _schemaURIIntegrityDigest, _capabilities, _addresses
       )
     );
   }

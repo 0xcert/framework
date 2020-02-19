@@ -42,6 +42,7 @@ spec.test('deploys new asset ledger', async (ctx) => {
   }).then((mutation) => {
     return AssetLedger.getInstance(provider, mutation.receiverId);
   });
+  delete info.schemaId;
   ctx.deepEqual(await ledger.getInfo(), { ...info, supply: '0' });
   ctx.deepEqual(await ledger.getCapabilities(), capabilities);
 });
