@@ -12,8 +12,8 @@ interface Data {
   id3?: string;
   uriPrefix?: string;
   uriPostfix?: string;
-  imprint1?: string;
-  imprint2?: string;
+  digest1?: string;
+  digest2?: string;
   imprint3?: string;
 }
 
@@ -34,8 +34,8 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id3', '125');
   ctx.set('uriPrefix', 'https://0xcert.org/');
   ctx.set('uriPostfix', '.json');
-  ctx.set('imprint1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
-  ctx.set('imprint2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
+  ctx.set('digest1', '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d9');
+  ctx.set('digest2', '0x6f25b3f4bc7eadafb8f57d69f8a59db3b23f198151dbf3c66ac3082381518329');
   ctx.set('imprint3', '0xc77a290be17f8a4ef301c4ca46497c5beb4a0556ec2d5a04dce4ce6ebd439ad1');
 });
 
@@ -57,11 +57,11 @@ spec.test('successfuly revokes an Xcert', async (ctx) => {
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
   const id2 = ctx.get('id2');
-  const imprint1 = ctx.get('imprint1');
-  const imprint2 = ctx.get('imprint2');
+  const digest1 = ctx.get('digest1');
+  const digest2 = ctx.get('digest2');
 
-  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
-  await xcert.instance.methods.create(bob, id2, imprint2).send({ from: owner });
+  await xcert.instance.methods.create(bob, id1, digest1).send({ from: owner });
+  await xcert.instance.methods.create(bob, id2, digest2).send({ from: owner });
   const logs = await xcert.instance.methods.revoke(id1).send({ from: owner });
   ctx.not(logs.events.Transfer, undefined);
 
@@ -84,9 +84,9 @@ spec.test('throws when trying to revoke an already revoked Xcert', async (ctx) =
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const imprint1 = ctx.get('imprint1');
+  const digest1 = ctx.get('digest1');
 
-  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  await xcert.instance.methods.create(bob, id1, digest1).send({ from: owner });
   await xcert.instance.methods.revoke(id1).send({ from: owner});
   await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: owner }), '006002');
 });
@@ -96,9 +96,9 @@ spec.test('throws when a third party tries to revoke a Xcert', async (ctx) => {
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');
   const id1 = ctx.get('id1');
-  const imprint1 = ctx.get('imprint1');
+  const digest1 = ctx.get('digest1');
 
-  await xcert.instance.methods.create(bob, id1, imprint1).send({ from: owner });
+  await xcert.instance.methods.create(bob, id1, digest1).send({ from: owner });
   await ctx.reverts(() => xcert.instance.methods.revoke(id1).send({ from: bob }));
 });
 

@@ -35,9 +35,9 @@ interface Data {
   id2?: string;
   id3?: string;
   id4?: string;
-  imprint1?: string;
-  imprint2?: string;
-  imprint3?: string;
+  digest1?: string;
+  digest2?: string;
+  digest3?: string;
 }
 
 const spec = new Spec<Data>();
@@ -57,9 +57,9 @@ spec.beforeEach(async (ctx) => {
   ctx.set('id2', '0x0000000000000000000000000000000000000000000000000000000000000002');
   ctx.set('id3', '0x0000000000000000000000000000000000000000000000000000000000000003');
   ctx.set('id4', '0x0000000000000000000000000000000000000000000000000000000000000004');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
-  ctx.set('imprint2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
-  ctx.set('imprint3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
+  ctx.set('digest1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
+  ctx.set('digest2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
+  ctx.set('digest3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
 });
 
 /**
@@ -107,26 +107,26 @@ spec.beforeEach(async (ctx) => {
 spec.beforeEach(async (ctx) => {
   const jane = ctx.get('jane');
   const owner = ctx.get('owner');
-  const imprint1 = ctx.get('imprint1');
-  const imprint2 = ctx.get('imprint2');
-  const imprint3 = ctx.get('imprint3');
+  const digest1 = ctx.get('digest1');
+  const digest2 = ctx.get('digest2');
+  const digest3 = ctx.get('digest3');
   const dog = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['dog', 'DOG', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    args: ['dog', 'DOG', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
   await dog.instance.methods
-    .create(jane, 1, imprint1)
+    .create(jane, 1, digest1)
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .create(jane, 2, imprint2)
+    .create(jane, 2, digest2)
     .send({
       from: owner,
     });
   await dog.instance.methods
-    .create(jane, 3, imprint3)
+    .create(jane, 3, digest3)
     .send({
       from: owner,
     });
@@ -143,7 +143,7 @@ spec.beforeEach(async (ctx) => {
   const fox = await ctx.deploy({
     src: '@0xcert/ethereum-xcert-contracts/build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['fox', 'FOX', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0xbda0e852']],
+    args: ['fox', 'FOX', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
   await fox.instance.methods
     .create(jane, 1, '0x0')
@@ -281,7 +281,7 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
   // - Jane sends dog #1 to Bob
   // - Jane sends dog #2 to Bob
   // - Jane sends 1000 ZXC to Bob
-  // - Owner updates imprint of dog #1
+  // - Owner updates digest of dog #1
   // - Owner grants create ability for dog to Bob
   // - Jane sends fox #1 to Owner
   const actionsGateway = ctx.get('actionsGateway');
@@ -299,8 +299,8 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
   const id = ctx.get('id1');
   const id2 = ctx.get('id2');
   const id4 = ctx.get('id4');
-  const imprint1 = ctx.get('imprint1');
-  const imprint2 = ctx.get('imprint2');
+  const digest1 = ctx.get('digest1');
+  const digest2 = ctx.get('digest2');
   const zxc = ctx.get('zxc');
   const gnt = ctx.get('gnt');
   const gntAmountDec = 3000;
@@ -313,7 +313,7 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
     {
       proxyId: 0,
       contractAddress: dog.receipt._address,
-      params: `${imprint1}${id4.substring(2)}${jane.substring(2)}00`,
+      params: `${digest1}${id4.substring(2)}${jane.substring(2)}00`,
     },
     {
       proxyId: 1,
@@ -338,7 +338,7 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
     {
       proxyId: 3,
       contractAddress: dog.receipt._address,
-      params: `${imprint2}${id.substring(2)}00`,
+      params: `${digest2}${id.substring(2)}00`,
     },
     {
       proxyId: 4,
@@ -387,8 +387,8 @@ spec.test('sucesfully executes multiple actions scenario #1', async (ctx) => {
   ctx.is(dog2Owner, bob);
   const bobZxcBalance = await zxc.instance.methods.balanceOf(bob).call();
   ctx.is(bobZxcBalance, zxcAmountDec.toString());
-  const dog1Imprint = await dog.instance.methods.tokenImprint(id).call();
-  ctx.is(dog1Imprint, imprint2);
+  const dog1Digest = await dog.instance.methods.tokenURIIntegrity(id).call();
+  ctx.is(dog1Digest.digest, digest2);
   const bobCreateDog = await dog.instance.methods.isAble(bob, XcertAbilities.CREATE_ASSET).call();
   ctx.true(bobCreateDog);
   const fox1Owner = await fox.instance.methods.ownerOf(id).call();
@@ -415,9 +415,9 @@ spec.test('sucesfully executes multiple actions scenario #2', async (ctx) => {
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
   const id4 = ctx.get('id4');
-  const imprint1 = ctx.get('imprint1');
-  const imprint2 = ctx.get('imprint2');
-  const imprint3 = ctx.get('imprint3');
+  const digest1 = ctx.get('digest1');
+  const digest2 = ctx.get('digest2');
+  const digest3 = ctx.get('digest3');
   const zxc = ctx.get('zxc');
   const gnt = ctx.get('gnt');
   const gntAmountDec = 3000;
@@ -429,17 +429,17 @@ spec.test('sucesfully executes multiple actions scenario #2', async (ctx) => {
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint2}${id2.substring(2)}${bob.substring(2)}00`,
+      params: `${digest2}${id2.substring(2)}${bob.substring(2)}00`,
     },
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint3}${id3.substring(2)}${jane.substring(2)}00`,
+      params: `${digest3}${id3.substring(2)}${jane.substring(2)}00`,
     },
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint1}${id4.substring(2)}${sara.substring(2)}00`,
+      params: `${digest1}${id4.substring(2)}${sara.substring(2)}00`,
     },
     {
       proxyId: 1,
@@ -504,7 +504,7 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
   // - Ben grants allow create and allow updates abilities to Sara
   // - Bob creates fox #2 with himself as receiver
   // - Sara creates fox #3 with Bob as receiver
-  // - Sara updates fox #3 imprint
+  // - Sara updates fox #3 digest
   const actionsGateway = ctx.get('actionsGateway');
   const updateProxy = ctx.get('updateProxy');
   const createProxy = ctx.get('createProxy');
@@ -516,9 +516,9 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
   const fox = ctx.get('fox');
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
-  const imprint1 = ctx.get('imprint1');
-  const imprint2 = ctx.get('imprint2');
-  const imprint3 = ctx.get('imprint3');
+  const digest1 = ctx.get('digest1');
+  const digest2 = ctx.get('digest2');
+  const digest3 = ctx.get('digest3');
   const allowManageAbility = '0x0000000000000000000000000000000000000000000000000000000000000002'; // allow manage ability in hex uint256
   const allowCreateAbility = '0x0000000000000000000000000000000000000000000000000000000000000200'; // allow create ability in hex uint256
   const allowCreateAndAllowUpdateAbilities = '0x0000000000000000000000000000000000000000000000000000000000000600'; // allow create ability and allow update ability in hex uint256
@@ -542,17 +542,17 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint2}${id2.substring(2)}${bob.substring(2)}02`,
+      params: `${digest2}${id2.substring(2)}${bob.substring(2)}02`,
     },
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint3}${id3.substring(2)}${bob.substring(2)}03`,
+      params: `${digest3}${id3.substring(2)}${bob.substring(2)}03`,
     },
     {
       proxyId: 3,
       contractAddress: fox.receipt._address,
-      params: `${imprint1}${id3.substring(2)}03`,
+      params: `${digest1}${id3.substring(2)}03`,
     },
   ];
 
@@ -589,8 +589,8 @@ spec.test('sucesfully executes multiple actions  scenario #3', async (ctx) => {
   ctx.is(fox2Owner, bob);
   const fox3Owner = await fox.instance.methods.ownerOf(id3).call();
   ctx.is(fox3Owner, bob);
-  const fox3Imprint = await fox.instance.methods.tokenImprint(id3).call();
-  ctx.is(fox3Imprint, imprint1);
+  const fox3Digest = await fox.instance.methods.tokenURIIntegrity(id3).call();
+  ctx.is(fox3Digest.digest, digest1);
 });
 
 spec.test('sucesfully executes multiple actions scenario #4', async (ctx) => {
@@ -615,8 +615,8 @@ spec.test('sucesfully executes multiple actions scenario #4', async (ctx) => {
   const fox = ctx.get('fox');
   const id2 = ctx.get('id2');
   const id3 = ctx.get('id3');
-  const imprint2 = ctx.get('imprint2');
-  const imprint3 = ctx.get('imprint3');
+  const digest2 = ctx.get('digest2');
+  const digest3 = ctx.get('digest3');
   const zxc = ctx.get('zxc');
   const gnt = ctx.get('gnt');
   const gntAmountDec = 3000;
@@ -629,12 +629,12 @@ spec.test('sucesfully executes multiple actions scenario #4', async (ctx) => {
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint2}${id2.substring(2)}${zeroAddress.substring(2)}00`,
+      params: `${digest2}${id2.substring(2)}${zeroAddress.substring(2)}00`,
     },
     {
       proxyId: 0,
       contractAddress: fox.receipt._address,
-      params: `${imprint3}${id3.substring(2)}${zeroAddress.substring(2)}00`,
+      params: `${digest3}${id3.substring(2)}${zeroAddress.substring(2)}00`,
     },
     {
       proxyId: 1,

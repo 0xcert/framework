@@ -137,7 +137,7 @@ export class AssetLedger implements AssetLedgerBase {
   }
 
   /**
-   * Gets information about the asset ledger (name, symbol, uriPrefix, schemaId, supply).
+   * Gets information about the asset ledger (name, symbol, uriPrefix, supply).
    */
   public async getInfo(): Promise<AssetLedgerInfo> {
     return getInfo(this);
@@ -412,7 +412,7 @@ export class AssetLedger implements AssetLedgerBase {
       },
       {
         name: 'TokenImprintUpdate',
-        topic: '0xba32aa36aaa193aeb79242c133083dec069f5b402cafe1740c9fae59a1a4cedb',
+        topic: '0xda81dc3bdaf65b621535dbd08fc4032c7e22d5ccab12c8aa2ad010611471d627',
         types: [
           {
             kind: MutationEventTypeKind.INDEXED,

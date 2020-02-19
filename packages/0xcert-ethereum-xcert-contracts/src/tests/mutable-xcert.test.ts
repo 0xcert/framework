@@ -45,7 +45,7 @@ spec.beforeEach(async (ctx) => {
   const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo', 'F', uriPrefix, uriPostfix, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']],
+    args: ['Foo', 'F', uriPrefix, uriPostfix, '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x0d04c3b8']],
   });
 
   ctx.set('xcert', xcert);
@@ -60,10 +60,10 @@ spec.test('successfully updates imprint', async (ctx) => {
   const newImprint = ctx.get('imprint2');
 
   await xcert.instance.methods.create(bob, id, imprint).send({ from: owner });
-  const logs = await xcert.instance.methods.updateTokenImprint(id, newImprint).send({ from: owner });
-  ctx.not(logs.events.TokenImprintUpdate, undefined);
-  const xcertId1Imprint = await xcert.instance.methods.tokenImprint(id).call();
-  ctx.is(xcertId1Imprint, newImprint);
+  const logs = await xcert.instance.methods.updateTokenURIIntegrityDigest(id, newImprint).send({ from: owner });
+  ctx.not(logs.events.TokenURIIntegrityDigestUpdate, undefined);
+  const xcertId1Imprint = await xcert.instance.methods.tokenURIIntegrity(id).call();
+  ctx.is(xcertId1Imprint.digest, newImprint);
 });
 
 spec.test('throws when a third party tries to update imprint', async (ctx) => {
@@ -76,7 +76,7 @@ spec.test('throws when a third party tries to update imprint', async (ctx) => {
   const newImprint = ctx.get('imprint2');
 
   await xcert.instance.methods.create(bob, id, imprint).send({ from: owner });
-  await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, newImprint).send({ from: sara }));
+  await ctx.reverts(() => xcert.instance.methods.updateTokenURIIntegrityDigest(id, newImprint).send({ from: sara }));
 });
 
 spec.test('throws when trying to update Xcert that does not exist', async (ctx) => {
@@ -85,7 +85,7 @@ spec.test('throws when trying to update Xcert that does not exist', async (ctx) 
   const id = ctx.get('id1');
   const imprint = ctx.get('imprint1');
 
-  await ctx.reverts(() => xcert.instance.methods.updateTokenImprint(id, imprint).send({ from: owner }), '007003');
+  await ctx.reverts(() => xcert.instance.methods.updateTokenURIIntegrityDigest(id, imprint).send({ from: owner }), '007003');
 });
 
 export default spec;

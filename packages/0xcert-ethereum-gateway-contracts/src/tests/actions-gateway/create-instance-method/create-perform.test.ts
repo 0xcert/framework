@@ -29,9 +29,9 @@ interface Data {
   id1?: string;
   id2?: string;
   id3?: string;
-  imprint1?: string;
-  imprint2?: string;
-  imprint3?: string;
+  digest1?: string;
+  digest2?: string;
+  digest3?: string;
 }
 
 const spec = new Spec<Data>();
@@ -47,9 +47,9 @@ spec.before(async (ctx) => {
   ctx.set('id1', '0x0000000000000000000000000000000000000000000000000000000000000001');
   ctx.set('id2', '0x0000000000000000000000000000000000000000000000000000000000000002');
   ctx.set('id3', '0x0000000000000000000000000000000000000000000000000000000000000003');
-  ctx.set('imprint1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
-  ctx.set('imprint2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
-  ctx.set('imprint3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
+  ctx.set('digest1', '0x1e205550c221490347e5e2393a02e94d284bbe9903f023ba098355b8d75974c8');
+  ctx.set('digest2', '0x5e20552dc271490347e5e2391b02e94d684bbe9903f023fa098355bed7597434');
+  ctx.set('digest3', '0x53f0df2dc671410347e5eef91b02344d687bbe9903f456fa0983eebed7517521');
   ctx.set('zeroAddress', '0x0000000000000000000000000000000000000000');
 });
 
@@ -201,13 +201,13 @@ spec.test('Create cat #1 with signature', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -238,14 +238,14 @@ spec.test('Create cat #1 with any taker', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
   const zeroAddress = ctx.get('zeroAddress');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${zeroAddress.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${zeroAddress.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -277,14 +277,14 @@ spec.test('Create cat #1 with any signer', async (ctx) => {
   const sara = ctx.get('sara');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
   const zeroAddress = ctx.get('zeroAddress');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${zeroAddress.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${zeroAddress.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -317,14 +317,14 @@ spec.test('Create cat #1 with any creator', async (ctx) => {
   const sara = ctx.get('sara');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
   const zeroAddress = ctx.get('zeroAddress');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -355,13 +355,13 @@ spec.test('Create cat #1 without signature', async (ctx) => {
   const owner = ctx.get('owner');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
   ];
   const orderData = {
@@ -390,13 +390,13 @@ spec.test('Create and transfer token in a single order', async (ctx) => {
   const jane = ctx.get('jane');
   const cat = ctx.get('cat');
   const id = ctx.get('id1');
-  const imprint = ctx.get('imprint1');
+  const digest = ctx.get('digest1');
 
   const actions = [
     {
       proxyId: 1,
       contractAddress: cat.receipt._address,
-      params: `${imprint}${id.substring(2)}${jane.substring(2)}00`,
+      params: `${digest}${id.substring(2)}${jane.substring(2)}00`,
     },
     {
       proxyId: 0,

@@ -45,7 +45,7 @@ spec.test('update asset imprint', async (ctx) => {
   });
   await mutation.complete();
   ctx.is((mutation.logs[0]).event, 'TokenImprintUpdate');
-  ctx.is(await xcert.instance.methods.tokenImprint('1').call(), '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7');
+  ctx.is((await xcert.instance.methods.tokenURIIntegrity('1').call()).digest, '0x973124ffc4a03e66d6a4458e587d5d6146f71fc57f359c8d516e0b12a50ab0d7');
 });
 
 export default spec;

@@ -38,7 +38,7 @@ spec.test('checks mutable Xcert selector', async (ctx) => {
   const xcert = await ctx.deploy({
     src: './build/xcert-mock.json',
     contract: 'XcertMock',
-    args: ['Foo', 'F', 'https://0xcert.org/', '.json', '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0xbda0e852']],
+    args: ['Foo', 'F', 'https://0xcert.org/', '.json', '0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658', ['0x0d04c3b8']],
   });
 
   const bytes = await selector.instance.methods.calculateMutableXcertSelector().call();
