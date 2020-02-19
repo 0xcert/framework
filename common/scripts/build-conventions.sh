@@ -57,7 +57,7 @@ git init
 git add -A
 git commit -m "Deploy conventions"
 git push -f git@github.com:0xcert/conventions.git master:master
-cd -
+cd ..
 
 # Cleenup
 echo ' Cleaning up ...'

@@ -17,7 +17,7 @@ Tue, 30 Jul 2019 10:46:40 GMT
 
 *Version update only*
 
-## 2.0.0-beta3
+## 2.0.0-beta4
 Wed, 19 Jun 2019 10:31:05 GMT
 
 *Version update only*

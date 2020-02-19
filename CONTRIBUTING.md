@@ -51,7 +51,7 @@ $ rush test
 $ rush publish --publish --include-all
 ```
 
-2. Deploy conventions to `conventions.0xcert.org`. We host v1 and v2 conventions on the same domain so make sure you don't delete the old content.
+2. Deploy conventions to `conventions.0xcert.org`. We host v1 and v2 conventions on the same domain so make sure you don't delete the old content. Note that v2 conventions are built from the active master branch and v1 conventions are copied from `common/conventions-v1` folder.
 
 ```sh
 $ cd ./common/scripts
