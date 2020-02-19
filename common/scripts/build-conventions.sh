@@ -1,7 +1,12 @@
 #!/bin/sh
 
+# V1
+echo '-> Copying v1 conventions ...'
+mkdir -p tmp
+cp -r ../conventions-v1/. tmp
+
 # Ethereum
-echo '-> Building Etehreum conventions ...'
+echo '-> Building Ethereum conventions ...'
 mkdir -p tmp/ethereum
 cp ../../packages/0xcert-ethereum-erc20-contracts/build/token-mock.json tmp/ethereum/
 cp ../../packages/0xcert-ethereum-xcert-contracts/build/xcert-mock.json tmp/ethereum/
