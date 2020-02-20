@@ -268,7 +268,8 @@ contract XcertToken is
    * @param _feeToken The token then will be tranferred to the fee recipient of this method.
    * @param _feeValue The amount of token then will be tranfered to the fee recipient of this
    * method.
-   * @param _feeRecipient Address of the fee recipient.
+   * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
+   * automatically become the fee recipient.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    * @param _signature Data from the signature.
@@ -308,6 +309,9 @@ contract XcertToken is
     require(_expiration >= now, CLAIM_EXPIRED);
     claimPerformed[claim] = true;
     ownerToOperators[_owner][_operator] = _approved;
+    if (_feeRecipient == address(0)) {
+      _feeRecipient = msg.sender;
+    }
     ERC20(_feeToken).transferFrom(_owner, _feeRecipient, _feeValue);
     emit ApprovalForAll(_owner, _operator, _approved);
   }

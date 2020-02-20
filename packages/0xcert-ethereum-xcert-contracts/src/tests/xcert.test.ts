@@ -315,7 +315,7 @@ spec.test('correctly sets then cancels an operator', async (ctx) => {
  * @notice This test is skipped because ganache cannot handle emmiting Tranfer event from ERC20
  * where there is Transfer event already defined in Xcert.
  */
-spec.only('correctly sets an operator with signature', async (ctx) => {
+spec.skip('correctly sets an operator with signature', async (ctx) => {
   const xcert = ctx.get('xcert');
   const zxc = ctx.get('zxc');
   const owner = ctx.get('owner');
@@ -346,6 +346,43 @@ spec.only('correctly sets an operator with signature', async (ctx) => {
 
   const janeBalance = await zxc.instance.methods.balanceOf(jane).call();
   ctx.is(janeBalance.toString(), tokenAmount.toString());
+});
+
+/**
+ * @notice This test is skipped because ganache cannot handle emmiting Tranfer event from ERC20
+ * where there is Transfer event already defined in Xcert.
+ */
+spec.skip('correctly sets an operator with signature when fee recipient is not specified', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const zeroAddress = ctx.get('zeroAddress');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), zeroAddress, seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  const logs = await xcert.instance.methods
+    .setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), zeroAddress, seed, expiration, signatureDataTuple)
+    .send({ from: owner });
+  ctx.not(logs.events.ApprovalForAll, undefined);
+  const isApprovedForAll = await xcert.instance.methods.isApprovedForAll(bob, sara).call();
+  ctx.is(isApprovedForAll, true);
+
+  const ownerBalance = await zxc.instance.methods.balanceOf(owner).call();
+  ctx.is(ownerBalance.toString(), tokenAmount.toString());
 });
 
 spec.test('fails setting an operator with signature if signature kind is invalid', async (ctx) => {
