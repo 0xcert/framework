@@ -265,8 +265,10 @@ contract XcertToken is
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
    * @param _approved True if the operator is approved, false to revoke approval.
-   * @param _feeToken The token then will be tranferred to the executor of this method.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
+   * @param _feeToken The token then will be tranferred to the fee recipient of this method.
+   * @param _feeValue The amount of token then will be tranfered to the fee recipient of this
+   * method.
+   * @param _feeRecipient Address of the fee recipient.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    * @param _signature Data from the signature.
@@ -277,6 +279,7 @@ contract XcertToken is
     bool _approved,
     address _feeToken,
     uint256 _feeValue,
+    address _feeRecipient,
     uint256 _seed,
     uint256 _expiration,
     SignatureData calldata _signature
@@ -289,6 +292,7 @@ contract XcertToken is
       _approved,
       _feeToken,
       _feeValue,
+      _feeRecipient,
       _seed,
       _expiration
     );
@@ -304,7 +308,7 @@ contract XcertToken is
     require(_expiration >= now, CLAIM_EXPIRED);
     claimPerformed[claim] = true;
     ownerToOperators[_owner][_operator] = _approved;
-    ERC20(_feeToken).transferFrom(_owner, msg.sender, _feeValue);
+    ERC20(_feeToken).transferFrom(_owner, _feeRecipient, _feeValue);
     emit ApprovalForAll(_owner, _operator, _approved);
   }
 
@@ -313,8 +317,10 @@ contract XcertToken is
    * @param _owner Address to the owner who is approving.
    * @param _operator Address to add to the set of authorized operators.
    * @param _approved True if the operator is approved, false to revoke approval.
-   * @param _feeToken The token then will be tranferred to the executor of this method.
-   * @param _feeValue The amount of token then will be tranferred to the executor of this method.
+   * @param _feeToken The token then will be tranferred to the fee recipient of this method.
+   * @param _feeValue The amount of token then will be tranfered to the fee recipient of this
+   * method.
+   * @param _feeRecipient Address of the fee recipient.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually, timestamp.
    * @param _expiration Timestamp of when the claim expires.
   */
@@ -324,6 +330,7 @@ contract XcertToken is
     bool _approved,
     address _feeToken,
     uint256 _feeValue,
+    address _feeRecipient,
     uint256 _seed,
     uint256 _expiration
   )
@@ -339,6 +346,7 @@ contract XcertToken is
         _approved,
         _feeToken,
         _feeValue,
+        _feeRecipient,
         _seed,
         _expiration
       )
