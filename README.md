@@ -16,7 +16,7 @@ To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, ple
 * NPM > v6.x
 * Browser with ES6 and MetaMask support
 
-## Supported platforms
+## Supported blockchains and clients
 
 ![Ethereum](./assets/ethereum.png)
 ![Wanchain](./assets/wanchain.png)
