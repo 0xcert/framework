@@ -78,7 +78,7 @@ export class Gateway implements GatewayBase {
    * Sets and normalizes gateway config.
    */
   public set config(config: GatewayConfig) {
-    if (typeof config !== 'undefined') {
+    if (config) {
       this._config = {
         actionsOrderId: this._provider.encoder.normalizeAddress(config.actionsOrderId),
         assetLedgerDeployOrderId: this._provider.encoder.normalizeAddress(config.assetLedgerDeployOrderId),
