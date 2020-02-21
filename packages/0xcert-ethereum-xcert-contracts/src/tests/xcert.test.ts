@@ -498,6 +498,55 @@ spec.test('fails setting an operator with signature if claim has expired', async
     .send({ from: owner }), '007008');
 });
 
+spec.test('sucessfully cancels set an operator with signature claim', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const jane = ctx.get('jane');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  await xcert.instance.methods
+    .cancelSetApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration)
+    .send({ from: bob });
+
+  const claim = await xcert.instance.methods.generateClaim(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration).call();
+  const signature = await ctx.web3.eth.sign(claim, bob);
+  const signatureData = {
+    r: signature.substr(0, 66),
+    s: `0x${signature.substr(66, 64)}`,
+    v: parseInt(`0x${signature.substr(130, 2)}`) + 27,
+    kind: 0,
+  };
+  const signatureDataTuple = ctx.tuple(signatureData);
+  await ctx.reverts(() => xcert.instance.methods
+    .setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple)
+    .send({ from: owner }), '007009');
+});
+
+spec.test('fails canceling set an operator with signature claim when sender is not the owner', async (ctx) => {
+  const xcert = ctx.get('xcert');
+  const zxc = ctx.get('zxc');
+  const owner = ctx.get('owner');
+  const bob = ctx.get('bob');
+  const sara = ctx.get('sara');
+  const jane = ctx.get('jane');
+  const seed = common.getCurrentTime();
+  const expiration = common.getCurrentTime() + 3600;
+  const decimalsMul = ctx.get('decimalsMul');
+  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
+
+  await zxc.instance.methods.approve(xcert.receipt._address, tokenAmount.toString()).send({ from: bob });
+  await ctx.reverts(() => xcert.instance.methods
+    .cancelSetApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration)
+    .send({ from: owner }), '007010');
+});
+
 spec.test('corectly transfers Xcert from owner', async (ctx) => {
   const xcert = ctx.get('xcert');
   const owner = ctx.get('owner');

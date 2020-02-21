@@ -63,6 +63,8 @@ contract XcertToken is
   string constant INVALID_SIGNATURE_KIND = "007006";
   string constant CLAIM_PERFORMED = "007007";
   string constant CLAIM_EXPIRED = "007008";
+  string constant CLAIM_CANCELED = "007009";
+  string constant NOT_OWNER = "007010";
 
   /**
    * @dev This emits when ability of being able to transfer Xcerts changes (paused/unpaused).
@@ -118,6 +120,11 @@ contract XcertToken is
    * @dev Mapping of all performed claims.
    */
   mapping(bytes32 => bool) public claimPerformed;
+
+  /**
+   * @dev Mapping of all canceled claims.
+   */
+  mapping(bytes32 => bool) public claimCancelled;
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
@@ -297,6 +304,7 @@ contract XcertToken is
       _seed,
       _expiration
     );
+    require(!claimCancelled[claim], CLAIM_CANCELED);
     require(
       isValidSignature(
         _owner,
@@ -314,6 +322,48 @@ contract XcertToken is
     }
     ERC20(_feeToken).transferFrom(_owner, _feeRecipient, _feeValue);
     emit ApprovalForAll(_owner, _operator, _approved);
+  }
+
+  /**
+   * @dev Enables or disables approval for a third party ("operator") to manage all of
+   * `msg.sender`'s assets. It also emits the ApprovalForAll event.
+   * @notice This works even if sender doesn't own any tokens at the time.
+   * @param _owner Address to the owner who is approving.
+   * @param _operator Address to add to the set of authorized operators.
+   * @param _approved True if the operator is approved, false to revoke approval.
+   * @param _feeToken The token then will be tranferred to the fee recipient of this method.
+   * @param _feeValue The amount of token then will be tranfered to the fee recipient of this
+   * method.
+   * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
+   * automatically become the fee recipient.
+   * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
+   * @param _expiration Timestamp of when the claim expires.
+   */
+  function cancelSetApprovalForAllWithSignature(
+    address _owner,
+    address _operator,
+    bool _approved,
+    address _feeToken,
+    uint256 _feeValue,
+    address _feeRecipient,
+    uint256 _seed,
+    uint256 _expiration
+  )
+    external
+  {
+    require(msg.sender == _owner, NOT_OWNER);
+    bytes32 claim = generateClaim(
+      _owner,
+      _operator,
+      _approved,
+      _feeToken,
+      _feeValue,
+      _feeRecipient,
+      _seed,
+      _expiration
+    );
+    require(!claimPerformed[claim], CLAIM_PERFORMED);
+    claimCancelled[claim] = true;
   }
 
   /**
