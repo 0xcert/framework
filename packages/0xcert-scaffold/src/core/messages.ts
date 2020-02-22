@@ -48,6 +48,8 @@ export default {
   [ProviderIssue.XCERT_INVALID_SIGNATURE_KIND]: 'Provided signature kind is invalid.',
   [ProviderIssue.XCERT_CLAIM_PERFORMED]: 'This order was already performed.',
   [ProviderIssue.XCERT_CLAIM_EXPIRED]: 'This order has expired.',
+  [ProviderIssue.XCERT_CLAIM_CANCELED]: 'This order was canceled.',
+  [ProviderIssue.XCERT_NOT_OWNER]: 'You are not the owner of the order.',
   [ProviderIssue.SAFE_MATH_OVERFLOW]: 'This action caused a math error: overflow.',
   [ProviderIssue.SAFE_MATH_SUBTRAHEND_GREATER_THEN_MINUEND]: 'This action caused a math error: subtrahend is greater than minuend.',
   [ProviderIssue.SAFE_MATH_DIVISION_BY_ZERO]: 'This action caused a math error: division by zero.',
