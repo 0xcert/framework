@@ -1,4 +1,3 @@
-import * as Web3 from 'web3';
 import * as contracts from '../config/contracts';
 import { deploy } from '../lib/deploy';
 
@@ -6,7 +5,7 @@ import { deploy } from '../lib/deploy';
  * Protocol contracts deployer.
  */
 export class Protocol {
-  public web3: Web3;
+  public web3: any;
   public erc20;
   public erc721Enumerable;
   public erc721Metadata;
@@ -36,7 +35,7 @@ export class Protocol {
    * @param web3 Web3 object instance.
    * @param from Optional owner's address.
    */
-  public static deploy(web3: Web3, from?: string) {
+  public static deploy(web3: any, from?: string) {
     return new Protocol(web3).deploy(from);
   }
 
@@ -44,7 +43,7 @@ export class Protocol {
    * Class constructor.
    * @param web3 Web3 object instance.
    */
-  public constructor(web3: Web3) {
+  public constructor(web3: any) {
     this.web3 = web3;
   }
 

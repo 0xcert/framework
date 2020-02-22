@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-value-ledger",
-  "version": "2.0.0-beta4",
+  "version": "2.0.0-beta5",
   "description": "Value ledger module for currency management on the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -66,12 +66,12 @@
   "devDependencies": {
     "@hayspec/cli": "0.9.0",
     "@hayspec/spec": "0.9.0",
-    "nyc": "14.1.1",
-    "ts-node": "8.4.1",
+    "nyc": "15.0.0",
+    "ts-node": "8.6.2",
     "tslint": "5.20.0",
-    "typescript": "3.6.3"
+    "typescript": "3.8.2"
   },
   "dependencies": {
-    "@0xcert/ethereum-value-ledger": "2.0.0-beta4"
+    "@0xcert/ethereum-value-ledger": "2.0.0-beta5"
   }
 }

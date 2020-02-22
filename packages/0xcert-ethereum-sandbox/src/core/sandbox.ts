@@ -15,7 +15,7 @@ export interface SandboxOptions {
  */
 export class Sandbox {
   public server: any;
-  public web3: Web3;
+  public web3: any;
   public protocol: Protocol;
 
   /**
@@ -48,7 +48,7 @@ export class Sandbox {
       this.server.listen(options.port, (e) => e ? reject(e) : resolve());
     });
 
-    this.web3 = new Web3(Sandbox.createProvider(options));
+    this.web3 = new (Web3 as any)(Sandbox.createProvider(options));
     this.protocol = await Protocol.deploy(this.web3);
 
     return this;
