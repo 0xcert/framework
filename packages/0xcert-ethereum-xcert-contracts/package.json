@@ -1,7 +1,7 @@
 {
   "name": "@0xcert/ethereum-xcert-contracts",
   "description": "Smart contracts used by the Asset ledger on the Ethereum blockchain.",
-  "version": "2.0.0-beta4",
+  "version": "2.0.0-beta5",
   "scripts": {
     "build": "npm run clean && npx specron compile && npx tsc",
     "build:wanchain": "specron compile --evmVersion byzantium --build ./build/wanchain",
@@ -72,17 +72,17 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "0.15.0",
-    "@specron/spec": "0.15.0",
-    "@specron/flattener": "0.15.0",
-    "@0xcert/ethereum-erc20-contracts": "2.0.0-beta4",
-    "@0xcert/ethereum-utils-contracts": "2.0.0-beta4",
-    "@0xcert/ethereum-erc721-contracts": "2.0.0-beta4",
+    "@specron/cli": "0.16.0",
+    "@specron/spec": "0.16.0",
+    "@specron/flattener": "0.16.0",
+    "@0xcert/ethereum-erc20-contracts": "2.0.0-beta5",
+    "@0xcert/ethereum-utils-contracts": "2.0.0-beta5",
+    "@0xcert/ethereum-erc721-contracts": "2.0.0-beta5",
     "solc": "0.6.1",
     "solhint": "2.3.0",
-    "ts-node": "8.4.1",
+    "ts-node": "8.6.2",
     "tslint": "5.20.0",
-    "typescript": "3.6.3",
-    "web3": "1.2.1"
+    "typescript": "3.8.2",
+    "web3": "1.2.4"
   }
 }

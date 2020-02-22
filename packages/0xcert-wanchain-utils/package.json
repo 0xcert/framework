@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-utils",
-  "version": "2.0.0-beta4",
+  "version": "2.0.0-beta5",
   "description": "General Wanchain utility module with helper functions for the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -66,12 +66,12 @@
   "devDependencies": {
     "@hayspec/cli": "0.9.0",
     "@hayspec/spec": "0.9.0",
-    "ts-node": "8.4.1",
+    "ts-node": "8.6.2",
     "tslint": "5.20.0",
-    "typescript": "3.6.3"
+    "typescript": "3.8.2"
   },
   "dependencies": {
-    "ethers": "4.0.40",
-    "@0xcert/ethereum-utils": "2.0.0-beta4"
+    "ethers": "4.0.45",
+    "@0xcert/ethereum-utils": "2.0.0-beta5"
   }
 }

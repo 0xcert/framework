@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/utils",
-  "version": "2.0.0-beta4",
+  "version": "2.0.0-beta5",
   "description": "General utility module with common helper functions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -67,10 +67,10 @@
     "@hayspec/cli": "0.9.0",
     "@hayspec/spec": "0.9.0",
     "@types/node": "12.7.8",
-    "nyc": "14.1.1",
-    "ts-node": "8.4.1",
+    "nyc": "15.0.0",
+    "ts-node": "8.6.2",
     "tslint": "5.20.0",
-    "typescript": "3.6.3"
+    "typescript": "3.8.2"
   },
   "dependencies": {
     "eth-lib": "0.2.8",
