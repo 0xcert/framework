@@ -441,7 +441,7 @@ export type ActionsOrder = FixedActionsOrder | SignedFixedActionsOrder |
 /**
  * Different order actions.
  */
-export type Order = AssetLedgerDeployOrder | ValueLedgerDeployOrder | ActionsOrder;
+export type Order = AssetLedgerDeployOrder | ValueLedgerDeployOrder | ActionsOrder | AssetSetOperatorOrder;
 
 /**
  * List of available order kinds.
@@ -453,6 +453,50 @@ export enum OrderKind {
   DYNAMIC_ACTIONS_ORDER = 4,
   SIGNED_FIXED_ACTIONS_ORDER = 5,
   SIGNED_DYNAMIC_ACTIONS_ORDER = 6,
+  ASSET_SET_OPERATOR_ORDER = 7,
+}
+
+export class AssetSetOperatorOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.ASSET_SET_OPERATOR_ORDER;
+
+  /**
+   * Id (address) of the smart contract that represents the assetLedger.
+   */
+  public ledgerId: string;
+
+  /**
+   * Address of asset owner.
+   */
+  public owner: string;
+
+  /**
+   * Address which we are setting operator status.
+   */
+  public operator: string;
+
+  /**
+   * Operator status.
+   */
+  public isOperator: boolean;
+
+  /**
+   * Data defining a fungible token transfer.
+   */
+  public tokenTransferData: TokenTransferData;
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
 }
 
 /**
