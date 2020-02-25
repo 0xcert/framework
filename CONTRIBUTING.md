@@ -61,4 +61,28 @@ $ cd ../..
 
 3. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
 
-4. Follow the instructions in the [0xcert/framework-deployer](https://github.com/0xcert/framework-deployer) repository for on-chain deployment details.
+## Smart contract deploy
+
+Fueling 0xcert framework is the 0xcert protocol which consists for multiple smart contracts which are located in `0xcert/ethereum-gateway-contracts` and `0xcert/ethereum-proxy-contracts` packages. To automate deployment and configuration of this contracts we created a deploy script. Deploy script(`deploy-protocol.sh`) is located in `common/scripts/`.
+
+### Prerequisites
+
+Depending on which network you want to deploy (Ethereum / Wanchain) you need a running node of the network with 2 unlocked accounts which own their designated cryptocurrencies(ETH/WAN).
+To find out how to do this you can check [this](https://0xcert.org/news/0xcert-framework-tutorial-1-run-and-prepare-geth-node-for-backend-integration/) tutorial for Ethereum network and [this](https://0xcert.org/news/0xcert-framework-for-wanchain-tutorial-1-run-and-prepare-wanchain-test-node-for-backend-integration) for Wanchain.
+
+### Usage
+
+Navigate to `/common/scripts` then deploy the protocol:
+
+```sh
+GATEWAY_DEPLOYER_ACCOUNT=0x... PROXY_DEPLOYER_ACCOUNT=0x... ./deploy-protocol.sh
+```
+
+** List of possible input parameters **
+
+| Key | Description
+|-|-
+| GATEWAY_DEPLOYER_ACCOUNT | A `string` representing the Ethereum address from which gateway contracts will be deployed.
+| NETWORK | A `string` representing the name of the network to which we are deploying. Can be either `ethereum` or `wanchain`. It is `ethereum` by default.
+| PROXY_DEPLOYER_ACCOUNT | A `string` representing the Ethereum address from which proxy contracts will be deployed.
+| WEB3_URL | A `string` representing URI to you node. `http://localhost:8545` by default.
