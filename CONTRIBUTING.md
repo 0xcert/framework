@@ -60,3 +60,5 @@ $ cd ../..
 ```
 
 3. Follow the guide in the [0xcert/docs](https://github.com/0xcert/docs/blob/master/CONTRIBUTING.md) repository to update and deploy the documentation. Make sure documentation pages describe the latest schemas.
+
+4. Follow the instructions in the [0xcert/framework-deployer](https://github.com/0xcert/framework-deployer) repository for on-chain deployment details.
