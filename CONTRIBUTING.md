@@ -63,7 +63,7 @@ $ cd ../..
 
 ## Smart contract deploy
 
-Fueling 0xcert framework is the 0xcert protocol which consists for multiple smart contracts which are located in `0xcert/ethereum-gateway-contracts` and `0xcert/ethereum-proxy-contracts` packages. To automate deployment and configuration of this contracts we created a deploy script. Deploy script(`deploy.sh`) is located in `common/scripts/`.
+Fueling 0xcert framework is the 0xcert protocol which consists for multiple smart contracts which are located in `0xcert/ethereum-gateway-contracts` and `0xcert/ethereum-proxy-contracts` packages. To automate deployment and configuration of this contracts we created a deploy script. Deploy script(`deploy-protocol.sh`) is located in `common/scripts/`.
 
 ### Prerequisites
 
@@ -72,13 +72,11 @@ To find out how to do this you can check [this](https://0xcert.org/news/0xcert-f
 
 ### Usage
 
-You can run `deploy.sh` script using this command:
+Navigate to `/common/scripts` then deploy the protocol:
 
 ```sh
-GATEWAY_DEPLOYER_ACCOUNT=0x... PROXY_DEPLOYER_ACCOUNT=0x... ./deploy.sh
+GATEWAY_DEPLOYER_ACCOUNT=0x... PROXY_DEPLOYER_ACCOUNT=0x... ./deploy-protocol.sh
 ```
-
-Where you input the correct variables (the two accounts you have unlocked in the node) for `GATEWAY_DEPLOYER_ACCOUNT` and `PROXY_DEPLOYER_ACCOUNT`.
 
 ** List of possible input parameters **
 
