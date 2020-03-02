@@ -11,7 +11,7 @@ spec.test('sets correct config', async (ctx) => {
     requiredConfirmations: 1,
     gatewayConfig: buildGatewayConfig(NetworkKind.ROPSTEN),
   });
-  ctx.is(provider.gatewayConfig.actionsOrderId, '0x265A62A3EfB677ca6A0F7C85dC5002EC71F2cde6');
+  ctx.is(provider.gatewayConfig.actionsOrderId, '0xbb719e35c67198e4453923eeccF0c678C6129982');
 });
 
 export default spec;
