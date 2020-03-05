@@ -443,9 +443,9 @@ contract DappToken is
    * @param _approver Approving address from which the spender will be able to transfer tokens.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
    * automatically become the fee recipient.
+   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    * @param _signature Data from the signature.
@@ -454,8 +454,8 @@ contract DappToken is
     address _approver,
     address _spender,
     uint256 _value,
-    uint256 _feeValue,
     address _feeRecipient,
+    uint256 _feeValue,
     uint256 _seed,
     uint256 _expiration,
     SignatureData memory _signature
@@ -466,8 +466,8 @@ contract DappToken is
       _approver,
       _spender,
       _value,
-      _feeValue,
       _feeRecipient,
+      _feeValue,
       _seed,
       _expiration
     );
@@ -502,9 +502,9 @@ contract DappToken is
    * @param _approver Approving address from which the spender will be able to transfer tokens.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
    * automatically become the fee recipient.
+   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    */
@@ -512,8 +512,8 @@ contract DappToken is
     address _approver,
     address _spender,
     uint256 _value,
-    uint256 _feeValue,
     address _feeRecipient,
+    uint256 _feeValue,
     uint256 _seed,
     uint256 _expiration
   )
@@ -524,8 +524,8 @@ contract DappToken is
       _approver,
       _spender,
       _value,
-      _feeValue,
       _feeRecipient,
+      _feeValue,
       _seed,
       _expiration
     );
@@ -538,9 +538,9 @@ contract DappToken is
    * @param _approver Approving address from which the spender will be able to transfer tokens.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
-   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
    * automatically become the fee recipient.
+   * @param _feeValue The amount of token then will be tranfered to the executor of this method.
    * @param _seed Arbitrary number to facilitate uniqueness of the order's hash. Usually timestamp.
    * @param _expiration Timestamp of when the claim expires.
    */
@@ -548,8 +548,8 @@ contract DappToken is
     address _approver,
     address _spender,
     uint256 _value,
-    uint256 _feeValue,
     address _feeRecipient,
+    uint256 _feeValue,
     uint256 _seed,
     uint256 _expiration
   )
@@ -563,8 +563,8 @@ contract DappToken is
         _approver,
         _spender,
         _value,
-        _feeValue,
         _feeRecipient,
+        _feeValue,
         _seed,
         _expiration
       )
