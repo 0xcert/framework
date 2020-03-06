@@ -621,26 +621,8 @@ spec.test('fails approving with signature if claim has been canceled', async (ct
     kind: 0,
   };
   const signatureDataTuple = ctx.tuple(signatureData);
-  await dappToken.instance.methods.cancelApproveWithSignature(owner, sara, tokenAmount.toString(), bob, feeAmount.toString(), seed, expiration).send({ from: owner });
+  await dappToken.instance.methods.cancelApproveWithSignature(sara, tokenAmount.toString(), bob, feeAmount.toString(), seed, expiration).send({ from: owner });
   await ctx.reverts(() => dappToken.instance.methods.approveWithSignature(owner, sara, tokenAmount.toString(), bob, feeAmount.toString(), seed, expiration, signatureDataTuple).send({ from: bob }), '010011');
-});
-
-spec.test('fails cancel approve with signature if you are not the approver', async (ctx) => {
-  const dappToken = ctx.get('dappToken');
-  const token = ctx.get('token');
-  const owner = ctx.get('owner');
-  const bob = ctx.get('bob');
-  const sara = ctx.get('sara');
-  const decimalsMul = ctx.get('decimalsMul');
-  const tokenAmount = decimalsMul.mul(new ctx.web3.utils.BN('100'));
-  const feeAmount = decimalsMul.mul(new ctx.web3.utils.BN('10'));
-  const seed = common.getCurrentTime();
-  const expiration = common.getCurrentTime() + 3600;
-
-  await token.instance.methods.approve(dappToken.receipt._address, tokenAmount.toString()).send({ from: owner });
-  await dappToken.instance.methods.deposit(tokenAmount.toString(), owner).send({ from: owner });
-
-  await ctx.reverts(() => dappToken.instance.methods.cancelApproveWithSignature(owner, sara, tokenAmount.toString(), bob, feeAmount.toString(), seed, expiration).send({ from: bob }), '010012');
 });
 
 spec.test('fails approving with signature if signature kind is invalid', async (ctx) => {

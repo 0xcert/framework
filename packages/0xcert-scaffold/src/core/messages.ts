@@ -71,7 +71,6 @@ export default {
   [ProviderIssue.DAPP_TOKEN_CLAIM_EXPIRED]: 'This order has expired.',
   [ProviderIssue.DAPP_TOKEN_INVALID_SIGNATURE_KIND]: 'Provided signature kind is invalid.',
   [ProviderIssue.DAPP_TOKEN_CLAIM_CANCELED]: 'This order was canceled.',
-  [ProviderIssue.DAPP_TOKEN_NOT_APPROVER]: 'Sender is the the orders `approver`.',
   [ProviderIssue.ERC20_DEPLOY_GATEWAY_INVALID_SIGNATURE_KIND]: 'Provided signature kind is invalid.',
   [ProviderIssue.ERC20_DEPLOY_GATEWAY_TAKER_NOT_EQUAL_TO_SENDER]: 'Sender is not allowed to execute this order.',
   [ProviderIssue.ERC20_DEPLOY_GATEWAY_CLAIM_EXPIRED]: 'This order has expired.',

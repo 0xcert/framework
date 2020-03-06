@@ -46,7 +46,6 @@ contract DappToken is
   string constant CLAIM_EXPIRED = "010009";
   string constant INVALID_SIGNATURE_KIND = "010010";
   string constant CLAIM_CANCELED = "010011";
-  string constant NOT_APPROVER = "010012";
 
   /**
    * @dev Token name.
@@ -499,7 +498,6 @@ contract DappToken is
   /**
    * @dev Cancels approveWithSignature claim.
    * @notice This works even if sender doesn't own any tokens at the time.
-   * @param _approver Approving address from which the spender will be able to transfer tokens.
    * @param _spender The address of the account able to transfer the tokens.
    * @param _value The amount of tokens to be approved for transfer.
    * @param _feeRecipient Address of the fee recipient. If set to zero address the msg.sender will
@@ -509,7 +507,6 @@ contract DappToken is
    * @param _expiration Timestamp of when the claim expires.
    */
   function cancelApproveWithSignature(
-    address _approver,
     address _spender,
     uint256 _value,
     address _feeRecipient,
@@ -519,9 +516,8 @@ contract DappToken is
   )
     external
   {
-    require(msg.sender == _approver, NOT_APPROVER);
     bytes32 claim = generateClaim(
-      _approver,
+      msg.sender,
       _spender,
       _value,
       _feeRecipient,

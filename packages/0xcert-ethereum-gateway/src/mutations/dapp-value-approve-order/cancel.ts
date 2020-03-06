@@ -3,8 +3,8 @@ import {  DappValueApproveOrder } from '@0xcert/scaffold';
 import { Gateway } from '../../core/gateway';
 import { getOrderInputParams } from '../../lib/dapp-value-approve-order';
 
-const functionSignature = '0xa5bbe149';
-const inputTypes = ['address', 'address', 'uint256', 'address', 'uint256', 'uint256', 'uint256'];
+const functionSignature = '0xeb92ad66';
+const inputTypes = ['address', 'uint256', 'address', 'uint256', 'uint256', 'uint256'];
 
 /**
  * Submits the provided deploy to the network.
@@ -14,6 +14,7 @@ const inputTypes = ['address', 'address', 'uint256', 'address', 'uint256', 'uint
  */
 export default async function(gateway: Gateway, order: DappValueApproveOrder) {
   const params = getOrderInputParams(order);
+  params.shift();
   const attrs = {
     from: gateway.provider.accountId,
     to: order.ledgerId,
