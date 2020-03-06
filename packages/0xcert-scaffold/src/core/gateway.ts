@@ -441,7 +441,7 @@ export type ActionsOrder = FixedActionsOrder | SignedFixedActionsOrder |
 /**
  * Different order actions.
  */
-export type Order = AssetLedgerDeployOrder | ValueLedgerDeployOrder | ActionsOrder | AssetSetOperatorOrder;
+export type Order = AssetLedgerDeployOrder | ValueLedgerDeployOrder | ActionsOrder | AssetSetOperatorOrder | DappValueApproveOrder;
 
 /**
  * List of available order kinds.
@@ -454,8 +454,63 @@ export enum OrderKind {
   SIGNED_FIXED_ACTIONS_ORDER = 5,
   SIGNED_DYNAMIC_ACTIONS_ORDER = 6,
   ASSET_SET_OPERATOR_ORDER = 7,
+  DAPP_VALUE_APPROVE_ORDER = 8,
 }
 
+/**
+ * DappValueApproveOrder definition.
+ */
+export class DappValueApproveOrder {
+
+  /**
+   * Type of order.
+   */
+  public kind: OrderKind.DAPP_VALUE_APPROVE_ORDER;
+
+  /**
+   * Id (address) of the smart contract that represents the dapp token value ledger.
+   */
+  public ledgerId: string;
+
+  /**
+   * Address that is approving value.
+   */
+  public approver: string;
+
+  /**
+   * Address what will get approved.
+   */
+  public spender: string;
+
+  /**
+   * Amount for which approver is approving spender.
+   */
+  public value: string;
+
+  /**
+   * Recipient of the fee for performing this order.
+   */
+  public feeRecipient?: string;
+
+  /**
+   * Amount of fee recipient will receive.
+   */
+  public feeValue: string;
+
+  /**
+   * Nonce for hash generation - usually current timestamp.
+   */
+  public seed: number;
+
+  /**
+   * Timestamp of order expiration.
+   */
+  public expiration: number;
+}
+
+/**
+ * AssetSetOperatorOrder definition.
+ */
 export class AssetSetOperatorOrder {
 
   /**

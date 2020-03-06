@@ -1,10 +1,11 @@
 import { GatewayConfig, GenericProvider, Mutation, MutationEventSignature, MutationEventTypeKind, SignMethod } from '@0xcert/ethereum-generic-provider';
 import { ZERO_ADDRESS } from '@0xcert/ethereum-utils';
-import { AssetLedgerDeployOrder, AssetSetOperatorOrder, DynamicActionsOrder, FixedActionsOrder, GatewayBase, Order, OrderKind, ProviderError,
-  ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, ValueLedgerDeployOrder } from '@0xcert/scaffold';
+import { AssetLedgerDeployOrder, AssetSetOperatorOrder, DappValueApproveOrder, DynamicActionsOrder, FixedActionsOrder, GatewayBase, Order, OrderKind,
+  ProviderError, ProviderIssue, SignedDynamicActionsOrder, SignedFixedActionsOrder, ValueLedgerDeployOrder } from '@0xcert/scaffold';
 import { createOrderHash as createActionsOrderHash, normalizeOrderIds as normalizeActionsOrderIds } from '../lib/actions-order';
 import { createOrderHash as createAssetLedgerDeployOrderHash, normalizeOrderIds as normalizeAssetLedgerDeployOrderIds } from '../lib/asset-ledger-deploy-order';
 import { createOrderHash as createAssetSetOperatorOrderHash, normalizeOrderIds as normalizeAssetSetOperatorOrderIds } from '../lib/asset-set-operator-order';
+import { createOrderHash as createDappValueApproveOrderHash, normalizeOrderIds as normalizeDappValueApproveOrderIds } from '../lib/dapp-value-approve-order';
 import { createOrderHash as createValueLedgerDeployOrderHash, normalizeOrderIds as normalizeValueLedgerDeployOrderIds } from '../lib/value-ledger-deploy-order';
 import actionsOrderCancel from '../mutations/actions-order/cancel';
 import actionsOrderPerform from '../mutations/actions-order/perform';
@@ -12,6 +13,8 @@ import assetLedgerDeployOrderCancel from '../mutations/asset-ledger-deploy-order
 import assetLedgerDeployOrderPerform from '../mutations/asset-ledger-deploy-order/perform';
 import assetSetOperatorOrderCancel from '../mutations/asset-set-operator-order/cancel';
 import assetSetOperatorOrderPerform from '../mutations/asset-set-operator-order/perform';
+import dappValueApproveOrderCancel from '../mutations/dapp-value-approve-order/cancel';
+import dappValueApproveOrderPerform from '../mutations/dapp-value-approve-order/perform';
 import valueLedgerDeployOrderCancel from '../mutations/value-ledger-deploy-order/cancel';
 import valueLedgerDeployOrderPerform from '../mutations/value-ledger-deploy-order/perform';
 import actionsOrderClaimEthSign from '../queries/actions-order/claim-eth-sign';
@@ -27,6 +30,10 @@ import assetSetOperatorOrderClaimEthSign from '../queries/asset-set-operator-ord
 import assetSetOperatorOrderClaimPersonalSign from '../queries/asset-set-operator-order/claim-personal-sign';
 import getAssetSetOperatorOrderDataClaim from '../queries/asset-set-operator-order/get-order-data-claim';
 import assetSetOperatorOrderisValidSignature from '../queries/asset-set-operator-order/is-valid-signature';
+import dappValueApproveOrderClaimEthSign from '../queries/dapp-value-approve-order/claim-eth-sign';
+import dappValueApproveOrderClaimPersonalSign from '../queries/dapp-value-approve-order/claim-personal-sign';
+import getDappValueApproveOrderDataClaim from '../queries/dapp-value-approve-order/get-order-data-claim';
+import dappValueApproveOrderisValidSignature from '../queries/dapp-value-approve-order/is-valid-signature';
 import valueLedgerDeployOrderClaimEthSign from '../queries/value-ledger-deploy-order/claim-eth-sign';
 import valueLedgerDeployOrderClaimPersonalSign from '../queries/value-ledger-deploy-order/claim-personal-sign';
 import getValueLedgerDeployOrderDataClaim from '../queries/value-ledger-deploy-order/get-order-data-claim';
@@ -121,6 +128,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_SET_OPERATOR_ORDER) {
       order = normalizeAssetSetOperatorOrderIds(order, this._provider);
       return createAssetSetOperatorOrderHash(order);
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      return createDappValueApproveOrderHash(order);
     } else {
       throw new Error('Not implemented');
     }
@@ -171,6 +181,13 @@ export class Gateway implements GatewayBase {
       } else {
         return assetSetOperatorOrderClaimEthSign(this, order);
       }
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      if (this._provider.signMethod == SignMethod.PERSONAL_SIGN) {
+        return dappValueApproveOrderClaimPersonalSign(this, order);
+      } else {
+        return dappValueApproveOrderClaimEthSign(this, order);
+      }
     } else {
       throw new Error('Not implemented');
     }
@@ -188,6 +205,7 @@ export class Gateway implements GatewayBase {
   public async perform(order: AssetLedgerDeployOrder, signature: string): Promise<Mutation>;
   public async perform(order: ValueLedgerDeployOrder, signature: string): Promise<Mutation>;
   public async perform(order: AssetSetOperatorOrder, signature: string): Promise<Mutation>;
+  public async perform(order: DappValueApproveOrder, signature: string): Promise<Mutation>;
   public async perform(order: any, signature: any): Promise<Mutation> {
     if (order.kind === OrderKind.DYNAMIC_ACTIONS_ORDER) {
       order = this.createDynamicOrder(order);
@@ -224,6 +242,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_SET_OPERATOR_ORDER) {
       order = normalizeAssetSetOperatorOrderIds(order, this._provider);
       return assetSetOperatorOrderPerform(this, order, signature);
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      return dappValueApproveOrderPerform(this, order, signature);
     } else {
       throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
@@ -254,6 +275,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_SET_OPERATOR_ORDER) {
       order = normalizeAssetSetOperatorOrderIds(order, this._provider);
       return assetSetOperatorOrderCancel(this, order);
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      return dappValueApproveOrderCancel(this, order);
     } else {
       throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
@@ -333,6 +357,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_SET_OPERATOR_ORDER) {
       order = normalizeAssetSetOperatorOrderIds(order, this._provider);
       return assetSetOperatorOrderisValidSignature(this, order, claim);
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      return dappValueApproveOrderisValidSignature(this, order, claim);
     } else {
       throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
@@ -363,6 +390,9 @@ export class Gateway implements GatewayBase {
     } else if (order.kind === OrderKind.ASSET_SET_OPERATOR_ORDER) {
       order = normalizeAssetSetOperatorOrderIds(order, this._provider);
       return getAssetSetOperatorOrderDataClaim(this, order);
+    } else if (order.kind === OrderKind.DAPP_VALUE_APPROVE_ORDER) {
+      order = normalizeDappValueApproveOrderIds(order, this._provider);
+      return getDappValueApproveOrderDataClaim(this, order);
     } else {
       throw new ProviderError(ProviderIssue.ACTIONS_ORDER_KIND_NOT_SUPPORTED);
     }
