@@ -2,10 +2,11 @@
 
 [![Build Status](https://travis-ci.org/0xcert/framework.svg?branch=master)](https://travis-ci.org/0xcert/framework)&nbsp;[![codecov](https://codecov.io/gh/0xcert/framework/branch/master/graph/badge.svg)](https://codecov.io/gh/0xcert/framework)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-open-2930e8.svg)](https://github.com/0xcert/framework/blob/master/BUG_BOUNTY.md)&nbsp;[![Join the chat at https://gitter.im/0xcert/framework](https://badges.gitter.im/0xcert/framework.svg)](https://gitter.im/0xcert/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Donate](https://img.shields.io/badge/ETH-donate-blue.svg)](https://etherscan.io/address/0xf9196f9f176fd2ef9243e8960817d5fbe63d79aa) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=I%20support%20the%20%23dapp%20revolution%20and%20the%20open-source%20%23JavaScript%20library%20for%20building%20dapps%20-%20the%200xcert%20Framework.&url=https://github.com/0xcert/framework&hashtags=ethereum,nft,erc721,erc20)
 
-The 0xcert Framework is a platform that provides a complete set of tools for building powerful decentralized applications (dapps). Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications.
+The 0xcert Framework is a platform that provides a complete set of tools for building powerful decentralized applications (dapps). Our mission is to equip application developers with a secure, agnostic and opinionated framework with conventions to enable interoperability between applications. If you are new to blockchain try the [0xcert API](https://dashboard.0xcert.org/) for quick deployments of dapps with minimal effort. 
 
-To learn more about the 0xcert Framework, the Protocol, and the 0xcert news, please refer to:
+To learn more about the [0xcert Framework](https://docs.0xcert.org/framework/v2/), the [0xcert API](https://docs.0xcert.org/api/), the Protocol, and the 0xcert news, please refer to:
 * 📘 [The 0xcert Framework documentation](https://docs.0xcert.org/)
+* 📘 [0xcert API](https://dashboard.0xcert.org/)
 * 🖥 [The official 0xcert website](https://0xcert.org/)
 * 📝 Our [News blog](https://0xcert.org/news/)
 * 💬 Chat on [Gitter](https://gitter.im/0xcert/framework)
