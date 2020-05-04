@@ -20,7 +20,7 @@
     "@0xcert/wanchain-asset-ledger": "2.0.1",
     "@0xcert/wanchain-http-provider": "2.0.1",
     "@0xcert/ethereum-bitski-frontend-provider": "2.0.1",
-    "webpack": "4.41.6",
+    "webpack": "4.43.0",
     "webpack-cli": "3.3.11"
   }
 }

@@ -64,12 +64,12 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@hayspec/cli": "0.9.0",
-    "@hayspec/spec": "0.9.0",
-    "nyc": "15.0.0",
-    "ts-node": "8.6.2",
-    "tslint": "5.20.0",
-    "typescript": "3.8.2"
+    "@hayspec/cli": "0.10.0",
+    "@hayspec/spec": "0.10.0",
+    "nyc": "15.0.1",
+    "ts-node": "8.10.1",
+    "tslint": "6.1.2",
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "@0xcert/scaffold": "2.0.1"

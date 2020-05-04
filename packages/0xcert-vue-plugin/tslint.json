@@ -12,11 +12,21 @@
       "check-constructor"
     ],
     "member-ordering": [
-      true,
-      "public-before-private",
-      "static-before-instance",
-      "variables-before-functions"
-    ],
+  true,
+  {
+    "order": [
+      "public-static-field",
+      "public-instance-field",
+      "public-constructor",
+      "private-static-field",
+      "private-instance-field",
+      "private-constructor",
+      "public-instance-method",
+      "protected-instance-method",
+      "private-instance-method"
+    ]
+  }
+],
     "adjacent-overload-signatures": true,
     "prefer-function-over-method": [
       true,
