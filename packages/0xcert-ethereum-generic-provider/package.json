@@ -68,16 +68,16 @@
   "license": "MIT",
   "devDependencies": {
     "@0xcert/ethereum-sandbox": "2.0.1",
-    "@types/node": "12.7.8",
-    "@specron/cli": "0.16.0",
-    "@specron/spec": "0.16.0",
-    "nyc": "15.0.0",
+    "@types/node": "13.13.4",
+    "@specron/cli": "0.17.1",
+    "@specron/spec": "0.17.1",
+    "nyc": "15.0.1",
     "promised-timeout": "0.5.1",
     "solc": "0.6.1",
-    "ts-node": "8.6.2",
-    "tslint": "5.20.0",
-    "typescript": "3.8.2",
-    "web3": "1.2.4"
+    "ts-node": "8.10.1",
+    "tslint": "6.1.2",
+    "typescript": "3.8.3",
+    "web3": "1.2.7"
   },
   "dependencies": {
     "@0xcert/ethereum-utils": "2.0.1",
