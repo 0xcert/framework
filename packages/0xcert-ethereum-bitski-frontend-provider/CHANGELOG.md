@@ -1,6 +1,11 @@
 # Change Log - @0xcert/ethereum-bitski-frontend-provider
 
-This log was last generated on Fri, 06 Mar 2020 12:54:59 GMT and should not be manually modified.
+This log was last generated on Mon, 04 May 2020 17:35:38 GMT and should not be manually modified.
+
+## 2.0.2
+Mon, 04 May 2020 17:35:38 GMT
+
+*Version update only*
 
 ## 2.0.1
 Fri, 06 Mar 2020 12:54:59 GMT
