@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/wanchain-asset-ledger",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Asset ledger module for asset management on the Wanchain blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -64,7 +64,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@0xcert/ethereum-generic-provider": "2.0.1",
+    "@0xcert/ethereum-generic-provider": "2.0.2",
     "@hayspec/cli": "0.10.0",
     "@hayspec/spec": "0.10.0",
     "nyc": "15.0.1",
@@ -73,6 +73,6 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "@0xcert/ethereum-asset-ledger": "2.0.1"
+    "@0xcert/ethereum-asset-ledger": "2.0.2"
   }
 }
