@@ -161,6 +161,11 @@
       "packageName": "@0xcert/wanchain-value-ledger",
       "projectFolder": "packages/0xcert-wanchain-value-ledger",
       "versionPolicyName": "patchAll"
+    },
+    {
+      "packageName": "@0xcert/ethereum-ens",
+      "projectFolder": "packages/0xcert-ethereum-ens",
+      "versionPolicyName": "patchAll"
     }
   ]
 }
