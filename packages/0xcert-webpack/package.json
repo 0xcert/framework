@@ -15,6 +15,7 @@
     "@0xcert/ethereum-metamask-provider": "2.0.2",
     "@0xcert/ethereum-gateway": "2.0.2",
     "@0xcert/ethereum-value-ledger": "2.0.2",
+    "@0xcert/ethereum-ens": "2.0.2",
     "@0xcert/wanchain-gateway": "2.0.2",
     "@0xcert/wanchain-value-ledger": "2.0.2",
     "@0xcert/wanchain-asset-ledger": "2.0.2",
