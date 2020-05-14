@@ -8,27 +8,14 @@
     "build": "npm run clean && npx tsc",
     "clean": "rm -Rf ./dist",
     "lint": "npx tslint 'src/**/*.ts?(x)'",
-    "test": "npm run lint && npx nyc npx specron test"
+    "test": "npm run lint && npx nyc npx hayspec test"
   },
-  "specron": {
-    "test": {
-      "port": 8517,
-      "match": [
-        "./src/tests/**/*.test.ts"
-      ]
-    },
-    "flattener": {
-      "build": "./build",
-      "match": [
-        "./src/**/*.sol"
-      ],
-      "severities": [
-        "error",
-        "warning"
-      ]
-    },
+  "hayspec": {
     "require": [
       "ts-node/register"
+    ],
+    "match": [
+      "./src/tests/**/*.test.ts"
     ]
   },
   "nyc": {
@@ -77,9 +64,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@specron/cli": "0.17.1",
-    "@specron/spec": "0.17.1",
-    "@specron/flattener": "0.17.1",
+    "@hayspec/cli": "0.10.0",
+    "@hayspec/spec": "0.10.0",
     "@0xcert/ethereum-sandbox": "2.0.2",
     "@0xcert/ethereum-http-provider": "2.0.2",
     "nyc": "15.0.1",

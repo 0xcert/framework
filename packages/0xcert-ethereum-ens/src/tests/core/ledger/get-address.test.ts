@@ -1,12 +1,12 @@
 import { NetworkKind } from '@0xcert/ethereum-generic-provider';
 import { HttpProvider } from '@0xcert/ethereum-http-provider';
-import { Spec } from '@specron/spec';
+import { Spec } from '@hayspec/spec';
 import { Ens } from '../../../core/ens';
 
 const spec = new Spec<{
 }>();
 
-spec.only('returns ens address', async (ctx) => {
+spec.test('returns ens address', async (ctx) => {
   const provider = new HttpProvider({
     url: 'https://ropsten.infura.io/v3/06312ac7a50b4bd49762abc5cf79dab8',
   });

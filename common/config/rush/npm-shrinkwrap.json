@@ -1982,11 +1982,10 @@
     },
     "@rush-temp/ethereum-ens": {
       "version": "file:projects/ethereum-ens.tgz",
-      "integrity": "sha512-tqxYTwUEw8Q+p2pQqjFY2J2cSDzbJNFI6dMyOyo8OmWTggAmoBk9v3/Q/yY5yazukxtGyDWW47vCkI9PhQsHnA==",
+      "integrity": "sha512-rF4GlbQnJV0dp6p/NRLdl+fRIlVy5eneiLT6eNZy+90jBbpVVYdaO2bneym2qv9qPOeP26D9Zz+G+Vw+aNskKA==",
       "requires": {
-        "@specron/cli": "0.17.1",
-        "@specron/flattener": "0.17.1",
-        "@specron/spec": "0.17.1",
+        "@hayspec/cli": "0.10.0",
+        "@hayspec/spec": "0.10.0",
         "eth-ens-namehash": "^2.0.8",
         "nyc": "15.0.1",
         "solc": "0.6.1",
