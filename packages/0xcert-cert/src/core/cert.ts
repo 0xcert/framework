@@ -42,14 +42,6 @@ export class Cert {
   protected merkle: Merkle;
 
   /**
-   * Returns a new instance of a Cert class.
-   * @param config Certificate configuration.
-   */
-  public static getInstance(config: CertConfig): Cert {
-    return new Cert(config);
-  }
-
-  /**
    * Class constructor.
    * @param config Certificate configuration.
    */
@@ -61,6 +53,14 @@ export class Cert {
       noncer: async (p) => sha(256, p.join('.')),
       ...config,
     });
+  }
+
+  /**
+   * Returns a new instance of a Cert class.
+   * @param config Certificate configuration.
+   */
+  public static getInstance(config: CertConfig): Cert {
+    return new Cert(config);
   }
 
   /**
@@ -81,7 +81,6 @@ export class Cert {
     const schemaProps = this.buildSchemaProps(data);
     const compoundProps = await this.buildCompoundProps(schemaProps);
     const schemaRecipes = await this.buildRecipes(compoundProps);
-
     return {
       $schema: 'https://conventions.0xcert.org/87-asset-evidence.json',
       data: schemaRecipes.map((recipe) => ({

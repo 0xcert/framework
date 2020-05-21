@@ -139,7 +139,9 @@ spec.test('submits dynamic value ledger deploy order to the network which execut
   const mutation = await gatewayCoinbase.perform(order, sign);
   const receipt = await ctx.web3.eth.getTransactionReceipt(mutation.id);
 
-  const performEvent = receipt.logs.filter((r) => { return r.topics[0] === '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2'; });
+  const performEvent = receipt.logs.filter((r) => {
+    return r.topics[0] === '0x492318801c2cec532d47019a0b69f83b8d5b499a022b7adb6100a766050644f2';
+  });
   const tokenAddress = (gatewayCoinbase.provider.encoder.decodeParameters(['address', 'bytes32'], performEvent[0].data))[0];
 
   const temp = token.instance.options.address;

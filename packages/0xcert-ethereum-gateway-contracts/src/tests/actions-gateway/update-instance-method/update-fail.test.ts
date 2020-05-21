@@ -57,10 +57,10 @@ spec.beforeEach(async (ctx) => {
     args: ['cat', 'CAT', 'https://0xcert.org/', '.json', '0xa65de9e6', ['0x0d04c3b8']],
   });
   await cat.instance.methods
-  .create(bob, id, imprint1)
-  .send({
-    from: owner,
-  });
+    .create(bob, id, imprint1)
+    .send({
+      from: owner,
+    });
   ctx.set('cat', cat);
 });
 

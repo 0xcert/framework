@@ -77,11 +77,11 @@ spec.test('check crypto kitty fallback hack', async (ctx) => {
   const kittyHashContract = new ctx.web3.eth.Contract(kittyHackAbi);
   let ledgerId;
   await kittyHashContract.deploy({ data: kittyHackBytecode })
-  .send({ from: coinbase, gas: 1000000 })
-  .then((newContractInstance) => {
-    ledgerId = newContractInstance.options.address; // instance with the new contract address
-    kittyHashContract.options.address = ledgerId;
-  });
+    .send({ from: coinbase, gas: 1000000 })
+    .then((newContractInstance) => {
+      ledgerId = newContractInstance.options.address; // instance with the new contract address
+      kittyHashContract.options.address = ledgerId;
+    });
 
   await kittyHashContract.methods.addToKittyIndex('1', coinbase).send({ from: coinbase });
 

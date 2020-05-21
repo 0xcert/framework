@@ -31,20 +31,20 @@ export class Protocol {
   public dappToken;
 
   /**
+   * Class constructor.
+   * @param web3 Web3 object instance.
+   */
+  public constructor(web3: any) {
+    this.web3 = web3;
+  }
+
+  /**
    * Instantiates the protocol class and deploys the contracts.
    * @param web3 Web3 object instance.
    * @param from Optional owner's address.
    */
   public static deploy(web3: any, from?: string) {
     return new Protocol(web3).deploy(from);
-  }
-
-  /**
-   * Class constructor.
-   * @param web3 Web3 object instance.
-   */
-  public constructor(web3: any) {
-    this.web3 = web3;
   }
 
   /**

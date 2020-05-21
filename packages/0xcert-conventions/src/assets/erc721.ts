@@ -4,6 +4,11 @@
 export interface SchemaErc721 {
 
   /**
+   * Any other key is allowed.
+   */
+  [key: string]: any;
+
+  /**
    * A detailed description of an asset.
    */
   description?: string;
@@ -19,11 +24,6 @@ export interface SchemaErc721 {
    * A name of an asset.
    */
   name?: string;
-
-  /**
-   * Any other key is allowed.
-   */
-  [key: string]: any;
 }
 
 /**

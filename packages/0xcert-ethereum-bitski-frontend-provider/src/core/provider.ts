@@ -98,6 +98,26 @@ export interface BitskiProviderOptions {
 export class BitskiProvider extends GenericProvider {
 
   /**
+   * Default options set from constructor.
+   */
+  protected _options: BitskiProviderOptions;
+
+  /**
+   * Bitski instance.
+   */
+  protected _bitski: any;
+
+  /**
+   * Bitski provider instance.
+   */
+  protected _provider: any;
+
+  /**
+   * Handles sign out.
+   */
+  private signOutHandler: any;
+
+  /**
    * Class constructor.
    * @param options.signMethod Optional setting of signature kind used in claims.
    * @param options.unsafeRecipientIds Optional list of addresses where normal transfer not
@@ -135,26 +155,6 @@ export class BitskiProvider extends GenericProvider {
       this._provider = this._bitski.getProvider(bitskiOptions);
     }
   }
-
-  /**
-   * Default options set from constructor.
-   */
-  protected _options: BitskiProviderOptions;
-
-  /**
-   * Bitski instance.
-   */
-  protected _bitski: any;
-
-  /**
-   * Bitski provider instance.
-   */
-  protected _provider: any;
-
-  /**
-   * Handles sign out.
-   */
-  private signOutHandler: any;
 
   /**
    * Returns a new provider instance.

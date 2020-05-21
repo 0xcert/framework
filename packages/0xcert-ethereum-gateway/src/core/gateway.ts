@@ -56,15 +56,6 @@ export class Gateway implements GatewayBase {
   protected _provider: GenericProvider;
 
   /**
-   * Gets an instance of gateway.
-   * @param provider  Provider class with which we communicate with blockchain.
-   * @param config Gateway configuration.
-   */
-  public static getInstance(provider: GenericProvider, config?: GatewayConfig): Gateway {
-    return new this(provider, config);
-  }
-
-  /**
    * Initialize gateway.
    * @param provider  Provider class with which we comunicate with blockchain.
    * @param config Gateway config.
@@ -72,6 +63,15 @@ export class Gateway implements GatewayBase {
   public constructor(provider: GenericProvider, config?: GatewayConfig) {
     this._provider = provider;
     this.config = config || provider.gatewayConfig;
+  }
+
+  /**
+   * Gets an instance of gateway.
+   * @param provider  Provider class with which we communicate with blockchain.
+   * @param config Gateway configuration.
+   */
+  public static getInstance(provider: GenericProvider, config?: GatewayConfig): Gateway {
+    return new this(provider, config);
   }
 
   /**
@@ -296,35 +296,35 @@ export class Gateway implements GatewayBase {
   public async getProxyAccountId(...args: any[]) {
     let proxyId = ProxyId.NFTOKEN_SAFE_TRANSFER;
     switch (args[0]) {
-      case ProxyKind.TRANSFER_ASSET: {
-        if (typeof args[1] !== 'undefined' && this.provider.unsafeRecipientIds.indexOf(args[1]) !== -1) {
-          proxyId = ProxyId.NFTOKEN_TRANSFER;
-        }
-        break;
+    case ProxyKind.TRANSFER_ASSET: {
+      if (typeof args[1] !== 'undefined' && this.provider.unsafeRecipientIds.indexOf(args[1]) !== -1) {
+        proxyId = ProxyId.NFTOKEN_TRANSFER;
       }
-      case ProxyKind.CREATE_ASSET: {
-        proxyId = ProxyId.XCERT_CREATE;
-        break;
-      }
-      case ProxyKind.DESTROY_ASSET: {
-        proxyId = ProxyId.XCERT_BURN;
-        break;
-      }
-      case ProxyKind.MANAGE_ABILITIES: {
-        proxyId = ProxyId.MANAGE_ABILITIES;
-        break;
-      }
-      case ProxyKind.TRANSFER_TOKEN: {
-        proxyId = ProxyId.TOKEN_TRANSFER;
-        break;
-      }
-      case ProxyKind.UPDATE_ASSET: {
-        proxyId = ProxyId.XCERT_UPDATE;
-        break;
-      }
-      default: {
-        throw new ProviderError(ProviderIssue.PROXY_KIND_NOT_SUPPORTED);
-      }
+      break;
+    }
+    case ProxyKind.CREATE_ASSET: {
+      proxyId = ProxyId.XCERT_CREATE;
+      break;
+    }
+    case ProxyKind.DESTROY_ASSET: {
+      proxyId = ProxyId.XCERT_BURN;
+      break;
+    }
+    case ProxyKind.MANAGE_ABILITIES: {
+      proxyId = ProxyId.MANAGE_ABILITIES;
+      break;
+    }
+    case ProxyKind.TRANSFER_TOKEN: {
+      proxyId = ProxyId.TOKEN_TRANSFER;
+      break;
+    }
+    case ProxyKind.UPDATE_ASSET: {
+      proxyId = ProxyId.XCERT_UPDATE;
+      break;
+    }
+    default: {
+      throw new ProviderError(ProviderIssue.PROXY_KIND_NOT_SUPPORTED);
+    }
     }
     return getProxyAccountId(this, proxyId);
   }

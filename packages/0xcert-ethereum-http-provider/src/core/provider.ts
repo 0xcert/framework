@@ -108,14 +108,6 @@ export class HttpProvider extends GenericProvider {
   protected _options: HttpProviderOptions;
 
   /**
-   * Returns a new provider instance.
-   * @param options HTTP provider options.
-   */
-  public static getInstance(options: HttpProviderOptions): HttpProvider {
-    return new this(options);
-  }
-
-  /**
    * Class constructor.
    */
   public constructor(options: HttpProviderOptions) {
@@ -123,6 +115,14 @@ export class HttpProvider extends GenericProvider {
 
     this._options = options;
     this._client = this;
+  }
+
+  /**
+   * Returns a new provider instance.
+   * @param options HTTP provider options.
+   */
+  public static getInstance(options: HttpProviderOptions): HttpProvider {
+    return new this(options);
   }
 
   /**
