@@ -74,7 +74,9 @@ export function createRecipeTuple(order: AssetLedgerDeployOrder) {
       uriPrefix: order.assetLedgerData.uriPrefix,
       uriPostfix: order.assetLedgerData.uriPostfix,
       schemaId: `0x${order.assetLedgerData.schemaId}`,
-      capabilities: order.assetLedgerData.capabilities.map((c) => { return getInterfaceCode(c); }),
+      capabilities: order.assetLedgerData.capabilities.map((c) => {
+        return getInterfaceCode(c);
+      }),
       owner: order.assetLedgerData.ownerId,
     },
     transferData: {

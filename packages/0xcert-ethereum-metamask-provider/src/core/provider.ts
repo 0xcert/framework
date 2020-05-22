@@ -72,13 +72,6 @@ export class MetamaskProvider extends GenericProvider {
   protected _networkVersion: string;
 
   /**
-   * Gets an instance of metamask provider.
-   */
-  public static getInstance(): MetamaskProvider {
-    return new this();
-  }
-
-  /**
    * Class constructor.
    */
   public constructor(options?: MetamaskProviderOptions) {
@@ -91,6 +84,13 @@ export class MetamaskProvider extends GenericProvider {
       this.installClient();
       this.installEvents();
     }
+  }
+
+  /**
+   * Gets an instance of metamask provider.
+   */
+  public static getInstance(): MetamaskProvider {
+    return new this();
   }
 
   /**

@@ -25,25 +25,39 @@ spec.test('encode parameters', (ctx) => {
 
     // Array (treat recursively)
     if (Array.isArray(actual)) {
-      if (!Array.isArray(expected) || actual.length !== expected.length) { return false; }
+      if (!Array.isArray(expected) || actual.length !== expected.length) {
+        return false;
+      }
       for (let i = 0; i < actual.length; i++) {
-        if (!equals(actual[i], expected[i])) { return false; }
+        if (!equals(actual[i], expected[i])) {
+          return false;
+        }
       }
       return true;
     }
 
-    if (typeof(actual) === 'number') { actual = bigNumberify(actual); }
-    if (typeof(expected) === 'number') { expected = bigNumberify(expected); }
+    if (typeof(actual) === 'number') {
+      actual = bigNumberify(actual);
+    }
+    if (typeof(expected) === 'number') {
+      expected = bigNumberify(expected);
+    }
 
     // BigNumber
     if (actual.eq) {
       if (typeof(expected) === 'string' && expected.match(/^-?0x[0-9A-Fa-f]*$/)) {
         const neg = (expected.substring(0, 1) === '-');
-        if (neg) { expected = expected.substring(1); }
+        if (neg) {
+          expected = expected.substring(1);
+        }
         expected = bigNumberify(expected);
-        if (neg) { expected = expected.mul(-1); }
+        if (neg) {
+          expected = expected.mul(-1);
+        }
       }
-      if (!actual.eq(expected)) { return false; }
+      if (!actual.eq(expected)) {
+        return false;
+      }
       return true;
     }
 

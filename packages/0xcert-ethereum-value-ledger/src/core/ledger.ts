@@ -26,6 +26,16 @@ export class ValueLedger implements ValueLedgerBase {
   protected _provider: GenericProvider;
 
   /**
+   * Initialize value ledger.
+   * @param provider Provider class with which we communicate with blockchain.
+   * @param id Address of the erc20 smart contract.
+   */
+  public constructor(provider: GenericProvider, id: string) {
+    this._provider = provider;
+    this._id = this._provider.encoder.normalizeAddress(id);
+  }
+
+  /**
    * Deploys a new smart contract representing value ledger to the blockchain.
    * @param provider Provider class with which we communicate with blockchain.
    * @param recipe Data needed to deploy a new value ledger.
@@ -41,16 +51,6 @@ export class ValueLedger implements ValueLedgerBase {
    */
   public static getInstance(provider: GenericProvider, id: string): ValueLedger {
     return new this(provider, id);
-  }
-
-  /**
-   * Initialize value ledger.
-   * @param provider Provider class with which we communicate with blockchain.
-   * @param id Address of the erc20 smart contract.
-   */
-  public constructor(provider: GenericProvider, id: string) {
-    this._provider = provider;
-    this._id = this._provider.encoder.normalizeAddress(id);
   }
 
   /**

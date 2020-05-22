@@ -409,7 +409,7 @@ spec.test('fails setting an operator with signature if signature kind is invalid
   const signatureDataTuple = ctx.tuple(signatureData);
   await ctx.reverts(
     () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple)
-    .send({ from: owner }));
+      .send({ from: owner }));
 });
 
 spec.test('fails setting an operator with signature if signature is from a third party', async (ctx) => {
@@ -436,7 +436,7 @@ spec.test('fails setting an operator with signature if signature is from a third
   const signatureDataTuple = ctx.tuple(signatureData);
   await ctx.reverts(
     () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple)
-    .send({ from: owner }), '007005');
+      .send({ from: owner }), '007005');
 });
 
 /**
@@ -468,7 +468,7 @@ spec.skip('fails setting an operator with signature if claim was already used', 
   await xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple).send({ from: owner });
   await ctx.reverts(
     () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple)
-    .send({ from: owner }), '007007');
+      .send({ from: owner }), '007007');
 });
 
 spec.test('fails setting an operator with signature if claim has expired', async (ctx) => {
@@ -495,7 +495,7 @@ spec.test('fails setting an operator with signature if claim has expired', async
   const signatureDataTuple = ctx.tuple(signatureData);
   await ctx.reverts(
     () => xcert.instance.methods.setApprovalForAllWithSignature(bob, sara, true, zxc.receipt._address, tokenAmount.toString(), jane, seed, expiration, signatureDataTuple)
-    .send({ from: owner }), '007008');
+      .send({ from: owner }), '007008');
 });
 
 spec.test('sucessfully cancels set an operator with signature claim', async (ctx) => {

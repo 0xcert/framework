@@ -9,7 +9,7 @@
     "sandbox": "npx specron sandbox",
     "solhint": "npx solhint 'src/contracts/**/*.sol'",
     "test": "npm run lint && npm run clean && npx specron compile && npx specron test",
-    "tslint": "npx tslint 'src/**/*.ts?(x)'"
+    "tslint": "npx eslint 'src/**/*.ts?(x)'"
   },
   "specron": {
     "compiler": {
@@ -68,7 +68,13 @@
     "solc": "0.6.1",
     "solhint": "2.3.1",
     "ts-node": "8.10.1",
-    "tslint": "6.1.2",
+    "@typescript-eslint/eslint-plugin": "2.34.0",
+    "@typescript-eslint/parser": "2.34.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-jsdoc": "25.4.2",
+    "eslint-plugin-unicorn": "20.0.0",
+    "eslint": "7.0.0",
     "typescript": "3.8.3",
     "web3": "1.2.7"
   }

@@ -2,6 +2,7 @@
  * Xcert JSON Schema interface.
  */
 export type XcertSchema = {
+  [key: string]: any;
   $schema: 'https://conventions.0xcert.org/json-schema.json';
   description: string;
   properties: {
@@ -9,45 +10,44 @@ export type XcertSchema = {
   };
   type: 'object';
   title: string;
-  [key: string]: any;
 } | {
+  [key: string]: any;
   $schema: 'https://conventions.0xcert.org/json-schema.json';
   description: string;
   items: XcertSchemaPrimitive | XcertSchemaObject;
   type: 'array';
   title: string;
-  [key: string]: any;
 };
 
 /**
  * Xcert JSON Schema object interface.
  */
 export interface XcertSchemaObject {
+  [key: string]: any;
   description?: string;
   properties: {
     [key: string]: XcertSchemaPrimitive | XcertSchemaObject | XcertSchemaArray;
   };
   type: 'object';
-  [key: string]: any;
 }
 
 /**
  * Xcert JSON Schema array interface.
  */
 export interface XcertSchemaArray {
+  [key: string]: any;
   description?: string;
   items: XcertSchemaPrimitive | XcertSchemaObject;
   type: 'array';
-  [key: string]: any;
 }
 
 /**
  * Xcert JSON Schema primitive value interface.
  */
 export interface XcertSchemaPrimitive {
+  [key: string]: any;
   description?: string;
   type: 'string' | 'number' | 'boolean';
-  [key: string]: any;
 }
 
 /**

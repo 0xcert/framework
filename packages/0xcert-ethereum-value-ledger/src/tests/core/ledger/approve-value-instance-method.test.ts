@@ -4,7 +4,7 @@ import { Spec } from '@specron/spec';
 import { ValueLedger } from '../../../core/ledger';
 
 const spec = new Spec<{
-  provider: GenericProvider
+  provider: GenericProvider;
   ledger: ValueLedger;
   protocol: Protocol;
   coinbase: string;
