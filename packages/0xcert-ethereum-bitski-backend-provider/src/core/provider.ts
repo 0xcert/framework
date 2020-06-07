@@ -104,14 +104,6 @@ export class BitskiProvider extends GenericProvider {
   protected _provider: any;
 
   /**
-   * Returns a new provider instance.
-   * @param options HTTP provider options.
-   */
-  public static getInstance(options: BitskiProviderOptions): BitskiProvider {
-    return new this(options);
-  }
-
-  /**
    * Class constructor.
    * @param options.accountId Optional coinbase account.
    * @param options.signMethod Optional setting of signature kind used in claims.
@@ -143,6 +135,14 @@ export class BitskiProvider extends GenericProvider {
         secret: options.credentialsSecret,
       },
     });
+  }
+
+  /**
+   * Returns a new provider instance.
+   * @param options HTTP provider options.
+   */
+  public static getInstance(options: BitskiProviderOptions): BitskiProvider {
+    return new this(options);
   }
 
   /**

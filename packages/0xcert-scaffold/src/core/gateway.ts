@@ -53,8 +53,8 @@ export type ActionsOrderAction = DynamicActionsOrderAction | FixedActionsOrderAc
  * Different dynamic order actions.
  */
 export type DynamicActionsOrderAction = DynamicActionsOrderActionCreateAsset | DynamicActionsOrderActionTransferAsset
-  | DynamicActionsOrderActionTransferValue | DynamicActionsOrderActionUpdateAssetImprint | DynamicActionsOrderActionSetAbilities
-  | DynamicActionsOrderActionDestroyAsset;
+| DynamicActionsOrderActionTransferValue | DynamicActionsOrderActionUpdateAssetImprint | DynamicActionsOrderActionSetAbilities
+| DynamicActionsOrderActionDestroyAsset;
 
 /**
  * Order create asset data definition.
@@ -246,8 +246,8 @@ export interface DynamicActionsOrderActionTransferValue {
  * Different fixed order actions.
  */
 export type FixedActionsOrderAction = FixedActionsOrderActionCreateAsset | FixedActionsOrderActionTransferAsset
-  | FixedActionsOrderActionTransferValue | FixedActionsOrderActionUpdateAssetImprint | FixedActionsOrderActionSetAbilities
-  | FixedActionsOrderActionDestroyAsset;
+| FixedActionsOrderActionTransferValue | FixedActionsOrderActionUpdateAssetImprint | FixedActionsOrderActionSetAbilities
+| FixedActionsOrderActionDestroyAsset;
 
 /**
  * Order create asset data definitio.
@@ -436,7 +436,7 @@ export interface FixedActionsOrderActionTransferValue {
 }
 
 export type ActionsOrder = FixedActionsOrder | SignedFixedActionsOrder |
-  SignedDynamicActionsOrder | DynamicActionsOrder;
+SignedDynamicActionsOrder | DynamicActionsOrder;
 
 /**
  * Different order actions.

@@ -12,7 +12,7 @@ export enum MerkleHasherPosition {
  */
 export type MerkleHasher = (
   (value: any, path: (string | number)[], position: MerkleHasherPosition) => string)
-  | ((value: any, path: (string | number)[], position: MerkleHasherPosition) => Promise<string>
+| ((value: any, path: (string | number)[], position: MerkleHasherPosition) => Promise<string>
 );
 
 /**
@@ -20,7 +20,7 @@ export type MerkleHasher = (
  */
 export type MerkleNoncer = (
   (path: (string | number)[]) => string)
-  | ((path: (string | number)[]) => Promise<string>
+| ((path: (string | number)[]) => Promise<string>
 );
 
 /**
