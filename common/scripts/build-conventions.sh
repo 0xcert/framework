@@ -55,7 +55,7 @@ const { schema86, schema87, schema88, schemaErc721, xcertSchema } = require('../
 
 # Deploy to Github
 
-echo ' Deploying to Github ...'
+echo ' Deploying to GitHub ...'
 cd tmp
 echo 'conventions.0xcert.org' > CNAME
 git init
