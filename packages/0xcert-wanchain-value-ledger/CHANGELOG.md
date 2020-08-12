@@ -1,6 +1,11 @@
 # Change Log - @0xcert/wanchain-value-ledger
 
-This log was last generated on Mon, 04 May 2020 17:35:38 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Aug 2020 11:26:03 GMT and should not be manually modified.
+
+## 2.0.3
+Wed, 12 Aug 2020 11:26:03 GMT
+
+*Version update only*
 
 ## 2.0.2
 Mon, 04 May 2020 17:35:38 GMT
