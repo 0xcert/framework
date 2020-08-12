@@ -1,6 +1,6 @@
 {
   "name": "@0xcert/ethereum-sandbox",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Test server for local running testing of modules on the Ethereum blockchain.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -81,11 +81,11 @@
     "web3": "1.2.11"
   },
   "dependencies": {
-    "@0xcert/ethereum-gateway-contracts": "2.0.2",
-    "@0xcert/ethereum-erc20-contracts": "2.0.2",
-    "@0xcert/ethereum-erc721-contracts": "2.0.2",
-    "@0xcert/ethereum-proxy-contracts": "2.0.2",
-    "@0xcert/ethereum-xcert-contracts": "2.0.2",
+    "@0xcert/ethereum-gateway-contracts": "2.0.3",
+    "@0xcert/ethereum-erc20-contracts": "2.0.3",
+    "@0xcert/ethereum-erc721-contracts": "2.0.3",
+    "@0xcert/ethereum-proxy-contracts": "2.0.3",
+    "@0xcert/ethereum-xcert-contracts": "2.0.3",
     "ganache-core": "2.11.2"
   }
 }
