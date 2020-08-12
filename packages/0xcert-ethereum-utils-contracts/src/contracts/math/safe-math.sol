@@ -58,7 +58,8 @@ library SafeMath
     // Solidity automatically asserts when dividing by 0, using all gas.
     require(_divisor > 0, DIVISION_BY_ZERO);
     quotient = _dividend / _divisor;
-    // assert(_dividend == _divisor * quotient + _dividend % _divisor); // There is no case in which this doesn't hold.
+    // assert(_dividend == _divisor * quotient + _dividend % _divisor); // There is no case in which
+    // this doesn't hold.
   }
 
   /**

@@ -32,9 +32,9 @@ contract Claimable is
   );
 
   /**
-   * @dev Allows the current owner to give new owner the ability to claim the ownership of the contract.
-   * This differs from the Owner's function in that it allows setting pedingOwner address to 0x0,
-   * which effectively cancels an active claim.
+   * @dev Allows the current owner to give new owner the ability to claim the ownership of the
+   * contract. This differs from the Owner's function in that it allows setting pedingOwner address
+   * to 0x0, which effectively cancels an active claim.
    * @param _newOwner The address which can claim ownership of the contract.
    */
   function transferOwnership(

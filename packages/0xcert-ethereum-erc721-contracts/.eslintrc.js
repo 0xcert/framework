@@ -18,8 +18,7 @@ module.exports = {
     ],
     "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "error",
-        "@typescript-eslint/ban-ts-ignore": "error",
-        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/ban-ts-comment": "error",
         "@typescript-eslint/consistent-type-assertions": "error",
         "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/explicit-member-accessibility": [
@@ -46,7 +45,6 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/interface-name-prefix": "error",
         "@typescript-eslint/member-delimiter-style": [
             "error",
             {
