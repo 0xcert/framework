@@ -7,7 +7,7 @@ const spec = new Spec<{
 
 spec.before(async (stage) => {
   const provider = new HttpProvider({
-    url: 'http://139.59.44.13:9000/node/5c9a341860626f3d2aad1dc0',
+    url: 'https://gwan-ssl.wandevs.org:46891',
   });
   stage.set('provider', provider);
 });
