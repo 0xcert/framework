@@ -8,7 +8,6 @@ module.exports = {
     '0xcert-ethereum-metamask-provider': './src/0xcert-ethereum-metamask-provider.js',
     '0xcert-ethereum-gateway': './src/0xcert-ethereum-gateway.js',
     '0xcert-ethereum-value-ledger': './src/0xcert-ethereum-value-ledger.js',
-    '0xcert-ethereum-bitski-frontend-provider': './src/0xcert-ethereum-bitski-frontend-provider.js',
     '0xcert-wanchain-asset-ledger': './src/0xcert-wanchain-asset-ledger.js',
     '0xcert-wanchain-http-provider': './src/0xcert-wanchain-http-provider.js',
     '0xcert-wanchain-gateway': './src/0xcert-wanchain-gateway.js',
