@@ -21,7 +21,6 @@ To learn more about the [0xcert Framework](https://docs.0xcert.org/framework/v2/
 
 ![Ethereum](./assets/ethereum.png)
 ![Wanchain](./assets/wanchain.png)
-![Bitski](./assets/logo-bitski.svg)
 ![Metamask](./assets/logo-metamask.svg)
 
 ## Packages
