@@ -3,7 +3,7 @@
  */
 export type XcertSchema = {
   [key: string]: any;
-  $schema: 'https://conventions.0xcert.org/json-schema.json';
+  $schema: 'https://conventions.0xcert.org/xcert-schema.json';
   description: string;
   properties: {
     [key: string]: XcertSchemaPrimitive | XcertSchemaObject | XcertSchemaArray;
@@ -12,7 +12,7 @@ export type XcertSchema = {
   title: string;
 } | {
   [key: string]: any;
-  $schema: 'https://conventions.0xcert.org/json-schema.json';
+  $schema: 'https://conventions.0xcert.org/xcert-schema.json';
   description: string;
   items: XcertSchemaPrimitive | XcertSchemaObject;
   type: 'array';
