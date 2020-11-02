@@ -10,10 +10,6 @@ This module provides TypeScript interfaces for all the confirmed application dat
 
 Yes, the 0xcert Conventions are just simply JSON objects. And you could create them yourself. But we have created this simple module to bring you type-safe TypeScript goodness.
 
-## Next steps
-
-* Learn more about conventions at https://conventions.0xcert.org.
-
 ## The big picture
 
 The [0xcert Framework](https://docs.0xcert.org) is a free and open-source JavaScript library that provides tools for building powerful decentralized applications. Please refer to the [official documentation](https://docs.0xcert.org) for more details.
