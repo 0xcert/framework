@@ -15,6 +15,6 @@
     "@0xcert/ethereum-value-ledger": "2.0.3",
     "@0xcert/ethereum-metamask-provider": "2.0.3",
     "@0xcert/vue-plugin": "2.0.3",
-    "nuxt": "2.12.2"
+    "nuxt": "2.14.7"
   }
 }
