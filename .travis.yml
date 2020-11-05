@@ -6,7 +6,6 @@ node_js:
 # See LTS at https://nodejs.org/en/about/releases/
 - 10
 - 12
-- lts/*
 script:
 # install required global npm packages
 - npm install -g npm

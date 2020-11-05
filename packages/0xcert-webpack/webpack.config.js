@@ -26,7 +26,12 @@ module.exports = {
   },
   target: 'web',
   mode: process.env.NODE_ENV || 'production',
-  node: {
-    fs: 'empty'
+  // node: {
+  //   fs: 'empty'
+  // }
+  resolve: { 
+    fallback: { 
+     "events": require.resolve("events/") 
+    }
   }
 };

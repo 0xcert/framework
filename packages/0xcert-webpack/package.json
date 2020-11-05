@@ -19,7 +19,7 @@
     "@0xcert/wanchain-value-ledger": "2.0.3",
     "@0xcert/wanchain-asset-ledger": "2.0.3",
     "@0xcert/wanchain-http-provider": "2.0.3",
-    "webpack": "4.44.1",
-    "webpack-cli": "3.3.12"
+    "webpack": "5.4.0",
+    "webpack-cli": "4.2.0"
   }
 }

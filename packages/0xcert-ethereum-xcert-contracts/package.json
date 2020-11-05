@@ -79,16 +79,16 @@
     "@0xcert/ethereum-utils-contracts": "2.0.3",
     "@0xcert/ethereum-erc721-contracts": "2.0.3",
     "solc": "0.6.1",
-    "solhint": "3.1.0",
-    "ts-node": "8.10.2",
-    "@typescript-eslint/eslint-plugin": "3.9.0",
-    "@typescript-eslint/parser": "3.9.0",
-    "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jsdoc": "30.2.1",
-    "eslint-plugin-unicorn": "21.0.0",
-    "eslint": "7.6.0",
-    "typescript": "3.9.7",
-    "web3": "1.2.11"
+    "solhint": "3.3.1",
+    "ts-node": "9.0.0",
+    "@typescript-eslint/eslint-plugin": "4.6.1",
+    "@typescript-eslint/parser": "4.6.1",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.7",
+    "eslint-plugin-unicorn": "23.0.0",
+    "eslint": "7.12.1",
+    "typescript": "4.0.5",
+    "web3": "1.3.0"
   }
 }
