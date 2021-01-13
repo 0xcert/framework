@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./zxc.sol";
 
@@ -18,7 +20,6 @@ contract ZxcBurner
    * @param _zxcAddress ZXC contract address.
    */
   constructor(address _zxcAddress)
-    public
   {
     zxcToken = Zxc(_zxcAddress);
   }

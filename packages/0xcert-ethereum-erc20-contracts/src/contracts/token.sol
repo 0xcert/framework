@@ -1,6 +1,7 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
 
-import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
+pragma solidity 0.8.0;
+
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/supports-interface.sol";
 import "./erc20.sol";
 
@@ -14,8 +15,6 @@ contract Token is
   ERC20,
   SupportsInterface
 {
-  using SafeMath for uint256;
-
   /**
    * @dev Error constants.
    */
@@ -23,58 +22,39 @@ contract Token is
   string constant NOT_ENOUGH_ALLOWANCE = "001002";
 
   /**
-   * Token name.
+   * @dev Token name.
    */
   string internal tokenName;
 
   /**
-   * Token symbol.
+   * @dev Token symbol.
    */
   string internal tokenSymbol;
 
   /**
-   * Number of decimals.
+   * @dev Number of decimals.
    */
   uint8 internal tokenDecimals;
 
   /**
-   * Total supply of tokens.
+   * @dev Total supply of tokens.
    */
   uint256 internal tokenTotalSupply;
 
   /**
-   * Balance information map.
+   * @dev Balance information map.
    */
   mapping (address => uint256) internal balances;
 
   /**
-   * Token allowance mapping.
+   * @dev Token allowance mapping.
    */
   mapping (address => mapping (address => uint256)) internal allowed;
-
-  /**
-   * @dev Trigger when tokens are transferred, including zero value transfers.
-   */
-  event Transfer(
-    address indexed _from,
-    address indexed _to,
-    uint256 _value
-  );
-
-  /**
-   * @dev Trigger on any successful call to approve(address _spender, uint256 _value).
-   */
-  event Approval(
-    address indexed _owner,
-    address indexed _spender,
-    uint256 _value
-  );
 
   /**
    * @dev Contract constructor.
    */
   constructor()
-    public
   {
     supportedInterfaces[0x36372b07] = true; // ERC20
     supportedInterfaces[0x06fdde03] = true; // ERC20 name
@@ -179,8 +159,8 @@ contract Token is
   {
     require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
-    balances[msg.sender] = balances[msg.sender].sub(_value);
-    balances[_to] = balances[_to].add(_value);
+    balances[msg.sender] = balances[msg.sender] - _value;
+    balances[_to] = balances[_to] + _value;
 
     emit Transfer(msg.sender, _to, _value);
     _success = true;
@@ -189,7 +169,7 @@ contract Token is
   /**
    * @dev Allows _spender to withdraw from your account multiple times, up to the _value amount. If
    * this function is called again it overwrites the current allowance with _value.
-   * @notice To prevent attack vectors like the one described here:
+   * To prevent attack vectors like the one described here:
    * https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit and
    * discussed here: https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729, clients
    * SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0
@@ -231,9 +211,9 @@ contract Token is
     require(_value <= balances[_from], NOT_ENOUGH_BALANCE);
     require(_value <= allowed[_from][msg.sender], NOT_ENOUGH_ALLOWANCE);
 
-    balances[_from] = balances[_from].sub(_value);
-    balances[_to] = balances[_to].add(_value);
-    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+    balances[_from] = balances[_from] - _value;
+    balances[_to] = balances[_to] + _value;
+    allowed[_from][msg.sender] = allowed[_from][msg.sender] - _value;
 
     emit Transfer(_from, _to, _value);
     _success = true;

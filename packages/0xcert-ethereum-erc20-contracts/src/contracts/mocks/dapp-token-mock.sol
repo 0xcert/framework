@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "../dapp-token.sol";
 
@@ -16,7 +17,6 @@ contract DappTokenMock is
     address _barteredToken,
     address _tokenTransferProxy
   )
-    public
   {
     tokenName = _name;
     tokenSymbol = _symbol;

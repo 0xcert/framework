@@ -1,7 +1,7 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
 
-import "@0xcert/ethereum-utils-contracts/src/contracts/math/safe-math.sol";
+pragma solidity 0.8.0;
+
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/supports-interface.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 import "./migration-receiver.sol";
@@ -23,8 +23,6 @@ contract DappToken is
   Abilitable,
   MigrationReceiver
 {
-  using SafeMath for uint256;
-
   /**
    * @dev List of abilities:
    */
@@ -157,24 +155,6 @@ contract DappToken is
   mapping(bytes32 => bool) public claimCancelled;
 
   /**
-   * @dev Trigger when tokens are transferred, including zero value transfers.
-   */
-  event Transfer(
-    address indexed _from,
-    address indexed _to,
-    uint256 _value
-  );
-
-  /**
-   * @dev Trigger on any successful call to approve(address _spender, uint256 _value).
-   */
-  event Approval(
-    address indexed _owner,
-    address indexed _spender,
-    uint256 _value
-  );
-
-  /**
    * @dev Trigger of any change of a whitelisted recipient.
    */
   event WhitelistedRecipient(
@@ -194,7 +174,6 @@ contract DappToken is
    * @dev Contract constructor.
    */
   constructor()
-    public
   {
     supportedInterfaces[0x36372b07] = true; // ERC20
     supportedInterfaces[0x06fdde03] = true; // ERC20 name
@@ -341,7 +320,7 @@ contract DappToken is
     require(migrationAddress != address(0), MIGRATION_NOT_STARTED);
     uint256 balance = balances[msg.sender];
     balances[msg.sender] = 0;
-    tokenTotalSupply = tokenTotalSupply.sub(balance);
+    tokenTotalSupply = tokenTotalSupply - balance;
     barteredToken.transfer(migrationAddress, balance);
     require(
       MigrationReceiver(migrationAddress)
@@ -370,9 +349,9 @@ contract DappToken is
     returns(bytes4)
   {
     require(approvedMigrators[msg.sender], NOT_ABLE_TO_MIGRATE);
-    tokenTotalSupply = tokenTotalSupply.add(_amount);
-    balances[_migrator] = balances[_migrator].add(_amount);
-    allowed[_migrator][tokenTransferProxy] = allowed[_migrator][tokenTransferProxy].add(_amount);
+    tokenTotalSupply = tokenTotalSupply + _amount;
+    balances[_migrator] = balances[_migrator] + _amount;
+    allowed[_migrator][tokenTransferProxy] = allowed[_migrator][tokenTransferProxy] + _amount;
     emit Approval(_migrator, tokenTransferProxy, allowed[_migrator][tokenTransferProxy]);
     emit Transfer(address(0), _migrator, _amount);
     return MAGIC_ON_MIGRATION_RECEIVED;
@@ -397,8 +376,8 @@ contract DappToken is
     require(whitelistedRecipients[_to], NOT_WHITELISTED_ADDRESS);
     require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
 
-    balances[msg.sender] = balances[msg.sender].sub(_value);
-    balances[_to] = balances[_to].add(_value);
+    balances[msg.sender] = balances[msg.sender] - _value;
+    balances[_to] = balances[_to] + _value;
 
     emit Transfer(msg.sender, _to, _value);
     _success = true;
@@ -480,18 +459,18 @@ contract DappToken is
       ),
       INVALID_SIGNATURE
     );
-    require(_expiration > now, CLAIM_EXPIRED);
+    require(_expiration > block.timestamp, CLAIM_EXPIRED);
     claimPerformed[claim] = true;
 
     allowed[_approver][_spender] = _value;
     emit Approval(_approver, _spender, _value);
 
     require(_feeValue <= balances[_approver], NOT_ENOUGH_BALANCE);
-    balances[_approver] = balances[_approver].sub(_feeValue);
+    balances[_approver] = balances[_approver] - _feeValue;
     if (_feeRecipient == address(0)) {
       _feeRecipient = msg.sender;
     }
-    balances[_feeRecipient] = balances[_feeRecipient].add(_feeValue);
+    balances[_feeRecipient] = balances[_feeRecipient] + _feeValue;
     emit Transfer(_approver, _feeRecipient, _feeValue);
   }
 
@@ -642,9 +621,9 @@ contract DappToken is
     require(_value <= balances[_from], NOT_ENOUGH_BALANCE);
     require(_value <= allowed[_from][msg.sender], NOT_ENOUGH_ALLOWANCE);
 
-    balances[_from] = balances[_from].sub(_value);
-    balances[_to] = balances[_to].add(_value);
-    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+    balances[_from] = balances[_from] - _value;
+    balances[_to] = balances[_to] + _value;
+    allowed[_from][msg.sender] = allowed[_from][msg.sender] - _value;
 
     emit Transfer(_from, _to, _value);
     _success = true;
@@ -664,10 +643,10 @@ contract DappToken is
     public
   {
     require(migrationAddress == address(0), MIGRATION_STARTED);
-    tokenTotalSupply = tokenTotalSupply.add(_value);
-    balances[_receiver] = balances[_receiver].add(_value);
+    tokenTotalSupply = tokenTotalSupply + _value;
+    balances[_receiver] = balances[_receiver] + _value;
     barteredToken.transferFrom(msg.sender, address(this), _value);
-    allowed[_receiver][tokenTransferProxy] = allowed[_receiver][tokenTransferProxy].add(_value);
+    allowed[_receiver][tokenTransferProxy] = allowed[_receiver][tokenTransferProxy] + _value;
     emit Transfer(address(0), _receiver, _value);
     emit Approval(_receiver, tokenTransferProxy, allowed[_receiver][tokenTransferProxy]);
   }
@@ -683,8 +662,8 @@ contract DappToken is
     public
   {
     require(_value <= balances[msg.sender], NOT_ENOUGH_BALANCE);
-    tokenTotalSupply = tokenTotalSupply.sub(_value);
-    balances[msg.sender] = balances[msg.sender].sub(_value);
+    tokenTotalSupply = tokenTotalSupply - _value;
+    balances[msg.sender] = balances[msg.sender] - _value;
     barteredToken.transfer(msg.sender, _value);
     emit Transfer(msg.sender, address(0), _value);
   }
