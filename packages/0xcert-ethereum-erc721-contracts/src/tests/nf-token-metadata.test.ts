@@ -392,7 +392,7 @@ spec.test('returns the correct issuer symbol', async (ctx) => {
   ctx.is(symbol, 'F');
 });
 
-spec.test('return the correct URI', async (ctx) => {
+spec.only('return the correct URI', async (ctx) => {
   const nftoken = ctx.get('nfToken');
   const owner = ctx.get('owner');
   const bob = ctx.get('bob');

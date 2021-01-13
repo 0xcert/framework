@@ -207,10 +207,10 @@ export class Mutation extends EventEmitter implements MutationBase {
 
     await new Promise((resolve, reject) => {
       if (!this.isCompleted()) {
-        this.once(MutationEvent.COMPLETE, () => resolve());
+        this.once(MutationEvent.COMPLETE, () => resolve(null));
         this.once(MutationEvent.ERROR, (err) => reject(err));
       } else {
-        resolve();
+        resolve(null);
       }
       if (start) {
         this.loopUntilCompleted();

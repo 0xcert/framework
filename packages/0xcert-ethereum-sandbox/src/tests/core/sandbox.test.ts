@@ -45,7 +45,7 @@ spec.test('subscribes to `newBlockHeaders` event', async (ctx) => {
   await new Promise((resolve) => {
     const subscription = sandbox.web3.eth.subscribe('newBlockHeaders');
     subscription.on('data', () => count++);
-    setTimeout(() => resolve(), 4800);
+    setTimeout(() => resolve(null), 4800);
   });
   ctx.is(count, 4);
 });
