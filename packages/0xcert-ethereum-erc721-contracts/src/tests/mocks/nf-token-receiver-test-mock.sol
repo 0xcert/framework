@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
 
+pragma solidity 0.8.0;
 import "../../contracts/erc721-token-receiver.sol";
 
 contract NFTokenReceiverTestMock is
@@ -14,6 +15,7 @@ contract NFTokenReceiverTestMock is
   )
     external
     override
+    pure
     returns(bytes4)
   {
     _operator;
