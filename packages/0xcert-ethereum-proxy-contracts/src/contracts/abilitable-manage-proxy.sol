@@ -1,11 +1,13 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
 
 /**
- * @title AbilitableManageProxy - Manages abilities on behalf of contracts that have been approved via
- * decentralized governance.
+ * @title AbilitableManageProxy - Manages abilities on behalf of contracts that have been approved
+ * via decentralized governance.
  */
 contract AbilitableManageProxy is
   Abilitable

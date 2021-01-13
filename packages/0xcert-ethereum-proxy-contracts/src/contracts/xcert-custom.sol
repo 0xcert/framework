@@ -1,6 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
 
+pragma solidity 0.8.0;
 import "@0xcert/ethereum-xcert-contracts/src/contracts/xcert.sol";
 
 /**
@@ -37,7 +37,6 @@ contract XcertCustom is XcertToken {
     bytes4[] memory _capabilities,
     address[6] memory _addresses
   )
-    public
   {
     nftName = _name;
     nftSymbol = _symbol;
@@ -50,8 +49,8 @@ contract XcertCustom is XcertToken {
     }
     addressToAbility[_addresses[1]] = ABILITY_CREATE_ASSET; /// Gives createProxy ability to create
     /// a new asset.
-    addressToAbility[_addresses[2]] = ABILITY_UPDATE_ASSET_URI_INTEGRITY_DIGEST; /// Gives updateProxy ability to
-    /// update an asset.
+    addressToAbility[_addresses[2]] = ABILITY_UPDATE_ASSET_URI_INTEGRITY_DIGEST; /// Gives 
+    /// updateProxy ability to update an asset.
     addressToAbility[_addresses[3]] = SUPER_ABILITY; /// Gives manage abilitable proxy ability to
     /// manage abilities.
     addressToAbility[msg.sender] = ABILITY_NONE;

@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc721-contracts/src/contracts/erc721.sol";

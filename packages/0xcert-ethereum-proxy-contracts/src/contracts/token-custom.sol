@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "@0xcert/ethereum-erc20-contracts/src/contracts/token.sol";
 
@@ -15,7 +17,6 @@ contract TokenCustom is
     uint8 _decimals,
     address _owner
   )
-    public
   {
     tokenName = _name;
     tokenSymbol = _symbol;

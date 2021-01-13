@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "@0xcert/ethereum-xcert-contracts/src/contracts/ixcert.sol";
 import "@0xcert/ethereum-utils-contracts/src/contracts/permission/abilitable.sol";
