@@ -1,5 +1,7 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
+
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/xcert-create-proxy.sol";
@@ -146,7 +148,8 @@ contract ActionsGateway is
    * signatures and signers or with msg.sender in case the amount of signatures is one less than
    * signers specified. Must have at least one signer.
    * @param actions Data of all the actions that should occur in this order.
-   * @param seed Arbitrary number to facilitate the uniqueness of the order's hash. Usually, timestamp.
+   * @param seed Arbitrary number to facilitate the uniqueness of the order's hash. Usually,
+   * timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if undefined.
    */
   struct OrderData
@@ -237,7 +240,7 @@ contract ActionsGateway is
   )
     public
   {
-    require(_data.expiration > now, CLAIM_EXPIRED);
+    require(_data.expiration > block.timestamp, CLAIM_EXPIRED);
     bytes32 claim = getOrderDataClaim(_data);
     // Signers lenght represents the amount of signatures we have to check. Either we check all or
     // skip the last one as it represents the msg.sender. For optimization reason the same variable
