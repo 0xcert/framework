@@ -438,8 +438,8 @@ contract NFTokenMetadataEnumerable is
   /**
    * @dev Destroys an NFT.
    * @notice This is a private function which should be called from user-implemented external
-   * destroy function. Its purpose is to show and properly initialize data structures when using this
-   * implementation.
+   * destroy function. Its purpose is to show and properly initialize data structures when using
+   * this implementation.
    * @param _tokenId ID of the NFT to be destroyed.
    */
   function _destroy(
