@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "../xcert.sol";
 
@@ -27,7 +28,6 @@ contract XcertMock is XcertToken {
     bytes32 _schemaURIIntegrityDigest,
     bytes4[] memory _capabilities
   )
-    public
   {
     nftName = _name;
     nftSymbol = _symbol;
