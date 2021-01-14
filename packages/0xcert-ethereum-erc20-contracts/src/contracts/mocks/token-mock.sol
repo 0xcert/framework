@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "../token.sol";
 
@@ -14,7 +16,6 @@ contract TokenMock is
     uint8 _decimals,
     uint256 _supply
   )
-    public
   {
     tokenName = _name;
     tokenSymbol = _symbol;

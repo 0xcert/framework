@@ -4,7 +4,9 @@
  * can compile with the latest Solidity. But otherwise it is kept as similar as possible for test
  * cases here.
  */
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 /**
  * @title A standard interface for tokens.
@@ -222,52 +224,34 @@ contract Token is
   using SafeMath for uint256;
 
   /**
-   * Token name.
+   * @dev Token name.
    */
   string internal tokenName;
 
   /**
-   * Token symbol.
+   * @dev Token symbol.
    */
   string internal tokenSymbol;
 
   /**
-   * Number of decimals.
+   * @dev Number of decimals.
    */
   uint8 internal tokenDecimals;
 
   /**
-   * Total supply of tokens.
+   * @dev Total supply of tokens.
    */
   uint256 internal tokenTotalSupply;
 
   /**
-   * Balance information map.
+   * @dev Balance information map.
    */
   mapping (address => uint256) internal balances;
 
   /**
-   * Token allowance mapping.
+   * @dev Token allowance mapping.
    */
   mapping (address => mapping (address => uint256)) internal allowed;
-
-  /**
-   * @dev Trigger when tokens are transferred, including zero value transfers.
-   */
-  event Transfer(
-    address indexed _from,
-    address indexed _to,
-    uint256 _value
-  );
-
-  /**
-   * @dev Trigger on any successful call to approve(address _spender, uint256 _value).
-   */
-  event Approval(
-    address indexed _owner,
-    address indexed _spender,
-    uint256 _value
-  );
 
   /**
    * @dev Returns the name of the token.
@@ -447,7 +431,6 @@ contract Ownable {
    * @dev The constructor sets the original `owner` of the contract to the sender account.
    */
   constructor()
-    public
   {
     owner = msg.sender;
   }
@@ -486,16 +469,6 @@ contract Ownable {
  */
 contract Claimable is Ownable {
   address public pendingOwner;
-
-  /**
-   * @dev An event which is triggered when the owner is changed.
-   * @param previousOwner The address of the previous owner.
-   * @param newOwner The address of the new owner.
-   */
-  event OwnershipTransferred(
-    address indexed previousOwner,
-    address indexed newOwner
-  );
 
   /**
    * @dev Allows the current owner to give new owner ability to claim the ownership of the contract.
@@ -540,12 +513,12 @@ contract Zxc is
   using SafeMath for uint256;
 
   /**
-   * Transfer feature state.
+   * @dev Transfer feature state.
    */
   bool internal transferEnabled;
 
   /**
-   * Crowdsale smart contract address.
+   * @dev Crowdsale smart contract address.
    */
   address public crowdsaleAddress;
 
@@ -586,7 +559,6 @@ contract Zxc is
    * @dev Contract constructor.
    */
   constructor()
-    public
   {
     tokenName = "0xcert Protocol Token";
     tokenSymbol = "ZXC";

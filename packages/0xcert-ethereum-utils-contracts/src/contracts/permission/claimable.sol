@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./ownable.sol";
 
@@ -20,16 +22,6 @@ contract Claimable is
    * @dev Address of pending owner or zero address if there is no pending owner.
    */
   address public pendingOwner;
-
-  /**
-   * @dev An event which is triggered when the owner is changed.
-   * @param previousOwner The address of the previous owner.
-   * @param newOwner The address of the new owner.
-   */
-  event OwnershipTransferred(
-    address indexed previousOwner,
-    address indexed newOwner
-  );
 
   /**
    * @dev Allows the current owner to give new owner the ability to claim the ownership of the

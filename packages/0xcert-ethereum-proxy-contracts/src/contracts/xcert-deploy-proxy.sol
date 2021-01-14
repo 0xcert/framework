@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./xcert-custom.sol";
 
@@ -36,7 +37,13 @@ contract XcertDeployProxy
   {
     xcert = address(
       new XcertCustom(
-        _name, _symbol, _uriPrefix, _uriPostfix, _schemaURIIntegrityDigest, _capabilities, _addresses
+        _name,
+        _symbol,
+        _uriPrefix,
+        _uriPostfix,
+        _schemaURIIntegrityDigest,
+        _capabilities,
+        _addresses
       )
     );
   }

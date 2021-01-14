@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "@0xcert/ethereum-proxy-contracts/src/contracts/iproxy.sol";
 import "@0xcert/ethereum-proxy-contracts/src/contracts/token-deploy-proxy.sol";
@@ -49,7 +50,7 @@ contract TokenDeployGateway is
   }
 
   /**
-   * Data needed to deploy a new ERC20 smart contract.
+   * @dev Data needed to deploy a new ERC20 smart contract.
    */
   struct TokenData
   {
@@ -61,7 +62,7 @@ contract TokenDeployGateway is
   }
 
   /**
-   * Data needed to transfer tokens.
+   * @dev Data needed to transfer tokens.
    */
   struct TransferData
   {
@@ -92,7 +93,8 @@ contract TokenDeployGateway is
    * @param TokenData Data needed to deploy a new ERC20 smart contract.
    * @param transferData Data needed to transfer tokens.
    * @param signature Data from the signed claim.
-   * @param seed Arbitrary number to facilitate the uniqueness of the deploy's hash. Usually, timestamp.
+   * @param seed Arbitrary number to facilitate the uniqueness of the deploy's hash. Usually,
+   * timestamp.
    * @param expiration Timestamp of when the claim expires. 0 if indefinite.
    */
   struct DeployData
@@ -160,7 +162,6 @@ contract TokenDeployGateway is
     address _tokenDeployProxy,
     address _tokenTransferProxy
   )
-    public
   {
     tokenDeployProxy = TokenDeployProxy(_tokenDeployProxy);
     tokenTransferProxy = Proxy(_tokenTransferProxy);
@@ -193,7 +194,7 @@ contract TokenDeployGateway is
     public
   {
     require(_data.taker == msg.sender, TAKER_NOT_EQUAL_TO_SENDER);
-    require(_data.expiration >= now, CLAIM_EXPIRED);
+    require(_data.expiration >= block.timestamp, CLAIM_EXPIRED);
 
     bytes32 claim = getDeployDataClaim(_data);
     require(
@@ -235,7 +236,7 @@ contract TokenDeployGateway is
   )
     public
   {
-    require(_data.expiration >= now, CLAIM_EXPIRED);
+    require(_data.expiration >= block.timestamp, CLAIM_EXPIRED);
 
     bytes32 claim = getDeployDataClaim(_data);
     require(

@@ -1,5 +1,6 @@
-pragma solidity 0.6.1;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "./ierc-2477.sol";
 import "./ixcert.sol";
@@ -48,7 +49,7 @@ contract XcertToken is
   bytes4 constant REVOKABLE = 0x20c5429b;
 
   /**
-   * Hashing function.
+   * @dev Hashing function.
    */
   string constant HASH_ALGORITHM = 'sha256';
 
@@ -128,7 +129,7 @@ contract XcertToken is
 
   /**
    * @dev Unique ID which determines each Xcert smart contract type by its JSON convention.
-   * @notice Calculated as keccak256(jsonSchema).
+   * Calculated as keccak256(jsonSchema).
    */
   bytes32 internal schemaURIIntegrityDigest;
 
@@ -153,7 +154,6 @@ contract XcertToken is
    * and uriPrefix.
    */
   constructor()
-    public
   {
     supportedInterfaces[0x39541724] = true; // Xcert
   }
@@ -314,7 +314,7 @@ contract XcertToken is
       INVALID_SIGNATURE
     );
     require(!claimPerformed[claim], CLAIM_PERFORMED);
-    require(_expiration >= now, CLAIM_EXPIRED);
+    require(_expiration >= block.timestamp, CLAIM_EXPIRED);
     claimPerformed[claim] = true;
     ownerToOperators[_owner][_operator] = _approved;
     if (_feeRecipient == address(0)) {

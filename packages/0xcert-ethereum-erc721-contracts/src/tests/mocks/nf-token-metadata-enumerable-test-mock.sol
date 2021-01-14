@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 import "../../contracts/mocks/nf-token-metadata-enumerable-mock.sol";
 
@@ -13,7 +15,6 @@ contract NFTokenMetadataEnumerableTestMock is
     string memory _uriPostfix
   )
     NFTokenMetadataEnumerableMock(_name, _symbol, _uriPrefix, _uriPostfix)
-    public
   {}
 
   function ownerToIdsLen(

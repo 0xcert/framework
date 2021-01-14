@@ -1,6 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
 
-import "../math/safe-math.sol";
+pragma solidity 0.8.0;
 
 /**
  * @title Contract for setting abilities.
@@ -19,8 +19,6 @@ import "../math/safe-math.sol";
  */
 contract Abilitable
 {
-  using SafeMath for uint;
-
   /**
    * @dev Error constants.
    */
@@ -90,7 +88,6 @@ contract Abilitable
    * Sets SUPER_ABILITY ability to the sender account.
    */
   constructor()
-    public
   {
     addressToAbility[msg.sender] = ALL_DEFAULT_ABILITIES;
   }

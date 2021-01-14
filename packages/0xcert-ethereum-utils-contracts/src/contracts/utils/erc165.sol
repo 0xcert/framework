@@ -1,4 +1,6 @@
-pragma solidity 0.6.1;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.0;
 
 /**
  * @dev A standard for detecting smart contract interfaces.
@@ -9,7 +11,7 @@ interface ERC165
 
   /**
    * @dev Checks if the smart contract implements a specific interface.
-   * @notice This function uses less than 30,000 gas.
+   * This function uses less than 30,000 gas.
    * @param _interfaceID The interface identifier, as specified in ERC-165.
    */
   function supportsInterface(

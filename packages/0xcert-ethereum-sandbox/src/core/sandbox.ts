@@ -45,7 +45,7 @@ export class Sandbox {
 
     await new Promise((resolve, reject) => {
       this.server = ganache['server']();
-      this.server.listen(options.port, (e) => e ? reject(e) : resolve());
+      this.server.listen(options.port, (e) => e ? reject(e) : resolve(null));
     });
 
     this.web3 = new (Web3 as any)(Sandbox.createProvider(options));
