@@ -12,10 +12,10 @@ spec.before(async (stage) => {
   stage.set('provider', provider);
 });
 
-spec.test('returns block data', async (ctx) => {
+spec.test('returns network version', async (ctx) => {
   const provider = ctx.get('provider');
   const version = await provider.getNetworkVersion();
-  ctx.is(version, '3');
+  ctx.is(version, '999');
 });
 
 export default spec;
