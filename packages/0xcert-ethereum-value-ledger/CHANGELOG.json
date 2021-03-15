@@ -2,6 +2,12 @@
   "name": "@0xcert/ethereum-value-ledger",
   "entries": [
     {
+      "version": "2.1.1",
+      "tag": "@0xcert/ethereum-value-ledger_v2.1.1",
+      "date": "Mon, 15 Mar 2021 13:36:24 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.1.0",
       "tag": "@0xcert/ethereum-value-ledger_v2.1.0",
       "date": "Thu, 14 Jan 2021 09:48:04 GMT",

@@ -1,6 +1,11 @@
 # Change Log - @0xcert/wanchain-asset-ledger
 
-This log was last generated on Thu, 14 Jan 2021 09:48:04 GMT and should not be manually modified.
+This log was last generated on Mon, 15 Mar 2021 13:36:24 GMT and should not be manually modified.
+
+## 2.1.1
+Mon, 15 Mar 2021 13:36:24 GMT
+
+*Version update only*
 
 ## 2.1.0
 Thu, 14 Jan 2021 09:48:04 GMT
