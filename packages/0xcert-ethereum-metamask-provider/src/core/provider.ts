@@ -124,7 +124,7 @@ export class MetamaskProvider extends GenericProvider {
     }
 
     if (typeof window['ethereum'] !== 'undefined') {
-      return this._client._metamask.isApproved();
+      return true;
     } else {
       return typeof window['web3'] !== 'undefined';
     }
@@ -138,11 +138,28 @@ export class MetamaskProvider extends GenericProvider {
       return false;
     }
 
-    this.accountId = typeof window['ethereum'] !== 'undefined'
-      ? await this._client.enable().then((a) => a[0])
-      : window['web3']['eth']['coinbase'];
+    if (typeof window['ethereum'] !== 'undefined') {
+      const accounts = await this.requestAccounts();
+      if (accounts && accounts.length > 0) {
+        this.accountId = accounts[0];
+      } else {
+        return false;
+      }
+    } else {
+      this.accountId = window['web3']['eth']['coinbase'];
+    }
+    return true;
+  }
 
-    return this;
+  /**
+  * Request account.
+  */
+  public async requestAccounts(): Promise<string[]> {
+    const res = await this.post({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
+    return res.result.map((a) => this.encoder.normalizeAddress(a));
   }
 
   /**
