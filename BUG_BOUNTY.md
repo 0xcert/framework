@@ -1,3 +1,5 @@
+**--- CLOSED ---**
+
 # 0xcert Framework Bug Bounty
 
 *This documents 0xcert's bug bounty process and how you can get rewarded for finding issues with the 0xcert Framework.*
