@@ -22,7 +22,7 @@ contract NFToken is
   string constant ZERO_ADDRESS = "003001";
   string constant NOT_VALID_NFT = "003002";
   string constant NOT_OWNER_OR_OPERATOR = "003003";
-  string constant NOT_OWNER_APPROWED_OR_OPERATOR = "003004";
+  string constant NOT_OWNER_APPROVED_OR_OPERATOR = "003004";
   string constant NOT_ABLE_TO_RECEIVE_NFT = "003005";
   string constant NFT_ALREADY_EXISTS = "003006";
 
@@ -318,7 +318,7 @@ contract NFToken is
       _from == msg.sender
       || idToApproval[_tokenId] == msg.sender
       || ownerToOperators[_from][msg.sender],
-      NOT_OWNER_APPROWED_OR_OPERATOR
+      NOT_OWNER_APPROVED_OR_OPERATOR
     );
 
     // clear approval
