@@ -43,7 +43,7 @@ contract NFToken is
   mapping (uint256 => address) internal idToApproval;
 
    /**
-   * @dev Mapping from owner address to count of his tokens.
+   * @dev Mapping from owner address to count of their tokens.
    */
   mapping (address => uint256) internal ownerToNFTokenCount;
 
