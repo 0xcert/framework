@@ -281,10 +281,7 @@ contract NFToken is
     require(owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if (idToApproval[_tokenId] != address(0))
-    {
-      delete idToApproval[_tokenId];
-    }
+    delete idToApproval[_tokenId];
 
     // remove NFT
     assert(ownerToNFTokenCount[owner] > 0);
@@ -322,10 +319,7 @@ contract NFToken is
     );
 
     // clear approval
-    if (idToApproval[_tokenId] != address(0))
-    {
-      delete idToApproval[_tokenId];
-    }
+    delete idToApproval[_tokenId];
 
     // remove NFT
     assert(ownerToNFTokenCount[_from] > 0);
