@@ -452,10 +452,7 @@ contract NFTokenMetadataEnumerable is
     require(_owner != address(0), NOT_VALID_NFT);
 
     // clear approval
-    if (idToApproval[_tokenId] != address(0))
-    {
-      delete idToApproval[_tokenId];
-    }
+    delete idToApproval[_tokenId];
 
     // remove NFT
     assert(ownerToIds[_owner].length > 0);
@@ -519,10 +516,7 @@ contract NFTokenMetadataEnumerable is
     );
 
     // clear approval
-    if (idToApproval[_tokenId] != address(0))
-    {
-      delete idToApproval[_tokenId];
-    }
+    delete idToApproval[_tokenId];
 
     // remove NFT
     assert(ownerToIds[_from].length > 0);
