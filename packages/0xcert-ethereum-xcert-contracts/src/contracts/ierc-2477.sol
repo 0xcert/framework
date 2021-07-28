@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.0;
+pragma solidity 0.8.6;
 /**
  * @title ERC-2477 Non-Fungible Token Metadata Integrity Standard
  * @dev See https://eips.ethereum.org/EIPS/eip-2477

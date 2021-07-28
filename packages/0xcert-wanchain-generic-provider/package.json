@@ -70,7 +70,7 @@
     "@hayspec/spec": "0.10.0",
     "nyc": "15.1.0",
     "promised-timeout": "0.5.1",
-    "solc": "0.8.0",
+    "solc": "0.8.6",
     "ts-node": "9.1.1",
     "@typescript-eslint/eslint-plugin": "4.13.0",
     "@typescript-eslint/parser": "4.13.0",

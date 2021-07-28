@@ -6,7 +6,7 @@
  */
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.0;
+pragma solidity 0.8.6;
 
 /**
  * @title A standard interface for tokens.

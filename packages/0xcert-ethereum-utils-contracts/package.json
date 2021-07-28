@@ -65,7 +65,7 @@
   "devDependencies": {
     "@specron/cli": "0.17.3",
     "@specron/spec": "0.17.3",
-    "solc": "0.8.0",
+    "solc": "0.8.6",
     "solhint": "3.3.2",
     "ts-node": "9.1.1",
     "@typescript-eslint/eslint-plugin": "4.13.0",

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.0;
+pragma solidity 0.8.6;
 
 import "./iproxy.sol";
 import "@0xcert/ethereum-erc20-contracts/src/contracts/erc20.sol";
