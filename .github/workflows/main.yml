@@ -1,0 +1,34 @@
+
+# https://docs.github.com/en/actions/guides/building-and-testing-nodejs
+name: Node.js CI
+
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filtering-for-specific-branches-tags-and-paths
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x] # https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install -g npm
+    - run: npm install -g codecov
+    - run: npm install -g @microsoft/rush
+    - run: mv ./dist ./dist-checked-in # backup checked-in dist dir to avoid overwriting
+    - run: rush update --full
+    - run: rush rebuild --verbose
+    - run: rush test --verbose
+    - run: diff -r ./dist ./dist-checked-in
+    - run: rm -Rf .nyc_output && mkdir -p .nyc_output
+    - run: find packages/**/.nyc_output -type f -name '*.json' -not -path 'packages/**/.nyc_output/processinfo/*' -exec cp '{}' .nyc_output \;
+    - run: npx nyc report --extension=.ts --reporter=text-lcov > .nyc_output/coverage.lcov
+    - run: codecov
