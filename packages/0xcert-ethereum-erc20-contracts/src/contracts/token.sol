@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.0;
+pragma solidity 0.8.6;
 
 import "@0xcert/ethereum-utils-contracts/src/contracts/utils/supports-interface.sol";
 import "./erc20.sol";

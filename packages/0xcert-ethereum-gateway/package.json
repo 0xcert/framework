@@ -71,7 +71,7 @@
     "@specron/spec": "0.17.3",
     "@0xcert/ethereum-sandbox": "2.1.1",
     "nyc": "15.1.0",
-    "solc": "0.8.0",
+    "solc": "0.8.6",
     "ts-node": "9.1.1",
     "@typescript-eslint/eslint-plugin": "4.13.0",
     "@typescript-eslint/parser": "4.13.0",

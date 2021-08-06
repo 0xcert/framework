@@ -78,7 +78,7 @@
     "@0xcert/ethereum-erc20-contracts": "2.1.1",
     "@0xcert/ethereum-utils-contracts": "2.1.1",
     "@0xcert/ethereum-erc721-contracts": "2.1.1",
-    "solc": "0.8.0",
+    "solc": "0.8.6",
     "solhint": "3.3.2",
     "ts-node": "9.1.1",
     "@typescript-eslint/eslint-plugin": "4.13.0",
