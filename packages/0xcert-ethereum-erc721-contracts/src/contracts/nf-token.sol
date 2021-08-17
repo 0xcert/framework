@@ -333,7 +333,7 @@ contract NFToken is
   }
 
   /**
-   * @dev Helper function that actually does the safeTransfer.
+   * @dev Helper function that actually does the safeTransferFrom.
    * @notice Limitation of this safeTransferFrom implementation is that contract cannot receiver NFT
    * tokens inside its constructor.
    * @param _from The current owner of the NFT.
