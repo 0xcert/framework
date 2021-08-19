@@ -542,7 +542,7 @@ contract NFTokenMetadataEnumerable is
   }
 
   /**
-   * @dev Helper function that actually does the safeTransfer.
+   * @dev Helper function that actually does the safeTransferFrom.
    * @param _from The current owner of the NFT.
    * @param _to The new owner.
    * @param _tokenId The NFT to transfer.
