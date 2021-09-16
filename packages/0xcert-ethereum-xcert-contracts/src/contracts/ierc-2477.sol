@@ -4,7 +4,7 @@ pragma solidity 0.8.6;
 /**
  * @title ERC-2477 Non-Fungible Token Metadata Integrity Standard
  * @dev See https://eips.ethereum.org/EIPS/eip-2477
- * @dev The ERC-165 identifier for this interface is 0x#######. //TODO: FIX THIS
+ * @dev The ERC-165 identifier for this interface is 0x832a7e0e
  */
 interface ERC2477 /* is ERC165 */ {
   /**

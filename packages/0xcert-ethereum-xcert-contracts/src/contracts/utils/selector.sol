@@ -2,6 +2,7 @@
 
 pragma solidity 0.8.6;
 
+import "../ierc-2477.sol";
 import "../ixcert.sol";
 import "../ixcert-burnable.sol";
 import "../ixcert-mutable.sol";
@@ -15,6 +16,18 @@ import "../ixcert-revokable.sol";
  */
 contract Selector
 {
+
+  /**
+   * @dev Calculates and returns interface ID for the erc2477 smart contract.
+   */
+  function calculateERC2477Selector()
+    external
+    pure
+    returns (bytes4)
+  {
+    ERC2477 i;
+    return (i.tokenURIIntegrity.selector ^ i.tokenURISchemaIntegrity.selector);
+  }
 
   /**
    * @dev Calculates and returns interface ID for the Xcert smart contract.
