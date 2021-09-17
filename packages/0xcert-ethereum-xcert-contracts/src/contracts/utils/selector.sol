@@ -25,8 +25,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    ERC2477 i;
-    return (i.tokenURIIntegrity.selector ^ i.tokenURISchemaIntegrity.selector);
+    return type(ERC2477).interfaceId;
   }
 
   /**
@@ -37,8 +36,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    Xcert i;
-    return (i.create.selector ^ i.setUri.selector);
+    return type(Xcert).interfaceId;
   }
 
   /**
@@ -49,8 +47,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertBurnable i;
-    return i.destroy.selector;
+    return type(XcertBurnable).interfaceId;
   }
 
   /**
@@ -61,8 +58,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertRevokable i;
-    return i.revoke.selector;
+    return type(XcertRevokable).interfaceId;
   }
 
   /**
@@ -73,8 +69,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertMutable i;
-    return i.updateTokenURIIntegrityDigest.selector;
+    return type(XcertMutable).interfaceId;
   }
 
   /**
@@ -85,8 +80,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertPausable i;
-    return i.setPause.selector;
+    return type(XcertPausable).interfaceId;
   }
 
 }
