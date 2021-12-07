@@ -10,8 +10,6 @@
 
 [![0xcert](https://img.shields.io/badge/0xcert-10.000.000%20ZXC-red.svg)](https://0xcert.org)
 
-Become a sponsor and be listed here as a contributor to the bug bounty fund: `0x991b4c8b8BE23F27B83C3F2a272129b172EcbA9e`.
-
 ## Scope of this bounty program
 
 Help us find any problems with the [0xcert Framework](https://docs.0xcert.org). Any reports and suggestions for code, operations, and style improvement will be appreciated and taken into consideration.
