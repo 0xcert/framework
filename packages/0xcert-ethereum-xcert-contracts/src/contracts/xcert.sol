@@ -156,6 +156,7 @@ contract XcertToken is
   constructor()
   {
     supportedInterfaces[0x39541724] = true; // Xcert
+    supportedInterfaces[0x832a7e0e] = true; // ERC2477
   }
 
   /**

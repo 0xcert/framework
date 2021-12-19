@@ -2,6 +2,7 @@
 
 pragma solidity 0.8.6;
 
+import "../ierc-2477.sol";
 import "../ixcert.sol";
 import "../ixcert-burnable.sol";
 import "../ixcert-mutable.sol";
@@ -17,6 +18,17 @@ contract Selector
 {
 
   /**
+   * @dev Calculates and returns interface ID for the erc2477 smart contract.
+   */
+  function calculateERC2477Selector()
+    external
+    pure
+    returns (bytes4)
+  {
+    return type(ERC2477).interfaceId;
+  }
+
+  /**
    * @dev Calculates and returns interface ID for the Xcert smart contract.
    */
   function calculateXcertSelector()
@@ -24,8 +36,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    Xcert i;
-    return (i.create.selector ^ i.setUri.selector);
+    return type(Xcert).interfaceId;
   }
 
   /**
@@ -36,8 +47,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertBurnable i;
-    return i.destroy.selector;
+    return type(XcertBurnable).interfaceId;
   }
 
   /**
@@ -48,8 +58,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertRevokable i;
-    return i.revoke.selector;
+    return type(XcertRevokable).interfaceId;
   }
 
   /**
@@ -60,8 +69,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertMutable i;
-    return i.updateTokenURIIntegrityDigest.selector;
+    return type(XcertMutable).interfaceId;
   }
 
   /**
@@ -72,8 +80,7 @@ contract Selector
     pure
     returns (bytes4)
   {
-    XcertPausable i;
-    return i.setPause.selector;
+    return type(XcertPausable).interfaceId;
   }
 
 }
