@@ -29,7 +29,7 @@ contract NFTokenMetadata is
   string constant NFT_ALREADY_EXISTS = "004006";
 
   /**
-   * @dev Magic value of a smart contract that can recieve NFT.
+   * @dev Magic value of a smart contract that can receive NFT.
    * Equal to: bytes4(keccak256("onERC721Received(address,address,uint256,bytes)")).
    */
   bytes4 constant MAGIC_ON_ERC721_RECEIVED = 0x150b7a02;
